@@ -29,14 +29,18 @@ node build.mjs   # 生成 index.html
 - 血压：《中国高血压防治指南（2018）》（120–139/80–89 正常高值，≥ 140/90 高血压）
 - 睡眠：成人 7–9 小时（AASM）
 - 静息心率：60–100 次/分
+- 血氧饱和度：≥ 95% 正常，< 90% 为低氧
+- 呼吸频率：成人静息 12–20 次/分（手表在睡眠中测量，通常偏低）
+- 体脂率：ACE 分级（男 ≥ 25%、女 ≥ 32% 为肥胖）
+- 心率变异性、心肺适能（VO₂max）：不设统一阈值，只看个人趋势
 - 化验参考范围为常见成人男性区间，以个人化验单为准
 
 ## 数据结构（云端）
 
 ```
-people/{pid}                  档案：name, sex(男|女), birth, height, weight, blood, rh, rhr, allergy, order
+people/{pid}                  档案：name, sex(男|女), birth, height, weight, blood, rh(+|-|空=未知), rhr, allergy, order
 people/{pid}/issues/{id}      问题：part, side, title, sev(1–4), status, since, source, note
-people/{pid}/vitals/{id}      体征：type, date, value[, value2]
+people/{pid}/vitals/{id}      体征：type(weight|rhr|bp|sleep|steps|bodyfat|hrv|vo2max|spo2|resp), date, value[, value2]
 people/{pid}/labs/{id}        化验：key, name, value, unit, low, high, cat, part, date
 people/{pid}/plans/{id}       计划：title, kind, due, repeat, part, done
 ```

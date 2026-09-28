@@ -32,9 +32,15 @@ const VT = {
   rhr: { name: '静息心率', unit: 'bpm', d: 0, min: 25, max: 220, part: 'heart' },
   bp: { name: '血压', unit: 'mmHg', d: 0, min: 50, max: 260, part: 'heart' },
   sleep: { name: '睡眠', unit: '小时', d: 1, min: 0, max: 16, part: 'brain' },
-  steps: { name: '日均步数', unit: '步', d: 0, min: 0, max: 100000, part: '' }
+  steps: { name: '日均步数', unit: '步', d: 0, min: 0, max: 100000, part: '' },
+  bodyfat: { name: '体脂率', unit: '%', d: 1, min: 3, max: 70, part: '' },
+  hrv: { name: '心率变异性', unit: 'ms', d: 0, min: 1, max: 300, part: 'heart' },
+  vo2max: { name: '心肺适能', unit: 'mL/kg/min', d: 1, min: 10, max: 90, part: 'heart' },
+  spo2: { name: '血氧', unit: '%', d: 0, min: 50, max: 100, part: 'lungs' },
+  resp: { name: '呼吸频率', unit: '次/分', d: 1, min: 4, max: 60, part: 'lungs' }
 };
-const VT_ORDER = ['weight', 'rhr', 'bp', 'sleep', 'steps'];
+const VT_ORDER = ['weight', 'bodyfat', 'rhr', 'hrv', 'bp', 'vo2max', 'spo2', 'resp', 'sleep', 'steps'];
+const VT_CORE = ['weight', 'rhr', 'bp', 'sleep', 'steps']; // always listed; wearable types appear once they have records
 const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '骨代谢', '心功能', '尿常规', '眼科', '其他'];
 const LAB_PRESETS = [
   { key: 'TC', name: '总胆固醇', unit: 'mmol/L', low: null, high: 5.2, cat: '血脂', part: 'heart' },
@@ -248,6 +254,14 @@ const BP_REF = { '正常': '正常 &lt;120/80', '正常高值': '正常高值 12
 const bpTag = (s, d) => s == null ? null : (s >= 160 || d >= 100) ? { t: '高血压 2 级', s: 3 } : (s >= 140 || d >= 90) ? { t: '高血压 1 级', s: 2 } : (s >= 120 || d >= 80) ? { t: '正常高值', s: 1 } : { t: '正常', s: 0 };
 const sleepTag = v => v == null ? null : v < 6 ? { t: '明显不足', s: 2 } : v < 7 ? { t: '偏少', s: 1 } : v <= 9 ? { t: '正常', s: 0 } : { t: '偏多', s: 1 };
 const stepsTag = v => v == null ? null : v >= 7000 ? { t: '达标', s: 0 } : { t: '偏少', s: 1 };
+// SpO2 ≥95% normal, <90% hypoxaemia; adult resting respiratory rate 12–20/min; body fat by the ACE categories
+const spo2Tag = v => v == null ? null : v >= 95 ? { t: '正常', s: 0 } : v >= 90 ? { t: '偏低', s: 2 } : { t: '低氧', s: 3 };
+const respTag = v => v == null ? null : v < 12 ? { t: '偏慢', s: 1 } : v <= 20 ? { t: '正常', s: 0 } : { t: '偏快', s: 1 };
+function bodyfatTag(v) {
+  if (v == null) return null;
+  const [a, b, c, d] = SEX() === 'F' ? [14, 21, 25, 32] : [6, 14, 18, 25];
+  return v < a ? { t: '偏低', s: 1 } : v < b ? { t: '运动员', s: 0 } : v < c ? { t: '健康', s: 0 } : v < d ? { t: '一般', s: 0 } : { t: '肥胖', s: 2 };
+}
 function vitalTag(t, v) {
   if (!v) return null;
   if (t === 'weight') return bmiTag(bmiVal()) && { t: 'BMI ' + nf(bmiVal(), 1) + ' ' + bmiTag(bmiVal()).t, s: bmiTag(bmiVal()).s };
@@ -255,6 +269,10 @@ function vitalTag(t, v) {
   if (t === 'bp') return bpTag(v.value, v.value2);
   if (t === 'sleep') return sleepTag(v.value);
   if (t === 'steps') return stepsTag(v.value);
+  if (t === 'spo2') return spo2Tag(v.value);
+  if (t === 'resp') return respTag(v.value);
+  if (t === 'bodyfat') return bodyfatTag(v.value);
+  return null; // HRV and VO2max: no single cut-off, read the personal trend
 }
 const tagPill = tg => tg ? `<span class="pill ${tg.s ? 's' + tg.s : 'ok'}"><i></i>${esc(tg.t)}</span>` : '';
 const sevPill = (s, txt) => s ? `<span class="pill s${s}"><i></i>${txt || SEVN[s]}</span>` : `<span class="pill ok"><i></i>${txt || '正常'}</span>`;
@@ -372,11 +390,11 @@ function sideVital() {
   if (bt) bits.push(`血压 ${b.value}/${b.value2} mmHg 属<b>${bt.t}</b>（${BP_REF[bt.t]}）`);
   $('trail').innerHTML = bits.join('，') || '还没有体征记录。';
   if (ST.vt) return vitalDetail(ST.vt);
-  $('list').innerHTML = VT_ORDER.map(t => {
+  $('list').innerHTML = VT_ORDER.filter(t => VT_CORE.includes(t) || series(t).length).map(t => {
     const s = series(t), last = s[s.length - 1], cur = VT[t];
     const vals = s.map(v => v.value);
     return `<button class="vcard" data-act="vt" data-type="${t}"><div class="vh"><i class="kd k-vital"></i><b>${cur.name}</b>${tagPill(vitalTag(t, last))}</div><div class="vv">${last ? `<b>${vfmt(t, last)}</b>${cur.unit}` : '<b>—</b>'}</div>${spark(vals.slice(-12))}<div class="vd">${last ? `${fmtMD(last.date)} · 共 ${s.length} 条` : '暂无记录，点这里添加'}</div></button>`;
-  }).join('') + '<p class="note">参考标准：BMI 按国家卫生行业标准 WS/T 428-2013；血压分级按《中国高血压防治指南（2018）》；成人睡眠 7–9 小时（AASM）；静息心率 60–100 次/分。</p>';
+  }).join('') + '<p class="note">参考标准：BMI 按国家卫生行业标准 WS/T 428-2013；血压分级按《中国高血压防治指南（2018）》；成人睡眠 7–9 小时（AASM）；静息心率 60–100 次/分；血氧 ≥95% 为正常；成人静息呼吸频率 12–20 次/分（手表在睡眠中测量，通常偏低）；体脂率按 ACE 分级（男 ≥25%、女 ≥32% 为肥胖）；心率变异性和心肺适能个体差异大，看本人趋势。</p>';
 }
 const CH = {};
 function bandOf(t) {
@@ -386,6 +404,9 @@ function bandOf(t) {
   if (t === 'sleep') return { lo: 7, hi: 9, label: '建议 7–9 小时' };
   if (t === 'steps') return { lo: 7000, hi: null, label: '7,000 步' };
   if (t === 'bp') return { lines: [[140, '收缩压 140'], [90, '舒张压 90']] };
+  if (t === 'spo2') return { lo: 95, hi: 100, label: '正常 ≥95%' };
+  if (t === 'resp') return { lo: 12, hi: 20, label: '正常 12–20' };
+  if (t === 'bodyfat') return SEX() === 'F' ? { lo: 14, hi: 31.9, label: 'ACE 非肥胖 <32%' } : { lo: 6, hi: 24.9, label: 'ACE 非肥胖 <25%' };
   return null;
 }
 function niceTicks(lo, hi, n) {
@@ -519,11 +540,11 @@ function renderProfile() {
     return;
   }
   const age = ageVal(), w = curWeight(), bm = bmiVal(), hr = curRhr(), bp = latestV('bp'), sl = latestV('sleep');
-  const lw = latestV('weight');
+  const lw = latestV('weight'), bf = latestV('bodyfat'), ox = latestV('spo2'), vo = latestV('vo2max');
   const row = (k, v, tag) => `<dt>${k}</dt><dd>${v}${tag || ''}</dd>`;
   el.classList.toggle('compact', !!ST.sel);
   el.innerHTML = `<div class="pf-head"><div class="pf-ava${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</div><div><b>${esc(p.name)}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>${p.sex} · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
-<div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型${p.rh ? ' Rh' + (p.rh === '-' ? '−' : '+') : ''}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
+<div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型${p.rh ? ' Rh' + (p.rh === '-' ? '−' : '+') : ''}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${bf ? row('体脂率', `<b>${nf(bf.value, 1)}</b>%`, tagPill(bodyfatTag(bf.value))) : ''}${ox ? row('血氧', `<b>${nf(ox.value, 0)}</b>%`, tagPill(spo2Tag(ox.value))) : ''}${vo ? row('心肺适能', `<b>${nf(vo.value, 1)}</b>`) : ''}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${D.vitals.length ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压等各取最近一次体征记录${lw ? `（体重 ${fmtMD(lw.date)}）` : ''}</div>` : ''}${sevBlock}</div>
 <div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : p.rh === '+' ? '+' : '') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
 }
 
