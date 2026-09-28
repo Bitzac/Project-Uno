@@ -2,7 +2,7 @@
 const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
 const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, rulerKey: '' };
 const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0, huds: [] };
-const ALPHA_MUL = { hair: 0.6, face: 0.75, bones: 0.5, breasts: 0.5 };
+const ALPHA_MUL = { hair: 0.6, face: 0.75, bones: 0.5, breasts: 0.5, vessels: 0.85 };
 let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null;
 const TIMEU = { value: 0 };
 const MATS = {}, HITS = [], ZPROX = [];
@@ -99,6 +99,57 @@ function capsule(a, b, r) {
 }
 function blob(c, s, rot) { const m = new THREE.Mesh(SPH); m.position.set(c[0], c[1], c[2]); m.scale.set(s[0], s[1], s[2]); if (rot) m.rotation.set(rot[0], rot[1], rot[2]); return m; }
 function tube(pts, r) { return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V3)), 28, r, 6, false)); }
+// vessel: a tube tapering from r0 to r1 along a Catmull-Rom centre line, closed with round ends
+function vesselGeos(pts, r0, r1) {
+  const curve = new THREE.CatmullRomCurve3(pts.map(V3)), R = 6;
+  const n = Math.max(4, Math.round(curve.getLength() / 0.01));
+  const g = new THREE.TubeGeometry(curve, n, 1, R, false), pos = g.attributes.position, c = new THREE.Vector3(), v = new THREE.Vector3();
+  for (let i = 0; i <= n; i++) {
+    curve.getPointAt(i / n, c); const r = r0 + (r1 - r0) * i / n;
+    for (let k = 0; k <= R; k++) { const q = i * (R + 1) + k; v.fromBufferAttribute(pos, q).sub(c).multiplyScalar(r).add(c); pos.setXYZ(q, v.x, v.y, v.z); }
+  }
+  const cap = (p, r) => new THREE.SphereGeometry(r, 8, 6).translate(p[0], p[1], p[2]);
+  return [g, cap(pts[0], r0), cap(pts[pts.length - 1], r1)];
+}
+// one draw call per vessel tree
+function mergeGeos(list) {
+  let nv = 0, ni = 0;
+  for (const g of list) { nv += g.attributes.position.count; ni += g.index.count; }
+  const pos = new Float32Array(nv * 3), nor = new Float32Array(nv * 3), idx = new Uint32Array(ni);
+  let ov = 0, oi = 0;
+  for (const g of list) {
+    pos.set(g.attributes.position.array, ov * 3); nor.set(g.attributes.normal.array, ov * 3);
+    const I = g.index.array; for (let i = 0; i < I.length; i++) idx[oi + i] = I[i] + ov;
+    ov += g.attributes.position.count; oi += I.length; g.dispose();
+  }
+  const m = new THREE.BufferGeometry();
+  m.setAttribute('position', new THREE.BufferAttribute(pos, 3)); m.setAttribute('normal', new THREE.BufferAttribute(nor, 3)); m.setIndex(new THREE.BufferAttribute(idx, 1));
+  m.computeBoundingSphere();
+  return m;
+}
+function buildVessels(sex) {
+  const geos = [];
+  for (const [pts, r0, r1] of vesselPaths(sex)) geos.push(...vesselGeos(pts, r0, r1));
+  addPart('vessels', '', new THREE.Mesh(mergeGeos(geos)), false, SEXG[sex]);
+}
+// coronary arteries: snap each guide point onto the heart surface along the normal of the ventricle axis
+function buildCoronary(geo) {
+  const probe = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })), rc = new THREE.Raycaster();
+  const B = new THREE.Vector3(0, 1.286, 0.03), ax = new THREE.Vector3(0.05, 1.2, 0.065).sub(B), L2 = ax.lengthSq();
+  const geos = [];
+  for (const [guide, r0, r1] of CORONARY) {
+    const pts = guide.map((g, i) => {
+      const G = V3(g), t = clamp(G.clone().sub(B).dot(ax) / L2, 0, 1), c = B.clone().addScaledVector(ax, t), dir = G.clone().sub(c).normalize();
+      rc.set(c.clone().addScaledVector(dir, 0.1), dir.clone().negate());
+      const h = rc.intersectObject(probe, false)[0], r = r0 + (r1 - r0) * i / (guide.length - 1);
+      // origins at the aortic root stay put: the ray there would land on the pulmonary trunk
+      return h && G.y < 1.284 && h.point.distanceTo(G) < 0.035 ? h.point.addScaledVector(dir, r * 0.4).toArray() : g;
+    });
+    geos.push(...vesselGeos(pts, r0, r1));
+  }
+  probe.material.dispose();
+  addPart('heart', '', new THREE.Mesh(mergeGeos(geos)), true, TRUNKG);
+}
 
 function buildCommon() {
   for (const s of [1, -1]) addProxy('eyes', s > 0 ? 'L' : 'R', blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
@@ -196,6 +247,7 @@ function onMesh(m) {
   } else {
     const [part, side = ''] = m.id.split(':'), p = PART[part];
     addPart(part, side, new THREE.Mesh(g), false, p.sex ? SEXG[p.sex] : TRUNK.has(part) ? TRUNKG : HEADG);
+    if (part === 'heart') buildCoronary(g);
   }
   refreshTargets();
 }
@@ -253,7 +305,7 @@ async function init3D(onProgress) {
   body.add(HEADG, TRUNKG, SEXG.M, SEXG.F);
   PROXM = new THREE.MeshBasicMaterial({ visible: false });
   SPH = new THREE.SphereGeometry(1, 18, 12);
-  buildCommon(); buildSkeleton('M'); buildSkeleton('F'); buildFloor();
+  buildCommon(); buildSkeleton('M'); buildSkeleton('F'); buildVessels('M'); buildVessels('F'); buildFloor();
   T3.scene = true; layout(); applySex();
   requestAnimationFrame(loop);
   const sx = SEX();
