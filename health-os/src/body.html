@@ -1,0 +1,98 @@
+<div id="splash" role="dialog" aria-label="启动界面，点击任意处进入">
+  <div class="sp-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="sp-grid" aria-hidden="true"></div>
+  <div class="sp-scan" aria-hidden="true"></div>
+  <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+  <div class="sp-left">
+    <div class="sp-eye">Body Health OS</div>
+    <h1>我的身体健康</h1>
+    <div class="sp-sub">一具透明的身体。每一处不适、每一项化验、每一次复查，都放回它发生的位置。</div>
+    <div class="sp-log" id="spLog" aria-live="polite"></div>
+    <div class="sp-prog"><div class="sp-bar"><i id="spBar"></i></div><div class="sp-pct" id="spPct">0%</div></div>
+    <button class="sp-go" id="spGo" type="button">进入身体 →</button>
+    <div class="sp-hint">点击任意处或按 Enter 跳过</div>
+  </div>
+  <div class="sp-right" aria-hidden="true">
+    <div class="ring r2"></div><div class="ring"></div><div class="ring r3"></div>
+    <canvas id="spCanvas"></canvas>
+    <span class="tick" id="spHr" style="left:2%;top:18%">HR — BPM</span>
+    <span class="tick" id="spBp" style="right:0;top:26%">BP —/—</span>
+    <span class="tick" id="spH" style="left:40%;top:-7%">H — CM</span>
+    <span class="tick" style="right:-2%;bottom:10%">ECG · LEAD II · 25 MM/S</span>
+  </div>
+  <div class="sp-meta" id="spMeta">SYS · —</div>
+</div>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <aside class="side">
+    <div class="titlebar"><div class="lights" aria-hidden="true"><span></span><span></span><span></span></div></div>
+    <div class="brand"><h1>我的身体健康</h1><p class="latin">Body Health OS</p></div>
+    <div class="mods" role="tablist" aria-label="模块">
+      <button role="tab" data-mod="issue" id="m-issue"><i class="kd k-issue"></i>问题<span class="n num" id="n-issue"></span></button>
+      <button role="tab" data-mod="vital" id="m-vital"><i class="kd k-vital"></i>体征<span class="n num" id="n-vital"></span></button>
+      <button role="tab" data-mod="lab" id="m-lab"><i class="kd k-lab"></i>体检<span class="n num" id="n-lab"></span></button>
+      <button role="tab" data-mod="plan" id="m-plan"><i class="kd k-plan"></i>计划<span class="n num" id="n-plan"></span></button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="trail" id="trail"></div>
+    <div class="tools" id="tools">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="搜索" autocomplete="off" aria-label="搜索列表"></div>
+      <div class="seg" role="group" aria-label="分组方式" id="seg"><button id="g-a" aria-pressed="true">分区</button><button id="g-b" aria-pressed="false">严重度</button></div>
+    </div>
+    <div class="zchip" id="zchip" hidden></div>
+    <div class="notice" id="exNotice" hidden data-w><span>当前是示例数据，换成你自己的吧</span><button id="exClear" type="button">清除全部示例</button></div>
+    <div class="list" id="list"></div>
+    <div class="foot">
+      <div class="sync" id="sync"><i></i><span>连接中…</span></div>
+      <button class="btn primary" id="addBtn" type="button" data-w><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span id="addLbl">记录问题</span></button>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="bloom" id="bloom" aria-hidden="true"></div>
+    <div class="portal" id="portal" aria-hidden="true"></div>
+    <svg id="ruler" aria-hidden="true"></svg>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="pover" id="pover" aria-hidden="true"></div>
+    <div id="hit" aria-hidden="true"></div>
+    <svg id="leaders" aria-hidden="true"></svg>
+    <div id="callouts"></div>
+    <div class="building" id="building">正在生成玻璃人体…</div>
+    <div class="gl-msg glass" id="glMsg" hidden></div>
+    <div class="captip glass" id="captip" hidden></div>
+
+    <div class="hud hud-tl glass" id="zoneHud" aria-live="polite"></div>
+
+    <div class="hud hud-tr glass" role="toolbar" aria-label="人体视图">
+      <button data-zone="all" aria-pressed="true" title="全身视图">全身</button>
+      <button data-zone="head" aria-pressed="false" title="头部：毛发、眼耳鼻口、大脑、甲状腺">头部</button>
+      <button data-zone="organs" aria-pressed="false" title="内脏：心肺、消化、泌尿">内脏</button>
+      <button data-zone="frame" aria-pressed="false" title="躯干四肢：脊柱与关节"><span class="long">躯干四肢</span><span class="short">躯干</span></button>
+      <span class="sep"></span>
+      <button id="b-spin" aria-pressed="true" title="自动旋转"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg><span class="long">自转</span></button>
+      <button id="b-reset" title="回到正面全身"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span class="long">复位</span></button>
+      <span class="sep zoomg"></span>
+      <button id="b-out" class="zoomg" title="缩小" aria-label="缩小"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
+      <span class="zv num zoomg" id="zv">100%</span>
+      <button id="b-in" class="zoomg" title="放大" aria-label="放大"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
+    </div>
+
+    <div class="rcol">
+      <section class="hud profile glass" id="profile" aria-label="个人资料"></section>
+      <div class="hud card glass" id="card" hidden></div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <form class="sheet glass" id="form" autocomplete="off" novalidate>
+    <h3 id="sheetTitle">记录</h3>
+    <p class="hint" id="sheetHint"></p>
+    <div class="fgrid" id="fgrid"></div>
+    <div class="err" id="err" role="alert"></div>
+    <div class="row"><button type="button" class="btn ghost" id="fdel" style="margin-right:auto" hidden>删除</button><button type="button" class="btn ghost" id="cancel">取消</button><button type="submit" class="btn primary" id="save">保存</button></div>
+  </form>
+</div>
+<div class="toast glass" id="toast" role="status" hidden></div>

@@ -1,0 +1,2432 @@
+<title>身体健康 OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>:root{--bg:#EAF2FA;--blob1:#7CC6FF;--blob2:#FFB8C8;--blob3:#8DEBC6;--blob4:#C7B5FF;--ink:#0E1B2C;--muted:#56667C;--faint:#8494AA;--glass-a:rgba(255,255,255,.62);--glass-b:rgba(255,255,255,.3);--glass-edge:rgba(255,255,255,.85);--glass-inner:rgba(255,255,255,.95);--shadow:rgba(38,72,130,.2);--line:rgba(14,27,44,.1);--field:rgba(255,255,255,.7);--blue:#1C7CF2;--blue-soft:rgba(28,124,242,.12);--c-issue:#FF4F5E;--c-issue-soft:rgba(255,79,94,.15);--c-vital:#1C7CF2;--c-vital-soft:rgba(28,124,242,.13);--c-lab:#7657F5;--c-lab-soft:rgba(118,87,245,.15);--c-plan:#00A5C4;--c-plan-soft:rgba(0,165,196,.15);--s0:#9FD8FF;--s1:#FADB5F;--s2:#FF8C1A;--s3:#EF3E36;--s4:#C8157E;--s1-soft:rgba(250,219,95,.34);--s2-soft:rgba(255,140,26,.2);--s3-soft:rgba(239,62,54,.16);--s4-soft:rgba(200,21,126,.15);--ok:#12A150;--ok-soft:rgba(18,161,80,.13);--band:rgba(18,161,80,.1);--portal-hi:#1F5BB8;--portal-lo:#0A2560;--halo-in:#A8E6FF;--halo-mid:#4FB2FF;--halo-out:#7A8CFF;--bloom-op:.5;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1322;--blob1:#1B5FA8;--blob2:#7A2E4A;--blob3:#11705A;--blob4:#4B3A99;--ink:#EDF3FF;--muted:#A5B3C8;--faint:#72829A;--glass-a:rgba(28,40,64,.62);--glass-b:rgba(18,28,48,.38);--glass-edge:rgba(255,255,255,.18);--glass-inner:rgba(255,255,255,.22);--shadow:rgba(0,0,0,.45);--line:rgba(255,255,255,.1);--field:rgba(255,255,255,.08);--blue:#5AA8FF;--blue-soft:rgba(90,168,255,.16);--c-issue:#FF6673;--c-issue-soft:rgba(255,102,115,.2);--c-vital:#5AA8FF;--c-vital-soft:rgba(90,168,255,.18);--c-lab:#A08BFF;--c-lab-soft:rgba(160,139,255,.2);--c-plan:#2BD0EE;--c-plan-soft:rgba(43,208,238,.18);--s1-soft:rgba(250,219,95,.2);--s2-soft:rgba(255,140,26,.22);--s3-soft:rgba(239,62,54,.24);--s4-soft:rgba(200,21,126,.26);--ok:#3DDC84;--ok-soft:rgba(61,220,132,.16);--band:rgba(61,220,132,.1);--portal-hi:#184C9E;--portal-lo:#051636;--halo-in:#8FDBFF;--halo-mid:#2F8CFF;--halo-out:#6A5BFF;--bloom-op:.65;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1322;--blob1:#1B5FA8;--blob2:#7A2E4A;--blob3:#11705A;--blob4:#4B3A99;--ink:#EDF3FF;--muted:#A5B3C8;--faint:#72829A;--glass-a:rgba(28,40,64,.62);--glass-b:rgba(18,28,48,.38);--glass-edge:rgba(255,255,255,.18);--glass-inner:rgba(255,255,255,.22);--shadow:rgba(0,0,0,.45);--line:rgba(255,255,255,.1);--field:rgba(255,255,255,.08);--blue:#5AA8FF;--blue-soft:rgba(90,168,255,.16);--c-issue:#FF6673;--c-issue-soft:rgba(255,102,115,.2);--c-vital:#5AA8FF;--c-vital-soft:rgba(90,168,255,.18);--c-lab:#A08BFF;--c-lab-soft:rgba(160,139,255,.2);--c-plan:#2BD0EE;--c-plan-soft:rgba(43,208,238,.18);--s1-soft:rgba(250,219,95,.2);--s2-soft:rgba(255,140,26,.22);--s3-soft:rgba(239,62,54,.24);--s4-soft:rgba(200,21,126,.26);--ok:#3DDC84;--ok-soft:rgba(61,220,132,.16);--band:rgba(61,220,132,.1);--portal-hi:#184C9E;--portal-lo:#051636;--halo-in:#8FDBFF;--halo-mid:#2F8CFF;--halo-out:#6A5BFF;--bloom-op:.65;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.5;padding-inline:16px;padding-block:16px;overflow:hidden;position:relative}
+.num,.latin{font-family:"Outfit","Noto Sans SC",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* aurora + glass */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75}
+.aurora i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-12vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:36vw;height:36vw;right:-6vw;top:-8vw;background:var(--blob4)}
+.aurora i:nth-child(3){width:40vw;height:40vw;left:22vw;bottom:-22vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:30vw;height:30vw;right:4vw;bottom:-10vw;background:var(--blob2)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),inset 0 -1px 1px rgba(255,255,255,.12),0 24px 60px -20px var(--shadow)}
+.window{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:minmax(330px,1fr) 2fr;border-radius:28px;overflow:hidden}
+.window.enter{animation:winIn 1s cubic-bezier(.2,.7,.2,1)}
+@keyframes winIn{0%{opacity:0;transform:scale(.96);filter:blur(6px)}}
+
+/* sidebar */
+.side{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0))}
+.titlebar{display:flex;align-items:center;gap:14px;padding:18px 22px 6px}
+.lights{display:flex;gap:8px}
+.lights span{width:13px;height:13px;border-radius:50%;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.15)}
+.lights span:nth-child(1){background:#FF5F57}.lights span:nth-child(2){background:#FEBC2E}.lights span:nth-child(3){background:#28C840}
+.brand{padding:10px 22px 0}
+.brand h1{margin:0;font-size:30px;line-height:1.15;font-weight:700;letter-spacing:.01em;text-wrap:balance}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.mods{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:16px 22px 0;padding:4px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
+.mods button{font-size:15px;font-weight:500;border:0;background:none;color:var(--muted);padding:9px 2px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;min-width:0}
+.mods button[aria-selected="true"]{background:var(--glass-a);color:var(--ink);box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 12px -4px var(--shadow)}
+.mods .n{font-size:13px;color:var(--faint);font-weight:400}
+.kd{display:inline-block;width:10px;height:10px;border-radius:50%;flex:none}
+.k-issue{background:var(--c-issue)}.k-vital{background:var(--c-vital)}.k-lab{background:var(--c-lab)}.k-plan{background:var(--c-plan)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:18px 22px 6px}
+.stat{padding:10px 10px 8px;border-radius:16px;background:var(--field);border:1px solid var(--line);min-width:0}
+.stat b{display:block;font-size:clamp(20px,1.95vw,28px);line-height:1.08;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat b small{font-size:13px;font-weight:500;color:var(--muted);margin-left:2px}
+.stat b.sm{font-size:clamp(14px,1.2vw,17px);line-height:1.95}
+.stat span{font-size:12.5px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trail{margin:8px 22px 0;font-size:14px;color:var(--muted);line-height:1.6}
+.trail b{color:var(--ink);font-weight:600}
+.tools{display:flex;gap:8px;padding:14px 22px 6px;align-items:center}
+.search{flex:1;position:relative;min-width:0}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--faint)}
+.search input{width:100%;font:inherit;font-size:16px;padding:9px 12px 9px 38px;border-radius:14px;border:1px solid var(--line);background:var(--field);color:var(--ink);outline:none}
+.search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.seg{display:inline-flex;padding:3px;border-radius:12px;background:var(--field);border:1px solid var(--line);flex:none}
+.seg button{font-size:14px;border:0;background:none;color:var(--muted);padding:6px 11px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--glass-a);color:var(--ink);box-shadow:0 1px 4px var(--shadow);font-weight:500}
+.zchip{margin:6px 22px 0;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.zchip button{border:0;background:var(--blue-soft);color:var(--ink);border-radius:999px;padding:3px 6px 3px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:14px}
+.zchip button i{font-style:normal;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--glass-a);font-size:12px}
+.notice{margin:8px 22px 4px;padding:10px 12px;border-radius:14px;background:var(--blue-soft);font-size:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.notice button{font-size:13px;border:0;border-radius:10px;padding:5px 10px;background:var(--glass-a);cursor:pointer}
+.list{flex:1;min-height:0;overflow-y:auto;padding:4px 12px 12px}
+.group-h{display:flex;justify-content:space-between;align-items:baseline;padding:14px 12px 6px;font-size:13px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.group-h .num{letter-spacing:.02em;text-transform:none}
+.item{width:100%;display:grid;grid-template-columns:14px minmax(0,1fr) auto;align-items:center;gap:12px;text-align:left;border:1px solid transparent;background:none;padding:10px 12px;border-radius:16px;cursor:pointer;transition:background .15s}
+.item:hover{background:var(--field)}
+.item[aria-current="true"]{background:var(--glass-a);border-color:var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 8px 20px -12px var(--shadow)}
+.item .nm{font-size:17px;font-weight:500;line-height:1.35}
+.item .sub{font-size:13.5px;color:var(--muted);line-height:1.45}
+.item.done .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--faint)}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--s0)}
+.dot.s1{background:var(--s1);box-shadow:0 0 0 4px var(--s1-soft)}.dot.s2{background:var(--s2);box-shadow:0 0 0 4px var(--s2-soft)}.dot.s3{background:var(--s3);box-shadow:0 0 0 4px var(--s3-soft)}.dot.s4{background:var(--s4);box-shadow:0 0 0 4px var(--s4-soft)}
+.dot.res{background:transparent;box-shadow:inset 0 0 0 2px var(--faint)}
+.pill{font-size:12.5px;padding:2px 9px;border-radius:999px;white-space:nowrap;background:var(--field);border:1px solid var(--line);color:var(--ink);display:inline-flex;align-items:center;gap:5px;line-height:1.5}
+.pill i{width:7px;height:7px;border-radius:50%;flex:none}
+.pill.s1{background:var(--s1-soft);border-color:transparent}.pill.s1 i{background:var(--s1)}
+.pill.s2{background:var(--s2-soft);border-color:transparent}.pill.s2 i{background:var(--s2)}
+.pill.s3{background:var(--s3-soft);border-color:transparent}.pill.s3 i{background:var(--s3)}
+.pill.s4{background:var(--s4-soft);border-color:transparent}.pill.s4 i{background:var(--s4)}
+.pill.ok{background:var(--ok-soft);border-color:transparent}.pill.ok i{background:var(--ok)}
+.pill.mute{color:var(--muted)}
+.pill.plan{background:var(--c-plan-soft);border-color:transparent}
+.empty{padding:28px 14px;color:var(--muted);font-size:15px;text-align:center;line-height:1.7}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px 18px;border-top:1px solid var(--line)}
+.sync{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;min-width:0}
+.sync i{width:8px;height:8px;border-radius:50%;background:#2BC770;flex:none}
+.sync.local i{background:#F2A93B}
+.btn{font-size:16px;font-weight:500;border:0;border-radius:14px;padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn.primary{background:var(--blue);color:#fff;box-shadow:0 8px 20px -8px var(--blue)}
+.btn.ghost{background:var(--field);color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--c-issue);color:#fff}
+.btn.sm{font-size:14px;padding:7px 13px;border-radius:12px}
+.btn:disabled{opacity:.45;cursor:default}
+.linkbtn{font-size:14px;border:0;background:none;color:var(--blue);cursor:pointer;padding:4px 2px;white-space:nowrap}
+.ro [data-w]{display:none!important}
+
+/* vitals */
+.vcard{width:100%;text-align:left;border:1px solid var(--line);background:var(--field);border-radius:18px;padding:12px 14px 10px;margin-top:10px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:2px 12px;align-items:center}
+.vcard:hover{border-color:var(--c-vital)}
+.vcard .vh{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted);grid-column:1/-1}
+.vcard .vh b{color:var(--ink);font-weight:600;font-size:16px}
+.vcard .vh .pill{margin-left:auto}
+.vcard .vv{font-size:14px;color:var(--muted);line-height:1.3}
+.vcard .vv b{font-family:Outfit,sans-serif;font-size:28px;font-weight:600;color:var(--ink);margin-right:3px}
+.vcard .vd{font-size:13px;color:var(--faint);grid-column:1/-1}
+.vcard svg{display:block;width:128px;height:40px}
+.back{font-size:14px;border:0;background:none;color:var(--blue);cursor:pointer;padding:10px 4px 2px}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:4px 4px 0}
+.dhead h2{margin:0;font-size:24px;line-height:1.25}
+.dhead .meta{font-size:14px;color:var(--muted);margin-top:2px}
+.chart{position:relative;margin:12px 0 4px;padding:10px 6px 4px;border-radius:18px;background:var(--field);border:1px solid var(--line)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .tip{position:absolute;pointer-events:none;padding:5px 9px;border-radius:10px;font-size:13px;white-space:nowrap;background:var(--glass-a);border:1px solid var(--glass-edge);box-shadow:0 8px 20px -10px var(--shadow);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ax{font:11.5px Outfit,sans-serif;fill:var(--faint);font-variant-numeric:tabular-nums}
+.axl{stroke:var(--line);stroke-width:1}
+.bandlbl{font:11.5px "Noto Sans SC",sans-serif;fill:var(--muted)}
+.lgd{display:flex;gap:14px;font-size:13px;color:var(--muted);padding:0 6px 4px}
+.lgd span{display:inline-flex;align-items:center;gap:6px}
+.lgd i{width:14px;height:3px;border-radius:2px}
+.rec{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px solid var(--line);font-size:15px}
+.rec .num{font-weight:600}
+.rec small{color:var(--muted);font-size:13px}
+.ib{width:28px;height:28px;border-radius:9px;border:0;background:var(--field);color:var(--muted);cursor:pointer;font-size:14px;line-height:1}
+.ib.arm{background:var(--c-issue);color:#fff;width:auto;padding:0 8px;font-size:12.5px}
+.tacts{display:flex;flex-wrap:wrap;gap:8px;padding:14px 4px 6px;align-items:center}
+.note{margin:12px 4px 4px;font-size:13px;color:var(--faint);line-height:1.6}
+
+/* labs */
+.lab .nm{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.lab .code{font:500 12.5px Outfit,sans-serif;color:var(--faint)}
+.lab .lv{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+.lab .lv b{font:600 17px Outfit,sans-serif;color:var(--ink)}
+.rbar{display:block;width:120px;height:14px;flex:none}
+.rbar .trk{fill:var(--line)}
+.rbar .nrm{fill:var(--ok-soft)}
+.rbar .mk{stroke:var(--bg);stroke-width:2}
+
+/* plans */
+.prow{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2px;border-radius:16px}
+.prow .item{grid-template-columns:minmax(0,1fr) auto;padding-left:6px}
+.chk{width:26px;height:26px;margin-left:8px;border-radius:8px;border:2px solid var(--faint);background:none;cursor:pointer;display:grid;place-items:center;padding:0}
+.chk[aria-pressed="true"]{background:var(--c-plan);border-color:var(--c-plan)}
+.chk[aria-pressed="true"]::after{content:"";width:10px;height:6px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.ro .chk{pointer-events:none}
+
+/* stage */
+.stage{position:relative;min-height:0;overflow:hidden}
+.portal{position:absolute;border-radius:50%;z-index:1;pointer-events:none;background:radial-gradient(circle at 38% 30%,var(--portal-hi),var(--portal-lo) 78%)}
+.portal::before{content:"";position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(closest-side,transparent 86%,color-mix(in srgb,var(--halo-in) 75%,transparent) 87.8%,color-mix(in srgb,var(--halo-mid) 42%,transparent) 90.5%,color-mix(in srgb,var(--halo-out) 14%,transparent) 95%,transparent 100%)}
+.portal::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 calc(12.5% - 1px),rgba(168,230,255,.07) calc(12.5% - 1px) 12.5%),linear-gradient(90deg,transparent calc(50% - .5px),rgba(168,230,255,.09) calc(50% - .5px) calc(50% + .5px),transparent calc(50% + .5px))}
+.bloom{position:absolute;z-index:0;border-radius:50%;pointer-events:none;background:var(--halo-mid);filter:blur(34px);opacity:var(--bloom-op)}
+.pover{position:absolute;z-index:4;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 32% 22%,rgba(255,255,255,.2),rgba(255,255,255,.04) 42%,transparent 60%),radial-gradient(circle at 50% 50%,transparent 70%,rgba(230,247,255,.1) 92%,rgba(230,247,255,.3) 100%);box-shadow:inset 0 0 0 1.5px rgba(168,230,255,.45)}
+#gl,#ruler{position:absolute;left:0;top:0;width:100%;height:100%;display:block;pointer-events:none}
+#ruler{z-index:2}
+#ruler .tk{stroke:rgba(168,230,255,.45);stroke-width:1;fill:none}
+#ruler .lb text{font:10px "JetBrains Mono",monospace;fill:rgba(207,232,255,.72)}
+#ruler .hm{stroke:rgba(255,255,255,.55);stroke-width:1;stroke-dasharray:3 4;fill:none}
+#ruler .hl{font:600 11.5px Outfit,"Noto Sans SC",sans-serif;fill:#fff}
+#gl{z-index:3}
+#hit{position:absolute;inset:0;z-index:5;cursor:grab;touch-action:none}
+#hit.drag{cursor:grabbing}
+#hit.pt{cursor:pointer}
+#leaders{position:absolute;left:0;top:0;width:100%;height:100%;z-index:6;pointer-events:none;overflow:visible}
+#leaders path{fill:none;stroke:rgba(168,230,255,.6);stroke-width:1}
+#leaders circle{fill:#fff}
+#callouts{position:absolute;inset:0;z-index:7;pointer-events:none}
+.co{position:absolute;left:0;top:0;pointer-events:auto;display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:999px;font-size:13.5px;font-weight:500;line-height:1.4;color:#EAF4FF;background:rgba(8,22,52,.62);border:1px solid rgba(168,230,255,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
+.co:hover,.co.hov{background:rgba(28,80,160,.8);border-color:rgba(168,230,255,.7)}
+.co[aria-current="true"]{background:#1C7CF2;border-color:#fff}
+.co .d{width:9px;height:9px;border-radius:50%;background:var(--s0);flex:none}
+.co .c{font:600 12px Outfit,sans-serif;opacity:.85}
+.co.zn{font-size:15px;padding:6px 14px 6px 10px}
+.co.zn small{font-size:12.5px;opacity:.8;font-weight:400}
+.captip{position:absolute;left:0;top:0;z-index:9;pointer-events:none;padding:6px 11px;border-radius:12px;font-size:13.5px;white-space:nowrap;line-height:1.45}
+.captip small{display:block;color:var(--muted);font-size:12.5px}
+.hud{position:absolute;z-index:8;border-radius:20px}
+.hud.glass,.captip.glass,.card.glass{-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%)}
+.hud-tr{top:18px;right:18px;padding:6px;display:flex;gap:4px;align-items:center;flex-wrap:nowrap;max-width:calc(100% - 36px)}
+.hud-tr button{font-size:15px;border:0;background:none;padding:8px 10px;border-radius:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.hud-tr button:hover{background:var(--field)}
+.hud-tr button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.hud-tr svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hud-tr .zv{min-width:48px;text-align:center;font-size:15px;color:var(--muted)}
+.hud-tr .sep{width:1px;height:22px;background:var(--line);margin:0 2px;flex:none}
+.hud-tr .short{display:none}
+.hud-tl{top:18px;left:18px;padding:10px 16px;min-width:150px}
+.stage.narrow .hud-tl{top:84px}
+.hud-tl .k{font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.hud-tl .v{font-size:20px;font-weight:600;display:flex;align-items:center;gap:8px}
+.hud-tl .z{font-size:13.5px;color:var(--muted)}
+.hud-tl .back{padding:2px 0 0}
+.rcol{position:absolute;z-index:8;top:78px;right:18px;bottom:18px;width:300px;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+.rcol>.hud{position:relative;pointer-events:auto;min-height:0;overflow-y:auto}
+.profile{padding:14px 16px;flex:0 1 auto}
+.profile.compact{flex:0 0 auto}
+.pf-head{display:flex;align-items:center;gap:10px}
+.pf-ava{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;color:#fff;font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--c-vital),var(--c-lab));box-shadow:0 6px 16px -6px var(--c-vital)}
+.pf-head b{display:block;font-size:17px;line-height:1.3}
+.pf-head small{display:block;color:var(--muted);font-size:13px}
+.pf-head .linkbtn{margin-left:auto;align-self:flex-start}
+.pf{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 10px;margin:12px 0 0;font-size:14px;align-items:baseline}
+.pf dt{color:var(--muted);white-space:nowrap}
+.pf dd{margin:0;text-align:right;color:var(--muted);display:flex;justify-content:flex-end;align-items:baseline;gap:4px;flex-wrap:wrap}
+.pf dd b{font:600 17px Outfit,"Noto Sans SC",sans-serif;color:var(--ink)}
+.pf dd .pill{font-size:11.5px;padding:0 7px;align-self:center}
+.pf-sev{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.pf-sev .k{font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.sevbar{display:flex;gap:2px;height:10px;margin:8px 0 8px}
+.sevbar i{height:100%;min-width:4px}
+.sevbar i:first-child{border-radius:99px 0 0 99px}.sevbar i:last-child{border-radius:0 99px 99px 0}.sevbar i:only-child{border-radius:99px}
+.sevleg{display:grid;grid-template-columns:repeat(3,auto);gap:4px 10px;font-size:12.5px;color:var(--muted);justify-content:start}
+.sevleg span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.sevleg i{width:9px;height:9px;border-radius:50%}
+.pf-strip{display:none}
+.profile.compact .pf-full{display:none}
+.profile.compact .pf-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 6px;margin-top:10px;font-size:12px;color:var(--muted)}
+.pf-strip span{display:flex;flex-direction:column;min-width:0}
+.pf-strip b{font:600 15px Outfit,"Noto Sans SC",sans-serif;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-empty{font-size:14px;color:var(--muted);margin:10px 0 0;line-height:1.6}
+.card{padding:18px 20px;border-radius:24px;flex:0 1 auto}
+.card .x{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:0;background:var(--field);color:var(--muted);font-size:18px;cursor:pointer}
+.card h2{margin:0;padding-right:36px;font-size:28px;line-height:1.15;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card .en{color:var(--muted);font-size:14px;margin-top:3px}
+.card h4{margin:16px 0 4px;font-size:13px;letter-spacing:.12em;color:var(--faint);font-weight:500;display:flex;justify-content:space-between;align-items:center}
+.card .ok-msg{margin:12px 0 0;font-size:15px;color:var(--muted)}
+.iss{padding:10px 0;border-bottom:1px solid var(--line)}
+.iss:last-child{border-bottom:0}
+.iss.hl{background:var(--blue-soft);margin:0 -10px;padding:10px;border-radius:12px;border-bottom-color:transparent}
+.iss .it{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.iss .it b{font-size:16px;font-weight:600;line-height:1.4}
+.iss .im{font-size:13px;color:var(--muted);margin-top:2px}
+.iss p{margin:6px 0 0;font-size:14px;line-height:1.6}
+.iss .ia{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.iss .ia button{font-size:13px;border:1px solid var(--line);background:var(--field);border-radius:10px;padding:4px 10px;cursor:pointer}
+.iss .ia button.arm{background:var(--c-issue);color:#fff;border-color:transparent}
+.cl{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:start;padding:8px 0;font-size:14px;line-height:1.45}
+button.cl{cursor:pointer;border-radius:0}
+button.cl:hover span:first-child{color:var(--blue)}
+.cl:last-child{border-bottom:0}
+.cl small{display:block;color:var(--muted);font-size:12.5px}
+.cl .r{display:flex;flex-direction:column;align-items:flex-end;gap:3px;white-space:nowrap}
+.cl .r small{display:inline}
+.cl .r b{font-size:15px}
+.cl .r .linkbtn{padding:0}
+.cacts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.big{display:flex;align-items:baseline;gap:8px;margin-top:10px}
+.big b{font:600 40px/1 Outfit,sans-serif}
+.big span{color:var(--muted)}
+.rbig{margin:12px 0 2px}
+.rbig svg{display:block;width:100%;height:46px;overflow:visible}
+.hist{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
+.hist td{padding:6px 0;border-bottom:1px solid var(--line)}
+.hist td:last-child{text-align:right}
+.chip-ex{font-size:12px;padding:1px 8px;border-radius:999px;background:var(--blue-soft);color:var(--ink);font-weight:400;vertical-align:middle}
+.gl-msg{position:absolute;z-index:6;left:50%;top:50%;transform:translate(-50%,-50%);max-width:320px;padding:16px 18px;border-radius:18px;font-size:15px;line-height:1.6;text-align:center}
+.building{position:absolute;z-index:6;left:50%;top:50%;transform:translate(-50%,-50%);color:#CFE8FF;font:13px "JetBrains Mono",monospace;letter-spacing:.08em;pointer-events:none}
+
+/* sheet */
+.overlay{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:rgba(10,20,40,.25)}
+.sheet{width:min(560px,100%);max-height:calc(100% - 16px);overflow-y:auto;border-radius:28px;padding:24px}
+.sheet h3{margin:0 0 4px;font-size:26px}
+.sheet .hint{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.6}
+.sheet label{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+.sheet input,.sheet select,.sheet textarea{width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);outline:none}
+.sheet input:focus,.sheet select:focus,.sheet textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid .full{grid-column:1/-1}
+.sevpick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sevpick button{border:1px solid var(--line);background:var(--field);border-radius:12px;padding:8px 4px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;gap:6px}
+.sevpick button i{width:10px;height:10px;border-radius:50%}
+.sevpick button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;font-weight:600}
+.err{color:var(--c-issue);font-size:14px;min-height:20px;margin-top:10px}
+.sheet .row{display:flex;justify-content:flex-end;gap:10px;margin-top:6px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%);z-index:40;padding:10px 18px;border-radius:14px;font-size:15px;max-width:calc(100% - 32px)}
+
+/* splash */
+#splash{position:fixed;inset:0;z-index:60;overflow:hidden;color:#EAF4FF;cursor:pointer;background:radial-gradient(120% 90% at 50% 38%,#0B2350,#061431 45%,#020816);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:2vw;padding-inline:max(16px,6vw);transition:opacity .7s ease,transform .9s cubic-bezier(.2,.7,.2,1),filter .7s ease;animation:splashFailsafe .6s ease 10s forwards}
+#splash.out{opacity:0;transform:scale(1.06);filter:blur(10px);pointer-events:none}
+@keyframes splashFailsafe{to{opacity:0;visibility:hidden}}
+#splash .sp-aurora{position:absolute;inset:0;pointer-events:none}
+#splash .sp-aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+#splash .sp-aurora i:nth-child(1){width:44vw;height:44vw;left:-12vw;top:-16vw;background:#1C74DB;animation:drift 14s ease-in-out infinite alternate}
+#splash .sp-aurora i:nth-child(2){width:34vw;height:34vw;right:-8vw;top:-6vw;background:#C8157E;opacity:.3;animation:drift 18s ease-in-out infinite alternate-reverse}
+#splash .sp-aurora i:nth-child(3){width:38vw;height:30vw;left:30vw;bottom:-18vw;background:#00A5C4;opacity:.35;animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(4vw,3vh) scale(1.08)}}
+#splash .sp-grid{position:absolute;left:-50%;right:-50%;bottom:-8vh;height:52vh;pointer-events:none;background-image:linear-gradient(rgba(120,200,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(120,200,255,.16) 1px,transparent 1px);background-size:64px 64px;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%);animation:gridMove 3s linear infinite}
+@keyframes gridMove{to{background-position:0 64px}}
+#splash .sp-scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+#splash .sp-left{position:relative;z-index:2;display:grid;gap:22px;max-width:620px}
+#splash .sp-eye{font:600 13px Outfit,sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#8FDBFF;display:flex;align-items:center;gap:12px}
+#splash .sp-eye::before{content:"";width:28px;height:1px;background:#8FDBFF;box-shadow:0 0 8px #8FDBFF}
+#splash h1{margin:0;font:700 clamp(40px,6.2vw,88px)/1.04 "Noto Sans SC","Outfit",sans-serif;letter-spacing:.02em;background:linear-gradient(100deg,#fff 10%,#A8E6FF 55%,#FF9BC4 88%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(79,178,255,.35))}
+#splash .sp-sub{font:500 clamp(15px,1.4vw,19px)/1.65 "Noto Sans SC",sans-serif;color:#B9CCE6;max-width:34em}
+#splash .sp-log{font:13.5px/1.9 "JetBrains Mono","Outfit",ui-monospace,monospace;color:#8FB4DA;min-height:9.8em;padding:14px 18px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(168,230,255,.18);box-shadow:inset 0 1px rgba(255,255,255,.12);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#splash .sp-log div{opacity:0;transform:translate(-6px);animation:logIn .35s ease forwards;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#splash .sp-log b{color:#EAF4FF;font-weight:500}
+#splash .sp-log .ok{color:#2BD0EE}
+#splash .sp-log .warn{color:#FF9BC4}
+@keyframes logIn{to{opacity:1;transform:none}}
+#splash .sp-prog{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+#splash .sp-bar{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+#splash .sp-bar i{position:absolute;inset:0 auto 0 0;width:0;border-radius:inherit;background:linear-gradient(90deg,#2BD0EE,#4FB2FF,#FF9BC4);box-shadow:0 0 14px #4FB2FF}
+#splash .sp-pct{font:600 22px Outfit,sans-serif;font-variant-numeric:tabular-nums;min-width:3.4em;text-align:right}
+#splash .sp-go{justify-self:start;font:500 17px "Noto Sans SC",sans-serif;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:16px;padding:12px 26px;cursor:pointer;background:linear-gradient(135deg,rgba(79,178,255,.55),rgba(200,21,126,.45));box-shadow:0 10px 30px -8px rgba(79,178,255,.7),inset 0 1px rgba(255,255,255,.4);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+#splash .sp-go.show{opacity:1;transform:none}
+#splash .sp-go:focus-visible{outline:2px solid #A8E6FF;outline-offset:3px}
+#splash .sp-hint{font:12px Outfit,sans-serif;letter-spacing:.14em;color:#6F88A8;text-transform:uppercase}
+#splash .sp-right{position:relative;z-index:1;aspect-ratio:1;width:min(44vw,74vh);max-width:100%;justify-self:center}
+#splash canvas{position:absolute;inset:0;width:100%;height:100%}
+#splash .ring{position:absolute;inset:-4%;border-radius:50%;border:1px solid rgba(143,219,255,.22)}
+#splash .ring.r2{inset:-11%;border-style:dashed;border-color:rgba(255,155,196,.25);animation:spin 40s linear infinite}
+#splash .ring.r3{inset:3%;border:1.5px solid transparent;border-top-color:#8FDBFF;border-right-color:rgba(143,219,255,.3);animation:spin 3.2s linear infinite;filter:drop-shadow(0 0 6px #4FB2FF)}
+@keyframes spin{to{transform:rotate(360deg)}}
+#splash .tick{position:absolute;font:11px "JetBrains Mono",monospace;color:#7FA6CF;letter-spacing:.08em;white-space:nowrap}
+#splash .corner{position:absolute;width:26px;height:26px;border:1.5px solid rgba(143,219,255,.6)}
+#splash .c1{left:22px;top:22px;border-right:0;border-bottom:0}#splash .c2{right:22px;top:22px;border-left:0;border-bottom:0}#splash .c3{left:22px;bottom:22px;border-right:0;border-top:0}#splash .c4{right:22px;bottom:22px;border-left:0;border-top:0}
+#splash .sp-meta{position:absolute;right:56px;bottom:26px;font:12px "JetBrains Mono",monospace;color:#6F88A8;letter-spacing:.1em;z-index:2}
+
+@media (max-width:1180px){.hud-tr .zoomg{display:none}}
+@media (max-width:860px){
+  #splash{grid-template-columns:1fr;align-content:center;gap:10px;padding-block:24px}
+  #splash .sp-right{order:-1;width:min(64vw,36vh)}
+  #splash .sp-left{gap:14px}
+  #splash .sp-log{min-height:8em;font-size:12px}
+  #splash .sp-meta{display:none}
+  body{overflow:auto;height:auto}
+  .window{height:auto;grid-template-columns:1fr;border-radius:24px}
+  .stage{order:-1;height:66vh;min-height:420px}
+  .side{border-right:0;border-top:1px solid var(--line)}
+  .list{overflow:visible}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hud-tl{display:none}
+  .hud-tr{top:12px;right:12px;left:12px;max-width:none;justify-content:space-between}
+  .hud-tr button{padding:7px 8px;font-size:14px}
+  .hud-tr .long{display:none}.hud-tr .short{display:inline}
+  .hud-tr .zoomg,.hud-tr .opt{display:none}
+  .rcol{display:contents}
+  .rcol>.hud{position:absolute}
+  .profile{top:66px;left:12px;right:12px;padding:8px 12px;border-radius:16px}
+  .profile .pf-head,.profile .pf-full{display:none}
+  .profile .pf-strip,.profile.compact .pf-strip{display:flex;gap:14px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;margin:0;font-size:13px}
+  .pf-strip span{flex:none;flex-direction:row;align-items:baseline;gap:3px}
+  .card{bottom:12px;left:12px;right:12px;padding:16px 18px;max-height:52%}
+  .card h2{font-size:24px}
+  .fgrid{grid-template-columns:1fr}
+  .co{font-size:12.5px;padding:3px 8px 3px 6px}
+}
+@media (prefers-reduced-motion:reduce){#splash *,#splash{animation-duration:.01s!important;animation-iteration-count:1!important}#splash{animation-delay:10s!important}.window.enter{animation:none}}
+</style>
+<div id="splash" role="dialog" aria-label="启动界面，点击任意处进入">
+  <div class="sp-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="sp-grid" aria-hidden="true"></div>
+  <div class="sp-scan" aria-hidden="true"></div>
+  <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+  <div class="sp-left">
+    <div class="sp-eye">Body Health OS</div>
+    <h1>我的身体健康</h1>
+    <div class="sp-sub">一具透明的身体。每一处不适、每一项化验、每一次复查，都放回它发生的位置。</div>
+    <div class="sp-log" id="spLog" aria-live="polite"></div>
+    <div class="sp-prog"><div class="sp-bar"><i id="spBar"></i></div><div class="sp-pct" id="spPct">0%</div></div>
+    <button class="sp-go" id="spGo" type="button">进入身体 →</button>
+    <div class="sp-hint">点击任意处或按 Enter 跳过</div>
+  </div>
+  <div class="sp-right" aria-hidden="true">
+    <div class="ring r2"></div><div class="ring"></div><div class="ring r3"></div>
+    <canvas id="spCanvas"></canvas>
+    <span class="tick" id="spHr" style="left:2%;top:18%">HR — BPM</span>
+    <span class="tick" id="spBp" style="right:0;top:26%">BP —/—</span>
+    <span class="tick" id="spH" style="left:40%;top:-7%">H — CM</span>
+    <span class="tick" style="right:-2%;bottom:10%">ECG · LEAD II · 25 MM/S</span>
+  </div>
+  <div class="sp-meta" id="spMeta">SYS · —</div>
+</div>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <aside class="side">
+    <div class="titlebar"><div class="lights" aria-hidden="true"><span></span><span></span><span></span></div></div>
+    <div class="brand"><h1>我的身体健康</h1><p class="latin">Body Health OS</p></div>
+    <div class="mods" role="tablist" aria-label="模块">
+      <button role="tab" data-mod="issue" id="m-issue"><i class="kd k-issue"></i>问题<span class="n num" id="n-issue"></span></button>
+      <button role="tab" data-mod="vital" id="m-vital"><i class="kd k-vital"></i>体征<span class="n num" id="n-vital"></span></button>
+      <button role="tab" data-mod="lab" id="m-lab"><i class="kd k-lab"></i>体检<span class="n num" id="n-lab"></span></button>
+      <button role="tab" data-mod="plan" id="m-plan"><i class="kd k-plan"></i>计划<span class="n num" id="n-plan"></span></button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="trail" id="trail"></div>
+    <div class="tools" id="tools">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="搜索" autocomplete="off" aria-label="搜索列表"></div>
+      <div class="seg" role="group" aria-label="分组方式" id="seg"><button id="g-a" aria-pressed="true">分区</button><button id="g-b" aria-pressed="false">严重度</button></div>
+    </div>
+    <div class="zchip" id="zchip" hidden></div>
+    <div class="notice" id="exNotice" hidden data-w><span>当前是示例数据，换成你自己的吧</span><button id="exClear" type="button">清除全部示例</button></div>
+    <div class="list" id="list"></div>
+    <div class="foot">
+      <div class="sync" id="sync"><i></i><span>连接中…</span></div>
+      <button class="btn primary" id="addBtn" type="button" data-w><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span id="addLbl">记录问题</span></button>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="bloom" id="bloom" aria-hidden="true"></div>
+    <div class="portal" id="portal" aria-hidden="true"></div>
+    <svg id="ruler" aria-hidden="true"></svg>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="pover" id="pover" aria-hidden="true"></div>
+    <div id="hit" aria-hidden="true"></div>
+    <svg id="leaders" aria-hidden="true"></svg>
+    <div id="callouts"></div>
+    <div class="building" id="building">正在生成玻璃人体…</div>
+    <div class="gl-msg glass" id="glMsg" hidden></div>
+    <div class="captip glass" id="captip" hidden></div>
+
+    <div class="hud hud-tl glass" id="zoneHud" aria-live="polite"></div>
+
+    <div class="hud hud-tr glass" role="toolbar" aria-label="人体视图">
+      <button data-zone="all" aria-pressed="true" title="全身视图">全身</button>
+      <button data-zone="head" aria-pressed="false" title="头部：毛发、眼耳鼻口、大脑、甲状腺">头部</button>
+      <button data-zone="organs" aria-pressed="false" title="内脏：心肺、消化、泌尿">内脏</button>
+      <button data-zone="frame" aria-pressed="false" title="躯干四肢：脊柱与关节"><span class="long">躯干四肢</span><span class="short">躯干</span></button>
+      <span class="sep"></span>
+      <button id="b-spin" aria-pressed="true" title="自动旋转"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg><span class="long">自转</span></button>
+      <button id="b-reset" title="回到正面全身"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span class="long">复位</span></button>
+      <span class="sep zoomg"></span>
+      <button id="b-out" class="zoomg" title="缩小" aria-label="缩小"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
+      <span class="zv num zoomg" id="zv">100%</span>
+      <button id="b-in" class="zoomg" title="放大" aria-label="放大"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
+    </div>
+
+    <div class="rcol">
+      <section class="hud profile glass" id="profile" aria-label="个人资料"></section>
+      <div class="hud card glass" id="card" hidden></div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <form class="sheet glass" id="form" autocomplete="off" novalidate>
+    <h3 id="sheetTitle">记录</h3>
+    <p class="hint" id="sheetHint"></p>
+    <div class="fgrid" id="fgrid"></div>
+    <div class="err" id="err" role="alert"></div>
+    <div class="row"><button type="button" class="btn ghost" id="fdel" style="margin-right:auto" hidden>删除</button><button type="button" class="btn ghost" id="cancel">取消</button><button type="submit" class="btn primary" id="save">保存</button></div>
+  </form>
+</div>
+<div class="toast glass" id="toast" role="status" hidden></div>
+
+<script type="application/json" id="examples">{"profile":{"name":"","sex":"男","birth":"1990-03","height":176,"weight":77,"blood":"A","rh":"+","rhr":66,"allergy":"青霉素","example":true},"issues":[{"id":"ex-i01","part":"hair","side":"","title":"雄激素性脱发（发际线后移）","sev":1,"status":"active","since":"2024-06","source":"自述","note":"M 型发际线，近两年变化不大","example":true},{"id":"ex-i02","part":"eyes","side":"","title":"高度近视（右 -6.50D / 左 -6.00D）","sev":2,"status":"active","since":"2012-09","source":"体检","note":"眼底未见视网膜裂孔，每年散瞳查一次眼底","example":true},{"id":"ex-i03","part":"eyes","side":"","title":"干眼症","sev":1,"status":"improving","since":"2025-11","source":"就诊","note":"人工泪液每天 3 次，屏幕时间长时加重","example":true},{"id":"ex-i04","part":"ears","side":"L","title":"左耳间歇性耳鸣","sev":1,"status":"active","since":"2026-03","source":"自述","note":"安静环境下明显，纯音测听正常","example":true},{"id":"ex-i05","part":"nose","side":"","title":"过敏性鼻炎（尘螨）","sev":2,"status":"active","since":"2019-04","source":"就诊","note":"春秋季加重，鼻喷激素按需使用","example":true},{"id":"ex-i06","part":"mouth","side":"","title":"右下智齿冠周炎","sev":2,"status":"improving","since":"2026-07","source":"就诊","note":"消炎后缓解，医生建议拔除","example":true},{"id":"ex-i07","part":"brain","side":"","title":"偏头痛（每月 1–2 次）","sev":1,"status":"active","since":"2023-05","source":"自述","note":"睡眠不足时容易诱发","example":true},{"id":"ex-i08","part":"thyroid","side":"","title":"甲状腺结节 TI-RADS 3 类（右叶 5 mm）","sev":2,"status":"active","since":"2026-08","source":"体检","note":"良性可能大，6–12 个月复查超声","example":true},{"id":"ex-i09","part":"face","side":"","title":"脂溢性皮炎（鼻翼两侧）","sev":1,"status":"improving","since":"2026-01","source":"自述","note":"","example":true},{"id":"ex-i10","part":"lungs","side":"R","title":"右肺下叶实性小结节 4 mm","sev":1,"status":"active","since":"2026-08","source":"体检","note":"低剂量 CT 发现，12 个月复查","example":true},{"id":"ex-i11","part":"heart","side":"","title":"血脂异常（LDL-C 3.9 mmol/L）","sev":1,"status":"active","since":"2026-08","source":"体检","note":"动脉粥样硬化的风险因素，饮食控制 3 个月后复查","example":true},{"id":"ex-i12","part":"stomach","side":"","title":"慢性浅表性胃炎伴幽门螺杆菌感染","sev":3,"status":"active","since":"2026-08","source":"体检","note":"C13 呼气试验 12.6 DOB，已开始 14 天四联疗法","example":true},{"id":"ex-i13","part":"liver","side":"","title":"轻度脂肪肝","sev":2,"status":"active","since":"2025-08","source":"体检","note":"B 超提示，ALT 58 U/L 偏高；减重 5% 以上可明显改善","example":true},{"id":"ex-i14","part":"gallbladder","side":"","title":"胆囊息肉 4 mm","sev":1,"status":"active","since":"2025-08","source":"体检","note":"小于 10 mm，每年 B 超随访","example":true},{"id":"ex-i15","part":"kidneys","side":"","title":"高尿酸血症（486 μmol/L）","sev":2,"status":"active","since":"2026-08","source":"体检","note":"暂无痛风发作，低嘌呤饮食并多喝水","example":true},{"id":"ex-i16","part":"colon","side":"","title":"肠易激综合征（腹泻型）","sev":1,"status":"resolved","since":"2025-03","source":"就诊","note":"规律饮食后已无症状","example":true},{"id":"ex-i17","part":"cervical","side":"","title":"颈椎生理曲度变直","sev":2,"status":"active","since":"2024-10","source":"就诊","note":"久坐办公，每小时起身活动 5 分钟","example":true},{"id":"ex-i18","part":"lumbar","side":"","title":"腰肌劳损","sev":1,"status":"improving","since":"2025-06","source":"自述","note":"","example":true},{"id":"ex-i19","part":"knees","side":"R","title":"右膝前交叉韧带部分撕裂","sev":4,"status":"active","since":"2026-09","source":"就诊","note":"打篮球扭伤，MRI 提示部分撕裂，骨科评估是否需要重建","example":true},{"id":"ex-i20","part":"wrists","side":"R","title":"右腕腱鞘炎（鼠标手）","sev":1,"status":"active","since":"2026-02","source":"自述","note":"","example":true},{"id":"ex-i21","part":"ankles","side":"L","title":"左足底筋膜炎","sev":2,"status":"resolved","since":"2025-04","source":"就诊","note":"理疗 6 次后痊愈","example":true}],"vitals":[{"id":"ex-w01","type":"weight","date":"2026-04-05","value":79.4,"example":true},{"id":"ex-w02","type":"weight","date":"2026-04-19","value":79,"example":true},{"id":"ex-w03","type":"weight","date":"2026-05-03","value":78.6,"example":true},{"id":"ex-w04","type":"weight","date":"2026-05-17","value":78.9,"example":true},{"id":"ex-w05","type":"weight","date":"2026-05-31","value":78.2,"example":true},{"id":"ex-w06","type":"weight","date":"2026-06-14","value":77.9,"example":true},{"id":"ex-w07","type":"weight","date":"2026-06-28","value":78.1,"example":true},{"id":"ex-w08","type":"weight","date":"2026-07-12","value":77.6,"example":true},{"id":"ex-w09","type":"weight","date":"2026-07-26","value":77.4,"example":true},{"id":"ex-w10","type":"weight","date":"2026-08-09","value":77.8,"example":true},{"id":"ex-w11","type":"weight","date":"2026-08-23","value":77.3,"example":true},{"id":"ex-w12","type":"weight","date":"2026-09-06","value":77,"example":true},{"id":"ex-w13","type":"weight","date":"2026-09-20","value":76.8,"example":true},{"id":"ex-h01","type":"rhr","date":"2026-04-05","value":71,"example":true},{"id":"ex-h02","type":"rhr","date":"2026-04-19","value":70,"example":true},{"id":"ex-h03","type":"rhr","date":"2026-05-03","value":70,"example":true},{"id":"ex-h04","type":"rhr","date":"2026-05-17","value":69,"example":true},{"id":"ex-h05","type":"rhr","date":"2026-05-31","value":68,"example":true},{"id":"ex-h06","type":"rhr","date":"2026-06-14","value":69,"example":true},{"id":"ex-h07","type":"rhr","date":"2026-06-28","value":67,"example":true},{"id":"ex-h08","type":"rhr","date":"2026-07-12","value":67,"example":true},{"id":"ex-h09","type":"rhr","date":"2026-07-26","value":66,"example":true},{"id":"ex-h10","type":"rhr","date":"2026-08-09","value":67,"example":true},{"id":"ex-h11","type":"rhr","date":"2026-08-23","value":66,"example":true},{"id":"ex-h12","type":"rhr","date":"2026-09-06","value":65,"example":true},{"id":"ex-h13","type":"rhr","date":"2026-09-20","value":66,"example":true},{"id":"ex-b01","type":"bp","date":"2026-04-05","value":134,"value2":88,"example":true},{"id":"ex-b02","type":"bp","date":"2026-05-03","value":131,"value2":86,"example":true},{"id":"ex-b03","type":"bp","date":"2026-05-31","value":130,"value2":85,"example":true},{"id":"ex-b04","type":"bp","date":"2026-06-28","value":129,"value2":85,"example":true},{"id":"ex-b05","type":"bp","date":"2026-07-26","value":127,"value2":83,"example":true},{"id":"ex-b06","type":"bp","date":"2026-08-23","value":128,"value2":84,"example":true},{"id":"ex-b07","type":"bp","date":"2026-09-20","value":126,"value2":82,"example":true},{"id":"ex-s01","type":"sleep","date":"2026-04-05","value":6.3,"example":true},{"id":"ex-s02","type":"sleep","date":"2026-04-19","value":6.1,"example":true},{"id":"ex-s03","type":"sleep","date":"2026-05-03","value":6.5,"example":true},{"id":"ex-s04","type":"sleep","date":"2026-05-17","value":6.4,"example":true},{"id":"ex-s05","type":"sleep","date":"2026-05-31","value":6.8,"example":true},{"id":"ex-s06","type":"sleep","date":"2026-06-14","value":6.2,"example":true},{"id":"ex-s07","type":"sleep","date":"2026-06-28","value":6.6,"example":true},{"id":"ex-s08","type":"sleep","date":"2026-07-12","value":6.9,"example":true},{"id":"ex-s09","type":"sleep","date":"2026-07-26","value":6.5,"example":true},{"id":"ex-s10","type":"sleep","date":"2026-08-09","value":6.7,"example":true},{"id":"ex-s11","type":"sleep","date":"2026-08-23","value":6.4,"example":true},{"id":"ex-s12","type":"sleep","date":"2026-09-06","value":6.8,"example":true},{"id":"ex-s13","type":"sleep","date":"2026-09-20","value":6.6,"example":true},{"id":"ex-t01","type":"steps","date":"2026-04-05","value":5200,"example":true},{"id":"ex-t02","type":"steps","date":"2026-04-19","value":5600,"example":true},{"id":"ex-t03","type":"steps","date":"2026-05-03","value":6100,"example":true},{"id":"ex-t04","type":"steps","date":"2026-05-17","value":5900,"example":true},{"id":"ex-t05","type":"steps","date":"2026-05-31","value":6800,"example":true},{"id":"ex-t06","type":"steps","date":"2026-06-14","value":7200,"example":true},{"id":"ex-t07","type":"steps","date":"2026-06-28","value":6500,"example":true},{"id":"ex-t08","type":"steps","date":"2026-07-12","value":7600,"example":true},{"id":"ex-t09","type":"steps","date":"2026-07-26","value":8100,"example":true},{"id":"ex-t10","type":"steps","date":"2026-08-09","value":7400,"example":true},{"id":"ex-t11","type":"steps","date":"2026-08-23","value":8300,"example":true},{"id":"ex-t12","type":"steps","date":"2026-09-06","value":7900,"example":true},{"id":"ex-t13","type":"steps","date":"2026-09-20","value":3900,"note":"膝伤后减少活动","example":true}],"labs":[{"id":"ex-l01","key":"TC","name":"总胆固醇","value":5.8,"unit":"mmol/L","low":null,"high":5.2,"cat":"血脂","part":"heart","date":"2026-08-12","example":true},{"id":"ex-l02","key":"TG","name":"甘油三酯","value":2.1,"unit":"mmol/L","low":null,"high":1.7,"cat":"血脂","part":"heart","date":"2026-08-12","example":true},{"id":"ex-l03","key":"LDL-C","name":"低密度脂蛋白胆固醇","value":3.9,"unit":"mmol/L","low":null,"high":3.4,"cat":"血脂","part":"heart","date":"2026-08-12","example":true},{"id":"ex-l04","key":"HDL-C","name":"高密度脂蛋白胆固醇","value":1.02,"unit":"mmol/L","low":1,"high":null,"cat":"血脂","part":"heart","date":"2026-08-12","example":true},{"id":"ex-l05","key":"ALT","name":"谷丙转氨酶","value":58,"unit":"U/L","low":9,"high":50,"cat":"肝功能","part":"liver","date":"2026-08-12","example":true},{"id":"ex-l06","key":"AST","name":"谷草转氨酶","value":36,"unit":"U/L","low":15,"high":40,"cat":"肝功能","part":"liver","date":"2026-08-12","example":true},{"id":"ex-l07","key":"GGT","name":"γ-谷氨酰转移酶","value":64,"unit":"U/L","low":10,"high":60,"cat":"肝功能","part":"liver","date":"2026-08-12","example":true},{"id":"ex-l08","key":"TBIL","name":"总胆红素","value":14.2,"unit":"μmol/L","low":3.4,"high":20.5,"cat":"肝功能","part":"liver","date":"2026-08-12","example":true},{"id":"ex-l09","key":"Cr","name":"肌酐","value":88,"unit":"μmol/L","low":57,"high":111,"cat":"肾功能","part":"kidneys","date":"2026-08-12","example":true},{"id":"ex-l10","key":"UA","name":"尿酸","value":486,"unit":"μmol/L","low":208,"high":428,"cat":"肾功能","part":"kidneys","date":"2026-08-12","example":true},{"id":"ex-l11","key":"FPG","name":"空腹血糖","value":5.8,"unit":"mmol/L","low":3.9,"high":6.1,"cat":"血糖","part":"pancreas","date":"2026-08-12","example":true},{"id":"ex-l12","key":"HbA1c","name":"糖化血红蛋白","value":5.7,"unit":"%","low":4,"high":6,"cat":"血糖","part":"pancreas","date":"2026-08-12","example":true},{"id":"ex-l13","key":"Hb","name":"血红蛋白","value":152,"unit":"g/L","low":130,"high":175,"cat":"血常规","part":"","date":"2026-08-12","example":true},{"id":"ex-l14","key":"WBC","name":"白细胞计数","value":6.1,"unit":"×10⁹/L","low":3.5,"high":9.5,"cat":"血常规","part":"","date":"2026-08-12","example":true},{"id":"ex-l15","key":"PLT","name":"血小板计数","value":236,"unit":"×10⁹/L","low":125,"high":350,"cat":"血常规","part":"","date":"2026-08-12","example":true},{"id":"ex-l16","key":"TSH","name":"促甲状腺激素","value":2.3,"unit":"mIU/L","low":0.27,"high":4.2,"cat":"甲状腺","part":"thyroid","date":"2026-08-12","example":true},{"id":"ex-l17","key":"UBT","name":"C13 尿素呼气试验","value":12.6,"unit":"DOB","low":null,"high":4,"cat":"感染","part":"stomach","date":"2026-08-12","example":true},{"id":"ex-l18","key":"AFP","name":"甲胎蛋白","value":3.1,"unit":"ng/mL","low":null,"high":7,"cat":"肿瘤标志物","part":"liver","date":"2026-08-12","example":true},{"id":"ex-l19","key":"CEA","name":"癌胚抗原","value":2.1,"unit":"ng/mL","low":null,"high":5,"cat":"肿瘤标志物","part":"colon","date":"2026-08-12","example":true},{"id":"ex-l20","key":"25OHD","name":"25-羟基维生素 D","value":18.5,"unit":"ng/mL","low":30,"high":100,"cat":"维生素","part":"","date":"2026-08-12","example":true},{"id":"ex-l21","key":"IOP","name":"眼压","value":17,"unit":"mmHg","low":10,"high":21,"cat":"眼科","part":"eyes","date":"2026-08-12","example":true},{"id":"ex-p01","key":"TC","name":"总胆固醇","value":5.5,"unit":"mmol/L","low":null,"high":5.2,"cat":"血脂","part":"heart","date":"2025-08-10","example":true},{"id":"ex-p02","key":"TG","name":"甘油三酯","value":1.9,"unit":"mmol/L","low":null,"high":1.7,"cat":"血脂","part":"heart","date":"2025-08-10","example":true},{"id":"ex-p03","key":"LDL-C","name":"低密度脂蛋白胆固醇","value":3.6,"unit":"mmol/L","low":null,"high":3.4,"cat":"血脂","part":"heart","date":"2025-08-10","example":true},{"id":"ex-p04","key":"HDL-C","name":"高密度脂蛋白胆固醇","value":1.08,"unit":"mmol/L","low":1,"high":null,"cat":"血脂","part":"heart","date":"2025-08-10","example":true},{"id":"ex-p05","key":"ALT","name":"谷丙转氨酶","value":52,"unit":"U/L","low":9,"high":50,"cat":"肝功能","part":"liver","date":"2025-08-10","example":true},{"id":"ex-p06","key":"AST","name":"谷草转氨酶","value":33,"unit":"U/L","low":15,"high":40,"cat":"肝功能","part":"liver","date":"2025-08-10","example":true},{"id":"ex-p07","key":"GGT","name":"γ-谷氨酰转移酶","value":55,"unit":"U/L","low":10,"high":60,"cat":"肝功能","part":"liver","date":"2025-08-10","example":true},{"id":"ex-p08","key":"UA","name":"尿酸","value":452,"unit":"μmol/L","low":208,"high":428,"cat":"肾功能","part":"kidneys","date":"2025-08-10","example":true},{"id":"ex-p09","key":"FPG","name":"空腹血糖","value":5.6,"unit":"mmol/L","low":3.9,"high":6.1,"cat":"血糖","part":"pancreas","date":"2025-08-10","example":true},{"id":"ex-p10","key":"UBT","name":"C13 尿素呼气试验","value":3.1,"unit":"DOB","low":null,"high":4,"cat":"感染","part":"stomach","date":"2025-08-10","example":true},{"id":"ex-p11","key":"25OHD","name":"25-羟基维生素 D","value":21,"unit":"ng/mL","low":30,"high":100,"cat":"维生素","part":"","date":"2025-08-10","example":true}],"plans":[{"id":"ex-c01","title":"四联疗法：饭前 30 分钟服药（至 10 月 1 日）","kind":"med","due":"2026-09-28","repeat":"daily","part":"stomach","done":false,"note":"共 14 天，漏服不要补双倍","example":true},{"id":"ex-c02","title":"C13 呼气复查（停药满 4 周）","kind":"recheck","due":"2026-10-29","repeat":"","part":"stomach","done":false,"note":"复查前 2 周停用胃药","example":true},{"id":"ex-c03","title":"骨科复诊：评估是否做 ACL 重建","kind":"recheck","due":"2026-10-09","repeat":"","part":"knees","done":false,"note":"带上 MRI 片子","example":true},{"id":"ex-c04","title":"验光 + 散瞳查眼底","kind":"recheck","due":"2026-09-20","repeat":"","part":"eyes","done":false,"note":"","example":true},{"id":"ex-c05","title":"甲状腺超声复查","kind":"recheck","due":"2027-02-12","repeat":"","part":"thyroid","done":false,"note":"","example":true},{"id":"ex-c06","title":"游泳或骑车 40 分钟（膝伤期间不跑跳）","kind":"exercise","due":"2026-09-30","repeat":"weekly","part":"liver","done":false,"note":"每周 3 次，目标减重到 73 kg","example":true},{"id":"ex-c07","title":"低嘌呤饮食，饮水 2 升","kind":"habit","due":"2026-09-28","repeat":"daily","part":"kidneys","done":false,"note":"少喝啤酒和含糖饮料","example":true},{"id":"ex-c08","title":"拔除右下智齿","kind":"recheck","due":"2026-10-15","repeat":"","part":"mouth","done":false,"note":"","example":true},{"id":"ex-c09","title":"复查血脂和肝功能","kind":"recheck","due":"2026-11-15","repeat":"","part":"heart","done":false,"note":"空腹 8 小时以上","example":true},{"id":"ex-c10","title":"维生素 D 2000 IU","kind":"med","due":"2026-09-28","repeat":"daily","part":"","done":false,"note":"随餐服用","example":true},{"id":"ex-c11","title":"足底筋膜炎理疗（第 6 次）","kind":"recheck","due":"2025-05-20","repeat":"","part":"ankles","done":true,"note":"","example":true}]}</script>
+<script type="text/js-worker" id="sdfWorker">'use strict';
+/* Signed-distance body builder: primitives -> sampled grid -> surface nets mesh.
+   Coordinates in metres, y up, the figure faces +z, the person's left is +x. */
+const smin = (a, b, k) => { const h = Math.max(k - Math.abs(a - b), 0) / k; return Math.min(a, b) - h * h * k * 0.25; };
+const smax = (a, b, k) => k > 0 ? -smin(-a, -b, k) : Math.max(a, b);
+
+function rotT(r) { // transpose of Rz*Ry*Rx
+  const cx = Math.cos(r[0]), sx = Math.sin(r[0]), cy = Math.cos(r[1]), sy = Math.sin(r[1]), cz = Math.cos(r[2]), sz = Math.sin(r[2]);
+  const R = [cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx,
+             sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx,
+             -sy, cy * sx, cy * cx];
+  return [R[0], R[3], R[6], R[1], R[4], R[7], R[2], R[5], R[8]];
+}
+
+function compile(p, h) {
+  const q = { t: p.t, op: p.op || 'u', k: p.k || 0, bb: null };
+  if (p.t === 'sph') {
+    q.cx = p.c[0]; q.cy = p.c[1]; q.cz = p.c[2]; q.r = p.r;
+    q.bb = [q.cx - q.r, q.cy - q.r, q.cz - q.r, q.cx + q.r, q.cy + q.r, q.cz + q.r];
+  } else if (p.t === 'ell') {
+    q.cx = p.c[0]; q.cy = p.c[1]; q.cz = p.c[2]; [q.rx, q.ry, q.rz] = p.r;
+    q.m = p.rot ? rotT(p.rot) : null;
+    const e = Math.max(q.rx, q.ry, q.rz);
+    q.bb = [q.cx - e, q.cy - e, q.cz - e, q.cx + e, q.cy + e, q.cz + e];
+  } else if (p.t === 'rc') {
+    [q.ax, q.ay, q.az] = p.a; const [bx, by, bz] = p.b;
+    q.r1 = p.r1; q.r2 = p.r2;
+    q.bax = bx - q.ax; q.bay = by - q.ay; q.baz = bz - q.az;
+    q.l2 = q.bax * q.bax + q.bay * q.bay + q.baz * q.baz;
+    q.rr = q.r1 - q.r2; q.a2 = q.l2 - q.rr * q.rr; q.il2 = 1 / q.l2;
+    const e = Math.max(q.r1, q.r2);
+    q.bb = [Math.min(q.ax, bx) - e, Math.min(q.ay, by) - e, Math.min(q.az, bz) - e, Math.max(q.ax, bx) + e, Math.max(q.ay, by) + e, Math.max(q.az, bz) + e];
+  } else if (p.t === 'pl') {
+    const l = Math.hypot(p.n[0], p.n[1], p.n[2]);
+    q.nx = p.n[0] / l; q.ny = p.n[1] / l; q.nz = p.n[2] / l; [q.px, q.py, q.pz] = p.p;
+  }
+  q.mg = q.k + 2.5 * h;
+  return q;
+}
+
+function prim(q, x, y, z) {
+  switch (q.t) {
+    case 'sph': return Math.hypot(x - q.cx, y - q.cy, z - q.cz) - q.r;
+    case 'ell': {
+      let dx = x - q.cx, dy = y - q.cy, dz = z - q.cz;
+      if (q.m) { const m = q.m; const a = m[0] * dx + m[1] * dy + m[2] * dz, b = m[3] * dx + m[4] * dy + m[5] * dz, c = m[6] * dx + m[7] * dy + m[8] * dz; dx = a; dy = b; dz = c; }
+      const k0 = Math.hypot(dx / q.rx, dy / q.ry, dz / q.rz);
+      const k1 = Math.hypot(dx / (q.rx * q.rx), dy / (q.ry * q.ry), dz / (q.rz * q.rz));
+      return k1 < 1e-12 ? -Math.min(q.rx, q.ry, q.rz) : k0 * (k0 - 1) / k1;
+    }
+    case 'rc': {
+      const pax = x - q.ax, pay = y - q.ay, paz = z - q.az;
+      const Y = pax * q.bax + pay * q.bay + paz * q.baz, Z = Y - q.l2;
+      const vx = pax * q.l2 - q.bax * Y, vy = pay * q.l2 - q.bay * Y, vz = paz * q.l2 - q.baz * Y;
+      const x2 = vx * vx + vy * vy + vz * vz, y2 = Y * Y * q.l2, z2 = Z * Z * q.l2;
+      const k = Math.sign(q.rr) * q.rr * q.rr * x2;
+      if (Math.sign(Z) * q.a2 * z2 > k) return Math.sqrt(x2 + z2) * q.il2 - q.r2;
+      if (Math.sign(Y) * q.a2 * y2 < k) return Math.sqrt(x2 + y2) * q.il2 - q.r1;
+      return (Math.sqrt(x2 * q.a2 * q.il2) + Y * q.rr) * q.il2 - q.r1;
+    }
+    case 'pl': return -((x - q.px) * q.nx + (y - q.py) * q.ny + (z - q.pz) * q.nz);
+  }
+  return 1e9;
+}
+
+function evalShape(P, x, y, z) {
+  let d = 1e9;
+  for (let i = 0; i < P.length; i++) {
+    const q = P[i], b = q.bb;
+    if (b && q.op !== 'i' && (x < b[0] - q.mg || x > b[3] + q.mg || y < b[1] - q.mg || y > b[4] + q.mg || z < b[2] - q.mg || z > b[5] + q.mg)) {
+      if (q.op === 'u') { // far away: a box distance is a safe lower bound
+        const dx = Math.max(b[0] - x, 0, x - b[3]), dy = Math.max(b[1] - y, 0, y - b[4]), dz = Math.max(b[2] - z, 0, z - b[5]);
+        const di = Math.sqrt(dx * dx + dy * dy + dz * dz); if (di < d) d = di;
+      }
+      continue;
+    }
+    const di = prim(q, x, y, z);
+    if (q.op === 'u') d = q.k > 0 ? smin(d, di, q.k) : Math.min(d, di);
+    else if (q.op === 's') d = smax(d, -di, q.k);
+    else d = smax(d, di, q.k);
+  }
+  return d;
+}
+
+const CORNERS = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]];
+const EDGES = [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+
+function build(shape, tick) {
+  const h = shape.h;
+  const P = shape.prims.map(p => compile(p, h));
+  let bb = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9], kmax = 0;
+  for (const q of P) {
+    kmax = Math.max(kmax, q.k);
+    if (q.bb && q.op === 'u') for (let a = 0; a < 3; a++) { bb[a] = Math.min(bb[a], q.bb[a]); bb[a + 3] = Math.max(bb[a + 3], q.bb[a + 3]); }
+  }
+  const pad = kmax + 3 * h;
+  const x0 = bb[0] - pad, y0 = bb[1] - pad, z0 = bb[2] - pad;
+  const nx = Math.ceil((bb[3] - bb[0] + 2 * pad) / h) + 1, ny = Math.ceil((bb[4] - bb[1] + 2 * pad) / h) + 1, nz = Math.ceil((bb[5] - bb[2] + 2 * pad) / h) + 1;
+  const F = new Float32Array(nx * ny * nz);
+  // Blocks of B^3 nodes: evaluate only nearby primitives; fill blocks far from the surface at once.
+  const B = 4, nbx = Math.ceil(nx / B), nby = Math.ceil(ny / B), nbz = Math.ceil(nz / B);
+  const BC = new Array(nbx * nby * nbz);
+  for (let bk = 0; bk < nz; bk += B) {
+    for (let bj = 0; bj < ny; bj += B) for (let bi = 0; bi < nx; bi += B) {
+      const ie = Math.min(bi + B, nx), je = Math.min(bj + B, ny), ke = Math.min(bk + B, nz);
+      const lx = x0 + bi * h, ly = y0 + bj * h, lz = z0 + bk * h, ux = x0 + (ie - 1) * h, uy = y0 + (je - 1) * h, uz = z0 + (ke - 1) * h;
+      const C = [];
+      let solid = false;
+      for (const q of P) {
+        const b = q.bb;
+        if (!b || q.op === 'i' || !(ux < b[0] - q.mg || lx > b[3] + q.mg || uy < b[1] - q.mg || ly > b[4] + q.mg || uz < b[2] - q.mg || lz > b[5] + q.mg)) { C.push(q); if (q.op === 'u') solid = true; }
+      }
+      BC[bi / B + nbx * (bj / B + nby * (bk / B))] = C;
+      if (!solid) { for (let k = bk; k < ke; k++) for (let j = bj; j < je; j++) for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = 1; continue; }
+      const mx = (lx + ux) / 2, my = (ly + uy) / 2, mz = (lz + uz) / 2;
+      const hd = 0.5 * Math.hypot(ux - lx, uy - ly, uz - lz);
+      const dc = evalShape(C, mx, my, mz);
+      if (Math.abs(dc) > hd * 1.35 + h * 1.5) { for (let k = bk; k < ke; k++) for (let j = bj; j < je; j++) for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = dc; continue; }
+      for (let k = bk; k < ke; k++) { const z = z0 + k * h; for (let j = bj; j < je; j++) { const y = y0 + j * h; for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = evalShape(C, x0 + i * h, y, z); } }
+    }
+    tick(nx * ny * Math.min(B, nz - bk));
+  }
+  // One pass: a vertex per surface cell, and a quad for each sign-changing edge at the cell's min corner.
+  const cx = nx - 1, cy = ny - 1, sY = nx, sZ = nx * ny;
+  const V = new Int32Array(cx * cy * (nz - 1)).fill(-1);
+  let pos = new Float32Array(1 << 15), np = 0, idx = new Uint32Array(1 << 16), ni = 0;
+  const val = new Float32Array(8), OFF = [0, 1, sY, sY + 1, sZ, sZ + 1, sZ + sY, sZ + sY + 1];
+  const quad = (a, b, c, d, axis, outPos) => {
+    if (a < 0 || b < 0 || c < 0 || d < 0) return;
+    const ax = pos[a * 3], ay = pos[a * 3 + 1], az = pos[a * 3 + 2];
+    const ux = pos[b * 3] - ax, uy = pos[b * 3 + 1] - ay, uz = pos[b * 3 + 2] - az;
+    const vx = pos[c * 3] - ax, vy = pos[c * 3 + 1] - ay, vz = pos[c * 3 + 2] - az;
+    const nrm = axis === 0 ? uy * vz - uz * vy : axis === 1 ? uz * vx - ux * vz : ux * vy - uy * vx;
+    if (ni + 6 > idx.length) { const t = new Uint32Array(idx.length * 2); t.set(idx); idx = t; }
+    if ((nrm > 0) === outPos) { idx[ni++] = a; idx[ni++] = b; idx[ni++] = c; idx[ni++] = a; idx[ni++] = c; idx[ni++] = d; }
+    else { idx[ni++] = a; idx[ni++] = c; idx[ni++] = b; idx[ni++] = a; idx[ni++] = d; idx[ni++] = c; }
+  };
+  for (let k = 0; k < nz - 1; k++) for (let j = 0; j < cy; j++) {
+    const base = sY * j + sZ * k, cb = cx * (j + cy * k);
+    for (let i = 0; i < cx; i++) {
+      const n0 = base + i;
+      let mask = 0;
+      for (let c = 0; c < 8; c++) { const v = F[n0 + OFF[c]]; val[c] = v; if (v < 0) mask |= 1 << c; }
+      if (mask === 0 || mask === 255) continue;
+      let sx = 0, sy = 0, sz = 0, n = 0;
+      for (let e = 0; e < 12; e++) {
+        const a = EDGES[e][0], b = EDGES[e][1], va = val[a], vb = val[b];
+        if ((va < 0) === (vb < 0)) continue;
+        const t = va / (va - vb), oa = CORNERS[a], ob = CORNERS[b];
+        sx += oa[0] + t * (ob[0] - oa[0]); sy += oa[1] + t * (ob[1] - oa[1]); sz += oa[2] + t * (ob[2] - oa[2]); n++;
+      }
+      const m = np / 3;
+      if (np + 3 > pos.length) { const t = new Float32Array(pos.length * 2); t.set(pos); pos = t; }
+      pos[np++] = x0 + (i + sx / n) * h; pos[np++] = y0 + (j + sy / n) * h; pos[np++] = z0 + (k + sz / n) * h;
+      const ci = cb + i; V[ci] = m;
+      const in0 = (mask & 1) !== 0;
+      if (in0 !== ((mask & 2) !== 0) && j > 0 && k > 0) quad(V[ci - cx - cx * cy], V[ci - cx * cy], m, V[ci - cx], 0, in0);
+      if (in0 !== ((mask & 4) !== 0) && i > 0 && k > 0) quad(V[ci - 1 - cx * cy], V[ci - 1], m, V[ci - cx * cy], 1, in0);
+      if (in0 !== ((mask & 16) !== 0) && i > 0 && j > 0) quad(V[ci - 1 - cx], V[ci - cx], m, V[ci - 1], 2, in0);
+    }
+  }
+  const nv = np / 3, P32 = pos.slice(0, np), N32 = new Float32Array(np), e = h * 0.35;
+  for (let v = 0; v < nv; v++) {
+    const x = P32[v * 3], y = P32[v * 3 + 1], z = P32[v * 3 + 2];
+    const bi = Math.floor((x - x0) / h / B), bj = Math.floor((y - y0) / h / B), bk = Math.floor((z - z0) / h / B);
+    const C = BC[bi + nbx * (bj + nby * bk)] || P;
+    const gx = evalShape(C, x + e, y, z) - evalShape(C, x - e, y, z);
+    const gy = evalShape(C, x, y + e, z) - evalShape(C, x, y - e, z);
+    const gz = evalShape(C, x, y, z + e) - evalShape(C, x, y, z - e);
+    const l = Math.hypot(gx, gy, gz) || 1;
+    N32[v * 3] = gx / l; N32[v * 3 + 1] = gy / l; N32[v * 3 + 2] = gz / l;
+  }
+  const idxArr = idx.subarray(0, ni);
+  const I = nv > 65535 ? idxArr.slice() : Uint16Array.from(idxArr);
+  return { pos: P32, nor: N32, idx: I, nodes: nx * ny * nz };
+}
+
+function run(shapes, post) {
+  const est = s => {
+    let bb = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9];
+    for (const p of s.prims) {
+      const c = p.c || p.a; if (!c) continue;
+      const e = p.r ? (Array.isArray(p.r) ? Math.max(...p.r) : p.r) : Math.max(p.r1 || 0, p.r2 || 0);
+      const pts = p.b ? [c, p.b] : [c];
+      for (const q of pts) for (let a = 0; a < 3; a++) { bb[a] = Math.min(bb[a], q[a] - e); bb[a + 3] = Math.max(bb[a + 3], q[a] + e); }
+    }
+    return ((bb[3] - bb[0]) / s.h + 8) * ((bb[4] - bb[1]) / s.h + 8) * ((bb[5] - bb[2]) / s.h + 8);
+  };
+  const total = shapes.reduce((a, s) => a + est(s), 0);
+  let done = 0, last = 0, verts = 0;
+  for (const s of shapes) {
+    const m = build(s, n => { done += n; const p = Math.min(0.99, done / total); if (p - last > 0.01) { last = p; post({ type: 'progress', p, verts }); } });
+    verts += m.pos.length / 3;
+    post({ type: 'mesh', id: s.id, pos: m.pos, nor: m.nor, idx: m.idx }, [m.pos.buffer, m.nor.buffer, m.idx.buffer]);
+  }
+  post({ type: 'done', verts });
+}
+
+if (typeof self !== 'undefined' && typeof document === 'undefined') {
+  self.onmessage = e => run(e.data.shapes, (m, tr) => self.postMessage(m, tr || []));
+}
+</script>
+<script>(()=>{'use strict';
+/* ---------- Anatomy: parts, joints and SDF specs (metres; y up; faces +z; person's left = +x) ---------- */
+const ZONES = {
+  head:   { name: '头部', en: 'HEAD', cam: { y: 1.6, h: 0.36, yaw: 0 }, anchor: [0.02, 1.7, 0.06], side: 'r' },
+  organs: { name: '内脏', en: 'ORGANS', cam: { y: 1.13, h: 0.66, yaw: 0 }, anchor: [-0.05, 1.14, 0.08], side: 'l' },
+  frame:  { name: '躯干四肢', en: 'FRAME', cam: { y: 0.9, h: 1.95, yaw: 0 }, anchor: [0.1, 0.5, 0.04], side: 'r' }
+};
+const OVERVIEW_CAM = { y: 0.9, h: 1.98, yaw: 0.38 };
+
+// a = label anchor (paired parts: the person's left side; mirrored for the right)
+const PARTS = [
+  { id: 'hair', name: '毛发', zone: 'head', sys: '头皮与毛发', a: [0.035, 1.748, -0.02], ls: 'r' },
+  { id: 'brain', name: '大脑', zone: 'head', sys: '神经系统', a: [-0.035, 1.705, -0.01], ls: 'l' },
+  { id: 'eyes', name: '眼睛', zone: 'head', sys: '视觉', a: [0.031, 1.642, 0.075], ls: 'r', pair: 1 },
+  { id: 'ears', name: '耳朵', zone: 'head', sys: '听觉', a: [0.082, 1.628, -0.004], ls: 'r', pair: 1, cam: { y: 1.62, h: 0.32, yawL: -1.35, yawR: 1.35 } },
+  { id: 'nose', name: '鼻子', zone: 'head', sys: '嗅觉与上呼吸道', a: [0, 1.605, 0.108], ls: 'l' },
+  { id: 'face', name: '面部皮肤', zone: 'head', sys: '皮肤', a: [-0.045, 1.598, 0.075], ls: 'l' },
+  { id: 'mouth', name: '口腔牙齿', zone: 'head', sys: '口腔', a: [0.014, 1.566, 0.09], ls: 'r' },
+  { id: 'throat', name: '咽喉', zone: 'head', sys: '上呼吸道', a: [0, 1.51, 0.036], ls: 'l' },
+  { id: 'thyroid', name: '甲状腺', zone: 'head', sys: '内分泌', a: [0.018, 1.468, 0.042], ls: 'r' },
+
+  { id: 'heart', name: '心脏', zone: 'organs', sys: '循环系统', a: [0.035, 1.24, 0.07], ls: 'r' },
+  { id: 'lungs', name: '肺', zone: 'organs', sys: '呼吸系统', a: [0.1, 1.33, 0.03], ls: 'r', pair: 1 },
+  { id: 'esophagus', name: '食管', zone: 'organs', sys: '消化系统', a: [0, 1.4, -0.024], ls: 'l' },
+  { id: 'liver', name: '肝脏', zone: 'organs', sys: '消化系统', a: [-0.09, 1.16, 0.06], ls: 'l' },
+  { id: 'gallbladder', name: '胆囊', zone: 'organs', sys: '消化系统', a: [-0.046, 1.092, 0.07], ls: 'l' },
+  { id: 'stomach', name: '胃', zone: 'organs', sys: '消化系统', a: [0.072, 1.14, 0.045], ls: 'r' },
+  { id: 'spleen', name: '脾脏', zone: 'organs', sys: '免疫系统', a: [0.118, 1.165, -0.035], ls: 'r' },
+  { id: 'pancreas', name: '胰腺', zone: 'organs', sys: '消化与内分泌', a: [0.03, 1.105, -0.01], ls: 'r' },
+  { id: 'smallint', name: '小肠', zone: 'organs', sys: '消化系统', a: [-0.02, 0.99, 0.065], ls: 'l' },
+  { id: 'colon', name: '大肠', zone: 'organs', sys: '消化系统', a: [0.1, 1.0, 0.035], ls: 'r' },
+  { id: 'kidneys', name: '肾脏', zone: 'organs', sys: '泌尿系统', a: [0.062, 1.085, -0.07], ls: 'r', pair: 1, cam: { y: 1.06, h: 0.5, yaw: Math.PI } },
+  { id: 'bladder', name: '膀胱', zone: 'organs', sys: '泌尿系统', a: [0, 0.912, 0.065], ls: 'l' },
+
+  { id: 'cervical', name: '颈椎', zone: 'frame', sys: '脊柱', a: [0, 1.49, -0.04], ls: 'l', cam: { y: 1.42, h: 0.46, yaw: 2.7 } },
+  { id: 'shoulders', name: '肩关节', zone: 'frame', sys: '上肢', a: [0.2, 1.39, -0.015], ls: 'r', pair: 1, cam: { y: 1.3, h: 0.62 } },
+  { id: 'lumbar', name: '腰椎', zone: 'frame', sys: '脊柱', a: [0, 1.06, -0.05], ls: 'l', cam: { y: 1.04, h: 0.52, yaw: Math.PI } },
+  { id: 'elbows', name: '肘关节', zone: 'frame', sys: '上肢', a: [0.266, 1.105, -0.035], ls: 'r', pair: 1, cam: { y: 1.08, h: 0.7 } },
+  { id: 'wrists', name: '手腕与手', zone: 'frame', sys: '上肢', a: [0.318, 0.86, 0.002], ls: 'r', pair: 1, cam: { y: 0.82, h: 0.56 } },
+  { id: 'hips', name: '髋关节', zone: 'frame', sys: '下肢', a: [0.1, 0.925, 0.0], ls: 'r', pair: 1, cam: { y: 0.88, h: 0.62 } },
+  { id: 'knees', name: '膝关节', zone: 'frame', sys: '下肢', a: [0.1, 0.5, 0.035], ls: 'r', pair: 1, cam: { y: 0.5, h: 0.62 } },
+  { id: 'ankles', name: '足踝', zone: 'frame', sys: '下肢', a: [0.105, 0.085, 0.0], ls: 'r', pair: 1, cam: { y: 0.16, h: 0.5 } }
+];
+
+// joints of the A-pose skeleton (left side; mirrored for the right)
+const J = {
+  S: [0.195, 1.385, -0.015], E: [0.265, 1.105, -0.035], W: [0.315, 0.865, 0.0],
+  H: [0.088, 0.925, 0.004], K: [0.1, 0.5, 0.012], A: [0.103, 0.085, -0.02]
+};
+
+function sdfSpecs() {
+  const S = (c, r, op, k) => ({ t: 'sph', c, r, op: op || 'u', k: k || 0 });
+  const E = (c, r, rot, k, op) => ({ t: 'ell', c, r, rot: rot || null, k: k || 0, op: op || 'u' });
+  const R = (a, b, r1, r2, k, op) => ({ t: 'rc', a, b, r1, r2, k: k || 0, op: op || 'u' });
+  const PL = (p, n, op, k) => ({ t: 'pl', p, n, op: op || 'i', k: k || 0 });
+  const mx = p => {
+    const q = { ...p };
+    if (q.c) q.c = [-q.c[0], q.c[1], q.c[2]];
+    if (q.a) q.a = [-q.a[0], q.a[1], q.a[2]];
+    if (q.b) q.b = [-q.b[0], q.b[1], q.b[2]];
+    if (q.rot) q.rot = [q.rot[0], -q.rot[1], -q.rot[2]];
+    if (q.p) q.p = [-q.p[0], q.p[1], q.p[2]];
+    if (q.n) q.n = [-q.n[0], q.n[1], q.n[2]];
+    return q;
+  };
+  const sym = list => [...list, ...list.map(mx)];
+  const { S: sh, E: el, W: wr, H: hp, K: kn, A: an } = J;
+
+  const shell = [
+    E([0, 1.668, -0.01], [0.077, 0.09, 0.099]),
+    E([0, 1.588, 0.02], [0.061, 0.074, 0.074], 0, 0.035),
+    E([0, 1.662, 0.072], [0.058, 0.018, 0.022], 0, 0.025),
+    ...sym([E([0.043, 1.612, 0.052], [0.024, 0.02, 0.026], 0, 0.02)]),
+    E([0, 1.533, 0.058], [0.027, 0.02, 0.02], 0, 0.022),
+    E([0, 1.566, 0.088], [0.022, 0.009, 0.011], 0, 0.01),
+    ...sym([E([0.077, 1.628, -0.004], [0.011, 0.03, 0.018], [0, 0.2, 0.1], 0.01)]),
+    ...sym([S([0.031, 1.642, 0.094], 0.016, 's', 0.012)]),
+    R([0, 1.642, 0.088], [0, 1.602, 0.104], 0.008, 0.012, 0.012),
+    E([0, 1.598, 0.099], [0.018, 0.011, 0.012], 0, 0.01),
+    R([0, 1.545, -0.012], [0, 1.43, -0.004], 0.051, 0.057, 0.03),
+    ...sym([R([0, 1.47, -0.028], [0.15, 1.415, -0.024], 0.05, 0.045, 0.04)]),
+    E([0, 1.3, 0.0], [0.155, 0.15, 0.105], 0, 0.05),
+    ...sym([E([0.068, 1.312, 0.056], [0.074, 0.05, 0.042], 0, 0.04)]),
+    E([0, 1.28, -0.032], [0.158, 0.13, 0.082], 0, 0.05),
+    E([0, 1.11, 0.008], [0.135, 0.14, 0.097], 0, 0.06),
+    E([0, 0.955, -0.004], [0.158, 0.095, 0.1], 0, 0.05),
+    ...sym([E([0.07, 0.915, -0.055], [0.074, 0.08, 0.062], 0, 0.04)]),
+    ...sym([S([0.19, 1.396, -0.012], 0.056, 'u', 0.04)]),
+    ...sym([R(sh, el, 0.046, 0.036, 0.03)]),
+    ...sym([E([0.232, 1.255, 0.004], [0.036, 0.07, 0.037], [0, 0, 0.245], 0.03)]),
+    ...sym([R(el, wr, 0.037, 0.025, 0.025)]),
+    ...sym([E([0.28, 1.03, -0.022], [0.035, 0.065, 0.034], [0, 0, 0.2], 0.03)]),
+    ...sym([E([0.327, 0.8, 0.01], [0.016, 0.048, 0.041], [0, 0, 0.1], 0.016)]),
+    ...sym([E([0.333, 0.733, 0.013], [0.012, 0.042, 0.034], [0, 0, 0.08], 0.012)]),
+    ...sym([R([0.321, 0.832, 0.035], [0.318, 0.782, 0.058], 0.0095, 0.0075, 0.01)]),
+    ...sym([R([0.088, 0.93, 0.0], kn, 0.084, 0.05, 0.04)]),
+    ...sym([E([0.095, 0.72, 0.024], [0.058, 0.14, 0.055], 0, 0.04)]),
+    ...sym([S([0.1, 0.5, 0.018], 0.047, 'u', 0.025)]),
+    ...sym([R([0.1, 0.49, 0.0], an, 0.048, 0.03, 0.03)]),
+    ...sym([E([0.102, 0.35, -0.03], [0.044, 0.085, 0.045], 0, 0.04)]),
+    ...sym([E([0.108, 0.035, 0.045], [0.038, 0.034, 0.105], 0, 0.03)]),
+    ...sym([S([0.103, 0.045, -0.026], 0.034, 'u', 0.025)]),
+    PL([0, 0.001, 0], [0, 1, 0], 'i', 0.004)
+  ];
+
+  // colon: haustra as a bead chain along the frame of the abdomen
+  const colonPath = [[-0.082, 0.955, 0.035], [-0.09, 1.0, 0.035], [-0.092, 1.07, 0.03], [-0.075, 1.085, 0.05], [-0.03, 1.07, 0.068], [0.02, 1.07, 0.068], [0.07, 1.09, 0.05], [0.098, 1.095, 0.028], [0.1, 1.04, 0.028], [0.098, 0.98, 0.03], [0.085, 0.945, 0.035], [0.05, 0.925, 0.04], [0.02, 0.93, 0.02], [0.005, 0.922, -0.02], [0.0, 0.9, -0.04]];
+  const colon = [];
+  let bead = 0;
+  for (let s = 0; s < colonPath.length - 1; s++) {
+    const a = colonPath[s], b = colonPath[s + 1];
+    const L = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
+    const n = Math.max(1, Math.round(L / 0.017));
+    for (let t = 0; t < n; t++) {
+      const f = t / n, c = [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
+      const tail = s >= colonPath.length - 4;
+      colon.push(S(c, (tail ? 0.014 : 0.02) - (bead++ % 2) * 0.003, 'u', 0.008));
+    }
+  }
+  colon[0] = S(colonPath[0], 0.024, 'u', 0.008);
+
+  // small intestine: serpentine coils packed inside the colon frame
+  const si = [];
+  const rows = [1.038, 1.016, 0.994, 0.972, 0.95];
+  let prev = null;
+  rows.forEach((y, r) => {
+    for (let s = 0; s <= 7; s++) {
+      const u = r % 2 ? 7 - s : s;
+      const x = -0.058 + u * 0.017;
+      const p = [x, y + Math.sin(u * 1.7 + r) * 0.004, 0.046 + Math.sin(u * 2.1 + r * 1.3) * 0.016];
+      if (prev) si.push(R(prev, p, 0.0115, 0.0115, 0.005));
+      prev = p;
+    }
+  });
+
+  const heartRot = [-0.25, 0, 0.62];
+  const out = [
+    { id: 'shell', h: 0.0068, prims: shell },
+    { id: 'brain', h: 0.004, prims: [
+      E([0, 1.686, -0.012], [0.066, 0.058, 0.084]),
+      E([0, 1.75, -0.01], [0.0035, 0.05, 0.092], 0, 0.006, 's'),
+      ...sym([E([0.05, 1.652, 0.018], [0.022, 0.022, 0.036], 0, 0.02)]),
+      E([0, 1.628, -0.058], [0.046, 0.022, 0.03], [0.3, 0, 0], 0.012),
+      R([0, 1.64, -0.032], [0, 1.56, -0.026], 0.013, 0.01, 0.01)
+    ] },
+    { id: 'eyes:L', h: 0.0018, prims: [S([0.031, 1.642, 0.07], 0.0125)] },
+    { id: 'eyes:R', h: 0.0018, prims: [S([-0.031, 1.642, 0.07], 0.0125)] },
+    { id: 'ears:L', h: 0.0024, prims: [E([0.0775, 1.628, -0.004], [0.0125, 0.0315, 0.0195], [0, 0.2, 0.1])] },
+    { id: 'ears:R', h: 0.0024, prims: [mx(E([0.0775, 1.628, -0.004], [0.0125, 0.0315, 0.0195], [0, 0.2, 0.1]))] },
+    { id: 'nose', h: 0.0022, prims: [R([0, 1.642, 0.089], [0, 1.602, 0.1045], 0.0088, 0.0125, 0.012), E([0, 1.598, 0.0995], [0.0185, 0.0115, 0.0125], 0, 0.01)] },
+    { id: 'face', h: 0.0025, prims: [...sym([E([0.042, 1.604, 0.066], [0.019, 0.02, 0.012])]), E([0, 1.69, 0.075], [0.04, 0.017, 0.012], 0, 0.006), E([0, 1.532, 0.068], [0.017, 0.011, 0.009], 0, 0.006)] },
+    { id: 'mouth', h: 0.002, prims: [E([0, 1.566, 0.088], [0.0235, 0.0105, 0.0122])] },
+    { id: 'hair', h: 0.0036, prims: [E([0, 1.668, -0.012], [0.0815, 0.0955, 0.1035]), E([0, 1.668, -0.012], [0.0765, 0.0905, 0.0985], 0, 0, 's'), PL([0, 1.702, 0.09], [0, 0.876, -0.482], 'i', 0.006)] },
+    { id: 'throat', h: 0.003, prims: [R([0, 1.575, 0.0], [0, 1.49, 0.014], 0.013, 0.012), E([0, 1.5, 0.032], [0.016, 0.018, 0.012], 0, 0.01)] },
+    { id: 'thyroid', h: 0.0018, prims: [...sym([E([0.016, 1.468, 0.036], [0.009, 0.018, 0.008], [0, 0, 0.15], 0.004)]), E([0, 1.46, 0.042], [0.012, 0.005, 0.005], 0, 0.004)] },
+    { id: 'heart', h: 0.0032, prims: [
+      E([0.018, 1.252, 0.04], [0.041, 0.056, 0.038], heartRot),
+      E([0.0, 1.28, 0.03], [0.03, 0.03, 0.03], 0, 0.02),
+      R([0.005, 1.29, 0.035], [0.0, 1.345, 0.018], 0.013, 0.012, 0.012),
+      R([0.0, 1.345, 0.018], [0.022, 1.335, -0.025], 0.012, 0.011, 0.01),
+      R([0.022, 1.335, -0.025], [0.025, 1.2, -0.042], 0.011, 0.01, 0.01)
+    ] },
+    { id: 'lungs:L', h: 0.0042, prims: [
+      E([0.076, 1.3, -0.005], [0.056, 0.11, 0.068], [0, 0, 0.08]),
+      E([0.08, 1.225, -0.01], [0.062, 0.05, 0.074], 0, 0.03),
+      E([0.07, 1.125, 0.0], [0.09, 0.045, 0.1], 0, 0.02, 's'),
+      E([0.022, 1.252, 0.05], [0.052, 0.064, 0.048], heartRot, 0.016, 's')
+    ] },
+    { id: 'lungs:R', h: 0.0042, prims: [
+      E([-0.076, 1.3, -0.005], [0.058, 0.11, 0.07], [0, 0, -0.08]),
+      E([-0.08, 1.225, -0.01], [0.064, 0.05, 0.075], 0, 0.03),
+      E([-0.07, 1.13, 0.0], [0.09, 0.045, 0.1], 0, 0.02, 's')
+    ] },
+    { id: 'lungs', h: 0.0025, prims: [R([0, 1.49, 0.018], [0, 1.36, 0.006], 0.0085, 0.0085), R([0, 1.36, 0.006], [0.042, 1.325, 0.0], 0.0065, 0.006, 0.005), R([0, 1.36, 0.006], [-0.042, 1.325, 0.0], 0.0065, 0.006, 0.005)] },
+    { id: 'esophagus', h: 0.0025, prims: [R([0, 1.47, -0.022], [0.0, 1.3, -0.035], 0.0075, 0.0075), R([0.0, 1.3, -0.035], [0.03, 1.178, -0.01], 0.0075, 0.0075, 0.006)] },
+    { id: 'stomach', h: 0.0032, prims: [
+      E([0.062, 1.148, 0.016], [0.04, 0.052, 0.034], [0, 0, 0.35]),
+      S([0.05, 1.185, 0.012], 0.026, 'u', 0.02),
+      E([0.03, 1.098, 0.04], [0.046, 0.026, 0.029], [0, 0, -0.3], 0.025),
+      R([-0.005, 1.092, 0.045], [-0.024, 1.1, 0.038], 0.012, 0.009, 0.01)
+    ] },
+    { id: 'liver', h: 0.004, prims: [
+      E([-0.06, 1.15, 0.015], [0.086, 0.063, 0.07]),
+      E([0.01, 1.175, 0.052], [0.068, 0.03, 0.032], 0, 0.03),
+      PL([-0.13, 1.095, 0], [-0.187, 0.982, 0], 'i', 0.02)
+    ] },
+    { id: 'gallbladder', h: 0.002, prims: [E([-0.046, 1.094, 0.066], [0.011, 0.023, 0.011], [0.3, 0, -0.4])] },
+    { id: 'pancreas', h: 0.003, prims: [R([-0.022, 1.092, 0.008], [0.09, 1.118, -0.028], 0.015, 0.009), E([-0.028, 1.085, 0.012], [0.02, 0.018, 0.016], 0, 0.01)] },
+    { id: 'spleen', h: 0.003, prims: [E([0.113, 1.162, -0.045], [0.021, 0.047, 0.03], [0.2, 0, 0.35])] },
+    { id: 'smallint', h: 0.0034, prims: si },
+    { id: 'colon', h: 0.0036, prims: colon },
+    { id: 'kidneys:L', h: 0.003, prims: [E([0.062, 1.085, -0.064], [0.024, 0.05, 0.021], [0, 0, 0.22]), S([0.04, 1.085, -0.058], 0.012, 's', 0.008)] },
+    { id: 'kidneys:R', h: 0.003, prims: [E([-0.062, 1.07, -0.064], [0.024, 0.05, 0.021], [0, 0, -0.22]), S([-0.04, 1.07, -0.058], 0.012, 's', 0.008)] },
+    { id: 'bladder', h: 0.003, prims: [E([0, 0.912, 0.045], [0.034, 0.029, 0.03])] }
+  ];
+  return out;
+}
+
+'use strict';
+/* Signed-distance body builder: primitives -> sampled grid -> surface nets mesh.
+   Coordinates in metres, y up, the figure faces +z, the person's left is +x. */
+const smin = (a, b, k) => { const h = Math.max(k - Math.abs(a - b), 0) / k; return Math.min(a, b) - h * h * k * 0.25; };
+const smax = (a, b, k) => k > 0 ? -smin(-a, -b, k) : Math.max(a, b);
+
+function rotT(r) { // transpose of Rz*Ry*Rx
+  const cx = Math.cos(r[0]), sx = Math.sin(r[0]), cy = Math.cos(r[1]), sy = Math.sin(r[1]), cz = Math.cos(r[2]), sz = Math.sin(r[2]);
+  const R = [cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx,
+             sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx,
+             -sy, cy * sx, cy * cx];
+  return [R[0], R[3], R[6], R[1], R[4], R[7], R[2], R[5], R[8]];
+}
+
+function compile(p, h) {
+  const q = { t: p.t, op: p.op || 'u', k: p.k || 0, bb: null };
+  if (p.t === 'sph') {
+    q.cx = p.c[0]; q.cy = p.c[1]; q.cz = p.c[2]; q.r = p.r;
+    q.bb = [q.cx - q.r, q.cy - q.r, q.cz - q.r, q.cx + q.r, q.cy + q.r, q.cz + q.r];
+  } else if (p.t === 'ell') {
+    q.cx = p.c[0]; q.cy = p.c[1]; q.cz = p.c[2]; [q.rx, q.ry, q.rz] = p.r;
+    q.m = p.rot ? rotT(p.rot) : null;
+    const e = Math.max(q.rx, q.ry, q.rz);
+    q.bb = [q.cx - e, q.cy - e, q.cz - e, q.cx + e, q.cy + e, q.cz + e];
+  } else if (p.t === 'rc') {
+    [q.ax, q.ay, q.az] = p.a; const [bx, by, bz] = p.b;
+    q.r1 = p.r1; q.r2 = p.r2;
+    q.bax = bx - q.ax; q.bay = by - q.ay; q.baz = bz - q.az;
+    q.l2 = q.bax * q.bax + q.bay * q.bay + q.baz * q.baz;
+    q.rr = q.r1 - q.r2; q.a2 = q.l2 - q.rr * q.rr; q.il2 = 1 / q.l2;
+    const e = Math.max(q.r1, q.r2);
+    q.bb = [Math.min(q.ax, bx) - e, Math.min(q.ay, by) - e, Math.min(q.az, bz) - e, Math.max(q.ax, bx) + e, Math.max(q.ay, by) + e, Math.max(q.az, bz) + e];
+  } else if (p.t === 'pl') {
+    const l = Math.hypot(p.n[0], p.n[1], p.n[2]);
+    q.nx = p.n[0] / l; q.ny = p.n[1] / l; q.nz = p.n[2] / l; [q.px, q.py, q.pz] = p.p;
+  }
+  q.mg = q.k + 2.5 * h;
+  return q;
+}
+
+function prim(q, x, y, z) {
+  switch (q.t) {
+    case 'sph': return Math.hypot(x - q.cx, y - q.cy, z - q.cz) - q.r;
+    case 'ell': {
+      let dx = x - q.cx, dy = y - q.cy, dz = z - q.cz;
+      if (q.m) { const m = q.m; const a = m[0] * dx + m[1] * dy + m[2] * dz, b = m[3] * dx + m[4] * dy + m[5] * dz, c = m[6] * dx + m[7] * dy + m[8] * dz; dx = a; dy = b; dz = c; }
+      const k0 = Math.hypot(dx / q.rx, dy / q.ry, dz / q.rz);
+      const k1 = Math.hypot(dx / (q.rx * q.rx), dy / (q.ry * q.ry), dz / (q.rz * q.rz));
+      return k1 < 1e-12 ? -Math.min(q.rx, q.ry, q.rz) : k0 * (k0 - 1) / k1;
+    }
+    case 'rc': {
+      const pax = x - q.ax, pay = y - q.ay, paz = z - q.az;
+      const Y = pax * q.bax + pay * q.bay + paz * q.baz, Z = Y - q.l2;
+      const vx = pax * q.l2 - q.bax * Y, vy = pay * q.l2 - q.bay * Y, vz = paz * q.l2 - q.baz * Y;
+      const x2 = vx * vx + vy * vy + vz * vz, y2 = Y * Y * q.l2, z2 = Z * Z * q.l2;
+      const k = Math.sign(q.rr) * q.rr * q.rr * x2;
+      if (Math.sign(Z) * q.a2 * z2 > k) return Math.sqrt(x2 + z2) * q.il2 - q.r2;
+      if (Math.sign(Y) * q.a2 * y2 < k) return Math.sqrt(x2 + y2) * q.il2 - q.r1;
+      return (Math.sqrt(x2 * q.a2 * q.il2) + Y * q.rr) * q.il2 - q.r1;
+    }
+    case 'pl': return -((x - q.px) * q.nx + (y - q.py) * q.ny + (z - q.pz) * q.nz);
+  }
+  return 1e9;
+}
+
+function evalShape(P, x, y, z) {
+  let d = 1e9;
+  for (let i = 0; i < P.length; i++) {
+    const q = P[i], b = q.bb;
+    if (b && q.op !== 'i' && (x < b[0] - q.mg || x > b[3] + q.mg || y < b[1] - q.mg || y > b[4] + q.mg || z < b[2] - q.mg || z > b[5] + q.mg)) {
+      if (q.op === 'u') { // far away: a box distance is a safe lower bound
+        const dx = Math.max(b[0] - x, 0, x - b[3]), dy = Math.max(b[1] - y, 0, y - b[4]), dz = Math.max(b[2] - z, 0, z - b[5]);
+        const di = Math.sqrt(dx * dx + dy * dy + dz * dz); if (di < d) d = di;
+      }
+      continue;
+    }
+    const di = prim(q, x, y, z);
+    if (q.op === 'u') d = q.k > 0 ? smin(d, di, q.k) : Math.min(d, di);
+    else if (q.op === 's') d = smax(d, -di, q.k);
+    else d = smax(d, di, q.k);
+  }
+  return d;
+}
+
+const CORNERS = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]];
+const EDGES = [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+
+function build(shape, tick) {
+  const h = shape.h;
+  const P = shape.prims.map(p => compile(p, h));
+  let bb = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9], kmax = 0;
+  for (const q of P) {
+    kmax = Math.max(kmax, q.k);
+    if (q.bb && q.op === 'u') for (let a = 0; a < 3; a++) { bb[a] = Math.min(bb[a], q.bb[a]); bb[a + 3] = Math.max(bb[a + 3], q.bb[a + 3]); }
+  }
+  const pad = kmax + 3 * h;
+  const x0 = bb[0] - pad, y0 = bb[1] - pad, z0 = bb[2] - pad;
+  const nx = Math.ceil((bb[3] - bb[0] + 2 * pad) / h) + 1, ny = Math.ceil((bb[4] - bb[1] + 2 * pad) / h) + 1, nz = Math.ceil((bb[5] - bb[2] + 2 * pad) / h) + 1;
+  const F = new Float32Array(nx * ny * nz);
+  // Blocks of B^3 nodes: evaluate only nearby primitives; fill blocks far from the surface at once.
+  const B = 4, nbx = Math.ceil(nx / B), nby = Math.ceil(ny / B), nbz = Math.ceil(nz / B);
+  const BC = new Array(nbx * nby * nbz);
+  for (let bk = 0; bk < nz; bk += B) {
+    for (let bj = 0; bj < ny; bj += B) for (let bi = 0; bi < nx; bi += B) {
+      const ie = Math.min(bi + B, nx), je = Math.min(bj + B, ny), ke = Math.min(bk + B, nz);
+      const lx = x0 + bi * h, ly = y0 + bj * h, lz = z0 + bk * h, ux = x0 + (ie - 1) * h, uy = y0 + (je - 1) * h, uz = z0 + (ke - 1) * h;
+      const C = [];
+      let solid = false;
+      for (const q of P) {
+        const b = q.bb;
+        if (!b || q.op === 'i' || !(ux < b[0] - q.mg || lx > b[3] + q.mg || uy < b[1] - q.mg || ly > b[4] + q.mg || uz < b[2] - q.mg || lz > b[5] + q.mg)) { C.push(q); if (q.op === 'u') solid = true; }
+      }
+      BC[bi / B + nbx * (bj / B + nby * (bk / B))] = C;
+      if (!solid) { for (let k = bk; k < ke; k++) for (let j = bj; j < je; j++) for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = 1; continue; }
+      const mx = (lx + ux) / 2, my = (ly + uy) / 2, mz = (lz + uz) / 2;
+      const hd = 0.5 * Math.hypot(ux - lx, uy - ly, uz - lz);
+      const dc = evalShape(C, mx, my, mz);
+      if (Math.abs(dc) > hd * 1.35 + h * 1.5) { for (let k = bk; k < ke; k++) for (let j = bj; j < je; j++) for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = dc; continue; }
+      for (let k = bk; k < ke; k++) { const z = z0 + k * h; for (let j = bj; j < je; j++) { const y = y0 + j * h; for (let i = bi; i < ie; i++) F[i + nx * (j + ny * k)] = evalShape(C, x0 + i * h, y, z); } }
+    }
+    tick(nx * ny * Math.min(B, nz - bk));
+  }
+  // One pass: a vertex per surface cell, and a quad for each sign-changing edge at the cell's min corner.
+  const cx = nx - 1, cy = ny - 1, sY = nx, sZ = nx * ny;
+  const V = new Int32Array(cx * cy * (nz - 1)).fill(-1);
+  let pos = new Float32Array(1 << 15), np = 0, idx = new Uint32Array(1 << 16), ni = 0;
+  const val = new Float32Array(8), OFF = [0, 1, sY, sY + 1, sZ, sZ + 1, sZ + sY, sZ + sY + 1];
+  const quad = (a, b, c, d, axis, outPos) => {
+    if (a < 0 || b < 0 || c < 0 || d < 0) return;
+    const ax = pos[a * 3], ay = pos[a * 3 + 1], az = pos[a * 3 + 2];
+    const ux = pos[b * 3] - ax, uy = pos[b * 3 + 1] - ay, uz = pos[b * 3 + 2] - az;
+    const vx = pos[c * 3] - ax, vy = pos[c * 3 + 1] - ay, vz = pos[c * 3 + 2] - az;
+    const nrm = axis === 0 ? uy * vz - uz * vy : axis === 1 ? uz * vx - ux * vz : ux * vy - uy * vx;
+    if (ni + 6 > idx.length) { const t = new Uint32Array(idx.length * 2); t.set(idx); idx = t; }
+    if ((nrm > 0) === outPos) { idx[ni++] = a; idx[ni++] = b; idx[ni++] = c; idx[ni++] = a; idx[ni++] = c; idx[ni++] = d; }
+    else { idx[ni++] = a; idx[ni++] = c; idx[ni++] = b; idx[ni++] = a; idx[ni++] = d; idx[ni++] = c; }
+  };
+  for (let k = 0; k < nz - 1; k++) for (let j = 0; j < cy; j++) {
+    const base = sY * j + sZ * k, cb = cx * (j + cy * k);
+    for (let i = 0; i < cx; i++) {
+      const n0 = base + i;
+      let mask = 0;
+      for (let c = 0; c < 8; c++) { const v = F[n0 + OFF[c]]; val[c] = v; if (v < 0) mask |= 1 << c; }
+      if (mask === 0 || mask === 255) continue;
+      let sx = 0, sy = 0, sz = 0, n = 0;
+      for (let e = 0; e < 12; e++) {
+        const a = EDGES[e][0], b = EDGES[e][1], va = val[a], vb = val[b];
+        if ((va < 0) === (vb < 0)) continue;
+        const t = va / (va - vb), oa = CORNERS[a], ob = CORNERS[b];
+        sx += oa[0] + t * (ob[0] - oa[0]); sy += oa[1] + t * (ob[1] - oa[1]); sz += oa[2] + t * (ob[2] - oa[2]); n++;
+      }
+      const m = np / 3;
+      if (np + 3 > pos.length) { const t = new Float32Array(pos.length * 2); t.set(pos); pos = t; }
+      pos[np++] = x0 + (i + sx / n) * h; pos[np++] = y0 + (j + sy / n) * h; pos[np++] = z0 + (k + sz / n) * h;
+      const ci = cb + i; V[ci] = m;
+      const in0 = (mask & 1) !== 0;
+      if (in0 !== ((mask & 2) !== 0) && j > 0 && k > 0) quad(V[ci - cx - cx * cy], V[ci - cx * cy], m, V[ci - cx], 0, in0);
+      if (in0 !== ((mask & 4) !== 0) && i > 0 && k > 0) quad(V[ci - 1 - cx * cy], V[ci - 1], m, V[ci - cx * cy], 1, in0);
+      if (in0 !== ((mask & 16) !== 0) && i > 0 && j > 0) quad(V[ci - 1 - cx], V[ci - cx], m, V[ci - 1], 2, in0);
+    }
+  }
+  const nv = np / 3, P32 = pos.slice(0, np), N32 = new Float32Array(np), e = h * 0.35;
+  for (let v = 0; v < nv; v++) {
+    const x = P32[v * 3], y = P32[v * 3 + 1], z = P32[v * 3 + 2];
+    const bi = Math.floor((x - x0) / h / B), bj = Math.floor((y - y0) / h / B), bk = Math.floor((z - z0) / h / B);
+    const C = BC[bi + nbx * (bj + nby * bk)] || P;
+    const gx = evalShape(C, x + e, y, z) - evalShape(C, x - e, y, z);
+    const gy = evalShape(C, x, y + e, z) - evalShape(C, x, y - e, z);
+    const gz = evalShape(C, x, y, z + e) - evalShape(C, x, y, z - e);
+    const l = Math.hypot(gx, gy, gz) || 1;
+    N32[v * 3] = gx / l; N32[v * 3 + 1] = gy / l; N32[v * 3 + 2] = gz / l;
+  }
+  const idxArr = idx.subarray(0, ni);
+  const I = nv > 65535 ? idxArr.slice() : Uint16Array.from(idxArr);
+  return { pos: P32, nor: N32, idx: I, nodes: nx * ny * nz };
+}
+
+function run(shapes, post) {
+  const est = s => {
+    let bb = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9];
+    for (const p of s.prims) {
+      const c = p.c || p.a; if (!c) continue;
+      const e = p.r ? (Array.isArray(p.r) ? Math.max(...p.r) : p.r) : Math.max(p.r1 || 0, p.r2 || 0);
+      const pts = p.b ? [c, p.b] : [c];
+      for (const q of pts) for (let a = 0; a < 3; a++) { bb[a] = Math.min(bb[a], q[a] - e); bb[a + 3] = Math.max(bb[a + 3], q[a] + e); }
+    }
+    return ((bb[3] - bb[0]) / s.h + 8) * ((bb[4] - bb[1]) / s.h + 8) * ((bb[5] - bb[2]) / s.h + 8);
+  };
+  const total = shapes.reduce((a, s) => a + est(s), 0);
+  let done = 0, last = 0, verts = 0;
+  for (const s of shapes) {
+    const m = build(s, n => { done += n; const p = Math.min(0.99, done / total); if (p - last > 0.01) { last = p; post({ type: 'progress', p, verts }); } });
+    verts += m.pos.length / 3;
+    post({ type: 'mesh', id: s.id, pos: m.pos, nor: m.nor, idx: m.idx }, [m.pos.buffer, m.nor.buffer, m.idx.buffer]);
+  }
+  post({ type: 'done', verts });
+}
+
+if (typeof self !== 'undefined' && typeof document === 'undefined') {
+  self.onmessage = e => run(e.data.shapes, (m, tr) => self.postMessage(m, tr || []));
+}
+
+/* ---------- utilities ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const num = v => (v === null || v === undefined || v === '' || !isFinite(+v)) ? null : +v;
+const pad2 = n => String(n).padStart(2, '0');
+const iso = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const todayISO = () => iso(new Date());
+const parseD = s => { const [y, m, d] = String(s).split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+const dayDiff = (a, b) => Math.round((parseD(a) - parseD(b)) / 864e5);
+const addDays = (s, n) => { const d = parseD(s); d.setDate(d.getDate() + n); return iso(d); };
+const addPeriod = (s, r) => { if (r === 'daily') return addDays(s, 1); if (r === 'weekly') return addDays(s, 7); const d = parseD(s); d.setMonth(d.getMonth() + 1); return iso(d); };
+const isMonth = s => /^\d{4}-\d{2}$/.test(s || '');
+const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') && !isNaN(parseD(s));
+const fmtD = s => s ? String(s).replaceAll('-', '.') : '';
+const fmtMD = s => { const d = parseD(s); return `${d.getMonth() + 1}月${d.getDate()}日`; };
+const WK = '日一二三四五六';
+const nf = (v, d = 0) => Number(v).toLocaleString('zh-CN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const byDate = k => (a, b) => a[k] < b[k] ? -1 : a[k] > b[k] ? 1 : 0;
+const strip = o => { const { id, ...r } = o; return r; };
+
+/* ---------- vocabulary ---------- */
+const PART = Object.fromEntries(PARTS.map(p => [p.id, p]));
+const SEVN = ['正常', '留意', '轻度', '中度', '严重'];
+const SEVC = ['#9FD8FF', '#FADB5F', '#FF8C1A', '#EF3E36', '#C8157E'];
+const STATUS = { active: '进行中', improving: '好转中', resolved: '已解决' };
+const SOURCES = ['体检', '就诊', '自述'];
+const SIDEN = { '': '双侧', L: '左侧', R: '右侧' };
+const VT = {
+  weight: { name: '体重', unit: 'kg', d: 1, min: 20, max: 300, part: '' },
+  rhr: { name: '静息心率', unit: 'bpm', d: 0, min: 25, max: 220, part: 'heart' },
+  bp: { name: '血压', unit: 'mmHg', d: 0, min: 50, max: 260, part: 'heart' },
+  sleep: { name: '睡眠', unit: '小时', d: 1, min: 0, max: 16, part: 'brain' },
+  steps: { name: '日均步数', unit: '步', d: 0, min: 0, max: 100000, part: '' }
+};
+const VT_ORDER = ['weight', 'rhr', 'bp', 'sleep', 'steps'];
+const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '眼科', '其他'];
+const LAB_PRESETS = [
+  { key: 'TC', name: '总胆固醇', unit: 'mmol/L', low: null, high: 5.2, cat: '血脂', part: 'heart' },
+  { key: 'TG', name: '甘油三酯', unit: 'mmol/L', low: null, high: 1.7, cat: '血脂', part: 'heart' },
+  { key: 'LDL-C', name: '低密度脂蛋白胆固醇', unit: 'mmol/L', low: null, high: 3.4, cat: '血脂', part: 'heart' },
+  { key: 'HDL-C', name: '高密度脂蛋白胆固醇', unit: 'mmol/L', low: 1.0, high: null, cat: '血脂', part: 'heart' },
+  { key: 'ALT', name: '谷丙转氨酶', unit: 'U/L', low: 9, high: 50, cat: '肝功能', part: 'liver' },
+  { key: 'AST', name: '谷草转氨酶', unit: 'U/L', low: 15, high: 40, cat: '肝功能', part: 'liver' },
+  { key: 'GGT', name: 'γ-谷氨酰转移酶', unit: 'U/L', low: 10, high: 60, cat: '肝功能', part: 'liver' },
+  { key: 'TBIL', name: '总胆红素', unit: 'μmol/L', low: 3.4, high: 20.5, cat: '肝功能', part: 'liver' },
+  { key: 'ALB', name: '白蛋白', unit: 'g/L', low: 40, high: 55, cat: '肝功能', part: 'liver' },
+  { key: 'Cr', name: '肌酐', unit: 'μmol/L', low: 57, high: 111, cat: '肾功能', part: 'kidneys' },
+  { key: 'UA', name: '尿酸', unit: 'μmol/L', low: 208, high: 428, cat: '肾功能', part: 'kidneys' },
+  { key: 'BUN', name: '尿素', unit: 'mmol/L', low: 3.1, high: 8.0, cat: '肾功能', part: 'kidneys' },
+  { key: 'eGFR', name: '估算肾小球滤过率', unit: 'mL/min/1.73m²', low: 90, high: null, cat: '肾功能', part: 'kidneys' },
+  { key: 'FPG', name: '空腹血糖', unit: 'mmol/L', low: 3.9, high: 6.1, cat: '血糖', part: 'pancreas' },
+  { key: 'HbA1c', name: '糖化血红蛋白', unit: '%', low: 4.0, high: 6.0, cat: '血糖', part: 'pancreas' },
+  { key: 'Hb', name: '血红蛋白', unit: 'g/L', low: 130, high: 175, cat: '血常规', part: '' },
+  { key: 'WBC', name: '白细胞计数', unit: '×10⁹/L', low: 3.5, high: 9.5, cat: '血常规', part: '' },
+  { key: 'PLT', name: '血小板计数', unit: '×10⁹/L', low: 125, high: 350, cat: '血常规', part: '' },
+  { key: 'TSH', name: '促甲状腺激素', unit: 'mIU/L', low: 0.27, high: 4.2, cat: '甲状腺', part: 'thyroid' },
+  { key: 'FT4', name: '游离甲状腺素', unit: 'pmol/L', low: 12, high: 22, cat: '甲状腺', part: 'thyroid' },
+  { key: 'UBT', name: 'C13 尿素呼气试验', unit: 'DOB', low: null, high: 4.0, cat: '感染', part: 'stomach' },
+  { key: 'AFP', name: '甲胎蛋白', unit: 'ng/mL', low: null, high: 7, cat: '肿瘤标志物', part: 'liver' },
+  { key: 'CEA', name: '癌胚抗原', unit: 'ng/mL', low: null, high: 5, cat: '肿瘤标志物', part: 'colon' },
+  { key: 'PSA', name: '前列腺特异性抗原', unit: 'ng/mL', low: null, high: 4, cat: '肿瘤标志物', part: 'bladder' },
+  { key: '25OHD', name: '25-羟基维生素 D', unit: 'ng/mL', low: 30, high: 100, cat: '维生素', part: '' },
+  { key: 'IOP', name: '眼压', unit: 'mmHg', low: 10, high: 21, cat: '眼科', part: 'eyes' }
+];
+const PLAN_KINDS = { recheck: '复查', med: '用药', exercise: '运动', habit: '习惯' };
+const REPEATS = { '': '不重复', daily: '每天', weekly: '每周', monthly: '每月' };
+
+/* ---------- data ---------- */
+const COLS = ['issues', 'vitals', 'labs', 'plans'];
+const LSK = { issues: 'bos-issues', vitals: 'bos-vitals', labs: 'bos-labs', plans: 'bos-plans', profile: 'bos-profile', ui: 'bos-ui' };
+const EX = JSON.parse($('examples').textContent);
+const D = { issues: [], vitals: [], labs: [], plans: [], profile: null };
+let mode = 'init', DB = null, RO = false;
+
+function clean(col, arr) {
+  const out = [];
+  for (const r of Array.isArray(arr) ? arr : []) {
+    if (!r || typeof r !== 'object' || !r.id) continue;
+    if (col === 'issues') {
+      if (!PART[r.part] || !r.title) continue;
+      out.push({ ...r, title: String(r.title), sev: clamp(Math.round(+r.sev || 1), 1, 4), status: STATUS[r.status] ? r.status : 'active', side: PART[r.part].pair && (r.side === 'L' || r.side === 'R') ? r.side : '', since: isMonth(r.since) ? r.since : '', source: SOURCES.includes(r.source) ? r.source : '自述', note: String(r.note || '') });
+    } else if (col === 'vitals') {
+      if (!VT[r.type] || !isDate(r.date) || num(r.value) === null) continue;
+      if (r.type === 'bp' && num(r.value2) === null) continue;
+      out.push({ ...r, value: +r.value, value2: r.type === 'bp' ? +r.value2 : null, note: String(r.note || '') });
+    } else if (col === 'labs') {
+      if (!r.name || num(r.value) === null || !isDate(r.date)) continue;
+      out.push({ ...r, name: String(r.name), key: String(r.key || r.name), value: +r.value, low: num(r.low), high: num(r.high), part: PART[r.part] ? r.part : '', cat: LAB_CATS.includes(r.cat) ? r.cat : '其他', unit: String(r.unit || '') });
+    } else if (col === 'plans') {
+      if (!r.title || !isDate(r.due)) continue;
+      out.push({ ...r, title: String(r.title), kind: PLAN_KINDS[r.kind] ? r.kind : 'recheck', repeat: REPEATS[r.repeat] !== undefined ? r.repeat : '', part: PART[r.part] ? r.part : '', done: !!r.done, note: String(r.note || '') });
+    }
+  }
+  return out;
+}
+function cleanProfile(p) {
+  if (!p || typeof p !== 'object') return null;
+  return { name: String(p.name || '').slice(0, 20), sex: '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), example: !!p.example };
+}
+function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
+function loadLocal() {
+  for (const c of COLS) { const v = lsGet(LSK[c]); D[c] = clean(c, Array.isArray(v) ? v : EX[c]); }
+  const p = lsGet(LSK.profile);
+  D.profile = cleanProfile(p === null ? EX.profile : p);
+}
+function saveLocal(c) { lsSet(LSK[c], c === 'profile' ? (D.profile || false) : D[c]); }
+
+function setSync(t, warn) { $('sync').classList.toggle('local', !!warn); $('sync').querySelector('span').textContent = t; }
+
+async function connect() {
+  let db = null;
+  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
+  if (!db) { mode = 'local'; setSync('本地模式 · 只保存在此浏览器', true); renderAll(); return; }
+  DB = db; mode = 'db'; setSync('已同步到云端');
+  for (const c of COLS) {
+    DB.collection(c).onSnapshot(s => { D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll(); }, () => setSync('同步中断，显示最后一次数据', true));
+  }
+  DB.doc('profile/me').onSnapshot(s => { D.profile = s.exists ? cleanProfile(s.data()) : null; renderAll(); }, () => { });
+}
+function guardWrite() {
+  if (RO) return false;
+  if (mode === 'init') { toast('正在连接数据，请稍候再试'); return false; }
+  return true;
+}
+async function add(c, obj) {
+  if (mode === 'db') { const r = DB.collection(c).doc(); await r.set(obj); return r.id; }
+  const id = c[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  D[c] = [...D[c], { id, ...obj }]; saveLocal(c); renderAll(); return id;
+}
+async function put(c, id, obj) {
+  if (mode === 'db') return DB.doc(c + '/' + id).set(obj);
+  D[c] = D[c].map(x => x.id === id ? { id, ...obj } : x); saveLocal(c); renderAll();
+}
+async function del(c, id) {
+  if (mode === 'db') return DB.doc(c + '/' + id).delete();
+  D[c] = D[c].filter(x => x.id !== id); saveLocal(c); renderAll();
+}
+async function putProfile(obj) {
+  if (mode === 'db') return obj ? DB.doc('profile/me').set(obj) : DB.doc('profile/me').delete();
+  D.profile = obj; saveLocal('profile'); renderAll();
+}
+function fail(e) {
+  if (e && e.code === 'invalid_argument') { RO = true; document.body.classList.add('ro'); closeForm(); renderAll(); toast('你只有查看权限，无法修改这份健康档案'); }
+  else if (e && e.code === 'quota_exceeded') toast('存储已满，请先删除一些旧记录');
+  else if (typeof e === 'string') throw e;
+  else toast('保存失败，请检查网络后再试');
+}
+
+/* ---------- derived facts ---------- */
+let SM = {};
+function sevMap() {
+  const m = {};
+  for (const i of D.issues) {
+    if (i.status === 'resolved') continue;
+    const p = m[i.part] || (m[i.part] = { L: 0, R: 0, all: 0, n: 0 });
+    p.n++; p.all = Math.max(p.all, i.sev);
+    if (i.side !== 'R') p.L = Math.max(p.L, i.sev);
+    if (i.side !== 'L') p.R = Math.max(p.R, i.sev);
+  }
+  return m;
+}
+const partSev = id => SM[id] ? SM[id].all : 0;
+const sideSev = (id, side) => { const s = SM[id]; if (!s) return 0; return side === 'L' ? s.L : side === 'R' ? s.R : s.all; };
+const series = t => D.vitals.filter(v => v.type === t).sort(byDate('date'));
+const latestV = t => { const s = series(t); return s[s.length - 1] || null; };
+const curWeight = () => latestV('weight')?.value ?? D.profile?.weight ?? null;
+const curRhr = () => latestV('rhr')?.value ?? D.profile?.rhr ?? null;
+function bmiVal() { const h = D.profile?.height, w = curWeight(); return h && w ? w / ((h / 100) ** 2) : null; }
+function ageVal() {
+  const b = D.profile?.birth; if (!isMonth(b)) return null;
+  const [y, m] = b.split('-').map(Number), n = new Date();
+  return n.getFullYear() - y - (n.getMonth() + 1 < m ? 1 : 0);
+}
+// reference standards: BMI WS/T 428-2013; BP 中国高血压防治指南 2018; sleep AASM 7–9 h; RHR 60–100
+const bmiTag = b => b == null ? null : b < 18.5 ? { t: '偏瘦', s: 2 } : b < 24 ? { t: '正常', s: 0 } : b < 28 ? { t: '超重', s: 1 } : { t: '肥胖', s: 2 };
+const rhrTag = v => v == null ? null : v < 50 ? { t: '偏慢', s: 1 } : v < 60 ? { t: '偏慢', s: 0 } : v <= 100 ? { t: '正常', s: 0 } : { t: '偏快', s: 2 };
+const bpTag = (s, d) => s == null ? null : (s >= 160 || d >= 100) ? { t: '高血压 2 级', s: 3 } : (s >= 140 || d >= 90) ? { t: '高血压 1 级', s: 2 } : (s >= 120 || d >= 80) ? { t: '正常高值', s: 1 } : { t: '正常', s: 0 };
+const sleepTag = v => v == null ? null : v < 6 ? { t: '明显不足', s: 2 } : v < 7 ? { t: '偏少', s: 1 } : v <= 9 ? { t: '正常', s: 0 } : { t: '偏多', s: 1 };
+const stepsTag = v => v == null ? null : v >= 7000 ? { t: '达标', s: 0 } : { t: '偏少', s: 1 };
+function vitalTag(t, v) {
+  if (!v) return null;
+  if (t === 'weight') return bmiTag(bmiVal()) && { t: 'BMI ' + nf(bmiVal(), 1) + ' ' + bmiTag(bmiVal()).t, s: bmiTag(bmiVal()).s };
+  if (t === 'rhr') return rhrTag(v.value);
+  if (t === 'bp') return bpTag(v.value, v.value2);
+  if (t === 'sleep') return sleepTag(v.value);
+  if (t === 'steps') return stepsTag(v.value);
+}
+const tagPill = tg => tg ? `<span class="pill ${tg.s ? 's' + tg.s : 'ok'}"><i></i>${esc(tg.t)}</span>` : '';
+const sevPill = (s, txt) => s ? `<span class="pill s${s}"><i></i>${txt || SEVN[s]}</span>` : `<span class="pill ok"><i></i>${txt || '正常'}</span>`;
+function labStatus(l) {
+  if (l.high != null && l.value > l.high) return { t: '偏高', dir: 1 };
+  if (l.low != null && l.value < l.low) return { t: '偏低', dir: -1 };
+  return { t: '正常', dir: 0 };
+}
+const labPill = l => { const s = labStatus(l); return s.dir ? `<span class="pill s2"><i></i>${s.t} ${s.dir > 0 ? '↑' : '↓'}</span>` : `<span class="pill ok"><i></i>正常</span>`; };
+const refText = l => l.low != null && l.high != null ? `${l.low}–${l.high}` : l.high != null ? `≤ ${l.high}` : l.low != null ? `≥ ${l.low}` : '未填';
+function labGroups() { // latest + history per indicator key
+  const g = {};
+  for (const l of D.labs) (g[l.key] || (g[l.key] = [])).push(l);
+  return Object.values(g).map(a => { a.sort(byDate('date')); return { latest: a[a.length - 1], prev: a[a.length - 2] || null, all: a }; });
+}
+const lastReport = () => D.labs.reduce((m, l) => l.date > m ? l.date : m, '');
+function planStatus(p) {
+  if (p.done) return { t: '已完成', c: 'mute', g: 'done' };
+  const d = dayDiff(p.due, todayISO());
+  if (d < 0) return { t: `逾期 ${-d} 天`, c: 's3', g: 'overdue' };
+  if (d === 0) return { t: '今天', c: 's1', g: 'today' };
+  if (d <= 7) return { t: `还有 ${d} 天`, c: 'plan', g: 'week' };
+  return { t: fmtMD(p.due), c: '', g: 'later' };
+}
+const planPill = p => { const s = planStatus(p); return `<span class="pill ${s.c}">${s.c && s.c[0] === 's' ? '<i></i>' : ''}${esc(s.t)}</span>`; };
+const partName = id => id ? PART[id].name : '全身';
+
+/* ---------- UI state ---------- */
+const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null };
+{
+  const u = lsGet(LSK.ui);
+  if (u && ['issue', 'vital', 'lab', 'plan'].includes(u.mod)) ST.mod = u.mod;
+  if (u && u.grp) Object.assign(ST.grp, u.grp);
+}
+const saveUI = () => lsSet(LSK.ui, { mod: ST.mod, grp: ST.grp });
+let armTimer = 0;
+function arm(key) { ST.armed = key; clearTimeout(armTimer); armTimer = setTimeout(() => { ST.armed = null; renderAll(); }, 3200); }
+const armed = key => ST.armed === key;
+
+/* ---------- sidebar ---------- */
+const stat = (v, l, cls) => `<div class="stat"><b class="num ${cls || ''}">${v}</b><span>${l}</span></div>`;
+const zoneOf = id => id ? PART[id].zone : '';
+function inZone(partId) { return G.zone === 'all' || zoneOf(partId) === G.zone; }
+function match(...fields) { const q = ST.q.trim().toLowerCase(); return !q || fields.some(f => String(f || '').toLowerCase().includes(q)); }
+
+function renderSide() {
+  document.querySelectorAll('.mods button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mod === ST.mod)));
+  $('n-issue').textContent = D.issues.filter(i => i.status !== 'resolved').length || '';
+  $('n-vital').textContent = D.vitals.length || '';
+  $('n-lab').textContent = labGroups().filter(g => labStatus(g.latest).dir).length || '';
+  $('n-plan').textContent = D.plans.filter(p => !p.done).length || '';
+  const segMap = { issue: ['分区', '严重度'], lab: ['分类', '异常优先'] };
+  const seg = segMap[ST.mod];
+  $('seg').hidden = !seg || !!(ST.mod === 'vital' && ST.vt);
+  if (seg) {
+    $('g-a').textContent = seg[0]; $('g-b').textContent = seg[1];
+    const b = ST.grp[ST.mod] !== (ST.mod === 'issue' ? 'zone' : 'cat');
+    $('g-a').setAttribute('aria-pressed', String(!b)); $('g-b').setAttribute('aria-pressed', String(b));
+  }
+  $('tools').hidden = ST.mod === 'vital';
+  $('q').placeholder = { issue: '搜索问题、部位', vital: '', lab: '搜索指标，如 ALT、尿酸', plan: '搜索计划' }[ST.mod];
+  $('addLbl').textContent = { issue: '记录问题', vital: '记录体征', lab: '录入指标', plan: '新建计划' }[ST.mod];
+  const zc = $('zchip');
+  zc.hidden = G.zone === 'all' || ST.mod === 'vital';
+  if (!zc.hidden) zc.innerHTML = `只看 <button type="button" data-act="zall" aria-label="取消筛选，查看全身">${ZONES[G.zone].name}<i>×</i></button>`;
+  $('exNotice').hidden = RO || !(COLS.some(c => D[c].some(x => x.example)) || D.profile?.example);
+  ({ issue: sideIssue, vital: sideVital, lab: sideLab, plan: sidePlan })[ST.mod]();
+}
+
+function sideIssue() {
+  const act = D.issues.filter(i => i.status !== 'resolved');
+  const parts = new Set(act.map(i => i.part));
+  $('stats').innerHTML = stat(parts.size, '需关注部位') + stat(act.length, '未解决问题') + stat(act.filter(i => i.sev >= 3).length, '中度及以上') + stat(D.issues.length - act.length, '已解决');
+  const worst = [...act].sort((a, b) => b.sev - a.sev || (b.since > a.since ? 1 : -1))[0];
+  if (worst) {
+    const next = D.plans.filter(p => !p.done && p.part === worst.part).sort(byDate('due'))[0];
+    $('trail').innerHTML = `最需要处理：<b>${esc(PART[worst.part].name)} · ${esc(worst.title)}</b>（${SEVN[worst.sev]}）${next ? `，下一步 ${fmtMD(next.due)} ${esc(next.title)}` : ''}`;
+  } else $('trail').textContent = D.issues.length ? '所有问题都已解决。' : '还没有记录问题。点身体上的部位，或用下方按钮记录。';
+  const list = D.issues.filter(i => inZone(i.part) && match(i.title, PART[i.part].name, i.note, PART[i.part].sys));
+  const ord = (a, b) => (a.status === 'resolved') - (b.status === 'resolved') || b.sev - a.sev || (b.since > a.since ? 1 : -1);
+  let groups;
+  if (ST.grp.issue === 'zone') groups = Object.entries(ZONES).map(([z, info]) => [info.name, list.filter(i => PART[i.part].zone === z).sort(ord)]);
+  else groups = [4, 3, 2, 1].map(s => [SEVN[s], list.filter(i => i.status !== 'resolved' && i.sev === s).sort(ord)]).concat([['已解决', list.filter(i => i.status === 'resolved').sort(ord)]]);
+  groups = groups.filter(g => g[1].length);
+  $('list').innerHTML = groups.length ? groups.map(([h, a]) => `<div class="group-h"><span>${h}</span><span class="num">${a.length}</span></div>` + a.map(i => {
+    const res = i.status === 'resolved', cur = ST.sel && ST.sel.issue === i.id;
+    return `<button class="item${res ? ' done' : ''}" data-act="issue" data-id="${esc(i.id)}" aria-current="${cur}"><i class="dot ${res ? 'res' : 's' + i.sev}"></i><div><div class="nm">${esc(i.title)}</div><div class="sub">${esc(PART[i.part].name)}${i.side ? ' · ' + SIDEN[i.side] : ''} · ${STATUS[i.status]}${i.since ? ' · 自 ' + fmtD(i.since) : ''}</div></div>${res ? '<span class="pill mute">已解决</span>' : sevPill(i.sev)}</button>`;
+  }).join('')).join('') : `<div class="empty">${ST.q ? '没有匹配的问题' : G.zone !== 'all' ? `${ZONES[G.zone].name}没有记录问题` : '还没有记录问题'}</div>`;
+}
+
+function spark(vals) {
+  if (vals.length < 2) return '<svg viewBox="0 0 128 40"></svg>';
+  const w = 128, h = 40, p = 5, mn = Math.min(...vals), mx = Math.max(...vals), sp = mx - mn || 1;
+  const pts = vals.map((v, i) => [p + i * (w - 2 * p) / (vals.length - 1), h - p - (v - mn) / sp * (h - 2 * p)]);
+  const d = pts.map((q, i) => (i ? 'L' : 'M') + q[0].toFixed(1) + ',' + q[1].toFixed(1)).join('');
+  const e = pts[pts.length - 1];
+  return `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}L${e[0].toFixed(1)},${h}L${p},${h}Z" style="fill:var(--c-vital);opacity:.1"/><path d="${d}" style="fill:none;stroke:var(--c-vital);stroke-width:2;stroke-linecap:round;stroke-linejoin:round"/><circle cx="${e[0].toFixed(1)}" cy="${e[1].toFixed(1)}" r="4" style="fill:var(--c-vital);stroke:var(--bg);stroke-width:2"/></svg>`;
+}
+const vfmt = (t, v) => t === 'bp' ? `${v.value}/${v.value2}` : nf(v.value, VT[t].d);
+function delta30(t) {
+  const s = series(t); if (s.length < 2) return null;
+  const last = s[s.length - 1], target = addDays(last.date, -30);
+  let best = null;
+  for (const v of s) if (v !== last && (best === null || Math.abs(dayDiff(v.date, target)) < Math.abs(dayDiff(best.date, target)))) best = v;
+  return best ? { d: last.value - best.value, days: dayDiff(last.date, best.date) } : null;
+}
+function sideVital() {
+  const w = latestV('weight'), h = latestV('rhr'), b = latestV('bp'), bm = bmiVal();
+  $('stats').innerHTML = stat(w ? nf(w.value, 1) : '—', '体重 kg') + stat(bm ? nf(bm, 1) : '—', 'BMI') + stat(h ? h.value : '—', '心率 bpm') + stat(b ? `${b.value}/${b.value2}` : '—', '血压 mmHg', 'sm');
+  const dw = delta30('weight'), bt = b && bpTag(b.value, b.value2);
+  const bits = [];
+  if (dw) bits.push(`近 ${dw.days} 天体重 <b>${dw.d > 0 ? '+' : dw.d < 0 ? '−' : '±'}${nf(Math.abs(dw.d), 1)} kg</b>`);
+  if (bt) bits.push(`血压 ${b.value}/${b.value2} mmHg 属<b>${bt.t}</b>（正常高值 120–139/80–89）`);
+  $('trail').innerHTML = bits.join('，') || '还没有体征记录。';
+  if (ST.vt) return vitalDetail(ST.vt);
+  $('list').innerHTML = VT_ORDER.map(t => {
+    const s = series(t), last = s[s.length - 1], cur = VT[t];
+    const vals = s.map(v => v.value);
+    return `<button class="vcard" data-act="vt" data-type="${t}"><div class="vh"><i class="kd k-vital"></i><b>${cur.name}</b>${tagPill(vitalTag(t, last))}</div><div class="vv">${last ? `<b>${vfmt(t, last)}</b>${cur.unit}` : '<b>—</b>'}</div>${spark(vals.slice(-12))}<div class="vd">${last ? `${fmtMD(last.date)} · 共 ${s.length} 条` : '暂无记录，点这里添加'}</div></button>`;
+  }).join('') + '<p class="note">参考标准：BMI 按国家卫生行业标准 WS/T 428-2013；血压分级按《中国高血压防治指南（2018）》；成人睡眠 7–9 小时（AASM）；静息心率 60–100 次/分。</p>';
+}
+const CH = {};
+function bandOf(t) {
+  const h = D.profile?.height;
+  if (t === 'weight' && h) return { lo: 18.5 * (h / 100) ** 2, hi: 23.9 * (h / 100) ** 2, label: 'BMI 正常' };
+  if (t === 'rhr') return { lo: 60, hi: 100, label: '正常 60–100' };
+  if (t === 'sleep') return { lo: 7, hi: 9, label: '建议 7–9 小时' };
+  if (t === 'steps') return { lo: 7000, hi: null, label: '7,000 步' };
+  if (t === 'bp') return { lines: [[140, '收缩压 140'], [90, '舒张压 90']] };
+  return null;
+}
+function niceTicks(lo, hi, n) {
+  const span = hi - lo || 1, step0 = span / n, mag = 10 ** Math.floor(Math.log10(step0)), r = step0 / mag;
+  const step = (r < 1.5 ? 1 : r < 3 ? 2 : r < 7 ? 5 : 10) * mag;
+  const a = Math.floor(lo / step) * step, b = Math.ceil(hi / step) * step, out = [];
+  for (let v = a; v <= b + step * 1e-6; v += step) out.push(+v.toFixed(6));
+  return out;
+}
+function bigChart(t) {
+  const s = series(t);
+  if (s.length < 2) return `<div class="chart"><div class="empty">至少需要 2 条记录才能画趋势</div></div>`;
+  const W = 340, H = 180, m = { l: 40, r: 16, t: 14, b: 26 };
+  const ys = t === 'bp' ? [...s.map(v => v.value), ...s.map(v => v.value2)] : s.map(v => v.value);
+  let lo = Math.min(...ys), hi = Math.max(...ys);
+  const band = bandOf(t), span = hi - lo || Math.abs(hi) * 0.1 || 1;
+  if (band && band.lines) { for (const [v] of band.lines) { if (v > hi && v - hi < span * 1.2) hi = v; if (v < lo && lo - v < span * 1.2) lo = v; } }
+  else if (band) {
+    if (band.hi != null && band.hi < lo) lo = Math.max(band.hi, lo - span * 1.2);
+    else if (band.lo > hi) hi = Math.min(band.lo, hi + span * 1.2);
+    else { lo = Math.min(lo, Math.max(band.lo, lo - span * 0.5)); if (band.hi != null) hi = Math.max(hi, Math.min(band.hi, hi + span * 0.5)); }
+  }
+  const ticks = niceTicks(lo - span * 0.08, hi + span * 0.08, 4);
+  const y0 = ticks[0], y1 = ticks[ticks.length - 1];
+  const t0 = parseD(s[0].date).getTime(), t1 = parseD(s[s.length - 1].date).getTime();
+  const X = d => m.l + (parseD(d).getTime() - t0) / ((t1 - t0) || 1) * (W - m.l - m.r);
+  const Y = v => m.t + (1 - (v - y0) / ((y1 - y0) || 1)) * (H - m.t - m.b);
+  let g = '';
+  for (const v of ticks) g += `<line class="axl" x1="${m.l}" x2="${W - m.r}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}"/><text class="ax" x="${m.l - 6}" y="${(Y(v) + 4).toFixed(1)}" text-anchor="end">${nf(v, v % 1 ? 1 : 0)}</text>`;
+  if (band && !band.lines) {
+    const a = Y(Math.min(y1, band.hi ?? y1)), b = Y(Math.max(y0, band.lo));
+    if (b > a) g += `<rect x="${m.l}" y="${a.toFixed(1)}" width="${W - m.l - m.r}" height="${(b - a).toFixed(1)}" style="fill:var(--band)"/><text class="bandlbl" x="${W - m.r - 4}" y="${(a + 13).toFixed(1)}" text-anchor="end">${band.label}</text>`;
+  }
+  if (band && band.lines) for (const [v, l] of band.lines) if (v >= y0 && v <= y1) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" style="stroke:var(--s3);stroke-width:1;opacity:.55"/><text class="bandlbl" x="${m.l + 4}" y="${(Y(v) - 4).toFixed(1)}">${l}</text>`;
+  g += `<text class="ax" x="${m.l}" y="${H - 6}">${fmtD(s[0].date).slice(5)}</text><text class="ax" x="${W - m.r}" y="${H - 6}" text-anchor="end">${fmtD(s[s.length - 1].date).slice(5)}</text>`;
+  const line = (key, cls) => s.map((v, i) => (i ? 'L' : 'M') + X(v.date).toFixed(1) + ',' + Y(v[key]).toFixed(1)).join('');
+  const L1 = line('value');
+  const last = s[s.length - 1];
+  if (t !== 'bp') g += `<path d="${L1}L${X(last.date).toFixed(1)},${Y(y0).toFixed(1)}L${m.l},${Y(y0).toFixed(1)}Z" style="fill:var(--c-vital);opacity:.1"/>`;
+  g += `<path d="${L1}" style="fill:none;stroke:var(--c-vital);stroke-width:2;stroke-linecap:round;stroke-linejoin:round"/>`;
+  if (t === 'bp') g += `<path d="${line('value2')}" style="fill:none;stroke:var(--c-lab);stroke-width:2;stroke-linecap:round;stroke-linejoin:round"/><circle cx="${X(last.date).toFixed(1)}" cy="${Y(last.value2).toFixed(1)}" r="4" style="fill:var(--c-lab);stroke:var(--bg);stroke-width:2"/>`;
+  g += `<circle cx="${X(last.date).toFixed(1)}" cy="${Y(last.value).toFixed(1)}" r="4" style="fill:var(--c-vital);stroke:var(--bg);stroke-width:2"/>`;
+  g += `<line id="chx" x1="0" x2="0" y1="${m.t}" y2="${H - m.b}" style="stroke:var(--faint);stroke-width:1" visibility="hidden"/>`;
+  CH.cur = { t, s, X, W, H };
+  const lg = t === 'bp' ? `<div class="lgd"><span><i style="background:var(--c-vital)"></i>收缩压</span><span><i style="background:var(--c-lab)"></i>舒张压</span></div>` : '';
+  return `<div class="chart" id="chart">${lg}<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${VT[t].name}趋势，${s.length} 条记录">${g}</svg><div class="tip" id="ctip" hidden></div></div>`;
+}
+function vitalDetail(t) {
+  const s = series(t), cur = VT[t], last = s[s.length - 1];
+  const recs = [...s].reverse().map(v => `<div class="rec"><span class="num">${fmtD(v.date)}</span><span><span class="num">${vfmt(t, v)}</span> <small>${cur.unit}${v.note ? ' · ' + esc(v.note) : ''}</small></span><button class="ib${armed('v' + v.id) ? ' arm' : ''}" data-act="vdel" data-id="${esc(v.id)}" data-w aria-label="删除这条记录">${armed('v' + v.id) ? '确认删除' : '×'}</button></div>`).join('');
+  $('list').innerHTML = `<button class="back" data-act="vback">‹ 全部体征</button><div class="dhead"><div><h2>${cur.name}</h2><div class="meta">${last ? `最新 ${vfmt(t, last)} ${cur.unit} · ${fmtMD(last.date)}` : '暂无记录'}</div></div>${tagPill(vitalTag(t, last))}</div>${bigChart(t)}<div class="tacts" data-w><button class="btn primary sm" data-act="vadd" data-type="${t}">＋ 记录${cur.name}</button></div>${recs || '<div class="empty">还没有记录</div>'}`;
+  const ch = $('chart'); if (!ch) return;
+  const svg = ch.querySelector('svg');
+  const move = e => {
+    const c = CH.cur; if (!c) return;
+    const r = svg.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * c.W;
+    let bi = 0, bd = 1e9; c.s.forEach((v, i) => { const d = Math.abs(c.X(v.date) - x); if (d < bd) { bd = d; bi = i; } });
+    const v = c.s[bi], px = c.X(v.date);
+    const ln = $('chx'); ln.setAttribute('x1', px); ln.setAttribute('x2', px); ln.setAttribute('visibility', 'visible');
+    const tip = $('ctip'); tip.hidden = false;
+    tip.innerHTML = `${fmtD(v.date)} · <b class="num">${vfmt(c.t, v)}</b> ${VT[c.t].unit}`;
+    const left = px / c.W * r.width + (r.left - ch.getBoundingClientRect().left);
+    tip.style.left = clamp(left - tip.offsetWidth / 2, 4, ch.clientWidth - tip.offsetWidth - 4) + 'px'; tip.style.top = '6px';
+  };
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerleave', () => { $('ctip').hidden = true; $('chx').setAttribute('visibility', 'hidden'); });
+}
+
+function rangeSvg(l, W, H, big) {
+  const v = l.value;
+  const a0 = l.low ?? Math.min(v, l.high ?? v) * 0.5, b0 = l.high ?? Math.max(v, l.low ?? v) * 1.6;
+  let lo = Math.min(a0, v), hi = Math.max(b0, v); const sp = hi - lo || 1; lo -= sp * 0.08; hi += sp * 0.08;
+  const X = x => 6 + (x - lo) / (hi - lo) * (W - 12);
+  const nl = X(l.low ?? lo), nh = X(l.high ?? hi), st = labStatus(l);
+  const cy = big ? 16 : H / 2, th = big ? 10 : 6;
+  let s = `<rect class="trk" x="6" y="${cy - th / 2}" width="${W - 12}" height="${th}" rx="${th / 2}"/><rect class="nrm" x="${nl.toFixed(1)}" y="${cy - th / 2}" width="${Math.max(2, nh - nl).toFixed(1)}" height="${th}" rx="${th / 2}"/>`;
+  if (big) {
+    if (l.low != null) s += `<text class="ax" x="${nl.toFixed(1)}" y="${cy + 24}" text-anchor="middle">${l.low}</text>`;
+    if (l.high != null) s += `<text class="ax" x="${nh.toFixed(1)}" y="${cy + 24}" text-anchor="middle">${l.high}</text>`;
+  }
+  s += `<circle class="mk" cx="${X(v).toFixed(1)}" cy="${cy}" r="${big ? 6 : 4.5}" style="fill:${st.dir ? 'var(--s2)' : 'var(--ink)'}"/>`;
+  return `<svg class="${big ? '' : 'rbar'}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${s}</svg>`;
+}
+function sideLab() {
+  const gs = labGroups(), abn = gs.filter(g => labStatus(g.latest).dir), lr = lastReport();
+  const parts = new Set(abn.map(g => g.latest.part).filter(Boolean));
+  $('stats').innerHTML = stat(gs.length, '指标') + stat(abn.length, '异常') + stat(parts.size, '涉及部位') + stat(lr ? fmtD(lr).slice(0, 7) : '—', '最近体检', 'sm');
+  const worse = gs.filter(g => g.prev && labStatus(g.latest).dir && (g.latest.value - g.prev.value) * labStatus(g.latest).dir > 0);
+  $('trail').innerHTML = worse.length ? `对比 ${fmtD(worse[0].prev.date).slice(0, 7)}，继续变差：` + worse.slice(0, 3).map(g => `<b>${esc(g.latest.key)} ${g.prev.value} → ${g.latest.value}</b>`).join('、') : abn.length ? `${abn.length} 项超出参考范围` : gs.length ? '全部指标在参考范围内' : '还没有体检指标。';
+  const list = gs.filter(g => inZone(g.latest.part) || (!g.latest.part && G.zone === 'all')).filter(g => match(g.latest.name, g.latest.key, g.latest.cat, partName(g.latest.part)));
+  const ord = (a, b) => (!!labStatus(b.latest).dir - !!labStatus(a.latest).dir) || a.latest.name.localeCompare(b.latest.name, 'zh');
+  let groups;
+  if (ST.grp.lab === 'cat') groups = LAB_CATS.map(c => [c, list.filter(g => g.latest.cat === c).sort(ord)]);
+  else groups = [['超出参考范围', list.filter(g => labStatus(g.latest).dir).sort(ord)], ['正常', list.filter(g => !labStatus(g.latest).dir).sort(ord)]];
+  groups = groups.filter(g => g[1].length);
+  $('list').innerHTML = groups.length ? groups.map(([h, a]) => `<div class="group-h"><span>${h}</span><span class="num">${a.filter(g => labStatus(g.latest).dir).length ? a.filter(g => labStatus(g.latest).dir).length + ' 异常 · ' : ''}${a.length}</span></div>` + a.map(g => {
+    const l = g.latest, cur = ST.sel && ST.sel.kind === 'lab' && ST.sel.key === l.key;
+    const ch = g.prev ? (l.value > g.prev.value ? '↑' : l.value < g.prev.value ? '↓' : '→') + ' 上次 ' + g.prev.value : '';
+    return `<button class="item lab" data-act="lab" data-key="${esc(l.key)}" aria-current="${cur}" style="grid-template-columns:minmax(0,1fr) auto"><div><div class="nm">${esc(l.name)}<span class="code">${esc(l.key)}</span></div><div class="lv"><b>${l.value}</b>${esc(l.unit)}${rangeSvg(l, 120, 14)}</div><div class="sub">${esc(partName(l.part))} · 参考 ${refText(l)}${ch ? ' · ' + ch : ''}</div></div>${labPill(l)}</button>`;
+  }).join('')).join('') : `<div class="empty">${ST.q ? '没有匹配的指标' : G.zone !== 'all' ? `${ZONES[G.zone].name}没有相关指标` : '还没有体检指标'}</div>`;
+}
+
+function sidePlan() {
+  const open = D.plans.filter(p => !p.done);
+  const st = open.map(planStatus);
+  $('stats').innerHTML = stat(open.length, '待办') + stat(st.filter(s => s.g === 'overdue').length, '已逾期') + stat(st.filter(s => s.g === 'today' || s.g === 'week').length, '7 天内') + stat(D.plans.length - open.length, '已完成');
+  const od = open.filter(p => planStatus(p).g === 'overdue').sort(byDate('due'))[0];
+  const nx = open.filter(p => planStatus(p).g !== 'overdue').sort(byDate('due'))[0];
+  $('trail').innerHTML = od ? `已逾期：<b>${esc(od.title)}</b>（${-dayDiff(od.due, todayISO())} 天）` : nx ? `下一项：<b>${esc(nx.title)}</b>，${planStatus(nx).t}` : D.plans.length ? '所有计划都已完成。' : '还没有计划。';
+  const list = D.plans.filter(p => inZone(p.part) || (!p.part && G.zone === 'all')).filter(p => match(p.title, p.note, partName(p.part), PLAN_KINDS[p.kind]));
+  const G5 = [['overdue', '已逾期'], ['today', '今天'], ['week', '7 天内'], ['later', '以后'], ['done', '已完成']];
+  const groups = G5.map(([g, h]) => [h, list.filter(p => planStatus(p).g === g).sort(byDate('due'))]).filter(g => g[1].length);
+  $('list').innerHTML = groups.length ? groups.map(([h, a]) => `<div class="group-h"><span>${h}</span><span class="num">${a.length}</span></div>` + a.map(p => {
+    const cur = ST.sel && ST.sel.plan === p.id;
+    return `<div class="prow"><button class="chk" data-act="chk" data-id="${esc(p.id)}" aria-pressed="${p.done}" aria-label="${p.done ? '标记为未完成' : p.repeat ? '打卡' : '标记完成'}：${esc(p.title)}"></button><button class="item${p.done ? ' done' : ''}" data-act="plan" data-id="${esc(p.id)}" aria-current="${cur}"><div><div class="nm">${esc(p.title)}</div><div class="sub">${PLAN_KINDS[p.kind]} · ${esc(partName(p.part))}${p.repeat ? ' · ' + REPEATS[p.repeat] : ''} · ${fmtMD(p.due)} 周${WK[parseD(p.due).getDay()]}</div></div>${planPill(p)}</button></div>`;
+  }).join('')).join('') : `<div class="empty">${ST.q ? '没有匹配的计划' : '还没有计划'}</div>`;
+}
+
+/* ---------- stage: profile, zone HUD, card ---------- */
+function renderProfile() {
+  const p = D.profile, el = $('profile');
+  const sevCount = [0, 0, 0, 0, 0];
+  for (const x of PARTS) sevCount[partSev(x.id)]++;
+  const seg = sevCount.map((n, s) => n ? `<i style="flex:${n};background:${SEVC[s]}" title="${SEVN[s]} ${n}"></i>` : '').join('');
+  const leg = sevCount.map((n, s) => `<span><i style="background:${SEVC[s]}"></i>${SEVN[s]} <b class="num">${n}</b></span>`).join('');
+  const sevBlock = `<div class="pf-sev"><div class="k"><span>${PARTS.length} 个部位状态</span><span>按最严重问题</span></div><div class="sevbar" role="img" aria-label="${sevCount.map((n, s) => SEVN[s] + ' ' + n).join('，')}">${seg}</div><div class="sevleg">${leg}</div></div>`;
+  if (!p) {
+    el.classList.remove('compact');
+    el.innerHTML = `<div class="pf-head"><div class="pf-ava">男</div><div><b>个人资料</b><small>还没填写</small></div></div><div class="pf-full"><p class="pf-empty">填写身高、血型等信息后，这里会显示年龄、BMI 和各项体征。</p><button class="btn primary sm" data-act="pedit" data-w>填写资料</button>${sevBlock}</div><div class="pf-strip"><button class="linkbtn" data-act="pedit" data-w>填写个人资料</button></div>`;
+    return;
+  }
+  const age = ageVal(), w = curWeight(), bm = bmiVal(), hr = curRhr(), bp = latestV('bp'), sl = latestV('sleep');
+  const lw = latestV('weight');
+  const row = (k, v, tag) => `<dt>${k}</dt><dd>${v}${tag || ''}</dd>`;
+  el.classList.toggle('compact', !!ST.sel);
+  el.innerHTML = `<div class="pf-head"><div class="pf-ava">${esc((p.name || '我').slice(0, 1))}</div><div><b>${esc(p.name || '我')}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>男 · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
+<div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型 Rh${p.rh === '-' ? '−' : '+'}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
+<div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : '+') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
+}
+
+function renderZoneHud() {
+  const z = G.zone, parts = z === 'all' ? PARTS : PARTS.filter(p => p.zone === z);
+  const n = parts.filter(p => partSev(p.id)).length;
+  $('zoneHud').innerHTML = `<div class="k">当前视图</div><div class="v">${z === 'all' ? '全身' : ZONES[z].name}</div><div class="z">${parts.length} 个部位 · 需关注 <b class="num">${n}</b> 处</div>${z === 'all' ? '<div class="z">点击头部、内脏或躯干四肢查看细节</div>' : '<button class="back" data-act="zall">‹ 返回全身</button>'}`;
+  document.querySelectorAll('.hud-tr [data-zone]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.zone === z)));
+}
+
+function issueBlock(i, hl) {
+  const k = 'i' + i.id;
+  const st = i.status === 'active' ? `<button data-act="istat" data-id="${esc(i.id)}" data-s="improving">标记好转</button><button data-act="istat" data-id="${esc(i.id)}" data-s="resolved">已解决</button>`
+    : i.status === 'improving' ? `<button data-act="istat" data-id="${esc(i.id)}" data-s="resolved">已解决</button><button data-act="istat" data-id="${esc(i.id)}" data-s="active">仍未好转</button>`
+    : `<button data-act="istat" data-id="${esc(i.id)}" data-s="active">复发</button>`;
+  return `<div class="iss${hl ? ' hl' : ''}"><div class="it"><b>${esc(i.title)}</b>${i.status === 'resolved' ? '<span class="pill mute">已解决</span>' : sevPill(i.sev)}</div><div class="im">${i.side ? SIDEN[i.side] + ' · ' : ''}${STATUS[i.status]}${i.since ? ' · 自 ' + fmtD(i.since) : ''} · ${i.source}${i.example ? ' · <span class="chip-ex">示例</span>' : ''}</div>${i.note ? `<p>${esc(i.note)}</p>` : ''}<div class="ia" data-w>${st}<button data-act="iedit" data-id="${esc(i.id)}">编辑</button><button data-act="idel" data-id="${esc(i.id)}" class="${armed(k) ? 'arm' : ''}">${armed(k) ? '确认删除' : '删除'}</button></div></div>`;
+}
+function renderCard() {
+  const el = $('card'), s = ST.sel;
+  if (!s) { el.hidden = true; return; }
+  let h = `<button class="x" data-act="close" aria-label="关闭">×</button>`;
+  if (s.kind === 'part') {
+    const p = PART[s.id];
+    const iss = D.issues.filter(i => i.part === s.id).sort((a, b) => (a.status === 'resolved') - (b.status === 'resolved') || b.sev - a.sev);
+    const labs = labGroups().filter(g => g.latest.part === s.id).sort((a, b) => !!labStatus(b.latest).dir - !!labStatus(a.latest).dir);
+    const plans = D.plans.filter(x => x.part === s.id).sort((a, b) => a.done - b.done || (a.due < b.due ? -1 : 1));
+    h += `<h2>${esc(p.name)}${sevPill(partSev(s.id))}</h2><div class="en">${ZONES[p.zone].name} · ${esc(p.sys)}${p.pair && SM[s.id] ? ` · 左 ${SEVN[SM[s.id].L]} / 右 ${SEVN[SM[s.id].R]}` : ''}</div>`;
+    h += iss.length ? `<h4>问题 <span class="num">${iss.length}</span></h4>` + iss.map(i => issueBlock(i, s.issue === i.id)).join('') : `<p class="ok-msg">这个部位还没有记录问题。</p>`;
+    if (labs.length) h += `<h4>相关指标 <span class="num">${labs.length}</span></h4>` + labs.map(g => `<button class="cl" data-act="lab" data-key="${esc(g.latest.key)}"><div><span>${esc(g.latest.name)}</span><small>${fmtD(g.latest.date)} · 参考 ${refText(g.latest)}</small></div><div class="r"><span><b class="num">${g.latest.value}</b> <small>${esc(g.latest.unit)}</small></span>${labPill(g.latest)}</div></button>`).join('');
+    if (plans.length) h += `<h4>计划 <span class="num">${plans.length}</span></h4>` + plans.map(x => `<div class="cl"><div><span>${esc(x.title)}</span><small>${PLAN_KINDS[x.kind]}${x.repeat ? ' · ' + REPEATS[x.repeat] : ''} · ${fmtMD(x.due)}</small></div><div class="r">${planPill(x)}<button class="linkbtn" data-act="pedit2" data-id="${esc(x.id)}" data-w>编辑</button></div></div>`).join('');
+    h += `<div class="cacts" data-w><button class="btn primary sm" data-act="iadd" data-part="${s.id}">＋ 记录问题</button><button class="btn ghost sm" data-act="padd" data-part="${s.id}">＋ 计划</button></div>`;
+  } else if (s.kind === 'lab') {
+    const g = labGroups().find(x => x.latest.key === s.key);
+    if (!g) { ST.sel = null; el.hidden = true; return; }
+    const l = g.latest;
+    h += `<h2>${esc(l.name)}</h2><div class="en">${esc(l.key)} · ${esc(l.cat)} · ${esc(partName(l.part))}</div><div class="big"><b>${l.value}</b><span>${esc(l.unit)}</span>${labPill(l)}</div><div class="rbig">${rangeSvg(l, 320, 46, true)}</div><div class="en">参考范围 ${refText(l)} ${esc(l.unit)} · ${fmtD(l.date)}</div>`;
+    h += `<h4>历史 <span class="num">${g.all.length}</span></h4><table class="hist">${[...g.all].reverse().map(x => `<tr><td class="num">${fmtD(x.date)}</td><td><span class="num">${x.value}</span> ${esc(x.unit)} ${labStatus(x).dir ? `<small style="color:var(--muted)">${labStatus(x).t}</small>` : ''}</td><td><button class="ib${armed('l' + x.id) ? ' arm' : ''}" data-act="ldel" data-id="${esc(x.id)}" data-w aria-label="删除这次记录">${armed('l' + x.id) ? '确认删除' : '×'}</button></td></tr>`).join('')}</table>`;
+    h += `<div class="cacts">${l.part ? `<button class="btn ghost sm" data-act="part" data-id="${l.part}">查看${esc(PART[l.part].name)}</button>` : ''}<button class="btn primary sm" data-act="ladd" data-key="${esc(l.key)}" data-w>＋ 录入新数值</button></div>`;
+  }
+  el.innerHTML = h; el.hidden = false;
+}
+
+function renderAll() {
+  SM = sevMap();
+  renderSide(); renderProfile(); renderZoneHud(); renderCard();
+  if (typeof refresh3D === 'function') refresh3D();
+}
+
+/* ---------- selection ---------- */
+function selectPart(id, side, extra) {
+  if (!PART[id]) return;
+  const p = PART[id];
+  if (G.zone !== p.zone) setZone(p.zone, { noFly: true });
+  ST.sel = { kind: 'part', id, side: side || '', ...(extra || {}) };
+  flyTo(partCam(id, side));
+  renderAll(); renderCallouts();
+}
+function selectLab(key) {
+  const g = labGroups().find(x => x.latest.key === key); if (!g) return;
+  const part = g.latest.part;
+  if (part && G.zone !== PART[part].zone) setZone(PART[part].zone, { noFly: true });
+  if (part) flyTo(partCam(part));
+  ST.sel = { kind: 'lab', key, id: part || null };
+  renderAll(); renderCallouts();
+}
+function clearSel() { ST.sel = null; renderAll(); renderCallouts(); }
+function setZone(z, opts) {
+  G.zone = z;
+  if (ST.sel && ST.sel.id && PART[ST.sel.id] && z !== 'all' && PART[ST.sel.id].zone !== z) ST.sel = null;
+  if (z === 'all') ST.sel = null;
+  if (!(opts && opts.noFly)) flyTo(z === 'all' ? { ...OVERVIEW_CAM, yaw: 0 } : ZONES[z].cam);
+  renderAll(); renderCallouts();
+}
+function partCam(id, side) {
+  const p = PART[id], zc = ZONES[p.zone].cam, c = p.cam || {};
+  let s = side;
+  if (!s && p.pair && SM[id]) s = SM[id].R > SM[id].L ? 'R' : 'L';
+  const yaw = c.yawL !== undefined ? (s === 'R' ? c.yawR : c.yawL) : (c.yaw ?? 0);
+  return { y: c.y ?? zc.y, h: c.h ?? zc.h, yaw };
+}
+
+/* ---------- toast ---------- */
+let toastT = 0;
+function toast(t) { const el = $('toast'); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, 2600); }
+
+/* ---------- forms ---------- */
+let FORM = null;
+const fld = (id, label, inner, cls) => `<div class="${cls || ''}" id="row-${id}"><label for="f-${id}">${label}</label>${inner}</div>`;
+const inp = (id, v, attrs) => `<input id="f-${id}" value="${esc(v ?? '')}" ${attrs || ''}>`;
+const selHtml = (id, opts, v) => `<select id="f-${id}">${opts.map(([k, t]) => `<option value="${esc(k)}"${String(k) === String(v ?? '') ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select>`;
+const partSel = (id, v, none) => `<select id="f-${id}">${none ? `<option value=""${!v ? ' selected' : ''}>${none}</option>` : ''}${Object.entries(ZONES).map(([z, info]) => `<optgroup label="${info.name}">${PARTS.filter(p => p.zone === z).map(p => `<option value="${p.id}"${p.id === v ? ' selected' : ''}>${p.name}</option>`).join('')}</optgroup>`).join('')}</select>`;
+const val = id => { const e = $('f-' + id); return e ? e.value.trim() : ''; };
+const nowMonth = () => todayISO().slice(0, 7);
+
+const FORMS = {
+  issue: {
+    title: o => o.id ? '编辑问题' : '记录一个问题',
+    hint: '选部位和严重程度，身体模型会按颜色标出来。已解决的问题保留在档案里，但不再标色。',
+    html: o => {
+      const i = o.id ? D.issues.find(x => x.id === o.id) : null;
+      FORM.sev = i ? i.sev : 1;
+      const part = i ? i.part : (o.part || 'stomach');
+      return fld('part', '部位', partSel('part', part)) + fld('side', '哪一侧', selHtml('side', [['', '双侧 / 不区分'], ['L', '左侧'], ['R', '右侧']], i ? i.side : (o.side || '')))
+        + fld('title', '问题名称', inp('title', i?.title, 'maxlength="40" placeholder="例如：慢性胃炎、右膝疼痛"'), 'full')
+        + `<div class="full"><label>严重程度</label><div class="sevpick" id="sevpick">${[1, 2, 3, 4].map(s => `<button type="button" data-sev="${s}" aria-pressed="${s === FORM.sev}"><i style="background:${SEVC[s]}"></i>${SEVN[s]}</button>`).join('')}</div></div>`
+        + fld('status', '状态', selHtml('status', Object.entries(STATUS), i ? i.status : 'active'))
+        + fld('since', '开始时间', inp('since', i ? i.since : nowMonth(), 'type="month"'))
+        + fld('source', '来源', selHtml('source', SOURCES.map(s => [s, s]), i ? i.source : '体检'))
+        + fld('note', '备注（可选）', `<textarea id="f-note" rows="2" maxlength="200">${esc(i?.note)}</textarea>`, 'full');
+    },
+    init: () => {
+      const sync = () => { $('row-side').hidden = !PART[val('part')].pair; };
+      $('f-part').addEventListener('change', sync); sync();
+      $('sevpick').addEventListener('click', e => { const b = e.target.closest('[data-sev]'); if (!b) return; FORM.sev = +b.dataset.sev; $('sevpick').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
+    },
+    save: async o => {
+      const part = val('part'), title = val('title'), since = val('since');
+      if (!title) throw '请填写问题名称，例如「慢性胃炎」';
+      if (since && !isMonth(since)) throw '开始时间格式应为 年-月，例如 2026-08';
+      const obj = { part, side: PART[part].pair ? val('side') : '', title: title.slice(0, 40), sev: FORM.sev, status: val('status'), since, source: val('source'), note: val('note').slice(0, 200), example: false };
+      let id = o.id;
+      if (id) await put('issues', id, obj); else id = await add('issues', obj);
+      toast(`已记录：${PART[part].name} · ${obj.title}`);
+      closeForm(); ST.mod = 'issue'; saveUI(); selectPart(part, obj.side, { issue: id });
+    },
+    del: async o => { await del('issues', o.id); toast('已删除这个问题'); }
+  },
+  vital: {
+    title: () => '记录体征',
+    hint: '血压填收缩压和舒张压；睡眠和步数可以填一段时间的日均值。',
+    html: o => fld('type', '类型', selHtml('type', VT_ORDER.map(t => [t, VT[t].name]), o.type || 'weight')) + fld('date', '日期', inp('date', todayISO(), 'type="date"'))
+      + fld('value', '数值', inp('value', '', 'inputmode="decimal"')) + fld('value2', '舒张压 mmHg', inp('value2', '', 'inputmode="decimal"'))
+      + fld('note', '备注（可选）', inp('note', '', 'maxlength="60"'), 'full'),
+    init: () => {
+      const sync = () => { const t = val('type'); $('row-value2').hidden = t !== 'bp'; $('row-value').querySelector('label').textContent = t === 'bp' ? '收缩压 mmHg' : `${VT[t].name}（${VT[t].unit}）`; };
+      $('f-type').addEventListener('change', sync); sync();
+    },
+    save: async () => {
+      const t = val('type'), cur = VT[t], v = num(val('value')), v2 = num(val('value2')), date = val('date');
+      if (!isDate(date)) throw '请选择日期';
+      if (v === null || v < cur.min || v > cur.max) throw `${cur.name}请填 ${cur.min}–${cur.max} 之间的数字`;
+      if (t === 'bp' && (v2 === null || v2 < 30 || v2 > 160)) throw '舒张压请填 30–160 之间的数字';
+      if (t === 'bp' && v2 >= v) throw '舒张压应小于收缩压，请检查是否填反';
+      const obj = { type: t, date, value: v, note: val('note'), example: false };
+      if (t === 'bp') obj.value2 = v2;
+      await add('vitals', obj);
+      toast(`已记录${cur.name} ${t === 'bp' ? v + '/' + v2 : v} ${cur.unit}`);
+      closeForm(); ST.mod = 'vital'; ST.vt = t; saveUI(); renderAll();
+    }
+  },
+  lab: {
+    title: () => '录入体检指标',
+    hint: '选常用指标会自动填好单位、参考范围和关联部位；参考范围以你的化验单为准。',
+    html: o => {
+      const base = o.key ? labGroups().find(g => g.latest.key === o.key)?.latest : null;
+      const pre = base || LAB_PRESETS[0];
+      return fld('preset', '常用指标', `<select id="f-preset"><option value="">自定义…</option>${LAB_CATS.map(c => { const a = LAB_PRESETS.filter(p => p.cat === c); return a.length ? `<optgroup label="${c}">${a.map(p => `<option value="${esc(p.key)}"${p.key === pre.key ? ' selected' : ''}>${esc(p.name)}（${esc(p.key)}）</option>`).join('')}</optgroup>` : ''; }).join('')}</select>`, 'full')
+        + fld('name', '指标名称', inp('name', pre.name, 'maxlength="30"')) + fld('key', '简称', inp('key', pre.key, 'maxlength="16"'))
+        + fld('value', '结果', inp('value', '', 'inputmode="decimal"')) + fld('unit', '单位', inp('unit', pre.unit, 'maxlength="16"'))
+        + fld('low', '参考下限（可空）', inp('low', pre.low, 'inputmode="decimal"')) + fld('high', '参考上限（可空）', inp('high', pre.high, 'inputmode="decimal"'))
+        + fld('date', '检查日期', inp('date', lastReport() || todayISO(), 'type="date"')) + fld('cat', '分类', selHtml('cat', LAB_CATS.map(c => [c, c]), pre.cat))
+        + fld('part', '关联部位', partSel('part', pre.part, '全身 / 不关联'), 'full');
+    },
+    init: () => {
+      $('f-preset').addEventListener('change', () => {
+        const p = LAB_PRESETS.find(x => x.key === val('preset')); if (!p) return;
+        for (const k of ['name', 'key', 'unit', 'low', 'high']) $('f-' + k).value = p[k] ?? '';
+        $('f-cat').value = p.cat; $('f-part').value = p.part;
+      });
+    },
+    save: async () => {
+      const name = val('name'), v = num(val('value')), lo = num(val('low')), hi = num(val('high')), date = val('date');
+      if (!name) throw '请填写指标名称';
+      if (v === null) throw '结果请填数字，例如 5.8';
+      if (val('low') && lo === null || val('high') && hi === null) throw '参考范围请填数字，不需要的一侧留空';
+      if (lo !== null && hi !== null && lo >= hi) throw '参考下限应小于上限';
+      if (!isDate(date)) throw '请选择检查日期';
+      const obj = { key: val('key') || name, name, value: v, unit: val('unit'), low: lo, high: hi, cat: val('cat'), part: val('part'), date, example: false };
+      await add('labs', obj);
+      const st = labStatus(obj);
+      toast(`已录入 ${name} ${v}${obj.unit ? ' ' + obj.unit : ''}${st.dir ? '，' + st.t : ''}`);
+      closeForm(); ST.mod = 'lab'; saveUI(); selectLab(obj.key);
+    }
+  },
+  plan: {
+    title: o => o.id ? '编辑计划' : '新建计划',
+    hint: '重复的计划打卡后会自动顺延到下一次。',
+    html: o => {
+      const p = o.id ? D.plans.find(x => x.id === o.id) : null;
+      return fld('title', '要做什么', inp('title', p?.title, 'maxlength="40" placeholder="例如：复查甲状腺超声"'), 'full')
+        + fld('kind', '类型', selHtml('kind', Object.entries(PLAN_KINDS), p ? p.kind : 'recheck')) + fld('due', p?.repeat ? '下次日期' : '日期', inp('due', p ? p.due : addDays(todayISO(), 7), 'type="date"'))
+        + fld('repeat', '重复', selHtml('repeat', Object.entries(REPEATS), p ? p.repeat : '')) + fld('part', '关联部位', partSel('part', p ? p.part : (o.part || ''), '全身 / 不关联'))
+        + fld('note', '备注（可选）', inp('note', p?.note, 'maxlength="80"'), 'full');
+    },
+    save: async o => {
+      const title = val('title'), due = val('due');
+      if (!title) throw '请写下要做什么，例如「复查甲状腺超声」';
+      if (!isDate(due)) throw '请选择日期';
+      const old = o.id ? D.plans.find(x => x.id === o.id) : null;
+      const obj = { title, kind: val('kind'), due, repeat: val('repeat'), part: val('part'), done: old ? old.done : false, note: val('note'), example: false };
+      if (o.id) await put('plans', o.id, obj); else await add('plans', obj);
+      toast(`${o.id ? '已保存' : '已添加'}：${title}，${fmtMD(due)}`);
+      closeForm(); if (!ST.sel) { ST.mod = 'plan'; saveUI(); } renderAll();
+    },
+    del: async o => { await del('plans', o.id); toast('已删除这个计划'); }
+  },
+  profile: {
+    title: () => '个人资料',
+    hint: '身高会用来缩放身体模型和计算 BMI；体重、心率优先取最近一次体征记录。',
+    html: () => {
+      const p = D.profile || {};
+      return fld('name', '称呼（可选）', inp('name', p.name, 'maxlength="20"')) + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"'))
+        + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"')) + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"'))
+        + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || '+'))
+        + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"')) + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'))
+        + `<div class="full" style="font-size:13px;color:var(--muted)">身体模型为男性。</div>`;
+    },
+    save: async () => {
+      const birth = val('birth'), h = num(val('height')), w = num(val('weight')), r = num(val('rhr'));
+      if (birth && !isMonth(birth)) throw '出生年月格式应为 年-月，例如 1990-03';
+      if (h !== null && (h < 100 || h > 230)) throw '身高请填 100–230 cm';
+      if (w !== null && (w < 20 || w > 300)) throw '体重请填 20–300 kg';
+      if (r !== null && (r < 25 || r > 220)) throw '静息心率请填 25–220';
+      await putProfile({ name: val('name'), sex: '男', birth, height: h, weight: w, blood: val('blood'), rh: val('rh'), rhr: r, allergy: val('allergy'), example: false });
+      toast('已保存个人资料'); closeForm();
+    }
+  }
+};
+
+function openForm(kind, o) {
+  if (!guardWrite()) return;
+  o = o || {};
+  FORM = { kind, o };
+  const f = FORMS[kind];
+  $('sheetTitle').textContent = f.title(o);
+  $('sheetHint').textContent = f.hint || '';
+  $('fgrid').innerHTML = f.html(o);
+  $('err').textContent = '';
+  const d = $('fdel'); d.hidden = !(o.id && f.del); d.textContent = '删除'; d.dataset.armed = '';
+  $('overlay').hidden = false;
+  if (f.init) f.init(o);
+  setTimeout(() => { const e = $('fgrid').querySelector('input:not([type=hidden]),select,textarea'); if (e) e.focus(); }, 30);
+}
+function closeForm() { $('overlay').hidden = true; FORM = null; }
+$('form').addEventListener('submit', async e => {
+  e.preventDefault(); if (!FORM) return;
+  const btn = $('save'); btn.disabled = true;
+  try { await FORMS[FORM.kind].save(FORM.o); }
+  catch (err) { if (typeof err === 'string') $('err').textContent = err; else fail(err); }
+  finally { btn.disabled = false; }
+});
+$('cancel').onclick = closeForm;
+$('form').addEventListener('input', () => { $('err').textContent = ''; });
+$('fdel').onclick = async () => {
+  const d = $('fdel');
+  if (!d.dataset.armed) { d.dataset.armed = '1'; d.textContent = '确认删除？'; return; }
+  try { const f = FORMS[FORM.kind], o = FORM.o; closeForm(); await f.del(o); if (ST.sel && ST.sel.issue === o.id) ST.sel.issue = null; renderAll(); } catch (err) { fail(err); }
+};
+$('overlay').addEventListener('pointerdown', e => { if (e.target === $('overlay')) closeForm(); });
+
+/* ---------- 3D glass body ---------- */
+const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
+const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, skelA: 0, skelT: 0.2, rulerKey: '' };
+const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0 };
+const ALPHA_MUL = { hair: 0.6, face: 0.75 };
+let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null, skelMat = null;
+const TIMEU = { value: 0 };
+const MATS = {}, HITS = [], ZPROX = [];
+let shellMats = [];
+const T3 = { scene: false, built: false };
+let CO = [], DRAG = null;
+const PTRS = new Map();
+
+const VS = `varying vec3 vN; varying vec3 vV; varying vec3 vP;
+void main(){ vP = position; vec4 mv = modelViewMatrix * vec4(position, 1.0); vV = -mv.xyz; vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * mv; }`;
+const FS_PART = `uniform vec3 uColor; uniform float uAlpha; uniform float uGlow; uniform float uPulse; uniform float uTime; uniform float uPattern;
+varying vec3 vN; varying vec3 vV; varying vec3 vP;
+void main(){
+  vec3 n = normalize(vN); if(!gl_FrontFacing) n = -n;
+  vec3 v = normalize(vV);
+  float ndv = clamp(dot(n, v), 0.0, 1.0);
+  float fres = pow(1.0 - ndv, 2.2);
+  vec3 L = normalize(vec3(-0.35, 0.65, 0.7));
+  float dif = 0.66 + 0.34 * max(dot(n, L), 0.0);
+  float spec = pow(max(dot(n, normalize(L + v)), 0.0), 40.0);
+  float pulse = uPulse * (0.5 + 0.5 * sin(uTime * 3.4));
+  vec3 base = uColor;
+  if (uPattern > 0.5 && uPattern < 1.5) {
+    float s = sin(vP.x * 420.0 + 3.0 * sin(vP.y * 260.0)) * sin(vP.y * 400.0 + 3.0 * sin(vP.z * 300.0)) * sin(vP.z * 380.0 + 3.0 * sin(vP.x * 280.0));
+    base *= 0.74 + 0.34 * smoothstep(-0.3, 0.5, s);
+  } else if (uPattern > 1.5) {
+    float s = sin(atan(vP.x, vP.z) * 90.0 + vP.y * 140.0);
+    base *= 0.72 + 0.34 * s * s;
+  }
+  vec3 col = base * dif * (0.85 + 0.4 * uGlow) + mix(base, vec3(1.0), 0.45) * fres * (0.9 + uGlow) + vec3(spec * 0.55) + base * pulse * 0.45;
+  float a = uAlpha * (0.6 + 0.4 * fres) + spec * 0.25 * uAlpha + pulse * 0.18 * uAlpha + uGlow * 0.12;
+  gl_FragColor = vec4(col, clamp(a, 0.0, 1.0));
+}`;
+const FS_SHELL = `uniform float uOpacity; uniform float uScan; uniform float uHover;
+varying vec3 vN; varying vec3 vV; varying vec3 vP;
+float zoneOf(vec3 p){ if (p.y > 1.49) return 1.0; if (p.y > 0.86 && abs(p.x) < 0.165) return 2.0; return 3.0; }
+void main(){
+  vec3 n = normalize(vN); if(!gl_FrontFacing) n = -n;
+  vec3 v = normalize(vV);
+  float ndv = clamp(abs(dot(n, v)), 0.0, 1.0);
+  float fres = pow(1.0 - ndv, 2.6);
+  vec3 L = normalize(vec3(-0.35, 0.7, 0.6));
+  float spec = pow(max(dot(n, normalize(L + v)), 0.0), 70.0);
+  float t = vP.y * 30.0;
+  float g = abs(fract(t - 0.5) - 0.5) / max(fwidth(t), 1e-4);
+  float line = (1.0 - min(g, 1.0)) * (0.35 + 0.65 * fres);
+  float scan = uScan > 0.0 ? smoothstep(0.035, 0.0, abs(vP.y - uScan)) : 0.0;
+  float hov = (uHover > 0.5 && abs(zoneOf(vP) - uHover) < 0.1) ? 1.0 : 0.0;
+  vec3 col = mix(vec3(0.75, 0.9, 1.0), vec3(0.62, 0.9, 1.0), fres) + vec3(spec) + vec3(0.55, 0.95, 1.0) * scan + vec3(0.3, 0.75, 1.0) * hov * 0.5;
+  float a = uOpacity * (0.035 + fres * 0.62 + line * 0.07) + spec * 0.35 * uOpacity + scan * 0.35 * uOpacity + hov * (0.1 + fres * 0.25);
+  gl_FragColor = vec4(col, clamp(a, 0.0, 1.0));
+}`;
+const FS_FLOOR = `uniform float uTime; varying vec2 vU;
+void main(){
+  vec2 p = (vU - 0.5) * 2.0; float r = length(p); float an = atan(p.y, p.x);
+  float ring1 = smoothstep(0.012, 0.0, abs(r - 0.9)) * 0.8;
+  float ring2 = smoothstep(0.008, 0.0, abs(r - 0.62)) * 0.55;
+  float ticks = step(0.93, r) * step(r, 0.99) * step(0.55, fract(an * 48.0 / 6.2832 + uTime * 0.04)) * 0.35;
+  float wave = smoothstep(0.02, 0.0, abs(r - fract(uTime * 0.22))) * (1.0 - r) * 0.9;
+  float glow = pow(max(1.0 - r, 0.0), 2.0) * 0.5;
+  float v = ring1 + ring2 + ticks + wave + glow;
+  gl_FragColor = vec4(vec3(0.45, 0.85, 1.0), v);
+}`;
+const VS_UV = `varying vec2 vU; void main(){ vU = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+
+function mkPartMat(part, side) {
+  const m = new THREE.ShaderMaterial({
+    uniforms: { uColor: { value: new THREE.Color(SEVC[0]) }, uAlpha: { value: 0 }, uGlow: { value: 0 }, uPulse: { value: 0 }, uTime: TIMEU, uPattern: { value: part === 'brain' ? 1 : part === 'hair' ? 2 : 0 } },
+    vertexShader: VS, fragmentShader: FS_PART, transparent: true, depthWrite: false, side: THREE.DoubleSide
+  });
+  m.userData = { part, side, a: 0, g: 0, p: 0, ta: 0.3, tg: 0, tp: 0 };
+  return m;
+}
+const matFor = (part, side) => MATS[part + ':' + side] || (MATS[part + ':' + side] = mkPartMat(part, side));
+function addPart(part, side, mesh, noHit) {
+  mesh.material = matFor(part, side); mesh.renderOrder = 10; mesh.userData = { part, side };
+  body.add(mesh); if (!noHit) HITS.push(mesh); return mesh;
+}
+function addProxy(part, side, mesh) { mesh.material = PROXM; mesh.userData = { part, side }; body.add(mesh); HITS.push(mesh); }
+function addZone(zone, mesh) { mesh.material = PROXM; mesh.userData = { zone }; body.add(mesh); ZPROX.push(mesh); }
+const V3 = a => new THREE.Vector3(a[0], a[1], a[2]);
+const mir = (p, s) => [p[0] * s, p[1], p[2]];
+function capsule(a, b, r) {
+  const A = V3(a), B = V3(b), len = A.distanceTo(B);
+  const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, Math.max(len, 1e-4), 4, 10));
+  m.position.copy(A).add(B).multiplyScalar(0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.clone().sub(A).normalize());
+  return m;
+}
+function blob(c, s, rot) { const m = new THREE.Mesh(SPH); m.position.set(c[0], c[1], c[2]); m.scale.set(s[0], s[1], s[2]); if (rot) m.rotation.set(rot[0], rot[1], rot[2]); return m; }
+function tube(pts, r) { return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V3)), 28, r, 6, false)); }
+function neutral(m) { m.material = skelMat; m.renderOrder = 5; body.add(m); return m; }
+
+function buildSkeleton() {
+  SPH = new THREE.SphereGeometry(1, 18, 12);
+  for (let i = 0; i < 7; i++) addPart('cervical', '', blob([0, 1.535 - i * 0.0145, -0.03 + 0.008 * Math.sin(Math.PI * i / 6)], [0.0135, 0.0055, 0.0115]), true);
+  for (let i = 0; i < 12; i++) { const t = i / 11; neutral(blob([0, 1.43 - i * 0.0245, -0.052 - 0.018 * Math.sin(Math.PI * t)], [0.0145 + 0.004 * t, 0.0085, 0.013])); }
+  for (let i = 0; i < 5; i++) addPart('lumbar', '', blob([0, 1.14 - i * 0.035, -0.05 + 0.016 * Math.sin(Math.PI * i / 4)], [0.02, 0.0115, 0.017]), true);
+  neutral(blob([0, 0.95, -0.058], [0.034, 0.045, 0.014], [-0.45, 0, 0]));
+  const RW = [0.074, 0.096, 0.11, 0.12, 0.125, 0.127, 0.126, 0.122, 0.116, 0.108];
+  for (let i = 0; i < 10; i++) {
+    const y0 = 1.405 - i * 0.0235, w = RW[i], dr = 0.03 + i * 0.006, fr = i < 7;
+    for (const s of [1, -1]) neutral(tube([[s * 0.014, y0, -0.062], [s * w * 0.55, y0 + 0.004, -0.078], [s * w, y0 - dr * 0.4, -0.012], [s * w * 0.8, y0 - dr * 0.8, 0.06], [s * (fr ? 0.03 : w * 0.5), y0 - dr, fr ? 0.092 : 0.082]], 0.0042));
+  }
+  neutral(capsule([0, 1.425, 0.094], [0, 1.26, 0.1], 0.009));
+  const tor = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.014, 8, 40)); tor.position.set(0, 0.93, 0.005); tor.rotation.x = Math.PI / 2 - 0.35; tor.scale.set(1.15, 0.85, 1); neutral(tor);
+  for (const [s, sd] of [[1, 'L'], [-1, 'R']]) {
+    const S = mir(J.S, s), E = mir(J.E, s), W = mir(J.W, s), H = mir(J.H, s), K = mir(J.K, s), A = mir(J.A, s);
+    neutral(tube([[s * 0.02, 1.44, 0.06], [s * 0.09, 1.447, 0.056], [s * 0.17, 1.43, 0.0]], 0.0055));
+    neutral(blob([s * 0.1, 1.33, -0.088], [0.05, 0.068, 0.009], [0.15, s * 0.35, 0]));
+    neutral(blob([s * 0.088, 0.99, -0.012], [0.055, 0.048, 0.012], [0, s * 0.75, s * 0.25]));
+    neutral(capsule(S, E, 0.011));
+    neutral(capsule([E[0], E[1], E[2] + 0.008], [W[0], W[1], W[2] + 0.008], 0.0065));
+    neutral(capsule([E[0], E[1], E[2] - 0.008], [W[0], W[1], W[2] - 0.006], 0.006));
+    addPart('shoulders', sd, blob(S, [0.026, 0.026, 0.026]), true);
+    addPart('elbows', sd, blob(E, [0.019, 0.019, 0.019]), true);
+    addPart('wrists', sd, blob(W, [0.016, 0.014, 0.018]), true);
+    for (const dz of [-0.021, -0.007, 0.007, 0.021]) addPart('wrists', sd, capsule([s * 0.322, 0.84, 0.006 + dz], [s * 0.334, 0.705 + Math.abs(dz) * 1.4, 0.01 + dz * 1.25], 0.0042), true);
+    addPart('wrists', sd, capsule([s * 0.318, 0.842, 0.026], [s * 0.318, 0.786, 0.056], 0.0045), true);
+    neutral(capsule(H, K, 0.0135));
+    addPart('hips', sd, blob(H, [0.024, 0.024, 0.024]), true);
+    addPart('hips', sd, capsule(H, [s * 0.128, 0.9, 0.0], 0.012), true);
+    addPart('knees', sd, blob(K, [0.025, 0.022, 0.024]), true);
+    addPart('knees', sd, blob([s * 0.1, 0.5, 0.045], [0.017, 0.021, 0.008]), true);
+    neutral(capsule([s * 0.1, 0.478, 0.006], A, 0.0115));
+    neutral(capsule([s * 0.122, 0.47, -0.01], [s * 0.116, 0.1, -0.024], 0.006));
+    addPart('ankles', sd, blob(A, [0.018, 0.016, 0.018]), true);
+    addPart('ankles', sd, capsule([s * 0.103, 0.06, -0.02], [s * 0.103, 0.03, -0.055], 0.013), true);
+    for (let m = 0; m < 5; m++) { const dx = (m - 2) * 0.011; addPart('ankles', sd, capsule([s * (0.105 + dx * 0.4), 0.055, 0.01], [s * (0.108 + dx), 0.02, 0.13 - Math.abs(dx) * 1.6], 0.0045), true); }
+    addProxy('shoulders', sd, blob(S, [0.05, 0.05, 0.05]));
+    addProxy('elbows', sd, blob(E, [0.042, 0.042, 0.042]));
+    addProxy('wrists', sd, blob([s * 0.325, 0.8, 0.012], [0.04, 0.085, 0.05]));
+    addProxy('hips', sd, blob(H, [0.05, 0.05, 0.05]));
+    addProxy('knees', sd, blob(K, [0.055, 0.055, 0.055]));
+    addProxy('ankles', sd, blob([s * 0.105, 0.05, 0.04], [0.045, 0.05, 0.11]));
+    addProxy('eyes', sd, blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
+    addZone('frame', blob([s * 0.19, 1.39, -0.012], [0.07, 0.07, 0.07]));
+    addZone('frame', capsule(S, E, 0.055)); addZone('frame', capsule(E, W, 0.045));
+    addZone('frame', blob([s * 0.33, 0.77, 0.012], [0.03, 0.085, 0.05]));
+    addZone('frame', capsule([s * 0.088, 0.88, 0], K, 0.085)); addZone('frame', capsule(K, A, 0.06));
+    addZone('frame', blob([s * 0.106, 0.04, 0.045], [0.045, 0.045, 0.11]));
+  }
+  addProxy('cervical', '', capsule([0, 1.54, -0.03], [0, 1.44, -0.03], 0.03));
+  addProxy('lumbar', '', capsule([0, 1.15, -0.045], [0, 0.98, -0.045], 0.035));
+  addProxy('thyroid', '', blob([0, 1.467, 0.04], [0.035, 0.028, 0.02]));
+  addProxy('mouth', '', blob([0, 1.566, 0.085], [0.035, 0.02, 0.022]));
+  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]));
+  addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016));
+  for (const [y, sh] of [[1.5715, 1], [1.5595, -1]]) for (let u = 0; u < 10; u++) {
+    const ang = -1.05 + u * 2.1 / 9;
+    addPart('mouth', '', blob([Math.sin(ang) * 0.024, y, 0.058 + Math.cos(ang) * 0.022], [0.0036, 0.0046, 0.0028], [0, ang, 0]), true);
+  }
+  addZone('head', blob([0, 1.64, 0.008], [0.092, 0.12, 0.11]));
+  addZone('head', capsule([0, 1.54, -0.005], [0, 1.44, -0.005], 0.062));
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.6, 24)); torso.position.set(0, 1.16, 0); torso.scale.set(1, 1, 0.72); addZone('organs', torso);
+}
+
+function buildFloor() {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(1.1, 1.1), new THREE.ShaderMaterial({ uniforms: { uTime: TIMEU }, vertexShader: VS_UV, fragmentShader: FS_FLOOR, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  m.rotation.x = -Math.PI / 2; m.position.y = 0.0015; m.renderOrder = 1; scene.add(m);
+}
+
+function geomFrom(m) {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(m.pos, 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(m.nor, 3));
+  g.setIndex(new THREE.BufferAttribute(m.idx, 1));
+  g.computeBoundingSphere(); g.computeBoundingBox();
+  return g;
+}
+function onMesh(m) {
+  const g = geomFrom(m);
+  if (m.id === 'shell') {
+    const mk = side => new THREE.ShaderMaterial({ uniforms: { uOpacity: { value: 0 }, uScan: { value: -1 }, uHover: { value: 0 } }, vertexShader: VS, fragmentShader: FS_SHELL, transparent: true, depthWrite: false, side });
+    const back = new THREE.Mesh(g, mk(THREE.BackSide)), front = new THREE.Mesh(g, mk(THREE.FrontSide));
+    back.renderOrder = 20; front.renderOrder = 21; body.add(back, front); shellMats = [back.material, front.material];
+  } else {
+    const [part, side = ''] = m.id.split(':');
+    addPart(part, side, new THREE.Mesh(g));
+  }
+  refreshTargets();
+}
+function runWorker(onProgress) {
+  return new Promise((res, rej) => {
+    let got = 0, heard = false, fell = false;
+    const handle = m => {
+      heard = true;
+      if (m.type === 'progress') onProgress(m.p, m.verts);
+      else if (m.type === 'mesh') { got++; onMesh(m); }
+      else if (m.type === 'done') { onProgress(1, m.verts); res(m.verts); }
+    };
+    const inline = () => { if (fell) return; fell = true; setTimeout(() => { try { run(sdfSpecs(), handle); } catch (e) { rej(e); } }, 30); };
+    let w, url;
+    try { url = URL.createObjectURL(new Blob([$('sdfWorker').textContent], { type: 'text/javascript' })); w = new Worker(url); }
+    catch { inline(); return; }
+    w.onmessage = e => { handle(e.data); if (e.data.type === 'done') { w.terminate(); URL.revokeObjectURL(url); } };
+    w.onerror = e => { e.preventDefault && e.preventDefault(); w.terminate(); if (!got) inline(); else rej(e); };
+    w.postMessage({ shapes: sdfSpecs() });
+    setTimeout(() => { if (!heard) { w.terminate(); inline(); } }, 4000); // a worker that never starts
+  });
+}
+
+function glFail(msg) { const m = $('glMsg'); m.textContent = msg; m.hidden = false; $('building').hidden = true; SPL.mesh = 1; }
+async function init3D(onProgress) {
+  try { THREE = await import(THREE_URL); }
+  catch { glFail('3D 引擎没能加载（网络或浏览器限制），左侧数据不受影响。刷新页面可以重试。'); return false; }
+  try { renderer = new THREE.WebGLRenderer({ canvas: $('gl'), antialias: true, alpha: true, powerPreference: 'high-performance' }); }
+  catch { glFail('这台设备不支持 WebGL，无法显示 3D 人体。左侧数据不受影响。'); return false; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.setClearColor(0x000000, 0);
+  scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(28, 1, 0.01, 20);
+  body = new THREE.Group(); scene.add(body); raycaster = new THREE.Raycaster();
+  PROXM = new THREE.MeshBasicMaterial({ visible: false });
+  skelMat = mkPartMat('skeleton', ''); skelMat.uniforms.uColor.value.set('#DCEBFF');
+  buildSkeleton(); buildFloor();
+  T3.scene = true; layout(); refreshTargets(); renderCallouts();
+  requestAnimationFrame(loop);
+  try { const v = await runWorker(onProgress); T3.built = true; $('building').hidden = true; return v; }
+  catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
+}
+
+/* layout: the round scan portal sits left of the profile panel */
+function layout() {
+  const st = $('stage'), r = st.getBoundingClientRect(), W = r.width, H = r.height;
+  if (!W || !H) return;
+  const mobile = matchMedia('(max-width:860px)').matches;
+  const rightW = mobile ? 0 : 330, top = mobile ? 112 : 72, bottom = 14;
+  const aw = W - rightW, ah = H - top - bottom;
+  const R = Math.max(80, Math.min(aw * 0.44, ah * 0.5));
+  const cx = mobile ? W / 2 : Math.max(R + 18, aw / 2), cy = top + ah / 2;
+  Object.assign(LAY, { W, H, cx, cy, R, rw: rightW });
+  st.classList.toggle('narrow', W < 820);
+  const place = (el, k) => { el.style.left = (cx - R * k) + 'px'; el.style.top = (cy - R * k) + 'px'; el.style.width = el.style.height = (2 * R * k) + 'px'; };
+  place($('portal'), 1); place($('pover'), 1); place($('bloom'), 1.01);
+  const clip = `circle(${R.toFixed(1)}px at ${cx.toFixed(1)}px ${cy.toFixed(1)}px)`;
+  $('gl').style.clipPath = clip; $('ruler').style.clipPath = clip;
+  if (renderer) { renderer.setSize(W, H, false); camera.aspect = W / H; camera.setViewOffset(W, H, W / 2 - cx, H / 2 - cy, W, H); camera.updateProjectionMatrix(); }
+  G.rulerKey = '';
+  if (CO.length) measureCallouts();
+}
+
+function applyCam() {
+  const s = G.scale, f = camera.fov * Math.PI / 180;
+  const Dd = (G.vh * s) * LAY.H / (1.7 * LAY.R * 2 * Math.tan(f / 2)) / G.zoom;
+  const ty = G.ty * s;
+  camera.position.set(0, ty + Math.sin(G.pitch) * Dd, Math.cos(G.pitch) * Dd);
+  camera.lookAt(0, ty, 0);
+  body.rotation.y = G.yaw;
+}
+function flyTo(t) {
+  if (!t) return;
+  const from = { yaw: G.yaw, pitch: G.pitch, ty: G.ty, vh: G.vh, zoom: G.zoom };
+  const ty = t.yaw ?? 0, dy = ((ty - from.yaw) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+  const to = { yaw: from.yaw + dy, pitch: t.pitch ?? 0.06, ty: t.y, vh: t.h, zoom: 1 };
+  if (!T3.scene) { Object.assign(G, to); return; }
+  G.anim = { from, to, t0: performance.now(), dur: RM ? 1 : 950 };
+  G.lastInt = performance.now();
+  setZoom(1);
+}
+function setZoom(z) { G.zoom = clamp(z, 0.6, 3.5); $('zv').textContent = Math.round(G.zoom * 100) + '%'; }
+
+function refreshTargets() {
+  if (!T3.scene) return;
+  const z = G.zone, selId = ST.sel && ST.sel.id, hov = G.hoverPart;
+  for (const k in MATS) {
+    const m = MATS[k], u = m.userData, p = PART[u.part]; if (!p) continue;
+    const s = sideSev(u.part, u.side), focus = z === 'all' || p.zone === z;
+    let a = z === 'all' ? (s ? 0.82 : 0.32) : focus ? (s ? 0.9 : 0.55) : (s ? 0.14 : 0.05);
+    a *= ALPHA_MUL[u.part] || 1;
+    if (selId === u.part) a = Math.max(a, 0.95 * (ALPHA_MUL[u.part] ? 0.7 : 1));
+    u.ta = a; u.tg = selId === u.part ? 1 : hov === u.part ? 0.65 : 0; u.tp = s >= 3 && !RM ? (focus ? 1 : 0.35) : 0;
+    m.uniforms.uColor.value.set(SEVC[s]);
+  }
+  G.shellT = z === 'all' ? 1 : z === 'frame' ? 0.55 : 0.72;
+  G.skelT = z === 'all' ? 0.2 : z === 'frame' ? 0.5 : 0.07;
+  const h = D.profile && D.profile.height;
+  G.scale = h ? clamp(h / 176, 0.85, 1.15) : 1;
+  body.scale.setScalar(G.scale);
+}
+function refresh3D() { refreshTargets(); renderCallouts(); G.rulerKey = ''; }
+
+let lastT = 0;
+function loop(t) {
+  requestAnimationFrame(loop);
+  if (document.hidden || !T3.scene || !LAY.W) { lastT = t; return; }
+  const dt = Math.min(64, t - (lastT || t)); lastT = t;
+  TIMEU.value = t / 1000;
+  if (G.anim) {
+    const a = G.anim, k = Math.min(1, (t - a.t0) / a.dur), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    for (const key in a.to) G[key] = a.from[key] + (a.to[key] - a.from[key]) * e;
+    if (k >= 1) G.anim = null;
+  } else if (G.spin && G.zone === 'all' && !DRAG && t - G.lastInt > 2500 && !RM) G.yaw += dt * 0.00018;
+  if (G.pend) { hoverAt(G.pend); G.pend = null; }
+  applyCam();
+  const k = 1 - Math.exp(-dt / 140);
+  for (const key in MATS) {
+    const m = MATS[key], u = m.userData;
+    u.a += (u.ta - u.a) * k; u.g += (u.tg - u.g) * k; u.p += (u.tp - u.p) * k;
+    m.uniforms.uAlpha.value = u.a; m.uniforms.uGlow.value = u.g; m.uniforms.uPulse.value = u.p; m.depthWrite = u.a > 0.6;
+  }
+  G.shellA += (G.shellT - G.shellA) * k; G.skelA += (G.skelT - G.skelA) * k;
+  skelMat.uniforms.uAlpha.value = G.skelA;
+  const ph = (t / 1000 % 6) / 6, scanY = RM || ph > 0.55 ? -1 : 1.8 - ph / 0.55 * 1.85;
+  shellMats.forEach((m, i) => { m.uniforms.uOpacity.value = G.shellA * (i === 0 ? 0.5 : 1); m.uniforms.uHover.value = G.hoverZone; m.uniforms.uScan.value = scanY; });
+  renderer.render(scene, camera);
+  positionCallouts(); drawRuler();
+}
+
+/* picking */
+function pickAt(e) {
+  if (!T3.scene) return null;
+  const r = $('hit').getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  if (Math.hypot(x - LAY.cx, y - LAY.cy) > LAY.R) return null;
+  raycaster.setFromCamera(new THREE.Vector2(x / r.width * 2 - 1, -(y / r.height) * 2 + 1), camera);
+  if (G.zone !== 'all') {
+    const list = HITS.filter(m => PART[m.userData.part].zone === G.zone);
+    const h = raycaster.intersectObjects(list, false)[0];
+    if (h) return { part: h.object.userData.part, side: h.object.userData.side };
+  }
+  const z = raycaster.intersectObjects(ZPROX, false)[0];
+  return z ? { zone: z.object.userData.zone } : null;
+}
+function hoverAt(e) {
+  const r = pickAt(e);
+  let hz = 0, hp = null, tip = null;
+  if (r && r.part) {
+    hp = r.part;
+    const p = PART[r.part], s = sideSev(r.part, r.side), n = D.issues.filter(i => i.part === r.part && i.status !== 'resolved' && (!r.side || !i.side || i.side === r.side)).length;
+    tip = `<b>${p.name}${p.pair && r.side ? '（' + SIDEN[r.side] + '）' : ''}</b> · ${SEVN[s]}<small>${n ? n + ' 个未解决问题' : '暂无问题'} · 点击查看</small>`;
+  } else if (r && r.zone && r.zone !== G.zone) {
+    hz = { head: 1, organs: 2, frame: 3 }[r.zone];
+    const ps = PARTS.filter(p => p.zone === r.zone);
+    tip = `<b>${ZONES[r.zone].name}</b><small>${ps.length} 个部位 · 需关注 ${ps.filter(p => partSev(p.id)).length} 处 · 点击进入</small>`;
+  }
+  if (hz !== G.hoverZone || hp !== G.hoverPart) { G.hoverZone = hz; G.hoverPart = hp; refreshTargets(); markCalloutHover(); }
+  $('hit').classList.toggle('pt', !!tip);
+  const ct = $('captip');
+  if (tip) {
+    ct.innerHTML = tip; ct.hidden = false;
+    const sr = $('stage').getBoundingClientRect();
+    const x = Math.min(e.clientX - sr.left + 14, sr.width - ct.offsetWidth - 8), y = Math.min(e.clientY - sr.top + 14, sr.height - ct.offsetHeight - 8);
+    ct.style.transform = `translate(${x}px,${y}px)`;
+  } else ct.hidden = true;
+}
+function clickAt(e) {
+  const r = pickAt(e);
+  if (!r) { if (ST.sel) clearSel(); return; }
+  if (r.part) selectPart(r.part, r.side);
+  else if (r.zone && r.zone !== G.zone) setZone(r.zone);
+  else if (ST.sel) clearSel();
+}
+
+/* callouts: labelled leader lines to each part of the current zone */
+function renderCallouts() {
+  const box = $('callouts');
+  CO = [];
+  if (!T3.scene) { box.innerHTML = ''; $('leaders').innerHTML = ''; return; }
+  let html = '';
+  if (G.zone === 'all') {
+    for (const [z, info] of Object.entries(ZONES)) {
+      const ps = PARTS.filter(p => p.zone === z), n = ps.filter(p => partSev(p.id)).length, w = Math.max(0, ...ps.map(p => partSev(p.id)));
+      CO.push({ id: z, a: info.anchor, ls: info.side });
+      html += `<button class="co zn" data-z="${z}" aria-label="进入${info.name}，${n} 处需关注"><i class="d" style="background:${SEVC[w]}"></i>${info.name}<small>${n ? n + ' 处需关注' : '状态良好'}</small></button>`;
+    }
+  } else {
+    for (const p of PARTS.filter(p => p.zone === G.zone)) {
+      const s = SM[p.id], sv = partSev(p.id), n = s ? s.n : 0;
+      let side = '', a = p.a;
+      if (p.pair) { side = s && s.R > s.L ? 'R' : 'L'; if (side === 'R') a = [-a[0], a[1], a[2]]; }
+      CO.push({ id: p.id, side, a, ls: side === 'R' ? 'l' : p.ls });
+      const cur = !!(ST.sel && ST.sel.id === p.id);
+      html += `<button class="co" data-p="${p.id}" data-side="${side}" aria-current="${cur}" aria-label="${p.name}，${SEVN[sv]}${n ? '，' + n + ' 个未解决问题' : ''}"><i class="d" style="background:${SEVC[sv]}"></i>${p.name}${n ? `<span class="c">${n}</span>` : ''}</button>`;
+    }
+  }
+  box.innerHTML = html;
+  CO.forEach((c, i) => { c.el = box.children[i]; });
+  measureCallouts(); markCalloutHover();
+}
+function measureCallouts() { for (const c of CO) { c.w = c.el.offsetWidth; c.h = c.el.offsetHeight; } }
+function markCalloutHover() { for (const c of CO) c.el.classList.toggle('hov', c.id === G.hoverPart || (G.hoverZone && c.id === ['', 'head', 'organs', 'frame'][G.hoverZone])); }
+const PV = {};
+function positionCallouts() {
+  if (!CO.length) return;
+  const { W, H, cx, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
+  body.updateMatrixWorld();
+  const pts = CO.map(c => { v.set(c.a[0], c.a[1], c.a[2]).applyMatrix4(body.matrixWorld).project(camera); return { c, x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H }; });
+  for (const p of pts) p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
+  const gap = W < 560 ? 27 : 33, off = R * 0.74;
+  let d = '', dots = '';
+  for (const side of ['l', 'r']) {
+    const col = pts.filter(p => p.side === side).sort((a, b) => a.y - b.y);
+    let prev = -1e9;
+    for (const p of col) { p.ly = Math.max(p.y, prev + gap); prev = p.ly; }
+    const maxY = H - 18;
+    if (col.length && col[col.length - 1].ly > maxY) { const sh = col[col.length - 1].ly - maxY; for (const p of col) p.ly -= sh; for (let i = 1; i < col.length; i++) if (col[i].ly < col[i - 1].ly + gap) col[i].ly = col[i - 1].ly + gap; }
+    for (const p of col) {
+      p.ly = Math.max(18, p.ly);
+      const colX = side === 'l' ? cx - off : cx + off;
+      const x = clamp(side === 'l' ? colX - p.c.w : colX, 8, W - LAY.rw - p.c.w - 8);
+      const lx = side === 'l' ? x + p.c.w : x, ex = side === 'l' ? lx + 14 : lx - 14;
+      p.c.el.style.transform = `translate(${x.toFixed(1)}px,${(p.ly - p.c.h / 2).toFixed(1)}px)`;
+      d += `M${p.x.toFixed(1)},${p.y.toFixed(1)}L${ex.toFixed(1)},${p.ly.toFixed(1)}L${lx.toFixed(1)},${p.ly.toFixed(1)}`;
+      dots += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.6"/>`;
+    }
+  }
+  $('leaders').innerHTML = `<path d="${d}"/>${dots}`;
+}
+
+/* stadiometer: centimetre ruler at the portal's left edge, scaled with the camera */
+function drawRuler() {
+  const hcm = D.profile && D.profile.height;
+  const key = [G.ty, G.vh, G.zoom, G.pitch, LAY.W, LAY.H, G.scale].map(x => x.toFixed(4)).join('|') + hcm;
+  if (key === G.rulerKey) return;
+  G.rulerKey = key;
+  const { H, cx, cy, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
+  const sy = y => { v.set(0, y, 0).project(camera); return (1 - v.y) / 2 * H; };
+  const x0 = cx - R * 0.62, ppm = Math.abs(sy(0) - sy(1));
+  const minor = [0.01, 0.02, 0.05, 0.1].find(s => s * ppm >= 6) || 0.1;
+  const major = [0.05, 0.1, 0.2, 0.5].find(s => s * ppm >= 34 && s >= minor * 2) || 0.5;
+  let tk = '', lb = '';
+  const N = Math.round(2.2 / minor);
+  for (let i = 0; i <= N; i++) {
+    const y = i * minor, Y = sy(y);
+    if (Y < cy - R || Y > cy + R) continue;
+    const isM = Math.abs(y / major - Math.round(y / major)) < 1e-6;
+    tk += `M${x0.toFixed(1)},${Y.toFixed(1)}h${isM ? 12 : 6}`;
+    if (isM) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
+  }
+  let mk = '';
+  if (hcm) { const Y = sy(hcm / 100); mk = `<path class="hm" d="M${x0.toFixed(1)},${Y.toFixed(1)}H${cx.toFixed(1)}"/><text class="hl" x="${(x0 + 16).toFixed(1)}" y="${(Y - 6).toFixed(1)}">身高 ${hcm} cm</text>`; }
+  $('ruler').innerHTML = `<path class="tk" d="M${x0.toFixed(1)},${sy(0).toFixed(1)}V${sy(2.2).toFixed(1)}${tk}"/><g class="lb">${lb}</g>${mk}`;
+}
+
+/* ---------- splash ---------- */
+const SPL = { t0: performance.now(), mesh: 0, verts: 0, done: false, gone: false, lines: 0 };
+const ECG = { buf: null, ts: null, head: 0, acc: 0, last: 0 };
+function ecgVal(ph) {
+  const g = (m, s) => Math.exp(-(((ph - m) / s) ** 2) / 2);
+  return 0.12 * g(0.18, 0.025) - 0.14 * g(0.37, 0.009) + 1.0 * g(0.4, 0.011) - 0.28 * g(0.43, 0.01) + 0.3 * g(0.66, 0.042);
+}
+function drawECG(t) {
+  const cv = $('spCanvas'); if (!cv) return;
+  const dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth, h = cv.clientHeight;
+  if (!w || !h) return;
+  if (cv.width !== Math.round(w * dpr) || !ECG.buf) {
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ECG.buf = new Float32Array(Math.ceil(w)); ECG.ts = new Float32Array(Math.ceil(w)).fill(-1e9); ECG.head = 0; ECG.last = t;
+  }
+  const c = cv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, w, h);
+  const R = w / 2, n = ECG.buf.length, bpm = curRhr() || 66, per = 60 / bpm, speed = w / 2.6;
+  c.save(); c.beginPath(); c.arc(R, h / 2, R * 0.96, 0, Math.PI * 2); c.clip();
+  c.fillStyle = 'rgba(8,24,56,.55)'; c.fillRect(0, 0, w, h);
+  c.strokeStyle = 'rgba(143,219,255,.08)'; c.lineWidth = 1;
+  for (let x = 0; x <= w; x += w / 20) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, h); c.stroke(); }
+  for (let y = 0; y <= h; y += w / 20) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); }
+  ECG.acc += (t - ECG.last) / 1000 * speed; ECG.last = t;
+  let steps = Math.floor(ECG.acc); ECG.acc -= steps;
+  while (steps-- > 0) { const i = ECG.head % n; ECG.buf[i] = ecgVal(((t / 1000 - steps / speed) / per) % 1); ECG.ts[i] = t; ECG.head++; }
+  const base = h * 0.5, amp = h * 0.24, hi = ECG.head % n;
+  c.lineWidth = 2.2; c.lineJoin = 'round'; c.lineCap = 'round'; c.shadowColor = '#4FB2FF'; c.shadowBlur = 10;
+  for (let x0 = 1; x0 < n; x0 += 14) {
+    const x1 = Math.min(n - 1, x0 + 14), mid = Math.min(n - 1, x0 + 7);
+    if (ECG.ts[mid] < 0) continue;
+    const a = Math.max(0, 1 - (t - ECG.ts[mid]) / 2400); if (a <= 0.02) continue;
+    c.strokeStyle = `rgba(143,230,255,${a.toFixed(3)})`; c.beginPath();
+    let started = false;
+    for (let x = x0 - 1; x <= x1; x++) { if (x === hi || x === hi - 1 || ECG.ts[x] < 0) { started = false; continue; } const Y = base - ECG.buf[x] * amp; if (!started) { c.moveTo(x, Y); started = true; } else c.lineTo(x, Y); }
+    c.stroke();
+  }
+  c.shadowBlur = 16; c.fillStyle = '#EAF4FF';
+  const hx = (hi - 1 + n) % n; c.beginPath(); c.arc(hx, base - ECG.buf[hx] * amp, 3.2, 0, Math.PI * 2); c.fill();
+  c.shadowBlur = 0; c.textAlign = 'center'; c.fillStyle = 'rgba(234,244,255,.92)';
+  c.font = `600 ${Math.round(w * 0.11)}px Outfit, sans-serif`; c.fillText(String(bpm), R, h * 0.82);
+  c.font = `500 ${Math.round(w * 0.032)}px "JetBrains Mono", monospace`; c.fillStyle = 'rgba(143,219,255,.8)'; c.fillText('BPM · 静息心率', R, h * 0.88);
+  c.restore();
+}
+function addLog(i) {
+  const act = D.issues.filter(x => x.status !== 'resolved'), parts = new Set(act.map(x => x.part)), sev = act.filter(x => x.sev >= 4).length;
+  const gs = labGroups(), abn = gs.filter(g => labStatus(g.latest).dir).length;
+  const ok = ' <span class="ok">ok</span>';
+  const L = [
+    `&gt; 初始化扫描舱 · ${renderer ? 'WebGL ' + (renderer.capabilities.isWebGL2 ? '2' : '1') + ok : '3D 不可用，使用列表模式'}`,
+    `&gt; 载入人体结构 · 3 个分区 · <b>${PARTS.length}</b> 个部位${ok}`,
+    `&gt; 读取体征 <b>${D.vitals.length}</b> 条 · 体检指标 <b>${gs.length}</b> 项${ok}`,
+    T3.built ? `&gt; 生成玻璃人体 · <b>${nf(SPL.verts)}</b> 个顶点${ok}` : '&gt; 玻璃人体未生成，左侧档案可正常使用',
+    `&gt; 需关注部位 <b>${parts.size}</b> 处 · 异常指标 <b>${abn}</b> 项${sev ? ` · <span class="warn">严重 ${sev} 项</span>` : ''}`
+  ];
+  const d = document.createElement('div'); d.innerHTML = L[i]; $('spLog').append(d);
+}
+function splashFrame(t) {
+  if (SPL.gone) return;
+  requestAnimationFrame(splashFrame);
+  const p = Math.min(Math.min(1, (t - SPL.t0) / 2600), SPL.mesh);
+  $('spBar').style.width = (p * 100).toFixed(1) + '%'; $('spPct').textContent = Math.round(p * 100) + '%';
+  const TH = [0.05, 0.28, 0.52, 0.99, 1];
+  while (SPL.lines < TH.length && p >= TH[SPL.lines]) addLog(SPL.lines++);
+  if (p >= 1 && !SPL.done) { SPL.done = true; $('spGo').classList.add('show'); setTimeout(enterApp, 1100); }
+  drawECG(t);
+}
+function enterApp() {
+  if (SPL.gone) return;
+  SPL.gone = true;
+  const s = $('splash'); s.classList.add('out'); $('win').classList.add('enter');
+  setTimeout(() => { s.remove(); layout(); }, 900);
+}
+function splashMeta() {
+  const p = D.profile, b = latestV('bp');
+  $('spHr').textContent = `HR ${curRhr() ?? '—'} BPM`;
+  $('spBp').textContent = `BP ${b ? b.value + '/' + b.value2 : '—/—'}`;
+  $('spH').textContent = `H ${p && p.height ? p.height : '—'} CM`;
+  $('spMeta').textContent = `SYS ${PARTS.length} · ${fmtD(todayISO())}`;
+}
+
+/* ---------- actions ---------- */
+async function togglePlan(id) {
+  const p = D.plans.find(x => x.id === id); if (!p) return;
+  const base = strip(p);
+  if (p.done) { await put('plans', id, { ...base, done: false }); toast('已恢复为待办'); return; }
+  if (p.repeat) {
+    const t = todayISO(), from = p.due < t ? t : p.due, next = addPeriod(from, p.repeat);
+    await put('plans', id, { ...base, due: next, last: t }); toast(`已打卡，下次 ${fmtMD(next)}`);
+  } else { await put('plans', id, { ...base, done: true, doneAt: todayISO() }); toast(`已完成：${p.title}`); }
+}
+async function clearExamples() {
+  if (!guardWrite()) return;
+  let n = 0;
+  try {
+    if (mode === 'local') {
+      for (const c of COLS) { n += D[c].filter(x => x.example).length; D[c] = D[c].filter(x => !x.example); saveLocal(c); }
+      if (D.profile && D.profile.example) { D.profile = null; saveLocal('profile'); n++; }
+    } else {
+      const jobs = [];
+      for (const c of COLS) for (const x of D[c].filter(x => x.example)) jobs.push([c, x.id]);
+      for (let i = 0; i < jobs.length; i += 8) { await Promise.all(jobs.slice(i, i + 8).map(([c, id]) => del(c, id))); n += Math.min(8, jobs.length - i); }
+      if (D.profile && D.profile.example) { await putProfile(null); n++; }
+    }
+    ST.sel = null; ST.vt = null; renderAll(); toast(`已清除 ${n} 条示例数据`);
+  } catch (e) { fail(e); }
+}
+async function onAct(e) {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, id = b.dataset.id;
+  try {
+    switch (a) {
+      case 'issue': { const i = D.issues.find(x => x.id === id); if (i) selectPart(i.part, i.side, { issue: id }); break; }
+      case 'vt': ST.vt = b.dataset.type; renderAll(); $('list').scrollTop = 0; break;
+      case 'vback': ST.vt = null; renderAll(); break;
+      case 'vadd': openForm('vital', { type: b.dataset.type }); break;
+      case 'vdel':
+        if (!guardWrite()) break;
+        if (!armed('v' + id)) { arm('v' + id); renderAll(); break; }
+        ST.armed = null; await del('vitals', id); toast('已删除这条记录'); break;
+      case 'lab': selectLab(b.dataset.key); break;
+      case 'ladd': openForm('lab', { key: b.dataset.key }); break;
+      case 'ldel':
+        if (!guardWrite()) break;
+        if (!armed('l' + id)) { arm('l' + id); renderAll(); break; }
+        ST.armed = null; await del('labs', id); toast('已删除这次记录'); break;
+      case 'plan': { const p = D.plans.find(x => x.id === id); if (!p) break; if (p.part) selectPart(p.part, '', { plan: id }); else openForm('plan', { id }); break; }
+      case 'pedit2': openForm('plan', { id }); break;
+      case 'chk': if (guardWrite()) await togglePlan(id); break;
+      case 'close': clearSel(); break;
+      case 'zall': setZone('all'); break;
+      case 'part': selectPart(id); break;
+      case 'iadd': openForm('issue', { part: b.dataset.part }); break;
+      case 'padd': openForm('plan', { part: b.dataset.part }); break;
+      case 'iedit': openForm('issue', { id }); break;
+      case 'istat': {
+        if (!guardWrite()) break;
+        const i = D.issues.find(x => x.id === id); if (!i) break;
+        await put('issues', id, { ...strip(i), status: b.dataset.s }); toast(`${i.title}：${STATUS[b.dataset.s]}`); break;
+      }
+      case 'idel':
+        if (!guardWrite()) break;
+        if (!armed('i' + id)) { arm('i' + id); renderAll(); break; }
+        ST.armed = null; await del('issues', id); toast('已删除这个问题'); break;
+      case 'pedit': openForm('profile'); break;
+    }
+  } catch (err) { fail(err); }
+}
+
+/* ---------- wiring ---------- */
+function wire() {
+  for (const id of ['list', 'card', 'profile', 'zoneHud', 'zchip']) $(id).addEventListener('click', onAct);
+  document.querySelectorAll('.mods button').forEach(b => b.addEventListener('click', () => {
+    ST.mod = b.dataset.mod; ST.vt = null; ST.q = ''; $('q').value = ''; saveUI(); renderAll(); $('list').scrollTop = 0;
+  }));
+  $('q').addEventListener('input', e => { ST.q = e.target.value; renderSide(); });
+  $('g-a').onclick = () => { ST.grp[ST.mod] = ST.mod === 'issue' ? 'zone' : 'cat'; saveUI(); renderSide(); };
+  $('g-b').onclick = () => { ST.grp[ST.mod] = ST.mod === 'issue' ? 'sev' : 'abn'; saveUI(); renderSide(); };
+  $('addBtn').onclick = () => {
+    const part = ST.sel && ST.sel.id ? ST.sel.id : '';
+    if (ST.mod === 'issue') openForm('issue', { part: part || undefined });
+    else if (ST.mod === 'vital') openForm('vital', { type: ST.vt || 'weight' });
+    else if (ST.mod === 'lab') openForm('lab', {});
+    else openForm('plan', { part });
+  };
+  $('exClear').onclick = clearExamples;
+  document.querySelectorAll('.hud-tr [data-zone]').forEach(b => b.addEventListener('click', () => setZone(b.dataset.zone)));
+  $('b-spin').setAttribute('aria-pressed', String(G.spin));
+  $('b-spin').onclick = () => { G.spin = !G.spin; $('b-spin').setAttribute('aria-pressed', String(G.spin)); };
+  $('b-reset').onclick = () => { const c = ST.sel && ST.sel.id ? partCam(ST.sel.id, ST.sel.side) : G.zone === 'all' ? { ...OVERVIEW_CAM, yaw: 0 } : ZONES[G.zone].cam; flyTo(c); };
+  $('b-in').onclick = () => { setZoom(G.zoom * 1.3); G.lastInt = performance.now(); };
+  $('b-out').onclick = () => { setZoom(G.zoom / 1.3); G.lastInt = performance.now(); };
+  const co = $('callouts');
+  co.addEventListener('click', e => { const b = e.target.closest('.co'); if (!b) return; if (b.dataset.z) setZone(b.dataset.z); else selectPart(b.dataset.p, b.dataset.side); });
+  co.addEventListener('pointerover', e => { const b = e.target.closest('.co'); if (!b || !b.dataset.p) return; G.hoverPart = b.dataset.p; refreshTargets(); });
+  co.addEventListener('pointerout', e => { const b = e.target.closest('.co'); if (!b || !b.dataset.p) return; G.hoverPart = null; refreshTargets(); });
+
+  const hit = $('hit');
+  hit.addEventListener('pointerdown', e => {
+    if (!T3.scene) return;
+    hit.setPointerCapture(e.pointerId); PTRS.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (PTRS.size === 2) { const [a, b] = [...PTRS.values()]; DRAG = { pinch: Math.hypot(a.x - b.x, a.y - b.y), zoom: G.zoom, moved: true }; return; }
+    DRAG = { x: e.clientX, y: e.clientY, yaw: G.yaw, pitch: G.pitch, moved: false };
+    G.lastInt = performance.now();
+  });
+  hit.addEventListener('pointermove', e => {
+    if (PTRS.has(e.pointerId)) PTRS.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (DRAG) {
+      if (DRAG.pinch) { if (PTRS.size >= 2) { const [a, b] = [...PTRS.values()]; setZoom(DRAG.zoom * Math.hypot(a.x - b.x, a.y - b.y) / DRAG.pinch); } return; }
+      const dx = e.clientX - DRAG.x, dy = e.clientY - DRAG.y;
+      if (!DRAG.moved && Math.hypot(dx, dy) > 4) { DRAG.moved = true; G.anim = null; hit.classList.add('drag'); $('captip').hidden = true; }
+      if (DRAG.moved) { G.yaw = DRAG.yaw + dx * 0.009; G.pitch = clamp(DRAG.pitch + dy * 0.004, -0.35, 0.6); G.lastInt = performance.now(); }
+      return;
+    }
+    if (e.pointerType === 'mouse') G.pend = e;
+  });
+  const end = e => {
+    PTRS.delete(e.pointerId);
+    if (!DRAG) return;
+    const d = DRAG;
+    if (PTRS.size === 0) { DRAG = null; hit.classList.remove('drag'); if (!d.moved && e.type === 'pointerup') clickAt(e); }
+  };
+  hit.addEventListener('pointerup', end); hit.addEventListener('pointercancel', end);
+  hit.addEventListener('pointerleave', () => { if (DRAG) return; G.pend = null; if (G.hoverZone || G.hoverPart) { G.hoverZone = 0; G.hoverPart = null; refreshTargets(); markCalloutHover(); } $('captip').hidden = true; });
+  hit.addEventListener('wheel', e => { e.preventDefault(); setZoom(G.zoom * Math.exp(-e.deltaY * 0.0015)); G.lastInt = performance.now(); }, { passive: false });
+
+  document.addEventListener('keydown', e => {
+    if (!SPL.gone && (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ')) { e.preventDefault(); enterApp(); return; }
+    if (e.key !== 'Escape') return;
+    if (!$('overlay').hidden) closeForm();
+    else if (ST.sel) clearSel();
+    else if (G.zone !== 'all') setZone('all');
+  });
+  $('splash').addEventListener('click', enterApp);
+  new ResizeObserver(() => layout()).observe($('stage'));
+}
+
+function boot() {
+  loadLocal();
+  wire();
+  renderAll();
+  splashMeta();
+  requestAnimationFrame(splashFrame);
+  connect().then(splashMeta);
+  init3D((p, v) => { SPL.mesh = Math.max(SPL.mesh, p); if (v) SPL.verts = v; }).then(v => { if (!v) SPL.mesh = 1; });
+}
+boot();
+
+})();</script>
