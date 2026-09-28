@@ -33,6 +33,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .brand{padding:10px 22px 0}
 .brand h1{margin:0;font-size:30px;line-height:1.15;font-weight:700;letter-spacing:.01em;text-wrap:balance}
 .brand p{margin:2px 0 0;color:var(--muted);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.people{display:flex;gap:6px;margin:14px 22px 0;overflow-x:auto;scrollbar-width:none;padding:2px}
+.people button{flex:none;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--field);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;font-size:15px;font-weight:500;color:var(--ink)}
+.people button small{font-size:12px;color:var(--muted);font-weight:400}
+.people button[aria-selected="true"]{background:var(--glass-a);border-color:var(--blue);box-shadow:0 0 0 1px var(--blue) inset,0 6px 16px -8px var(--shadow)}
+.people .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--c-vital),var(--c-lab))}
+.people .av.f,.pf-ava.f{background:linear-gradient(135deg,#E0569B,var(--c-lab))}
+.people .add{padding:4px 12px;color:var(--blue);border-style:dashed}
 .mods{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:16px 22px 0;padding:4px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
 .mods button{font-size:15px;font-weight:500;border:0;background:none;color:var(--muted);padding:9px 2px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;min-width:0}
 .mods button[aria-selected="true"]{background:var(--glass-a);color:var(--ink);box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 12px -4px var(--shadow)}
@@ -379,6 +386,7 @@ button.cl:hover span:first-child{color:var(--blue)}
   <aside class="side">
     <div class="titlebar"><div class="lights" aria-hidden="true"><span></span><span></span><span></span></div></div>
     <div class="brand"><h1>我的身体健康</h1><p class="latin">Body Health OS</p></div>
+    <div class="people" id="people" role="tablist" aria-label="档案"></div>
     <div class="mods" role="tablist" aria-label="模块">
       <button role="tab" data-mod="issue" id="m-issue"><i class="kd k-issue"></i>问题<span class="n num" id="n-issue"></span></button>
       <button role="tab" data-mod="vital" id="m-vital"><i class="kd k-vital"></i>体征<span class="n num" id="n-vital"></span></button>
@@ -670,6 +678,7 @@ const PARTS = [
   { id: 'mouth', name: '口腔牙齿', zone: 'head', sys: '口腔', a: [0.014, 1.566, 0.09], ls: 'r' },
   { id: 'throat', name: '咽喉', zone: 'head', sys: '上呼吸道', a: [0, 1.51, 0.036], ls: 'l' },
   { id: 'thyroid', name: '甲状腺', zone: 'head', sys: '内分泌', a: [0.018, 1.468, 0.042], ls: 'r' },
+  { id: 'carotid', name: '颈动脉', zone: 'head', sys: '循环系统', a: [0.027, 1.505, 0.01], ls: 'r', pair: 1, cam: { y: 1.52, h: 0.3, yawL: -0.7, yawR: 0.7 } },
 
   { id: 'heart', name: '心脏', zone: 'organs', sys: '循环系统', a: [0.035, 1.24, 0.07], ls: 'r' },
   { id: 'lungs', name: '肺', zone: 'organs', sys: '呼吸系统', a: [0.1, 1.33, 0.03], ls: 'r', pair: 1 },
@@ -683,6 +692,9 @@ const PARTS = [
   { id: 'colon', name: '大肠', zone: 'organs', sys: '消化系统', a: [0.1, 1.0, 0.035], ls: 'r' },
   { id: 'kidneys', name: '肾脏', zone: 'organs', sys: '泌尿系统', a: [0.062, 1.085, -0.07], ls: 'r', pair: 1, cam: { y: 1.06, h: 0.5, yaw: Math.PI } },
   { id: 'bladder', name: '膀胱', zone: 'organs', sys: '泌尿系统', a: [0, 0.912, 0.065], ls: 'l' },
+  { id: 'breasts', name: '乳腺', zone: 'organs', sys: '乳腺', a: [0.07, 1.27, 0.105], ls: 'r', pair: 1, sex: 'F', cam: { y: 1.24, h: 0.46 } },
+  { id: 'uterus', name: '子宫', zone: 'organs', sys: '生殖系统', a: [0, 0.97, 0.03], ls: 'l', sex: 'F', cam: { y: 0.97, h: 0.4 } },
+  { id: 'ovaries', name: '卵巢与附件', zone: 'organs', sys: '生殖系统', a: [0.056, 0.958, 0.004], ls: 'r', pair: 1, sex: 'F', cam: { y: 0.97, h: 0.4 } },
 
   { id: 'cervical', name: '颈椎', zone: 'frame', sys: '脊柱', a: [0, 1.49, -0.04], ls: 'l', cam: { y: 1.42, h: 0.46, yaw: 2.7 } },
   { id: 'shoulders', name: '肩关节', zone: 'frame', sys: '上肢', a: [0.2, 1.39, -0.015], ls: 'r', pair: 1, cam: { y: 1.3, h: 0.62 } },
@@ -691,16 +703,21 @@ const PARTS = [
   { id: 'wrists', name: '手腕与手', zone: 'frame', sys: '上肢', a: [0.318, 0.86, 0.002], ls: 'r', pair: 1, cam: { y: 0.82, h: 0.56 } },
   { id: 'hips', name: '髋关节', zone: 'frame', sys: '下肢', a: [0.1, 0.925, 0.0], ls: 'r', pair: 1, cam: { y: 0.88, h: 0.62 } },
   { id: 'knees', name: '膝关节', zone: 'frame', sys: '下肢', a: [0.1, 0.5, 0.035], ls: 'r', pair: 1, cam: { y: 0.5, h: 0.62 } },
-  { id: 'ankles', name: '足踝', zone: 'frame', sys: '下肢', a: [0.105, 0.085, 0.0], ls: 'r', pair: 1, cam: { y: 0.16, h: 0.5 } }
+  { id: 'ankles', name: '足踝', zone: 'frame', sys: '下肢', a: [0.105, 0.085, 0.0], ls: 'r', pair: 1, cam: { y: 0.16, h: 0.5 } },
+  { id: 'bones', name: '全身骨骼', zone: 'frame', sys: '骨骼与骨密度', a: [-0.094, 0.72, 0.004], ls: 'l' }
 ];
 
-// joints of the A-pose skeleton (left side; mirrored for the right)
-const J = {
-  S: [0.195, 1.385, -0.015], E: [0.265, 1.105, -0.035], W: [0.315, 0.865, 0.0],
-  H: [0.088, 0.925, 0.004], K: [0.1, 0.5, 0.012], A: [0.103, 0.085, -0.02]
+// joints of the A-pose skeleton (left side; mirrored for the right). The female frame has narrower
+// shoulders, a wider pelvis and is later scaled to the person's own height like the male one.
+const JS = {
+  M: { S: [0.195, 1.385, -0.015], E: [0.265, 1.105, -0.035], W: [0.315, 0.865, 0.0], H: [0.088, 0.925, 0.004], K: [0.1, 0.5, 0.012], A: [0.103, 0.085, -0.02] },
+  F: { S: [0.178, 1.378, -0.015], E: [0.242, 1.1, -0.032], W: [0.288, 0.862, 0.004], H: [0.096, 0.915, 0.004], K: [0.098, 0.5, 0.014], A: [0.1, 0.085, -0.02] }
 };
+const J = JS.M;
+const TRUNK = new Set(['heart', 'lungs', 'esophagus', 'liver', 'gallbladder', 'stomach', 'spleen', 'pancreas', 'smallint', 'colon', 'kidneys', 'bladder']);
+const TRUNK_F = 0.92; // female ribcage and abdomen are narrower: shared trunk organs are scaled in x
 
-function sdfSpecs() {
+function sdfSpecs(set) {
   const S = (c, r, op, k) => ({ t: 'sph', c, r, op: op || 'u', k: k || 0 });
   const E = (c, r, rot, k, op) => ({ t: 'ell', c, r, rot: rot || null, k: k || 0, op: op || 'u' });
   const R = (a, b, r1, r2, k, op) => ({ t: 'rc', a, b, r1, r2, k: k || 0, op: op || 'u' });
@@ -716,44 +733,64 @@ function sdfSpecs() {
     return q;
   };
   const sym = list => [...list, ...list.map(mx)];
-  const { S: sh, E: el, W: wr, H: hp, K: kn, A: an } = J;
+  const add = (a, d) => [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
+  const lerp = (a, b, t, dz) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t + (dz || 0)];
 
-  const shell = [
-    E([0, 1.668, -0.01], [0.077, 0.09, 0.099]),
-    E([0, 1.588, 0.02], [0.061, 0.074, 0.074], 0, 0.035),
-    E([0, 1.662, 0.072], [0.058, 0.018, 0.022], 0, 0.025),
-    ...sym([E([0.043, 1.612, 0.052], [0.024, 0.02, 0.026], 0, 0.02)]),
-    E([0, 1.533, 0.058], [0.027, 0.02, 0.02], 0, 0.022),
-    E([0, 1.566, 0.088], [0.022, 0.009, 0.011], 0, 0.01),
-    ...sym([E([0.077, 1.628, -0.004], [0.011, 0.03, 0.018], [0, 0.2, 0.1], 0.01)]),
-    ...sym([S([0.031, 1.642, 0.094], 0.016, 's', 0.012)]),
-    R([0, 1.642, 0.088], [0, 1.602, 0.104], 0.008, 0.012, 0.012),
-    E([0, 1.598, 0.099], [0.018, 0.011, 0.012], 0, 0.01),
-    R([0, 1.545, -0.012], [0, 1.43, -0.004], 0.051, 0.057, 0.03),
-    ...sym([R([0, 1.47, -0.028], [0.15, 1.415, -0.024], 0.05, 0.045, 0.04)]),
-    E([0, 1.3, 0.0], [0.155, 0.15, 0.105], 0, 0.05),
-    ...sym([E([0.068, 1.312, 0.056], [0.074, 0.05, 0.042], 0, 0.04)]),
-    E([0, 1.28, -0.032], [0.158, 0.13, 0.082], 0, 0.05),
-    E([0, 1.11, 0.008], [0.135, 0.14, 0.097], 0, 0.06),
-    E([0, 0.955, -0.004], [0.158, 0.095, 0.1], 0, 0.05),
-    ...sym([E([0.07, 0.915, -0.055], [0.074, 0.08, 0.062], 0, 0.04)]),
-    ...sym([S([0.19, 1.396, -0.012], 0.056, 'u', 0.04)]),
-    ...sym([R(sh, el, 0.046, 0.036, 0.03)]),
-    ...sym([E([0.232, 1.255, 0.004], [0.036, 0.07, 0.037], [0, 0, 0.245], 0.03)]),
-    ...sym([R(el, wr, 0.037, 0.025, 0.025)]),
-    ...sym([E([0.28, 1.03, -0.022], [0.035, 0.065, 0.034], [0, 0, 0.2], 0.03)]),
-    ...sym([E([0.327, 0.8, 0.01], [0.016, 0.048, 0.041], [0, 0, 0.1], 0.016)]),
-    ...sym([E([0.333, 0.733, 0.013], [0.012, 0.042, 0.034], [0, 0, 0.08], 0.012)]),
-    ...sym([R([0.321, 0.832, 0.035], [0.318, 0.782, 0.058], 0.0095, 0.0075, 0.01)]),
-    ...sym([R([0.088, 0.93, 0.0], kn, 0.084, 0.05, 0.04)]),
-    ...sym([E([0.095, 0.72, 0.024], [0.058, 0.14, 0.055], 0, 0.04)]),
-    ...sym([S([0.1, 0.5, 0.018], 0.047, 'u', 0.025)]),
-    ...sym([R([0.1, 0.49, 0.0], an, 0.048, 0.03, 0.03)]),
-    ...sym([E([0.102, 0.35, -0.03], [0.044, 0.085, 0.045], 0, 0.04)]),
-    ...sym([E([0.108, 0.035, 0.045], [0.038, 0.034, 0.105], 0, 0.03)]),
-    ...sym([S([0.103, 0.045, -0.026], 0.034, 'u', 0.025)]),
-    PL([0, 0.001, 0], [0, 1, 0], 'i', 0.004)
-  ];
+  function shell(sex) {
+    const f = sex === 'F', j = JS[sex], { S: sh, E: el, W: wr, H: hp, K: kn, A: an } = j;
+    const head = [
+      E([0, 1.668, -0.01], [0.077, 0.09, 0.099]),
+      E([0, 1.588, 0.02], f ? [0.057, 0.07, 0.071] : [0.061, 0.074, 0.074], 0, 0.035),
+      E([0, 1.662, 0.072], f ? [0.054, 0.015, 0.02] : [0.058, 0.018, 0.022], 0, 0.025),
+      ...sym([E([0.043, 1.612, 0.052], [0.024, 0.02, 0.026], 0, 0.02)]),
+      E([0, 1.536, 0.056], f ? [0.022, 0.017, 0.018] : [0.027, 0.02, 0.02], 0, 0.022),
+      E([0, 1.566, 0.088], [0.022, 0.009, 0.011], 0, 0.01),
+      ...sym([E([0.077, 1.628, -0.004], [0.011, 0.03, 0.018], [0, 0.2, 0.1], 0.01)]),
+      ...sym([S([0.031, 1.642, 0.094], 0.016, 's', 0.012)]),
+      R([0, 1.642, 0.088], [0, 1.602, 0.104], 0.008, f ? 0.011 : 0.012, 0.012),
+      E([0, 1.598, 0.099], f ? [0.016, 0.01, 0.011] : [0.018, 0.011, 0.012], 0, 0.01)
+    ];
+    const torso = f ? [
+      R([0, 1.545, -0.012], [0, 1.43, -0.004], 0.047, 0.052, 0.03),
+      ...sym([R([0, 1.465, -0.028], [0.135, 1.41, -0.024], 0.044, 0.04, 0.04)]),
+      E([0, 1.3, 0.0], [0.14, 0.145, 0.098], 0, 0.05),
+      ...sym([E([0.064, 1.272, 0.068], [0.058, 0.056, 0.05], [0.25, 0, 0], 0.035)]),
+      E([0, 1.28, -0.03], [0.142, 0.125, 0.078], 0, 0.05),
+      E([0, 1.1, 0.004], [0.118, 0.135, 0.09], 0, 0.06),
+      E([0, 0.945, -0.006], [0.168, 0.1, 0.105], 0, 0.05),
+      ...sym([E([0.074, 0.905, -0.058], [0.08, 0.085, 0.066], 0, 0.04)]),
+      ...sym([S(add(sh, [-0.003, 0.008, 0.003]), 0.048, 'u', 0.04)])
+    ] : [
+      R([0, 1.545, -0.012], [0, 1.43, -0.004], 0.051, 0.057, 0.03),
+      ...sym([R([0, 1.47, -0.028], [0.15, 1.415, -0.024], 0.05, 0.045, 0.04)]),
+      E([0, 1.3, 0.0], [0.155, 0.15, 0.105], 0, 0.05),
+      ...sym([E([0.068, 1.312, 0.056], [0.074, 0.05, 0.042], 0, 0.04)]),
+      E([0, 1.28, -0.032], [0.158, 0.13, 0.082], 0, 0.05),
+      E([0, 1.11, 0.008], [0.135, 0.14, 0.097], 0, 0.06),
+      E([0, 0.955, -0.004], [0.158, 0.095, 0.1], 0, 0.05),
+      ...sym([E([0.07, 0.915, -0.055], [0.074, 0.08, 0.062], 0, 0.04)]),
+      ...sym([S(add(sh, [-0.005, 0.011, 0.003]), 0.056, 'u', 0.04)])
+    ];
+    const k = f ? 0.9 : 1; // limb girth
+    const limbs = [
+      ...sym([R(sh, el, 0.046 * k, 0.036 * k, 0.03)]),
+      ...sym([E(lerp(sh, el, 0.46, 0.019), [0.036 * k, 0.07, 0.037 * k], [0, 0, Math.atan2(el[0] - sh[0], sh[1] - el[1])], 0.03)]),
+      ...sym([R(el, wr, 0.037 * k, 0.025 * k, 0.025)]),
+      ...sym([E(lerp(el, wr, 0.3, 0.001), [0.035 * k, 0.065, 0.034 * k], [0, 0, 0.2], 0.03)]),
+      ...sym([E(add(wr, [0.012, -0.065, 0.01]), [0.016 * k, 0.048 * k, 0.041 * k], [0, 0, 0.1], 0.016)]),
+      ...sym([E(add(wr, [0.018, -0.132 * (f ? 0.94 : 1), 0.013]), [0.012 * k, 0.042 * k, 0.034 * k], [0, 0, 0.08], 0.012)]),
+      ...sym([R(add(wr, [0.006, -0.033, 0.035]), add(wr, [0.003, -0.083, 0.058]), 0.0095 * k, 0.0075 * k, 0.01)]),
+      ...sym([R([hp[0], hp[1] + 0.005, 0.0], kn, f ? 0.088 : 0.084, 0.05, 0.04)]),
+      ...sym([E([hp[0] + 0.007, 0.72, 0.024], f ? [0.062, 0.14, 0.056] : [0.058, 0.14, 0.055], 0, 0.04)]),
+      ...sym([S([kn[0], 0.5, 0.018], 0.047 * (f ? 0.94 : 1), 'u', 0.025)]),
+      ...sym([R([kn[0], 0.49, 0.0], an, 0.048 * (f ? 0.94 : 1), 0.03 * (f ? 0.92 : 1), 0.03)]),
+      ...sym([E([kn[0] + 0.002, 0.35, -0.03], f ? [0.042, 0.082, 0.043] : [0.044, 0.085, 0.045], 0, 0.04)]),
+      ...sym([E(add(an, [0.005, -0.05, 0.065]), f ? [0.034, 0.031, 0.095] : [0.038, 0.034, 0.105], 0, 0.03)]),
+      ...sym([S(add(an, [0, -0.04, -0.006]), f ? 0.031 : 0.034, 'u', 0.025)]),
+      PL([0, 0.001, 0], [0, 1, 0], 'i', 0.004)
+    ];
+    return [...head, ...torso, ...limbs];
+  }
 
   // colon: haustra as a bead chain along the frame of the abdomen
   const colonPath = [[-0.082, 0.955, 0.035], [-0.09, 1.0, 0.035], [-0.092, 1.07, 0.03], [-0.075, 1.085, 0.05], [-0.03, 1.07, 0.068], [0.02, 1.07, 0.068], [0.07, 1.09, 0.05], [0.098, 1.095, 0.028], [0.1, 1.04, 0.028], [0.098, 0.98, 0.03], [0.085, 0.945, 0.035], [0.05, 0.925, 0.04], [0.02, 0.93, 0.02], [0.005, 0.922, -0.02], [0.0, 0.9, -0.04]];
@@ -786,8 +823,20 @@ function sdfSpecs() {
   });
 
   const heartRot = [-0.25, 0, 0.62];
+  const carotid = [R([0.024, 1.43, 0.018], [0.025, 1.505, 0.012], 0.0042, 0.0045), S([0.025, 1.508, 0.012], 0.0058, 'u', 0.004), R([0.025, 1.51, 0.012], [0.03, 1.56, 0.004], 0.0036, 0.0034, 0.003), R([0.025, 1.51, 0.012], [0.017, 1.56, 0.0], 0.0034, 0.003, 0.003)];
+  if (set === 'M') return [{ id: 'shell-M', h: 0.0068, prims: shell('M') }];
+  if (set === 'F') {
+    const breast = [E([0.064, 1.268, 0.07], [0.046, 0.044, 0.038], [0.25, 0, 0])];
+    const ovary = [E([0.056, 0.958, 0.004], [0.013, 0.009, 0.009], [0, 0, 0.3]), R([0.018, 0.974, 0.02], [0.05, 0.967, 0.01], 0.003, 0.0035, 0.002)];
+    return [
+      { id: 'shell-F', h: 0.0068, prims: shell('F') },
+      { id: 'breasts:L', h: 0.0034, prims: breast }, { id: 'breasts:R', h: 0.0034, prims: breast.map(mx) },
+      { id: 'uterus', h: 0.0022, prims: [E([0, 0.952, 0.014], [0.025, 0.034, 0.021], [0.55, 0, 0]), R([0, 0.93, 0.0], [0, 0.903, -0.016], 0.011, 0.009, 0.006)] },
+      { id: 'ovaries:L', h: 0.0017, prims: ovary }, { id: 'ovaries:R', h: 0.0017, prims: ovary.map(mx) }
+    ];
+  }
   const out = [
-    { id: 'shell', h: 0.0068, prims: shell },
+    { id: 'carotid:L', h: 0.0015, prims: carotid }, { id: 'carotid:R', h: 0.0015, prims: carotid.map(mx) },
     { id: 'brain', h: 0.004, prims: [
       E([0, 1.686, -0.012], [0.066, 0.058, 0.084]),
       E([0, 1.75, -0.01], [0.0035, 0.05, 0.092], 0, 0.006, 's'),
@@ -1066,7 +1115,7 @@ const addPeriod = (s, r) => { if (r === 'daily') return addDays(s, 1); if (r ===
 const isMonth = s => /^\d{4}-\d{2}$/.test(s || '');
 const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') && !isNaN(parseD(s));
 const fmtD = s => s ? String(s).replaceAll('-', '.') : '';
-const fmtMD = s => { const d = parseD(s); return `${d.getMonth() + 1}月${d.getDate()}日`; };
+const fmtMD = s => { const d = parseD(s); return `${d.getFullYear() !== new Date().getFullYear() ? d.getFullYear() + '年' : ''}${d.getMonth() + 1}月${d.getDate()}日`; };
 const WK = '日一二三四五六';
 const nf = (v, d = 0) => Number(v).toLocaleString('zh-CN', { minimumFractionDigits: d, maximumFractionDigits: d });
 const byDate = k => (a, b) => a[k] < b[k] ? -1 : a[k] > b[k] ? 1 : 0;
@@ -1087,24 +1136,24 @@ const VT = {
   steps: { name: '日均步数', unit: '步', d: 0, min: 0, max: 100000, part: '' }
 };
 const VT_ORDER = ['weight', 'rhr', 'bp', 'sleep', 'steps'];
-const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '眼科', '其他'];
+const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '骨代谢', '心功能', '尿常规', '眼科', '其他'];
 const LAB_PRESETS = [
   { key: 'TC', name: '总胆固醇', unit: 'mmol/L', low: null, high: 5.2, cat: '血脂', part: 'heart' },
   { key: 'TG', name: '甘油三酯', unit: 'mmol/L', low: null, high: 1.7, cat: '血脂', part: 'heart' },
   { key: 'LDL-C', name: '低密度脂蛋白胆固醇', unit: 'mmol/L', low: null, high: 3.4, cat: '血脂', part: 'heart' },
   { key: 'HDL-C', name: '高密度脂蛋白胆固醇', unit: 'mmol/L', low: 1.0, high: null, cat: '血脂', part: 'heart' },
-  { key: 'ALT', name: '谷丙转氨酶', unit: 'U/L', low: 9, high: 50, cat: '肝功能', part: 'liver' },
-  { key: 'AST', name: '谷草转氨酶', unit: 'U/L', low: 15, high: 40, cat: '肝功能', part: 'liver' },
-  { key: 'GGT', name: 'γ-谷氨酰转移酶', unit: 'U/L', low: 10, high: 60, cat: '肝功能', part: 'liver' },
+  { key: 'ALT', name: '谷丙转氨酶', unit: 'U/L', low: 9, high: 50, cat: '肝功能', part: 'liver', f: [7, 40] },
+  { key: 'AST', name: '谷草转氨酶', unit: 'U/L', low: 15, high: 40, cat: '肝功能', part: 'liver', f: [13, 35] },
+  { key: 'GGT', name: 'γ-谷氨酰转移酶', unit: 'U/L', low: 10, high: 60, cat: '肝功能', part: 'liver', f: [7, 45] },
   { key: 'TBIL', name: '总胆红素', unit: 'μmol/L', low: 3.4, high: 20.5, cat: '肝功能', part: 'liver' },
   { key: 'ALB', name: '白蛋白', unit: 'g/L', low: 40, high: 55, cat: '肝功能', part: 'liver' },
-  { key: 'Cr', name: '肌酐', unit: 'μmol/L', low: 57, high: 111, cat: '肾功能', part: 'kidneys' },
-  { key: 'UA', name: '尿酸', unit: 'μmol/L', low: 208, high: 428, cat: '肾功能', part: 'kidneys' },
+  { key: 'Cr', name: '肌酐', unit: 'μmol/L', low: 57, high: 111, cat: '肾功能', part: 'kidneys', f: [41, 81] },
+  { key: 'UA', name: '尿酸', unit: 'μmol/L', low: 208, high: 428, cat: '肾功能', part: 'kidneys', f: [155, 357] },
   { key: 'BUN', name: '尿素', unit: 'mmol/L', low: 3.1, high: 8.0, cat: '肾功能', part: 'kidneys' },
   { key: 'eGFR', name: '估算肾小球滤过率', unit: 'mL/min/1.73m²', low: 90, high: null, cat: '肾功能', part: 'kidneys' },
   { key: 'FPG', name: '空腹血糖', unit: 'mmol/L', low: 3.9, high: 6.1, cat: '血糖', part: 'pancreas' },
   { key: 'HbA1c', name: '糖化血红蛋白', unit: '%', low: 4.0, high: 6.0, cat: '血糖', part: 'pancreas' },
-  { key: 'Hb', name: '血红蛋白', unit: 'g/L', low: 130, high: 175, cat: '血常规', part: '' },
+  { key: 'Hb', name: '血红蛋白', unit: 'g/L', low: 130, high: 175, cat: '血常规', part: '', f: [115, 150] },
   { key: 'WBC', name: '白细胞计数', unit: '×10⁹/L', low: 3.5, high: 9.5, cat: '血常规', part: '' },
   { key: 'PLT', name: '血小板计数', unit: '×10⁹/L', low: 125, high: 350, cat: '血常规', part: '' },
   { key: 'TSH', name: '促甲状腺激素', unit: 'mIU/L', low: 0.27, high: 4.2, cat: '甲状腺', part: 'thyroid' },
@@ -1112,19 +1161,24 @@ const LAB_PRESETS = [
   { key: 'UBT', name: 'C13 尿素呼气试验', unit: 'DOB', low: null, high: 4.0, cat: '感染', part: 'stomach' },
   { key: 'AFP', name: '甲胎蛋白', unit: 'ng/mL', low: null, high: 7, cat: '肿瘤标志物', part: 'liver' },
   { key: 'CEA', name: '癌胚抗原', unit: 'ng/mL', low: null, high: 5, cat: '肿瘤标志物', part: 'colon' },
-  { key: 'PSA', name: '前列腺特异性抗原', unit: 'ng/mL', low: null, high: 4, cat: '肿瘤标志物', part: 'bladder' },
+  { key: 'PSA', name: '前列腺特异性抗原', unit: 'ng/mL', low: null, high: 4, cat: '肿瘤标志物', part: 'bladder', only: 'M' },
   { key: '25OHD', name: '25-羟基维生素 D', unit: 'ng/mL', low: 30, high: 100, cat: '维生素', part: '' },
   { key: 'IOP', name: '眼压', unit: 'mmHg', low: 10, high: 21, cat: '眼科', part: 'eyes' }
 ];
+// sex-specific reference intervals: WS/T 404 (ALT, AST, GGT, Cr, Hb); uric acid per common Chinese lab ranges
+const presets = () => LAB_PRESETS.filter(p => !p.only || p.only === SEX()).map(p => SEX() === 'F' && p.f ? { ...p, low: p.f[0], high: p.f[1] } : p);
 const PLAN_KINDS = { recheck: '复查', med: '用药', exercise: '运动', habit: '习惯' };
 const REPEATS = { '': '不重复', daily: '每天', weekly: '每周', monthly: '每月' };
 
-/* ---------- data ---------- */
+/* ---------- data: one document per person, their records in sub-collections ---------- */
 const COLS = ['issues', 'vitals', 'labs', 'plans'];
-const LSK = { issues: 'bos-issues', vitals: 'bos-vitals', labs: 'bos-labs', plans: 'bos-plans', profile: 'bos-profile', ui: 'bos-ui' };
+const LSK = { people: 'bos-people', ui: 'bos-ui' };
+const lsRec = (pid, c) => `bos-p-${pid}-${c}`;
 const EX = JSON.parse($('examples').textContent);
-const D = { issues: [], vitals: [], labs: [], plans: [], profile: null };
-let mode = 'init', DB = null, RO = false;
+const D = { issues: [], vitals: [], labs: [], plans: [], profile: null, people: [] };
+let mode = 'init', DB = null, RO = false, CUR = null, UNSUB = [], PENDING = null;
+const SEX = () => D.profile && D.profile.sex === '女' ? 'F' : 'M';
+const curParts = () => PARTS.filter(p => !p.sex || p.sex === SEX());
 
 function clean(col, arr) {
   const out = [];
@@ -1139,7 +1193,7 @@ function clean(col, arr) {
       out.push({ ...r, value: +r.value, value2: r.type === 'bp' ? +r.value2 : null, note: String(r.note || '') });
     } else if (col === 'labs') {
       if (!r.name || num(r.value) === null || !isDate(r.date)) continue;
-      out.push({ ...r, name: String(r.name), key: String(r.key || r.name), value: +r.value, low: num(r.low), high: num(r.high), part: PART[r.part] ? r.part : '', cat: LAB_CATS.includes(r.cat) ? r.cat : '其他', unit: String(r.unit || '') });
+      out.push({ ...r, name: String(r.name), key: String(r.key || r.name), value: +r.value, low: num(r.low), high: num(r.high), part: PART[r.part] ? r.part : '', cat: LAB_CATS.includes(r.cat) ? r.cat : '其他', unit: String(r.unit || ''), note: String(r.note || '') });
     } else if (col === 'plans') {
       if (!r.title || !isDate(r.due)) continue;
       out.push({ ...r, title: String(r.title), kind: PLAN_KINDS[r.kind] ? r.kind : 'recheck', repeat: REPEATS[r.repeat] !== undefined ? r.repeat : '', part: PART[r.part] ? r.part : '', done: !!r.done, note: String(r.note || '') });
@@ -1148,17 +1202,31 @@ function clean(col, arr) {
   return out;
 }
 function cleanProfile(p) {
-  if (!p || typeof p !== 'object') return null;
-  return { name: String(p.name || '').slice(0, 20), sex: '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), example: !!p.example };
+  if (!p || typeof p !== 'object' || !p.id) return null;
+  return { id: p.id, name: String(p.name || '').slice(0, 12) || '未命名', sex: p.sex === '女' ? '女' : '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), order: num(p.order) ?? 99, example: !!p.example };
 }
+const byOrder = (a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id));
+const profileBody = p => { const { id, ...r } = p; return r; };
 function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
-function loadLocal() {
-  for (const c of COLS) { const v = lsGet(LSK[c]); D[c] = clean(c, Array.isArray(v) ? v : EX[c]); }
-  const p = lsGet(LSK.profile);
-  D.profile = cleanProfile(p === null ? EX.profile : p);
+function lsDel(k) { try { localStorage.removeItem(k); } catch { } }
+function pickCur() {
+  const want = ST.cur;
+  CUR = D.people.some(p => p.id === want) || (want && want === PENDING) ? want : (D.people[0] ? D.people[0].id : null);
+  D.profile = D.people.find(p => p.id === CUR) || null;
 }
-function saveLocal(c) { lsSet(LSK[c], c === 'profile' ? (D.profile || false) : D[c]); }
+function loadLocal() {
+  let ppl = lsGet(LSK.people);
+  if (!Array.isArray(ppl)) { // first visit without cloud: show the fictional demo person
+    ppl = [{ ...EX.profile, id: 'demo', name: '示例', order: 3 }];
+    for (const c of COLS) lsSet(lsRec('demo', c), EX[c]);
+    lsSet(LSK.people, ppl);
+  }
+  D.people = ppl.map(cleanProfile).filter(Boolean).sort(byOrder);
+  pickCur(); loadLocalRecords();
+}
+function loadLocalRecords() { for (const c of COLS) D[c] = clean(c, CUR ? lsGet(lsRec(CUR, c)) : []); }
+function saveLocal(c) { if (c === 'people') lsSet(LSK.people, D.people); else lsSet(lsRec(CUR, c), D[c]); }
 
 function setSync(t, warn) { $('sync').classList.toggle('local', !!warn); $('sync').querySelector('span').textContent = t; }
 
@@ -1167,32 +1235,80 @@ async function connect() {
   try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
   if (!db) { mode = 'local'; setSync('本地模式 · 只保存在此浏览器', true); renderAll(); return; }
   DB = db; mode = 'db'; setSync('已同步到云端');
-  for (const c of COLS) {
-    DB.collection(c).onSnapshot(s => { D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll(); }, () => setSync('同步中断，显示最后一次数据', true));
-  }
-  DB.doc('profile/me').onSnapshot(s => { D.profile = s.exists ? cleanProfile(s.data()) : null; renderAll(); }, () => { });
+  let subscribed = null;
+  DB.collection('people').onSnapshot(s => {
+    D.people = s.docs.map(d => cleanProfile({ id: d.id, ...d.data() })).filter(Boolean).sort(byOrder);
+    pickCur();
+    if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); onPersonChange(); }
+    renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true));
 }
-function guardWrite() {
+function subscribeRecords() {
+  UNSUB.forEach(u => u()); UNSUB = [];
+  for (const c of COLS) D[c] = [];
+  if (!CUR || mode !== 'db') return;
+  const pid = CUR;
+  for (const c of COLS) UNSUB.push(DB.collection(`people/${pid}/${c}`).onSnapshot(s => {
+    if (pid !== CUR) return;
+    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true)));
+}
+function switchPerson(pid) {
+  if (!pid || pid === CUR) return;
+  ST.cur = pid; saveUI();
+  ST.sel = null; ST.vt = null; ST.q = ''; $('q').value = '';
+  pickCur();
+  if (mode === 'db') subscribeRecords(); else loadLocalRecords();
+  onPersonChange(); renderAll();
+}
+function guardWrite(noPerson) {
   if (RO) return false;
   if (mode === 'init') { toast('正在连接数据，请稍候再试'); return false; }
+  if (!CUR && !noPerson) { toast('请先新建一个档案'); return false; }
   return true;
 }
+const recPath = c => `people/${CUR}/${c}`;
 async function add(c, obj) {
-  if (mode === 'db') { const r = DB.collection(c).doc(); await r.set(obj); return r.id; }
+  if (mode === 'db') { const r = DB.collection(recPath(c)).doc(); await r.set(obj); return r.id; }
   const id = c[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   D[c] = [...D[c], { id, ...obj }]; saveLocal(c); renderAll(); return id;
 }
 async function put(c, id, obj) {
-  if (mode === 'db') return DB.doc(c + '/' + id).set(obj);
+  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).set(obj);
   D[c] = D[c].map(x => x.id === id ? { id, ...obj } : x); saveLocal(c); renderAll();
 }
 async function del(c, id) {
-  if (mode === 'db') return DB.doc(c + '/' + id).delete();
+  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).delete();
   D[c] = D[c].filter(x => x.id !== id); saveLocal(c); renderAll();
 }
 async function putProfile(obj) {
-  if (mode === 'db') return obj ? DB.doc('profile/me').set(obj) : DB.doc('profile/me').delete();
-  D.profile = obj; saveLocal('profile'); renderAll();
+  const body = { ...obj, order: D.profile ? D.profile.order : obj.order ?? 99 };
+  if (mode === 'db') return DB.doc('people/' + CUR).set(body);
+  D.people = D.people.map(p => p.id === CUR ? cleanProfile({ id: CUR, ...body }) : p).sort(byOrder);
+  saveLocal('people'); pickCur(); onPersonChange(); renderAll();
+}
+async function createPerson(obj) {
+  const body = { ...obj, order: Math.max(0, ...D.people.filter(p => !p.example).map(p => p.order)) + 1 };
+  let id;
+  if (mode === 'db') { const r = DB.collection('people').doc(); id = r.id; PENDING = id; await r.set(body); }
+  else { id = 'p' + Date.now().toString(36); D.people = [...D.people, cleanProfile({ id, ...body })].sort(byOrder); saveLocal('people'); }
+  switchPerson(id);
+  return id;
+}
+async function deletePerson() {
+  const pid = CUR;
+  if (mode === 'db') {
+    const jobs = [];
+    for (const c of COLS) for (const x of D[c]) jobs.push(`people/${pid}/${c}/${x.id}`);
+    for (let i = 0; i < jobs.length; i += 8) await Promise.all(jobs.slice(i, i + 8).map(path => DB.doc(path).delete()));
+    await DB.doc('people/' + pid).delete();
+  } else {
+    for (const c of COLS) lsDel(lsRec(pid, c));
+    D.people = D.people.filter(p => p.id !== pid); saveLocal('people');
+  }
+  ST.cur = null; pickCur();
+  if (mode === 'db') subscribeRecords(); else loadLocalRecords();
+  onPersonChange(); renderAll();
 }
 function fail(e) {
   if (e && e.code === 'invalid_argument') { RO = true; document.body.classList.add('ro'); closeForm(); renderAll(); toast('你只有查看权限，无法修改这份健康档案'); }
@@ -1221,8 +1337,8 @@ const latestV = t => { const s = series(t); return s[s.length - 1] || null; };
 const curWeight = () => latestV('weight')?.value ?? D.profile?.weight ?? null;
 const curRhr = () => latestV('rhr')?.value ?? D.profile?.rhr ?? null;
 function bmiVal() { const h = D.profile?.height, w = curWeight(); return h && w ? w / ((h / 100) ** 2) : null; }
-function ageVal() {
-  const b = D.profile?.birth; if (!isMonth(b)) return null;
+function ageVal(p) {
+  const b = (p || D.profile)?.birth; if (!isMonth(b)) return null;
   const [y, m] = b.split('-').map(Number), n = new Date();
   return n.getFullYear() - y - (n.getMonth() + 1 < m ? 1 : 0);
 }
@@ -1267,13 +1383,14 @@ const planPill = p => { const s = planStatus(p); return `<span class="pill ${s.c
 const partName = id => id ? PART[id].name : '全身';
 
 /* ---------- UI state ---------- */
-const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null };
+const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null, cur: null };
 {
   const u = lsGet(LSK.ui);
   if (u && ['issue', 'vital', 'lab', 'plan'].includes(u.mod)) ST.mod = u.mod;
   if (u && u.grp) Object.assign(ST.grp, u.grp);
+  if (u && typeof u.cur === 'string') ST.cur = u.cur;
 }
-const saveUI = () => lsSet(LSK.ui, { mod: ST.mod, grp: ST.grp });
+const saveUI = () => lsSet(LSK.ui, { mod: ST.mod, grp: ST.grp, cur: ST.cur || CUR });
 let armTimer = 0;
 function arm(key) { ST.armed = key; clearTimeout(armTimer); armTimer = setTimeout(() => { ST.armed = null; renderAll(); }, 3200); }
 const armed = key => ST.armed === key;
@@ -1304,7 +1421,7 @@ function renderSide() {
   const zc = $('zchip');
   zc.hidden = G.zone === 'all' || ST.mod === 'vital';
   if (!zc.hidden) zc.innerHTML = `只看 <button type="button" data-act="zall" aria-label="取消筛选，查看全身">${ZONES[G.zone].name}<i>×</i></button>`;
-  $('exNotice').hidden = RO || !(COLS.some(c => D[c].some(x => x.example)) || D.profile?.example);
+  $('exNotice').hidden = RO || !COLS.some(c => D[c].some(x => x.example));
   ({ issue: sideIssue, vital: sideVital, lab: sideLab, plan: sidePlan })[ST.mod]();
 }
 
@@ -1315,7 +1432,8 @@ function sideIssue() {
   const worst = [...act].sort((a, b) => b.sev - a.sev || (b.since > a.since ? 1 : -1))[0];
   if (worst) {
     const next = D.plans.filter(p => !p.done && p.part === worst.part).sort(byDate('due'))[0];
-    $('trail').innerHTML = `最需要处理：<b>${esc(PART[worst.part].name)} · ${esc(worst.title)}</b>（${SEVN[worst.sev]}）${next ? `，下一步 ${fmtMD(next.due)} ${esc(next.title)}` : ''}`;
+    const od = next ? -dayDiff(next.due, todayISO()) : 0;
+    $('trail').innerHTML = `最需要处理：<b>${esc(PART[worst.part].name)} · ${esc(worst.title)}</b>（${SEVN[worst.sev]}）${next ? `，下一步 ${esc(next.title)}（${od > 0 ? `<b>已逾期 ${od} 天</b>` : fmtMD(next.due)}）` : ''}`;
   } else $('trail').textContent = D.issues.length ? '所有问题都已解决。' : '还没有记录问题。点身体上的部位，或用下方按钮记录。';
   const list = D.issues.filter(i => inZone(i.part) && match(i.title, PART[i.part].name, i.note, PART[i.part].sys));
   const ord = (a, b) => (a.status === 'resolved') - (b.status === 'resolved') || b.sev - a.sev || (b.since > a.since ? 1 : -1);
@@ -1490,26 +1608,35 @@ function sidePlan() {
 function renderProfile() {
   const p = D.profile, el = $('profile');
   const sevCount = [0, 0, 0, 0, 0];
-  for (const x of PARTS) sevCount[partSev(x.id)]++;
+  const cps = curParts();
+  for (const x of cps) sevCount[partSev(x.id)]++;
   const seg = sevCount.map((n, s) => n ? `<i style="flex:${n};background:${SEVC[s]}" title="${SEVN[s]} ${n}"></i>` : '').join('');
   const leg = sevCount.map((n, s) => `<span><i style="background:${SEVC[s]}"></i>${SEVN[s]} <b class="num">${n}</b></span>`).join('');
-  const sevBlock = `<div class="pf-sev"><div class="k"><span>${PARTS.length} 个部位状态</span><span>按最严重问题</span></div><div class="sevbar" role="img" aria-label="${sevCount.map((n, s) => SEVN[s] + ' ' + n).join('，')}">${seg}</div><div class="sevleg">${leg}</div></div>`;
+  const sevBlock = `<div class="pf-sev"><div class="k"><span>${cps.length} 个部位状态</span><span>按最严重问题</span></div><div class="sevbar" role="img" aria-label="${sevCount.map((n, s) => SEVN[s] + ' ' + n).join('，')}">${seg}</div><div class="sevleg">${leg}</div></div>`;
   if (!p) {
     el.classList.remove('compact');
-    el.innerHTML = `<div class="pf-head"><div class="pf-ava">男</div><div><b>个人资料</b><small>还没填写</small></div></div><div class="pf-full"><p class="pf-empty">填写身高、血型等信息后，这里会显示年龄、BMI 和各项体征。</p><button class="btn primary sm" data-act="pedit" data-w>填写资料</button>${sevBlock}</div><div class="pf-strip"><button class="linkbtn" data-act="pedit" data-w>填写个人资料</button></div>`;
+    el.innerHTML = `<div class="pf-head"><div class="pf-ava">+</div><div><b>还没有档案</b><small>先新建一个档案</small></div></div><div class="pf-full"><p class="pf-empty">每个人一份档案，问题、体征、体检和计划分开保存。</p><button class="btn primary sm" data-act="pnew" data-w>新建档案</button></div><div class="pf-strip"><button class="linkbtn" data-act="pnew" data-w>新建档案</button></div>`;
     return;
   }
   const age = ageVal(), w = curWeight(), bm = bmiVal(), hr = curRhr(), bp = latestV('bp'), sl = latestV('sleep');
   const lw = latestV('weight');
   const row = (k, v, tag) => `<dt>${k}</dt><dd>${v}${tag || ''}</dd>`;
   el.classList.toggle('compact', !!ST.sel);
-  el.innerHTML = `<div class="pf-head"><div class="pf-ava">${esc((p.name || '我').slice(0, 1))}</div><div><b>${esc(p.name || '我')}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>男 · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
+  el.innerHTML = `<div class="pf-head"><div class="pf-ava${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</div><div><b>${esc(p.name)}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>${p.sex} · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
 <div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型 Rh${p.rh === '-' ? '−' : '+'}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
 <div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : '+') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
 }
 
+function renderPeople() {
+  const el = $('people');
+  el.innerHTML = D.people.map(p => {
+    const a = ageVal(p);
+    return `<button role="tab" data-pid="${esc(p.id)}" aria-selected="${p.id === CUR}"><i class="av${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</i><span>${esc(p.name)}</span><small>${p.sex}${a != null ? ' · ' + a : ''}</small></button>`;
+  }).join('') + `<button class="add" data-act="pnew" data-w aria-label="新建档案">＋ 新建</button>`;
+}
+
 function renderZoneHud() {
-  const z = G.zone, parts = z === 'all' ? PARTS : PARTS.filter(p => p.zone === z);
+  const z = G.zone, parts = z === 'all' ? curParts() : curParts().filter(p => p.zone === z);
   const n = parts.filter(p => partSev(p.id)).length;
   $('zoneHud').innerHTML = `<div class="k">当前视图</div><div class="v">${z === 'all' ? '全身' : ZONES[z].name}</div><div class="z">${parts.length} 个部位 · 需关注 <b class="num">${n}</b> 处</div>${z === 'all' ? '<div class="z">点击头部、内脏或躯干四肢查看细节</div>' : '<button class="back" data-act="zall">‹ 返回全身</button>'}`;
   document.querySelectorAll('.hud-tr [data-zone]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.zone === z)));
@@ -1549,7 +1676,7 @@ function renderCard() {
 
 function renderAll() {
   SM = sevMap();
-  renderSide(); renderProfile(); renderZoneHud(); renderCard();
+  renderPeople(); renderSide(); renderProfile(); renderZoneHud(); renderCard();
   if (typeof refresh3D === 'function') refresh3D();
 }
 
@@ -1595,7 +1722,7 @@ let FORM = null;
 const fld = (id, label, inner, cls) => `<div class="${cls || ''}" id="row-${id}"><label for="f-${id}">${label}</label>${inner}</div>`;
 const inp = (id, v, attrs) => `<input id="f-${id}" value="${esc(v ?? '')}" ${attrs || ''}>`;
 const selHtml = (id, opts, v) => `<select id="f-${id}">${opts.map(([k, t]) => `<option value="${esc(k)}"${String(k) === String(v ?? '') ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select>`;
-const partSel = (id, v, none) => `<select id="f-${id}">${none ? `<option value=""${!v ? ' selected' : ''}>${none}</option>` : ''}${Object.entries(ZONES).map(([z, info]) => `<optgroup label="${info.name}">${PARTS.filter(p => p.zone === z).map(p => `<option value="${p.id}"${p.id === v ? ' selected' : ''}>${p.name}</option>`).join('')}</optgroup>`).join('')}</select>`;
+const partSel = (id, v, none) => `<select id="f-${id}">${none ? `<option value=""${!v ? ' selected' : ''}>${none}</option>` : ''}${Object.entries(ZONES).map(([z, info]) => `<optgroup label="${info.name}">${curParts().filter(p => p.zone === z).map(p => `<option value="${p.id}"${p.id === v ? ' selected' : ''}>${p.name}</option>`).join('')}</optgroup>`).join('')}</select>`;
 const val = id => { const e = $('f-' + id); return e ? e.value.trim() : ''; };
 const nowMonth = () => todayISO().slice(0, 7);
 
@@ -1660,8 +1787,8 @@ const FORMS = {
     hint: '选常用指标会自动填好单位、参考范围和关联部位；参考范围以你的化验单为准。',
     html: o => {
       const base = o.key ? labGroups().find(g => g.latest.key === o.key)?.latest : null;
-      const pre = base || LAB_PRESETS[0];
-      return fld('preset', '常用指标', `<select id="f-preset"><option value="">自定义…</option>${LAB_CATS.map(c => { const a = LAB_PRESETS.filter(p => p.cat === c); return a.length ? `<optgroup label="${c}">${a.map(p => `<option value="${esc(p.key)}"${p.key === pre.key ? ' selected' : ''}>${esc(p.name)}（${esc(p.key)}）</option>`).join('')}</optgroup>` : ''; }).join('')}</select>`, 'full')
+      const pre = base || presets()[0];
+      return fld('preset', '常用指标', `<select id="f-preset"><option value="">自定义…</option>${LAB_CATS.map(c => { const a = presets().filter(p => p.cat === c); return a.length ? `<optgroup label="${c}">${a.map(p => `<option value="${esc(p.key)}"${p.key === pre.key ? ' selected' : ''}>${esc(p.name)}（${esc(p.key)}）</option>`).join('')}</optgroup>` : ''; }).join('')}</select>`, 'full')
         + fld('name', '指标名称', inp('name', pre.name, 'maxlength="30"')) + fld('key', '简称', inp('key', pre.key, 'maxlength="16"'))
         + fld('value', '结果', inp('value', '', 'inputmode="decimal"')) + fld('unit', '单位', inp('unit', pre.unit, 'maxlength="16"'))
         + fld('low', '参考下限（可空）', inp('low', pre.low, 'inputmode="decimal"')) + fld('high', '参考上限（可空）', inp('high', pre.high, 'inputmode="decimal"'))
@@ -1670,7 +1797,7 @@ const FORMS = {
     },
     init: () => {
       $('f-preset').addEventListener('change', () => {
-        const p = LAB_PRESETS.find(x => x.key === val('preset')); if (!p) return;
+        const p = presets().find(x => x.key === val('preset')); if (!p) return;
         for (const k of ['name', 'key', 'unit', 'low', 'high']) $('f-' + k).value = p[k] ?? '';
         $('f-cat').value = p.cat; $('f-part').value = p.part;
       });
@@ -1712,38 +1839,44 @@ const FORMS = {
     del: async o => { await del('plans', o.id); toast('已删除这个计划'); }
   },
   profile: {
-    title: () => '个人资料',
-    hint: '身高会用来缩放身体模型和计算 BMI；体重、心率优先取最近一次体征记录。',
-    html: () => {
-      const p = D.profile || {};
-      return fld('name', '称呼（可选）', inp('name', p.name, 'maxlength="20"')) + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"'))
-        + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"')) + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"'))
+    title: o => o.isNew ? '新建档案' : '编辑档案资料',
+    hint: '每个档案的问题、体征、体检和计划分开保存。性别决定使用男性还是女性人体模型；身高用来缩放模型和计算 BMI。',
+    delLabel: '删除这个档案',
+    html: o => {
+      const p = o.isNew ? {} : (D.profile || {});
+      return fld('name', '称呼或代号', inp('name', p.name, 'maxlength="12" placeholder="例如：S、妈妈"')) + fld('sex', '性别', selHtml('sex', [['男', '男'], ['女', '女']], p.sex || '男'))
+        + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"')) + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"'))
+        + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"')) + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"'))
         + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || '+'))
-        + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"')) + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'))
-        + `<div class="full" style="font-size:13px;color:var(--muted)">身体模型为男性。</div>`;
+        + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'), 'full');
     },
-    save: async () => {
-      const birth = val('birth'), h = num(val('height')), w = num(val('weight')), r = num(val('rhr'));
+    save: async o => {
+      const name = val('name'), birth = val('birth'), h = num(val('height')), w = num(val('weight')), r = num(val('rhr'));
+      if (!name) throw '请填写称呼或代号，例如「S」';
+      if (!o.isNew && D.people.some(p => p.id !== CUR && p.name === name) || o.isNew && D.people.some(p => p.name === name)) throw `已经有叫「${name}」的档案了，换个称呼`;
       if (birth && !isMonth(birth)) throw '出生年月格式应为 年-月，例如 1990-03';
       if (h !== null && (h < 100 || h > 230)) throw '身高请填 100–230 cm';
       if (w !== null && (w < 20 || w > 300)) throw '体重请填 20–300 kg';
       if (r !== null && (r < 25 || r > 220)) throw '静息心率请填 25–220';
-      await putProfile({ name: val('name'), sex: '男', birth, height: h, weight: w, blood: val('blood'), rh: val('rh'), rhr: r, allergy: val('allergy'), example: false });
-      toast('已保存个人资料'); closeForm();
-    }
+      const body = { name, sex: val('sex'), birth, height: h, weight: w, blood: val('blood'), rh: val('rh'), rhr: r, allergy: val('allergy'), example: o.isNew ? false : !!(D.profile && D.profile.example) };
+      if (o.isNew) { await createPerson(body); toast(`已新建档案：${name}`); }
+      else { await putProfile(body); toast('已保存档案资料'); }
+      closeForm();
+    },
+    del: async o => { const n = D.profile ? D.profile.name : ''; await deletePerson(); toast(`已删除档案：${n}`); }
   }
 };
 
 function openForm(kind, o) {
-  if (!guardWrite()) return;
   o = o || {};
+  if (!guardWrite(kind === 'profile' && o.isNew)) return;
   FORM = { kind, o };
   const f = FORMS[kind];
   $('sheetTitle').textContent = f.title(o);
   $('sheetHint').textContent = f.hint || '';
   $('fgrid').innerHTML = f.html(o);
   $('err').textContent = '';
-  const d = $('fdel'); d.hidden = !(o.id && f.del); d.textContent = '删除'; d.dataset.armed = '';
+  const d = $('fdel'); d.hidden = !((o.id || (kind === 'profile' && !o.isNew && D.profile)) && f.del); d.textContent = f.delLabel || '删除'; d.dataset.armed = '';
   $('overlay').hidden = false;
   if (f.init) f.init(o);
   setTimeout(() => { const e = $('fgrid').querySelector('input:not([type=hidden]),select,textarea'); if (e) e.focus(); }, 30);
@@ -1767,13 +1900,12 @@ $('overlay').addEventListener('pointerdown', e => { if (e.target === $('overlay'
 
 /* ---------- 3D glass body ---------- */
 const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
-const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, skelA: 0, skelT: 0.2, rulerKey: '' };
+const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, rulerKey: '' };
 const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0 };
-const ALPHA_MUL = { hair: 0.6, face: 0.75 };
-let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null, skelMat = null;
+const ALPHA_MUL = { hair: 0.6, face: 0.75, bones: 0.5, breasts: 0.5 };
+let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null;
 const TIMEU = { value: 0 };
 const MATS = {}, HITS = [], ZPROX = [];
-let shellMats = [];
 const T3 = { scene: false, built: false };
 let CO = [], DRAG = null;
 const PTRS = new Map();
@@ -1844,14 +1976,20 @@ function mkPartMat(part, side) {
   return m;
 }
 const matFor = (part, side) => MATS[part + ':' + side] || (MATS[part + ':' + side] = mkPartMat(part, side));
-function addPart(part, side, mesh, noHit) {
-  mesh.material = matFor(part, side); mesh.renderOrder = 10; mesh.userData = { part, side };
-  body.add(mesh); if (!noHit) HITS.push(mesh); return mesh;
+// groups: head parts and trunk organs are shared; shell, skeleton and sex-specific organs live in one group per sex
+let HEADG = null, TRUNKG = null;
+const SEXG = {}, SHELLM = { M: [], F: [] }, BUILT = { common: false, M: false, F: false }, BUILDING = {};
+const tagOf = g => g === SEXG.M ? 'M' : g === SEXG.F ? 'F' : '';
+function addPart(part, side, mesh, noHit, g) {
+  g = g || HEADG;
+  mesh.material = matFor(part, side); mesh.renderOrder = part === 'bones' ? 5 : 10; mesh.userData = { part, side, sex: tagOf(g) };
+  g.add(mesh); if (!noHit) HITS.push(mesh); return mesh;
 }
-function addProxy(part, side, mesh) { mesh.material = PROXM; mesh.userData = { part, side }; body.add(mesh); HITS.push(mesh); }
-function addZone(zone, mesh) { mesh.material = PROXM; mesh.userData = { zone }; body.add(mesh); ZPROX.push(mesh); }
+function addProxy(part, side, mesh, g) { g = g || HEADG; mesh.material = PROXM; mesh.userData = { part, side, sex: tagOf(g) }; g.add(mesh); HITS.push(mesh); }
+function addZone(zone, mesh, g) { mesh.material = PROXM; mesh.userData = { zone, sex: tagOf(g) }; g.add(mesh); ZPROX.push(mesh); }
 const V3 = a => new THREE.Vector3(a[0], a[1], a[2]);
 const mir = (p, s) => [p[0] * s, p[1], p[2]];
+const plus = (a, d) => [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
 function capsule(a, b, r) {
   const A = V3(a), B = V3(b), len = A.distanceTo(B);
   const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, Math.max(len, 1e-4), 4, 10));
@@ -1861,70 +1999,78 @@ function capsule(a, b, r) {
 }
 function blob(c, s, rot) { const m = new THREE.Mesh(SPH); m.position.set(c[0], c[1], c[2]); m.scale.set(s[0], s[1], s[2]); if (rot) m.rotation.set(rot[0], rot[1], rot[2]); return m; }
 function tube(pts, r) { return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V3)), 28, r, 6, false)); }
-function neutral(m) { m.material = skelMat; m.renderOrder = 5; body.add(m); return m; }
 
-function buildSkeleton() {
-  SPH = new THREE.SphereGeometry(1, 18, 12);
-  for (let i = 0; i < 7; i++) addPart('cervical', '', blob([0, 1.535 - i * 0.0145, -0.03 + 0.008 * Math.sin(Math.PI * i / 6)], [0.0135, 0.0055, 0.0115]), true);
-  for (let i = 0; i < 12; i++) { const t = i / 11; neutral(blob([0, 1.43 - i * 0.0245, -0.052 - 0.018 * Math.sin(Math.PI * t)], [0.0145 + 0.004 * t, 0.0085, 0.013])); }
-  for (let i = 0; i < 5; i++) addPart('lumbar', '', blob([0, 1.14 - i * 0.035, -0.05 + 0.016 * Math.sin(Math.PI * i / 4)], [0.02, 0.0115, 0.017]), true);
-  neutral(blob([0, 0.95, -0.058], [0.034, 0.045, 0.014], [-0.45, 0, 0]));
-  const RW = [0.074, 0.096, 0.11, 0.12, 0.125, 0.127, 0.126, 0.122, 0.116, 0.108];
-  for (let i = 0; i < 10; i++) {
-    const y0 = 1.405 - i * 0.0235, w = RW[i], dr = 0.03 + i * 0.006, fr = i < 7;
-    for (const s of [1, -1]) neutral(tube([[s * 0.014, y0, -0.062], [s * w * 0.55, y0 + 0.004, -0.078], [s * w, y0 - dr * 0.4, -0.012], [s * w * 0.8, y0 - dr * 0.8, 0.06], [s * (fr ? 0.03 : w * 0.5), y0 - dr, fr ? 0.092 : 0.082]], 0.0042));
-  }
-  neutral(capsule([0, 1.425, 0.094], [0, 1.26, 0.1], 0.009));
-  const tor = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.014, 8, 40)); tor.position.set(0, 0.93, 0.005); tor.rotation.x = Math.PI / 2 - 0.35; tor.scale.set(1.15, 0.85, 1); neutral(tor);
-  for (const [s, sd] of [[1, 'L'], [-1, 'R']]) {
-    const S = mir(J.S, s), E = mir(J.E, s), W = mir(J.W, s), H = mir(J.H, s), K = mir(J.K, s), A = mir(J.A, s);
-    neutral(tube([[s * 0.02, 1.44, 0.06], [s * 0.09, 1.447, 0.056], [s * 0.17, 1.43, 0.0]], 0.0055));
-    neutral(blob([s * 0.1, 1.33, -0.088], [0.05, 0.068, 0.009], [0.15, s * 0.35, 0]));
-    neutral(blob([s * 0.088, 0.99, -0.012], [0.055, 0.048, 0.012], [0, s * 0.75, s * 0.25]));
-    neutral(capsule(S, E, 0.011));
-    neutral(capsule([E[0], E[1], E[2] + 0.008], [W[0], W[1], W[2] + 0.008], 0.0065));
-    neutral(capsule([E[0], E[1], E[2] - 0.008], [W[0], W[1], W[2] - 0.006], 0.006));
-    addPart('shoulders', sd, blob(S, [0.026, 0.026, 0.026]), true);
-    addPart('elbows', sd, blob(E, [0.019, 0.019, 0.019]), true);
-    addPart('wrists', sd, blob(W, [0.016, 0.014, 0.018]), true);
-    for (const dz of [-0.021, -0.007, 0.007, 0.021]) addPart('wrists', sd, capsule([s * 0.322, 0.84, 0.006 + dz], [s * 0.334, 0.705 + Math.abs(dz) * 1.4, 0.01 + dz * 1.25], 0.0042), true);
-    addPart('wrists', sd, capsule([s * 0.318, 0.842, 0.026], [s * 0.318, 0.786, 0.056], 0.0045), true);
-    neutral(capsule(H, K, 0.0135));
-    addPart('hips', sd, blob(H, [0.024, 0.024, 0.024]), true);
-    addPart('hips', sd, capsule(H, [s * 0.128, 0.9, 0.0], 0.012), true);
-    addPart('knees', sd, blob(K, [0.025, 0.022, 0.024]), true);
-    addPart('knees', sd, blob([s * 0.1, 0.5, 0.045], [0.017, 0.021, 0.008]), true);
-    neutral(capsule([s * 0.1, 0.478, 0.006], A, 0.0115));
-    neutral(capsule([s * 0.122, 0.47, -0.01], [s * 0.116, 0.1, -0.024], 0.006));
-    addPart('ankles', sd, blob(A, [0.018, 0.016, 0.018]), true);
-    addPart('ankles', sd, capsule([s * 0.103, 0.06, -0.02], [s * 0.103, 0.03, -0.055], 0.013), true);
-    for (let m = 0; m < 5; m++) { const dx = (m - 2) * 0.011; addPart('ankles', sd, capsule([s * (0.105 + dx * 0.4), 0.055, 0.01], [s * (0.108 + dx), 0.02, 0.13 - Math.abs(dx) * 1.6], 0.0045), true); }
-    addProxy('shoulders', sd, blob(S, [0.05, 0.05, 0.05]));
-    addProxy('elbows', sd, blob(E, [0.042, 0.042, 0.042]));
-    addProxy('wrists', sd, blob([s * 0.325, 0.8, 0.012], [0.04, 0.085, 0.05]));
-    addProxy('hips', sd, blob(H, [0.05, 0.05, 0.05]));
-    addProxy('knees', sd, blob(K, [0.055, 0.055, 0.055]));
-    addProxy('ankles', sd, blob([s * 0.105, 0.05, 0.04], [0.045, 0.05, 0.11]));
-    addProxy('eyes', sd, blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
-    addZone('frame', blob([s * 0.19, 1.39, -0.012], [0.07, 0.07, 0.07]));
-    addZone('frame', capsule(S, E, 0.055)); addZone('frame', capsule(E, W, 0.045));
-    addZone('frame', blob([s * 0.33, 0.77, 0.012], [0.03, 0.085, 0.05]));
-    addZone('frame', capsule([s * 0.088, 0.88, 0], K, 0.085)); addZone('frame', capsule(K, A, 0.06));
-    addZone('frame', blob([s * 0.106, 0.04, 0.045], [0.045, 0.045, 0.11]));
-  }
-  addProxy('cervical', '', capsule([0, 1.54, -0.03], [0, 1.44, -0.03], 0.03));
-  addProxy('lumbar', '', capsule([0, 1.15, -0.045], [0, 0.98, -0.045], 0.035));
+function buildCommon() {
+  for (const s of [1, -1]) addProxy('eyes', s > 0 ? 'L' : 'R', blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
+  for (const s of [1, -1]) addProxy('carotid', s > 0 ? 'L' : 'R', capsule([s * 0.025, 1.44, 0.016], [s * 0.026, 1.55, 0.006], 0.012));
   addProxy('thyroid', '', blob([0, 1.467, 0.04], [0.035, 0.028, 0.02]));
   addProxy('mouth', '', blob([0, 1.566, 0.085], [0.035, 0.02, 0.022]));
-  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]));
-  addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016));
-  for (const [y, sh] of [[1.5715, 1], [1.5595, -1]]) for (let u = 0; u < 10; u++) {
+  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]), TRUNKG);
+  addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016), TRUNKG);
+  for (const y of [1.5715, 1.5595]) for (let u = 0; u < 10; u++) {
     const ang = -1.05 + u * 2.1 / 9;
     addPart('mouth', '', blob([Math.sin(ang) * 0.024, y, 0.058 + Math.cos(ang) * 0.022], [0.0036, 0.0046, 0.0028], [0, ang, 0]), true);
   }
-  addZone('head', blob([0, 1.64, 0.008], [0.092, 0.12, 0.11]));
-  addZone('head', capsule([0, 1.54, -0.005], [0, 1.44, -0.005], 0.062));
-  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.6, 24)); torso.position.set(0, 1.16, 0); torso.scale.set(1, 1, 0.72); addZone('organs', torso);
+}
+function buildSkeleton(sex) {
+  const g = SEXG[sex], j = JS[sex], f = sex === 'F', wk = f ? 0.92 : 1;
+  const bone = m => addPart('bones', '', m, false, g);
+  for (let i = 0; i < 7; i++) addPart('cervical', '', blob([0, 1.535 - i * 0.0145, -0.03 + 0.008 * Math.sin(Math.PI * i / 6)], [0.0135, 0.0055, 0.0115]), true, g);
+  for (let i = 0; i < 12; i++) { const t = i / 11; bone(blob([0, 1.43 - i * 0.0245, -0.052 - 0.018 * Math.sin(Math.PI * t)], [0.0145 + 0.004 * t, 0.0085, 0.013])); }
+  for (let i = 0; i < 5; i++) addPart('lumbar', '', blob([0, 1.14 - i * 0.035, -0.05 + 0.016 * Math.sin(Math.PI * i / 4)], [0.02, 0.0115, 0.017]), true, g);
+  bone(blob([0, 0.95, -0.058], [0.034 * (f ? 1.12 : 1), 0.045, 0.014], [-0.45, 0, 0]));
+  const RW = [0.074, 0.096, 0.11, 0.12, 0.125, 0.127, 0.126, 0.122, 0.116, 0.108];
+  for (let i = 0; i < 10; i++) {
+    const y0 = 1.405 - i * 0.0235, w = RW[i] * wk, dr = 0.03 + i * 0.006, fr = i < 7;
+    for (const s of [1, -1]) bone(tube([[s * 0.014, y0, -0.062], [s * w * 0.55, y0 + 0.004, -0.078], [s * w, y0 - dr * 0.4, -0.012], [s * w * 0.8, y0 - dr * 0.8, 0.06 * (f ? 0.94 : 1)], [s * (fr ? 0.03 : w * 0.5), y0 - dr, (fr ? 0.092 : 0.082) * (f ? 0.94 : 1)]], 0.0042));
+  }
+  bone(capsule([0, 1.425, 0.094 * (f ? 0.95 : 1)], [0, 1.26, 0.1 * (f ? 0.95 : 1)], 0.009));
+  const tor = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.014, 8, 40)); tor.position.set(0, 0.93, 0.005); tor.rotation.x = Math.PI / 2 - 0.35; tor.scale.set(f ? 1.32 : 1.15, 0.85, 1); bone(tor);
+  const sw = j.S[0] / 0.195;
+  for (const [s, sd] of [[1, 'L'], [-1, 'R']]) {
+    const S = mir(j.S, s), E = mir(j.E, s), W = mir(j.W, s), H = mir(j.H, s), K = mir(j.K, s), A = mir(j.A, s);
+    bone(tube([[s * 0.02, 1.44, 0.06 * wk], [s * 0.09 * sw, 1.447, 0.056 * wk], plus(S, [-s * 0.025, 0.045, 0.015])], 0.0055));
+    bone(blob([s * 0.1 * sw, 1.33, -0.088 * wk], [0.05 * sw, 0.068, 0.009], [0.15, s * 0.35, 0]));
+    bone(blob([s * (j.H[0] + 0.0), 0.99, -0.012], [0.055 * (f ? 1.08 : 1), 0.048, 0.012], [0, s * (f ? 0.85 : 0.75), s * 0.25]));
+    bone(capsule(S, E, 0.011));
+    bone(capsule(plus(E, [0, 0, 0.008]), plus(W, [0, 0, 0.008]), 0.0065));
+    bone(capsule(plus(E, [0, 0, -0.008]), plus(W, [0, 0, -0.006]), 0.006));
+    addPart('shoulders', sd, blob(S, [0.026, 0.026, 0.026]), true, g);
+    addPart('elbows', sd, blob(E, [0.019, 0.019, 0.019]), true, g);
+    addPart('wrists', sd, blob(W, [0.016, 0.014, 0.018]), true, g);
+    for (const dz of [-0.021, -0.007, 0.007, 0.021]) addPart('wrists', sd, capsule(plus(W, [s * 0.007, -0.025, 0.006 + dz]), plus(W, [s * 0.019, -0.16 * (f ? 0.94 : 1) + Math.abs(dz) * 1.4, 0.01 + dz * 1.25]), 0.0042), true, g);
+    addPart('wrists', sd, capsule(plus(W, [s * 0.003, -0.023, 0.026]), plus(W, [s * 0.003, -0.079, 0.056]), 0.0045), true, g);
+    bone(capsule(H, K, 0.0135));
+    addPart('hips', sd, blob(H, [0.024, 0.024, 0.024]), true, g);
+    addPart('hips', sd, capsule(H, plus(H, [s * 0.04, -0.025, -0.004]), 0.012), true, g);
+    addPart('knees', sd, blob(K, [0.025, 0.022, 0.024]), true, g);
+    addPart('knees', sd, blob(plus(K, [0, 0, 0.033]), [0.017, 0.021, 0.008]), true, g);
+    bone(capsule(plus(K, [0, -0.022, -0.006]), A, 0.0115));
+    bone(capsule(plus(K, [s * 0.022, -0.03, -0.022]), plus(A, [s * 0.013, 0.015, -0.004]), 0.006));
+    addPart('ankles', sd, blob(A, [0.018, 0.016, 0.018]), true, g);
+    addPart('ankles', sd, capsule(plus(A, [0, -0.025, 0]), plus(A, [0, -0.055, -0.035]), 0.013), true, g);
+    for (let m = 0; m < 5; m++) { const dx = (m - 2) * 0.011; addPart('ankles', sd, capsule(plus(A, [s * (0.002 + dx * 0.4), -0.03, 0.03]), plus(A, [s * (0.005 + dx), -0.065, (0.15 - Math.abs(dx) * 1.6) * (f ? 0.9 : 1)]), 0.0045), true, g); }
+    addProxy('shoulders', sd, blob(S, [0.05, 0.05, 0.05]), g);
+    addProxy('elbows', sd, blob(E, [0.042, 0.042, 0.042]), g);
+    addProxy('wrists', sd, blob(plus(W, [s * 0.01, -0.065, 0.012]), [0.04, 0.085, 0.05]), g);
+    addProxy('hips', sd, blob(H, [0.05, 0.05, 0.05]), g);
+    addProxy('knees', sd, blob(K, [0.055, 0.055, 0.055]), g);
+    addProxy('ankles', sd, blob(plus(A, [s * 0.002, -0.035, 0.06]), [0.045, 0.05, 0.11]), g);
+    addZone('frame', blob(plus(S, [-s * 0.005, 0.005, 0.003]), [0.07, 0.07, 0.07]), g);
+    addZone('frame', capsule(S, E, 0.055), g); addZone('frame', capsule(E, W, 0.045), g);
+    addZone('frame', blob(plus(W, [s * 0.015, -0.095, 0.012]), [0.03, 0.085, 0.05]), g);
+    addZone('frame', capsule(plus(H, [0, -0.045, -0.004]), K, 0.085), g); addZone('frame', capsule(K, A, 0.06), g);
+    addZone('frame', blob(plus(A, [s * 0.003, -0.045, 0.065]), [0.045, 0.045, 0.11]), g);
+  }
+  addProxy('cervical', '', capsule([0, 1.54, -0.03], [0, 1.44, -0.03], 0.03), g);
+  addProxy('lumbar', '', capsule([0, 1.15, -0.045], [0, 0.98, -0.045], 0.035), g);
+  addZone('head', blob([0, 1.64, 0.008], [0.092, 0.12, 0.11]), g);
+  addZone('head', capsule([0, 1.54, -0.005], [0, 1.44, -0.005], f ? 0.055 : 0.062), g);
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(f ? 0.148 : 0.16, f ? 0.148 : 0.16, 0.6, 24)); torso.position.set(0, 1.16, 0); torso.scale.set(1, 1, 0.72); addZone('organs', torso, g);
+  if (f) {
+    for (const s of [1, -1]) addProxy('breasts', s > 0 ? 'L' : 'R', blob([s * 0.064, 1.27, 0.08], [0.055, 0.052, 0.045]), g);
+    for (const s of [1, -1]) addProxy('ovaries', s > 0 ? 'L' : 'R', blob([s * 0.056, 0.958, 0.004], [0.02, 0.018, 0.018]), g);
+  }
 }
 
 function buildFloor() {
@@ -1942,17 +2088,18 @@ function geomFrom(m) {
 }
 function onMesh(m) {
   const g = geomFrom(m);
-  if (m.id === 'shell') {
+  if (m.id.startsWith('shell-')) {
+    const sx = m.id.slice(6);
     const mk = side => new THREE.ShaderMaterial({ uniforms: { uOpacity: { value: 0 }, uScan: { value: -1 }, uHover: { value: 0 } }, vertexShader: VS, fragmentShader: FS_SHELL, transparent: true, depthWrite: false, side });
     const back = new THREE.Mesh(g, mk(THREE.BackSide)), front = new THREE.Mesh(g, mk(THREE.FrontSide));
-    back.renderOrder = 20; front.renderOrder = 21; body.add(back, front); shellMats = [back.material, front.material];
+    back.renderOrder = 20; front.renderOrder = 21; SEXG[sx].add(back, front); SHELLM[sx] = [back.material, front.material];
   } else {
-    const [part, side = ''] = m.id.split(':');
-    addPart(part, side, new THREE.Mesh(g));
+    const [part, side = ''] = m.id.split(':'), p = PART[part];
+    addPart(part, side, new THREE.Mesh(g), false, p.sex ? SEXG[p.sex] : TRUNK.has(part) ? TRUNKG : HEADG);
   }
   refreshTargets();
 }
-function runWorker(onProgress) {
+function runWorker(shapes, onProgress) {
   return new Promise((res, rej) => {
     let got = 0, heard = false, fell = false;
     const handle = m => {
@@ -1961,15 +2108,36 @@ function runWorker(onProgress) {
       else if (m.type === 'mesh') { got++; onMesh(m); }
       else if (m.type === 'done') { onProgress(1, m.verts); res(m.verts); }
     };
-    const inline = () => { if (fell) return; fell = true; setTimeout(() => { try { run(sdfSpecs(), handle); } catch (e) { rej(e); } }, 30); };
+    const inline = () => { if (fell) return; fell = true; setTimeout(() => { try { run(shapes, handle); } catch (e) { rej(e); } }, 30); };
     let w, url;
     try { url = URL.createObjectURL(new Blob([$('sdfWorker').textContent], { type: 'text/javascript' })); w = new Worker(url); }
     catch { inline(); return; }
     w.onmessage = e => { handle(e.data); if (e.data.type === 'done') { w.terminate(); URL.revokeObjectURL(url); } };
     w.onerror = e => { e.preventDefault && e.preventDefault(); w.terminate(); if (!got) inline(); else rej(e); };
-    w.postMessage({ shapes: sdfSpecs() });
+    w.postMessage({ shapes });
     setTimeout(() => { if (!heard) { w.terminate(); inline(); } }, 4000); // a worker that never starts
   });
+}
+// build the other sex's shell the first time a person of that sex is opened
+async function ensureSex(sx) {
+  if (BUILT[sx] || BUILDING[sx] || !T3.scene) return;
+  BUILDING[sx] = true;
+  const b = $('building'); b.textContent = `正在生成${sx === 'F' ? '女性' : '男性'}玻璃人体…`; b.hidden = false;
+  try { await runWorker(sdfSpecs(sx), () => { }); BUILT[sx] = true; } catch { glFail('生成人体模型失败，请刷新页面重试。'); }
+  BUILDING[sx] = false;
+  if (BUILT[sx]) b.hidden = true;
+}
+function applySex() {
+  if (!T3.scene) return;
+  const sx = SEX();
+  SEXG.M.visible = sx === 'M'; SEXG.F.visible = sx === 'F';
+  TRUNKG.scale.x = sx === 'F' ? TRUNK_F : 1;
+  if (BUILT.common && !BUILT[sx]) ensureSex(sx);
+  refreshTargets(); renderCallouts(); G.rulerKey = '';
+}
+function onPersonChange() {
+  G.zone = 'all'; ST.sel = null;
+  if (T3.scene) { applySex(); flyTo({ ...OVERVIEW_CAM, yaw: 0 }); }
 }
 
 function glFail(msg) { const m = $('glMsg'); m.textContent = msg; m.hidden = false; $('building').hidden = true; SPL.mesh = 1; }
@@ -1981,13 +2149,20 @@ async function init3D(onProgress) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.setClearColor(0x000000, 0);
   scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(28, 1, 0.01, 20);
   body = new THREE.Group(); scene.add(body); raycaster = new THREE.Raycaster();
+  HEADG = new THREE.Group(); TRUNKG = new THREE.Group(); SEXG.M = new THREE.Group(); SEXG.F = new THREE.Group();
+  body.add(HEADG, TRUNKG, SEXG.M, SEXG.F);
   PROXM = new THREE.MeshBasicMaterial({ visible: false });
-  skelMat = mkPartMat('skeleton', ''); skelMat.uniforms.uColor.value.set('#DCEBFF');
-  buildSkeleton(); buildFloor();
-  T3.scene = true; layout(); refreshTargets(); renderCallouts();
+  SPH = new THREE.SphereGeometry(1, 18, 12);
+  buildCommon(); buildSkeleton('M'); buildSkeleton('F'); buildFloor();
+  T3.scene = true; layout(); applySex();
   requestAnimationFrame(loop);
-  try { const v = await runWorker(onProgress); T3.built = true; $('building').hidden = true; return v; }
-  catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
+  const sx = SEX();
+  try {
+    const v = await runWorker([...sdfSpecs('common'), ...sdfSpecs(sx)], onProgress);
+    BUILT.common = true; BUILT[sx] = true; T3.built = true; $('building').hidden = true;
+    applySex(); // the person may have changed while building
+    return v;
+  } catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
 }
 
 /* layout: the round scan portal sits left of the profile panel */
@@ -2043,9 +2218,8 @@ function refreshTargets() {
     m.uniforms.uColor.value.set(SEVC[s]);
   }
   G.shellT = z === 'all' ? 1 : z === 'frame' ? 0.55 : 0.72;
-  G.skelT = z === 'all' ? 0.2 : z === 'frame' ? 0.5 : 0.07;
-  const h = D.profile && D.profile.height;
-  G.scale = h ? clamp(h / 176, 0.85, 1.15) : 1;
+  const h = (D.profile && D.profile.height) || (SEX() === 'F' ? 160 : 176); // average adult height when unknown
+  G.scale = clamp(h / 176, 0.8, 1.15);
   body.scale.setScalar(G.scale);
 }
 function refresh3D() { refreshTargets(); renderCallouts(); G.rulerKey = ''; }
@@ -2069,10 +2243,9 @@ function loop(t) {
     u.a += (u.ta - u.a) * k; u.g += (u.tg - u.g) * k; u.p += (u.tp - u.p) * k;
     m.uniforms.uAlpha.value = u.a; m.uniforms.uGlow.value = u.g; m.uniforms.uPulse.value = u.p; m.depthWrite = u.a > 0.6;
   }
-  G.shellA += (G.shellT - G.shellA) * k; G.skelA += (G.skelT - G.skelA) * k;
-  skelMat.uniforms.uAlpha.value = G.skelA;
+  G.shellA += (G.shellT - G.shellA) * k;
   const ph = (t / 1000 % 6) / 6, scanY = RM || ph > 0.55 ? -1 : 1.8 - ph / 0.55 * 1.85;
-  shellMats.forEach((m, i) => { m.uniforms.uOpacity.value = G.shellA * (i === 0 ? 0.5 : 1); m.uniforms.uHover.value = G.hoverZone; m.uniforms.uScan.value = scanY; });
+  SHELLM[SEX()].forEach((m, i) => { m.uniforms.uOpacity.value = G.shellA * (i === 0 ? 0.5 : 1); m.uniforms.uHover.value = G.hoverZone; m.uniforms.uScan.value = scanY; });
   renderer.render(scene, camera);
   positionCallouts(); drawRuler();
 }
@@ -2084,11 +2257,11 @@ function pickAt(e) {
   if (Math.hypot(x - LAY.cx, y - LAY.cy) > LAY.R) return null;
   raycaster.setFromCamera(new THREE.Vector2(x / r.width * 2 - 1, -(y / r.height) * 2 + 1), camera);
   if (G.zone !== 'all') {
-    const list = HITS.filter(m => PART[m.userData.part].zone === G.zone);
+    const sx = SEX(), list = HITS.filter(m => PART[m.userData.part].zone === G.zone && (!m.userData.sex || m.userData.sex === sx));
     const h = raycaster.intersectObjects(list, false)[0];
     if (h) return { part: h.object.userData.part, side: h.object.userData.side };
   }
-  const z = raycaster.intersectObjects(ZPROX, false)[0];
+  const z = raycaster.intersectObjects(ZPROX.filter(m => m.userData.sex === SEX()), false)[0];
   return z ? { zone: z.object.userData.zone } : null;
 }
 function hoverAt(e) {
@@ -2100,7 +2273,7 @@ function hoverAt(e) {
     tip = `<b>${p.name}${p.pair && r.side ? '（' + SIDEN[r.side] + '）' : ''}</b> · ${SEVN[s]}<small>${n ? n + ' 个未解决问题' : '暂无问题'} · 点击查看</small>`;
   } else if (r && r.zone && r.zone !== G.zone) {
     hz = { head: 1, organs: 2, frame: 3 }[r.zone];
-    const ps = PARTS.filter(p => p.zone === r.zone);
+    const ps = curParts().filter(p => p.zone === r.zone);
     tip = `<b>${ZONES[r.zone].name}</b><small>${ps.length} 个部位 · 需关注 ${ps.filter(p => partSev(p.id)).length} 处 · 点击进入</small>`;
   }
   if (hz !== G.hoverZone || hp !== G.hoverPart) { G.hoverZone = hz; G.hoverPart = hp; refreshTargets(); markCalloutHover(); }
@@ -2129,15 +2302,16 @@ function renderCallouts() {
   let html = '';
   if (G.zone === 'all') {
     for (const [z, info] of Object.entries(ZONES)) {
-      const ps = PARTS.filter(p => p.zone === z), n = ps.filter(p => partSev(p.id)).length, w = Math.max(0, ...ps.map(p => partSev(p.id)));
+      const ps = curParts().filter(p => p.zone === z), n = ps.filter(p => partSev(p.id)).length, w = Math.max(0, ...ps.map(p => partSev(p.id)));
       CO.push({ id: z, a: info.anchor, ls: info.side });
       html += `<button class="co zn" data-z="${z}" aria-label="进入${info.name}，${n} 处需关注"><i class="d" style="background:${SEVC[w]}"></i>${info.name}<small>${n ? n + ' 处需关注' : '状态良好'}</small></button>`;
     }
   } else {
-    for (const p of PARTS.filter(p => p.zone === G.zone)) {
+    for (const p of curParts().filter(p => p.zone === G.zone)) {
       const s = SM[p.id], sv = partSev(p.id), n = s ? s.n : 0;
       let side = '', a = p.a;
       if (p.pair) { side = s && s.R > s.L ? 'R' : 'L'; if (side === 'R') a = [-a[0], a[1], a[2]]; }
+      if (TRUNK.has(p.id) && SEX() === 'F') a = [a[0] * TRUNK_F, a[1], a[2]];
       CO.push({ id: p.id, side, a, ls: side === 'R' ? 'l' : p.ls });
       const cur = !!(ST.sel && ST.sel.id === p.id);
       html += `<button class="co" data-p="${p.id}" data-side="${side}" aria-current="${cur}" aria-label="${p.name}，${SEVN[sv]}${n ? '，' + n + ' 个未解决问题' : ''}"><i class="d" style="background:${SEVC[sv]}"></i>${p.name}${n ? `<span class="c">${n}</span>` : ''}</button>`;
@@ -2155,7 +2329,13 @@ function positionCallouts() {
   const { W, H, cx, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
   body.updateMatrixWorld();
   const pts = CO.map(c => { v.set(c.a[0], c.a[1], c.a[2]).applyMatrix4(body.matrixWorld).project(camera); return { c, x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H }; });
-  for (const p of pts) p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
+  const { cy } = LAY, selId = ST.sel && ST.sel.id;
+  for (const p of pts) {
+    p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
+    p.out = Math.hypot(p.x - cx, p.y - cy) > R * 0.98 && p.c.id !== selId; // anchor outside the portal: hide the label
+    p.c.el.style.visibility = p.out ? 'hidden' : '';
+  }
+  pts.splice(0, pts.length, ...pts.filter(p => !p.out));
   const gap = W < 560 ? 27 : 33, off = R * 0.74;
   let d = '', dots = '';
   for (const side of ['l', 'r']) {
@@ -2251,7 +2431,7 @@ function addLog(i) {
   const ok = ' <span class="ok">ok</span>';
   const L = [
     `&gt; 初始化扫描舱 · ${renderer ? 'WebGL ' + (renderer.capabilities.isWebGL2 ? '2' : '1') + ok : '3D 不可用，使用列表模式'}`,
-    `&gt; 载入人体结构 · 3 个分区 · <b>${PARTS.length}</b> 个部位${ok}`,
+    `&gt; 载入档案 <b>${D.people.length}</b> 份 · 当前 ${esc(D.profile ? D.profile.name : '—')} · <b>${curParts().length}</b> 个部位${ok}`,
     `&gt; 读取体征 <b>${D.vitals.length}</b> 条 · 体检指标 <b>${gs.length}</b> 项${ok}`,
     T3.built ? `&gt; 生成玻璃人体 · <b>${nf(SPL.verts)}</b> 个顶点${ok}` : '&gt; 玻璃人体未生成，左侧档案可正常使用',
     `&gt; 需关注部位 <b>${parts.size}</b> 处 · 异常指标 <b>${abn}</b> 项${sev ? ` · <span class="warn">严重 ${sev} 项</span>` : ''}`
@@ -2279,7 +2459,7 @@ function splashMeta() {
   $('spHr').textContent = `HR ${curRhr() ?? '—'} BPM`;
   $('spBp').textContent = `BP ${b ? b.value + '/' + b.value2 : '—/—'}`;
   $('spH').textContent = `H ${p && p.height ? p.height : '—'} CM`;
-  $('spMeta').textContent = `SYS ${PARTS.length} · ${fmtD(todayISO())}`;
+  $('spMeta').textContent = `SYS ${curParts().length} · ${fmtD(todayISO())}`;
 }
 
 /* ---------- actions ---------- */
@@ -2298,12 +2478,10 @@ async function clearExamples() {
   try {
     if (mode === 'local') {
       for (const c of COLS) { n += D[c].filter(x => x.example).length; D[c] = D[c].filter(x => !x.example); saveLocal(c); }
-      if (D.profile && D.profile.example) { D.profile = null; saveLocal('profile'); n++; }
     } else {
       const jobs = [];
       for (const c of COLS) for (const x of D[c].filter(x => x.example)) jobs.push([c, x.id]);
       for (let i = 0; i < jobs.length; i += 8) { await Promise.all(jobs.slice(i, i + 8).map(([c, id]) => del(c, id))); n += Math.min(8, jobs.length - i); }
-      if (D.profile && D.profile.example) { await putProfile(null); n++; }
     }
     ST.sel = null; ST.vt = null; renderAll(); toast(`已清除 ${n} 条示例数据`);
   } catch (e) { fail(e); }
@@ -2346,6 +2524,7 @@ async function onAct(e) {
         if (!armed('i' + id)) { arm('i' + id); renderAll(); break; }
         ST.armed = null; await del('issues', id); toast('已删除这个问题'); break;
       case 'pedit': openForm('profile'); break;
+      case 'pnew': openForm('profile', { isNew: true }); break;
     }
   } catch (err) { fail(err); }
 }
@@ -2353,6 +2532,7 @@ async function onAct(e) {
 /* ---------- wiring ---------- */
 function wire() {
   for (const id of ['list', 'card', 'profile', 'zoneHud', 'zchip']) $(id).addEventListener('click', onAct);
+  $('people').addEventListener('click', e => { const b = e.target.closest('[data-pid]'); if (b) switchPerson(b.dataset.pid); else onAct(e); });
   document.querySelectorAll('.mods button').forEach(b => b.addEventListener('click', () => {
     ST.mod = b.dataset.mod; ST.vt = null; ST.q = ''; $('q').value = ''; saveUI(); renderAll(); $('list').scrollTop = 0;
   }));

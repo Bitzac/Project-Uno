@@ -30,6 +30,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .brand{padding:10px 22px 0}
 .brand h1{margin:0;font-size:30px;line-height:1.15;font-weight:700;letter-spacing:.01em;text-wrap:balance}
 .brand p{margin:2px 0 0;color:var(--muted);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.people{display:flex;gap:6px;margin:14px 22px 0;overflow-x:auto;scrollbar-width:none;padding:2px}
+.people button{flex:none;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--field);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;font-size:15px;font-weight:500;color:var(--ink)}
+.people button small{font-size:12px;color:var(--muted);font-weight:400}
+.people button[aria-selected="true"]{background:var(--glass-a);border-color:var(--blue);box-shadow:0 0 0 1px var(--blue) inset,0 6px 16px -8px var(--shadow)}
+.people .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--c-vital),var(--c-lab))}
+.people .av.f,.pf-ava.f{background:linear-gradient(135deg,#E0569B,var(--c-lab))}
+.people .add{padding:4px 12px;color:var(--blue);border-style:dashed}
 .mods{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:16px 22px 0;padding:4px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
 .mods button{font-size:15px;font-weight:500;border:0;background:none;color:var(--muted);padding:9px 2px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;min-width:0}
 .mods button[aria-selected="true"]{background:var(--glass-a);color:var(--ink);box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 12px -4px var(--shadow)}

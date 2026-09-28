@@ -1,12 +1,11 @@
 /* ---------- 3D glass body ---------- */
 const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
-const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, skelA: 0, skelT: 0.2, rulerKey: '' };
+const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, rulerKey: '' };
 const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0 };
-const ALPHA_MUL = { hair: 0.6, face: 0.75 };
-let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null, skelMat = null;
+const ALPHA_MUL = { hair: 0.6, face: 0.75, bones: 0.5, breasts: 0.5 };
+let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null;
 const TIMEU = { value: 0 };
 const MATS = {}, HITS = [], ZPROX = [];
-let shellMats = [];
 const T3 = { scene: false, built: false };
 let CO = [], DRAG = null;
 const PTRS = new Map();
@@ -77,14 +76,20 @@ function mkPartMat(part, side) {
   return m;
 }
 const matFor = (part, side) => MATS[part + ':' + side] || (MATS[part + ':' + side] = mkPartMat(part, side));
-function addPart(part, side, mesh, noHit) {
-  mesh.material = matFor(part, side); mesh.renderOrder = 10; mesh.userData = { part, side };
-  body.add(mesh); if (!noHit) HITS.push(mesh); return mesh;
+// groups: head parts and trunk organs are shared; shell, skeleton and sex-specific organs live in one group per sex
+let HEADG = null, TRUNKG = null;
+const SEXG = {}, SHELLM = { M: [], F: [] }, BUILT = { common: false, M: false, F: false }, BUILDING = {};
+const tagOf = g => g === SEXG.M ? 'M' : g === SEXG.F ? 'F' : '';
+function addPart(part, side, mesh, noHit, g) {
+  g = g || HEADG;
+  mesh.material = matFor(part, side); mesh.renderOrder = part === 'bones' ? 5 : 10; mesh.userData = { part, side, sex: tagOf(g) };
+  g.add(mesh); if (!noHit) HITS.push(mesh); return mesh;
 }
-function addProxy(part, side, mesh) { mesh.material = PROXM; mesh.userData = { part, side }; body.add(mesh); HITS.push(mesh); }
-function addZone(zone, mesh) { mesh.material = PROXM; mesh.userData = { zone }; body.add(mesh); ZPROX.push(mesh); }
+function addProxy(part, side, mesh, g) { g = g || HEADG; mesh.material = PROXM; mesh.userData = { part, side, sex: tagOf(g) }; g.add(mesh); HITS.push(mesh); }
+function addZone(zone, mesh, g) { mesh.material = PROXM; mesh.userData = { zone, sex: tagOf(g) }; g.add(mesh); ZPROX.push(mesh); }
 const V3 = a => new THREE.Vector3(a[0], a[1], a[2]);
 const mir = (p, s) => [p[0] * s, p[1], p[2]];
+const plus = (a, d) => [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
 function capsule(a, b, r) {
   const A = V3(a), B = V3(b), len = A.distanceTo(B);
   const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, Math.max(len, 1e-4), 4, 10));
@@ -94,70 +99,78 @@ function capsule(a, b, r) {
 }
 function blob(c, s, rot) { const m = new THREE.Mesh(SPH); m.position.set(c[0], c[1], c[2]); m.scale.set(s[0], s[1], s[2]); if (rot) m.rotation.set(rot[0], rot[1], rot[2]); return m; }
 function tube(pts, r) { return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(V3)), 28, r, 6, false)); }
-function neutral(m) { m.material = skelMat; m.renderOrder = 5; body.add(m); return m; }
 
-function buildSkeleton() {
-  SPH = new THREE.SphereGeometry(1, 18, 12);
-  for (let i = 0; i < 7; i++) addPart('cervical', '', blob([0, 1.535 - i * 0.0145, -0.03 + 0.008 * Math.sin(Math.PI * i / 6)], [0.0135, 0.0055, 0.0115]), true);
-  for (let i = 0; i < 12; i++) { const t = i / 11; neutral(blob([0, 1.43 - i * 0.0245, -0.052 - 0.018 * Math.sin(Math.PI * t)], [0.0145 + 0.004 * t, 0.0085, 0.013])); }
-  for (let i = 0; i < 5; i++) addPart('lumbar', '', blob([0, 1.14 - i * 0.035, -0.05 + 0.016 * Math.sin(Math.PI * i / 4)], [0.02, 0.0115, 0.017]), true);
-  neutral(blob([0, 0.95, -0.058], [0.034, 0.045, 0.014], [-0.45, 0, 0]));
-  const RW = [0.074, 0.096, 0.11, 0.12, 0.125, 0.127, 0.126, 0.122, 0.116, 0.108];
-  for (let i = 0; i < 10; i++) {
-    const y0 = 1.405 - i * 0.0235, w = RW[i], dr = 0.03 + i * 0.006, fr = i < 7;
-    for (const s of [1, -1]) neutral(tube([[s * 0.014, y0, -0.062], [s * w * 0.55, y0 + 0.004, -0.078], [s * w, y0 - dr * 0.4, -0.012], [s * w * 0.8, y0 - dr * 0.8, 0.06], [s * (fr ? 0.03 : w * 0.5), y0 - dr, fr ? 0.092 : 0.082]], 0.0042));
-  }
-  neutral(capsule([0, 1.425, 0.094], [0, 1.26, 0.1], 0.009));
-  const tor = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.014, 8, 40)); tor.position.set(0, 0.93, 0.005); tor.rotation.x = Math.PI / 2 - 0.35; tor.scale.set(1.15, 0.85, 1); neutral(tor);
-  for (const [s, sd] of [[1, 'L'], [-1, 'R']]) {
-    const S = mir(J.S, s), E = mir(J.E, s), W = mir(J.W, s), H = mir(J.H, s), K = mir(J.K, s), A = mir(J.A, s);
-    neutral(tube([[s * 0.02, 1.44, 0.06], [s * 0.09, 1.447, 0.056], [s * 0.17, 1.43, 0.0]], 0.0055));
-    neutral(blob([s * 0.1, 1.33, -0.088], [0.05, 0.068, 0.009], [0.15, s * 0.35, 0]));
-    neutral(blob([s * 0.088, 0.99, -0.012], [0.055, 0.048, 0.012], [0, s * 0.75, s * 0.25]));
-    neutral(capsule(S, E, 0.011));
-    neutral(capsule([E[0], E[1], E[2] + 0.008], [W[0], W[1], W[2] + 0.008], 0.0065));
-    neutral(capsule([E[0], E[1], E[2] - 0.008], [W[0], W[1], W[2] - 0.006], 0.006));
-    addPart('shoulders', sd, blob(S, [0.026, 0.026, 0.026]), true);
-    addPart('elbows', sd, blob(E, [0.019, 0.019, 0.019]), true);
-    addPart('wrists', sd, blob(W, [0.016, 0.014, 0.018]), true);
-    for (const dz of [-0.021, -0.007, 0.007, 0.021]) addPart('wrists', sd, capsule([s * 0.322, 0.84, 0.006 + dz], [s * 0.334, 0.705 + Math.abs(dz) * 1.4, 0.01 + dz * 1.25], 0.0042), true);
-    addPart('wrists', sd, capsule([s * 0.318, 0.842, 0.026], [s * 0.318, 0.786, 0.056], 0.0045), true);
-    neutral(capsule(H, K, 0.0135));
-    addPart('hips', sd, blob(H, [0.024, 0.024, 0.024]), true);
-    addPart('hips', sd, capsule(H, [s * 0.128, 0.9, 0.0], 0.012), true);
-    addPart('knees', sd, blob(K, [0.025, 0.022, 0.024]), true);
-    addPart('knees', sd, blob([s * 0.1, 0.5, 0.045], [0.017, 0.021, 0.008]), true);
-    neutral(capsule([s * 0.1, 0.478, 0.006], A, 0.0115));
-    neutral(capsule([s * 0.122, 0.47, -0.01], [s * 0.116, 0.1, -0.024], 0.006));
-    addPart('ankles', sd, blob(A, [0.018, 0.016, 0.018]), true);
-    addPart('ankles', sd, capsule([s * 0.103, 0.06, -0.02], [s * 0.103, 0.03, -0.055], 0.013), true);
-    for (let m = 0; m < 5; m++) { const dx = (m - 2) * 0.011; addPart('ankles', sd, capsule([s * (0.105 + dx * 0.4), 0.055, 0.01], [s * (0.108 + dx), 0.02, 0.13 - Math.abs(dx) * 1.6], 0.0045), true); }
-    addProxy('shoulders', sd, blob(S, [0.05, 0.05, 0.05]));
-    addProxy('elbows', sd, blob(E, [0.042, 0.042, 0.042]));
-    addProxy('wrists', sd, blob([s * 0.325, 0.8, 0.012], [0.04, 0.085, 0.05]));
-    addProxy('hips', sd, blob(H, [0.05, 0.05, 0.05]));
-    addProxy('knees', sd, blob(K, [0.055, 0.055, 0.055]));
-    addProxy('ankles', sd, blob([s * 0.105, 0.05, 0.04], [0.045, 0.05, 0.11]));
-    addProxy('eyes', sd, blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
-    addZone('frame', blob([s * 0.19, 1.39, -0.012], [0.07, 0.07, 0.07]));
-    addZone('frame', capsule(S, E, 0.055)); addZone('frame', capsule(E, W, 0.045));
-    addZone('frame', blob([s * 0.33, 0.77, 0.012], [0.03, 0.085, 0.05]));
-    addZone('frame', capsule([s * 0.088, 0.88, 0], K, 0.085)); addZone('frame', capsule(K, A, 0.06));
-    addZone('frame', blob([s * 0.106, 0.04, 0.045], [0.045, 0.045, 0.11]));
-  }
-  addProxy('cervical', '', capsule([0, 1.54, -0.03], [0, 1.44, -0.03], 0.03));
-  addProxy('lumbar', '', capsule([0, 1.15, -0.045], [0, 0.98, -0.045], 0.035));
+function buildCommon() {
+  for (const s of [1, -1]) addProxy('eyes', s > 0 ? 'L' : 'R', blob([s * 0.031, 1.642, 0.07], [0.02, 0.02, 0.02]));
+  for (const s of [1, -1]) addProxy('carotid', s > 0 ? 'L' : 'R', capsule([s * 0.025, 1.44, 0.016], [s * 0.026, 1.55, 0.006], 0.012));
   addProxy('thyroid', '', blob([0, 1.467, 0.04], [0.035, 0.028, 0.02]));
   addProxy('mouth', '', blob([0, 1.566, 0.085], [0.035, 0.02, 0.022]));
-  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]));
-  addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016));
-  for (const [y, sh] of [[1.5715, 1], [1.5595, -1]]) for (let u = 0; u < 10; u++) {
+  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]), TRUNKG);
+  addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016), TRUNKG);
+  for (const y of [1.5715, 1.5595]) for (let u = 0; u < 10; u++) {
     const ang = -1.05 + u * 2.1 / 9;
     addPart('mouth', '', blob([Math.sin(ang) * 0.024, y, 0.058 + Math.cos(ang) * 0.022], [0.0036, 0.0046, 0.0028], [0, ang, 0]), true);
   }
-  addZone('head', blob([0, 1.64, 0.008], [0.092, 0.12, 0.11]));
-  addZone('head', capsule([0, 1.54, -0.005], [0, 1.44, -0.005], 0.062));
-  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.6, 24)); torso.position.set(0, 1.16, 0); torso.scale.set(1, 1, 0.72); addZone('organs', torso);
+}
+function buildSkeleton(sex) {
+  const g = SEXG[sex], j = JS[sex], f = sex === 'F', wk = f ? 0.92 : 1;
+  const bone = m => addPart('bones', '', m, false, g);
+  for (let i = 0; i < 7; i++) addPart('cervical', '', blob([0, 1.535 - i * 0.0145, -0.03 + 0.008 * Math.sin(Math.PI * i / 6)], [0.0135, 0.0055, 0.0115]), true, g);
+  for (let i = 0; i < 12; i++) { const t = i / 11; bone(blob([0, 1.43 - i * 0.0245, -0.052 - 0.018 * Math.sin(Math.PI * t)], [0.0145 + 0.004 * t, 0.0085, 0.013])); }
+  for (let i = 0; i < 5; i++) addPart('lumbar', '', blob([0, 1.14 - i * 0.035, -0.05 + 0.016 * Math.sin(Math.PI * i / 4)], [0.02, 0.0115, 0.017]), true, g);
+  bone(blob([0, 0.95, -0.058], [0.034 * (f ? 1.12 : 1), 0.045, 0.014], [-0.45, 0, 0]));
+  const RW = [0.074, 0.096, 0.11, 0.12, 0.125, 0.127, 0.126, 0.122, 0.116, 0.108];
+  for (let i = 0; i < 10; i++) {
+    const y0 = 1.405 - i * 0.0235, w = RW[i] * wk, dr = 0.03 + i * 0.006, fr = i < 7;
+    for (const s of [1, -1]) bone(tube([[s * 0.014, y0, -0.062], [s * w * 0.55, y0 + 0.004, -0.078], [s * w, y0 - dr * 0.4, -0.012], [s * w * 0.8, y0 - dr * 0.8, 0.06 * (f ? 0.94 : 1)], [s * (fr ? 0.03 : w * 0.5), y0 - dr, (fr ? 0.092 : 0.082) * (f ? 0.94 : 1)]], 0.0042));
+  }
+  bone(capsule([0, 1.425, 0.094 * (f ? 0.95 : 1)], [0, 1.26, 0.1 * (f ? 0.95 : 1)], 0.009));
+  const tor = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.014, 8, 40)); tor.position.set(0, 0.93, 0.005); tor.rotation.x = Math.PI / 2 - 0.35; tor.scale.set(f ? 1.32 : 1.15, 0.85, 1); bone(tor);
+  const sw = j.S[0] / 0.195;
+  for (const [s, sd] of [[1, 'L'], [-1, 'R']]) {
+    const S = mir(j.S, s), E = mir(j.E, s), W = mir(j.W, s), H = mir(j.H, s), K = mir(j.K, s), A = mir(j.A, s);
+    bone(tube([[s * 0.02, 1.44, 0.06 * wk], [s * 0.09 * sw, 1.447, 0.056 * wk], plus(S, [-s * 0.025, 0.045, 0.015])], 0.0055));
+    bone(blob([s * 0.1 * sw, 1.33, -0.088 * wk], [0.05 * sw, 0.068, 0.009], [0.15, s * 0.35, 0]));
+    bone(blob([s * (j.H[0] + 0.0), 0.99, -0.012], [0.055 * (f ? 1.08 : 1), 0.048, 0.012], [0, s * (f ? 0.85 : 0.75), s * 0.25]));
+    bone(capsule(S, E, 0.011));
+    bone(capsule(plus(E, [0, 0, 0.008]), plus(W, [0, 0, 0.008]), 0.0065));
+    bone(capsule(plus(E, [0, 0, -0.008]), plus(W, [0, 0, -0.006]), 0.006));
+    addPart('shoulders', sd, blob(S, [0.026, 0.026, 0.026]), true, g);
+    addPart('elbows', sd, blob(E, [0.019, 0.019, 0.019]), true, g);
+    addPart('wrists', sd, blob(W, [0.016, 0.014, 0.018]), true, g);
+    for (const dz of [-0.021, -0.007, 0.007, 0.021]) addPart('wrists', sd, capsule(plus(W, [s * 0.007, -0.025, 0.006 + dz]), plus(W, [s * 0.019, -0.16 * (f ? 0.94 : 1) + Math.abs(dz) * 1.4, 0.01 + dz * 1.25]), 0.0042), true, g);
+    addPart('wrists', sd, capsule(plus(W, [s * 0.003, -0.023, 0.026]), plus(W, [s * 0.003, -0.079, 0.056]), 0.0045), true, g);
+    bone(capsule(H, K, 0.0135));
+    addPart('hips', sd, blob(H, [0.024, 0.024, 0.024]), true, g);
+    addPart('hips', sd, capsule(H, plus(H, [s * 0.04, -0.025, -0.004]), 0.012), true, g);
+    addPart('knees', sd, blob(K, [0.025, 0.022, 0.024]), true, g);
+    addPart('knees', sd, blob(plus(K, [0, 0, 0.033]), [0.017, 0.021, 0.008]), true, g);
+    bone(capsule(plus(K, [0, -0.022, -0.006]), A, 0.0115));
+    bone(capsule(plus(K, [s * 0.022, -0.03, -0.022]), plus(A, [s * 0.013, 0.015, -0.004]), 0.006));
+    addPart('ankles', sd, blob(A, [0.018, 0.016, 0.018]), true, g);
+    addPart('ankles', sd, capsule(plus(A, [0, -0.025, 0]), plus(A, [0, -0.055, -0.035]), 0.013), true, g);
+    for (let m = 0; m < 5; m++) { const dx = (m - 2) * 0.011; addPart('ankles', sd, capsule(plus(A, [s * (0.002 + dx * 0.4), -0.03, 0.03]), plus(A, [s * (0.005 + dx), -0.065, (0.15 - Math.abs(dx) * 1.6) * (f ? 0.9 : 1)]), 0.0045), true, g); }
+    addProxy('shoulders', sd, blob(S, [0.05, 0.05, 0.05]), g);
+    addProxy('elbows', sd, blob(E, [0.042, 0.042, 0.042]), g);
+    addProxy('wrists', sd, blob(plus(W, [s * 0.01, -0.065, 0.012]), [0.04, 0.085, 0.05]), g);
+    addProxy('hips', sd, blob(H, [0.05, 0.05, 0.05]), g);
+    addProxy('knees', sd, blob(K, [0.055, 0.055, 0.055]), g);
+    addProxy('ankles', sd, blob(plus(A, [s * 0.002, -0.035, 0.06]), [0.045, 0.05, 0.11]), g);
+    addZone('frame', blob(plus(S, [-s * 0.005, 0.005, 0.003]), [0.07, 0.07, 0.07]), g);
+    addZone('frame', capsule(S, E, 0.055), g); addZone('frame', capsule(E, W, 0.045), g);
+    addZone('frame', blob(plus(W, [s * 0.015, -0.095, 0.012]), [0.03, 0.085, 0.05]), g);
+    addZone('frame', capsule(plus(H, [0, -0.045, -0.004]), K, 0.085), g); addZone('frame', capsule(K, A, 0.06), g);
+    addZone('frame', blob(plus(A, [s * 0.003, -0.045, 0.065]), [0.045, 0.045, 0.11]), g);
+  }
+  addProxy('cervical', '', capsule([0, 1.54, -0.03], [0, 1.44, -0.03], 0.03), g);
+  addProxy('lumbar', '', capsule([0, 1.15, -0.045], [0, 0.98, -0.045], 0.035), g);
+  addZone('head', blob([0, 1.64, 0.008], [0.092, 0.12, 0.11]), g);
+  addZone('head', capsule([0, 1.54, -0.005], [0, 1.44, -0.005], f ? 0.055 : 0.062), g);
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(f ? 0.148 : 0.16, f ? 0.148 : 0.16, 0.6, 24)); torso.position.set(0, 1.16, 0); torso.scale.set(1, 1, 0.72); addZone('organs', torso, g);
+  if (f) {
+    for (const s of [1, -1]) addProxy('breasts', s > 0 ? 'L' : 'R', blob([s * 0.064, 1.27, 0.08], [0.055, 0.052, 0.045]), g);
+    for (const s of [1, -1]) addProxy('ovaries', s > 0 ? 'L' : 'R', blob([s * 0.056, 0.958, 0.004], [0.02, 0.018, 0.018]), g);
+  }
 }
 
 function buildFloor() {
@@ -175,17 +188,18 @@ function geomFrom(m) {
 }
 function onMesh(m) {
   const g = geomFrom(m);
-  if (m.id === 'shell') {
+  if (m.id.startsWith('shell-')) {
+    const sx = m.id.slice(6);
     const mk = side => new THREE.ShaderMaterial({ uniforms: { uOpacity: { value: 0 }, uScan: { value: -1 }, uHover: { value: 0 } }, vertexShader: VS, fragmentShader: FS_SHELL, transparent: true, depthWrite: false, side });
     const back = new THREE.Mesh(g, mk(THREE.BackSide)), front = new THREE.Mesh(g, mk(THREE.FrontSide));
-    back.renderOrder = 20; front.renderOrder = 21; body.add(back, front); shellMats = [back.material, front.material];
+    back.renderOrder = 20; front.renderOrder = 21; SEXG[sx].add(back, front); SHELLM[sx] = [back.material, front.material];
   } else {
-    const [part, side = ''] = m.id.split(':');
-    addPart(part, side, new THREE.Mesh(g));
+    const [part, side = ''] = m.id.split(':'), p = PART[part];
+    addPart(part, side, new THREE.Mesh(g), false, p.sex ? SEXG[p.sex] : TRUNK.has(part) ? TRUNKG : HEADG);
   }
   refreshTargets();
 }
-function runWorker(onProgress) {
+function runWorker(shapes, onProgress) {
   return new Promise((res, rej) => {
     let got = 0, heard = false, fell = false;
     const handle = m => {
@@ -194,15 +208,36 @@ function runWorker(onProgress) {
       else if (m.type === 'mesh') { got++; onMesh(m); }
       else if (m.type === 'done') { onProgress(1, m.verts); res(m.verts); }
     };
-    const inline = () => { if (fell) return; fell = true; setTimeout(() => { try { run(sdfSpecs(), handle); } catch (e) { rej(e); } }, 30); };
+    const inline = () => { if (fell) return; fell = true; setTimeout(() => { try { run(shapes, handle); } catch (e) { rej(e); } }, 30); };
     let w, url;
     try { url = URL.createObjectURL(new Blob([$('sdfWorker').textContent], { type: 'text/javascript' })); w = new Worker(url); }
     catch { inline(); return; }
     w.onmessage = e => { handle(e.data); if (e.data.type === 'done') { w.terminate(); URL.revokeObjectURL(url); } };
     w.onerror = e => { e.preventDefault && e.preventDefault(); w.terminate(); if (!got) inline(); else rej(e); };
-    w.postMessage({ shapes: sdfSpecs() });
+    w.postMessage({ shapes });
     setTimeout(() => { if (!heard) { w.terminate(); inline(); } }, 4000); // a worker that never starts
   });
+}
+// build the other sex's shell the first time a person of that sex is opened
+async function ensureSex(sx) {
+  if (BUILT[sx] || BUILDING[sx] || !T3.scene) return;
+  BUILDING[sx] = true;
+  const b = $('building'); b.textContent = `正在生成${sx === 'F' ? '女性' : '男性'}玻璃人体…`; b.hidden = false;
+  try { await runWorker(sdfSpecs(sx), () => { }); BUILT[sx] = true; } catch { glFail('生成人体模型失败，请刷新页面重试。'); }
+  BUILDING[sx] = false;
+  if (BUILT[sx]) b.hidden = true;
+}
+function applySex() {
+  if (!T3.scene) return;
+  const sx = SEX();
+  SEXG.M.visible = sx === 'M'; SEXG.F.visible = sx === 'F';
+  TRUNKG.scale.x = sx === 'F' ? TRUNK_F : 1;
+  if (BUILT.common && !BUILT[sx]) ensureSex(sx);
+  refreshTargets(); renderCallouts(); G.rulerKey = '';
+}
+function onPersonChange() {
+  G.zone = 'all'; ST.sel = null;
+  if (T3.scene) { applySex(); flyTo({ ...OVERVIEW_CAM, yaw: 0 }); }
 }
 
 function glFail(msg) { const m = $('glMsg'); m.textContent = msg; m.hidden = false; $('building').hidden = true; SPL.mesh = 1; }
@@ -214,13 +249,20 @@ async function init3D(onProgress) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.setClearColor(0x000000, 0);
   scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(28, 1, 0.01, 20);
   body = new THREE.Group(); scene.add(body); raycaster = new THREE.Raycaster();
+  HEADG = new THREE.Group(); TRUNKG = new THREE.Group(); SEXG.M = new THREE.Group(); SEXG.F = new THREE.Group();
+  body.add(HEADG, TRUNKG, SEXG.M, SEXG.F);
   PROXM = new THREE.MeshBasicMaterial({ visible: false });
-  skelMat = mkPartMat('skeleton', ''); skelMat.uniforms.uColor.value.set('#DCEBFF');
-  buildSkeleton(); buildFloor();
-  T3.scene = true; layout(); refreshTargets(); renderCallouts();
+  SPH = new THREE.SphereGeometry(1, 18, 12);
+  buildCommon(); buildSkeleton('M'); buildSkeleton('F'); buildFloor();
+  T3.scene = true; layout(); applySex();
   requestAnimationFrame(loop);
-  try { const v = await runWorker(onProgress); T3.built = true; $('building').hidden = true; return v; }
-  catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
+  const sx = SEX();
+  try {
+    const v = await runWorker([...sdfSpecs('common'), ...sdfSpecs(sx)], onProgress);
+    BUILT.common = true; BUILT[sx] = true; T3.built = true; $('building').hidden = true;
+    applySex(); // the person may have changed while building
+    return v;
+  } catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
 }
 
 /* layout: the round scan portal sits left of the profile panel */
@@ -276,9 +318,8 @@ function refreshTargets() {
     m.uniforms.uColor.value.set(SEVC[s]);
   }
   G.shellT = z === 'all' ? 1 : z === 'frame' ? 0.55 : 0.72;
-  G.skelT = z === 'all' ? 0.2 : z === 'frame' ? 0.5 : 0.07;
-  const h = D.profile && D.profile.height;
-  G.scale = h ? clamp(h / 176, 0.85, 1.15) : 1;
+  const h = (D.profile && D.profile.height) || (SEX() === 'F' ? 160 : 176); // average adult height when unknown
+  G.scale = clamp(h / 176, 0.8, 1.15);
   body.scale.setScalar(G.scale);
 }
 function refresh3D() { refreshTargets(); renderCallouts(); G.rulerKey = ''; }
@@ -302,10 +343,9 @@ function loop(t) {
     u.a += (u.ta - u.a) * k; u.g += (u.tg - u.g) * k; u.p += (u.tp - u.p) * k;
     m.uniforms.uAlpha.value = u.a; m.uniforms.uGlow.value = u.g; m.uniforms.uPulse.value = u.p; m.depthWrite = u.a > 0.6;
   }
-  G.shellA += (G.shellT - G.shellA) * k; G.skelA += (G.skelT - G.skelA) * k;
-  skelMat.uniforms.uAlpha.value = G.skelA;
+  G.shellA += (G.shellT - G.shellA) * k;
   const ph = (t / 1000 % 6) / 6, scanY = RM || ph > 0.55 ? -1 : 1.8 - ph / 0.55 * 1.85;
-  shellMats.forEach((m, i) => { m.uniforms.uOpacity.value = G.shellA * (i === 0 ? 0.5 : 1); m.uniforms.uHover.value = G.hoverZone; m.uniforms.uScan.value = scanY; });
+  SHELLM[SEX()].forEach((m, i) => { m.uniforms.uOpacity.value = G.shellA * (i === 0 ? 0.5 : 1); m.uniforms.uHover.value = G.hoverZone; m.uniforms.uScan.value = scanY; });
   renderer.render(scene, camera);
   positionCallouts(); drawRuler();
 }
@@ -317,11 +357,11 @@ function pickAt(e) {
   if (Math.hypot(x - LAY.cx, y - LAY.cy) > LAY.R) return null;
   raycaster.setFromCamera(new THREE.Vector2(x / r.width * 2 - 1, -(y / r.height) * 2 + 1), camera);
   if (G.zone !== 'all') {
-    const list = HITS.filter(m => PART[m.userData.part].zone === G.zone);
+    const sx = SEX(), list = HITS.filter(m => PART[m.userData.part].zone === G.zone && (!m.userData.sex || m.userData.sex === sx));
     const h = raycaster.intersectObjects(list, false)[0];
     if (h) return { part: h.object.userData.part, side: h.object.userData.side };
   }
-  const z = raycaster.intersectObjects(ZPROX, false)[0];
+  const z = raycaster.intersectObjects(ZPROX.filter(m => m.userData.sex === SEX()), false)[0];
   return z ? { zone: z.object.userData.zone } : null;
 }
 function hoverAt(e) {
@@ -333,7 +373,7 @@ function hoverAt(e) {
     tip = `<b>${p.name}${p.pair && r.side ? '（' + SIDEN[r.side] + '）' : ''}</b> · ${SEVN[s]}<small>${n ? n + ' 个未解决问题' : '暂无问题'} · 点击查看</small>`;
   } else if (r && r.zone && r.zone !== G.zone) {
     hz = { head: 1, organs: 2, frame: 3 }[r.zone];
-    const ps = PARTS.filter(p => p.zone === r.zone);
+    const ps = curParts().filter(p => p.zone === r.zone);
     tip = `<b>${ZONES[r.zone].name}</b><small>${ps.length} 个部位 · 需关注 ${ps.filter(p => partSev(p.id)).length} 处 · 点击进入</small>`;
   }
   if (hz !== G.hoverZone || hp !== G.hoverPart) { G.hoverZone = hz; G.hoverPart = hp; refreshTargets(); markCalloutHover(); }
@@ -362,15 +402,16 @@ function renderCallouts() {
   let html = '';
   if (G.zone === 'all') {
     for (const [z, info] of Object.entries(ZONES)) {
-      const ps = PARTS.filter(p => p.zone === z), n = ps.filter(p => partSev(p.id)).length, w = Math.max(0, ...ps.map(p => partSev(p.id)));
+      const ps = curParts().filter(p => p.zone === z), n = ps.filter(p => partSev(p.id)).length, w = Math.max(0, ...ps.map(p => partSev(p.id)));
       CO.push({ id: z, a: info.anchor, ls: info.side });
       html += `<button class="co zn" data-z="${z}" aria-label="进入${info.name}，${n} 处需关注"><i class="d" style="background:${SEVC[w]}"></i>${info.name}<small>${n ? n + ' 处需关注' : '状态良好'}</small></button>`;
     }
   } else {
-    for (const p of PARTS.filter(p => p.zone === G.zone)) {
+    for (const p of curParts().filter(p => p.zone === G.zone)) {
       const s = SM[p.id], sv = partSev(p.id), n = s ? s.n : 0;
       let side = '', a = p.a;
       if (p.pair) { side = s && s.R > s.L ? 'R' : 'L'; if (side === 'R') a = [-a[0], a[1], a[2]]; }
+      if (TRUNK.has(p.id) && SEX() === 'F') a = [a[0] * TRUNK_F, a[1], a[2]];
       CO.push({ id: p.id, side, a, ls: side === 'R' ? 'l' : p.ls });
       const cur = !!(ST.sel && ST.sel.id === p.id);
       html += `<button class="co" data-p="${p.id}" data-side="${side}" aria-current="${cur}" aria-label="${p.name}，${SEVN[sv]}${n ? '，' + n + ' 个未解决问题' : ''}"><i class="d" style="background:${SEVC[sv]}"></i>${p.name}${n ? `<span class="c">${n}</span>` : ''}</button>`;
@@ -388,7 +429,13 @@ function positionCallouts() {
   const { W, H, cx, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
   body.updateMatrixWorld();
   const pts = CO.map(c => { v.set(c.a[0], c.a[1], c.a[2]).applyMatrix4(body.matrixWorld).project(camera); return { c, x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H }; });
-  for (const p of pts) p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
+  const { cy } = LAY, selId = ST.sel && ST.sel.id;
+  for (const p of pts) {
+    p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
+    p.out = Math.hypot(p.x - cx, p.y - cy) > R * 0.98 && p.c.id !== selId; // anchor outside the portal: hide the label
+    p.c.el.style.visibility = p.out ? 'hidden' : '';
+  }
+  pts.splice(0, pts.length, ...pts.filter(p => !p.out));
   const gap = W < 560 ? 27 : 33, off = R * 0.74;
   let d = '', dots = '';
   for (const side of ['l', 'r']) {

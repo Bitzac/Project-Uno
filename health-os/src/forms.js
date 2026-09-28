@@ -3,7 +3,7 @@ let FORM = null;
 const fld = (id, label, inner, cls) => `<div class="${cls || ''}" id="row-${id}"><label for="f-${id}">${label}</label>${inner}</div>`;
 const inp = (id, v, attrs) => `<input id="f-${id}" value="${esc(v ?? '')}" ${attrs || ''}>`;
 const selHtml = (id, opts, v) => `<select id="f-${id}">${opts.map(([k, t]) => `<option value="${esc(k)}"${String(k) === String(v ?? '') ? ' selected' : ''}>${esc(t)}</option>`).join('')}</select>`;
-const partSel = (id, v, none) => `<select id="f-${id}">${none ? `<option value=""${!v ? ' selected' : ''}>${none}</option>` : ''}${Object.entries(ZONES).map(([z, info]) => `<optgroup label="${info.name}">${PARTS.filter(p => p.zone === z).map(p => `<option value="${p.id}"${p.id === v ? ' selected' : ''}>${p.name}</option>`).join('')}</optgroup>`).join('')}</select>`;
+const partSel = (id, v, none) => `<select id="f-${id}">${none ? `<option value=""${!v ? ' selected' : ''}>${none}</option>` : ''}${Object.entries(ZONES).map(([z, info]) => `<optgroup label="${info.name}">${curParts().filter(p => p.zone === z).map(p => `<option value="${p.id}"${p.id === v ? ' selected' : ''}>${p.name}</option>`).join('')}</optgroup>`).join('')}</select>`;
 const val = id => { const e = $('f-' + id); return e ? e.value.trim() : ''; };
 const nowMonth = () => todayISO().slice(0, 7);
 
@@ -68,8 +68,8 @@ const FORMS = {
     hint: '选常用指标会自动填好单位、参考范围和关联部位；参考范围以你的化验单为准。',
     html: o => {
       const base = o.key ? labGroups().find(g => g.latest.key === o.key)?.latest : null;
-      const pre = base || LAB_PRESETS[0];
-      return fld('preset', '常用指标', `<select id="f-preset"><option value="">自定义…</option>${LAB_CATS.map(c => { const a = LAB_PRESETS.filter(p => p.cat === c); return a.length ? `<optgroup label="${c}">${a.map(p => `<option value="${esc(p.key)}"${p.key === pre.key ? ' selected' : ''}>${esc(p.name)}（${esc(p.key)}）</option>`).join('')}</optgroup>` : ''; }).join('')}</select>`, 'full')
+      const pre = base || presets()[0];
+      return fld('preset', '常用指标', `<select id="f-preset"><option value="">自定义…</option>${LAB_CATS.map(c => { const a = presets().filter(p => p.cat === c); return a.length ? `<optgroup label="${c}">${a.map(p => `<option value="${esc(p.key)}"${p.key === pre.key ? ' selected' : ''}>${esc(p.name)}（${esc(p.key)}）</option>`).join('')}</optgroup>` : ''; }).join('')}</select>`, 'full')
         + fld('name', '指标名称', inp('name', pre.name, 'maxlength="30"')) + fld('key', '简称', inp('key', pre.key, 'maxlength="16"'))
         + fld('value', '结果', inp('value', '', 'inputmode="decimal"')) + fld('unit', '单位', inp('unit', pre.unit, 'maxlength="16"'))
         + fld('low', '参考下限（可空）', inp('low', pre.low, 'inputmode="decimal"')) + fld('high', '参考上限（可空）', inp('high', pre.high, 'inputmode="decimal"'))
@@ -78,7 +78,7 @@ const FORMS = {
     },
     init: () => {
       $('f-preset').addEventListener('change', () => {
-        const p = LAB_PRESETS.find(x => x.key === val('preset')); if (!p) return;
+        const p = presets().find(x => x.key === val('preset')); if (!p) return;
         for (const k of ['name', 'key', 'unit', 'low', 'high']) $('f-' + k).value = p[k] ?? '';
         $('f-cat').value = p.cat; $('f-part').value = p.part;
       });
@@ -120,38 +120,44 @@ const FORMS = {
     del: async o => { await del('plans', o.id); toast('已删除这个计划'); }
   },
   profile: {
-    title: () => '个人资料',
-    hint: '身高会用来缩放身体模型和计算 BMI；体重、心率优先取最近一次体征记录。',
-    html: () => {
-      const p = D.profile || {};
-      return fld('name', '称呼（可选）', inp('name', p.name, 'maxlength="20"')) + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"'))
-        + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"')) + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"'))
+    title: o => o.isNew ? '新建档案' : '编辑档案资料',
+    hint: '每个档案的问题、体征、体检和计划分开保存。性别决定使用男性还是女性人体模型；身高用来缩放模型和计算 BMI。',
+    delLabel: '删除这个档案',
+    html: o => {
+      const p = o.isNew ? {} : (D.profile || {});
+      return fld('name', '称呼或代号', inp('name', p.name, 'maxlength="12" placeholder="例如：S、妈妈"')) + fld('sex', '性别', selHtml('sex', [['男', '男'], ['女', '女']], p.sex || '男'))
+        + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"')) + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"'))
+        + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"')) + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"'))
         + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || '+'))
-        + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"')) + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'))
-        + `<div class="full" style="font-size:13px;color:var(--muted)">身体模型为男性。</div>`;
+        + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'), 'full');
     },
-    save: async () => {
-      const birth = val('birth'), h = num(val('height')), w = num(val('weight')), r = num(val('rhr'));
+    save: async o => {
+      const name = val('name'), birth = val('birth'), h = num(val('height')), w = num(val('weight')), r = num(val('rhr'));
+      if (!name) throw '请填写称呼或代号，例如「S」';
+      if (!o.isNew && D.people.some(p => p.id !== CUR && p.name === name) || o.isNew && D.people.some(p => p.name === name)) throw `已经有叫「${name}」的档案了，换个称呼`;
       if (birth && !isMonth(birth)) throw '出生年月格式应为 年-月，例如 1990-03';
       if (h !== null && (h < 100 || h > 230)) throw '身高请填 100–230 cm';
       if (w !== null && (w < 20 || w > 300)) throw '体重请填 20–300 kg';
       if (r !== null && (r < 25 || r > 220)) throw '静息心率请填 25–220';
-      await putProfile({ name: val('name'), sex: '男', birth, height: h, weight: w, blood: val('blood'), rh: val('rh'), rhr: r, allergy: val('allergy'), example: false });
-      toast('已保存个人资料'); closeForm();
-    }
+      const body = { name, sex: val('sex'), birth, height: h, weight: w, blood: val('blood'), rh: val('rh'), rhr: r, allergy: val('allergy'), example: o.isNew ? false : !!(D.profile && D.profile.example) };
+      if (o.isNew) { await createPerson(body); toast(`已新建档案：${name}`); }
+      else { await putProfile(body); toast('已保存档案资料'); }
+      closeForm();
+    },
+    del: async o => { const n = D.profile ? D.profile.name : ''; await deletePerson(); toast(`已删除档案：${n}`); }
   }
 };
 
 function openForm(kind, o) {
-  if (!guardWrite()) return;
   o = o || {};
+  if (!guardWrite(kind === 'profile' && o.isNew)) return;
   FORM = { kind, o };
   const f = FORMS[kind];
   $('sheetTitle').textContent = f.title(o);
   $('sheetHint').textContent = f.hint || '';
   $('fgrid').innerHTML = f.html(o);
   $('err').textContent = '';
-  const d = $('fdel'); d.hidden = !(o.id && f.del); d.textContent = '删除'; d.dataset.armed = '';
+  const d = $('fdel'); d.hidden = !((o.id || (kind === 'profile' && !o.isNew && D.profile)) && f.del); d.textContent = f.delLabel || '删除'; d.dataset.armed = '';
   $('overlay').hidden = false;
   if (f.init) f.init(o);
   setTimeout(() => { const e = $('fgrid').querySelector('input:not([type=hidden]),select,textarea'); if (e) e.focus(); }, 30);

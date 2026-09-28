@@ -14,7 +14,7 @@ const addPeriod = (s, r) => { if (r === 'daily') return addDays(s, 1); if (r ===
 const isMonth = s => /^\d{4}-\d{2}$/.test(s || '');
 const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s || '') && !isNaN(parseD(s));
 const fmtD = s => s ? String(s).replaceAll('-', '.') : '';
-const fmtMD = s => { const d = parseD(s); return `${d.getMonth() + 1}月${d.getDate()}日`; };
+const fmtMD = s => { const d = parseD(s); return `${d.getFullYear() !== new Date().getFullYear() ? d.getFullYear() + '年' : ''}${d.getMonth() + 1}月${d.getDate()}日`; };
 const WK = '日一二三四五六';
 const nf = (v, d = 0) => Number(v).toLocaleString('zh-CN', { minimumFractionDigits: d, maximumFractionDigits: d });
 const byDate = k => (a, b) => a[k] < b[k] ? -1 : a[k] > b[k] ? 1 : 0;
@@ -35,24 +35,24 @@ const VT = {
   steps: { name: '日均步数', unit: '步', d: 0, min: 0, max: 100000, part: '' }
 };
 const VT_ORDER = ['weight', 'rhr', 'bp', 'sleep', 'steps'];
-const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '眼科', '其他'];
+const LAB_CATS = ['血脂', '肝功能', '肾功能', '血糖', '血常规', '甲状腺', '感染', '肿瘤标志物', '维生素', '骨代谢', '心功能', '尿常规', '眼科', '其他'];
 const LAB_PRESETS = [
   { key: 'TC', name: '总胆固醇', unit: 'mmol/L', low: null, high: 5.2, cat: '血脂', part: 'heart' },
   { key: 'TG', name: '甘油三酯', unit: 'mmol/L', low: null, high: 1.7, cat: '血脂', part: 'heart' },
   { key: 'LDL-C', name: '低密度脂蛋白胆固醇', unit: 'mmol/L', low: null, high: 3.4, cat: '血脂', part: 'heart' },
   { key: 'HDL-C', name: '高密度脂蛋白胆固醇', unit: 'mmol/L', low: 1.0, high: null, cat: '血脂', part: 'heart' },
-  { key: 'ALT', name: '谷丙转氨酶', unit: 'U/L', low: 9, high: 50, cat: '肝功能', part: 'liver' },
-  { key: 'AST', name: '谷草转氨酶', unit: 'U/L', low: 15, high: 40, cat: '肝功能', part: 'liver' },
-  { key: 'GGT', name: 'γ-谷氨酰转移酶', unit: 'U/L', low: 10, high: 60, cat: '肝功能', part: 'liver' },
+  { key: 'ALT', name: '谷丙转氨酶', unit: 'U/L', low: 9, high: 50, cat: '肝功能', part: 'liver', f: [7, 40] },
+  { key: 'AST', name: '谷草转氨酶', unit: 'U/L', low: 15, high: 40, cat: '肝功能', part: 'liver', f: [13, 35] },
+  { key: 'GGT', name: 'γ-谷氨酰转移酶', unit: 'U/L', low: 10, high: 60, cat: '肝功能', part: 'liver', f: [7, 45] },
   { key: 'TBIL', name: '总胆红素', unit: 'μmol/L', low: 3.4, high: 20.5, cat: '肝功能', part: 'liver' },
   { key: 'ALB', name: '白蛋白', unit: 'g/L', low: 40, high: 55, cat: '肝功能', part: 'liver' },
-  { key: 'Cr', name: '肌酐', unit: 'μmol/L', low: 57, high: 111, cat: '肾功能', part: 'kidneys' },
-  { key: 'UA', name: '尿酸', unit: 'μmol/L', low: 208, high: 428, cat: '肾功能', part: 'kidneys' },
+  { key: 'Cr', name: '肌酐', unit: 'μmol/L', low: 57, high: 111, cat: '肾功能', part: 'kidneys', f: [41, 81] },
+  { key: 'UA', name: '尿酸', unit: 'μmol/L', low: 208, high: 428, cat: '肾功能', part: 'kidneys', f: [155, 357] },
   { key: 'BUN', name: '尿素', unit: 'mmol/L', low: 3.1, high: 8.0, cat: '肾功能', part: 'kidneys' },
   { key: 'eGFR', name: '估算肾小球滤过率', unit: 'mL/min/1.73m²', low: 90, high: null, cat: '肾功能', part: 'kidneys' },
   { key: 'FPG', name: '空腹血糖', unit: 'mmol/L', low: 3.9, high: 6.1, cat: '血糖', part: 'pancreas' },
   { key: 'HbA1c', name: '糖化血红蛋白', unit: '%', low: 4.0, high: 6.0, cat: '血糖', part: 'pancreas' },
-  { key: 'Hb', name: '血红蛋白', unit: 'g/L', low: 130, high: 175, cat: '血常规', part: '' },
+  { key: 'Hb', name: '血红蛋白', unit: 'g/L', low: 130, high: 175, cat: '血常规', part: '', f: [115, 150] },
   { key: 'WBC', name: '白细胞计数', unit: '×10⁹/L', low: 3.5, high: 9.5, cat: '血常规', part: '' },
   { key: 'PLT', name: '血小板计数', unit: '×10⁹/L', low: 125, high: 350, cat: '血常规', part: '' },
   { key: 'TSH', name: '促甲状腺激素', unit: 'mIU/L', low: 0.27, high: 4.2, cat: '甲状腺', part: 'thyroid' },
@@ -60,19 +60,24 @@ const LAB_PRESETS = [
   { key: 'UBT', name: 'C13 尿素呼气试验', unit: 'DOB', low: null, high: 4.0, cat: '感染', part: 'stomach' },
   { key: 'AFP', name: '甲胎蛋白', unit: 'ng/mL', low: null, high: 7, cat: '肿瘤标志物', part: 'liver' },
   { key: 'CEA', name: '癌胚抗原', unit: 'ng/mL', low: null, high: 5, cat: '肿瘤标志物', part: 'colon' },
-  { key: 'PSA', name: '前列腺特异性抗原', unit: 'ng/mL', low: null, high: 4, cat: '肿瘤标志物', part: 'bladder' },
+  { key: 'PSA', name: '前列腺特异性抗原', unit: 'ng/mL', low: null, high: 4, cat: '肿瘤标志物', part: 'bladder', only: 'M' },
   { key: '25OHD', name: '25-羟基维生素 D', unit: 'ng/mL', low: 30, high: 100, cat: '维生素', part: '' },
   { key: 'IOP', name: '眼压', unit: 'mmHg', low: 10, high: 21, cat: '眼科', part: 'eyes' }
 ];
+// sex-specific reference intervals: WS/T 404 (ALT, AST, GGT, Cr, Hb); uric acid per common Chinese lab ranges
+const presets = () => LAB_PRESETS.filter(p => !p.only || p.only === SEX()).map(p => SEX() === 'F' && p.f ? { ...p, low: p.f[0], high: p.f[1] } : p);
 const PLAN_KINDS = { recheck: '复查', med: '用药', exercise: '运动', habit: '习惯' };
 const REPEATS = { '': '不重复', daily: '每天', weekly: '每周', monthly: '每月' };
 
-/* ---------- data ---------- */
+/* ---------- data: one document per person, their records in sub-collections ---------- */
 const COLS = ['issues', 'vitals', 'labs', 'plans'];
-const LSK = { issues: 'bos-issues', vitals: 'bos-vitals', labs: 'bos-labs', plans: 'bos-plans', profile: 'bos-profile', ui: 'bos-ui' };
+const LSK = { people: 'bos-people', ui: 'bos-ui' };
+const lsRec = (pid, c) => `bos-p-${pid}-${c}`;
 const EX = JSON.parse($('examples').textContent);
-const D = { issues: [], vitals: [], labs: [], plans: [], profile: null };
-let mode = 'init', DB = null, RO = false;
+const D = { issues: [], vitals: [], labs: [], plans: [], profile: null, people: [] };
+let mode = 'init', DB = null, RO = false, CUR = null, UNSUB = [], PENDING = null;
+const SEX = () => D.profile && D.profile.sex === '女' ? 'F' : 'M';
+const curParts = () => PARTS.filter(p => !p.sex || p.sex === SEX());
 
 function clean(col, arr) {
   const out = [];
@@ -87,7 +92,7 @@ function clean(col, arr) {
       out.push({ ...r, value: +r.value, value2: r.type === 'bp' ? +r.value2 : null, note: String(r.note || '') });
     } else if (col === 'labs') {
       if (!r.name || num(r.value) === null || !isDate(r.date)) continue;
-      out.push({ ...r, name: String(r.name), key: String(r.key || r.name), value: +r.value, low: num(r.low), high: num(r.high), part: PART[r.part] ? r.part : '', cat: LAB_CATS.includes(r.cat) ? r.cat : '其他', unit: String(r.unit || '') });
+      out.push({ ...r, name: String(r.name), key: String(r.key || r.name), value: +r.value, low: num(r.low), high: num(r.high), part: PART[r.part] ? r.part : '', cat: LAB_CATS.includes(r.cat) ? r.cat : '其他', unit: String(r.unit || ''), note: String(r.note || '') });
     } else if (col === 'plans') {
       if (!r.title || !isDate(r.due)) continue;
       out.push({ ...r, title: String(r.title), kind: PLAN_KINDS[r.kind] ? r.kind : 'recheck', repeat: REPEATS[r.repeat] !== undefined ? r.repeat : '', part: PART[r.part] ? r.part : '', done: !!r.done, note: String(r.note || '') });
@@ -96,17 +101,31 @@ function clean(col, arr) {
   return out;
 }
 function cleanProfile(p) {
-  if (!p || typeof p !== 'object') return null;
-  return { name: String(p.name || '').slice(0, 20), sex: '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), example: !!p.example };
+  if (!p || typeof p !== 'object' || !p.id) return null;
+  return { id: p.id, name: String(p.name || '').slice(0, 12) || '未命名', sex: p.sex === '女' ? '女' : '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), order: num(p.order) ?? 99, example: !!p.example };
 }
+const byOrder = (a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id));
+const profileBody = p => { const { id, ...r } = p; return r; };
 function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
-function loadLocal() {
-  for (const c of COLS) { const v = lsGet(LSK[c]); D[c] = clean(c, Array.isArray(v) ? v : EX[c]); }
-  const p = lsGet(LSK.profile);
-  D.profile = cleanProfile(p === null ? EX.profile : p);
+function lsDel(k) { try { localStorage.removeItem(k); } catch { } }
+function pickCur() {
+  const want = ST.cur;
+  CUR = D.people.some(p => p.id === want) || (want && want === PENDING) ? want : (D.people[0] ? D.people[0].id : null);
+  D.profile = D.people.find(p => p.id === CUR) || null;
 }
-function saveLocal(c) { lsSet(LSK[c], c === 'profile' ? (D.profile || false) : D[c]); }
+function loadLocal() {
+  let ppl = lsGet(LSK.people);
+  if (!Array.isArray(ppl)) { // first visit without cloud: show the fictional demo person
+    ppl = [{ ...EX.profile, id: 'demo', name: '示例', order: 3 }];
+    for (const c of COLS) lsSet(lsRec('demo', c), EX[c]);
+    lsSet(LSK.people, ppl);
+  }
+  D.people = ppl.map(cleanProfile).filter(Boolean).sort(byOrder);
+  pickCur(); loadLocalRecords();
+}
+function loadLocalRecords() { for (const c of COLS) D[c] = clean(c, CUR ? lsGet(lsRec(CUR, c)) : []); }
+function saveLocal(c) { if (c === 'people') lsSet(LSK.people, D.people); else lsSet(lsRec(CUR, c), D[c]); }
 
 function setSync(t, warn) { $('sync').classList.toggle('local', !!warn); $('sync').querySelector('span').textContent = t; }
 
@@ -115,32 +134,80 @@ async function connect() {
   try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
   if (!db) { mode = 'local'; setSync('本地模式 · 只保存在此浏览器', true); renderAll(); return; }
   DB = db; mode = 'db'; setSync('已同步到云端');
-  for (const c of COLS) {
-    DB.collection(c).onSnapshot(s => { D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll(); }, () => setSync('同步中断，显示最后一次数据', true));
-  }
-  DB.doc('profile/me').onSnapshot(s => { D.profile = s.exists ? cleanProfile(s.data()) : null; renderAll(); }, () => { });
+  let subscribed = null;
+  DB.collection('people').onSnapshot(s => {
+    D.people = s.docs.map(d => cleanProfile({ id: d.id, ...d.data() })).filter(Boolean).sort(byOrder);
+    pickCur();
+    if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); onPersonChange(); }
+    renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true));
 }
-function guardWrite() {
+function subscribeRecords() {
+  UNSUB.forEach(u => u()); UNSUB = [];
+  for (const c of COLS) D[c] = [];
+  if (!CUR || mode !== 'db') return;
+  const pid = CUR;
+  for (const c of COLS) UNSUB.push(DB.collection(`people/${pid}/${c}`).onSnapshot(s => {
+    if (pid !== CUR) return;
+    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true)));
+}
+function switchPerson(pid) {
+  if (!pid || pid === CUR) return;
+  ST.cur = pid; saveUI();
+  ST.sel = null; ST.vt = null; ST.q = ''; $('q').value = '';
+  pickCur();
+  if (mode === 'db') subscribeRecords(); else loadLocalRecords();
+  onPersonChange(); renderAll();
+}
+function guardWrite(noPerson) {
   if (RO) return false;
   if (mode === 'init') { toast('正在连接数据，请稍候再试'); return false; }
+  if (!CUR && !noPerson) { toast('请先新建一个档案'); return false; }
   return true;
 }
+const recPath = c => `people/${CUR}/${c}`;
 async function add(c, obj) {
-  if (mode === 'db') { const r = DB.collection(c).doc(); await r.set(obj); return r.id; }
+  if (mode === 'db') { const r = DB.collection(recPath(c)).doc(); await r.set(obj); return r.id; }
   const id = c[0] + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   D[c] = [...D[c], { id, ...obj }]; saveLocal(c); renderAll(); return id;
 }
 async function put(c, id, obj) {
-  if (mode === 'db') return DB.doc(c + '/' + id).set(obj);
+  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).set(obj);
   D[c] = D[c].map(x => x.id === id ? { id, ...obj } : x); saveLocal(c); renderAll();
 }
 async function del(c, id) {
-  if (mode === 'db') return DB.doc(c + '/' + id).delete();
+  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).delete();
   D[c] = D[c].filter(x => x.id !== id); saveLocal(c); renderAll();
 }
 async function putProfile(obj) {
-  if (mode === 'db') return obj ? DB.doc('profile/me').set(obj) : DB.doc('profile/me').delete();
-  D.profile = obj; saveLocal('profile'); renderAll();
+  const body = { ...obj, order: D.profile ? D.profile.order : obj.order ?? 99 };
+  if (mode === 'db') return DB.doc('people/' + CUR).set(body);
+  D.people = D.people.map(p => p.id === CUR ? cleanProfile({ id: CUR, ...body }) : p).sort(byOrder);
+  saveLocal('people'); pickCur(); onPersonChange(); renderAll();
+}
+async function createPerson(obj) {
+  const body = { ...obj, order: Math.max(0, ...D.people.filter(p => !p.example).map(p => p.order)) + 1 };
+  let id;
+  if (mode === 'db') { const r = DB.collection('people').doc(); id = r.id; PENDING = id; await r.set(body); }
+  else { id = 'p' + Date.now().toString(36); D.people = [...D.people, cleanProfile({ id, ...body })].sort(byOrder); saveLocal('people'); }
+  switchPerson(id);
+  return id;
+}
+async function deletePerson() {
+  const pid = CUR;
+  if (mode === 'db') {
+    const jobs = [];
+    for (const c of COLS) for (const x of D[c]) jobs.push(`people/${pid}/${c}/${x.id}`);
+    for (let i = 0; i < jobs.length; i += 8) await Promise.all(jobs.slice(i, i + 8).map(path => DB.doc(path).delete()));
+    await DB.doc('people/' + pid).delete();
+  } else {
+    for (const c of COLS) lsDel(lsRec(pid, c));
+    D.people = D.people.filter(p => p.id !== pid); saveLocal('people');
+  }
+  ST.cur = null; pickCur();
+  if (mode === 'db') subscribeRecords(); else loadLocalRecords();
+  onPersonChange(); renderAll();
 }
 function fail(e) {
   if (e && e.code === 'invalid_argument') { RO = true; document.body.classList.add('ro'); closeForm(); renderAll(); toast('你只有查看权限，无法修改这份健康档案'); }
@@ -169,8 +236,8 @@ const latestV = t => { const s = series(t); return s[s.length - 1] || null; };
 const curWeight = () => latestV('weight')?.value ?? D.profile?.weight ?? null;
 const curRhr = () => latestV('rhr')?.value ?? D.profile?.rhr ?? null;
 function bmiVal() { const h = D.profile?.height, w = curWeight(); return h && w ? w / ((h / 100) ** 2) : null; }
-function ageVal() {
-  const b = D.profile?.birth; if (!isMonth(b)) return null;
+function ageVal(p) {
+  const b = (p || D.profile)?.birth; if (!isMonth(b)) return null;
   const [y, m] = b.split('-').map(Number), n = new Date();
   return n.getFullYear() - y - (n.getMonth() + 1 < m ? 1 : 0);
 }
@@ -215,13 +282,14 @@ const planPill = p => { const s = planStatus(p); return `<span class="pill ${s.c
 const partName = id => id ? PART[id].name : '全身';
 
 /* ---------- UI state ---------- */
-const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null };
+const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null, cur: null };
 {
   const u = lsGet(LSK.ui);
   if (u && ['issue', 'vital', 'lab', 'plan'].includes(u.mod)) ST.mod = u.mod;
   if (u && u.grp) Object.assign(ST.grp, u.grp);
+  if (u && typeof u.cur === 'string') ST.cur = u.cur;
 }
-const saveUI = () => lsSet(LSK.ui, { mod: ST.mod, grp: ST.grp });
+const saveUI = () => lsSet(LSK.ui, { mod: ST.mod, grp: ST.grp, cur: ST.cur || CUR });
 let armTimer = 0;
 function arm(key) { ST.armed = key; clearTimeout(armTimer); armTimer = setTimeout(() => { ST.armed = null; renderAll(); }, 3200); }
 const armed = key => ST.armed === key;
@@ -252,7 +320,7 @@ function renderSide() {
   const zc = $('zchip');
   zc.hidden = G.zone === 'all' || ST.mod === 'vital';
   if (!zc.hidden) zc.innerHTML = `只看 <button type="button" data-act="zall" aria-label="取消筛选，查看全身">${ZONES[G.zone].name}<i>×</i></button>`;
-  $('exNotice').hidden = RO || !(COLS.some(c => D[c].some(x => x.example)) || D.profile?.example);
+  $('exNotice').hidden = RO || !COLS.some(c => D[c].some(x => x.example));
   ({ issue: sideIssue, vital: sideVital, lab: sideLab, plan: sidePlan })[ST.mod]();
 }
 
@@ -263,7 +331,8 @@ function sideIssue() {
   const worst = [...act].sort((a, b) => b.sev - a.sev || (b.since > a.since ? 1 : -1))[0];
   if (worst) {
     const next = D.plans.filter(p => !p.done && p.part === worst.part).sort(byDate('due'))[0];
-    $('trail').innerHTML = `最需要处理：<b>${esc(PART[worst.part].name)} · ${esc(worst.title)}</b>（${SEVN[worst.sev]}）${next ? `，下一步 ${fmtMD(next.due)} ${esc(next.title)}` : ''}`;
+    const od = next ? -dayDiff(next.due, todayISO()) : 0;
+    $('trail').innerHTML = `最需要处理：<b>${esc(PART[worst.part].name)} · ${esc(worst.title)}</b>（${SEVN[worst.sev]}）${next ? `，下一步 ${esc(next.title)}（${od > 0 ? `<b>已逾期 ${od} 天</b>` : fmtMD(next.due)}）` : ''}`;
   } else $('trail').textContent = D.issues.length ? '所有问题都已解决。' : '还没有记录问题。点身体上的部位，或用下方按钮记录。';
   const list = D.issues.filter(i => inZone(i.part) && match(i.title, PART[i.part].name, i.note, PART[i.part].sys));
   const ord = (a, b) => (a.status === 'resolved') - (b.status === 'resolved') || b.sev - a.sev || (b.since > a.since ? 1 : -1);
@@ -438,26 +507,35 @@ function sidePlan() {
 function renderProfile() {
   const p = D.profile, el = $('profile');
   const sevCount = [0, 0, 0, 0, 0];
-  for (const x of PARTS) sevCount[partSev(x.id)]++;
+  const cps = curParts();
+  for (const x of cps) sevCount[partSev(x.id)]++;
   const seg = sevCount.map((n, s) => n ? `<i style="flex:${n};background:${SEVC[s]}" title="${SEVN[s]} ${n}"></i>` : '').join('');
   const leg = sevCount.map((n, s) => `<span><i style="background:${SEVC[s]}"></i>${SEVN[s]} <b class="num">${n}</b></span>`).join('');
-  const sevBlock = `<div class="pf-sev"><div class="k"><span>${PARTS.length} 个部位状态</span><span>按最严重问题</span></div><div class="sevbar" role="img" aria-label="${sevCount.map((n, s) => SEVN[s] + ' ' + n).join('，')}">${seg}</div><div class="sevleg">${leg}</div></div>`;
+  const sevBlock = `<div class="pf-sev"><div class="k"><span>${cps.length} 个部位状态</span><span>按最严重问题</span></div><div class="sevbar" role="img" aria-label="${sevCount.map((n, s) => SEVN[s] + ' ' + n).join('，')}">${seg}</div><div class="sevleg">${leg}</div></div>`;
   if (!p) {
     el.classList.remove('compact');
-    el.innerHTML = `<div class="pf-head"><div class="pf-ava">男</div><div><b>个人资料</b><small>还没填写</small></div></div><div class="pf-full"><p class="pf-empty">填写身高、血型等信息后，这里会显示年龄、BMI 和各项体征。</p><button class="btn primary sm" data-act="pedit" data-w>填写资料</button>${sevBlock}</div><div class="pf-strip"><button class="linkbtn" data-act="pedit" data-w>填写个人资料</button></div>`;
+    el.innerHTML = `<div class="pf-head"><div class="pf-ava">+</div><div><b>还没有档案</b><small>先新建一个档案</small></div></div><div class="pf-full"><p class="pf-empty">每个人一份档案，问题、体征、体检和计划分开保存。</p><button class="btn primary sm" data-act="pnew" data-w>新建档案</button></div><div class="pf-strip"><button class="linkbtn" data-act="pnew" data-w>新建档案</button></div>`;
     return;
   }
   const age = ageVal(), w = curWeight(), bm = bmiVal(), hr = curRhr(), bp = latestV('bp'), sl = latestV('sleep');
   const lw = latestV('weight');
   const row = (k, v, tag) => `<dt>${k}</dt><dd>${v}${tag || ''}</dd>`;
   el.classList.toggle('compact', !!ST.sel);
-  el.innerHTML = `<div class="pf-head"><div class="pf-ava">${esc((p.name || '我').slice(0, 1))}</div><div><b>${esc(p.name || '我')}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>男 · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
+  el.innerHTML = `<div class="pf-head"><div class="pf-ava${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</div><div><b>${esc(p.name)}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>${p.sex} · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
 <div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型 Rh${p.rh === '-' ? '−' : '+'}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
 <div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : '+') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
 }
 
+function renderPeople() {
+  const el = $('people');
+  el.innerHTML = D.people.map(p => {
+    const a = ageVal(p);
+    return `<button role="tab" data-pid="${esc(p.id)}" aria-selected="${p.id === CUR}"><i class="av${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</i><span>${esc(p.name)}</span><small>${p.sex}${a != null ? ' · ' + a : ''}</small></button>`;
+  }).join('') + `<button class="add" data-act="pnew" data-w aria-label="新建档案">＋ 新建</button>`;
+}
+
 function renderZoneHud() {
-  const z = G.zone, parts = z === 'all' ? PARTS : PARTS.filter(p => p.zone === z);
+  const z = G.zone, parts = z === 'all' ? curParts() : curParts().filter(p => p.zone === z);
   const n = parts.filter(p => partSev(p.id)).length;
   $('zoneHud').innerHTML = `<div class="k">当前视图</div><div class="v">${z === 'all' ? '全身' : ZONES[z].name}</div><div class="z">${parts.length} 个部位 · 需关注 <b class="num">${n}</b> 处</div>${z === 'all' ? '<div class="z">点击头部、内脏或躯干四肢查看细节</div>' : '<button class="back" data-act="zall">‹ 返回全身</button>'}`;
   document.querySelectorAll('.hud-tr [data-zone]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.zone === z)));
@@ -497,7 +575,7 @@ function renderCard() {
 
 function renderAll() {
   SM = sevMap();
-  renderSide(); renderProfile(); renderZoneHud(); renderCard();
+  renderPeople(); renderSide(); renderProfile(); renderZoneHud(); renderCard();
   if (typeof refresh3D === 'function') refresh3D();
 }
 

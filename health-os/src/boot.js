@@ -47,7 +47,7 @@ function addLog(i) {
   const ok = ' <span class="ok">ok</span>';
   const L = [
     `&gt; 初始化扫描舱 · ${renderer ? 'WebGL ' + (renderer.capabilities.isWebGL2 ? '2' : '1') + ok : '3D 不可用，使用列表模式'}`,
-    `&gt; 载入人体结构 · 3 个分区 · <b>${PARTS.length}</b> 个部位${ok}`,
+    `&gt; 载入档案 <b>${D.people.length}</b> 份 · 当前 ${esc(D.profile ? D.profile.name : '—')} · <b>${curParts().length}</b> 个部位${ok}`,
     `&gt; 读取体征 <b>${D.vitals.length}</b> 条 · 体检指标 <b>${gs.length}</b> 项${ok}`,
     T3.built ? `&gt; 生成玻璃人体 · <b>${nf(SPL.verts)}</b> 个顶点${ok}` : '&gt; 玻璃人体未生成，左侧档案可正常使用',
     `&gt; 需关注部位 <b>${parts.size}</b> 处 · 异常指标 <b>${abn}</b> 项${sev ? ` · <span class="warn">严重 ${sev} 项</span>` : ''}`
@@ -75,7 +75,7 @@ function splashMeta() {
   $('spHr').textContent = `HR ${curRhr() ?? '—'} BPM`;
   $('spBp').textContent = `BP ${b ? b.value + '/' + b.value2 : '—/—'}`;
   $('spH').textContent = `H ${p && p.height ? p.height : '—'} CM`;
-  $('spMeta').textContent = `SYS ${PARTS.length} · ${fmtD(todayISO())}`;
+  $('spMeta').textContent = `SYS ${curParts().length} · ${fmtD(todayISO())}`;
 }
 
 /* ---------- actions ---------- */
@@ -94,12 +94,10 @@ async function clearExamples() {
   try {
     if (mode === 'local') {
       for (const c of COLS) { n += D[c].filter(x => x.example).length; D[c] = D[c].filter(x => !x.example); saveLocal(c); }
-      if (D.profile && D.profile.example) { D.profile = null; saveLocal('profile'); n++; }
     } else {
       const jobs = [];
       for (const c of COLS) for (const x of D[c].filter(x => x.example)) jobs.push([c, x.id]);
       for (let i = 0; i < jobs.length; i += 8) { await Promise.all(jobs.slice(i, i + 8).map(([c, id]) => del(c, id))); n += Math.min(8, jobs.length - i); }
-      if (D.profile && D.profile.example) { await putProfile(null); n++; }
     }
     ST.sel = null; ST.vt = null; renderAll(); toast(`已清除 ${n} 条示例数据`);
   } catch (e) { fail(e); }
@@ -142,6 +140,7 @@ async function onAct(e) {
         if (!armed('i' + id)) { arm('i' + id); renderAll(); break; }
         ST.armed = null; await del('issues', id); toast('已删除这个问题'); break;
       case 'pedit': openForm('profile'); break;
+      case 'pnew': openForm('profile', { isNew: true }); break;
     }
   } catch (err) { fail(err); }
 }
@@ -149,6 +148,7 @@ async function onAct(e) {
 /* ---------- wiring ---------- */
 function wire() {
   for (const id of ['list', 'card', 'profile', 'zoneHud', 'zchip']) $(id).addEventListener('click', onAct);
+  $('people').addEventListener('click', e => { const b = e.target.closest('[data-pid]'); if (b) switchPerson(b.dataset.pid); else onAct(e); });
   document.querySelectorAll('.mods button').forEach(b => b.addEventListener('click', () => {
     ST.mod = b.dataset.mod; ST.vt = null; ST.q = ''; $('q').value = ''; saveUI(); renderAll(); $('list').scrollTop = 0;
   }));
