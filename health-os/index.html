@@ -1302,7 +1302,7 @@ function clean(col, arr) {
 }
 function cleanProfile(p) {
   if (!p || typeof p !== 'object' || !p.id) return null;
-  return { id: p.id, name: String(p.name || '').slice(0, 12) || '未命名', sex: p.sex === '女' ? '女' : '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' ? '-' : '+', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), order: num(p.order) ?? 99, example: !!p.example };
+  return { id: p.id, name: String(p.name || '').slice(0, 12) || '未命名', sex: p.sex === '女' ? '女' : '男', birth: isMonth(p.birth) ? p.birth : '', height: num(p.height), weight: num(p.weight), blood: ['A', 'B', 'AB', 'O'].includes(p.blood) ? p.blood : '', rh: p.rh === '-' || p.rh === '+' ? p.rh : '', rhr: num(p.rhr), allergy: String(p.allergy || '').slice(0, 60), order: num(p.order) ?? 99, example: !!p.example };
 }
 const byOrder = (a, b) => a.order - b.order || String(a.id).localeCompare(String(b.id));
 const profileBody = p => { const { id, ...r } = p; return r; };
@@ -1444,6 +1444,7 @@ function ageVal(p) {
 // reference standards: BMI WS/T 428-2013; BP 中国高血压防治指南 2018; sleep AASM 7–9 h; RHR 60–100
 const bmiTag = b => b == null ? null : b < 18.5 ? { t: '偏瘦', s: 2 } : b < 24 ? { t: '正常', s: 0 } : b < 28 ? { t: '超重', s: 1 } : { t: '肥胖', s: 2 };
 const rhrTag = v => v == null ? null : v < 50 ? { t: '偏慢', s: 1 } : v < 60 ? { t: '偏慢', s: 0 } : v <= 100 ? { t: '正常', s: 0 } : { t: '偏快', s: 2 };
+const BP_REF = { '正常': '正常 &lt;120/80', '正常高值': '正常高值 120–139/80–89', '高血压 1 级': '1 级 140–159/90–99', '高血压 2 级': '2 级 ≥160/100' };
 const bpTag = (s, d) => s == null ? null : (s >= 160 || d >= 100) ? { t: '高血压 2 级', s: 3 } : (s >= 140 || d >= 90) ? { t: '高血压 1 级', s: 2 } : (s >= 120 || d >= 80) ? { t: '正常高值', s: 1 } : { t: '正常', s: 0 };
 const sleepTag = v => v == null ? null : v < 6 ? { t: '明显不足', s: 2 } : v < 7 ? { t: '偏少', s: 1 } : v <= 9 ? { t: '正常', s: 0 } : { t: '偏多', s: 1 };
 const stepsTag = v => v == null ? null : v >= 7000 ? { t: '达标', s: 0 } : { t: '偏少', s: 1 };
@@ -1568,7 +1569,7 @@ function sideVital() {
   const dw = delta30('weight'), bt = b && bpTag(b.value, b.value2);
   const bits = [];
   if (dw) bits.push(`近 ${dw.days} 天体重 <b>${dw.d > 0 ? '+' : dw.d < 0 ? '−' : '±'}${nf(Math.abs(dw.d), 1)} kg</b>`);
-  if (bt) bits.push(`血压 ${b.value}/${b.value2} mmHg 属<b>${bt.t}</b>（正常高值 120–139/80–89）`);
+  if (bt) bits.push(`血压 ${b.value}/${b.value2} mmHg 属<b>${bt.t}</b>（${BP_REF[bt.t]}）`);
   $('trail').innerHTML = bits.join('，') || '还没有体征记录。';
   if (ST.vt) return vitalDetail(ST.vt);
   $('list').innerHTML = VT_ORDER.map(t => {
@@ -1722,8 +1723,8 @@ function renderProfile() {
   const row = (k, v, tag) => `<dt>${k}</dt><dd>${v}${tag || ''}</dd>`;
   el.classList.toggle('compact', !!ST.sel);
   el.innerHTML = `<div class="pf-head"><div class="pf-ava${p.sex === '女' ? ' f' : ''}">${esc(p.name.slice(0, 1))}</div><div><b>${esc(p.name)}${p.example ? ' <span class="chip-ex">示例</span>' : ''}</b><small>${p.sex} · ${age != null ? age + ' 岁' : '年龄未填'}${p.blood ? ` · ${p.blood} 型` : ''}</small></div><button class="linkbtn" data-act="pedit" data-w>编辑</button></div>
-<div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型 Rh${p.rh === '-' ? '−' : '+'}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
-<div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : '+') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
+<div class="pf-full"><dl class="pf">${row('年龄', age != null ? `<b>${age}</b>岁` : '—')}${row('身高', p.height ? `<b>${p.height}</b>cm` : '—')}${row('体重', w ? `<b>${nf(w, 1)}</b>kg` : '—')}${row('BMI', bm ? `<b>${nf(bm, 1)}</b>` : '—', tagPill(bmiTag(bm)))}${row('血型', p.blood ? `<b>${p.blood}</b>型${p.rh ? ' Rh' + (p.rh === '-' ? '−' : '+') : ''}` : '—')}${row('静息心率', hr ? `<b>${hr}</b>bpm` : '—', tagPill(rhrTag(hr)))}${row('血压', bp ? `<b>${bp.value}/${bp.value2}</b>` : '—', bp ? tagPill(bpTag(bp.value, bp.value2)) : '')}${row('睡眠', sl ? `<b>${nf(sl.value, 1)}</b>h` : '—', tagPill(sleepTag(sl?.value)))}${p.allergy ? row('过敏', esc(p.allergy)) : ''}</dl>${lw ? `<div class="pf-empty" style="font-size:12.5px;margin-top:8px">体重、心率、血压、睡眠取自最近一次体征记录（${fmtMD(lw.date)}）</div>` : ''}${sevBlock}</div>
+<div class="pf-strip"><span>年龄<b>${age ?? '—'}</b></span><span>身高 cm<b>${p.height ?? '—'}</b></span><span>体重 kg<b>${w ? nf(w, 1) : '—'}</b></span><span>BMI<b>${bm ? nf(bm, 1) : '—'}</b></span><span>血型<b>${p.blood ? p.blood + (p.rh === '-' ? '−' : p.rh === '+' ? '+' : '') : '—'}</b></span><span>心率<b>${hr ?? '—'}</b></span><span>血压<b>${bp ? bp.value + '/' + bp.value2 : '—'}</b></span><span>睡眠 h<b>${sl ? nf(sl.value, 1) : '—'}</b></span></div>`;
 }
 
 function renderPeople() {
@@ -1948,7 +1949,7 @@ const FORMS = {
       return fld('name', '称呼或代号', inp('name', p.name, 'maxlength="12" placeholder="例如：S、妈妈"')) + fld('sex', '性别', selHtml('sex', [['男', '男'], ['女', '女']], p.sex || '男'))
         + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"')) + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"'))
         + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"')) + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"'))
-        + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || '+'))
+        + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['', '未知'], ['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || ''))
         + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'), 'full');
     },
     save: async o => {
@@ -2487,13 +2488,13 @@ function drawRuler() {
   const minor = [0.01, 0.02, 0.05, 0.1].find(s => s * ppm >= 6) || 0.1;
   const major = [0.05, 0.1, 0.2, 0.5].find(s => s * ppm >= 34 && s >= minor * 2) || 0.5;
   let tk = '', lb = '';
-  const N = Math.round(2.2 / minor);
+  const N = Math.round(2.2 / minor), Yh = hcm ? sy(hcm / 100) : -1e9;
   for (let i = 0; i <= N; i++) {
     const y = i * minor, Y = sy(y);
     if (Y < y0 || Y > H - 6) continue;
     const isM = Math.abs(y / major - Math.round(y / major)) < 1e-6;
     tk += `M${x0.toFixed(1)},${Y.toFixed(1)}h${isM ? 12 : 6}`;
-    if (isM) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
+    if (isM && Math.abs(Y - Yh) > 14) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
   }
   let mk = '';
   if (hcm) { const Y = sy(hcm / 100); mk = `<path class="hm" d="M${x0.toFixed(1)},${Y.toFixed(1)}H${cx.toFixed(1)}"/><text class="hl" x="${(x0 + 16).toFixed(1)}" y="${(Y - 6).toFixed(1)}">身高 ${hcm} cm</text>`; }

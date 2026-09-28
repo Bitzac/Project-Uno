@@ -486,13 +486,13 @@ function drawRuler() {
   const minor = [0.01, 0.02, 0.05, 0.1].find(s => s * ppm >= 6) || 0.1;
   const major = [0.05, 0.1, 0.2, 0.5].find(s => s * ppm >= 34 && s >= minor * 2) || 0.5;
   let tk = '', lb = '';
-  const N = Math.round(2.2 / minor);
+  const N = Math.round(2.2 / minor), Yh = hcm ? sy(hcm / 100) : -1e9;
   for (let i = 0; i <= N; i++) {
     const y = i * minor, Y = sy(y);
     if (Y < y0 || Y > H - 6) continue;
     const isM = Math.abs(y / major - Math.round(y / major)) < 1e-6;
     tk += `M${x0.toFixed(1)},${Y.toFixed(1)}h${isM ? 12 : 6}`;
-    if (isM) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
+    if (isM && Math.abs(Y - Yh) > 14) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
   }
   let mk = '';
   if (hcm) { const Y = sy(hcm / 100); mk = `<path class="hm" d="M${x0.toFixed(1)},${Y.toFixed(1)}H${cx.toFixed(1)}"/><text class="hl" x="${(x0 + 16).toFixed(1)}" y="${(Y - 6).toFixed(1)}">身高 ${hcm} cm</text>`; }

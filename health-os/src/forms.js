@@ -128,7 +128,7 @@ const FORMS = {
       return fld('name', '称呼或代号', inp('name', p.name, 'maxlength="12" placeholder="例如：S、妈妈"')) + fld('sex', '性别', selHtml('sex', [['男', '男'], ['女', '女']], p.sex || '男'))
         + fld('birth', '出生年月', inp('birth', p.birth, 'type="month"')) + fld('height', '身高 cm', inp('height', p.height, 'inputmode="decimal"'))
         + fld('weight', '体重 kg（没有体征记录时使用）', inp('weight', p.weight, 'inputmode="decimal"')) + fld('rhr', '静息心率 bpm（没有体征记录时使用）', inp('rhr', p.rhr, 'inputmode="numeric"'))
-        + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || '+'))
+        + fld('blood', '血型', selHtml('blood', [['', '未知'], ['A', 'A 型'], ['B', 'B 型'], ['AB', 'AB 型'], ['O', 'O 型']], p.blood)) + fld('rh', 'Rh', selHtml('rh', [['', '未知'], ['+', 'Rh 阳性（+）'], ['-', 'Rh 阴性（−）']], p.rh || ''))
         + fld('allergy', '过敏史（可选）', inp('allergy', p.allergy, 'maxlength="60" placeholder="例如：青霉素"'), 'full');
     },
     save: async o => {
