@@ -212,6 +212,8 @@ function wire() {
   });
   $('splash').addEventListener('click', enterApp);
   new ResizeObserver(() => layout()).observe($('stage'));
+  const hro = new ResizeObserver(() => measureHud());
+  hro.observe($('zoneHud')); hro.observe(document.querySelector('.hud-tr'));
 }
 
 function boot() {

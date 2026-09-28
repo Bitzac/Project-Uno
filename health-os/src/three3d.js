@@ -1,7 +1,7 @@
 /* ---------- 3D glass body ---------- */
 const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
 const G = { zone: 'all', yaw: OVERVIEW_CAM.yaw, pitch: 0.06, ty: OVERVIEW_CAM.y, vh: OVERVIEW_CAM.h, zoom: 1, spin: !RM, anim: null, lastInt: 0, hoverZone: 0, hoverPart: null, scale: 1, pend: null, shellA: 0, shellT: 1, rulerKey: '' };
-const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0 };
+const LAY = { W: 0, H: 0, cx: 0, cy: 0, R: 0, rw: 0, huds: [] };
 const ALPHA_MUL = { hair: 0.6, face: 0.75, bones: 0.5, breasts: 0.5 };
 let THREE = null, renderer = null, scene = null, camera = null, body = null, raycaster = null, PROXM = null, SPH = null;
 const TIMEU = { value: 0 };
@@ -265,29 +265,38 @@ async function init3D(onProgress) {
   } catch { glFail('生成人体模型失败，请刷新页面重试。'); return false; }
 }
 
-/* layout: the round scan portal sits left of the profile panel */
+/* layout: an open scan field; the body is centred in the space left of the profile panel */
 function layout() {
   const st = $('stage'), r = st.getBoundingClientRect(), W = r.width, H = r.height;
   if (!W || !H) return;
   const mobile = matchMedia('(max-width:860px)').matches;
   const rightW = mobile ? 0 : 330, top = mobile ? 112 : 72, bottom = 14;
   const aw = W - rightW, ah = H - top - bottom;
-  const R = Math.max(80, Math.min(aw * 0.44, ah * 0.5));
-  const cx = mobile ? W / 2 : Math.max(R + 18, aw / 2), cy = top + ah / 2;
+  // P = pixels spanned by the camera's view height; R = half of it, the unit for label columns
+  const P = Math.max(160, Math.min(ah * 0.96, aw * 1.15)), R = P / 2;
+  const cx = mobile ? W / 2 : aw / 2, cy = top + ah / 2;
   Object.assign(LAY, { W, H, cx, cy, R, rw: rightW });
   st.classList.toggle('narrow', W < 820);
-  const place = (el, k) => { el.style.left = (cx - R * k) + 'px'; el.style.top = (cy - R * k) + 'px'; el.style.width = el.style.height = (2 * R * k) + 'px'; };
-  place($('portal'), 1); place($('pover'), 1); place($('bloom'), 1.01);
-  const clip = `circle(${R.toFixed(1)}px at ${cx.toFixed(1)}px ${cy.toFixed(1)}px)`;
-  $('gl').style.clipPath = clip; $('ruler').style.clipPath = clip;
+  st.style.setProperty('--cx', cx.toFixed(1) + 'px'); st.style.setProperty('--cy', cy.toFixed(1) + 'px');
+  const bl = $('bloom'), bw = R * 0.8, bh = R * 1.9;
+  Object.assign(bl.style, { left: (cx - bw / 2) + 'px', top: (cy - bh / 2) + 'px', width: bw + 'px', height: bh + 'px' });
+  $('building').style.left = cx + 'px';
   if (renderer) { renderer.setSize(W, H, false); camera.aspect = W / H; camera.setViewOffset(W, H, W / 2 - cx, H / 2 - cy, W, H); camera.updateProjectionMatrix(); }
   G.rulerKey = '';
+  measureHud();
   if (CO.length) measureCallouts();
+}
+// floating panels at the top of the stage: callouts stay below any panel they would overlap
+function measureHud() {
+  const sr = $('stage').getBoundingClientRect();
+  LAY.huds = [$('zoneHud'), document.querySelector('.hud-tr')].map(el => el.getBoundingClientRect()).filter(b => b.width && b.height)
+    .map(b => ({ l: b.left - sr.left, r: b.right - sr.left, b: b.bottom - sr.top }));
+  G.rulerKey = '';
 }
 
 function applyCam() {
   const s = G.scale, f = camera.fov * Math.PI / 180;
-  const Dd = (G.vh * s) * LAY.H / (1.7 * LAY.R * 2 * Math.tan(f / 2)) / G.zoom;
+  const Dd = (G.vh * s) * LAY.H / (2 * LAY.R * 2 * Math.tan(f / 2)) / G.zoom;
   const ty = G.ty * s;
   camera.position.set(0, ty + Math.sin(G.pitch) * Dd, Math.cos(G.pitch) * Dd);
   camera.lookAt(0, ty, 0);
@@ -354,7 +363,6 @@ function loop(t) {
 function pickAt(e) {
   if (!T3.scene) return null;
   const r = $('hit').getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-  if (Math.hypot(x - LAY.cx, y - LAY.cy) > LAY.R) return null;
   raycaster.setFromCamera(new THREE.Vector2(x / r.width * 2 - 1, -(y / r.height) * 2 + 1), camera);
   if (G.zone !== 'all') {
     const sx = SEX(), list = HITS.filter(m => PART[m.userData.part].zone === G.zone && (!m.userData.sex || m.userData.sex === sx));
@@ -429,10 +437,10 @@ function positionCallouts() {
   const { W, H, cx, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
   body.updateMatrixWorld();
   const pts = CO.map(c => { v.set(c.a[0], c.a[1], c.a[2]).applyMatrix4(body.matrixWorld).project(camera); return { c, x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H }; });
-  const { cy } = LAY, selId = ST.sel && ST.sel.id;
+  const selId = ST.sel && ST.sel.id;
   for (const p of pts) {
     p.side = p.x < cx - 4 ? 'l' : p.x > cx + 4 ? 'r' : p.c.ls;
-    p.out = Math.hypot(p.x - cx, p.y - cy) > R * 0.98 && p.c.id !== selId; // anchor outside the portal: hide the label
+    p.out = (p.x < 6 || p.x > W - LAY.rw - 6 || p.y < 6 || p.y > H - 6) && p.c.id !== selId; // anchor off screen or under the profile panel: hide the label
     p.c.el.style.visibility = p.out ? 'hidden' : '';
   }
   pts.splice(0, pts.length, ...pts.filter(p => !p.out));
@@ -440,14 +448,19 @@ function positionCallouts() {
   let d = '', dots = '';
   for (const side of ['l', 'r']) {
     const col = pts.filter(p => p.side === side).sort((a, b) => a.y - b.y);
+    const colX = side === 'l' ? cx - off : cx + off;
+    for (const p of col) {
+      p.lx = clamp(side === 'l' ? colX - p.c.w : colX, 8, W - LAY.rw - p.c.w - 8);
+      p.min = 18;
+      for (const h of LAY.huds) if (p.lx < h.r && p.lx + p.c.w > h.l) p.min = Math.max(p.min, h.b + 8 + p.c.h / 2);
+    }
     let prev = -1e9;
-    for (const p of col) { p.ly = Math.max(p.y, prev + gap); prev = p.ly; }
+    for (const p of col) { p.ly = Math.max(p.y, prev + gap, p.min); prev = p.ly; }
     const maxY = H - 18;
     if (col.length && col[col.length - 1].ly > maxY) { const sh = col[col.length - 1].ly - maxY; for (const p of col) p.ly -= sh; for (let i = 1; i < col.length; i++) if (col[i].ly < col[i - 1].ly + gap) col[i].ly = col[i - 1].ly + gap; }
     for (const p of col) {
-      p.ly = Math.max(18, p.ly);
-      const colX = side === 'l' ? cx - off : cx + off;
-      const x = clamp(side === 'l' ? colX - p.c.w : colX, 8, W - LAY.rw - p.c.w - 8);
+      p.ly = Math.max(p.min, p.ly);
+      const x = p.lx;
       const lx = side === 'l' ? x + p.c.w : x, ex = side === 'l' ? lx + 14 : lx - 14;
       p.c.el.style.transform = `translate(${x.toFixed(1)}px,${(p.ly - p.c.h / 2).toFixed(1)}px)`;
       d += `M${p.x.toFixed(1)},${p.y.toFixed(1)}L${ex.toFixed(1)},${p.ly.toFixed(1)}L${lx.toFixed(1)},${p.ly.toFixed(1)}`;
@@ -457,27 +470,31 @@ function positionCallouts() {
   $('leaders').innerHTML = `<path d="${d}"/>${dots}`;
 }
 
-/* stadiometer: centimetre ruler at the portal's left edge, scaled with the camera */
+/* stadiometer: a centimetre ruler standing beside the body in world space; it leaves the view in close-ups */
 function drawRuler() {
   const hcm = D.profile && D.profile.height;
   const key = [G.ty, G.vh, G.zoom, G.pitch, LAY.W, LAY.H, G.scale].map(x => x.toFixed(4)).join('|') + hcm;
   if (key === G.rulerKey) return;
   G.rulerKey = key;
-  const { H, cx, cy, R } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
+  const { W, H, cx } = LAY, v = PV.v || (PV.v = new THREE.Vector3());
   const sy = y => { v.set(0, y, 0).project(camera); return (1 - v.y) / 2 * H; };
-  const x0 = cx - R * 0.62, ppm = Math.abs(sy(0) - sy(1));
+  v.set(-0.4 * G.scale, G.ty * G.scale, 0).project(camera);
+  const x0 = (v.x + 1) / 2 * W, ppm = Math.abs(sy(0) - sy(1));
+  if (x0 < 24) { $('ruler').innerHTML = ''; return; }
+  let y0 = 6; // the ruler stops below any floating panel above it
+  for (const h of LAY.huds) if (x0 - 4 < h.r && x0 + 48 > h.l) y0 = Math.max(y0, h.b + 12);
   const minor = [0.01, 0.02, 0.05, 0.1].find(s => s * ppm >= 6) || 0.1;
   const major = [0.05, 0.1, 0.2, 0.5].find(s => s * ppm >= 34 && s >= minor * 2) || 0.5;
   let tk = '', lb = '';
   const N = Math.round(2.2 / minor);
   for (let i = 0; i <= N; i++) {
     const y = i * minor, Y = sy(y);
-    if (Y < cy - R || Y > cy + R) continue;
+    if (Y < y0 || Y > H - 6) continue;
     const isM = Math.abs(y / major - Math.round(y / major)) < 1e-6;
     tk += `M${x0.toFixed(1)},${Y.toFixed(1)}h${isM ? 12 : 6}`;
     if (isM) lb += `<text x="${(x0 + 16).toFixed(1)}" y="${(Y + 3.5).toFixed(1)}">${Math.round(y * 100)}</text>`;
   }
   let mk = '';
   if (hcm) { const Y = sy(hcm / 100); mk = `<path class="hm" d="M${x0.toFixed(1)},${Y.toFixed(1)}H${cx.toFixed(1)}"/><text class="hl" x="${(x0 + 16).toFixed(1)}" y="${(Y - 6).toFixed(1)}">身高 ${hcm} cm</text>`; }
-  $('ruler').innerHTML = `<path class="tk" d="M${x0.toFixed(1)},${sy(0).toFixed(1)}V${sy(2.2).toFixed(1)}${tk}"/><g class="lb">${lb}</g>${mk}`;
+  $('ruler').innerHTML = `<path class="tk" d="M${x0.toFixed(1)},${sy(0).toFixed(1)}V${Math.max(sy(2.2), y0).toFixed(1)}${tk}"/><g class="lb">${lb}</g>${mk}`;
 }
