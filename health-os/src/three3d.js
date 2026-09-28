@@ -156,7 +156,7 @@ function buildCommon() {
   for (const s of [1, -1]) addProxy('carotid', s > 0 ? 'L' : 'R', capsule([s * 0.025, 1.44, 0.016], [s * 0.026, 1.55, 0.006], 0.012));
   addProxy('thyroid', '', blob([0, 1.467, 0.04], [0.035, 0.028, 0.02]));
   addProxy('mouth', '', blob([0, 1.566, 0.085], [0.035, 0.02, 0.022]));
-  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.066], [0.02, 0.028, 0.02]), TRUNKG);
+  addProxy('gallbladder', '', blob([-0.046, 1.094, 0.054], [0.02, 0.028, 0.02]), TRUNKG);
   addProxy('esophagus', '', capsule([0, 1.47, -0.022], [0, 1.3, -0.035], 0.016), TRUNKG);
   for (const y of [1.5715, 1.5595]) for (let u = 0; u < 10; u++) {
     const ang = -1.05 + u * 2.1 / 9;
