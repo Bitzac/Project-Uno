@@ -609,7 +609,9 @@ function partCam(id, side) {
   let s = side;
   if (!s && p.pair && SM[id]) s = SM[id].R > SM[id].L ? 'R' : 'L';
   const yaw = c.yawL !== undefined ? (s === 'R' ? c.yawR : c.yawL) : (c.yaw ?? 0);
-  return { y: c.y ?? zc.y, h: c.h ?? zc.h, yaw };
+  // organs and facial features get a close-up centred on the part; hair and brain keep the head view
+  const close = p.zone === 'organs' ? 0.3 : p.zone === 'head' && !['hair', 'brain'].includes(id) ? 0.22 : 0;
+  return { y: c.y ?? (close ? p.a[1] : zc.y), h: c.h ?? (close || zc.h), yaw };
 }
 
 /* ---------- toast ---------- */
