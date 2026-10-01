@@ -1,0 +1,848 @@
+<title>破土 Groundbreak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>/* Layout: one liquid-glass window over a soft aurora; top bar (brand · views · identity), one scrolling view, a detail sheet from the right. Hairline rules, heavy type. */
+:root{--bg:#ECF2EF;--blob1:#8FE0C0;--blob2:#A9CBFF;--blob3:#FFD9A0;--blob4:#CDBDFF;--ink:#0B1714;--muted:#4C5E58;--faint:#7D8D87;--glass-a:rgba(255,255,255,.6);--glass-b:rgba(255,255,255,.28);--glass-edge:rgba(255,255,255,.9);--glass-inner:rgba(255,255,255,.96);--shadow:rgba(22,70,56,.18);--line:rgba(11,23,20,.16);--line-soft:rgba(11,23,20,.08);--field:rgba(255,255,255,.5);--accent:#0A8F63;--accent-ink:#FFFFFF;--accent-soft:rgba(10,143,99,.12);--track:rgba(10,143,99,.15);--warn:#B86E00;--warn-soft:rgba(230,150,20,.16);--bad:#CF3F35;--bad-soft:rgba(214,69,58,.12);--inv:#4A55D6;--inv-soft:rgba(74,85,214,.1);--scrim:rgba(20,40,34,.22);--sheet:rgba(246,250,248,.9);--hair:1px;--f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;--f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06110E;--blob1:#0F5E46;--blob2:#1A3F7A;--blob3:#5E4012;--blob4:#3A2D7A;--ink:#E8F3EE;--muted:#A0B3AC;--faint:#71857E;--glass-a:rgba(24,40,36,.62);--glass-b:rgba(12,24,21,.4);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#34D39E;--accent-ink:#04261A;--accent-soft:rgba(52,211,158,.14);--track:rgba(52,211,158,.17);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.16);--inv:#959DFF;--inv-soft:rgba(149,157,255,.14);--scrim:rgba(0,0,0,.45);--sheet:rgba(12,24,21,.92);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#06110E;--blob1:#0F5E46;--blob2:#1A3F7A;--blob3:#5E4012;--blob4:#3A2D7A;--ink:#E8F3EE;--muted:#A0B3AC;--faint:#71857E;--glass-a:rgba(24,40,36,.62);--glass-b:rgba(12,24,21,.4);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#34D39E;--accent-ink:#04261A;--accent-soft:rgba(52,211,158,.14);--track:rgba(52,211,158,.17);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.16);--inv:#959DFF;--inv-soft:rgba(149,157,255,.14);--scrim:rgba(0,0,0,.45);--sheet:rgba(12,24,21,.92);color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;padding-inline:16px;padding-block:16px;overflow:hidden;position:relative}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums}
+.latin{font-family:var(--f-display)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+
+/* aurora + glass */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.7}
+.aurora i:nth-child(1){width:44vw;height:44vw;left:-12vw;top:-14vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:36vw;height:36vw;right:-8vw;top:-10vw;background:var(--blob2)}
+.aurora i:nth-child(3){width:38vw;height:38vw;left:26vw;bottom:-24vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:28vw;height:28vw;right:2vw;bottom:-12vw;background:var(--blob4)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(28px) saturate(170%);backdrop-filter:blur(28px) saturate(170%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -24px var(--shadow)}
+.window{position:relative;z-index:1;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);border-radius:28px;overflow:hidden}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:var(--hair) solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{font:900 26px/1 var(--f-body);letter-spacing:.02em}
+.brand span{font:600 11px var(--f-display);letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+.seg{display:inline-flex;padding:3px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--field);gap:2px}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:11px;font-size:14.5px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.seg button[aria-selected="true"],.seg button[aria-pressed="true"]{background:var(--glass-a);color:var(--ink);font-weight:700;box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 14px -6px var(--shadow)}
+.seg .n{font:500 12px var(--f-display);color:var(--faint)}
+.who{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.who .seg button{padding:6px 11px;font-size:13.5px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--faint);display:inline-block}
+.dot.on{background:var(--inv)}
+
+/* views */
+.main{overflow-y:auto;overflow-x:hidden;min-height:0}
+.view{padding:22px 22px 40px;display:grid;gap:18px}
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.vhead h1{font:900 30px/1.15 var(--f-body);letter-spacing:.01em}
+.vhead p{margin:4px 0 0;color:var(--muted);font-size:14.5px;max-width:62ch}
+.eyebrow{font:600 11.5px var(--f-display);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.panel{border-radius:22px;border:var(--hair) solid var(--line);background:var(--field);padding:16px 18px;min-width:0}
+.panel h3{font:800 16px var(--f-body);display:flex;align-items:center;gap:8px;justify-content:space-between}
+.panel h3 small{font:500 12.5px var(--f-body);color:var(--faint)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:var(--hair) solid var(--line);background:none;border-radius:999px;padding:4px 12px;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);font-weight:700}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--muted);border:var(--hair) solid var(--line);border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.tag.ok{color:var(--accent);border-color:currentColor}
+.tag.warn{color:var(--warn);border-color:currentColor}
+.tag.inv{color:var(--inv);border-color:currentColor}
+.tag.solid{background:var(--accent-soft);border-color:transparent;color:var(--ink)}
+.tag i{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.btn{border:0;border-radius:13px;padding:9px 16px;font-size:14.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.btn.pri{background:var(--accent);color:var(--accent-ink)}
+.btn.inv{background:var(--inv);color:#fff}
+.btn.ghost{background:none;border:var(--hair) solid var(--line);color:var(--ink);font-weight:500}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:11px}
+.btn:disabled{opacity:.45;cursor:default}
+
+/* logo */
+.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font:900 21px var(--f-body);color:#fff;flex:none;background:linear-gradient(140deg,hsl(var(--h) 62% 58%),hsl(calc(var(--h) + 38) 58% 42%));box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 18px -10px hsl(var(--h) 60% 35%)}
+.logo.lg{width:64px;height:64px;border-radius:18px;font-size:28px}
+
+/* launch list */
+.board{display:grid}
+.row{display:grid;grid-template-columns:30px 48px minmax(0,1fr) 66px;gap:14px;align-items:center;padding:14px 6px;border-bottom:var(--hair) solid var(--line-soft);cursor:pointer;border-radius:14px;transition:background .15s}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--field)}
+.rank{font:800 18px var(--f-display);color:var(--faint);text-align:center}
+.row:nth-child(-n+3) .rank{color:var(--ink)}
+.row .nm{font:800 16.5px/1.3 var(--f-body)}
+.row .nm small{font:400 14.5px var(--f-body);color:var(--muted)}
+.row .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.vote{width:62px;height:62px;border-radius:16px;border:var(--hair) solid var(--line);background:var(--glass-a);display:grid;place-items:center;align-content:center;gap:0;cursor:pointer;line-height:1.1}
+.vote svg{width:16px;height:16px}
+.vote b{font:800 15px var(--f-display)}
+.vote small{font:500 10.5px var(--f-display);color:var(--faint)}
+.vote[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.vote[aria-pressed="true"] small{color:inherit;opacity:.75}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{border-top:var(--hair) solid var(--line);padding-top:8px}
+.stat b{display:block;font:800 26px/1.1 var(--f-display)}
+.stat span{font-size:12.5px;color:var(--muted)}
+.rules{display:grid;gap:10px;margin-top:4px}
+.rule{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:13.5px;color:var(--muted);line-height:1.6}
+.rule svg{width:16px;height:16px;margin-top:3px;stroke:var(--accent)}
+.rule b{color:var(--ink);font-weight:700}
+
+/* back grid */
+.strip{display:flex;gap:8px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{border-radius:22px;border:var(--hair) solid var(--line);background:var(--field);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 18px 40px -24px var(--shadow)}
+.cover{position:relative;aspect-ratio:16/8;max-width:100%;display:grid;place-items:center;background:radial-gradient(120% 90% at 20% 10%,hsl(var(--h) 70% 72% / .9),transparent 60%),linear-gradient(150deg,hsl(var(--h) 55% 52%),hsl(calc(var(--h) + 50) 50% 30%));color:#fff;overflow:hidden}
+.cover em{font:900 64px/1 var(--f-body);font-style:normal;opacity:.92;text-shadow:0 6px 24px rgba(0,0,0,.18)}
+.cover .k{position:absolute;left:12px;top:12px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.22);border:var(--hair) solid rgba(255,255,255,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.cover .d{position:absolute;right:12px;top:12px;font:700 12px var(--f-display);padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.22)}
+.cbody{padding:14px 16px 16px;display:grid;gap:8px}
+.cbody h4{font:800 16px var(--f-body)}
+.cbody p{margin:0;font-size:13.5px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.9em}
+.meter{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:3px;background:var(--accent)}
+.meter.warn i{background:var(--warn)}
+.meter.inv{background:var(--inv-soft)}.meter.inv i{background:var(--inv)}
+.kv{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);align-items:baseline}
+.kv b{font:800 17px var(--f-display);color:var(--ink)}
+.pct{font:800 14px var(--f-display)}
+.pct.ok{color:var(--accent)}.pct.warn{color:var(--warn)}
+
+/* investor */
+.gate{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}
+.gate h2{font:900 26px/1.25 var(--f-body)}
+.gate p{color:var(--muted);margin:8px 0 0;font-size:14.5px}
+.steps{display:grid;gap:0;counter-reset:s}
+.step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.step:last-child{border-bottom:0}
+.step i{width:26px;height:26px;border-radius:50%;border:var(--hair) solid var(--line);display:grid;place-items:center;font:700 13px var(--f-display);font-style:normal}
+.step.done i{background:var(--inv);color:#fff;border-color:var(--inv)}
+.step b{font-weight:700;display:block}
+.step span{font-size:13px;color:var(--muted)}
+.banner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:16px;border:var(--hair) solid var(--inv);background:var(--inv-soft);font-size:13.5px}
+.banner b{color:var(--inv)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filters label{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.filters select{border:var(--hair) solid var(--line);background:var(--field);border-radius:10px;padding:5px 8px;font-size:13.5px}
+.filters input[type=range]{accent-color:var(--inv);width:120px}
+.pipe{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.pipe b{font:800 20px var(--f-display);color:var(--ink);margin-right:4px}
+.tbl-wrap{overflow-x:auto;border-radius:20px;border:var(--hair) solid var(--line);background:var(--field)}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:13.5px}
+th{font:600 11.5px var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-align:left;padding:12px 12px 8px;border-bottom:var(--hair) solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--field)}
+td .nm{display:flex;align-items:center;gap:10px;font-weight:800}
+td .nm .logo{width:34px;height:34px;border-radius:10px;font-size:15px}
+td .sub{font-size:12px;color:var(--muted);font-weight:400}
+.score{display:flex;align-items:center;gap:8px}
+.score b{font:800 20px var(--f-display);min-width:28px}
+.spark{width:84px;height:28px;display:block;overflow:visible}
+.spark path{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.spark .up{stroke:var(--accent)}.spark .dn{stroke:var(--warn)}
+.spark .area.up{fill:var(--accent);opacity:.1;stroke:none}.spark .area.dn{fill:var(--warn);opacity:.1;stroke:none}
+.spark circle{stroke:var(--bg);stroke-width:2}
+.spark circle.up{fill:var(--accent)}.spark circle.dn{fill:var(--warn)}
+.star{border:var(--hair) solid var(--line);background:none;border-radius:10px;padding:4px 10px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.star[aria-pressed="true"]{background:var(--inv);border-color:var(--inv);color:#fff;font-weight:700}
+
+/* founder */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.prog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:12px}
+.prog div{padding:10px 10px 0 0;border-top:2px solid var(--line);font-size:13px;color:var(--muted)}
+.prog div.done{border-color:var(--accent)}
+.prog div.now{border-color:var(--accent);border-top-style:solid;background:linear-gradient(180deg,var(--accent-soft),transparent 70%)}
+.prog b{display:block;color:var(--ink);font-weight:800;font-size:14px}
+.parts{display:grid;gap:12px;margin-top:10px}
+.part{display:grid;grid-template-columns:88px minmax(0,1fr) 34px;gap:10px;align-items:center;font-size:13.5px}
+.part span{color:var(--muted)}
+.part b{font:800 15px var(--f-display);text-align:right}
+.part small{grid-column:2/-1;font-size:12px;color:var(--faint);margin-top:-6px}
+.funnel{display:grid;gap:9px;margin-top:10px}
+.fbar{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:center;font-size:13px;position:relative}
+.fbar span{color:var(--muted)}
+.fbar .tr{position:relative;height:24px}
+.fbar .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--accent);min-width:3px}
+.fbar.inv .tr i{background:var(--inv)}
+.fbar .tr em{position:absolute;top:50%;transform:translateY(-50%);font:700 13px var(--f-display);font-style:normal;white-space:nowrap;color:var(--ink)}
+.fbar .tr em small{font-weight:500;color:var(--muted);margin-left:6px}
+.check{display:grid;gap:8px;margin-top:10px}
+.check div{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;font-size:13.5px;line-height:1.55}
+.check svg{width:16px;height:16px;margin-top:3px}
+.check .y svg{stroke:var(--accent)}.check .n svg{stroke:var(--warn)}
+.check small{display:block;color:var(--faint);font-size:12px}
+
+/* sheet */
+.scrim{position:fixed;inset:0;z-index:20;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:21;top:16px;right:16px;bottom:16px;width:min(540px,calc(100% - 32px));border-radius:26px;overflow-y:auto;transform:translateX(110%);transition:transform .32s cubic-bezier(.2,.8,.2,1);padding:22px 22px 30px;display:grid;gap:16px;align-content:start}
+.sheet.on{transform:none}
+.sheet.glass{background:linear-gradient(145deg,var(--sheet),var(--sheet))}
+.sheet .hd{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center}
+.sheet .hd h2{font:900 24px/1.2 var(--f-body)}
+.sheet .hd p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.x{width:34px;height:34px;border-radius:50%;border:var(--hair) solid var(--line);background:var(--glass-a);cursor:pointer;display:grid;place-items:center;align-self:start}
+.x svg{width:14px;height:14px}
+.sec{display:grid;gap:10px;padding-top:14px;border-top:var(--hair) solid var(--line)}
+.sec h3{font:800 15px var(--f-body);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sec p{margin:0;font-size:14px;color:var(--muted)}
+.big3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.big3 div{font-size:12px;color:var(--muted)}
+.big3 b{display:block;font:800 22px/1.15 var(--f-display);color:var(--ink)}
+.tier{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 14px;border-radius:16px;border:var(--hair) solid var(--line)}
+.tier b{font-weight:800}
+.tier b .num{font-size:17px;margin-left:6px}
+.tier span{font-size:12.5px;color:var(--muted);grid-column:1}
+.tier .btn{grid-row:1/3;grid-column:2}
+.confirm{display:grid;gap:8px;padding:12px 14px;border-radius:16px;border:var(--hair) solid var(--accent);background:var(--accent-soft);font-size:13.5px}
+.confirm .acts{display:flex;gap:8px}
+.lock{display:grid;gap:8px;padding:16px;border-radius:18px;border:var(--hair) dashed var(--inv);background:var(--inv-soft);font-size:13.5px;color:var(--muted)}
+.lock b{color:var(--inv)}
+.deal{display:grid;gap:10px;padding:16px;border-radius:18px;border:var(--hair) solid var(--inv);background:var(--inv-soft)}
+.deal .kvs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}
+.deal .kvs div{font-size:12px;color:var(--muted)}
+.deal .kvs b{display:block;font:800 16px var(--f-body);color:var(--ink)}
+.deal .acts{display:flex;gap:8px;flex-wrap:wrap}
+.room{display:flex;gap:6px;flex-wrap:wrap}
+.team{display:grid;gap:8px}
+.team div{display:flex;gap:10px;align-items:baseline;font-size:13.5px}
+.team b{font-weight:800;min-width:3.5em}
+.team span{color:var(--muted)}
+.tl{display:grid;gap:0}
+.tl div{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;font-size:13.5px;padding:7px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.tl div:last-child{border-bottom:0}
+.tl time{font:600 12.5px var(--f-display);color:var(--faint)}
+.toast{position:fixed;z-index:30;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;transition:all .25s;padding:10px 18px;border-radius:14px;font-size:14px;font-weight:500;max-width:calc(100% - 32px);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.foot{font-size:12px;color:var(--faint);padding:0 22px 18px}
+.empty{padding:28px;text-align:center;color:var(--muted);font-size:14px}
+
+@media (max-width:980px){.cols,.gate,.grid2{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){
+  body{padding-block:10px;font-size:14.5px}
+  .window{border-radius:22px}
+  .top{padding:12px 14px;gap:10px}
+  .top>.seg{order:3;width:100%;overflow-x:auto}
+  .top>.seg button{flex:1;padding:7px 8px}
+  .view{padding:16px 14px 32px}
+  .vhead h1{font-size:24px}
+  .panel{padding:12px 12px}
+  .row{grid-template-columns:18px 40px minmax(0,1fr) 54px;gap:10px;padding:12px 2px}
+  .row .nm small{display:block;margin-top:2px}
+  .tag{white-space:normal}
+  .row .logo{width:40px;height:40px;font-size:18px;border-radius:12px}
+  .vote{width:52px;height:56px}
+  .big3 b{font-size:18px}
+  .deal .kvs{grid-template-columns:minmax(0,1fr)}
+  .prog{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:10px}
+  .sheet{top:10px;right:16px;bottom:10px;width:calc(100% - 32px);padding:18px 16px 26px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <header class="top">
+    <div class="brand"><b>破土</b><span>Groundbreak</span></div>
+    <nav class="seg" role="tablist" aria-label="主视图" id="nav">
+      <button role="tab" data-v="launch" id="t-launch">首发榜</button>
+      <button role="tab" data-v="back" id="t-back">众筹</button>
+      <button role="tab" data-v="invest" id="t-invest"><i class="dot" id="invDot"></i>投资人专区</button>
+      <button role="tab" data-v="found" id="t-found">创业者</button>
+    </nav>
+    <div class="who">
+      <span>当前身份</span>
+      <div class="seg" role="group" aria-label="切换演示身份" id="role">
+        <button data-r="guest" id="r-guest">访客</button>
+        <button data-r="investor" id="r-investor">认证投资人</button>
+      </div>
+    </div>
+  </header>
+  <main class="main" id="main">
+    <section class="view" id="v-launch" role="tabpanel" aria-labelledby="t-launch"></section>
+    <section class="view" id="v-back" role="tabpanel" aria-labelledby="t-back" hidden></section>
+    <section class="view" id="v-invest" role="tabpanel" aria-labelledby="t-invest" hidden></section>
+    <section class="view" id="v-found" role="tabpanel" aria-labelledby="t-found" hidden></section>
+    <p class="foot">演示原型 · 全部项目、人物和数字均为虚构示例，不构成任何投资建议 · 你的投票、关注只保存在本机浏览器 · <a href="https://claude.ai/artifact/TJkLUgu1zkES464h8pRSVK" target="_blank" rel="noopener" style="color:var(--ink)">查看产品方案 ↗</a></p>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet glass" id="sheet" aria-hidden="true" aria-label="项目详情"></aside>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+
+<script>(()=>{'use strict';
+// Fictional example projects. Every name, person and figure is invented for the demo.
+const TODAY = '2026-10-01';
+const W = { demand: .30, exec: .20, ops: .20, buzz: .15, info: .15 };
+const PART_NAMES = { demand: '需求验证', exec: '执行交付', ops: '经营数据', buzz: '社区热度', info: '信息完整' };
+const PART_SRC = {
+  demand: '众筹达成率、支持人数、复购与退款率',
+  exec: '历史交付准时率、进度更新频率',
+  ops: '经授权的发票 / 支付流水',
+  buzz: '首发日加权票、讨论质量',
+  info: '资料、团队实名、数据室完整度'
+};
+const KINDS = ['产品预售', '年费预购', '付费试点', '体验套餐'];
+
+const P = [
+  { id: 'loom', name: '织语', en: 'LoomSign', h: 262, ind: '无障碍硬件', city: '北京', tagline: '手语识别手套，把手语实时转成语音和文字',
+    about: '手套内 14 个柔性弯曲传感器加一颗六轴惯导，识别 1,200 个常用中国手语词，延迟约 0.4 秒。配套 App 把对方的语音转成字幕，两个人可以直接对话。团队与两所特殊教育学校共同采集训练数据。',
+    launch: { date: '2026-10-01', raw: 1046, w: 902, cm: 138 },
+    back: { kind: '产品预售', status: 'live', goal: 300000, raised: 336000, n: 412, left: 30,
+      tiers: [{ t: '早鸟单只（右手）', p: 799, s: '限 300 · 剩 0' }, { t: '标准双手套装', p: 1499, s: '预计 2027 年 3 月发货' }, { t: '学校课堂包 · 5 套', p: 6999, s: '含教师端与培训' }] },
+    parts: { demand: 72, exec: 68, ops: 35, buzz: 88, info: 80 }, trend: [50, 54, 57, 60, 63, 65, 66, 67],
+    ops: '尚无收入 · 2 所学校试用中',
+    team: [['顾言', '创始人，人机交互博士'], ['白桦', '硬件负责人'], ['唐小满', '手语顾问，听障人士']],
+    updates: [['10-01', '首发当日达成众筹目标'], ['09-18', '完成第 3 版手套 EVT 样机'], ['08-30', '与两所特教学校签署数据合作']],
+    deal: { round: '天使轮', amt: '¥400 万', share: '出让 10%–12%', use: '量产模具 45% · 算法团队 35% · 认证 20%', holders: 3, cap: 50, form: '有限公司', room: [1, 1, 1, 0, 1] } },
+
+  { id: 'orbit', name: '星图', en: 'OrbitKit', h: 214, ind: '教育 · 航天', city: '西安', tagline: '桌面级卫星信号接收套件，给中学开航天课',
+    about: '一套可以放在教室窗台上的接收站：折叠天线、软件无线电和配套课程，学生能自己接收气象卫星云图和业余卫星遥测。课程按 16 课时设计，对应信息科技与物理课标。',
+    launch: { date: '2026-10-01', raw: 734, w: 610, cm: 77 },
+    back: { kind: '产品预售', status: 'soon', goal: 250000, raised: 0, n: 0, left: 37, notify: 2140, start: '10-08',
+      tiers: [{ t: '个人套件', p: 1280, s: '10 月 8 日开放' }, { t: '班级套件 · 6 套', p: 6980, s: '含课程与教师培训' }] },
+    parts: { demand: 58, exec: 64, ops: 30, buzz: 82, info: 76 }, trend: [52, 55, 60],
+    ops: '尚无收入 · 3 所学校试点',
+    team: [['韩北辰', '创始人，前卫星地面站工程师'], ['苏禾', '课程设计'], ['陆远', '射频']],
+    updates: [['10-01', '首发，开放众筹预约'], ['09-12', '在 3 所中学完成试讲']],
+    deal: { round: '种子轮', amt: '¥150 万', share: '出让 8%', use: '首批生产 60% · 课程开发 40%', holders: 2, cap: 50, form: '有限公司', room: [1, 0, 1, 0, 0] } },
+
+  { id: 'photo', name: '光合农场', en: 'PhotoFarm', h: 128, ind: '农业科技', city: '合肥', tagline: '按作物调光的垂直农场 LED 光配方',
+    about: '为垂直农场提供按作物、按生长阶段调整的 LED 光谱配方和控制器。在合作农场的生菜产线上，单位产量电耗下降约 18%（合作方自测，未经第三方认证）。这次众筹形式是三家农场的付费试点订单。',
+    launch: { date: '2026-10-01', raw: 418, w: 377, cm: 41 },
+    back: { kind: '付费试点', status: 'live', goal: 600000, raised: 400000, n: 2, left: 30, unit: '家',
+      tiers: [{ t: '单条产线试点 · 90 天', p: 200000, s: '含控制器、光配方与数据报告' }] },
+    parts: { demand: 70, exec: 76, ops: 62, buzz: 64, info: 82 }, trend: [60, 62, 64, 66, 67, 69, 70, 71],
+    ops: '2025 年收入 ¥86 万',
+    team: [['方禾', '创始人，植物生理学背景'], ['程朗', '电子工程'], ['邵晴', '商务']],
+    updates: [['10-01', '首发，已签 2 家试点'], ['09-05', '生菜产线 90 天测试结束']],
+    deal: { round: '天使+', amt: '¥800 万', share: '出让 10%', use: '研发 50% · 交付团队 30% · 市场 20%', holders: 4, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 1] } },
+
+  { id: 'refill', name: '回灌', en: 'Refillo', h: 186, ind: '消费 · 环保', city: '厦门', tagline: '社区自助灌装站，洗护用品按克计价',
+    about: '在社区便利店放一台灌装机，居民自带瓶子打洗发水、沐浴露和洗衣液，按克计价，比同品牌瓶装便宜约 20%。这次众筹的回报是 300 克体验额度和定制空瓶。',
+    launch: { date: '2026-10-01', raw: 356, w: 241, cm: 29 },
+    back: { kind: '体验套餐', status: 'live', goal: 40000, raised: 12600, n: 318, left: 30,
+      tiers: [{ t: '体验额度 300 克 + 空瓶', p: 39, s: '首批 3 个站点可用' }, { t: '家庭季卡额度', p: 129, s: '限 500 份，按次扣减，不可提现' }] },
+    parts: { demand: 52, exec: 62, ops: 48, buzz: 56, info: 62 }, trend: [55, 55],
+    ops: '3 个站点试运营 · 月流水 ¥1.9 万',
+    team: [['叶知秋', '创始人'], ['黄一帆', '设备']],
+    updates: [['10-01', '首发；加权票较低，部分新注册账号的票按 0.3 计']],
+    deal: null },
+
+  { id: 'story', name: '绘本岛', en: 'StoryIsle', h: 22, ind: '文创 · 教育', city: '广州', tagline: '粤语、闽南语方言儿童绘本，配 AI 朗读',
+    about: '每本绘本配一份由本地老人录制、再由 AI 扩展的方言朗读音频，扫码即可听。第一季 12 本，覆盖粤语、闽南语和客家话。',
+    launch: { date: '2026-09-29', raw: 1388, w: 1190, cm: 164 },
+    back: { kind: '产品预售', status: 'live', goal: 150000, raised: 41200, n: 287, left: 28,
+      tiers: [{ t: '单语种 4 本', p: 128, s: '2026 年 12 月发货' }, { t: '第一季全套 12 本', p: 358, s: '含方言卡片' }] },
+    parts: { demand: 61, exec: 70, ops: 40, buzz: 75, info: 78 }, trend: [55, 57, 58, 60, 61, 61, 62, 63],
+    ops: '尚无收入',
+    team: [['梁可欣', '创始人，童书编辑'], ['陈默', '音频与 AI']],
+    updates: [['09-29', '首发'], ['09-20', '完成 30 位老人朗读录音']],
+    deal: { round: '种子轮', amt: '¥100 万', share: '出让 10%', use: '内容制作 70% · 运营 30%', holders: 2, cap: 50, form: '有限公司', room: [1, 0, 1, 1, 0] } },
+
+  { id: 'oldnest', name: '老宅焕新', en: 'OldNest', h: 30, ind: '本地服务', city: '西安', tagline: '老房厨卫局部改造，标准化套餐、固定工期',
+    about: '针对 1990 年代老房的厨房和卫生间，做 6 种标准化改造套餐，固定价格、固定 9 天工期。众筹回报是量房设计服务和改造代金额度，不是储值卡。',
+    launch: { date: '2026-09-26', raw: 402, w: 288, cm: 36 },
+    back: { kind: '体验套餐', status: 'live', goal: 100000, raised: 38000, n: 19, left: 25,
+      tiers: [{ t: '上门量房 + 3D 方案', p: 199, s: '可抵扣施工款' }, { t: '卫生间焕新 · 基础套餐', p: 18800, s: '限西安主城区' }] },
+    parts: { demand: 48, exec: 62, ops: 60, buzz: 44, info: 58 }, trend: [57, 56, 56, 55, 55, 54, 54, 54],
+    ops: '2025 年完工 41 户',
+    team: [['杜衡', '创始人，装修项目经理 12 年']],
+    updates: [['09-26', '首发']],
+    deal: null },
+
+  { id: 'lumi', name: '拾光', en: 'LumiNest', h: 152, ind: '智能硬件', city: '杭州', tagline: '可折叠桌面植物灯，光谱随生长阶段自动切换',
+    about: '一盏可以折叠放进抽屉的植物灯。内置照度传感器，按植物的育苗、生长和开花阶段切换光谱，App 里选好植物即可。已完成 EVT 和 DVT，模具供应商已锁定。',
+    launch: { date: '2026-09-10', raw: 2904, w: 2511, cm: 312 },
+    back: { kind: '产品预售', status: 'live', goal: 200000, raised: 468300, n: 1312, left: 9,
+      tiers: [{ t: '早鸟单灯', p: 299, s: '限 500 · 剩 0' }, { t: '标准单灯', p: 349, s: '预计 2026 年 12 月发货' }, { t: '双灯套装', p: 629, s: '含两套植物卡' }] },
+    parts: { demand: 92, exec: 74, ops: 70, buzz: 90, info: 85 }, trend: [61, 64, 66, 70, 73, 77, 80, 83],
+    ops: '众筹前电商小批量 ¥34 万',
+    team: [['林溪', '创始人，光学工程师'], ['周牧', '硬件'], ['许一', '供应链']],
+    updates: [['09-28', '达成 200%，解锁磨砂白配色'], ['09-16', 'DVT 样机通过跌落测试'], ['09-10', '首发，6 小时达成目标']],
+    deal: { round: '天使轮', amt: '¥300 万', share: '出让 10%', use: '模具与首批量产 55% · 认证 15% · 团队 30%', holders: 3, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 0] } },
+
+  { id: 'upland', name: '山野咖啡', en: 'Upland Roast', h: 28, ind: '消费 · 农业', city: '昆明', tagline: '保山小粒咖啡产地直采，每一批次溯源到农户',
+    about: '从保山 23 户咖农直接收购生豆，按批次烘焙，包装上的二维码能查到农户、海拔和采收日期。给农户的收购价比当地中间商高约 15%。',
+    launch: { date: '2026-09-13', raw: 1876, w: 1702, cm: 201 },
+    back: { kind: '产品预售', status: 'live', goal: 80000, raised: 194200, n: 2180, left: 12,
+      tiers: [{ t: '尝鲜装 3×100g', p: 69, s: '10 月中旬发货' }, { t: '季度订阅', p: 399, s: '每月一包 250g' }, { t: '庄园年卡', p: 1299, s: '含产地探访名额抽签' }] },
+    parts: { demand: 88, exec: 79, ops: 66, buzz: 72, info: 70 }, trend: [65, 66, 69, 71, 72, 74, 76, 77],
+    ops: '电商月销 ¥21 万',
+    team: [['杨岚', '创始人，Q-Grader 杯测师'], ['刀永', '产地负责人']],
+    updates: [['09-25', '完成第二批烘焙'], ['09-13', '首发']],
+    deal: { round: '天使轮', amt: '¥200 万', share: '出让 8%', use: '烘焙设备 50% · 产地仓 30% · 渠道 20%', holders: 2, cap: 50, form: '有限公司', room: [1, 1, 1, 0, 1] } },
+
+  { id: 'cold', name: '冷链小站', en: 'ColdDock', h: 196, ind: '本地生活', city: '武汉', tagline: '社区生鲜智能冷柜，夜间配送、次日自取',
+    about: '把三温区智能冷柜放进小区，农批市场夜间配货，居民早上 7 点前取。已铺设 38 台，复购率 61%。这次众筹的回报是生鲜体验额度。',
+    launch: { date: '2026-09-08', raw: 1120, w: 985, cm: 88 },
+    back: { kind: '体验套餐', status: 'live', goal: 50000, raised: 64800, n: 1620, left: 7,
+      tiers: [{ t: '新人体验额度', p: 29, s: '可用 3 次' }, { t: '月度蔬果额度', p: 199, s: '按次扣减，不可提现' }] },
+    parts: { demand: 74, exec: 80, ops: 76, buzz: 58, info: 74 }, trend: [67, 68, 69, 70, 71, 72, 72, 73],
+    ops: '38 台在运营 · 月 GMV ¥46 万',
+    team: [['熊立', '创始人，前生鲜电商区域经理'], ['万琪', '运营']],
+    updates: [['09-20', '新增 6 个小区点位'], ['09-08', '首发']],
+    deal: { round: 'Pre-A', amt: '¥1,000 万', share: '出让 12%', use: '新增 200 台冷柜 70% · 系统 30%', holders: 7, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 1] } },
+
+  { id: 'volt', name: '轻骑', en: 'Voltlet', h: 46, ind: '出行硬件', city: '深圳', tagline: '电动滑板车通用换电模组，兼容主流车架',
+    about: '一块可快拆的 36V 电池模组和一套转接架，适配 9 款主流滑板车。社区换电柜按次付费，换一次 30 秒。',
+    launch: { date: '2026-09-06', raw: 2310, w: 1840, cm: 260 },
+    back: { kind: '产品预售', status: 'live', goal: 500000, raised: 312400, n: 897, left: 5,
+      tiers: [{ t: '转接架 + 1 块模组', p: 349, s: '2027 年 1 月发货' }, { t: '转接架 + 2 块模组', p: 629, s: '2027 年 1 月发货' }] },
+    parts: { demand: 64, exec: 60, ops: 45, buzz: 77, info: 68 }, trend: [66, 67, 65, 64, 64, 63, 62, 62],
+    ops: '尚无收入',
+    team: [['邝志', '创始人'], ['吕征', '电池系统']],
+    updates: [['09-22', '电池认证进度延后两周'], ['09-06', '首发']],
+    deal: { round: '天使轮', amt: '¥500 万', share: '出让 12%', use: '电池认证 30% · 换电柜 50% · 团队 20%', holders: 4, cap: 50, form: '有限公司', room: [1, 0, 1, 0, 0] } },
+
+  { id: 'ledger', name: '码上记', en: 'LedgerBee', h: 40, ind: '企业服务 · AI', city: '成都', tagline: '拍小票自动记账，给个体户的报税提醒',
+    about: '个体户和小微商户拍一下小票、截一张收款记录，自动归类入账，月底生成经营报表，季度提醒申报。现有 1,140 家付费商户，月流失率 3.1%。',
+    launch: { date: '2026-09-05', raw: 1452, w: 1301, cm: 119 },
+    back: { kind: '年费预购', status: 'live', goal: 100000, raised: 132400, n: 331, left: 4,
+      tiers: [{ t: '早鸟年费', p: 399, s: '原价 ¥599' }, { t: '两年', p: 699, s: '' }, { t: '多门店版 · 年', p: 1299, s: '最多 5 家门店' }] },
+    parts: { demand: 76, exec: 82, ops: 85, buzz: 68, info: 88 }, trend: [70, 71, 73, 74, 76, 77, 79, 80],
+    ops: '月经常性收入 ¥8.6 万 · 付费商户 1,140',
+    team: [['罗屿', '创始人，前财税 SaaS 产品经理'], ['宁可', '算法'], ['向东', '销售']],
+    updates: [['09-24', '上线发票识别'], ['09-05', '首发']],
+    deal: { round: 'Pre-A', amt: '¥800 万', share: '出让 8%–10%', use: '研发 50% · 渠道 40% · 合规 10%', holders: 5, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 1] } },
+
+  { id: 'moss', name: '青苔', en: 'MossLab', h: 98, ind: '消费 · 订阅', city: '上海', tagline: '苔藓微景观月度订阅，免浇水',
+    about: '每月寄一个密封苔藓微景观，放在办公桌上 3 个月不用打理。',
+    launch: { date: '2026-09-03', raw: 980, w: 846, cm: 64 },
+    back: { kind: '产品预售', status: 'live', goal: 60000, raised: 58200, n: 471, left: 2,
+      tiers: [{ t: '单月', p: 89, s: '' }, { t: '季度订阅', p: 239, s: '' }] },
+    parts: { demand: 66, exec: 72, ops: 58, buzz: 60, info: 64 }, trend: [58, 59, 61, 62, 63, 63, 64, 64],
+    ops: '月订阅 ¥3.2 万',
+    team: [['温言', '创始人']],
+    updates: [['09-03', '首发']],
+    deal: null },
+
+  { id: 'echo', name: '声纹', en: 'EchoTrace', h: 200, ind: '工业硬科技', city: '苏州', tagline: '用声学传感器提前发现电机和泵的轴承故障',
+    about: '在电机和泵外壳贴一枚声学传感器，模型根据声音频谱判断轴承磨损，平均提前 21 天预警。这次众筹形式是三家工厂的付费试点订单，已全部签订。',
+    launch: { date: '2026-08-20', raw: 640, w: 598, cm: 52 },
+    back: { kind: '付费试点', status: 'done', goal: 450000, raised: 450000, n: 3, left: 0, unit: '家',
+      tiers: [{ t: '单车间试点 · 60 天', p: 150000, s: '已满' }] },
+    parts: { demand: 80, exec: 86, ops: 78, buzz: 52, info: 90 }, trend: [62, 66, 69, 72, 74, 75, 77, 78],
+    ops: '2025 年收入 ¥210 万',
+    team: [['魏衡', '创始人，声学博士'], ['钱澄', '工业销售'], ['蒋舟', '嵌入式']],
+    updates: [['09-19', '第三家工厂试点上线'], ['08-20', '首发']],
+    deal: { round: 'Pre-A', amt: '¥1,500 万', share: '出让 10%', use: '产品化 40% · 交付 35% · 销售 25%', holders: 6, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 1] } },
+
+  { id: 'carbon', name: '碳账本', en: 'CarbonBook', h: 150, ind: '企业服务 · 双碳', city: '南京', tagline: '中小制造企业的碳排放核算和出口碳申报',
+    about: '面向出口欧盟的中小制造企业，自动从电费、燃气和物料单据核算产品碳足迹，生成 CBAM 申报所需的数据表。众筹形式是年费预购，已结束。',
+    launch: { date: '2026-08-12', raw: 712, w: 655, cm: 47 },
+    back: { kind: '年费预购', status: 'done', goal: 120000, raised: 126000, n: 42, left: 0, unit: '家',
+      tiers: [{ t: '企业年费', p: 3000, s: '已结束' }] },
+    parts: { demand: 70, exec: 78, ops: 82, buzz: 56, info: 86 }, trend: [60, 63, 66, 68, 70, 72, 73, 74],
+    ops: '年经常性收入 ¥96 万',
+    team: [['孔维', '创始人，前碳核查师'], ['尹川', '工程']],
+    updates: [['09-01', '众筹结束，42 家企业预购'], ['08-12', '首发']],
+    deal: { round: 'Pre-A', amt: '¥1,200 万', share: '出让 10%', use: '研发 55% · 行业拓展 45%', holders: 5, cap: 50, form: '有限公司', room: [1, 1, 1, 1, 0] } }
+];
+
+const ROOM = ['商业计划书', '财务报表', '股权结构', '知识产权', '合同订单'];
+P.forEach(p => { p.score = Math.round(Object.keys(W).reduce((s, k) => s + W[k] * p.parts[k], 0)); });
+
+// Sample founder dashboard: 拾光 LumiNest
+const FOUNDER = {
+  id: 'lumi',
+  pub: [['首发曝光', 48210], ['详情访问', 9640], ['支持', 1312]],
+  inv: [['推送给投资人', 214], ['查看', 87], ['关注', 23], ['约谈申请', 6]],
+  tips: {
+    ops: '授权接入电商后台流水，经营数据分预计可到 80 左右',
+    exec: '目前两周更新一次进度，改为每周一次可提高执行分',
+    info: '数据室缺「合同订单」：上传模具与供应商合同'
+  },
+  checks: [
+    [1, '公开页面不出现估值、出让比例和认购入口', '证券法第九条：非公开发行不得公开劝诱'],
+    [1, '回报只有产品，不承诺现金、分红或股权', '防范和处置非法集资条例第二条'],
+    [1, '支持款由持牌支付机构存管，未达标原路退回', '平台不设资金池'],
+    [1, '现有股东 3 人，有限公司上限 50 人', '公司法第四十二条'],
+    [1, '融资信息只对认证合格投资者开放', '约谈前投资人需签署保密与风险揭示书'],
+    [0, '交付风险说明还没填', '众筹页需写明主要延期风险，例如认证和模具周期']
+  ]
+};
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const n0 = n => Number(n).toLocaleString('zh-CN');
+const yuan = n => n >= 1e4 ? '¥' + (n >= 1e6 ? Math.round(n / 1e4) : +(n / 1e4).toFixed(1)) + ' 万' : '¥' + n0(n);
+const md = d => { const [, m, dd] = d.split('-'); return `${+m}月${+dd}日`; };
+const mdShort = s => md('2026-' + s);
+function lsGet(k, d) { try { const v = JSON.parse(localStorage.getItem('gb.' + k)); return v ?? d; } catch { return d; } }
+function lsSet(k, v) { try { localStorage.setItem('gb.' + k, JSON.stringify(v)); } catch { } }
+const byId = id => P.find(p => p.id === id);
+
+const I = {
+  up: '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 3 14 12H2z"/></svg>',
+  ok: '<svg viewBox="0 0 16 16" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3 3 7-7"/></svg>',
+  warn: '<svg viewBox="0 0 16 16" fill="none" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11h.01"/></svg>',
+  x: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m3 3 8 8M11 3l-8 8"/></svg>',
+  shield: '<svg viewBox="0 0 16 16" fill="none" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.5 13.5 3.5v4c0 3.2-2.3 5.8-5.5 7-3.2-1.2-5.5-3.8-5.5-7v-4z"/></svg>'
+};
+
+// ---------- state ----------
+const S = {
+  view: 'launch',
+  role: lsGet('role', 'guest'),
+  cert: lsGet('cert', false),
+  votes: lsGet('votes', {}),
+  watch: lsGet('watch', {}),       // id -> 'watch' | 'talk'
+  notify: lsGet('notify', {}),
+  lt: 'today', kind: '全部', sort: 'ending',
+  f: { ind: '全部', round: '全部', min: 60, rising: false, mine: false },
+  open: null, pick: null
+};
+if (S.role === 'investor' && !S.cert) S.role = 'guest';
+
+const votesOf = p => p.launch.w + (S.votes[p.id] ? 1 : 0);
+const rawOf = p => p.launch.raw + (S.votes[p.id] ? 1 : 0);
+const pctOf = p => p.back.goal ? p.back.raised / p.back.goal : 0;
+const rising = p => p.trend[p.trend.length - 1] >= p.trend[0];
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2600);
+}
+
+// ---------- small renderers ----------
+const logo = (p, cls = '') => `<span class="logo ${cls}" style="--h:${p.h}" aria-hidden="true">${esc(p.name[0])}</span>`;
+
+function backTag(p) {
+  const b = p.back;
+  if (b.status === 'soon') return `<span class="tag inv"><i></i>${mdShort(b.start)}开始 · ${n0(b.notify)} 人预约</span>`;
+  const pc = Math.round(pctOf(p) * 100);
+  if (b.status === 'done') return `<span class="tag ok"><i></i>${esc(b.kind)}已达成 ${pc}%</span>`;
+  return `<span class="tag ${pc >= 100 ? 'ok' : 'warn'}"><i></i>${esc(b.kind)} ${pc}%</span>`;
+}
+
+function spark(arr) {
+  const w = 84, h = 28, lo = 45, hi = 90, pad = 4;
+  const x = i => arr.length === 1 ? w / 2 : pad + i * (w - pad * 2) / (arr.length - 1);
+  const y = v => h - pad - (Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo) * (h - pad * 2);
+  const c = rising({ trend: arr }) ? 'up' : 'dn';
+  const line = arr.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join('');
+  const area = `${line}L${x(arr.length - 1).toFixed(1)} ${h}L${x(0).toFixed(1)} ${h}Z`;
+  const last = arr.length - 1;
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" role="img" aria-label="近 ${arr.length} 周信号分 ${arr.join('、')}"><path class="area ${c}" d="${area}"/><path class="${c}" d="${line}"/><circle class="${c}" cx="${x(last).toFixed(1)}" cy="${y(arr[last]).toFixed(1)}" r="4"/></svg>`;
+}
+
+function partsHTML(p, withSrc) {
+  return `<div class="parts">${Object.keys(W).map(k => `
+    <div class="part"><span>${PART_NAMES[k]} <small class="num">×${W[k] * 100}%</small></span>
+      <div class="meter ${p.parts[k] < 50 ? 'warn' : ''}" role="img" aria-label="${PART_NAMES[k]} ${p.parts[k]} 分"><i style="width:${p.parts[k]}%"></i></div>
+      <b>${p.parts[k]}</b>${withSrc ? `<small>${esc(withSrc[k] || PART_SRC[k])}</small>` : ''}</div>`).join('')}</div>`;
+}
+
+// ---------- launch board ----------
+function renderLaunch() {
+  const week = d => d >= '2026-09-25';
+  const list = P.filter(p => S.lt === 'today' ? p.launch.date === TODAY : S.lt === 'week' ? week(p.launch.date) : !week(p.launch.date))
+    .sort((a, b) => votesOf(b) - votesOf(a));
+  const live = P.filter(p => p.back.status === 'live').length;
+  const hit = P.filter(p => p.back.status !== 'soon' && pctOf(p) >= 1).length;
+  $('#v-launch').innerHTML = `
+    <div class="vhead"><div><div class="eyebrow">2026 年 10 月 1 日 · 周四</div><h1>首发榜</h1>
+      <p>每天一批新产品首发，社区投票决定排名。首发页只展示产品、团队和众筹进度，不出现任何融资条款。</p></div>
+      <div class="chips" role="group" aria-label="时间范围">
+        ${[['today', '今日'], ['week', '本周'], ['past', '往期']].map(([k, t]) => `<button class="chip" data-lt="${k}" aria-pressed="${S.lt === k}">${t}</button>`).join('')}
+      </div></div>
+    <div class="cols">
+      <div class="panel board" role="list">${list.map((p, i) => `
+        <div class="row" role="listitem" data-open="${p.id}" tabindex="0">
+          <span class="rank">${i + 1}</span>${logo(p)}
+          <div><div class="nm">${esc(p.name)} <small>${esc(p.tagline)}</small></div>
+            <div class="meta"><span class="tag">${esc(p.ind)}</span><span class="tag">${esc(p.city)}</span>${backTag(p)}<span class="tag">${n0(p.launch.cm)} 条讨论</span></div></div>
+          <button class="vote" data-vote="${p.id}" aria-pressed="${!!S.votes[p.id]}" aria-label="为${esc(p.name)}投票，当前加权票 ${n0(votesOf(p))}">${I.up}<b>${n0(votesOf(p))}</b><small>加权票</small></button>
+        </div>`).join('') || '<div class="empty">这个时间段没有首发项目</div>'}</div>
+      <div style="display:grid;gap:18px">
+        <div class="panel"><h3>平台概况 <small>示例数据</small></h3>
+          <div class="stats" style="margin-top:12px">
+            <div class="stat"><b>${P.filter(p => p.launch.date === TODAY).length}</b><span>今日首发</span></div>
+            <div class="stat"><b>${live}</b><span>众筹进行中</span></div>
+            <div class="stat"><b>${hit}</b><span>已达成目标</span></div>
+            <div class="stat"><b>${yuan(P.reduce((s, p) => s + p.back.raised, 0))}</b><span>众筹累计支持</span></div>
+          </div></div>
+        <div class="panel"><h3>榜单规则</h3><div class="rules">
+          <div class="rule">${I.shield}<div><b>票数按可信度加权。</b>实名且账龄满 30 天计 1 票，新账号计 0.3 票，同一设备或同一支付账户的重复票不计。</div></div>
+          <div class="rule">${I.shield}<div><b>不卖榜单位置。</b>排名只看加权票，平台不出售推荐位。</div></div>
+          <div class="rule">${I.shield}<div><b>融资信息不公开。</b>轮次、金额、出让比例只在投资人专区展示，访客看不到。</div></div>
+        </div></div>
+      </div>
+    </div>`;
+}
+
+// ---------- crowdfunding ----------
+function renderBack() {
+  let list = P.filter(p => S.kind === '全部' || p.back.kind === S.kind);
+  const st = p => p.back.status === 'done' ? 2 : p.back.status === 'soon' ? 1 : 0;
+  const sorters = { ending: (a, b) => st(a) - st(b) || a.back.left - b.back.left, pct: (a, b) => pctOf(b) - pctOf(a), n: (a, b) => b.back.n - a.back.n };
+  list = list.sort(sorters[S.sort]);
+  $('#v-back').innerHTML = `
+    <div class="vhead"><div><h1>众筹</h1>
+      <p>全有或全无：截止日前达到目标才扣款，否则原路退回。回报只能是产品或服务，不承诺现金、分红或股权。</p></div>
+      <div class="seg" role="group" aria-label="排序">${[['ending', '即将截止'], ['pct', '达成率'], ['n', '支持人数']].map(([k, t]) => `<button data-sort="${k}" aria-pressed="${S.sort === k}">${t}</button>`).join('')}</div></div>
+    <div class="strip"><span class="tag solid">${I.ok.replace('<svg', '<svg width="13" height="13" stroke="currentColor"')}全有或全无</span><span class="tag solid">支持款由持牌支付机构存管</span><span class="tag solid">分两期放款：成功后 50%，发货确认后 50%</span></div>
+    <div class="chips" role="group" aria-label="回报类型">${['全部', ...KINDS].map(k => `<button class="chip" data-kind="${k}" aria-pressed="${S.kind === k}">${k}</button>`).join('')}</div>
+    <div class="cards">${list.map(p => {
+      const b = p.back, pc = pctOf(p), unit = b.unit ? `${b.n} ${b.unit}企业下单` : `${n0(b.n)} 人支持`;
+      const d = b.status === 'soon' ? `${mdShort(b.start)}开始` : b.status === 'done' ? '已结束' : `剩 ${b.left} 天`;
+      return `<button class="card" data-open="${p.id}">
+        <div class="cover" style="--h:${p.h}"><span class="k">${esc(b.kind)}</span><span class="d">${d}</span><em aria-hidden="true">${esc(p.name[0])}</em></div>
+        <div class="cbody"><h4>${esc(p.name)} <span class="latin" style="font-weight:500;color:var(--faint);font-size:13px">${esc(p.en)}</span></h4><p>${esc(p.tagline)}</p>
+          ${b.status === 'soon' ? `<div class="meter inv"><i style="width:0"></i></div><div class="kv"><span><b>${n0(b.notify)}</b> 人预约</span><span>目标 ${yuan(b.goal)}</span></div>`
+          : `<div class="meter ${pc < 1 ? 'warn' : ''}" role="img" aria-label="达成 ${Math.round(pc * 100)}%"><i style="width:${Math.min(100, pc * 100)}%"></i></div>
+             <div class="kv"><span><b>${yuan(b.raised)}</b> 已筹</span><span class="pct ${pc >= 1 ? 'ok' : 'warn'}">${Math.round(pc * 100)}%</span></div>
+             <div class="kv"><span>${unit}</span><span>目标 ${yuan(b.goal)}</span></div>`}
+        </div></button>`;
+    }).join('') || '<div class="empty">没有这类回报的项目</div>'}</div>`;
+}
+
+// ---------- investor zone ----------
+function renderInvest() {
+  const el = $('#v-invest');
+  const open = P.filter(p => p.deal && p.score >= 60);
+  if (S.role !== 'investor') {
+    el.innerHTML = `
+      <div class="gate">
+        <div class="panel" style="padding:24px">
+          <div class="eyebrow">仅对认证合格投资者开放</div>
+          <h2 style="margin-top:8px">投资人专区</h2>
+          <p>项目的融资轮次、金额、出让比例和数据室只在这里展示。证券法第九条规定，非公开发行证券不得采用广告、公开劝诱和变相公开方式，向特定对象发行累计超过 200 人即为公开发行。平台用合格投资者认证来界定“特定对象”。</p>
+          <p>目前有 <b class="num" style="color:var(--ink)">${open.length}</b> 个项目的信号分达到 60，开放对接。</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+            <button class="btn inv" id="certBtn">以演示身份完成认证</button>
+          </div>
+          <p style="font-size:12.5px;color:var(--faint)">演示环境不收集任何真实身份或资产信息。</p>
+        </div>
+        <div class="panel"><h3>认证流程</h3><div class="steps">
+          <div class="step"><i>1</i><div><b>实名</b><span>身份证与人脸核验</span></div></div>
+          <div class="step"><i>2</i><div><b>资质证明</b><span>个人：金融资产不低于 300 万元，或近三年个人年均收入不低于 50 万元；机构：净资产不低于 1,000 万元。参照私募基金合格投资者标准。</span></div></div>
+          <div class="step"><i>3</i><div><b>风险测评与签署</b><span>完成风险承受能力测评，签署《保密及风险揭示书》</span></div></div>
+          <div class="step"><i>4</i><div><b>开通</b><span>专区页面带个人水印，内容不可转发</span></div></div>
+        </div></div>
+      </div>`;
+    return;
+  }
+  const inds = ['全部', ...new Set(open.map(p => p.ind))];
+  const rounds = ['全部', ...new Set(open.map(p => p.deal.round))];
+  const f = S.f;
+  const rows = open.filter(p => (f.ind === '全部' || p.ind === f.ind) && (f.round === '全部' || p.deal.round === f.round) && p.score >= f.min && (!f.rising || rising(p)) && (!f.mine || S.watch[p.id]))
+    .sort((a, b) => b.score - a.score);
+  const cnt = s => Object.values(S.watch).filter(v => v === s).length;
+  el.innerHTML = `
+    <div class="vhead"><div><h1>投资人专区</h1><p>只收录信号分不低于 60 的项目，按信号分排序。点击一行查看融资信息和数据室。</p></div>
+      <div class="pipe"><span><b>${cnt('watch') + cnt('talk')}</b>关注</span><span><b>${cnt('talk')}</b>已约谈</span></div></div>
+    <div class="banner">${I.shield.replace('<svg', '<svg width="16" height="16" stroke="currentColor"')}<span><b>非公开信息</b> · 页面带个人水印。平台不经手投资款，交易由双方签约，或通过区域性股权市场、持牌私募基金管理人完成。</span></div>
+    <div class="filters">
+      <label>行业 <select id="fInd">${inds.map(x => `<option ${x === f.ind ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></label>
+      <label>轮次 <select id="fRound">${rounds.map(x => `<option ${x === f.round ? 'selected' : ''}>${esc(x)}</option>`).join('')}</select></label>
+      <label>信号分 ≥ <input type="range" id="fMin" min="60" max="85" step="5" value="${f.min}"><b class="num" id="fMinV">${f.min}</b></label>
+      <label><input type="checkbox" id="fRise" ${f.rising ? 'checked' : ''}> 只看上升</label>
+      <label><input type="checkbox" id="fMine" ${f.mine ? 'checked' : ''}> 只看已关注</label>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>项目</th><th>信号分 · 8 周</th><th>需求验证</th><th>经营</th><th>本轮</th><th>股东人数</th><th></th></tr></thead>
+      <tbody>${rows.map(p => {
+        const b = p.back, pc = Math.round(pctOf(p) * 100), w = S.watch[p.id];
+        const dem = b.status === 'soon' ? `${n0(b.notify)} 人预约` : `${pc}% · ${b.unit ? b.n + ' ' + b.unit : n0(b.n) + ' 人'}`;
+        return `<tr data-open="${p.id}" tabindex="0">
+          <td><div class="nm">${logo(p)}<div>${esc(p.name)}<div class="sub">${esc(p.ind)} · ${esc(p.city)}</div></div></div></td>
+          <td><div class="score"><b>${p.score}</b>${spark(p.trend)}</div></td>
+          <td>${dem}<div class="sub">${esc(b.kind)}</div></td>
+          <td>${esc(p.ops)}</td>
+          <td><b>${esc(p.deal.round)}</b> ${esc(p.deal.amt)}<div class="sub">${esc(p.deal.share)}</div></td>
+          <td class="num">${p.deal.holders} / ${p.deal.cap}</td>
+          <td><button class="star" data-watch="${p.id}" aria-pressed="${!!w}">${w === 'talk' ? '已约谈' : w ? '已关注' : '关注'}</button></td></tr>`;
+      }).join('') || '<tr><td colspan="7" class="empty">没有符合筛选条件的项目</td></tr>'}</tbody></table></div>
+    <button class="btn ghost sm" id="leaveBtn" style="justify-self:start">退出投资人身份</button>`;
+}
+
+// ---------- founder ----------
+function renderFound() {
+  const p = byId(FOUNDER.id), b = p.back;
+  const fun = (arr, cls) => {
+    const max = arr[0][1];
+    return `<div class="funnel">${arr.map(([k, v], i) => {
+      const w = Math.max(.5, v / max * 100), conv = i ? ` <small>${(v / arr[i - 1][1] * 100).toFixed(1)}%</small>` : '';
+      const pos = w > 62 ? `right:8px;color:${cls ? '#fff' : 'var(--accent-ink)'}` : `left:calc(${w}% + 8px)`;
+      return `<div class="fbar ${cls}" title="${esc(k)}：${n0(v)}${i ? '，上一步转化 ' + (v / arr[i - 1][1] * 100).toFixed(1) + '%' : ''}"><span>${esc(k)}</span>
+        <div class="tr"><i style="width:${w}%"></i><em style="${pos}">${n0(v)}${w > 62 ? '' : conv}</em></div></div>`;
+    }).join('')}</div>`;
+  };
+  $('#v-found').innerHTML = `
+    <div class="vhead"><div><div class="eyebrow">示例：拾光 LumiNest 的后台</div><h1>创业者后台</h1>
+      <p>一个项目从首发到见投资人的全过程：首发拿曝光，众筹验证需求，信号分达到 60 后自动推送给匹配的认证投资人。</p></div>
+      <button class="btn pri" data-open="lumi">查看公开页面</button></div>
+    <div class="panel"><h3>进度 <small>${esc(p.name)} · ${esc(p.city)}</small></h3>
+      <div class="prog">
+        <div class="done"><b>建档与实名</b>9月2日完成</div>
+        <div class="done"><b>首发日</b>9月10日 · 加权票 ${n0(p.launch.w)} · 当日第 1</div>
+        <div class="now"><b>众筹 ${Math.round(pctOf(p) * 100)}%</b>${yuan(b.raised)} · 剩 ${b.left} 天</div>
+        <div class="done"><b>投资人对接</b>信号分 ${p.score}，已解锁</div>
+      </div></div>
+    <div class="grid2">
+      <div class="panel"><h3>信号分 <span class="num" style="font-size:30px;font-weight:800">${p.score}</span></h3>
+        <p style="margin:2px 0 0;font-size:12.5px;color:var(--faint)">加权求和，每项 0–100。下面是每项的数据来源和改进建议。</p>
+        ${partsHTML(p, Object.fromEntries(Object.keys(W).map(k => [k, FOUNDER.tips[k] || PART_SRC[k]])))}
+      </div>
+      <div class="panel"><h3>公众漏斗 <small>首发至今</small></h3>${fun(FOUNDER.pub, '')}
+        <h3 style="margin-top:20px">投资人漏斗 <small>信号分达标后</small></h3>${fun(FOUNDER.inv, 'inv')}
+        <p style="margin:10px 0 0;font-size:12.5px;color:var(--faint)">百分比是相对上一步的转化率。</p></div>
+    </div>
+    <div class="panel"><h3>合规自检 <small>${FOUNDER.checks.filter(c => c[0]).length} / ${FOUNDER.checks.length} 已通过</small></h3>
+      <div class="check">${FOUNDER.checks.map(([ok, t, s]) => `<div class="${ok ? 'y' : 'n'}">${ok ? I.ok : I.warn}<div>${esc(t)}<small>${esc(s)}</small></div></div>`).join('')}</div></div>`;
+}
+
+// ---------- detail sheet ----------
+function renderSheet() {
+  const p = byId(S.open); if (!p) return;
+  const b = p.back, pc = pctOf(p), inv = S.role === 'investor';
+  let money;
+  if (b.status === 'soon') money = `<div class="big3"><div><b>${n0(b.notify)}</b>人预约</div><div><b>${yuan(b.goal)}</b>目标</div><div><b>${mdShort(b.start)}</b>开始</div></div>
+      <button class="btn ${S.notify[p.id] ? 'ghost' : 'pri'}" data-notify="${p.id}">${S.notify[p.id] ? '已设置开售提醒' : '开售时提醒我'}</button>`;
+  else money = `<div class="big3"><div><b>${yuan(b.raised)}</b>已筹 · 目标 ${yuan(b.goal)}</div><div><b class="${pc >= 1 ? 'pct ok' : 'pct warn'}" style="font-size:22px">${Math.round(pc * 100)}%</b>达成率</div><div><b>${b.unit ? b.n + ' ' + b.unit : n0(b.n)}</b>${b.status === 'done' ? '已结束' : `支持 · 剩 ${b.left} 天`}</div></div>
+      <div class="meter ${pc < 1 ? 'warn' : ''}"><i style="width:${Math.min(100, pc * 100)}%"></i></div>`;
+  const tiers = b.tiers.map((t, i) => `<div class="tier"><b>${esc(t.t)}<span class="num">${yuan(t.p)}</span></b><span>${esc(t.s)}</span>
+      <button class="btn sm ${b.status === 'live' && !/剩 0|已满|已结束/.test(t.s) ? 'pri' : 'ghost'}" data-pick="${i}" ${b.status === 'live' && !/剩 0|已满|已结束/.test(t.s) ? '' : 'disabled'}>${b.kind === '付费试点' ? '申请试点' : '支持'}</button></div>
+      ${S.pick === i ? `<div class="confirm"><div>确认${b.kind === '付费试点' ? '申请' : '支持'}「${esc(t.t)}」${yuan(t.p)}？款项由持牌支付机构存管，${esc(p.name)}未在截止日前达成目标将原路退回。</div>
+        <div class="acts"><button class="btn pri sm" data-pay="${i}">确认（演示）</button><button class="btn ghost sm" data-pick="-1">取消</button></div></div>` : ''}`).join('');
+  let deal;
+  if (!inv) deal = `<div class="lock"><b>融资信息仅对认证投资人可见</b><span>按证券法第九条，非公开发行不得公开劝诱，所以访客看不到项目是否在融资。完成合格投资者认证后，可以查看轮次、金额、出让比例和数据室。</span><button class="btn inv sm" data-goinv style="justify-self:start">去认证</button></div>`;
+  else if (!p.deal) deal = `<p>该项目暂未开放投资人对接。</p>`;
+  else {
+    const d = p.deal, w = S.watch[p.id];
+    deal = `<div class="deal">
+      <div class="kvs"><div><b>${esc(d.round)} · ${esc(d.amt)}</b>本轮</div><div><b>${esc(d.share)}</b>出让比例</div>
+        <div style="grid-column:1/-1"><b style="font-size:14px;font-weight:500">${esc(d.use)}</b>资金用途</div>
+        <div><b class="num">${d.holders} / ${d.cap}</b>现有股东 / ${esc(d.form)}上限</div><div><b>${esc(p.ops)}</b>经营</div></div>
+      <div class="room">${ROOM.map((r, i) => `<span class="tag ${d.room[i] ? 'ok' : 'warn'}"><i></i>${r}${d.room[i] ? '' : ' · 缺'}</span>`).join('')}</div>
+      <div class="acts"><button class="btn inv sm" data-talk="${p.id}" ${w === 'talk' ? 'disabled' : ''}>${w === 'talk' ? '已发送约谈请求' : '表达意向并预约路演'}</button>
+        <button class="star" data-watch="${p.id}" aria-pressed="${!!w}">${w ? '已关注' : '关注'}</button></div></div>`;
+  }
+  $('#sheet').innerHTML = `
+    <div class="hd">${logo(p, 'lg')}<div><h2>${esc(p.name)} <span class="latin" style="font-size:15px;font-weight:500;color:var(--faint)">${esc(p.en)}</span></h2><p>${esc(p.tagline)}</p></div>
+      <button class="x" id="closeSheet" aria-label="关闭">${I.x}</button></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="tag">${esc(p.ind)}</span><span class="tag">${esc(p.city)}</span><span class="tag">${md(p.launch.date)}首发</span>
+      <span class="tag">加权票 ${n0(votesOf(p))} · 原始 ${n0(rawOf(p))}</span>
+      <button class="star" data-vote="${p.id}" aria-pressed="${!!S.votes[p.id]}" style="margin-left:auto">${S.votes[p.id] ? '已投票' : '投一票'}</button></div>
+    <div class="sec"><h3>产品</h3><p>${esc(p.about)}</p></div>
+    <div class="sec"><h3>${esc(b.kind)} <span class="tag solid">全有或全无</span></h3>${money}${tiers}</div>
+    <div class="sec"><h3>信号分 <span class="num" style="font-size:26px;font-weight:800">${p.score}</span></h3>
+      ${partsHTML(p)}<p style="font-size:12.5px;color:var(--faint)">需求验证 30% + 执行交付 20% + 经营数据 20% + 社区热度 15% + 信息完整 15%</p></div>
+    <div class="sec"><h3>本轮融资 <span class="tag inv"><i></i>${inv ? '你可见' : '仅投资人可见'}</span></h3>${deal}</div>
+    <div class="sec"><h3>团队</h3><div class="team">${p.team.map(([n, r]) => `<div><b>${esc(n)}</b><span>${esc(r)}</span></div>`).join('')}</div></div>
+    <div class="sec"><h3>动态</h3><div class="tl">${p.updates.map(([d, t]) => `<div><time>${esc(d)}</time><span>${esc(t)}</span></div>`).join('')}</div></div>`;
+}
+
+let lastFocus = null;
+function openSheet(id) {
+  S.open = id; S.pick = null; lastFocus = document.activeElement;
+  renderSheet();
+  $('#sheet').classList.add('on'); $('#sheet').setAttribute('aria-hidden', 'false'); $('#scrim').classList.add('on');
+  $('#sheet').scrollTop = 0;
+  setTimeout(() => $('#closeSheet')?.focus(), 50);
+}
+function closeSheet() {
+  S.open = null;
+  $('#sheet').classList.remove('on'); $('#sheet').setAttribute('aria-hidden', 'true'); $('#scrim').classList.remove('on');
+  lastFocus?.focus?.();
+}
+
+// ---------- routing ----------
+const VIEWS = { launch: renderLaunch, back: renderBack, invest: renderInvest, found: renderFound };
+function render() {
+  for (const v in VIEWS) {
+    $('#v-' + v).hidden = v !== S.view;
+    $('#t-' + v).setAttribute('aria-selected', v === S.view);
+  }
+  VIEWS[S.view]();
+  $('#r-guest').setAttribute('aria-pressed', S.role === 'guest');
+  $('#r-investor').setAttribute('aria-pressed', S.role === 'investor');
+  $('#invDot').classList.toggle('on', S.role === 'investor');
+  if (S.open) renderSheet();
+}
+function go(v) {
+  S.view = v; render(); $('#main').scrollTop = 0;
+  try { history.replaceState(null, '', '#' + v); } catch { }
+}
+function setRole(r) {
+  if (r === 'investor' && !S.cert) { go('invest'); toast('先完成合格投资者认证'); return; }
+  S.role = r; lsSet('role', r); render();
+}
+
+// ---------- events ----------
+document.addEventListener('click', e => {
+  const t = e.target.closest('button, [data-open]');
+  if (!t) return;
+  const d = t.dataset;
+  if (d.v) return go(d.v);
+  if (d.r) return setRole(d.r);
+  if (d.vote) {
+    S.votes[d.vote] = !S.votes[d.vote]; if (!S.votes[d.vote]) delete S.votes[d.vote];
+    lsSet('votes', S.votes); render();
+    if (S.votes[d.vote]) toast('已投票：你的账号实名且账龄满 30 天，计 1 票');
+    return;
+  }
+  if (d.watch) {
+    if (S.watch[d.watch]) delete S.watch[d.watch]; else S.watch[d.watch] = 'watch';
+    lsSet('watch', S.watch); render(); return;
+  }
+  if (d.talk) {
+    S.watch[d.talk] = 'talk'; lsSet('watch', S.watch); render();
+    toast('已向创始人发送约谈请求（演示）'); return;
+  }
+  if (d.notify) {
+    S.notify[d.notify] = !S.notify[d.notify]; lsSet('notify', S.notify); renderSheet();
+    if (S.notify[d.notify]) toast('开售当天会提醒你'); return;
+  }
+  if (d.pick !== undefined) { S.pick = +d.pick < 0 ? null : +d.pick; renderSheet(); return; }
+  if (d.pay !== undefined) { S.pick = null; renderSheet(); toast('演示环境：没有发生真实支付'); return; }
+  if ('goinv' in d) { closeSheet(); go('invest'); return; }
+  if (d.lt) { S.lt = d.lt; renderLaunch(); return; }
+  if (d.kind) { S.kind = d.kind; renderBack(); return; }
+  if (d.sort) { S.sort = d.sort; renderBack(); return; }
+  if (t.id === 'certBtn') { S.cert = true; lsSet('cert', true); setRole('investor'); toast('认证完成（演示）：已进入投资人专区'); return; }
+  if (t.id === 'leaveBtn') { setRole('guest'); return; }
+  if (t.id === 'closeSheet') { closeSheet(); return; }
+  if (d.open) openSheet(d.open);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && S.open) closeSheet();
+  if (e.key === 'Enter' && e.target.matches('[data-open]:not(button)')) openSheet(e.target.dataset.open);
+});
+$('#scrim').addEventListener('click', closeSheet);
+document.addEventListener('change', e => {
+  const id = e.target.id, f = S.f;
+  if (id === 'fInd') f.ind = e.target.value;
+  else if (id === 'fRound') f.round = e.target.value;
+  else if (id === 'fRise') f.rising = e.target.checked;
+  else if (id === 'fMine') f.mine = e.target.checked;
+  else if (id === 'fMin') f.min = +e.target.value;
+  else return;
+  renderInvest();
+  $('#' + id)?.focus();
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'fMin') $('#fMinV').textContent = e.target.value;
+});
+
+// ---------- boot ----------
+const h = (location.hash || '').slice(1);
+S.view = VIEWS[h] ? h : 'launch';
+render();
+
+})();</script>

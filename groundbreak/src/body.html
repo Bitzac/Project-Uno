@@ -1,0 +1,31 @@
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <header class="top">
+    <div class="brand"><b>破土</b><span>Groundbreak</span></div>
+    <nav class="seg" role="tablist" aria-label="主视图" id="nav">
+      <button role="tab" data-v="launch" id="t-launch">首发榜</button>
+      <button role="tab" data-v="back" id="t-back">众筹</button>
+      <button role="tab" data-v="invest" id="t-invest"><i class="dot" id="invDot"></i>投资人专区</button>
+      <button role="tab" data-v="found" id="t-found">创业者</button>
+    </nav>
+    <div class="who">
+      <span>当前身份</span>
+      <div class="seg" role="group" aria-label="切换演示身份" id="role">
+        <button data-r="guest" id="r-guest">访客</button>
+        <button data-r="investor" id="r-investor">认证投资人</button>
+      </div>
+    </div>
+  </header>
+  <main class="main" id="main">
+    <section class="view" id="v-launch" role="tabpanel" aria-labelledby="t-launch"></section>
+    <section class="view" id="v-back" role="tabpanel" aria-labelledby="t-back" hidden></section>
+    <section class="view" id="v-invest" role="tabpanel" aria-labelledby="t-invest" hidden></section>
+    <section class="view" id="v-found" role="tabpanel" aria-labelledby="t-found" hidden></section>
+    <p class="foot">演示原型 · 全部项目、人物和数字均为虚构示例，不构成任何投资建议 · 你的投票、关注只保存在本机浏览器 · <a href="https://claude.ai/artifact/TJkLUgu1zkES464h8pRSVK" target="_blank" rel="noopener" style="color:var(--ink)">查看产品方案 ↗</a></p>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet glass" id="sheet" aria-hidden="true" aria-label="项目详情"></aside>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
