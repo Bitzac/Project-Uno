@@ -1,0 +1,146 @@
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="wrap" id="top">
+  <header class="bar glass">
+    <a class="brand" href="#top">下一个<span>?</span></a>
+    <nav class="nav" aria-label="章节">
+      <a href="#map">大网</a><a href="#trends">趋势</a><a href="#niches">前沿</a><a href="#score">打分</a><a href="#verdict">反方</a><a href="#sources">来源</a>
+    </nav>
+    <span class="asof num" id="asof"></span>
+  </header>
+
+  <section class="hero" aria-labelledby="h1">
+    <p class="eyebrow">人类技术路径 · 1760–2045</p>
+    <h1 id="h1">互联网、AI，<br>下一个是？</h1>
+    <div class="answer glass">
+      <div class="answer-main">
+        <p class="label">结论</p>
+        <p class="answer-word" id="answer-word"></p>
+        <p class="answer-line" id="answer-line"></p>
+        <p class="answer-dek" id="answer-dek"></p>
+        <p class="answer-conf" id="answer-conf"></p>
+      </div>
+      <div class="answer-side">
+        <p class="label">默认权重得分 <span class="muted">/ 5</span></p>
+        <ol class="mini-rank" id="mini-rank"></ol>
+        <div class="figs" id="hero-figs"></div>
+      </div>
+    </div>
+    <ol class="chain" id="chain" aria-label="论证主线"></ol>
+  </section>
+
+  <section class="sec" id="map" aria-labelledby="map-h">
+    <div class="sec-head">
+      <h2 id="map-h">技术路径大网</h2>
+      <p class="sec-dek" id="map-dek"></p>
+    </div>
+    <div class="map-tools">
+      <div class="seg" role="group" aria-label="模式">
+        <button type="button" id="mode-tour" aria-pressed="true">导览</button>
+        <button type="button" id="mode-free" aria-pressed="false">自由探索</button>
+      </div>
+      <div class="chips" id="lane-chips" role="group" aria-label="按领域筛选"></div>
+      <div class="chips" id="status-chips" role="group" aria-label="按状态筛选"></div>
+      <label class="search"><span class="sr">搜索节点</span><input id="node-search" type="search" placeholder="搜索节点，如 Transformer" autocomplete="off"></label>
+      <div class="zoom" role="group" aria-label="缩放">
+        <button type="button" id="zoom-in" aria-label="放大">+</button>
+        <button type="button" id="zoom-out" aria-label="缩小">−</button>
+        <button type="button" id="zoom-all">全图</button>
+      </div>
+    </div>
+    <div class="map-grid">
+      <div class="map glass" id="map-box">
+        <div class="lane-labels" id="lane-labels" aria-hidden="true"></div>
+        <svg id="graph" role="img" aria-label="1760 到 2045 年的技术路径网络"></svg>
+        <div class="tip" id="graph-tip" hidden></div>
+      </div>
+      <aside class="side glass" id="side" aria-live="polite">
+        <div class="side-tabs" role="tablist">
+          <button type="button" role="tab" id="tab-tour" aria-selected="true">导览</button>
+          <button type="button" role="tab" id="tab-node" aria-selected="false" disabled>节点</button>
+        </div>
+        <div class="side-body" id="side-tour"></div>
+        <div class="side-body" id="side-node" hidden></div>
+      </aside>
+    </div>
+    <div class="legend" id="legend"></div>
+    <p class="map-hint">拖动平移 · Ctrl/⌘ + 滚轮或双指缩放 · 点击节点看证据 · 导览中可用 ← → 翻页</p>
+    <details class="table-view">
+      <summary>以表格查看全部节点</summary>
+      <div class="tbl-wrap"><table class="tbl" id="node-table"></table></div>
+    </details>
+  </section>
+
+  <section class="sec" id="trends" aria-labelledby="trends-h">
+    <div class="sec-head">
+      <h2 id="trends-h">头部大模型的趋势</h2>
+      <p class="sec-dek">AI 本体的四条曲线，加上互联网的扩散曲线和四个候选方向的成本曲线。每张图下方注明来源和数据截止时间。</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <h3 class="group-h">AI 本体</h3>
+    <div class="charts" id="charts-ai"></div>
+    <h3 class="group-h">上一棒与下一棒</h3>
+    <div class="charts" id="charts-next"></div>
+  </section>
+
+  <section class="sec" id="niches" aria-labelledby="niches-h">
+    <div class="sec-head">
+      <h2 id="niches-h">前沿雷达</h2>
+      <p class="sec-dek">13 个小众方向在 2026 年的位置。时间窗口是下一个里程碑最可能出现的年份区间。</p>
+    </div>
+    <div class="tbl-wrap glass-flat"><table class="tbl niche" id="niche-table"></table></div>
+  </section>
+
+  <section class="sec" id="score" aria-labelledby="score-h">
+    <div class="sec-head">
+      <h2 id="score-h">候选打分</h2>
+      <p class="sec-dek" id="score-dek"></p>
+    </div>
+    <div class="score-grid">
+      <div class="panel glass">
+        <div class="panel-head"><h3>权重</h3><button type="button" class="link-btn" id="w-reset">恢复默认</button></div>
+        <div class="weights" id="weights"></div>
+      </div>
+      <div class="panel glass">
+        <div class="panel-head"><h3>排名</h3><span class="muted small" id="rank-note"></span></div>
+        <div class="rank" id="rank"></div>
+        <div class="robust" id="robust"></div>
+      </div>
+    </div>
+    <div class="tbl-wrap glass-flat"><table class="tbl matrix" id="matrix"></table></div>
+    <div class="why" id="why"></div>
+  </section>
+
+  <section class="sec" id="verdict" aria-labelledby="verdict-h">
+    <div class="sec-head">
+      <h2 id="verdict-h">结论、反方与观察指标</h2>
+      <p class="sec-dek" id="verdict-dek"></p>
+    </div>
+    <div class="verdict-grid">
+      <div>
+        <h3 class="group-h">最强的反对意见</h3>
+        <ol class="counter" id="counter"></ol>
+      </div>
+      <div>
+        <h3 class="group-h">推翻信号</h3>
+        <ul class="falsify" id="falsify"></ul>
+      </div>
+    </div>
+    <h3 class="group-h">观察指标</h3>
+    <div class="tbl-wrap glass-flat"><table class="tbl watch" id="watch"></table></div>
+  </section>
+
+  <section class="sec" id="sources" aria-labelledby="sources-h">
+    <div class="sec-head">
+      <h2 id="sources-h">方法与来源</h2>
+    </div>
+    <div class="method" id="method"></div>
+    <details class="src-all">
+      <summary id="src-sum">全部来源</summary>
+      <ul class="src-list" id="src-list"></ul>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <p id="foot"></p>
+  </footer>
+</div>

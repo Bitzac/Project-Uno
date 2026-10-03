@@ -1,0 +1,1206 @@
+{
+ "asof": "2026-10-03",
+ "series": [
+  {
+   "id": "compute",
+   "title": "前沿训练算力",
+   "sub": "历年纪录模型的训练算力，FLOP",
+   "unit": "FLOP",
+   "log": true,
+   "kind": "scatter",
+   "fit": true,
+   "points": [
+    [
+     2012.75,
+     4.7e+17,
+     "AlexNet"
+    ],
+    [
+     2014.67,
+     1.23e+19,
+     "VGG16"
+    ],
+    [
+     2014.69,
+     5.6e+19,
+     "Seq2Seq LSTM"
+    ],
+    [
+     2015.75,
+     3.8e+20,
+     "AlphaGo Fan"
+    ],
+    [
+     2016.07,
+     1.9e+21,
+     "AlphaGo Lee"
+    ],
+    [
+     2016.74,
+     6.62e+21,
+     "GNMT"
+    ],
+    [
+     2019.83,
+     1.08e+23,
+     "AlphaStar"
+    ],
+    [
+     2020.41,
+     3.14e+23,
+     "GPT-3"
+    ],
+    [
+     2021.67,
+     2.05e+24,
+     "FLAN 137B"
+    ],
+    [
+     2022.49,
+     2.74e+24,
+     "Minerva"
+    ],
+    [
+     2023.21,
+     2.1e+25,
+     "GPT-4"
+    ],
+    [
+     2023.93,
+     5e+25,
+     "Gemini 1.0 Ultra"
+    ],
+    [
+     2025.13,
+     3.5e+26,
+     "Grok 3"
+    ],
+    [
+     2025.15,
+     3.8e+26,
+     "GPT-4.5"
+    ],
+    [
+     2025.52,
+     5e+26,
+     "Grok 4"
+    ],
+    [
+     2026.67,
+     1e+27,
+     "GPT-6 Astra"
+    ]
+   ],
+   "note": "2025 年后的闭源模型为 Epoch 估计值（GPT-6 Astra 区间约 5×10²⁶–2×10²⁷）。Epoch 拟合：2020 年以来每年 5 倍。",
+   "src": [
+    [
+     "Epoch AI · Notable AI Models",
+     "https://epoch.ai/data/notable-ai-models"
+    ],
+    [
+     "Epoch AI · Trends",
+     "https://epoch.ai/trends"
+    ]
+   ],
+   "asof": "2026-09"
+  },
+  {
+   "id": "horizon",
+   "title": "智能体任务时间跨度",
+   "sub": "50% 成功率能完成的人类专家任务时长，分钟",
+   "unit": "分钟",
+   "log": true,
+   "kind": "scatter",
+   "fit": true,
+   "points": [
+    [
+     2019.12,
+     0.054,
+     "GPT-2"
+    ],
+    [
+     2020.41,
+     0.14,
+     "GPT-3 (davinci-002)"
+    ],
+    [
+     2022.21,
+     0.6,
+     "GPT-3.5"
+    ],
+    [
+     2023.2,
+     4.0,
+     "GPT-4"
+    ],
+    [
+     2024.37,
+     7.0,
+     "GPT-4o"
+    ],
+    [
+     2024.47,
+     11.4,
+     "Claude 3.5 Sonnet"
+    ],
+    [
+     2024.7,
+     20.3,
+     "o1-preview"
+    ],
+    [
+     2024.93,
+     38.8,
+     "o1"
+    ],
+    [
+     2025.15,
+     60.4,
+     "Claude 3.7 Sonnet"
+    ],
+    [
+     2025.29,
+     119.7,
+     "o3"
+    ],
+    [
+     2025.6,
+     203.0,
+     "GPT-5"
+    ],
+    [
+     2025.88,
+     224.3,
+     "Gemini 3 Pro"
+    ],
+    [
+     2025.9,
+     293.0,
+     "Claude Opus 4.5"
+    ],
+    [
+     2025.94,
+     352.2,
+     "GPT-5.2"
+    ],
+    [
+     2026.09,
+     718.8,
+     "Claude Opus 4.6"
+    ],
+    [
+     2026.27,
+     1044.8,
+     "Claude Mythos Preview"
+    ]
+   ],
+   "note": "METR Time Horizon 1.1，仅列当时的最佳模型。2023 年以来每 129 天翻一番（90% 区间 104–158 天）。",
+   "src": [
+    [
+     "METR 原始数据",
+     "https://metr.org/assets/benchmark_results_1_1.yaml"
+    ],
+    [
+     "METR",
+     "https://metr.org/time-horizons/"
+    ]
+   ],
+   "asof": "2026-05"
+  },
+  {
+   "id": "capex",
+   "title": "四大云厂商资本开支",
+   "sub": "亚马逊、微软、谷歌、Meta 合计，十亿美元",
+   "unit": "十亿美元",
+   "log": false,
+   "kind": "bar",
+   "points": [
+    [
+     2023,
+     155,
+     "实际"
+    ],
+    [
+     2024,
+     251,
+     "实际"
+    ],
+    [
+     2025,
+     410,
+     "实际"
+    ],
+    [
+     2026,
+     700,
+     "2 月指引"
+    ]
+   ],
+   "proj_from": 2026,
+   "note": "2026 年为 2 月财报季指引（约 7,000 亿美元），年中多家机构上调到约 7,250 亿美元。",
+   "src": [
+    [
+     "Platformonomics",
+     "https://platformonomics.com/2025/02/follow-the-capex-cloud-table-stakes-2024-retrospective/"
+    ],
+    [
+     "CNBC",
+     "https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html"
+    ],
+    [
+     "Yahoo Finance",
+     "https://finance.yahoo.com/sectors/technology/articles/hyperscalers-hit-700-billion-2026-111243744.html"
+    ]
+   ],
+   "asof": "2026-02"
+  },
+  {
+   "id": "dc",
+   "title": "全球数据中心用电",
+   "sub": "TWh，2030 与 2035 为 IEA 基准情景",
+   "unit": "TWh",
+   "log": false,
+   "kind": "line",
+   "points": [
+    [
+     2024,
+     415,
+     "实际"
+    ],
+    [
+     2030,
+     945,
+     "预测"
+    ],
+    [
+     2035,
+     1200,
+     "预测"
+    ]
+   ],
+   "proj_from": 2025,
+   "note": "2035 年情景区间 700–1,700 TWh。美国数据中心用电 2014 年 58 TWh，2023 年 176 TWh（LBNL）。",
+   "src": [
+    [
+     "IEA Energy and AI",
+     "https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"
+    ],
+    [
+     "Berkeley Lab",
+     "https://newscenter.lbl.gov/2025/01/15/berkeley-lab-report-evaluates-increase-in-electricity-demand-from-data-centers/"
+    ]
+   ],
+   "asof": "2025-04"
+  },
+  {
+   "id": "internet",
+   "title": "全球上网人口占比",
+   "sub": "%",
+   "unit": "%",
+   "log": false,
+   "kind": "line",
+   "points": [
+    [
+     2005,
+     15.6
+    ],
+    [
+     2006,
+     17.2
+    ],
+    [
+     2007,
+     20.2
+    ],
+    [
+     2008,
+     22.8
+    ],
+    [
+     2009,
+     25.3
+    ],
+    [
+     2010,
+     28.4
+    ],
+    [
+     2011,
+     30.9
+    ],
+    [
+     2012,
+     33.3
+    ],
+    [
+     2013,
+     35.3
+    ],
+    [
+     2014,
+     37.4
+    ],
+    [
+     2015,
+     39.9
+    ],
+    [
+     2016,
+     43.6
+    ],
+    [
+     2017,
+     46.3
+    ],
+    [
+     2018,
+     49.4
+    ],
+    [
+     2019,
+     53.9
+    ],
+    [
+     2020,
+     60.1
+    ],
+    [
+     2021,
+     63.8
+    ],
+    [
+     2022,
+     67.0
+    ],
+    [
+     2023,
+     69.2
+    ],
+    [
+     2024,
+     71.2
+    ],
+    [
+     2025,
+     73.6
+    ]
+   ],
+   "note": "ITU 数据。2025 年约 60 亿人在线，仍有 22 亿人未上网。",
+   "src": [
+    [
+     "Our World in Data / ITU",
+     "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+    ],
+    [
+     "ITU",
+     "https://www.itu.int/en/ITU-D/Statistics/Pages/stat/"
+    ]
+   ],
+   "asof": "2025-11"
+  },
+  {
+   "id": "waymo",
+   "title": "Waymo 每周付费出行",
+   "sub": "千单/周",
+   "unit": "千单",
+   "log": false,
+   "kind": "line",
+   "points": [
+    [
+     2024.37,
+     50,
+     "2024-05"
+    ],
+    [
+     2024.63,
+     100,
+     "2024-08"
+    ],
+    [
+     2025.3,
+     250,
+     "2025-04"
+    ],
+    [
+     2026.2,
+     500,
+     "2026-03"
+    ]
+   ],
+   "note": "两年 10 倍。2026 年 9 月覆盖 14 个城市，公司目标年底每周 100 万单。",
+   "src": [
+    [
+     "TechCrunch 2024",
+     "https://techcrunch.com/2024/08/20/waymo-is-now-giving-100000-robotaxi-rides-week"
+    ],
+    [
+     "TechCrunch 2026",
+     "https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"
+    ],
+    [
+     "InsideEVs",
+     "https://insideevs.com/news/791245/waymo-rides-per-week-2026-doubled/"
+    ]
+   ],
+   "asof": "2026-03"
+  },
+  {
+   "id": "solar",
+   "title": "光伏组件价格",
+   "sub": "美元/W（2024 年美元）",
+   "unit": "$/W",
+   "log": true,
+   "kind": "line",
+   "points": [
+    [
+     1975,
+     132.3757
+    ],
+    [
+     1976,
+     99.5976
+    ],
+    [
+     1977,
+     72.6611
+    ],
+    [
+     1978,
+     51.4082
+    ],
+    [
+     1979,
+     43.1951
+    ],
+    [
+     1980,
+     36.605
+    ],
+    [
+     1981,
+     29.2664
+    ],
+    [
+     1982,
+     26.2952
+    ],
+    [
+     1983,
+     21.2281
+    ],
+    [
+     1984,
+     19.725
+    ],
+    [
+     1985,
+     17.2204
+    ],
+    [
+     1986,
+     14.2447
+    ],
+    [
+     1987,
+     12.1104
+    ],
+    [
+     1988,
+     11.3116
+    ],
+    [
+     1989,
+     11.6901
+    ],
+    [
+     1990,
+     12.0911
+    ],
+    [
+     1991,
+     11.2008
+    ],
+    [
+     1992,
+     10.4351
+    ],
+    [
+     1993,
+     9.7587
+    ],
+    [
+     1994,
+     9.2315
+    ],
+    [
+     1995,
+     8.5355
+    ],
+    [
+     1996,
+     7.9798
+    ],
+    [
+     1997,
+     7.952
+    ],
+    [
+     1998,
+     7.1656
+    ],
+    [
+     1999,
+     6.6193
+    ],
+    [
+     2000,
+     6.4959
+    ],
+    [
+     2001,
+     6.2844
+    ],
+    [
+     2002,
+     5.7473
+    ],
+    [
+     2003,
+     5.4638
+    ],
+    [
+     2004,
+     4.6955
+    ],
+    [
+     2005,
+     4.7457
+    ],
+    [
+     2006,
+     5.1727
+    ],
+    [
+     2007,
+     5.2111
+    ],
+    [
+     2008,
+     4.7492
+    ],
+    [
+     2009,
+     3.1743
+    ],
+    [
+     2010,
+     2.5118
+    ],
+    [
+     2011,
+     2.0609
+    ],
+    [
+     2012,
+     1.1107
+    ],
+    [
+     2013,
+     0.8566
+    ],
+    [
+     2014,
+     0.7905
+    ],
+    [
+     2015,
+     0.7357
+    ],
+    [
+     2016,
+     0.6803
+    ],
+    [
+     2017,
+     0.5714
+    ],
+    [
+     2018,
+     0.5091
+    ],
+    [
+     2019,
+     0.4669
+    ],
+    [
+     2020,
+     0.3697
+    ],
+    [
+     2021,
+     0.3319
+    ],
+    [
+     2022,
+     0.3658
+    ],
+    [
+     2023,
+     0.3218
+    ],
+    [
+     2024,
+     0.2652
+    ]
+   ],
+   "note": "1975→2024 下降约 500 倍。",
+   "src": [
+    [
+     "Our World in Data",
+     "https://ourworldindata.org/grapher/solar-pv-prices"
+    ]
+   ],
+   "asof": "2024"
+  },
+  {
+   "id": "genome",
+   "title": "人类全基因组测序成本",
+   "sub": "美元",
+   "unit": "$",
+   "log": true,
+   "kind": "line",
+   "points": [
+    [
+     2001,
+     95263070.0
+    ],
+    [
+     2002,
+     61448420.0
+    ],
+    [
+     2003,
+     40157556.0
+    ],
+    [
+     2004,
+     18519312.0
+    ],
+    [
+     2005,
+     13801124.0
+    ],
+    [
+     2006,
+     10474556.0
+    ],
+    [
+     2007,
+     7147571.5
+    ],
+    [
+     2008,
+     342502.06
+    ],
+    [
+     2009,
+     70333.33
+    ],
+    [
+     2010,
+     29091.73
+    ],
+    [
+     2011,
+     7743.44
+    ],
+    [
+     2012,
+     5901.29
+    ],
+    [
+     2013,
+     5096.08
+    ],
+    [
+     2014,
+     4008.11
+    ],
+    [
+     2015,
+     1245.31
+    ],
+    [
+     2016,
+     1175.74
+    ],
+    [
+     2017,
+     1015.38
+    ],
+    [
+     2018,
+     1232.28
+    ],
+    [
+     2019,
+     606.32
+    ],
+    [
+     2020,
+     511.97
+    ],
+    [
+     2021,
+     454.05
+    ],
+    [
+     2022,
+     524.62
+    ]
+   ],
+   "note": "2001→2022 下降约 18 万倍；2015 年后基本走平。",
+   "src": [
+    [
+     "Our World in Data / NHGRI",
+     "https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"
+    ]
+   ],
+   "asof": "2022"
+  },
+  {
+   "id": "launch",
+   "title": "近地轨道发射成本",
+   "sub": "美元/kg，按首飞年份",
+   "unit": "$/kg",
+   "log": true,
+   "kind": "scatter",
+   "points": [
+    [
+     1962,
+     14900,
+     "Kosmos"
+    ],
+    [
+     1963,
+     29500,
+     "Atlas Centaur"
+    ],
+    [
+     1964,
+     30600,
+     "Titan II"
+    ],
+    [
+     1965,
+     8200,
+     "Proton"
+    ],
+    [
+     1965,
+     21000,
+     "Titan III+"
+    ],
+    [
+     1965,
+     177900,
+     "Delta E"
+    ],
+    [
+     1966,
+     8400,
+     "R-36 / Cyclone"
+    ],
+    [
+     1966,
+     17900,
+     "Soyuz"
+    ],
+    [
+     1967,
+     5400,
+     "Saturn V"
+    ],
+    [
+     1967,
+     118500,
+     "Scout"
+    ],
+    [
+     1975,
+     17500,
+     "Long March 2A"
+    ],
+    [
+     1975,
+     21400,
+     "Delta 3000-Series"
+    ],
+    [
+     1980,
+     32800,
+     "Delta 3910"
+    ],
+    [
+     1981,
+     65400,
+     "Space Shuttle"
+    ],
+    [
+     1982,
+     8300,
+     "Long March 2C"
+    ],
+    [
+     1985,
+     5100,
+     "Zenit 2"
+    ],
+    [
+     1988,
+     18300,
+     "Ariane 44"
+    ],
+    [
+     1988,
+     31100,
+     "Shavit"
+    ],
+    [
+     1989,
+     30800,
+     "Titan IV"
+    ],
+    [
+     1990,
+     9900,
+     "Long March 2E"
+    ],
+    [
+     1990,
+     38800,
+     "Delta II"
+    ],
+    [
+     1990,
+     41100,
+     "Pegasus"
+    ],
+    [
+     1991,
+     18700,
+     "Atlas II"
+    ],
+    [
+     1992,
+     9100,
+     "Long March 2D"
+    ],
+    [
+     1993,
+     23600,
+     "Start"
+    ],
+    [
+     1994,
+     8500,
+     "PSLV"
+    ],
+    [
+     1994,
+     8700,
+     "Long March 3A"
+    ],
+    [
+     1994,
+     10500,
+     "H-II"
+    ],
+    [
+     1994,
+     20600,
+     "Rokot"
+    ],
+    [
+     1994,
+     34600,
+     "Taurus"
+    ],
+    [
+     1996,
+     50600,
+     "Pegasus XL"
+    ],
+    [
+     1997,
+     6200,
+     "Long March 3B"
+    ],
+    [
+     1997,
+     10200,
+     "Ariane 5G"
+    ],
+    [
+     1997,
+     45800,
+     "M-V"
+    ],
+    [
+     1998,
+     19100,
+     "Shtil"
+    ],
+    [
+     1999,
+     8900,
+     "Zenit 3SL"
+    ],
+    [
+     1999,
+     9600,
+     "Dnepr"
+    ],
+    [
+     1999,
+     18000,
+     "Delta III"
+    ],
+    [
+     1999,
+     19200,
+     "Athena 1"
+    ],
+    [
+     2000,
+     16000,
+     "Atlas III"
+    ],
+    [
+     2000,
+     73100,
+     "Minotaur I"
+    ],
+    [
+     2001,
+     10000,
+     "GSLV"
+    ],
+    [
+     2002,
+     8100,
+     "Atlas V"
+    ],
+    [
+     2002,
+     10400,
+     "Delta IV"
+    ],
+    [
+     2003,
+     11200,
+     "Strela"
+    ],
+    [
+     2004,
+     11600,
+     "Delta IV Heavy"
+    ],
+    [
+     2008,
+     12600,
+     "Falcon 1"
+    ],
+    [
+     2010,
+     2600,
+     "Falcon 9"
+    ],
+    [
+     2012,
+     20000,
+     "Vega"
+    ],
+    [
+     2013,
+     7600,
+     "Long March 4B"
+    ],
+    [
+     2013,
+     10600,
+     "Kuaizhou"
+    ],
+    [
+     2013,
+     13600,
+     "Antares"
+    ],
+    [
+     2013,
+     34500,
+     "Epsilon"
+    ],
+    [
+     2014,
+     4500,
+     "Angara"
+    ],
+    [
+     2016,
+     7900,
+     "Long March 5"
+    ],
+    [
+     2017,
+     8000,
+     "LVM3"
+    ],
+    [
+     2017,
+     30500,
+     "Minotaur IV"
+    ],
+    [
+     2018,
+     1500,
+     "Falcon Heavy"
+    ],
+    [
+     2018,
+     23100,
+     "Electron"
+    ],
+    [
+     2019,
+     10600,
+     "Long March 11"
+    ],
+    [
+     2019,
+     17300,
+     "Shian Quxian"
+    ]
+   ],
+   "note": "航天飞机约 65,400 美元/kg，猎鹰 9 号约 2,600，猎鹰重型约 1,500。星舰尚无公开报价。",
+   "src": [
+    [
+     "Our World in Data",
+     "https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"
+    ]
+   ],
+   "asof": "2019"
+  }
+ ],
+ "kpis": [
+  {
+   "id": "price",
+   "v": "40×",
+   "u": "/年",
+   "l": "达到 GPT-4 水平的推理价格年降幅",
+   "d": "不同能力门槛的降幅在 9–900 倍/年之间。",
+   "src": [
+    [
+     "Epoch AI",
+     "https://epoch.ai/data-insights/llm-inference-price-trends"
+    ]
+   ]
+  },
+  {
+   "id": "cost",
+   "v": "3.5×",
+   "u": "/年",
+   "l": "前沿模型训练成本年增幅",
+   "d": "2020 年以来；1 GW 数据中心前期投资约 380 亿美元。",
+   "src": [
+    [
+     "Epoch AI",
+     "https://epoch.ai/trends"
+    ]
+   ]
+  },
+  {
+   "id": "rev",
+   "v": "~$1,350亿",
+   "u": "",
+   "l": "OpenAI + Anthropic 年化收入",
+   "d": "OpenAI 约 700 亿美元（9 月），Anthropic 约 650 亿美元（7 月）；同期四大云厂商资本开支约 7,000 亿美元。",
+   "note": "anthropic",
+   "src": [
+    [
+     "Yahoo Finance",
+     "https://finance.yahoo.com/markets/stocks/articles/openai-q3-2026-revenue-run-171727199.html"
+    ],
+    [
+     "CNBC",
+     "https://www.cnbc.com/2026/08/17/anthropic-says-annualized-revenue-climbed-to-65-billion-in-july.html"
+    ]
+   ]
+  },
+  {
+   "id": "adopt",
+   "v": "17–20%",
+   "u": "",
+   "l": "美国企业 AI 采用率",
+   "d": "2025-12 至 2026-05；250 人以上企业 37%。",
+   "src": [
+    [
+     "U.S. Census Bureau",
+     "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"
+    ]
+   ]
+  },
+  {
+   "id": "aitext",
+   "v": "31.1%",
+   "u": "",
+   "l": "网页文本中 AI 生成的比例",
+   "d": "2026 年 8 月，2024 年 6 月约 10%。",
+   "src": [
+    [
+     "The Neuron",
+     "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"
+    ]
+   ]
+  },
+  {
+   "id": "arxiv",
+   "v": "40,363",
+   "u": "篇",
+   "l": "arXiv 9 月投稿量",
+   "d": "是 2016 年 9 月的 4.1 倍，arXiv 已限制每人每月 2 篇。",
+   "src": [
+    [
+     "The Neuron",
+     "https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"
+    ]
+   ]
+  },
+  {
+   "id": "data",
+   "v": "300 万亿",
+   "u": "token",
+   "l": "高质量人类公开文本存量",
+   "d": "Epoch 估计 2026–2032 年间被用完。",
+   "src": [
+    [
+     "Epoch AI",
+     "https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data"
+    ]
+   ]
+  },
+  {
+   "id": "users",
+   "v": "9 亿",
+   "u": "",
+   "l": "ChatGPT 周活（2026-02）",
+   "d": "网民约 60 亿；6 月 ChatGPT App 月活 10 亿。",
+   "src": [
+    [
+     "TechCrunch",
+     "https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users/"
+    ]
+   ]
+  }
+ ]
+}

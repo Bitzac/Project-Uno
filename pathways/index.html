@@ -1,0 +1,1459 @@
+<title>互联网、AI，下一个是？</title>
+<meta name="description" content="1760–2045 年人类技术路径网络：从五次技术浪潮、互联网和 AI 的数据出发，给下一个技术浪潮的候选打分。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>/* Layout: one wide glass instrument (the 1760–2045 map) with the argument rail beside it, floating over a cool aurora;
+   evidence sections below in hairline-ruled glass. Heavy expanded headlines, 0.5px rules on retina, data in mono. */
+:root{
+  --bg:#ECEFF3;--blob1:#BCD0FF;--blob2:#D6CCFF;--blob3:#BFEADB;
+  --ink:#0C0F14;--muted:#475060;--faint:#6B7484;
+  --surface:#F3F5F8;--glass-a:rgba(255,255,255,.66);--glass-b:rgba(255,255,255,.32);--glass-edge:rgba(255,255,255,.95);--glass-inner:rgba(255,255,255,.98);--shadow:rgba(28,40,72,.16);
+  --line:rgba(12,15,20,.2);--line-soft:rgba(12,15,20,.08);--field:rgba(255,255,255,.5);
+  --accent:#3044CF;--accent-soft:rgba(48,68,207,.1);--good:#0ca30c;--crit:#d03b3b;--future:rgba(48,68,207,.05);
+  --l1:#2a78d6;--l2:#eb6834;--l3:#1baf7a;--l4:#eda100;--l5:#e87ba4;--l6:#008300;--l7:#4a3aa7;--l8:#e34948;
+  --hair:1px;
+  --f-display:"Archivo","Noto Sans SC",system-ui,sans-serif;
+  --f-body:"Noto Sans SC","Archivo",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#07090D;--blob1:#1A2C66;--blob2:#36225F;--blob3:#0E4638;
+  --ink:#ECEFF4;--muted:#A6AEBB;--faint:#808999;
+  --surface:#151821;--glass-a:rgba(30,34,45,.64);--glass-b:rgba(14,16,22,.42);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.16);--shadow:rgba(0,0,0,.55);
+  --line:rgba(255,255,255,.2);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
+  --accent:#A3ADFF;--accent-soft:rgba(163,173,255,.14);--future:rgba(163,173,255,.05);
+  --l1:#3987e5;--l2:#d95926;--l3:#199e70;--l4:#c98500;--l5:#d55181;--l6:#008300;--l7:#9085e9;--l8:#e66767;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#07090D;--blob1:#1A2C66;--blob2:#36225F;--blob3:#0E4638;
+  --ink:#ECEFF4;--muted:#A6AEBB;--faint:#808999;
+  --surface:#151821;--glass-a:rgba(30,34,45,.64);--glass-b:rgba(14,16,22,.42);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.16);--shadow:rgba(0,0,0,.55);
+  --line:rgba(255,255,255,.2);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
+  --accent:#A3ADFF;--accent-soft:rgba(163,173,255,.14);--future:rgba(163,173,255,.05);
+  --l1:#3987e5;--l2:#d95926;--l3:#199e70;--l4:#c98500;--l5:#d55181;--l6:#008300;--l7:#9085e9;--l8:#e66767;
+  color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;padding-inline:16px;padding-block:0 56px;overflow-x:hidden;position:relative}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ol,ul{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(100px);opacity:.7}
+.aurora i:nth-child(1){width:48vw;height:48vw;left:-14vw;top:-18vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:40vw;height:40vw;right:-12vw;top:30vh;background:var(--blob2)}
+.aurora i:nth-child(3){width:44vw;height:44vw;left:20vw;bottom:-30vw;background:var(--blob3)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -30px var(--shadow)}
+.glass-flat{background:var(--field);border:var(--hair) solid var(--line-soft);border-radius:16px}
+.wrap{position:relative;z-index:1;max-width:1320px;margin-inline:auto}
+
+/* bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin-block:12px 0;border-radius:18px;display:flex;align-items:center;gap:18px;padding:9px 16px;min-width:0}
+.brand{font:900 17px/1 var(--f-display);font-stretch:125%;text-decoration:none;letter-spacing:.01em;white-space:nowrap}
+.brand span{color:var(--accent);margin-left:1px}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-size:13px;font-weight:500;text-decoration:none;padding:5px 10px;border-radius:999px;color:var(--muted);white-space:nowrap}
+.nav a:hover{color:var(--ink);background:var(--accent-soft)}
+.asof{font-size:11px;color:var(--faint);white-space:nowrap}
+
+/* hero */
+.hero{padding-block:56px 8px;display:grid;gap:28px}
+.eyebrow,.label{font:600 11px/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+h1{font:900 clamp(40px,7.6vw,104px)/1.02 var(--f-display);font-stretch:118%;letter-spacing:-.01em}
+.answer{border-radius:26px;padding:28px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px}
+.answer-main{display:grid;gap:12px;align-content:start;min-width:0}
+.answer-word{font:900 clamp(36px,5.4vw,68px)/1.05 var(--f-display);font-stretch:120%;letter-spacing:-.01em}
+.answer-word small{display:block;font-size:.36em;font-weight:500;font-stretch:100%;color:var(--muted);letter-spacing:0;margin-top:6px}
+.answer-line{font-size:clamp(17px,1.8vw,21px);font-weight:700;line-height:1.5;max-width:40em}
+.answer-dek{color:var(--muted);max-width:44em}
+.answer-conf{font-size:13px;color:var(--muted);border-top:var(--hair) solid var(--line);padding-top:12px;max-width:44em}
+.answer-conf b{color:var(--ink)}
+.answer-side{display:grid;gap:18px;align-content:start;min-width:0}
+.mini-rank{display:grid;gap:8px}
+.mini-rank li{display:grid;grid-template-columns:5.5em minmax(0,1fr) 2.6em;align-items:center;gap:10px;font-size:13px}
+.mini-rank .track{height:6px;border-radius:999px;background:var(--line-soft);position:relative;overflow:hidden}
+.mini-rank .fill{position:absolute;inset:0 auto 0 0;border-radius:999px}
+.mini-rank b{font:600 13px var(--f-mono);text-align:right}
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fig{display:grid;gap:4px;padding:12px 12px 10px;border-radius:14px;background:var(--field);border:var(--hair) solid var(--line-soft);text-align:left;cursor:pointer;min-width:0}
+.fig:hover{border-color:var(--accent)}
+.fig b{font:800 clamp(18px,2vw,24px)/1.1 var(--f-display);font-stretch:110%;white-space:nowrap}
+.fig b small{font:500 11px var(--f-mono);margin-left:3px;color:var(--muted)}
+.fig span{font-size:12px;line-height:1.4;color:var(--muted)}
+
+.chain{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;counter-reset:c}
+.chain li{position:relative;padding:18px 28px 6px 0;border-top:2px solid var(--ink);display:grid;gap:6px;min-width:0}
+.chain li+li{padding-left:22px}
+.chain li+li::before{content:"";position:absolute;left:0;top:-7px;width:12px;height:12px;border-top:2px solid var(--ink);border-right:2px solid var(--ink);transform:translateX(-9px) rotate(45deg)}
+.chain .yr{font:600 12px var(--f-mono);color:var(--faint)}
+.chain h3{font:900 26px/1.1 var(--f-display);font-stretch:115%}
+.chain .what{font-weight:700}
+.chain .ev{font-size:13px;color:var(--muted)}
+.chain li.next h3{color:var(--accent)}
+.chain li.next{border-top-color:var(--accent)}
+.chain li.next::before{border-color:var(--accent)}
+
+/* sections */
+.sec{padding-block:64px 0;display:grid;gap:20px}
+.sec-head{display:grid;gap:8px;max-width:820px}
+h2{font:900 clamp(28px,3.6vw,44px)/1.1 var(--f-display);font-stretch:115%}
+.sec-dek{color:var(--muted)}
+.group-h{font:700 12px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:8px}
+
+/* map */
+.map-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:inline-flex;border:var(--hair) solid var(--line);border-radius:999px;padding:2px;background:var(--field)}
+.seg button{border:0;background:none;padding:5px 12px;border-radius:999px;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;padding:3px 10px 3px 8px;font-size:12px;cursor:pointer;color:var(--ink)}
+.chip i{width:8px;height:8px;border-radius:50%;flex:none}
+.chip[aria-pressed="false"]{opacity:.45}
+.chip[aria-pressed="false"] i{background:transparent!important;box-shadow:inset 0 0 0 1px var(--faint)}
+.search input{font:inherit;font-size:13px;width:200px;max-width:100%;border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;padding:5px 12px;color:var(--ink)}
+.zoom{display:inline-flex;gap:4px;margin-left:auto}
+.zoom button{border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;min-width:30px;height:30px;padding:0 10px;cursor:pointer;font-size:13px}
+.zoom button:hover,.chip:hover,.seg button:hover{border-color:var(--accent)}
+
+.map-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:stretch}
+.map{position:relative;border-radius:22px;overflow:hidden;min-width:0;touch-action:pan-y}
+.map svg{display:block;width:100%;user-select:none;-webkit-user-select:none;cursor:grab}
+.map svg.dragging{cursor:grabbing}
+.lane-labels{position:absolute;left:0;top:0;bottom:0;width:var(--lane-w,104px);pointer-events:none;z-index:2}
+.lane-labels div{position:absolute;left:0;right:0;display:flex;align-items:center;gap:7px;padding-left:14px;font-size:12px;font-weight:700;line-height:1.2}
+.lane-labels div i{width:8px;height:8px;border-radius:50%;flex:none}
+.lane-labels div span{display:block;font:500 10px var(--f-mono);color:var(--faint);letter-spacing:.02em}
+.map-hint{font-size:12px;color:var(--faint);margin-top:-8px}
+.tip{position:absolute;z-index:5;max-width:280px;padding:10px 12px;border-radius:12px;background:var(--surface);border:var(--hair) solid var(--line);box-shadow:0 12px 30px -12px var(--shadow);font-size:12px;line-height:1.5;pointer-events:none}
+.tip b{display:block;font-size:13px}
+.tip .num{color:var(--faint)}
+
+/* graph marks */
+.g-era rect{stroke:none}
+.g-era text,.g-axis text{font-family:var(--f-mono);font-size:10px;fill:var(--faint)}
+.g-era .era-n{font-family:var(--f-display);font-weight:800;font-size:11px;fill:var(--muted)}
+.g-axis line{stroke:var(--line-soft);stroke-width:1}
+.g-lane line{stroke:var(--line-soft);stroke-width:1}
+.g-edge path{fill:none;stroke:var(--faint);stroke-width:1;opacity:.28;transition:opacity .2s}
+.g-edge path.t-a{stroke-dasharray:3 3}
+.g-edge path.t-b{stroke:var(--crit);opacity:.55}
+.g-edge path.t-r{stroke:var(--good);opacity:.55;stroke-dasharray:6 3}
+.g-node{cursor:pointer}
+.g-node .dot{stroke:var(--surface);stroke-width:2}
+.g-node .halo{fill:none;stroke-width:1.2}
+.g-node .range{stroke-width:1.5;opacity:.45}
+.g-node text{font-size:11.5px;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3.5px;stroke-linejoin:round}
+.g-node.k-candidate text{font-weight:900;font-size:13px}
+.g-node.bang text{font-weight:700}
+.g-node.st-future text{fill:var(--muted)}
+.g-node.k-candidate text{fill:var(--ink)}
+.g-node .bang-ring{fill:none;stroke:var(--ink);stroke-width:1.5}
+.g-today line{stroke:var(--accent);stroke-width:1.5}
+.g-today text{font-family:var(--f-mono);font-size:10px;font-weight:600;fill:var(--accent)}
+.g-future text{font-family:var(--f-mono);font-size:10px;fill:var(--accent);opacity:.8}
+.g-window line{stroke:var(--accent);stroke-width:1.5}
+.g-window text{font-family:var(--f-mono);font-size:10px;fill:var(--accent)}
+svg.focusing .g-node{opacity:.16}
+svg.focusing .g-node.on{opacity:1}
+svg.focusing .g-edge path{opacity:.05}
+svg.focusing .g-edge path.on{opacity:.9;stroke-width:1.6}
+svg.focusing .g-edge path.t-b.on{opacity:1}
+.g-node.hit text{fill:var(--accent)}
+.g-node.sel .dot{stroke:var(--ink);stroke-width:2.5}
+
+/* side panel */
+.side{border-radius:22px;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+.side-tabs{display:flex;gap:4px;padding:10px 12px 0}
+.side-tabs button{border:0;background:none;padding:6px 10px;font-size:13px;font-weight:600;color:var(--faint);border-bottom:2px solid transparent;cursor:pointer}
+.side-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.side-tabs button:disabled{cursor:default;opacity:.5}
+.side-body{padding:14px 18px 18px;overflow-y:auto;display:grid;gap:14px;align-content:start;flex:1;min-height:0}
+.tour-kicker{font:600 11px var(--f-mono);letter-spacing:.1em;color:var(--accent)}
+.side h3{font:900 22px/1.2 var(--f-display);font-stretch:110%}
+.side p{font-size:14px}
+.side .p2{color:var(--muted)}
+.tour-nav{display:flex;align-items:center;gap:8px;border-top:var(--hair) solid var(--line);padding-top:12px}
+.tour-nav button{border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;padding:6px 14px;font-size:13px;cursor:pointer}
+.tour-nav button.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+.tour-nav button:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:5px;flex:1;justify-content:center}
+.dots button{width:8px;height:8px;min-width:0;padding:0;border-radius:50%;border:0;background:var(--line);cursor:pointer}
+.dots button[aria-current="step"]{background:var(--accent);width:20px;border-radius:999px}
+.mini-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.mini-kpis div{border:var(--hair) solid var(--line-soft);background:var(--field);border-radius:12px;padding:9px 10px;display:grid;gap:2px}
+.mini-kpis b{font:800 18px/1.15 var(--f-display);font-stretch:110%}
+.mini-kpis span{font-size:11.5px;line-height:1.35;color:var(--muted)}
+.pattern{display:grid;gap:6px}
+.pattern-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.pattern-row div{border-top:2px solid var(--ink);padding-top:4px;font:600 12px var(--f-mono)}
+.pattern-row div span{display:block;font:400 11px var(--f-body);color:var(--muted)}
+.node-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;border:var(--hair) solid var(--line);color:var(--muted)}
+.pill i{width:7px;height:7px;border-radius:50%}
+.pill.st-now{color:var(--ink)}
+.pill.st-future{border-style:dashed}
+.node-en{font:500 12px var(--f-mono);color:var(--faint)}
+.rel{display:grid;gap:6px}
+.rel h4{margin:0;font:600 11px var(--f-mono);letter-spacing:.08em;color:var(--faint)}
+.rel div{display:flex;flex-wrap:wrap;gap:5px}
+.rel button{border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;padding:2px 9px 2px 7px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.rel button i{width:7px;height:7px;border-radius:50%}
+.rel button:hover{border-color:var(--accent)}
+.src{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px}
+.src a{color:var(--muted);text-decoration:none;border-bottom:var(--hair) solid var(--line)}
+.src a:hover{color:var(--accent);border-color:var(--accent)}
+.src a::after{content:" ↗";font-size:10px}
+.note{font-size:12px;color:var(--faint);border-left:2px solid var(--line);padding-left:8px}
+.link-btn{border:0;background:none;color:var(--accent);font-size:13px;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend svg{flex:none;overflow:visible}
+details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--muted)}
+details summary:hover{color:var(--ink)}
+.table-view .tbl-wrap{margin-top:10px;max-height:420px;overflow:auto}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;min-width:0}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font:600 11px/1.3 var(--f-mono);letter-spacing:.06em;color:var(--faint);text-align:left;padding:10px 12px;border-bottom:var(--hair) solid var(--line);white-space:nowrap;position:sticky;top:0;background:var(--surface);z-index:1}
+.tbl td{padding:10px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .yr{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.tbl .k{font-weight:700;white-space:nowrap}
+.tbl .k i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.niche td:nth-child(3){min-width:240px}
+.niche .bigfig{font:800 17px/1.2 var(--f-display);font-stretch:110%;white-space:nowrap}
+.niche .bigfig+span{display:block;font-size:12px;color:var(--muted);min-width:150px}
+.win{position:relative;width:180px;height:22px}
+.win .axis{position:absolute;left:0;right:0;top:11px;border-top:var(--hair) solid var(--line)}
+.win .band{position:absolute;top:6px;height:10px;border-radius:999px;background:var(--accent);opacity:.7}
+.win .lab{position:absolute;top:-2px;font:500 10px var(--f-mono);color:var(--faint)}
+.niche .src{min-width:120px}
+
+/* trends */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kpi{padding:14px 14px 12px;border-radius:16px;display:grid;gap:4px;align-content:start;min-width:0}
+.kpi b{font:800 clamp(22px,2.4vw,30px)/1.1 var(--f-display);font-stretch:112%}
+.kpi b small{font:500 12px var(--f-mono);color:var(--muted);margin-left:3px}
+.kpi .l{font-size:13px;font-weight:700}
+.kpi .d{font-size:12px;color:var(--muted);line-height:1.5}
+.charts{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.chart{border-radius:18px;padding:14px 14px 12px;display:grid;gap:8px;align-content:start;min-width:0;position:relative}
+.chart h4{margin:0;font:800 16px/1.25 var(--f-display);font-stretch:108%}
+.chart .sub{font-size:12px;color:var(--faint)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .note{font-size:12px}
+.c-grid line{stroke:var(--line-soft);stroke-width:1}
+.c-axis text{font-family:var(--f-mono);font-size:10px;fill:var(--faint)}
+.c-base{stroke:var(--line);stroke-width:1}
+.c-line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.c-line.proj{stroke-dasharray:4 4}
+.c-area{fill:var(--accent);opacity:.1}
+.c-dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.c-dot.proj{fill:var(--surface);stroke:var(--accent);stroke-width:1.5}
+.c-bar{fill:var(--accent)}
+.c-bar.proj{fill:var(--accent);opacity:.45}
+.c-fit{stroke:var(--faint);stroke-width:1;stroke-dasharray:2 3;fill:none}
+.c-lab{font-size:10.5px;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px}
+.c-lab.end{font-weight:700}
+.c-cross{stroke:var(--line);stroke-width:1}
+.chart .tip{position:absolute}
+
+/* score */
+.score-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px}
+.panel{border-radius:20px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.panel h3{font:800 18px var(--f-display);font-stretch:108%}
+.weights{display:grid;gap:12px}
+.w-row{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.2em;gap:10px;align-items:center}
+.w-row label{font-size:13px;font-weight:700}
+.w-row output{font:600 12px var(--f-mono);text-align:right;color:var(--muted)}
+.w-row input{width:100%;accent-color:var(--accent)}
+.w-row .d{grid-column:1/-1;font-size:11.5px;color:var(--faint);line-height:1.45;margin-top:-6px}
+.rank{display:grid;gap:9px;position:relative}
+.r-row{display:grid;grid-template-columns:8.5em minmax(0,1fr) 3em;gap:10px;align-items:center;font-size:13px}
+.r-row .nm{font-weight:700;display:flex;align-items:center;gap:6px;min-width:0}
+.r-row .nm i{width:8px;height:8px;border-radius:50%;flex:none}
+.r-track{position:relative;height:14px}
+.r-fill{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;transition:width .25s}
+.r-row b{font:600 13px var(--f-mono);text-align:right}
+.r-base{position:absolute;top:-4px;bottom:-4px;border-left:1px dashed var(--muted);pointer-events:none}
+.r-base span{position:absolute;bottom:100%;left:-1px;transform:translateX(-50%);font:500 10px var(--f-mono);color:var(--muted);white-space:nowrap;padding-bottom:2px}
+.r-base.below span{bottom:auto;top:100%;padding:2px 0 0}
+.rank-pad{height:8px}
+.rank-axis{margin-bottom:10px;display:grid;grid-template-columns:8.5em minmax(0,1fr) 3em;gap:10px;font:500 10px var(--f-mono);color:var(--faint)}
+.rank-axis div{display:flex;justify-content:space-between}
+.robust{display:grid;gap:8px;border-top:var(--hair) solid var(--line);padding-top:12px;font-size:13px}
+.robust .bar100{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:2px;background:var(--line-soft)}
+.robust .bar100 i{display:block;height:100%}
+.robust .keys{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted)}
+.robust .keys span{display:inline-flex;align-items:center;gap:5px}
+.robust .keys i{width:8px;height:8px;border-radius:50%}
+.matrix td.cell{text-align:center;white-space:nowrap}
+.matrix .meter{display:inline-flex;gap:2px;vertical-align:middle;margin-right:6px}
+.matrix .meter i{width:6px;height:12px;border-radius:2px;background:var(--line-soft)}
+.matrix .meter i.on{background:var(--accent)}
+.matrix tr.cand{cursor:pointer}
+.matrix tr.cand:hover td,.matrix tr.cand.sel td{background:var(--accent-soft)}
+.matrix .tot{font:700 14px var(--f-mono)}
+.matrix th.cell{text-align:center}
+.matrix td.auto{color:var(--muted)}
+.why{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.why h3{grid-column:1/-1;font:800 18px var(--f-display);font-stretch:108%;padding-top:6px}
+.why-item{border-top:var(--hair) solid var(--line);padding-top:10px;display:grid;gap:6px;font-size:13px}
+.why-item b{font-weight:700}
+.why-item b span{font:600 12px var(--f-mono);color:var(--accent);margin-left:6px}
+
+/* verdict */
+.verdict-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px}
+.counter{display:grid;gap:0;counter-reset:cp}
+.counter li{counter-increment:cp;display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:4px 10px;padding:14px 0;border-top:var(--hair) solid var(--line)}
+.counter li::before{content:counter(cp);font:900 22px/1 var(--f-display);color:var(--faint);grid-row:span 3}
+.counter b{font-size:15px}
+.counter p{font-size:14px;color:var(--muted)}
+.falsify{display:grid;gap:10px;padding-top:6px}
+.falsify li{padding:12px 14px;border-radius:14px;border:var(--hair) solid var(--crit);background:var(--field);font-size:14px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start}
+.falsify li::before{content:"!";display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--crit);color:#fff;font:800 12px var(--f-display)}
+.watch td:nth-child(2),.watch td:nth-child(3){white-space:nowrap}
+.watch .th{font-weight:700}
+
+/* method & sources */
+.method{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.method div{border-top:var(--hair) solid var(--line);padding-top:10px;font-size:13px;display:grid;gap:6px;align-content:start}
+.method b{font-size:14px}
+.method p{color:var(--muted)}
+.method code{font-family:var(--f-mono);font-size:12px;background:var(--field);border:var(--hair) solid var(--line-soft);padding:1px 5px;border-radius:5px}
+.src-list{columns:3 260px;column-gap:24px;margin-top:12px;font-size:12px}
+.src-list li{break-inside:avoid;padding:3px 0;color:var(--muted)}
+.src-list a{color:var(--ink);text-decoration:none;border-bottom:var(--hair) solid var(--line)}
+.src-list a:hover{color:var(--accent)}
+.src-list span{font-family:var(--f-mono);font-size:10.5px;color:var(--faint);margin-left:4px}
+.foot{padding-block:48px 0;font-size:12px;color:var(--faint);max-width:820px}
+
+/* responsive */
+@media (max-width:1100px){
+  .map-grid{grid-template-columns:1fr}
+  .side{max-height:none}
+  .score-grid,.verdict-grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .hero{padding-block:36px 0}
+  .answer{grid-template-columns:1fr;padding:20px;gap:22px}
+  .chain{grid-template-columns:1fr;gap:14px}
+  .chain li,.chain li+li{padding:14px 0 4px}
+  .chain li+li::before{left:50%;top:-8px;transform:translateX(-50%) rotate(135deg)}
+  .asof{display:none}
+  .zoom{margin-left:0}
+  .search input{width:100%}
+  .search{flex:1 1 100%}
+  .figs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .r-row,.rank-axis{grid-template-columns:5.5em minmax(0,1fr) 2.6em}
+}
+@media (max-width:480px){
+  .figs{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr}
+  .charts{grid-template-columns:1fr}
+}
+</style>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="wrap" id="top">
+  <header class="bar glass">
+    <a class="brand" href="#top">下一个<span>?</span></a>
+    <nav class="nav" aria-label="章节">
+      <a href="#map">大网</a><a href="#trends">趋势</a><a href="#niches">前沿</a><a href="#score">打分</a><a href="#verdict">反方</a><a href="#sources">来源</a>
+    </nav>
+    <span class="asof num" id="asof"></span>
+  </header>
+
+  <section class="hero" aria-labelledby="h1">
+    <p class="eyebrow">人类技术路径 · 1760–2045</p>
+    <h1 id="h1">互联网、AI，<br>下一个是？</h1>
+    <div class="answer glass">
+      <div class="answer-main">
+        <p class="label">结论</p>
+        <p class="answer-word" id="answer-word"></p>
+        <p class="answer-line" id="answer-line"></p>
+        <p class="answer-dek" id="answer-dek"></p>
+        <p class="answer-conf" id="answer-conf"></p>
+      </div>
+      <div class="answer-side">
+        <p class="label">默认权重得分 <span class="muted">/ 5</span></p>
+        <ol class="mini-rank" id="mini-rank"></ol>
+        <div class="figs" id="hero-figs"></div>
+      </div>
+    </div>
+    <ol class="chain" id="chain" aria-label="论证主线"></ol>
+  </section>
+
+  <section class="sec" id="map" aria-labelledby="map-h">
+    <div class="sec-head">
+      <h2 id="map-h">技术路径大网</h2>
+      <p class="sec-dek" id="map-dek"></p>
+    </div>
+    <div class="map-tools">
+      <div class="seg" role="group" aria-label="模式">
+        <button type="button" id="mode-tour" aria-pressed="true">导览</button>
+        <button type="button" id="mode-free" aria-pressed="false">自由探索</button>
+      </div>
+      <div class="chips" id="lane-chips" role="group" aria-label="按领域筛选"></div>
+      <div class="chips" id="status-chips" role="group" aria-label="按状态筛选"></div>
+      <label class="search"><span class="sr">搜索节点</span><input id="node-search" type="search" placeholder="搜索节点，如 Transformer" autocomplete="off"></label>
+      <div class="zoom" role="group" aria-label="缩放">
+        <button type="button" id="zoom-in" aria-label="放大">+</button>
+        <button type="button" id="zoom-out" aria-label="缩小">−</button>
+        <button type="button" id="zoom-all">全图</button>
+      </div>
+    </div>
+    <div class="map-grid">
+      <div class="map glass" id="map-box">
+        <div class="lane-labels" id="lane-labels" aria-hidden="true"></div>
+        <svg id="graph" role="img" aria-label="1760 到 2045 年的技术路径网络"></svg>
+        <div class="tip" id="graph-tip" hidden></div>
+      </div>
+      <aside class="side glass" id="side" aria-live="polite">
+        <div class="side-tabs" role="tablist">
+          <button type="button" role="tab" id="tab-tour" aria-selected="true">导览</button>
+          <button type="button" role="tab" id="tab-node" aria-selected="false" disabled>节点</button>
+        </div>
+        <div class="side-body" id="side-tour"></div>
+        <div class="side-body" id="side-node" hidden></div>
+      </aside>
+    </div>
+    <div class="legend" id="legend"></div>
+    <p class="map-hint">拖动平移 · Ctrl/⌘ + 滚轮或双指缩放 · 点击节点看证据 · 导览中可用 ← → 翻页</p>
+    <details class="table-view">
+      <summary>以表格查看全部节点</summary>
+      <div class="tbl-wrap"><table class="tbl" id="node-table"></table></div>
+    </details>
+  </section>
+
+  <section class="sec" id="trends" aria-labelledby="trends-h">
+    <div class="sec-head">
+      <h2 id="trends-h">头部大模型的趋势</h2>
+      <p class="sec-dek">AI 本体的四条曲线，加上互联网的扩散曲线和四个候选方向的成本曲线。每张图下方注明来源和数据截止时间。</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <h3 class="group-h">AI 本体</h3>
+    <div class="charts" id="charts-ai"></div>
+    <h3 class="group-h">上一棒与下一棒</h3>
+    <div class="charts" id="charts-next"></div>
+  </section>
+
+  <section class="sec" id="niches" aria-labelledby="niches-h">
+    <div class="sec-head">
+      <h2 id="niches-h">前沿雷达</h2>
+      <p class="sec-dek">13 个小众方向在 2026 年的位置。时间窗口是下一个里程碑最可能出现的年份区间。</p>
+    </div>
+    <div class="tbl-wrap glass-flat"><table class="tbl niche" id="niche-table"></table></div>
+  </section>
+
+  <section class="sec" id="score" aria-labelledby="score-h">
+    <div class="sec-head">
+      <h2 id="score-h">候选打分</h2>
+      <p class="sec-dek" id="score-dek"></p>
+    </div>
+    <div class="score-grid">
+      <div class="panel glass">
+        <div class="panel-head"><h3>权重</h3><button type="button" class="link-btn" id="w-reset">恢复默认</button></div>
+        <div class="weights" id="weights"></div>
+      </div>
+      <div class="panel glass">
+        <div class="panel-head"><h3>排名</h3><span class="muted small" id="rank-note"></span></div>
+        <div class="rank" id="rank"></div>
+        <div class="robust" id="robust"></div>
+      </div>
+    </div>
+    <div class="tbl-wrap glass-flat"><table class="tbl matrix" id="matrix"></table></div>
+    <div class="why" id="why"></div>
+  </section>
+
+  <section class="sec" id="verdict" aria-labelledby="verdict-h">
+    <div class="sec-head">
+      <h2 id="verdict-h">结论、反方与观察指标</h2>
+      <p class="sec-dek" id="verdict-dek"></p>
+    </div>
+    <div class="verdict-grid">
+      <div>
+        <h3 class="group-h">最强的反对意见</h3>
+        <ol class="counter" id="counter"></ol>
+      </div>
+      <div>
+        <h3 class="group-h">推翻信号</h3>
+        <ul class="falsify" id="falsify"></ul>
+      </div>
+    </div>
+    <h3 class="group-h">观察指标</h3>
+    <div class="tbl-wrap glass-flat"><table class="tbl watch" id="watch"></table></div>
+  </section>
+
+  <section class="sec" id="sources" aria-labelledby="sources-h">
+    <div class="sec-head">
+      <h2 id="sources-h">方法与来源</h2>
+    </div>
+    <div class="method" id="method"></div>
+    <details class="src-all">
+      <summary id="src-sum">全部来源</summary>
+      <ul class="src-list" id="src-list"></ul>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <p id="foot"></p>
+  </footer>
+</div>
+
+<script type="application/json" id="pw-data">{"graph":{"asof":"2026-10-03","lanes":[{"id":"energy","name":"能源","en":"Energy"},{"id":"make","name":"制造·机器人","en":"Making & Robots"},{"id":"move","name":"运输·太空","en":"Transport & Space"},{"id":"comm","name":"通信·网络","en":"Communication"},{"id":"compute","name":"计算·芯片","en":"Computing"},{"id":"intel","name":"智能","en":"Intelligence"},{"id":"hci","name":"人机接口","en":"Interfaces"},{"id":"bio","name":"生物·医疗","en":"Biology"}],"eras":[{"id":"e1","no":1,"name":"工业革命","en":"Industrial Revolution","start":1771,"end":1829,"key":"水力、棉纺、生铁","bang":"arkwright","src":[["Perez: A new age of technological progress","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"e2","no":2,"name":"蒸汽与铁路","en":"Steam & Railways","start":1829,"end":1875,"key":"煤、铁、蒸汽动力","bang":"rocket","src":[["Perez: A new age of technological progress","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"e3","no":3,"name":"钢铁、电力、重工业","en":"Steel & Electricity","start":1875,"end":1908,"key":"廉价钢材","bang":"carnegie","src":[["Perez: A new age of technological progress","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"e4","no":4,"name":"石油、汽车、大规模生产","en":"Oil & Mass Production","start":1908,"end":1971,"key":"廉价石油","bang":"modelt","src":[["Perez: A new age of technological progress","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"e5","no":5,"name":"信息与通信","en":"Information & Telecom","start":1971,"end":2026,"key":"廉价芯片","bang":"intel4004","open":true,"src":[["Perez: A new age of technological progress","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]}],"nodes":[{"id":"watt","lane":"energy","year":1769,"name":"瓦特蒸汽机","en":"Watt steam engine","kind":"milestone","status":"past","one":"分离式冷凝器大幅提高蒸汽机效率，动力第一次摆脱水流和畜力的地点限制。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Watt_steam_engine"]]},{"id":"volta","lane":"energy","year":1800,"name":"伏打电堆","en":"Voltaic pile","kind":"milestone","status":"past","one":"第一种能持续供电的电池，电化学和电磁学研究由此展开。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Voltaic_pile"]]},{"id":"faraday","lane":"energy","year":1831,"name":"电磁感应","en":"Electromagnetic induction","kind":"milestone","status":"past","one":"法拉第发现变化的磁场能产生电流，这是发电机和电动机的共同原理。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Electromagnetic_induction"]]},{"id":"oil","lane":"energy","year":1859,"name":"德雷克油井","en":"Drake Well","kind":"milestone","status":"past","one":"宾夕法尼亚第一口商业钻探油井，石油开始成为工业燃料。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Drake_Well"]]},{"id":"otto","lane":"energy","year":1876,"name":"四冲程内燃机","en":"Otto engine","kind":"milestone","status":"past","one":"奥托四冲程循环让小型、可移动的动力成为可能，汽车和飞机都以此为前提。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Otto_engine"]]},{"id":"pearl","lane":"energy","year":1882,"name":"珍珠街电站","en":"Pearl Street Station","kind":"milestone","status":"past","one":"爱迪生在纽约建成第一座商业中心电站，电从实验室进入城市。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Pearl_Street_Station"]]},{"id":"turbine","lane":"energy","year":1884,"name":"汽轮机","en":"Steam turbine","kind":"milestone","status":"past","one":"帕森斯汽轮机至今仍是火电和核电的主力发电装置。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Steam_turbine"]]},{"id":"ac","lane":"energy","year":1895,"name":"尼亚加拉交流电站","en":"Adams Power Plant","kind":"milestone","status":"past","one":"交流电远距离输电投入商用，电可以集中生产、分散使用。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Edward_Dean_Adams_Power_Plant"]]},{"id":"pile","lane":"energy","year":1942,"name":"芝加哥一号堆","en":"Chicago Pile-1","kind":"milestone","status":"past","one":"人类第一次实现可控核裂变链式反应。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Chicago_Pile-1"]]},{"id":"obninsk","lane":"energy","year":1954,"name":"第一座并网核电站","en":"Obninsk NPP","kind":"milestone","status":"past","one":"奥布宁斯克核电站并网发电，功率 5 MW。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Obninsk_Nuclear_Power_Plant"]]},{"id":"pv","lane":"energy","year":1954,"name":"硅太阳能电池","en":"Silicon solar cell","kind":"milestone","status":"past","one":"贝尔实验室做出第一块实用的硅光伏电池，效率约 6%。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Solar_cell"]]},{"id":"liion","lane":"energy","year":1991,"name":"锂离子电池商用","en":"Lithium-ion battery","kind":"milestone","status":"past","one":"索尼推出第一款商用锂离子电池。手机、电动车、储能和人形机器人都依赖它。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Lithium-ion_battery"]]},{"id":"nif","lane":"energy","year":2022,"name":"NIF 聚变点火","en":"NIF ignition","kind":"milestone","status":"past","one":"2.05 MJ 激光输入，测得 3.15 MJ 聚变输出，首次实现靶增益大于 1；装置本身的耗电仍远超产出。","figs":[{"v":"3.15","u":"MJ","l":"聚变输出"},{"v":"2.05","u":"MJ","l":"激光输入"}],"src":[["LLNL","https://lasers.llnl.gov/science/achieving-fusion-ignition"],["Wikipedia","https://en.wikipedia.org/wiki/National_Ignition_Facility"]]},{"id":"solar","lane":"energy","year":2025,"name":"光伏规模化","en":"Solar at scale","kind":"trend","status":"now","one":"组件价格从 1975 年的 132 美元/W 降到 2024 年的 0.27 美元/W，约 500 倍。2025 年全球新增装机 511–664 GW（IRENA 交流口径 / SolarPower Europe 直流口径），累计超过 3 TW。","figs":[{"v":"0.27","u":"$/W","l":"2024 组件价格"},{"v":"~500×","u":"","l":"1975 年以来降幅"}],"chart":"solar","src":[["Our World in Data","https://ourworldindata.org/grapher/solar-pv-prices"],["SolarPower Europe","https://www.solarpowereurope.org/press-releases/new-report-global-solar-market-hits-new-record-of-664-gw-installation-in-2025-as-global-solar-fleet-passes-3-tw"],["pv magazine (IRENA)","https://pv-magazine-usa.com/2026/04/02/global-solar-additions-reached-record-511-gw-in-2025-says-irena/"]]},{"id":"battery","lane":"energy","year":2025,"name":"电池包 108 美元/kWh","en":"Battery pack price","kind":"trend","status":"now","one":"BNEF：2025 年锂电池包均价 108 美元/kWh，同比下降 8%；储能电池包 70 美元/kWh，同比下降 45%。","figs":[{"v":"108","u":"$/kWh","l":"全部用途均价"},{"v":"70","u":"$/kWh","l":"储能"}],"src":[["BloombergNEF","https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]]},{"id":"dcpower","lane":"energy","year":2026,"name":"数据中心用电","en":"Data-center power","kind":"bottleneck","status":"now","one":"IEA：2024 年全球数据中心用电约 415 TWh（占 1.5%），2030 年基准情景约 945 TWh。美国数据中心 2023 年已用掉全国 4.4% 的电，2028 年预计 6.7–12%（LBNL）。","figs":[{"v":"415→945","u":"TWh","l":"2024→2030 全球"},{"v":"4.4%","u":"","l":"美国 2023 占比"}],"chart":"dc","src":[["IEA Energy and AI","https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"],["Berkeley Lab","https://newscenter.lbl.gov/2025/01/15/berkeley-lab-report-evaluates-increase-in-electricity-demand-from-data-centers/"]]},{"id":"nukeai","lane":"energy","year":2024,"name":"科技公司买核电","en":"Big Tech nuclear deals","kind":"trend","status":"now","one":"微软签 20 年购电协议重启三哩岛 1 号机组（835 MW），谷歌、亚马逊、Meta 分别押注 Kairos、X-energy、TerraPower 等先进核能。","src":[["TechCrunch","https://techcrunch.com/2024/09/20/microsoft-taps-three-mile-island-nuclear-plant-to-power-ai"],["IEEE Spectrum","https://spectrum.ieee.org/three-mile-island"]]},{"id":"fusionq","lane":"energy","year":2028,"yr":[2027,2031],"name":"私营聚变 Q>1","en":"Private fusion Q>1","kind":"frontier","status":"future","one":"CFS 的 SPARC 目标 2026 年首次等离子体、2027 年尝试 Q>1；Helion 已签约 2028 年向微软供电。至今没有私营公司实现净能量增益。","src":[["TechCrunch","https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"],["ENR","https://www.enr.com/articles/58879-nuclear-fusion-pushes-to-reach-commercial-power-plant-stage"]]},{"id":"storage50","lane":"energy","year":2030,"yr":[2028,2033],"name":"储能低于 50 美元/kWh","en":"Storage \u003c $50/kWh","kind":"frontier","status":"future","one":"储能电池包 2025 年为 70 美元/kWh，一年降了 45%。本页把 50 美元/kWh 设为观察阈值：过了这条线，光伏加储能可以更便宜地全天供电。","src":[["BloombergNEF","https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]]},{"id":"c_energy","lane":"energy","year":2033,"yr":[2028,2040],"name":"廉价清洁能源","en":"Abundant clean energy","kind":"candidate","status":"future","one":"候选：光伏、储能和先进核能把电价持续压低。它既是 AI 扩张的硬约束，也是具身智能和生物制造的底座。","src":[["IEA World Energy Investment 2025","https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]]},{"id":"arkwright","lane":"make","year":1771,"name":"克罗姆福德纺纱厂","en":"Cromford Mill","kind":"milestone","status":"past","bang":"e1","one":"Perez 定义的第一次技术浪潮的起点：阿克莱特把水力纺纱机放进工厂，工厂制度由此确立。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Cromford_Mill"],["Perez","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"bessemer","lane":"make","year":1856,"name":"贝塞麦炼钢法","en":"Bessemer process","kind":"milestone","status":"past","one":"第一种廉价、大批量炼钢的方法，钢从贵重材料变成大宗商品。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Bessemer_process"]]},{"id":"carnegie","lane":"make","year":1875,"name":"卡内基贝塞麦钢厂","en":"Edgar Thomson Steel Works","kind":"milestone","status":"past","bang":"e3","one":"Perez 第三次浪潮（钢铁、电力、重工业）的起点。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Edgar_Thomson_Steel_Works"],["Perez","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"assembly","lane":"make","year":1913,"name":"移动装配线","en":"Moving assembly line","kind":"milestone","status":"past","one":"福特海兰帕克工厂把一辆 T 型车的装配时间从 12.5 小时缩短到 93 分钟。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Assembly_line"]]},{"id":"nc","lane":"make","year":1952,"name":"数控机床","en":"Numerical control","kind":"milestone","status":"past","one":"MIT 演示第一台数控铣床，机器开始按程序加工零件。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Numerical_control"]]},{"id":"unimate","lane":"make","year":1961,"name":"第一台工业机器人","en":"Unimate","kind":"milestone","status":"past","one":"Unimate 在通用汽车工厂上岗，搬运压铸件。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Unimate"]]},{"id":"print3d","lane":"make","year":1984,"name":"3D 打印","en":"3D printing","kind":"milestone","status":"past","one":"查克·赫尔申请立体光刻专利，增材制造开始。","src":[["Wikipedia","https://en.wikipedia.org/wiki/3D_printing"]]},{"id":"asimo","lane":"make","year":2000,"name":"本田 ASIMO","en":"ASIMO","kind":"milestone","status":"past","one":"双足人形机器人的标志，但始终没有商用，2022 年退役。","src":[["Wikipedia","https://en.wikipedia.org/wiki/ASIMO"]]},{"id":"atlas","lane":"make","year":2013,"name":"波士顿动力 Atlas","en":"Atlas","kind":"milestone","status":"past","one":"为 DARPA 机器人挑战赛研制的人形平台。2026 年电动版换上 13 个自由度、负载超过 100 磅的新手，为仿真到真机的强化学习设计。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Atlas_(robot)"],["The Neuron","https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"]]},{"id":"robots","lane":"make","year":2024,"name":"工业机器人年装 54 万台","en":"Industrial robots","kind":"trend","status":"now","one":"IFR：2024 年全球新装工业机器人 54.2 万台，是 10 年前的两倍多；在役 466 万台，中国占当年新装的 54%。","figs":[{"v":"54.2","u":"万台","l":"2024 新装"},{"v":"466","u":"万台","l":"在役"}],"src":[["IFR","https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years"]]},{"id":"unitree","lane":"make","year":2025,"name":"宇树人形出货 5,500 台","en":"Unitree humanoids","kind":"trend","status":"now","one":"招股书显示宇树 2025 年卖出 5,500 台人形机器人，七成以上用于科研和教育；2026 年 8 月以约 90 亿美元估值完成上海 IPO 定价。","figs":[{"v":"5,500","u":"台","l":"2025 人形出货"},{"v":">70%","u":"","l":"科研教育用途"}],"src":[["Rest of World","https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"],["CNBC","https://www.cnbc.com/2026/08/06/chinese-humanoid-robot-maker-unitree-prices-ipo-at-9-billion-valuation.html"]]},{"id":"figure","lane":"make","year":2025,"name":"Figure 估值 390 亿美元","en":"Figure AI","kind":"trend","status":"now","one":"2025 年 9 月 C 轮融资超过 10 亿美元，投后估值 390 亿美元，资金用于扩大机器人车队和数据采集。","src":[["Figure","https://www.figure.ai/news/series-c"],["TechCrunch","https://techcrunch.com/2025/09/16/figure-reaches-39b-valuation-in-latest-funding-round/"]]},{"id":"optimus","lane":"make","year":2026,"name":"Optimus 产线","en":"Tesla Optimus","kind":"trend","status":"now","one":"特斯拉称 Fremont 第一代产线按年产 100 万台设计，但截至 2026 年 9 月 Optimus 第三代仍未发布，量产时间一再推后。","src":[["Electrek","https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/"],["Wikipedia","https://en.wikipedia.org/wiki/Optimus_(robot)"]]},{"id":"humanoid20k","lane":"make","year":2030,"yr":[2028,2033],"name":"人形机器人低于 2 万美元","en":"Humanoid \u003c $20k","kind":"frontier","status":"future","one":"高盛估计人形机器人制造成本一年内从 5–25 万美元降到 3–15 万美元。本页把 2 万美元设为观察阈值，与特斯拉宣称的 2–3 万美元目标价同一量级。","src":[["Goldman Sachs","https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]]},{"id":"fleet","lane":"make","year":2032,"yr":[2030,2037],"name":"人形机器人年出货百万台","en":"1M humanoids a year","kind":"frontier","status":"future","one":"2025 年头部厂商出货以千台计。高盛 2024 年预测 2035 年人形机器人市场 380 亿美元、出货 140 万台。","src":[["Goldman Sachs","https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]]},{"id":"c_embodied","lane":"make","year":2034,"yr":[2027,2040],"name":"具身智能","en":"Embodied AI","kind":"candidate","status":"future","one":"候选：把 AI 装进机器人和汽车，让物理劳动像认知一样变便宜。","src":[["IFR","https://ifr.org/ifr-press-releases/news/global-robot-demand-in-factories-doubles-over-10-years"]]},{"id":"rocket","lane":"move","year":1829,"name":"火箭号机车","en":"Stephenson's Rocket","kind":"milestone","status":"past","bang":"e2","one":"赢得雨山机车试验，Perez 第二次浪潮（蒸汽与铁路）的起点。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Stephenson%27s_Rocket"],["Perez","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"steamship","lane":"move","year":1838,"name":"大西方号蒸汽船","en":"SS Great Western","kind":"milestone","status":"past","one":"第一艘专门为跨大西洋定期航行建造的蒸汽船。","src":[["Wikipedia","https://en.wikipedia.org/wiki/SS_Great_Western"]]},{"id":"railroad","lane":"move","year":1869,"name":"横贯大陆铁路","en":"First Transcontinental Railroad","kind":"milestone","status":"past","one":"美国东西海岸之间的旅行从数月缩短到约一周。","src":[["Wikipedia","https://en.wikipedia.org/wiki/First_transcontinental_railroad"]]},{"id":"benz","lane":"move","year":1886,"name":"奔驰专利汽车","en":"Benz Patent-Motorwagen","kind":"milestone","status":"past","one":"第一辆实用的内燃机汽车。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Benz_Patent-Motorwagen"]]},{"id":"wright","lane":"move","year":1903,"name":"莱特兄弟首飞","en":"Wright Flyer","kind":"milestone","status":"past","one":"第一次持续、可控的动力飞行，12 秒、37 米。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Wright_Flyer"]]},{"id":"modelt","lane":"move","year":1908,"name":"福特 T 型车","en":"Ford Model T","kind":"milestone","status":"past","bang":"e4","one":"Perez 第四次浪潮（石油、汽车、大规模生产）的起点，累计生产约 1,500 万辆。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Ford_Model_T"],["Perez","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"jet","lane":"move","year":1939,"name":"喷气式飞机","en":"Heinkel He 178","kind":"milestone","status":"past","one":"第一架涡轮喷气式飞机首飞。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Heinkel_He_178"]]},{"id":"sputnik","lane":"move","year":1957,"name":"斯普特尼克 1 号","en":"Sputnik 1","kind":"milestone","status":"past","one":"第一颗人造地球卫星。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Sputnik_1"]]},{"id":"apollo","lane":"move","year":1969,"name":"阿波罗 11 号","en":"Apollo 11","kind":"milestone","status":"past","one":"人类首次登月。土星五号的发射成本约 5,400 美元/kg。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Apollo_11"],["Our World in Data","https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]]},{"id":"gps","lane":"move","year":1995,"name":"GPS 全面运行","en":"GPS","kind":"milestone","status":"past","one":"24 颗卫星的星座全面运行，定位成为免费的全球基础设施。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Global_Positioning_System"]]},{"id":"darpa","lane":"move","year":2005,"name":"DARPA 无人车挑战赛","en":"DARPA Grand Challenge","kind":"milestone","status":"past","one":"斯坦福的 Stanley 跑完 212 公里沙漠赛道夺冠，自动驾驶从学术走向产业。","src":[["Wikipedia","https://en.wikipedia.org/wiki/DARPA_Grand_Challenge_(2005)"]]},{"id":"falcon","lane":"move","year":2015,"name":"猎鹰 9 号一级回收","en":"Falcon 9 landing","kind":"milestone","status":"past","one":"第一次回收轨道级火箭的一级。猎鹰 9 号发射成本约 2,600 美元/kg，航天飞机约 65,400 美元/kg。","figs":[{"v":"65,400→2,600","u":"$/kg","l":"航天飞机→猎鹰 9"}],"chart":"launch","src":[["Wikipedia","https://en.wikipedia.org/wiki/Falcon_9"],["Our World in Data","https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]]},{"id":"waymo1","lane":"move","year":2020,"name":"全无人网约车","en":"Waymo One driverless","kind":"milestone","status":"past","one":"Waymo 在凤凰城向公众开放没有安全员的付费服务。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Waymo"]]},{"id":"waymo","lane":"move","year":2026,"name":"Robotaxi 每周 50 万单","en":"Waymo at scale","kind":"trend","status":"now","one":"Waymo 每周付费出行从 2024 年 5 月的 5 万单增长到 2026 年约 50 万单，两年 10 倍；2026 年 9 月覆盖 14 个城市，目标年底每周 100 万单。","figs":[{"v":"10×","u":"","l":"两年增长"},{"v":"14","u":"城","l":"2026-09"}],"chart":"waymo","src":[["TechCrunch","https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"],["InsideEVs","https://insideevs.com/news/791245/waymo-rides-per-week-2026-doubled/"]]},{"id":"starship","lane":"move","year":2026,"name":"星舰首次入轨","en":"Starship reaches orbit","kind":"trend","status":"now","one":"2026 年 9 月 28 日第 14 次试飞首次入轨，部署 26 颗 Starlink V3。SpaceX 2025 年共发射 165 次。","src":[["CNN","https://www.cnn.com/2026/09/28/science/live-news/spacex-starship-flight-14-launch"],["Space.com","https://www.space.com/news/live/spacex-starship-flight-14-live-updates-sept-28-2026-starship-first-orbital-launch-attempt"],["Wikipedia: SpaceX","https://en.wikipedia.org/wiki/SpaceX"]]},{"id":"launch200","lane":"move","year":2031,"yr":[2028,2035],"name":"发射低于 200 美元/kg","en":"Launch \u003c $200/kg","kind":"frontier","status":"future","one":"完全复用的星舰是这条成本曲线的关键。目前猎鹰重型约 1,500 美元/kg；200 美元/kg 是本页设定的观察阈值。","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]]},{"id":"c_space","lane":"move","year":2035,"yr":[2028,2045],"name":"太空经济","en":"Space economy","kind":"candidate","status":"future","one":"候选：发射成本继续下降，带动卫星互联网、轨道算力和在轨制造。","src":[["Wikipedia: Starlink","https://en.wikipedia.org/wiki/Starlink"]]},{"id":"telegraph","lane":"comm","year":1844,"name":"莫尔斯电报","en":"Electrical telegraph","kind":"milestone","status":"past","one":"华盛顿—巴尔的摩线路发出第一封电报，信息速度第一次脱离交通工具。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Electrical_telegraph"]]},{"id":"cable","lane":"comm","year":1866,"name":"跨大西洋电缆","en":"Transatlantic cable","kind":"milestone","status":"past","one":"大东方号铺设成功，欧美通信从约 10 天缩短到几分钟。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Transatlantic_telegraph_cable"]]},{"id":"telephone","lane":"comm","year":1876,"name":"电话","en":"Telephone","kind":"milestone","status":"past","one":"贝尔获得电话专利，声音可以实时远程传输。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Telephone"]]},{"id":"radio","lane":"comm","year":1901,"name":"跨大西洋无线电","en":"Radio","kind":"milestone","status":"past","one":"马可尼收到跨大西洋的无线电信号。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Invention_of_radio"]]},{"id":"tv","lane":"comm","year":1927,"name":"电子电视","en":"Electronic television","kind":"milestone","status":"past","one":"法恩斯沃思演示全电子电视系统。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Philo_Farnsworth"]]},{"id":"telstar","lane":"comm","year":1962,"name":"Telstar 通信卫星","en":"Telstar 1","kind":"milestone","status":"past","one":"第一颗转发电视信号的有源通信卫星。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Telstar_1"]]},{"id":"arpanet","lane":"comm","year":1969,"name":"ARPANET","en":"ARPANET","kind":"milestone","status":"past","one":"第一个分组交换网络发出第一条消息。","src":[["Wikipedia","https://en.wikipedia.org/wiki/ARPANET"]]},{"id":"fiber","lane":"comm","year":1970,"name":"低损耗光纤","en":"Optical fiber","kind":"milestone","status":"past","one":"康宁做出损耗低于 20 dB/km 的光纤，此后几乎所有长途数据都走光纤。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Optical_fiber"]]},{"id":"cellular","lane":"comm","year":1983,"name":"商用手机","en":"Motorola DynaTAC","kind":"milestone","status":"past","one":"摩托罗拉 DynaTAC 上市，移动通信开始。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Motorola_DynaTAC"]]},{"id":"tcpip","lane":"comm","year":1983,"name":"TCP/IP","en":"Internet protocol suite","kind":"milestone","status":"past","one":"ARPANET 于 1983 年 1 月 1 日切换到 TCP/IP，互联网协议栈定型。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Internet_protocol_suite"]]},{"id":"www","lane":"comm","year":1991,"name":"万维网","en":"World Wide Web","kind":"milestone","status":"past","one":"伯纳斯-李公开第一个网站，任何人都能发布和链接信息。","src":[["Wikipedia","https://en.wikipedia.org/wiki/World_Wide_Web"]]},{"id":"netscape","lane":"comm","year":1995,"name":"网景 IPO","en":"Netscape IPO","kind":"milestone","status":"past","one":"上市首日股价大涨，互联网投资狂热开始，也就是 Perez 所说的“狂热期”。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Netscape"]]},{"id":"google","lane":"comm","year":1998,"name":"谷歌搜索","en":"Google Search","kind":"milestone","status":"past","one":"PageRank 让海量网页可以被检索。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Google_Search"]]},{"id":"dotcom","lane":"comm","year":2000,"name":"互联网泡沫破裂","en":"Dot-com crash","kind":"milestone","status":"past","one":"纳斯达克从 2000 年 3 月高点跌去约 78%，到 2002 年 10 月见底。在 Perez 的框架里，这是安装期转入部署期的“转折点”。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Dot-com_bubble"]]},{"id":"social","lane":"comm","year":2004,"name":"Web 2.0 与社交网络","en":"Web 2.0","kind":"milestone","status":"past","one":"用户开始大规模生产内容，这些内容后来成了大模型的训练语料。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Web_2.0"]]},{"id":"crawl","lane":"comm","year":2008,"name":"Common Crawl","en":"Common Crawl","kind":"milestone","status":"past","one":"公开的网页语料库。GPT-3 的训练数据按权重约 60% 来自过滤后的 Common Crawl。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Common_Crawl"],["GPT-3 论文","https://arxiv.org/abs/2005.14165"]]},{"id":"lte","lane":"comm","year":2009,"name":"4G LTE","en":"LTE","kind":"milestone","status":"past","one":"第一张商用 4G 网络开通，移动互联网的带宽够用了。","src":[["Wikipedia","https://en.wikipedia.org/wiki/LTE_(telecommunication)"]]},{"id":"starlink","lane":"comm","year":2019,"name":"星链","en":"Starlink","kind":"trend","status":"now","one":"2019 年首批组网；2026 年 6 月订户超过 1,200 万。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Starlink"]]},{"id":"online6b","lane":"comm","year":2025,"name":"网民 60 亿","en":"6 billion online","kind":"trend","status":"now","one":"ITU：2025 年约 60 亿人上网，占世界人口 74%；2005 年这一比例是 15.6%。","figs":[{"v":"74%","u":"","l":"2025 上网人口"},{"v":"15.6%","u":"","l":"2005"}],"chart":"internet","src":[["ITU","https://www.itu.int/en/ITU-D/Statistics/Pages/stat/"],["Our World in Data","https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"]]},{"id":"aitext","lane":"comm","year":2026,"name":"网页三成由 AI 生成","en":"AI-written web","kind":"bottleneck","status":"now","one":"2026 年 8 月经 FineWeb 过滤的网页 token 中 31.1% 由 AI 生成，2024 年 6 月约为 10%。超过 Chinchilla 最优点后，新鲜的人类文本比 AI 文本训练效果更好。","figs":[{"v":"31.1%","u":"","l":"2026-08"},{"v":"~10%","u":"","l":"2024-06"}],"src":[["The Neuron","https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"]]},{"id":"jacquard","lane":"compute","year":1804,"name":"雅卡尔提花机","en":"Jacquard loom","kind":"milestone","status":"past","one":"用穿孔卡控制花纹，“程序”第一次和机器分开。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Jacquard_machine"]]},{"id":"babbage","lane":"compute","year":1837,"name":"分析机","en":"Analytical Engine","kind":"milestone","status":"past","one":"巴贝奇设计的通用计算机，借用了雅卡尔的穿孔卡，从未建成。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Analytical_engine"]]},{"id":"hollerith","lane":"compute","year":1890,"name":"霍尔瑞斯制表机","en":"Tabulating machine","kind":"milestone","status":"past","one":"美国人口普查用穿孔卡制表，这家公司后来发展成 IBM。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Tabulating_machine"]]},{"id":"turing","lane":"compute","year":1936,"name":"图灵机","en":"Turing machine","kind":"milestone","status":"past","one":"图灵的论文定义了什么是“可计算”。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Turing_machine"]]},{"id":"eniac","lane":"compute","year":1945,"name":"ENIAC","en":"ENIAC","kind":"milestone","status":"past","one":"第一台通用电子计算机，约 18,000 个真空管。","src":[["Wikipedia","https://en.wikipedia.org/wiki/ENIAC"]]},{"id":"transistor","lane":"compute","year":1947,"name":"晶体管","en":"Transistor","kind":"milestone","status":"past","one":"贝尔实验室发明点接触晶体管，数字时代的基础元件。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Transistor"]]},{"id":"ic","lane":"compute","year":1958,"name":"集成电路","en":"Integrated circuit","kind":"milestone","status":"past","one":"基尔比做出第一块集成电路。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Integrated_circuit"]]},{"id":"moore","lane":"compute","year":1965,"name":"摩尔定律","en":"Moore's law","kind":"milestone","status":"past","one":"芯片上的晶体管数大约每两年翻一番（1975 年修订后的说法），这一趋势延续了约 50 年。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Moore%27s_law"]]},{"id":"intel4004","lane":"compute","year":1971,"name":"Intel 4004","en":"Intel 4004","kind":"milestone","status":"past","bang":"e5","one":"第一款商用单芯片微处理器，Perez 第五次浪潮（信息与通信）的起点。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Intel_4004"],["Perez","https://carlotaperez.org/wp-content/downloads/publications/development-s-g/A%20new%20age%20of%20technological%20progress%20Ummuna.pdf"]]},{"id":"pc","lane":"compute","year":1981,"name":"IBM PC","en":"IBM PC","kind":"milestone","status":"past","one":"个人电脑进入办公室。","src":[["Wikipedia","https://en.wikipedia.org/wiki/IBM_Personal_Computer"]]},{"id":"tsmc","lane":"compute","year":1987,"name":"晶圆代工模式","en":"TSMC foundry","kind":"milestone","status":"past","one":"台积电把芯片设计和制造分开，英伟达这样的无晶圆厂公司由此成为可能。","src":[["Wikipedia","https://en.wikipedia.org/wiki/TSMC"]]},{"id":"shor","lane":"compute","year":1994,"name":"肖尔算法","en":"Shor's algorithm","kind":"milestone","status":"past","one":"证明量子计算机能在多项式时间内分解大整数，量子计算第一次有了“杀手级应用”。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Shor%27s_algorithm"]]},{"id":"gpu","lane":"compute","year":1999,"name":"GeForce 256","en":"GPU","kind":"milestone","status":"past","one":"英伟达称之为第一款 GPU。","src":[["Wikipedia","https://en.wikipedia.org/wiki/GeForce_256"]]},{"id":"aws","lane":"compute","year":2006,"name":"云计算","en":"AWS","kind":"milestone","status":"past","one":"AWS 推出 S3 和 EC2，算力可以按小时租用。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Amazon_Web_Services"]]},{"id":"cuda","lane":"compute","year":2007,"name":"CUDA","en":"CUDA","kind":"milestone","status":"past","one":"GPU 可以做通用计算，深度学习的硬件前提。","src":[["Wikipedia","https://en.wikipedia.org/wiki/CUDA"]]},{"id":"tpu","lane":"compute","year":2016,"name":"TPU","en":"Tensor Processing Unit","kind":"milestone","status":"past","one":"谷歌公布专为神经网络设计的芯片，AlphaGo 对李世石时已在使用。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Tensor_Processing_Unit"]]},{"id":"euv","lane":"compute","year":2019,"name":"EUV 光刻量产","en":"EUV lithography","kind":"milestone","status":"past","one":"极紫外光刻进入量产，7 nm 以下工艺的前提。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Extreme_ultraviolet_lithography"]]},{"id":"willow","lane":"compute","year":2024,"name":"Willow 低于纠错阈值","en":"Google Willow","kind":"milestone","status":"past","one":"谷歌 105 比特芯片首次证明：码距越大，逻辑错误率越低。","src":[["Google","https://blog.google/technology/research/google-willow-quantum-chip/"]]},{"id":"helios","lane":"compute","year":2025,"name":"Quantinuum Helios","en":"Quantinuum Helios","kind":"trend","status":"now","one":"98 个物理比特、48 个纠错逻辑比特，双比特门保真度 99.921%。","src":[["HPCwire","https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]]},{"id":"orbital","lane":"compute","year":2025,"name":"轨道算力","en":"Orbital compute","kind":"frontier","status":"now","one":"Starcloud 2025 年 11 月把一块 H100 送上轨道；谷歌 Suncatcher 2026 年把 4 颗 Trillium TPU 送入轨道，每次可运行 Gemma 约 15 分钟。","src":[["TechCrunch","https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"],["The Neuron","https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"]]},{"id":"aicompute","lane":"compute","year":2025,"name":"AI 算力存量 3.4×/年","en":"AI compute stock","kind":"trend","status":"now","one":"Epoch：AI 芯片总算力每年增长 3.4 倍；最大的 AI 数据中心（Colossus 2）约等于 110 万块 H100；1 GW 数据中心前期投资约 380 亿美元。","figs":[{"v":"3.4×","u":"/年","l":"算力存量"},{"v":"110","u":"万 H100","l":"最大集群"}],"src":[["Epoch AI","https://epoch.ai/trends"]]},{"id":"hbm","lane":"compute","year":2026,"name":"HBM 产能被锁定","en":"HBM sold out","kind":"bottleneck","status":"now","one":"美光单季营收 542 亿美元，同比增长 379%；2027 年超过 75% 的产出已被锁定并大幅提价。","src":[["CNBC","https://www.cnbc.com/2026/09/30/micron-mu-q4-earnings-report-2026.html"]]},{"id":"ftqc","lane":"compute","year":2030,"yr":[2029,2033],"name":"容错量子计算机","en":"Fault-tolerant QC","kind":"frontier","status":"future","one":"IBM 的目标是 2029 年建成 Starling：200 个逻辑比特、1 亿次门操作。","src":[["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]},{"id":"c_quantum","lane":"compute","year":2037,"yr":[2030,2045],"name":"量子计算","en":"Quantum computing","kind":"candidate","status":"future","one":"候选：容错量子计算机在化学模拟、材料、密码学上取得经典计算机做不到的结果。","src":[["HPCwire","https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]]},{"id":"boole","lane":"intel","year":1854,"name":"布尔代数","en":"Boolean algebra","kind":"milestone","status":"past","one":"布尔把逻辑写成代数，后来成了数字电路的数学基础。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Boolean_algebra"]]},{"id":"turingtest","lane":"intel","year":1950,"name":"图灵测试","en":"Turing test","kind":"milestone","status":"past","one":"《计算机器与智能》为“机器能否思考”提出可操作的检验方法。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Computing_Machinery_and_Intelligence"]]},{"id":"dartmouth","lane":"intel","year":1956,"name":"达特茅斯会议","en":"Dartmouth workshop","kind":"milestone","status":"past","one":"“人工智能”一词在这次会议上确立。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Dartmouth_workshop"]]},{"id":"perceptron","lane":"intel","year":1958,"name":"感知机","en":"Perceptron","kind":"milestone","status":"past","one":"罗森布拉特的感知机是神经网络的起点，训练算力约 7×10⁵ FLOP。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Perceptron"],["Epoch AI","https://epoch.ai/data/notable-ai-models"]]},{"id":"winter","lane":"intel","year":1974,"name":"AI 寒冬","en":"AI winter","kind":"milestone","status":"past","one":"早期承诺落空，1973 年莱特希尔报告之后英美大幅削减 AI 经费。","src":[["Wikipedia","https://en.wikipedia.org/wiki/AI_winter"]]},{"id":"backprop","lane":"intel","year":1986,"name":"反向传播","en":"Backpropagation","kind":"milestone","status":"past","one":"鲁梅尔哈特、辛顿、威廉姆斯在《自然》发表，多层神经网络可以训练了。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Backpropagation"]]},{"id":"deepblue","lane":"intel","year":1997,"name":"深蓝","en":"Deep Blue","kind":"milestone","status":"past","one":"IBM 深蓝击败国际象棋世界冠军卡斯帕罗夫。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)"]]},{"id":"imagenet","lane":"intel","year":2009,"name":"ImageNet","en":"ImageNet","kind":"milestone","status":"past","one":"1,400 万张从网上收集并标注的图片，互联网数据第一次被系统地用来训练视觉模型。","src":[["Wikipedia","https://en.wikipedia.org/wiki/ImageNet"]]},{"id":"alexnet","lane":"intel","year":2012,"name":"AlexNet","en":"AlexNet","kind":"milestone","status":"past","one":"用两块 GPU 训练的卷积网络把 ImageNet top-5 错误率降到 15.3%（第二名 26.2%），深度学习时代开始。","src":[["Wikipedia","https://en.wikipedia.org/wiki/AlexNet"]]},{"id":"alphago","lane":"intel","year":2016,"name":"AlphaGo","en":"AlphaGo","kind":"milestone","status":"past","one":"4:1 击败李世石，训练算力约 1.9×10²¹ FLOP。","src":[["Wikipedia","https://en.wikipedia.org/wiki/AlphaGo"],["Epoch AI","https://epoch.ai/data/notable-ai-models"]]},{"id":"transformer","lane":"intel","year":2017,"name":"Transformer","en":"Transformer","kind":"milestone","status":"past","one":"《Attention Is All You Need》，此后几乎所有大模型都用这个架构。","src":[["arXiv","https://arxiv.org/abs/1706.03762"]]},{"id":"scaling","lane":"intel","year":2020,"name":"规模定律","en":"Scaling laws","kind":"milestone","status":"past","one":"损失随算力、数据、参数量按幂律下降，“堆规模”变成了可预测的投资。","src":[["arXiv","https://arxiv.org/abs/2001.08361"]]},{"id":"gpt3","lane":"intel","year":2020,"name":"GPT-3","en":"GPT-3","kind":"milestone","status":"past","one":"1,750 亿参数，训练算力 3.1×10²³ FLOP。","src":[["arXiv","https://arxiv.org/abs/2005.14165"],["Epoch AI","https://epoch.ai/data/notable-ai-models"]]},{"id":"chatgpt","lane":"intel","year":2022,"name":"ChatGPT","en":"ChatGPT","kind":"milestone","status":"past","one":"2022 年 11 月 30 日上线。2026 年 2 月周活 9 亿，6 月 App 月活达到 10 亿。","figs":[{"v":"9 亿","u":"","l":"周活 2026-02"}],"src":[["TechCrunch","https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users/"],["CNBC","https://www.cnbc.com/2026/06/12/chatgpt-a-billion-monthly-app-users-despite-souring-public-ai-sentiment.html"]]},{"id":"gpt4","lane":"intel","year":2023,"name":"GPT-4","en":"GPT-4","kind":"milestone","status":"past","one":"训练算力约 2.1×10²⁵ FLOP，约为 GPT-3 的 70 倍。","src":[["Epoch AI","https://epoch.ai/data/notable-ai-models"]]},{"id":"vla","lane":"intel","year":2023,"name":"视觉-语言-动作模型","en":"RT-2 (VLA)","kind":"milestone","status":"past","one":"谷歌 RT-2 把从网页学到的知识迁移到机器人动作上。","src":[["Google DeepMind","https://deepmind.google/discover/blog/rt-2-new-model-translates-vision-and-language-into-action/"]]},{"id":"reasoning","lane":"intel","year":2024,"name":"推理模型","en":"Reasoning models","kind":"milestone","status":"past","one":"o1 把算力从训练挪到推理时。Epoch 能力指数的前沿此后每年提高 14 点，非推理模型每年 6 点。","src":[["Epoch AI","https://epoch.ai/trends"],["Wikipedia","https://en.wikipedia.org/wiki/OpenAI_o1"]]},{"id":"agents","lane":"intel","year":2025,"name":"编程智能体","en":"Coding agents","kind":"trend","status":"past","one":"METR：2025 年 8 月的 GPT-5 能以 50% 成功率完成人类专家约 203 分钟的任务；2026 年 2 月 Claude Opus 4.6 达到约 719 分钟。","chart":"horizon","src":[["METR 原始数据","https://metr.org/assets/benchmark_results_1_1.yaml"],["METR","https://metr.org/blog/2026-1-29-time-horizon-1-1/"]]},{"id":"pi05","lane":"intel","year":2025,"name":"机器人基础模型","en":"Robot foundation models","kind":"frontier","status":"now","one":"π0.5 在训练中没见过的家庭里完成 10–15 分钟的整理任务；Physical Intelligence 2025 年 11 月估值 56 亿美元。英伟达 GR00T、谷歌 Gemini Robotics 同期推进。","src":[["Physical Intelligence","https://physicalintelligence.company/blog/pi05"],["Bloomberg Law","https://news.bloomberglaw.com/private-equity/robotics-startup-physical-intelligence-valued-at-5-6-billion"]]},{"id":"worldmodel","lane":"intel","year":2025,"name":"世界模型","en":"World models","kind":"frontier","status":"now","one":"Genie 3 以每秒 24 帧生成可交互的 3D 世界，并保持数分钟一致；2026 年 Waymo 用基于 Genie 的世界模型做仿真。","src":[["Google DeepMind","https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/"],["Wikipedia","https://en.wikipedia.org/wiki/Waymo_World_Model"]]},{"id":"frontier26","lane":"intel","year":2026,"name":"GPT-6 / Claude 5.5 / Gemini 4","en":"2026 frontier models","kind":"trend","status":"now","one":"9 月 OpenAI 发布 GPT-6 Astra（Epoch 估训练算力约 10²⁷ FLOP），Anthropic 发布 Opus 5.5（价格比 Opus 5 低 20%）；10 月谷歌发布 Gemini 4 Argon。GPT-6 Astra 和 Gemini 4 Argon 都先向网络安全防御方开放。","figs":[{"v":"~10²⁷","u":"FLOP","l":"GPT-6 Astra 训练算力"},{"v":"5×","u":"/年","l":"前沿训练算力增速"}],"chart":"compute","note":"anthropic","src":[["Epoch AI 数据","https://epoch.ai/data/notable-ai-models"],["Anthropic","https://www.anthropic.com/claude-opus-5-5"],["Google","https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/"],["CNBC","https://www.cnbc.com/2026/09/03/open-ai-astra-gpt-6-cyber.html"]]},{"id":"horizon","lane":"intel","year":2026,"name":"自主任务 17 小时","en":"17-hour task horizon","kind":"trend","status":"now","one":"METR：Claude Mythos Preview（2026 年 4 月）的 50% 时间跨度约 1,045 分钟，即 17.4 小时。2023 年以来每 129 天翻一番；超过 16 小时的数据点已不计入 METR 的趋势拟合。","figs":[{"v":"17.4","u":"小时","l":"2026-04"},{"v":"129","u":"天","l":"翻倍周期"}],"chart":"horizon","note":"anthropic","src":[["METR 原始数据","https://metr.org/assets/benchmark_results_1_1.yaml"],["METR","https://metr.org/time-horizons/"]]},{"id":"safety","lane":"intel","year":2026,"name":"失控智能体与放缓呼吁","en":"Rogue agents & pacing","kind":"bottleneck","status":"now","one":"OpenAI 披露约 700 个智能体对 Hugging Face 发起协同攻击；FTC 启动全行业调查；9 月 12 日 Amodei 发表《We Must Pace the Frontier》，Altman、Hassabis、Musk 联署。","note":"anthropic","src":[["CBS SF","https://www.cbsnews.com/sanfrancisco/news/openai-subpoena-californa-ai-artificial-intelligence-hugging-face/"],["BNN Bloomberg","https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/09/30/ftc-opens-probe-into-ai-giants-including-anthropic-and-openai/"],["Axios","https://www.axios.com/2026/09/12/anthropic-ai-amodei-pacing"]]},{"id":"datawall","lane":"intel","year":2029,"yr":[2026,2032],"name":"数据墙","en":"Data wall","kind":"bottleneck","status":"future","one":"Epoch 估计可用于训练的高质量人类公开文本约 300 万亿 token，按现有趋势会在 2026–2032 年间用完。","src":[["Epoch AI","https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data"]]},{"id":"agentmonth","lane":"intel","year":2028,"yr":[2027,2030],"name":"智能体完成一个月工作","en":"Month-long agent tasks","kind":"frontier","status":"future","one":"按 129 天翻一番外推，从 17 小时到约 170 小时（一个月工时）需要约 3.3 次翻倍，落在 2027 年前后。外推本身可能失效。","src":[["METR 原始数据","https://metr.org/assets/benchmark_results_1_1.yaml"]]},{"id":"adopt50","lane":"intel","year":2032,"yr":[2029,2036],"name":"企业 AI 采用过半","en":"Majority firm adoption","kind":"frontier","status":"future","one":"美国人口普查局 BTOS：2025 年 12 月至 2026 年 5 月使用 AI 的企业只有 17–20%，250 人以上的企业为 37%。","figs":[{"v":"17–20%","u":"","l":"美国企业 AI 采用率"}],"src":[["U.S. Census Bureau","https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]]},{"id":"typewriter","lane":"hci","year":1868,"name":"打字机","en":"Typewriter","kind":"milestone","status":"past","one":"肖尔斯-格利登打字机获得专利，QWERTY 键盘沿用至今。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Typewriter"]]},{"id":"mouse","lane":"hci","year":1968,"name":"“演示之母”","en":"The Mother of All Demos","kind":"milestone","status":"past","one":"恩格尔巴特演示鼠标、超文本和视频会议。","src":[["Wikipedia","https://en.wikipedia.org/wiki/The_Mother_of_All_Demos"]]},{"id":"gui","lane":"hci","year":1973,"name":"Xerox Alto","en":"Xerox Alto","kind":"milestone","status":"past","one":"第一台以图形界面为核心设计的计算机。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Xerox_Alto"]]},{"id":"mac","lane":"hci","year":1984,"name":"Macintosh","en":"Macintosh 128K","kind":"milestone","status":"past","one":"把图形界面和鼠标带进大众市场。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Macintosh_128K"]]},{"id":"braingate","lane":"hci","year":2004,"name":"BrainGate","en":"BrainGate","kind":"milestone","status":"past","one":"首批植入式脑机接口临床试验，瘫痪患者用意念移动光标。","src":[["Wikipedia","https://en.wikipedia.org/wiki/BrainGate"]]},{"id":"iphone","lane":"hci","year":2007,"name":"iPhone","en":"iPhone","kind":"milestone","status":"past","one":"多点触控智能手机，互联网从桌面进入口袋。","src":[["Wikipedia","https://en.wikipedia.org/wiki/IPhone_(1st_generation)"]]},{"id":"siri","lane":"hci","year":2011,"name":"Siri","en":"Siri","kind":"milestone","status":"past","one":"语音助手进入手机。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Siri"]]},{"id":"rift","lane":"hci","year":2016,"name":"Oculus Rift","en":"Oculus Rift","kind":"milestone","status":"past","one":"消费级 VR 头显上市，核心部件来自手机产业链。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Oculus_Rift"]]},{"id":"speechbci","lane":"hci","year":2023,"name":"语音解码脑机接口","en":"Speech BCI","kind":"milestone","status":"past","one":"《自然》同期发表两篇论文：植入式脑机接口把说话意图解码成文字，分别达到每分钟 62 词和 78 词。","src":[["Nature (Willett 等)","https://www.nature.com/articles/s41586-023-06377-x"],["Nature (Metzger 等)","https://www.nature.com/articles/s41586-023-06443-4"]]},{"id":"neuralink","lane":"hci","year":2024,"name":"Neuralink 人体植入","en":"Neuralink","kind":"trend","status":"now","one":"2024 年 1 月首例植入，2025 年 9 月累计 12 名受试者；2025 年 6 月融资 6.5 亿美元。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Neuralink"],["Bloomberg","https://www.bloomberg.com/news/articles/2025-06-02/neuralink-raises-650-million-in-late-stage-funding-round"]]},{"id":"visionpro","lane":"hci","year":2024,"name":"Apple Vision Pro","en":"Apple Vision Pro","kind":"milestone","status":"past","one":"苹果第一款空间计算头显，售价 3,499 美元。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Apple_Vision_Pro"]]},{"id":"glasses","lane":"hci","year":2025,"name":"AI 眼镜年销 700 万副","en":"AI glasses","kind":"trend","status":"now","one":"Meta 与依视路陆逊梯卡 2025 年卖出约 700 万副智能眼镜，是 2024 年的三倍多。Meta Reality Labs 2025 年仍亏损 192 亿美元。","figs":[{"v":"700","u":"万副","l":"2025 销量"},{"v":"3×","u":"","l":"同比"}],"src":[["CNBC","https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"],["UploadVR","https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]]},{"id":"glasses100m","lane":"hci","year":2031,"yr":[2029,2035],"name":"AI 眼镜年销 1 亿副","en":"100M glasses a year","kind":"frontier","status":"future","one":"本页设定的观察阈值。2025 年为 700 万副；依视路陆逊梯卡原计划 2026 年底把年产能扩到 1,000 万副。","src":[["UploadVR","https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]]},{"id":"c_spatial","lane":"hci","year":2033,"yr":[2028,2040],"name":"AI 眼镜与空间计算","en":"Spatial computing","kind":"candidate","status":"future","one":"候选：眼镜成为 AI 随身的眼睛和耳朵，部分取代手机作为主要接口。","src":[["CNBC","https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]]},{"id":"bciconsumer","lane":"hci","year":2040,"yr":[2036,2045],"name":"消费级脑机接口","en":"Consumer BCI","kind":"frontier","status":"future","one":"目前所有植入式脑机接口都处在医疗临床试验阶段，受试者以个位数到几十人计。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Neuralink"]]},{"id":"c_bci","lane":"hci","year":2042,"yr":[2035,2045],"name":"脑机接口","en":"Brain–computer interface","kind":"candidate","status":"future","one":"候选：神经信号直接成为输入输出通道。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Brain%E2%80%93computer_interface"]]},{"id":"jenner","lane":"bio","year":1796,"name":"牛痘接种","en":"Smallpox vaccine","kind":"milestone","status":"past","one":"詹纳的牛痘接种，人类第一种疫苗。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Edward_Jenner"]]},{"id":"germ","lane":"bio","year":1861,"name":"细菌致病论","en":"Germ theory","kind":"milestone","status":"past","one":"巴斯德的实验否定了自然发生说，现代医学和公共卫生由此建立。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Germ_theory_of_disease"]]},{"id":"penicillin","lane":"bio","year":1928,"name":"青霉素","en":"Penicillin","kind":"milestone","status":"past","one":"弗莱明发现青霉素，1940 年代实现工业化生产。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Penicillin"]]},{"id":"dna","lane":"bio","year":1953,"name":"DNA 双螺旋","en":"DNA double helix","kind":"milestone","status":"past","one":"沃森和克里克在富兰克林的 X 射线数据基础上提出 DNA 结构。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Nucleic_acid_double_helix"]]},{"id":"recomb","lane":"bio","year":1973,"name":"重组 DNA","en":"Recombinant DNA","kind":"milestone","status":"past","one":"科恩和博耶把外源基因放进细菌，基因工程开始。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Recombinant_DNA"]]},{"id":"insulin","lane":"bio","year":1982,"name":"重组人胰岛素","en":"Humulin","kind":"milestone","status":"past","one":"第一个获批上市的基因工程药物。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Genentech"]]},{"id":"pcr","lane":"bio","year":1983,"name":"PCR","en":"Polymerase chain reaction","kind":"milestone","status":"past","one":"穆利斯发明 PCR，DNA 可以被快速大量复制。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Polymerase_chain_reaction"]]},{"id":"hgp","lane":"bio","year":2003,"name":"人类基因组计划","en":"Human Genome Project","kind":"milestone","status":"past","one":"历时 13 年完成；2001 年测一个人类基因组约需 9,500 万美元。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Human_Genome_Project"],["Our World in Data","https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]]},{"id":"ngs","lane":"bio","year":2008,"name":"二代测序","en":"Next-gen sequencing","kind":"milestone","status":"past","one":"测序成本在 2007–2011 年降了约 900 倍，远快于摩尔定律。","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]]},{"id":"crispr","lane":"bio","year":2012,"name":"CRISPR-Cas9","en":"CRISPR","kind":"milestone","status":"past","one":"杜德纳和沙尔庞捷证明 Cas9 可以按程序切割 DNA，2020 年获诺贝尔化学奖。","src":[["Wikipedia","https://en.wikipedia.org/wiki/CRISPR_gene_editing"]]},{"id":"alphafold","lane":"bio","year":2020,"name":"AlphaFold 2","en":"AlphaFold","kind":"milestone","status":"past","one":"在 CASP14 上把蛋白质结构预测做到接近实验精度；2024 年哈萨比斯、江珀与贝克共获诺贝尔化学奖。","src":[["Wikipedia","https://en.wikipedia.org/wiki/AlphaFold"],["Nobel Prize","https://www.nobelprize.org/prizes/chemistry/2024/summary/"]]},{"id":"mrna","lane":"bio","year":2020,"name":"mRNA 疫苗","en":"mRNA vaccine","kind":"milestone","status":"past","one":"从公布新冠病毒序列到疫苗获得紧急使用授权，用了不到一年。","src":[["Wikipedia","https://en.wikipedia.org/wiki/MRNA_vaccine"]]},{"id":"genome500","lane":"bio","year":2022,"name":"测序约 500 美元","en":"$500 genome","kind":"trend","status":"past","one":"全基因组测序成本从 2001 年约 9,500 万美元降到 2022 年约 525 美元，降幅约 18 万倍；2015 年以后下降明显放缓。","figs":[{"v":"~18万×","u":"","l":"2001→2022 降幅"}],"chart":"genome","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]]},{"id":"glp1","lane":"bio","year":2021,"name":"GLP-1 减重药","en":"GLP-1 drugs","kind":"trend","status":"now","one":"2021 年司美格鲁肽获批用于减重；2026 年 4 月口服药 orforglipron（Foundayo）获 FDA 批准。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Semaglutide"],["Drugs.com","https://www.drugs.com/history/foundayo.html"]]},{"id":"casgevy","lane":"bio","year":2023,"name":"首个 CRISPR 疗法","en":"Casgevy","kind":"milestone","status":"past","one":"2023 年 12 月 FDA 批准 Casgevy 治疗镰状细胞病。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Exagamglogene_autotemcel"]]},{"id":"evo2","lane":"bio","year":2025,"name":"Evo 2 与 AI 设计噬菌体","en":"Evo 2","kind":"frontier","status":"now","one":"Arc 研究所的基因组语言模型。研究者用 Evo 系列从零写出 302 个噬菌体基因组，其中 16 个能存活，并能清除对天然噬菌体耐药的大肠杆菌。","figs":[{"v":"16/302","u":"","l":"存活的 AI 设计基因组"}],"src":[["bioRxiv（King 等 2025）","https://doi.org/10.1101/2025.09.12.675911"],["Arc Institute","https://arcinstitute.org/news/evo-2-one-year-later"]]},{"id":"aidrug","lane":"bio","year":2028,"yr":[2027,2030],"name":"首个 AI 设计药物获批","en":"First AI-designed drug","kind":"frontier","status":"future","one":"截至 2026 年年中，还没有完全由 AI 设计的药物获 FDA 批准。英矽智能的 rentosertib 2025 年在《自然·医学》发表了 2a 期结果。","src":[["Nature Medicine","https://www.nature.com/articles/s41591-025-03743-2"]]},{"id":"c_bio","lane":"bio","year":2034,"yr":[2028,2040],"name":"可编程生物","en":"Programmable biology","kind":"candidate","status":"future","one":"候选：AI 设计蛋白质、基因组和药物，生物变成可以“编程”的制造平台。","src":[["bioRxiv（King 等 2025）","https://doi.org/10.1101/2025.09.12.675911"],["Arc Institute","https://arcinstitute.org/news/evo-2-one-year-later"]]}],"edges":[["watt","rocket","e"],["watt","steamship","e"],["watt","turbine","a"],["volta","faraday","e"],["volta","telegraph","e"],["faraday","telegraph","e"],["faraday","pearl","e"],["faraday","telephone","a"],["oil","otto","e"],["oil","modelt","e"],["otto","benz","e"],["otto","wright","e"],["benz","modelt","e"],["pearl","ac","e"],["turbine","ac","e"],["ac","assembly","e"],["turbine","obninsk","e"],["pile","obninsk","e"],["pile","nif","a"],["bessemer","carnegie","e"],["carnegie","modelt","e"],["modelt","assembly","e"],["rocket","railroad","e"],["rocket","telegraph","a"],["steamship","cable","a"],["wright","jet","e"],["arkwright","jacquard","a"],["jacquard","babbage","e"],["jacquard","hollerith","e"],["babbage","turingtest","a"],["boole","turing","e"],["turing","eniac","e"],["hollerith","eniac","a"],["turing","turingtest","e"],["turing","shor","a"],["transistor","ic","e"],["ic","moore","e"],["ic","intel4004","e"],["moore","intel4004","a"],["intel4004","pc","e"],["transistor","pv","e"],["transistor","telstar","e"],["transistor","cellular","a"],["eniac","nc","a"],["nc","unimate","e"],["assembly","unimate","a"],["unimate","robots","e"],["unimate","asimo","a"],["asimo","atlas","a"],["atlas","figure","a"],["atlas","optimus","a"],["liion","unitree","e"],["robots","unitree","a"],["unitree","humanoid20k","e"],["figure","humanoid20k","e"],["optimus","humanoid20k","e"],["humanoid20k","fleet","e"],["telegraph","cable","e"],["telegraph","telephone","e"],["telephone","cellular","e"],["radio","tv","e"],["radio","cellular","e"],["tv","telstar","a"],["sputnik","telstar","e"],["sputnik","apollo","e"],["sputnik","gps","e"],["arpanet","tcpip","e"],["tcpip","www","e"],["fiber","www","e"],["pc","www","e"],["www","netscape","e"],["netscape","dotcom","e"],["www","google","e"],["www","social","e"],["www","crawl","e"],["social","crawl","a"],["cellular","lte","e"],["iphone","lte","a"],["lte","online6b","e"],["starlink","online6b","a"],["tsmc","gpu","e"],["gpu","cuda","e"],["cuda","aicompute","e"],["tsmc","aicompute","e"],["euv","aicompute","e"],["aws","aicompute","e"],["shor","willow","a"],["willow","ftqc","e"],["helios","ftqc","e"],["ftqc","c_quantum","e"],["shor","c_quantum","a"],["turingtest","dartmouth","e"],["eniac","dartmouth","e"],["dartmouth","perceptron","a"],["dartmouth","winter","e"],["perceptron","backprop","e"],["moore","deepblue","a"],["www","imagenet","e"],["imagenet","alexnet","e"],["backprop","alexnet","e"],["cuda","alexnet","e"],["alexnet","alphago","e"],["deepblue","alphago","a"],["tpu","alphago","e"],["alexnet","transformer","a"],["google","transformer","a"],["transformer","scaling","e"],["transformer","gpt3","e"],["scaling","gpt3","e"],["crawl","gpt3","e"],["aws","gpt3","a"],["gpt3","chatgpt","e"],["lte","chatgpt","a"],["gpt3","gpt4","e"],["scaling","gpt4","e"],["gpt4","reasoning","e"],["reasoning","agents","e"],["agents","horizon","e"],["reasoning","frontier26","e"],["agents","frontier26","e"],["aicompute","frontier26","e"],["agents","safety","e"],["transformer","vla","e"],["gpt4","vla","e"],["vla","pi05","e"],["transformer","worldmodel","e"],["alphago","worldmodel","a"],["gps","darpa","e"],["darpa","waymo1","e"],["alexnet","waymo1","a"],["liion","waymo1","e"],["waymo1","waymo","e"],["worldmodel","waymo","a"],["horizon","agentmonth","e"],["chatgpt","adopt50","e"],["agentmonth","adopt50","a"],["aitext","datawall","a"],["crawl","aitext","e"],["aicompute","dcpower","e"],["dcpower","frontier26","b"],["hbm","frontier26","b"],["datawall","frontier26","b"],["safety","frontier26","b"],["pv","solar","e"],["liion","battery","e"],["battery","storage50","e"],["obninsk","nukeai","e"],["nif","fusionq","a"],["solar","c_energy","e"],["storage50","c_energy","e"],["fusionq","c_energy","e"],["nukeai","c_energy","e"],["c_energy","dcpower","r"],["nukeai","dcpower","r"],["pi05","c_embodied","e"],["worldmodel","c_embodied","e"],["waymo","c_embodied","e"],["battery","c_embodied","e"],["robots","c_embodied","e"],["fleet","c_embodied","e"],["frontier26","c_embodied","a"],["agentmonth","c_embodied","a"],["c_embodied","datawall","r"],["apollo","falcon","a"],["print3d","falcon","a"],["falcon","starlink","e"],["falcon","starship","e"],["falcon","orbital","e"],["aicompute","orbital","e"],["starship","launch200","e"],["launch200","c_space","e"],["starlink","c_space","e"],["orbital","c_space","e"],["c_space","dcpower","r"],["typewriter","mouse","a"],["typewriter","pc","a"],["mouse","gui","e"],["gui","mac","e"],["mac","iphone","a"],["liion","iphone","e"],["cellular","iphone","e"],["iphone","siri","e"],["iphone","rift","a"],["rift","visionpro","e"],["iphone","glasses","a"],["chatgpt","glasses","a"],["glasses","glasses100m","e"],["visionpro","c_spatial","e"],["glasses100m","c_spatial","e"],["frontier26","c_spatial","a"],["braingate","speechbci","e"],["transformer","speechbci","a"],["braingate","neuralink","e"],["speechbci","neuralink","a"],["neuralink","bciconsumer","e"],["bciconsumer","c_bci","e"],["neuralink","c_bci","e"],["jenner","germ","a"],["germ","penicillin","e"],["dna","recomb","e"],["dna","pcr","e"],["recomb","insulin","e"],["recomb","crispr","a"],["pcr","hgp","e"],["hgp","ngs","e"],["ngs","genome500","e"],["crispr","casgevy","e"],["recomb","mrna","e"],["ngs","mrna","a"],["insulin","glp1","a"],["transformer","alphafold","e"],["alphafold","evo2","a"],["transformer","evo2","e"],["genome500","evo2","e"],["alphafold","aidrug","e"],["evo2","c_bio","e"],["aidrug","c_bio","e"],["casgevy","c_bio","e"],["genome500","c_bio","e"],["frontier26","c_bio","a"]]},"trends":{"asof":"2026-10-03","series":[{"id":"compute","title":"前沿训练算力","sub":"历年纪录模型的训练算力，FLOP","unit":"FLOP","log":true,"kind":"scatter","fit":true,"points":[[2012.75,470000000000000000,"AlexNet"],[2014.67,12300000000000000000,"VGG16"],[2014.69,56000000000000000000,"Seq2Seq LSTM"],[2015.75,380000000000000000000,"AlphaGo Fan"],[2016.07,1.9e+21,"AlphaGo Lee"],[2016.74,6.62e+21,"GNMT"],[2019.83,1.08e+23,"AlphaStar"],[2020.41,3.14e+23,"GPT-3"],[2021.67,2.05e+24,"FLAN 137B"],[2022.49,2.74e+24,"Minerva"],[2023.21,2.1e+25,"GPT-4"],[2023.93,5e+25,"Gemini 1.0 Ultra"],[2025.13,3.5e+26,"Grok 3"],[2025.15,3.8e+26,"GPT-4.5"],[2025.52,5e+26,"Grok 4"],[2026.67,1e+27,"GPT-6 Astra"]],"note":"2025 年后的闭源模型为 Epoch 估计值（GPT-6 Astra 区间约 5×10²⁶–2×10²⁷）。Epoch 拟合：2020 年以来每年 5 倍。","src":[["Epoch AI · Notable AI Models","https://epoch.ai/data/notable-ai-models"],["Epoch AI · Trends","https://epoch.ai/trends"]],"asof":"2026-09"},{"id":"horizon","title":"智能体任务时间跨度","sub":"50% 成功率能完成的人类专家任务时长，分钟","unit":"分钟","log":true,"kind":"scatter","fit":true,"points":[[2019.12,0.054,"GPT-2"],[2020.41,0.14,"GPT-3 (davinci-002)"],[2022.21,0.6,"GPT-3.5"],[2023.2,4,"GPT-4"],[2024.37,7,"GPT-4o"],[2024.47,11.4,"Claude 3.5 Sonnet"],[2024.7,20.3,"o1-preview"],[2024.93,38.8,"o1"],[2025.15,60.4,"Claude 3.7 Sonnet"],[2025.29,119.7,"o3"],[2025.6,203,"GPT-5"],[2025.88,224.3,"Gemini 3 Pro"],[2025.9,293,"Claude Opus 4.5"],[2025.94,352.2,"GPT-5.2"],[2026.09,718.8,"Claude Opus 4.6"],[2026.27,1044.8,"Claude Mythos Preview"]],"note":"METR Time Horizon 1.1，仅列当时的最佳模型。2023 年以来每 129 天翻一番（90% 区间 104–158 天）。","src":[["METR 原始数据","https://metr.org/assets/benchmark_results_1_1.yaml"],["METR","https://metr.org/time-horizons/"]],"asof":"2026-05"},{"id":"capex","title":"四大云厂商资本开支","sub":"亚马逊、微软、谷歌、Meta 合计，十亿美元","unit":"十亿美元","log":false,"kind":"bar","points":[[2023,155,"实际"],[2024,251,"实际"],[2025,410,"实际"],[2026,700,"2 月指引"]],"proj_from":2026,"note":"2026 年为 2 月财报季指引（约 7,000 亿美元），年中多家机构上调到约 7,250 亿美元。","src":[["Platformonomics","https://platformonomics.com/2025/02/follow-the-capex-cloud-table-stakes-2024-retrospective/"],["CNBC","https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html"],["Yahoo Finance","https://finance.yahoo.com/sectors/technology/articles/hyperscalers-hit-700-billion-2026-111243744.html"]],"asof":"2026-02"},{"id":"dc","title":"全球数据中心用电","sub":"TWh，2030 与 2035 为 IEA 基准情景","unit":"TWh","log":false,"kind":"line","points":[[2024,415,"实际"],[2030,945,"预测"],[2035,1200,"预测"]],"proj_from":2025,"note":"2035 年情景区间 700–1,700 TWh。美国数据中心用电 2014 年 58 TWh，2023 年 176 TWh（LBNL）。","src":[["IEA Energy and AI","https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"],["Berkeley Lab","https://newscenter.lbl.gov/2025/01/15/berkeley-lab-report-evaluates-increase-in-electricity-demand-from-data-centers/"]],"asof":"2025-04"},{"id":"internet","title":"全球上网人口占比","sub":"%","unit":"%","log":false,"kind":"line","points":[[2005,15.6],[2006,17.2],[2007,20.2],[2008,22.8],[2009,25.3],[2010,28.4],[2011,30.9],[2012,33.3],[2013,35.3],[2014,37.4],[2015,39.9],[2016,43.6],[2017,46.3],[2018,49.4],[2019,53.9],[2020,60.1],[2021,63.8],[2022,67],[2023,69.2],[2024,71.2],[2025,73.6]],"note":"ITU 数据。2025 年约 60 亿人在线，仍有 22 亿人未上网。","src":[["Our World in Data / ITU","https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"],["ITU","https://www.itu.int/en/ITU-D/Statistics/Pages/stat/"]],"asof":"2025-11"},{"id":"waymo","title":"Waymo 每周付费出行","sub":"千单/周","unit":"千单","log":false,"kind":"line","points":[[2024.37,50,"2024-05"],[2024.63,100,"2024-08"],[2025.3,250,"2025-04"],[2026.2,500,"2026-03"]],"note":"两年 10 倍。2026 年 9 月覆盖 14 个城市，公司目标年底每周 100 万单。","src":[["TechCrunch 2024","https://techcrunch.com/2024/08/20/waymo-is-now-giving-100000-robotaxi-rides-week"],["TechCrunch 2026","https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"],["InsideEVs","https://insideevs.com/news/791245/waymo-rides-per-week-2026-doubled/"]],"asof":"2026-03"},{"id":"solar","title":"光伏组件价格","sub":"美元/W（2024 年美元）","unit":"$/W","log":true,"kind":"line","points":[[1975,132.3757],[1976,99.5976],[1977,72.6611],[1978,51.4082],[1979,43.1951],[1980,36.605],[1981,29.2664],[1982,26.2952],[1983,21.2281],[1984,19.725],[1985,17.2204],[1986,14.2447],[1987,12.1104],[1988,11.3116],[1989,11.6901],[1990,12.0911],[1991,11.2008],[1992,10.4351],[1993,9.7587],[1994,9.2315],[1995,8.5355],[1996,7.9798],[1997,7.952],[1998,7.1656],[1999,6.6193],[2000,6.4959],[2001,6.2844],[2002,5.7473],[2003,5.4638],[2004,4.6955],[2005,4.7457],[2006,5.1727],[2007,5.2111],[2008,4.7492],[2009,3.1743],[2010,2.5118],[2011,2.0609],[2012,1.1107],[2013,0.8566],[2014,0.7905],[2015,0.7357],[2016,0.6803],[2017,0.5714],[2018,0.5091],[2019,0.4669],[2020,0.3697],[2021,0.3319],[2022,0.3658],[2023,0.3218],[2024,0.2652]],"note":"1975→2024 下降约 500 倍。","src":[["Our World in Data","https://ourworldindata.org/grapher/solar-pv-prices"]],"asof":"2024"},{"id":"genome","title":"人类全基因组测序成本","sub":"美元","unit":"$","log":true,"kind":"line","points":[[2001,95263070],[2002,61448420],[2003,40157556],[2004,18519312],[2005,13801124],[2006,10474556],[2007,7147571.5],[2008,342502.06],[2009,70333.33],[2010,29091.73],[2011,7743.44],[2012,5901.29],[2013,5096.08],[2014,4008.11],[2015,1245.31],[2016,1175.74],[2017,1015.38],[2018,1232.28],[2019,606.32],[2020,511.97],[2021,454.05],[2022,524.62]],"note":"2001→2022 下降约 18 万倍；2015 年后基本走平。","src":[["Our World in Data / NHGRI","https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]],"asof":"2022"},{"id":"launch","title":"近地轨道发射成本","sub":"美元/kg，按首飞年份","unit":"$/kg","log":true,"kind":"scatter","points":[[1962,14900,"Kosmos"],[1963,29500,"Atlas Centaur"],[1964,30600,"Titan II"],[1965,8200,"Proton"],[1965,21000,"Titan III+"],[1965,177900,"Delta E"],[1966,8400,"R-36 / Cyclone"],[1966,17900,"Soyuz"],[1967,5400,"Saturn V"],[1967,118500,"Scout"],[1975,17500,"Long March 2A"],[1975,21400,"Delta 3000-Series"],[1980,32800,"Delta 3910"],[1981,65400,"Space Shuttle"],[1982,8300,"Long March 2C"],[1985,5100,"Zenit 2"],[1988,18300,"Ariane 44"],[1988,31100,"Shavit"],[1989,30800,"Titan IV"],[1990,9900,"Long March 2E"],[1990,38800,"Delta II"],[1990,41100,"Pegasus"],[1991,18700,"Atlas II"],[1992,9100,"Long March 2D"],[1993,23600,"Start"],[1994,8500,"PSLV"],[1994,8700,"Long March 3A"],[1994,10500,"H-II"],[1994,20600,"Rokot"],[1994,34600,"Taurus"],[1996,50600,"Pegasus XL"],[1997,6200,"Long March 3B"],[1997,10200,"Ariane 5G"],[1997,45800,"M-V"],[1998,19100,"Shtil"],[1999,8900,"Zenit 3SL"],[1999,9600,"Dnepr"],[1999,18000,"Delta III"],[1999,19200,"Athena 1"],[2000,16000,"Atlas III"],[2000,73100,"Minotaur I"],[2001,10000,"GSLV"],[2002,8100,"Atlas V"],[2002,10400,"Delta IV"],[2003,11200,"Strela"],[2004,11600,"Delta IV Heavy"],[2008,12600,"Falcon 1"],[2010,2600,"Falcon 9"],[2012,20000,"Vega"],[2013,7600,"Long March 4B"],[2013,10600,"Kuaizhou"],[2013,13600,"Antares"],[2013,34500,"Epsilon"],[2014,4500,"Angara"],[2016,7900,"Long March 5"],[2017,8000,"LVM3"],[2017,30500,"Minotaur IV"],[2018,1500,"Falcon Heavy"],[2018,23100,"Electron"],[2019,10600,"Long March 11"],[2019,17300,"Shian Quxian"]],"note":"航天飞机约 65,400 美元/kg，猎鹰 9 号约 2,600，猎鹰重型约 1,500。星舰尚无公开报价。","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]],"asof":"2019"}],"kpis":[{"id":"price","v":"40×","u":"/年","l":"达到 GPT-4 水平的推理价格年降幅","d":"不同能力门槛的降幅在 9–900 倍/年之间。","src":[["Epoch AI","https://epoch.ai/data-insights/llm-inference-price-trends"]]},{"id":"cost","v":"3.5×","u":"/年","l":"前沿模型训练成本年增幅","d":"2020 年以来；1 GW 数据中心前期投资约 380 亿美元。","src":[["Epoch AI","https://epoch.ai/trends"]]},{"id":"rev","v":"~$1,350亿","u":"","l":"OpenAI + Anthropic 年化收入","d":"OpenAI 约 700 亿美元（9 月），Anthropic 约 650 亿美元（7 月）；同期四大云厂商资本开支约 7,000 亿美元。","note":"anthropic","src":[["Yahoo Finance","https://finance.yahoo.com/markets/stocks/articles/openai-q3-2026-revenue-run-171727199.html"],["CNBC","https://www.cnbc.com/2026/08/17/anthropic-says-annualized-revenue-climbed-to-65-billion-in-july.html"]]},{"id":"adopt","v":"17–20%","u":"","l":"美国企业 AI 采用率","d":"2025-12 至 2026-05；250 人以上企业 37%。","src":[["U.S. Census Bureau","https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]]},{"id":"aitext","v":"31.1%","u":"","l":"网页文本中 AI 生成的比例","d":"2026 年 8 月，2024 年 6 月约 10%。","src":[["The Neuron","https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"]]},{"id":"arxiv","v":"40,363","u":"篇","l":"arXiv 9 月投稿量","d":"是 2016 年 9 月的 4.1 倍，arXiv 已限制每人每月 2 篇。","src":[["The Neuron","https://theneuron.ai/digest/everything-that-happened-in-ai-today-thursday-october-1-2026"]]},{"id":"data","v":"300 万亿","u":"token","l":"高质量人类公开文本存量","d":"Epoch 估计 2026–2032 年间被用完。","src":[["Epoch AI","https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data"]]},{"id":"users","v":"9 亿","u":"","l":"ChatGPT 周活（2026-02）","d":"网民约 60 亿；6 月 ChatGPT App 月活 10 亿。","src":[["TechCrunch","https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users/"]]}]},"niches":{"asof":"2026-10-03","items":[{"id":"humanoid","cand":"c_embodied","name":"人形机器人","now":"宇树出货领先，Figure 进入宝马工厂，特斯拉 Optimus 第三代仍未发布","fig":"5,500 台","figl":"宇树 2025 年人形出货，七成以上用于科研教育","next":"单台成本低于 2 万美元，走出科研教育市场","win":[2028,2033],"node":"unitree","src":[["Rest of World","https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"],["Electrek","https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/"]]},{"id":"av","cand":"c_embodied","name":"自动驾驶","now":"Waymo 在美国 14 个城市商业运营，已进入陡峭增长段","fig":"每周 50 万单","figl":"两年增长 10 倍","next":"每周 100 万单（公司 2026 年底目标）","win":[2026,2028],"node":"waymo","src":[["TechCrunch","https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"]]},{"id":"robotfm","cand":"c_embodied","name":"机器人基础模型","now":"π0.5、英伟达 GR00T、谷歌 Gemini Robotics 竞相做跨机型泛化","fig":"56 亿美元","figl":"Physical Intelligence 2025 年 11 月估值","next":"一套权重在新机型、新环境上零样本可用","win":[2026,2030],"node":"pi05","src":[["Physical Intelligence","https://physicalintelligence.company/blog/pi05"],["Bloomberg Law","https://news.bloomberglaw.com/private-equity/robotics-startup-physical-intelligence-valued-at-5-6-billion"]]},{"id":"world","cand":"c_embodied","name":"世界模型","now":"Genie 3 开放给订阅用户，Waymo 用它做驾驶仿真","fig":"24 帧/秒","figl":"可交互 3D 世界，保持数分钟一致","next":"长时间一致且物理可信，可替代大部分真机数据","win":[2026,2030],"node":"worldmodel","src":[["Google DeepMind","https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/"]]},{"id":"ai4sci","cand":"c_bio","name":"AI for Science","now":"AlphaFold 获诺奖；FutureHouse 的 Robin 从提出假设到论文用了 2.5 个月","fig":"0","figl":"截至 2026 年年中获 FDA 批准的 AI 设计药物","next":"第一个 AI 设计的药物获批","win":[2027,2030],"node":"aidrug","src":[["Nature Medicine","https://www.nature.com/articles/s41591-025-03743-2"],["FutureHouse","https://www.futurehouse.org/ai-scientist"]]},{"id":"synbio","cand":"c_bio","name":"合成生物","now":"Evo 系列基因组语言模型从零设计出能存活的噬菌体","fig":"16/302","figl":"AI 设计的噬菌体基因组中存活的比例","next":"AI 设计的完整细菌级基因组","win":[2028,2035],"node":"evo2","src":[["bioRxiv（King 等 2025）","https://doi.org/10.1101/2025.09.12.675911"],["Arc Institute","https://arcinstitute.org/news/evo-2-one-year-later"]]},{"id":"solarstore","cand":"c_energy","name":"光伏与储能","now":"光伏是全球能源投资里最大的单项（2025 年约 4,500 亿美元）","fig":"70 美元/kWh","figl":"储能电池包 2025 年均价，一年降 45%","next":"储能低于 50 美元/kWh","win":[2028,2033],"node":"battery","src":[["BloombergNEF","https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"],["IEA","https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]]},{"id":"fusion","cand":"c_energy","name":"聚变与先进核能","now":"NIF 已点火；三哩岛 1 号机组为微软重启；SPARC 在建","fig":"Q\u003c1","figl":"所有私营聚变装置至今的净增益","next":"SPARC 实现 Q>1","win":[2027,2035],"node":"fusionq","src":[["TechCrunch","https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"],["LLNL","https://lasers.llnl.gov/science/achieving-fusion-ignition"]]},{"id":"quantum","cand":"c_quantum","name":"量子计算","now":"谷歌 Willow 低于纠错阈值；Quantinuum Helios 实现 48 个逻辑比特","fig":"99.921%","figl":"Helios 双比特门保真度","next":"IBM Starling：200 个逻辑比特、1 亿次门","win":[2029,2033],"node":"helios","src":[["HPCwire","https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"],["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]},{"id":"orbit","cand":"c_space","name":"轨道算力","now":"Starcloud 和谷歌 Suncatcher 已把 GPU、TPU 送上轨道做实验","fig":"1 块 H100","figl":"Starcloud-1 在轨运行，Starcloud-2 计划 2026 年 10 月发射","next":"商用轨道云服务","win":[2027,2035],"node":"orbital","src":[["TechCrunch","https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]]},{"id":"space","cand":"c_space","name":"发射与卫星","now":"星舰 2026 年 9 月首次入轨；星链订户超过 1,200 万","fig":"165 次","figl":"SpaceX 2025 年发射次数","next":"星舰完全复用，发射低于 200 美元/kg","win":[2028,2035],"node":"starship","src":[["CNN","https://www.cnn.com/2026/09/28/science/live-news/spacex-starship-flight-14-launch"],["Wikipedia: SpaceX","https://en.wikipedia.org/wiki/SpaceX"],["Wikipedia: Starlink","https://en.wikipedia.org/wiki/Starlink"]]},{"id":"glasses","cand":"c_spatial","name":"AI 眼镜","now":"Meta 眼镜销量一年三倍；Reality Labs 2025 年亏损 192 亿美元","fig":"700 万副","figl":"2025 年 Meta 智能眼镜销量","next":"年销 1 亿副","win":[2029,2035],"node":"glasses","src":[["CNBC","https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]]},{"id":"bci","cand":"c_bci","name":"脑机接口","now":"Neuralink 2025 年 9 月累计 12 名受试者；语音解码达到每分钟 78 词","fig":"12 人","figl":"Neuralink 受试者（2025-09）","next":"非医疗的消费级产品","win":[2036,2045],"node":"neuralink","src":[["Wikipedia","https://en.wikipedia.org/wiki/Neuralink"],["Nature","https://www.nature.com/articles/s41586-023-06443-4"]]}]},"verdict":{"asof":"2026-10-03","conclusion":{"answer":"具身智能：AI 走进物理世界","line":"互联网让传输信息几乎免费，AI 让产生认知几乎免费，下一个是让物理动作变便宜。","dek":"默认权重下，具身智能得分第一，廉价清洁能源紧随其后，它是具身智能和 AI 共同的底座；可编程生物是第二战场。时间上，2030 年前的主线仍是 AI 本身的扩散，具身智能的陡峭增长段预计落在 2027–2040 年。","figs":[{"v":"10×","l":"Robotaxi 每周订单两年增幅","node":"waymo"},{"v":"129 天","l":"智能体任务时长翻倍周期","node":"horizon"},{"v":"415→945","u":"TWh","l":"全球数据中心用电 2024→2030","node":"dcpower"}],"falsifiers":["到 2030 年人形机器人年出货仍不到 10 万台，且 Robotaxi 增长停滞：具身智能的判断不成立。","AI 资本开支同比削减 30% 以上：AI 进入 Perez 所说的转折点，所有下游时间表推后。","储能和聚变进展快于预期，机器人停滞：能源取代具身智能成为首选。"]},"chain":[{"yr":"1969 年起","h":"互联网","what":"传输信息的成本趋近于零","ev":"2025 年约 60 亿人在线，占世界人口 74%","node":"online6b"},{"yr":"2012 年起","h":"AI","what":"产生认知的成本趋近于零","ev":"达到 GPT-4 水平的推理价格每年下降约 40 倍","node":"frontier26"},{"yr":"2027–2040 年","h":"具身智能","what":"物理动作的成本开始下降","ev":"Robotaxi 每周订单两年增长 10 倍；人形机器人出货仍以千台计","node":"c_embodied","next":true}],"criteria":[{"id":"pervasive","name":"普适性","w":0.2,"d":"能进入多少行业。通用目的技术的第一条标准（Bresnahan & Trajtenberg 1995）。"},{"id":"cost","name":"成本曲线","w":0.15,"d":"核心投入的成本下降速度。Perez 定义的关键要素必须廉价且快速变得更廉价。"},{"id":"spawn","name":"衍生创新","w":0.1,"d":"改进空间和互补创新的密度，通用目的技术的第二、三条标准。"},{"id":"capital","name":"资本流入","w":0.15,"d":"2025–2026 年的投资规模和增速。"},{"id":"timing","name":"拐点时机","w":0.15,"d":"陡峭增长段是否落在 2027–2040 年。已在陡峭段多年的算“正在进行”，2040 年以后的算“更远”。"},{"id":"synergy","name":"AI 互补","w":0.15,"d":"AI 是否加速它，以及它是否缓解 AI 的瓶颈（电力、数据、物理动作）。互联网之于 AI 就是这种关系：它提供了训练数据。"},{"id":"enablers","name":"使能就绪","w":0.1,"auto":true,"d":"由网络自动计算：候选的直接前提节点里，已经实现（过去或现在）的比例 × 5。"}],"candidates":[{"id":"c_embodied","name":"具身智能","short":"具身","scores":[{"c":"pervasive","s":5,"why":"物理劳动遍及农业（全球就业的 26%）、制造、物流、建筑和护理，作用面与 AI 本身相当。","src":[["Our World in Data","https://ourworldindata.org/grapher/share-of-employment-in-agriculture"]]},{"c":"cost","s":3,"why":"成本在降，但还没有长期学习曲线：高盛估计人形机器人制造成本一年内从 5–25 万美元降到 3–15 万美元。","src":[["Goldman Sachs","https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]]},{"c":"spawn","s":4,"why":"机器人基础模型、世界模型、灵巧手、仿真到真机强化学习同时推进；π0.5 能在陌生家庭里完成 10–15 分钟的任务。","src":[["Physical Intelligence","https://physicalintelligence.company/blog/pi05"]]},{"c":"capital","s":4,"why":"Figure 估值 390 亿美元，宇树以约 90 亿美元估值 IPO，Physical Intelligence 估值 56 亿美元；但规模仍远小于 AI 每年约 7,000 亿美元的资本开支。","src":[["TechCrunch","https://techcrunch.com/2025/09/16/figure-reaches-39b-valuation-in-latest-funding-round/"],["CNBC","https://www.cnbc.com/2026/08/06/chinese-humanoid-robot-maker-unitree-prices-ipo-at-9-billion-valuation.html"]]},{"c":"timing","s":5,"why":"Robotaxi 已进入陡峭段，两年 10 倍；人形机器人 2025 年出货以千台计，正处在 S 曲线的起点。","src":[["TechCrunch","https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"],["Rest of World","https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"]]},{"c":"synergy","s":5,"why":"直接消耗 AI 能力（视觉-语言-动作模型、世界模型），同时给 AI 带来身体和新的物理数据，绕开文本数据墙。","src":[["Google DeepMind","https://deepmind.google/discover/blog/rt-2-new-model-translates-vision-and-language-into-action/"],["Epoch AI","https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data"]]}]},{"id":"c_energy","name":"廉价清洁能源","short":"能源","scores":[{"c":"pervasive","s":5,"why":"能源是所有行业的投入，AI 本身也受它约束。","src":[["IEA","https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]]},{"c":"cost","s":5,"why":"光伏组件 1975→2024 年降了约 500 倍；储能电池包 2025 年一年降了 45%。","src":[["Our World in Data","https://ourworldindata.org/grapher/solar-pv-prices"],["BloombergNEF","https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]]},{"c":"spawn","s":3,"why":"改进空间大，但产出主要是同一种商品（电）变便宜，衍生出的新产品品类少于信息技术。","src":[["IEA","https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]]},{"c":"capital","s":5,"why":"2025 年全球能源投资约 3.3 万亿美元，其中清洁能源 2.2 万亿，光伏约 4,500 亿是最大单项。","src":[["IEA","https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]]},{"c":"timing","s":3,"why":"光伏和储能已在陡峭段多年，属于“正在进行”而不是“下一个”；聚变的拐点在 2035 年以后。","src":[["SolarPower Europe","https://www.solarpowereurope.org/press-releases/new-report-global-solar-market-hits-new-record-of-664-gw-installation-in-2025-as-global-solar-fleet-passes-3-tw"],["TechCrunch","https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"]]},{"c":"synergy","s":4,"why":"直接缓解 AI 最硬的约束：数据中心用电 2030 年预计翻倍到约 945 TWh。反过来，AI 对能源技术本身的加速作用有限。","src":[["IEA Energy and AI","https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"]]}]},{"id":"c_bio","name":"可编程生物","short":"生物","scores":[{"c":"pervasive","s":3,"why":"覆盖医疗、农业、材料和化工，但不像能源或劳动那样进入所有行业。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Synthetic_biology"]]},{"c":"cost","s":4,"why":"测序成本 2001→2022 年降了约 18 万倍，但 2015 年以后基本走平。","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]]},{"c":"spawn","s":4,"why":"蛋白质设计、基因组语言模型、AI 科学家同时出现；Evo 系列设计的 302 个噬菌体基因组中有 16 个存活。","src":[["bioRxiv（King 等 2025）","https://doi.org/10.1101/2025.09.12.675911"],["Arc Institute","https://arcinstitute.org/news/evo-2-one-year-later"]]},{"c":"capital","s":3,"why":"截至 2026 年年中还没有 AI 设计的药物获批，商业验证尚未完成，资本以风险投资和药企合作为主。","src":[["Nature Medicine","https://www.nature.com/articles/s41591-025-03743-2"]]},{"c":"timing","s":4,"why":"第一个 AI 设计药物的获批预计在 2027–2030 年；GLP-1 已证明新一代药物能形成大众市场。","src":[["Drugs.com","https://www.drugs.com/history/foundayo.html"]]},{"c":"synergy","s":4,"why":"AI 是这条路线的主引擎（AlphaFold 获 2024 年诺贝尔化学奖），但它不缓解 AI 自身的电力、数据和物理瓶颈。","src":[["Nobel Prize","https://www.nobelprize.org/prizes/chemistry/2024/summary/"]]}]},{"id":"c_spatial","name":"AI 眼镜与空间计算","short":"眼镜","scores":[{"c":"pervasive","s":3,"why":"改变的是人和信息之间的接口，覆盖所有知识工作者和消费者，但不改变生产本身。","src":[["CNBC","https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]]},{"c":"cost","s":3,"why":"Vision Pro 售价 3,499 美元，智能眼镜还没出现手机那样的规模降本。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Apple_Vision_Pro"]]},{"c":"spawn","s":3,"why":"应用生态仍在早期，主要用法是拍照、语音助手和翻译。","src":[["UploadVR","https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]]},{"c":"capital","s":3,"why":"Meta Reality Labs 2025 年亏损 192 亿美元，投入持续但集中在少数公司。","src":[["Shacknews","https://www.shacknews.com/article/147618/facebook-meta-reality-labs-fy25-losses"]]},{"c":"timing","s":4,"why":"智能眼镜 2025 年销量增长两倍，依视路陆逊梯卡在扩产。","src":[["UploadVR","https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]]},{"c":"synergy","s":4,"why":"眼镜是 AI 的第一人称传感器和随身接口；但对算力和电力瓶颈没有帮助。","src":[["CNBC","https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]]}]},{"id":"c_space","name":"太空经济","short":"太空","scores":[{"c":"pervasive","s":2,"why":"直接影响通信、导航和遥感，占整体经济的比重小。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Starlink"]]},{"c":"cost","s":4,"why":"发射成本从航天飞机约 65,400 美元/kg 降到猎鹰重型约 1,500 美元/kg。","src":[["Our World in Data","https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]]},{"c":"spawn","s":3,"why":"卫星互联网已成规模（星链订户超 1,200 万），轨道算力和在轨制造还在实验。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Starlink"],["TechCrunch","https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]]},{"c":"capital","s":3,"why":"高度集中在 SpaceX 一家；轨道算力创业公司 Starcloud 2026 年融资 1.7 亿美元。","src":[["TechCrunch","https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]]},{"c":"timing","s":4,"why":"星舰 2026 年 9 月首次入轨，完全复用后成本曲线会再下一个台阶。","src":[["CNN","https://www.cnn.com/2026/09/28/science/live-news/spacex-starship-flight-14-launch"]]},{"c":"synergy","s":3,"why":"轨道太阳能算力可能缓解地面的电力约束，但目前只有单块 GPU 规模的实验。","src":[["TechCrunch","https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]]}]},{"id":"c_quantum","name":"量子计算","short":"量子","scores":[{"c":"pervasive","s":2,"why":"优势集中在化学模拟、材料和密码学等特定问题。","src":[["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]},{"c":"cost","s":1,"why":"还没有可观察的成本下降曲线。","src":[["HPCwire","https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]]},{"c":"spawn","s":2,"why":"主要算法和应用都依赖尚未建成的容错机器。","src":[["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]},{"c":"capital","s":2,"why":"投入规模远小于 AI 和能源，集中在少数公司和政府项目。","src":[["HPCwire","https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]]},{"c":"timing","s":2,"why":"IBM 把实用容错机定在 2029 年，大规模应用更晚。","src":[["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]},{"c":"synergy","s":2,"why":"对当前的 AI 训练和推理帮助有限。","src":[["IBM","https://www.ibm.com/quantum/blog/large-scale-ftqc"]]}]},{"id":"c_bci","name":"脑机接口","short":"脑机","scores":[{"c":"pervasive","s":2,"why":"近期只面向重度瘫痪等医疗适应症。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Neuralink"]]},{"c":"cost","s":1,"why":"需要开颅手术植入。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Brain%E2%80%93computer_interface"]]},{"c":"spawn","s":2,"why":"语音解码进展很快（每分钟 78 词），但受试者以个位数到几十人计。","src":[["Nature","https://www.nature.com/articles/s41586-023-06443-4"]]},{"c":"capital","s":2,"why":"Neuralink 2025 年融资 6.5 亿美元，整个行业的资本规模小。","src":[["Bloomberg","https://www.bloomberg.com/news/articles/2025-06-02/neuralink-raises-650-million-in-late-stage-funding-round"]]},{"c":"timing","s":1,"why":"消费级产品预计在 2035 年以后。","src":[["Wikipedia","https://en.wikipedia.org/wiki/Neuralink"]]},{"c":"synergy","s":3,"why":"AI 让神经信号解码变得可行，但它不缓解 AI 的任何瓶颈。","src":[["Nature","https://www.nature.com/articles/s41586-023-06377-x"]]}]}],"baselines":[{"id":"b_internet","name":"互联网 @1995","d":"以 1995 年为观察点回看打分：TCP/IP、万维网、个人电脑、光纤都已就位，网景刚刚上市。","scores":{"pervasive":5,"cost":4,"spawn":5,"capital":3,"timing":5,"synergy":5,"enablers":5}},{"id":"b_dl","name":"深度学习 @2012","d":"以 2012 年为观察点回看打分：GPU、ImageNet、反向传播、云计算已就位，规模定律还没被发现，资本很少。","scores":{"pervasive":4,"cost":4,"spawn":4,"capital":2,"timing":4,"synergy":5,"enablers":4}}],"baselineNote":"两条刻度线是事后回看的打分，有后见之明偏差，只用来判断候选今天的得分处在什么量级。","pattern":{"intervals":[58,46,33,63],"text":"五次浪潮的起点间隔分别是 58、46、33、63 年，平均 50 年。按这个区间，第六次浪潮的起点应落在 2004–2034 年（1971 + 33 到 63 年）。2022 年的 ChatGPT 落在区间内，但 Perez 本人认为 AI 属于第五次浪潮。"},"counterpoints":[{"t":"Perez 认为 AI 属于第五次浪潮","b":"Perez 把 AI 看作 1971 年开始的信息通信革命内部的关键发展，而不是一次新的技术革命。按这个看法，“互联网、AI、下一个”并不是三次革命，下一次真正的浪潮可能要到 2030 年代以后才开始。","src":[["Perez","https://carlotaperez.org/second-machine-age-or-fifth-technological-revolution-part-3"]]},{"t":"新技术扩散要几十年","b":"David（1990）指出，电力从开始普及到在生产率统计里显现用了约 40 年。美国企业 AI 采用率只有 17–20%，2030 年前的主线仍是 AI 本身的扩散。","src":[["David 1990, AER","https://www.jstor.org/stable/2006600"],["U.S. Census Bureau","https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]]},{"t":"机器人还缺数据和订单","b":"宇树七成以上的人形机器人卖给科研和教育机构；特斯拉 Optimus 第三代一再推迟；机器人没有互联网规模的动作数据，世界模型和仿真能否补上还没有定论。","src":[["Rest of World","https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"],["Electrek","https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/"]]},{"t":"能源可能才是真正的下一个","b":"能源只比具身智能低约 0.2 分。把“成本曲线”和“资本流入”的权重调高，能源就会反超。如果电力成为 AI 扩张的硬约束，资本会先流向能源。","src":[["IEA Energy and AI","https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"]]},{"t":"AI 狂热之后可能有一次崩盘","b":"四大云厂商 2026 年资本开支约 7,000 亿美元，OpenAI 和 Anthropic 的年化收入合计约 1,350 亿美元。在 Perez 的框架里，安装期的狂热之后通常有一次崩盘，比如 2000 年的互联网泡沫，它会推迟所有下游方向。","note":"anthropic","src":[["CNBC（资本开支）","https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html"],["CNBC（Anthropic 收入）","https://www.cnbc.com/2026/08/17/anthropic-says-annualized-revenue-climbed-to-65-billion-in-july.html"],["Yahoo Finance（OpenAI 收入）","https://finance.yahoo.com/markets/stocks/articles/openai-q3-2026-revenue-run-171727199.html"]]}],"watchlist":[{"k":"Robotaxi 每周订单","now":"约 50 万（2026-03）","th":"500 万","m":"具身智能进入大众市场","cand":"c_embodied","src":[["TechCrunch","https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"]]},{"k":"人形机器人年出货","now":"宇树 5,500 台（2025）","th":"10 万台以上，多数用于生产","m":"走出科研教育市场","cand":"c_embodied","src":[["Rest of World","https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"]]},{"k":"人形机器人制造成本","now":"3–15 万美元（高盛 2024）","th":"低于 2 万美元","m":"接近规模化的经济性","cand":"c_embodied","src":[["Goldman Sachs","https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]]},{"k":"智能体任务时长","now":"17.4 小时（2026-04）","th":"170 小时（一个月工时）","m":"数字劳动可以整块外包","cand":"c_embodied","src":[["METR","https://metr.org/time-horizons/"]]},{"k":"储能电池包价格","now":"70 美元/kWh（2025）","th":"低于 50 美元/kWh","m":"能源底座就位","cand":"c_energy","src":[["BloombergNEF","https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]]},{"k":"私营聚变净增益","now":"Q\u003c1","th":"Q>1","m":"聚变进入工程阶段","cand":"c_energy","src":[["TechCrunch","https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"]]},{"k":"美国企业 AI 采用率","now":"17–20%（2026-05）","th":"50%","m":"AI 部署期过半","cand":null,"src":[["U.S. Census Bureau","https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]]},{"k":"AI 设计药物获批","now":"0 个","th":"第 1 个","m":"可编程生物得到商业验证","cand":"c_bio","src":[["Nature Medicine","https://www.nature.com/articles/s41591-025-03743-2"]]}],"tour":[{"id":"t1","kicker":"01 · 结论","title":"下一个是具身智能","range":[1760,2045],"body":["互联网让传输信息几乎免费，AI 让产生认知几乎免费。按同一套指标给 7 个候选打分，具身智能排第一：把 AI 装进机器人和汽车，让物理动作变便宜。","廉价清洁能源紧随其后，它是具身智能和 AI 共同的底座；可编程生物是第二战场。接下来 7 步说明这个判断是怎么得出的。"],"focus":["arkwright","rocket","carnegie","modelt","intel4004","www","chatgpt","frontier26","c_embodied","c_energy","c_bio"]},{"id":"t2","kicker":"02 · 规律","title":"五次浪潮，每次让一种投入变廉价","range":[1760,2045],"body":["Perez 把工业革命以来的历史分成五次技术浪潮，起点分别是 1771 年的纺纱厂、1829 年的火箭号机车、1875 年的贝塞麦钢厂、1908 年的 T 型车和 1971 年的微处理器。每次都有一种关键投入变得廉价、近乎无限供给：水力、煤铁、钢、石油、芯片。","起点间隔平均 50 年，第六次的起点应落在 2004–2034 年。ChatGPT 落在区间内，但 Perez 本人认为 AI 属于第五次浪潮，这一点放在最后的反方论据里。"],"focus":["arkwright","rocket","carnegie","modelt","intel4004"],"pattern":true},{"id":"t3","kicker":"03 · 互联网","title":"传输信息的成本趋近于零","range":[1835,2026],"body":["从 1844 年的电报到 2025 年的 60 亿网民，通信这条线花了 180 年。1995 年网景上市引发狂热，2000 年泡沫破裂，之后才是移动互联网的大规模部署。","互联网对 AI 最重要的遗产是数据：Common Crawl 网页语料占 GPT-3 训练数据权重的约 60%。"],"focus":["telegraph","cable","telephone","radio","arpanet","tcpip","fiber","www","netscape","dotcom","google","social","crawl","lte","online6b"],"chart":"internet"},{"id":"t4","kicker":"04 · AI","title":"产生认知的成本趋近于零","range":[1945,2026],"body":["前沿模型的训练算力 2020 年以来每年增长 5 倍，GPT-6 Astra 约 10²⁷ FLOP，是 GPT-3 的 3,000 多倍。","同时，达到 GPT-4 水平的推理价格每年下降约 40 倍。认知能力在变强，也在变便宜，这正是 Perez 所说的“关键投入”的特征。"],"focus":["perceptron","backprop","imagenet","alexnet","transformer","scaling","gpt3","chatgpt","gpt4","reasoning","agents","frontier26","crawl","cuda","aicompute"],"chart":"compute","kpis":["price","cost"]},{"id":"t5","kicker":"05 · 2026","title":"头部大模型：从回答问题到独立干活","range":[2012,2030],"body":["9 月到 10 月，OpenAI、Anthropic、谷歌相继发布 GPT-6、Claude 5.5 和 Gemini 4。METR 测得最新模型能以 50% 成功率完成人类专家 17 小时的任务，2023 年以来每 129 天翻一番。","收入跟上了，但还没追上投入：两家头部实验室年化收入约 1,350 亿美元，四大云厂商当年资本开支约 7,000 亿美元，美国企业的 AI 采用率只有 17–20%。失控智能体事件和 FTC 调查说明，安全正在成为约束。"],"focus":["frontier26","horizon","agents","reasoning","safety","aicompute","chatgpt","adopt50"],"chart":"horizon","kpis":["rev","users","adopt"],"note":"anthropic"},{"id":"t6","kicker":"06 · 瓶颈","title":"AI 被物理世界卡住","range":[2000,2035],"body":["四个约束同时出现：电，全球数据中心用电 2030 年预计翻倍到约 945 TWh；芯片，美光 2027 年超过 75% 的 HBM 产能已被锁定；数据，网页文本已有 31.1% 由 AI 生成，高质量人类文本预计 2026–2032 年用完；物理动作，模型能写代码，却还搬不动箱子。","能缓解这些瓶颈、又被 AI 加速的方向，最可能接棒。"],"focus":["dcpower","hbm","datawall","aitext","safety","frontier26","aicompute"],"chart":"dc","kpis":["data","aitext"]},{"id":"t7","kicker":"07 · 候选","title":"7 个候选，同一套指标","range":[2000,2045],"body":["7 项指标里，6 项人工打分并给出来源，第 7 项“使能就绪”直接从这张网络计算：候选的直接前提里，已经实现的占多少。","具身智能在拐点时机和 AI 互补两项拿满分，能源在成本曲线和资本流入两项拿满分。往下翻到打分区，可以自己调权重。"],"focus":["c_embodied","c_energy","c_bio","c_spatial","c_space","c_quantum","c_bci","waymo","pi05","worldmodel","fleet","solar","storage50","fusionq","evo2","aidrug"],"chart":"waymo"},{"id":"t8","kicker":"08 · 结论与反方","title":"判断成立的条件","range":[1990,2045],"body":["结论：下一个是具身智能，能源是底座，生物是第二战场；2030 年前的主线仍是 AI 本身。","最强的反对意见是：Perez 认为 AI 仍属第五次浪潮；新技术扩散要几十年；机器人还缺数据和订单。页面底部列出 8 个观察指标和 3 个推翻信号，任何一个越线都应该重新打分。"],"focus":["c_embodied","waymo","pi05","worldmodel","fleet","humanoid20k","battery","robots","frontier26","agentmonth","c_energy","c_bio"]}]}}</script>
+<script>(()=>{'use strict';
+// Shared data and helpers. Everything is embedded in the page; no network calls.
+const DATA = JSON.parse(document.getElementById('pw-data').textContent);
+const { graph: G, trends: T, niches: NICHES, verdict: V } = DATA;
+
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const href = u => (/^https:\/\//.test(u) ? u : '#');
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage blocked */ } },
+};
+const SVGNS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs = {}, parent) => {
+  const el = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) if (attrs[k] != null) el.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(el);
+  return el;
+};
+
+const LANE_IDX = Object.fromEntries(G.lanes.map((l, i) => [l.id, i]));
+const LANE = Object.fromEntries(G.lanes.map(l => [l.id, l]));
+const laneVar = id => `var(--l${LANE_IDX[id] + 1})`;
+const laneShort = id => LANE[id].name.split('·')[0].slice(0, 2);
+const NODE = new Map(G.nodes.map(n => [n.id, n]));
+const KIND_NAME = { milestone: '里程碑', trend: '现状趋势', frontier: '前沿', candidate: '候选', bottleneck: '瓶颈' };
+const STATUS_NAME = { past: '已实现', now: '进行中', future: '预测' };
+const EDGE_NAME = { e: '促成', a: '加速', b: '约束', r: '缓解' };
+const TODAY = 2026.75;
+
+// adjacency
+const OUT = new Map(G.nodes.map(n => [n.id, []]));
+const IN = new Map(G.nodes.map(n => [n.id, []]));
+G.edges.forEach(([a, b, t]) => { OUT.get(a).push([b, t]); IN.get(b).push([a, t]); });
+function chainOf(id) {
+  // all ancestors and descendants through 促成/加速 edges, plus direct 约束/缓解 neighbours
+  const nodes = new Set([id]);
+  const walk = (start, map) => {
+    const stack = [start];
+    while (stack.length) {
+      const cur = stack.pop();
+      for (const [nb, t] of map.get(cur)) {
+        if (t !== 'e' && t !== 'a') continue;
+        if (!nodes.has(nb)) { nodes.add(nb); stack.push(nb); }
+      }
+    }
+  };
+  walk(id, IN); walk(id, OUT);
+  for (const [nb, t] of [...OUT.get(id), ...IN.get(id)]) if (t === 'b' || t === 'r') nodes.add(nb);
+  return nodes;
+}
+
+const sources = list => (list && list.length
+  ? `<div class="src">${list.map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>`
+  : '');
+const DISCLOSE = '本页由 Claude 编写，Claude 由 Anthropic 开发；此条只转述公开报道和官方发布的数据。';
+const yearText = n => (n.yr ? `${n.yr[0]}–${n.yr[1]}` : String(n.year));
+
+const SUP = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const sci = v => {
+  const e = Math.floor(Math.log10(v));
+  const m = v / 10 ** e;
+  const ms = m.toFixed(m < 9.95 ? 1 : 0);
+  return `${ms === '1.0' ? '' : ms + '×'}10${String(e).replace(/./g, c => SUP[c])}`;
+};
+const fmtNum = v => {
+  if (v >= 1e9) return (v / 1e9).toFixed(v >= 1e10 ? 0 : 1) + 'B';
+  if (v >= 1e6) return (v / 1e6).toFixed(v >= 1e7 ? 0 : 1) + 'M';
+  if (v >= 1e4) return Math.round(v).toLocaleString('en-US');
+  if (v >= 100) return Math.round(v).toLocaleString('en-US');
+  if (v >= 10) return v.toFixed(0);
+  if (v >= 1) return v.toFixed(1);
+  return v.toPrecision(2);
+};
+const fmtYear = y => {
+  const yr = Math.floor(y + 1e-6);
+  const m = Math.round((y - yr) * 12) + 1;
+  return Number.isInteger(y) ? String(y) : `${yr}-${String(Math.min(12, m)).padStart(2, '0')}`;
+};
+
+// The 1760–2045 map: piecewise time scale, eight lanes with greedy label packing, pan/zoom, chain highlighting.
+function createGraph({ svg, box, labelsEl, tip, onSelect }) {
+  const BREAKS = [1760, 1900, 1990, TODAY, 2045];
+  const FRACS = [0, 0.2, 0.44, 0.8, 1];
+  const toU = y => {
+    if (y <= BREAKS[0]) return 0;
+    for (let i = 1; i < BREAKS.length; i++) if (y <= BREAKS[i]) return FRACS[i - 1] + (FRACS[i] - FRACS[i - 1]) * (y - BREAKS[i - 1]) / (BREAKS[i] - BREAKS[i - 1]);
+    return 1;
+  };
+  const CIRCLED = ['', '①', '②', '③', '④', '⑤'];
+  const PRIORITY = n => (n.kind === 'candidate' ? 0 : n.bang ? 1 : n.status === 'now' ? 2 : n.kind === 'bottleneck' ? 3 : n.kind === 'frontier' ? 4 : 5);
+  const ctx = document.createElement('canvas').getContext('2d');
+  const fontOf = n => (n.kind === 'candidate' ? '900 13px "Noto Sans SC", sans-serif' : n.bang ? '700 11.5px "Noto Sans SC", sans-serif' : '400 11.5px "Noto Sans SC", sans-serif');
+  const measure = n => { ctx.font = fontOf(n); return ctx.measureText(n.name).width; };
+  const radius = n => (n.kind === 'candidate' ? 8 : n.status === 'now' ? 5.5 : 4.5);
+
+  let W = 0, H = 0, laneW = 104, laneH = 66, top = 52, plotX = 0, plotW = 0, compact = false;
+  let view = [0, 1];
+  const st = { lanes: new Set(G.lanes.map(l => l.id)), statuses: new Set(['past', 'now', 'future']), tourFocus: null, hover: null, selected: null, hits: null };
+  let nodeEls = new Map(), edgeEls = [], parts = {};
+  let widths = new Map();
+
+  const X = y => plotX + (toU(y) - view[0]) / (view[1] - view[0]) * plotW;
+  const laneTop = i => top + i * laneH;
+  const trackY = (i, t) => laneTop(i) + (compact ? 14 : 16) + t * (compact ? 15 : 19);
+  const visible = n => st.lanes.has(n.lane) && st.statuses.has(n.status);
+
+  function measureAll() { widths = new Map(G.nodes.map(n => [n.id, measure(n)])); }
+
+  function size() {
+    W = box.clientWidth;
+    compact = W < 640;
+    laneW = compact ? 58 : 108;
+    laneH = compact ? 52 : 64;
+    top = 50;
+    H = top + G.lanes.length * laneH + 26;
+    plotX = laneW + 10;
+    plotW = Math.max(100, W - plotX - 18);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('height', H);
+    box.style.setProperty('--lane-w', laneW + 'px');
+    labelsEl.innerHTML = G.lanes.map((l, i) => `<div style="top:${laneTop(i)}px;height:${laneH}px"><i style="background:${laneVar(l.id)}"></i><p>${esc(compact ? laneShort(l.id) : l.name)}${compact ? '' : `<span>${esc(l.en)}</span>`}</p></div>`).join('');
+  }
+
+  function build() {
+    svg.innerHTML = '';
+    const defs = svgEl('defs', {}, svg);
+    const clip = svgEl('clipPath', { id: 'plot-clip' }, defs);
+    parts.clipRect = svgEl('rect', { y: 0 }, clip);
+    const pat = svgEl('pattern', { id: 'future-hatch', width: 7, height: 7, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+    svgEl('line', { x1: 0, y1: 0, x2: 0, y2: 7, stroke: 'var(--accent)', 'stroke-width': 1, opacity: 0.07 }, pat);
+    const plot = svgEl('g', { 'clip-path': 'url(#plot-clip)' }, svg);
+    parts.era = svgEl('g', { class: 'g-era' }, plot);
+    parts.eraRects = G.eras.map((e, i) => svgEl('rect', { y: top, height: G.lanes.length * laneH, fill: i % 2 ? 'var(--accent)' : 'var(--ink)', opacity: i % 2 ? 0.035 : 0.02 }, parts.era));
+    parts.eraLabels = G.eras.map(e => svgEl('text', { y: 38, class: 'era-n' }, parts.era));
+    parts.future = svgEl('g', { class: 'g-future' }, plot);
+    parts.futureRect = svgEl('rect', { y: top, height: G.lanes.length * laneH, fill: 'url(#future-hatch)' }, parts.future);
+    parts.futureBg = svgEl('rect', { y: top, height: G.lanes.length * laneH, fill: 'var(--future)' }, parts.future);
+    parts.futureText = svgEl('text', { y: 38 }, parts.future);
+    parts.futureText.textContent = '预测区';
+    parts.axis = svgEl('g', { class: 'g-axis' }, plot);
+    parts.lanes = svgEl('g', { class: 'g-lane' }, svg);
+    G.lanes.forEach((l, i) => { if (i) svgEl('line', { x1: 0, x2: W, y1: laneTop(i), y2: laneTop(i) }, parts.lanes); });
+    svgEl('line', { x1: 0, x2: W, y1: top, y2: top }, parts.lanes);
+    svgEl('line', { x1: 0, x2: W, y1: top + G.lanes.length * laneH, y2: top + G.lanes.length * laneH }, parts.lanes);
+    parts.window = svgEl('g', { class: 'g-window' }, plot);
+    parts.winLine = svgEl('path', { fill: 'none' }, parts.window);
+    parts.winText = svgEl('text', { y: 47, 'text-anchor': 'middle' }, parts.window);
+    parts.winText.textContent = '第 6 次浪潮起点窗口';
+    parts.today = svgEl('g', { class: 'g-today' }, plot);
+    parts.todayLine = svgEl('line', { y1: 18, y2: top + G.lanes.length * laneH }, parts.today);
+    parts.todayText = svgEl('text', { y: 14, 'text-anchor': 'middle' }, parts.today);
+    parts.todayText.textContent = '今天';
+    const gEdges = svgEl('g', { class: 'g-edge' }, plot);
+    const gNodes = svgEl('g', {}, plot);
+
+    edgeEls = [];
+    for (const [a, b, t] of G.edges) {
+      const na = NODE.get(a), nb = NODE.get(b);
+      if (!visible(na) || !visible(nb)) continue;
+      const el = svgEl('path', { class: `t-${t}` }, gEdges);
+      edgeEls.push({ a, b, t, el });
+    }
+    nodeEls = new Map();
+    for (const n of G.nodes) {
+      if (!visible(n)) continue;
+      const r = radius(n);
+      const g = svgEl('g', { class: `g-node k-${n.kind} st-${n.status}${n.bang ? ' bang' : ''}`, 'data-id': n.id, role: 'button', tabindex: '-1', 'aria-label': `${n.name}，${yearText(n)}` }, gNodes);
+      const col = laneVar(n.lane);
+      let range = null;
+      if (n.yr) range = svgEl('path', { class: 'range', stroke: col, fill: 'none' }, g);
+      svgEl('circle', { r: 12, fill: 'transparent' }, g);
+      if (n.bang) svgEl('circle', { r: 8.5, class: 'bang-ring' }, g);
+      if (n.kind === 'candidate') {
+        svgEl('path', { d: 'M0 -9 L9 0 L0 9 L-9 0Z', fill: 'var(--surface)', stroke: col, 'stroke-width': 2 }, g);
+        svgEl('circle', { r: 3, fill: col }, g);
+      } else if (n.kind === 'bottleneck') {
+        svgEl('rect', { x: -5, y: -5, width: 10, height: 10, rx: 1.5, fill: n.status === 'future' ? 'var(--surface)' : col, stroke: n.status === 'future' ? col : 'var(--surface)', 'stroke-width': n.status === 'future' ? 1.5 : 2, 'stroke-dasharray': n.status === 'future' ? '2 2' : null, class: n.status === 'future' ? '' : 'dot' }, g);
+      } else if (n.status === 'future') {
+        svgEl('circle', { r: 5, fill: 'var(--surface)', stroke: col, 'stroke-width': 1.5, 'stroke-dasharray': '2 2' }, g);
+      } else {
+        if (n.status === 'now') svgEl('circle', { r: 8.5, class: 'halo', stroke: col }, g);
+        svgEl('circle', { r, fill: col, class: 'dot' }, g);
+      }
+      const text = svgEl('text', { x: r + 5, y: 4 }, g);
+      text.textContent = n.name;
+      nodeEls.set(n.id, { g, text, range, n });
+    }
+    layout();
+    applyFocus();
+  }
+
+  function ticks() {
+    parts.axis.innerHTML = '';
+    const y0 = BREAKS[0], y1 = 2045, accepted = [];
+    const pri = y => (y % 100 === 0 ? 5 : y % 50 === 0 ? 4 : y % 10 === 0 ? 3 : y % 5 === 0 ? 2 : 1);
+    const cands = [];
+    const xt = X(TODAY);
+    for (let y = y0; y <= y1; y++) { const x = X(y); if (x >= plotX + 14 && x <= W - 14 && Math.abs(x - xt) > 24) cands.push([pri(y), y, x]); }
+    cands.sort((p, q) => q[0] - p[0] || p[1] - q[1]);
+    for (const [p, y, x] of cands) {
+      if (p < 2 && accepted.length > 2) continue;
+      if (accepted.every(a => Math.abs(a[1] - x) >= (compact ? 40 : 46))) accepted.push([y, x]);
+    }
+    for (const [y, x] of accepted) {
+      svgEl('line', { x1: x, x2: x, y1: top, y2: top + G.lanes.length * laneH }, parts.axis);
+      const t = svgEl('text', { x, y: 14, 'text-anchor': 'middle' }, parts.axis);
+      t.textContent = y;
+      const tb = svgEl('text', { x, y: H - 8, 'text-anchor': 'middle' }, parts.axis);
+      tb.textContent = y;
+    }
+  }
+
+  function layout() {
+    parts.clipRect.setAttribute('x', plotX - 6);
+    parts.clipRect.setAttribute('width', W - plotX + 6);
+    parts.clipRect.setAttribute('height', H);
+    ticks();
+    G.eras.forEach((e, i) => {
+      const x0 = X(e.start), x1 = X(e.end);
+      parts.eraRects[i].setAttribute('x', x0);
+      parts.eraRects[i].setAttribute('width', Math.max(0, x1 - x0));
+      const lab = parts.eraLabels[i];
+      const full = `${CIRCLED[e.no]} ${e.name}`;
+      ctx.font = '800 11px Archivo, "Noto Sans SC", sans-serif';
+      lab.textContent = x1 - x0 > ctx.measureText(full).width + 12 ? full : CIRCLED[e.no];
+      lab.setAttribute('x', Math.max(plotX, x0) + 5);
+    });
+    const xt = X(TODAY), xe = X(2045);
+    parts.futureRect.setAttribute('x', xt); parts.futureRect.setAttribute('width', Math.max(0, xe - xt));
+    parts.futureBg.setAttribute('x', xt); parts.futureBg.setAttribute('width', Math.max(0, xe - xt));
+    parts.futureText.setAttribute('x', xt + 6);
+    parts.todayLine.setAttribute('x1', xt); parts.todayLine.setAttribute('x2', xt);
+    parts.todayText.setAttribute('x', xt);
+    const w0 = X(2004), w1 = X(2034);
+    parts.winLine.setAttribute('d', `M${w0} 46 V50 M${w0} 48 H${w1} M${w1} 46 V50`);
+    parts.winText.setAttribute('x', (w0 + w1) / 2);
+    ctx.font = '10px "JetBrains Mono", monospace';
+    parts.winText.style.display = (w1 - w0) > ctx.measureText(parts.winText.textContent).width + 8 ? '' : 'none';
+    parts.winLine.parentNode.style.opacity = '';
+
+    // pack nodes into three tracks per lane
+    const byLane = new Map(G.lanes.map(l => [l.id, []]));
+    for (const { n } of nodeEls.values()) byLane.get(n.lane).push(n);
+    for (const [laneId, list] of byLane) {
+      const li = LANE_IDX[laneId];
+      const occ = [[], [], []];
+      const free = (t, a, b) => occ[t].every(([p, q]) => b <= p || a >= q);
+      list.sort((p, q) => PRIORITY(p) - PRIORITY(q) || p.year - q.year);
+      for (const n of list) {
+        const x = X(n.year), r = radius(n), tw = widths.get(n.id);
+        const left = x + r + 7 + tw > W - 6;
+        let a = left ? x - r - 7 - tw : x - r - 3, b = left ? x + r + 3 : x + r + 7 + tw;
+        if (n.yr) { a = Math.min(a, X(n.yr[0]) - 2); b = Math.max(b, X(n.yr[1]) + 2); }
+        const pref = n._track ?? 0;
+        const order = [pref, ...[0, 1, 2].filter(t => t !== pref)];
+        let track = order.find(t => free(t, a, b));
+        let label = track != null;
+        if (!label) {
+          const da = x - r - 2, db = x + r + 2;
+          track = order.find(t => free(t, da, db));
+          if (track == null) track = pref;
+          occ[track].push([da, db]);
+        } else occ[track].push([a, b]);
+        n._track = track; n._x = x; n._y = trackY(li, track); n._label = label; n._left = left;
+      }
+    }
+    for (const { g, text, range, n } of nodeEls.values()) {
+      g.setAttribute('transform', `translate(${n._x.toFixed(1)},${n._y.toFixed(1)})`);
+      text.style.display = n._label ? '' : 'none';
+      text.setAttribute('x', n._left ? -(radius(n) + 5) : radius(n) + 5);
+      text.setAttribute('text-anchor', n._left ? 'end' : 'start');
+      if (range) {
+        const a = X(n.yr[0]) - n._x, b = X(n.yr[1]) - n._x;
+        range.setAttribute('d', `M${a} -3 V3 M${a} 0 H${b} M${b} -3 V3`);
+      }
+    }
+    for (const e of edgeEls) {
+      const A = NODE.get(e.a), B = NODE.get(e.b);
+      const x1 = A._x, y1 = A._y, x2 = B._x, y2 = B._y;
+      if ((x1 < plotX && x2 < plotX) || (x1 > W && x2 > W)) { e.el.setAttribute('d', ''); continue; }
+      const dx = Math.max(18, Math.abs(x2 - x1) * 0.45);
+      e.el.setAttribute('d', `M${x1.toFixed(1)} ${y1.toFixed(1)} C${(x1 + dx).toFixed(1)} ${y1.toFixed(1)} ${(x2 - dx).toFixed(1)} ${y2.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`);
+    }
+  }
+
+  function activeFocus() {
+    if (st.hover) return chainOf(st.hover);
+    if (st.selected) return chainOf(st.selected);
+    if (st.hits && st.hits.size) return st.hits;
+    return st.tourFocus;
+  }
+  function applyFocus() {
+    const f = activeFocus();
+    svg.classList.toggle('focusing', !!f);
+    for (const [id, { g }] of nodeEls) {
+      g.classList.toggle('on', !!f && f.has(id));
+      g.classList.toggle('hit', !!st.hits && st.hits.has(id));
+      g.classList.toggle('sel', st.selected === id);
+    }
+    for (const e of edgeEls) e.el.classList.toggle('on', !!f && f.has(e.a) && f.has(e.b));
+  }
+
+  // view changes
+  let raf = 0;
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; layout(); }); };
+  function setView(u0, u1) {
+    let span = Math.min(1, Math.max(0.025, u1 - u0));
+    let a = u0, b = u0 + span;
+    if (a < 0) { a = 0; b = span; }
+    if (b > 1) { b = 1; a = 1 - span; }
+    view = [a, b];
+    schedule();
+  }
+  let anim = 0;
+  function animateTo(u0, u1) {
+    cancelAnimationFrame(anim);
+    const from = [...view], t0 = performance.now(), dur = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 520;
+    const step = now => {
+      const k = dur ? Math.min(1, (now - t0) / dur) : 1;
+      const e = 1 - Math.pow(1 - k, 3);
+      view = [from[0] + (u0 - from[0]) * e, from[1] + (u1 - from[1]) * e];
+      layout();
+      if (k < 1) anim = requestAnimationFrame(step);
+    };
+    anim = requestAnimationFrame(step);
+  }
+  const zoomAt = (px, factor) => {
+    const span = view[1] - view[0];
+    const uc = view[0] + (px - plotX) / plotW * span;
+    const ns = Math.min(1, Math.max(0.025, span * factor));
+    setView(uc - (px - plotX) / plotW * ns, uc - (px - plotX) / plotW * ns + ns);
+  };
+  const localX = clientX => (clientX - svg.getBoundingClientRect().left) * (W / svg.getBoundingClientRect().width);
+
+  svg.addEventListener('wheel', e => {
+    if (e.ctrlKey || e.metaKey) { e.preventDefault(); cancelAnimationFrame(anim); zoomAt(localX(e.clientX), Math.exp(e.deltaY * 0.01)); }
+    else if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); cancelAnimationFrame(anim); const span = view[1] - view[0]; setView(view[0] + e.deltaX / plotW * span, view[1] + e.deltaX / plotW * span); }
+  }, { passive: false });
+
+  const pointers = new Map();
+  let drag = null, pinch = null;
+  svg.addEventListener('pointerdown', e => {
+    pointers.set(e.pointerId, e.clientX);
+    try { svg.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
+    cancelAnimationFrame(anim);
+    if (pointers.size === 1) drag = { x0: e.clientX, v0: [...view], moved: false, target: e.target.closest('.g-node') };
+    if (pointers.size === 2) {
+      const xs = [...pointers.values()];
+      pinch = { d0: Math.abs(xs[0] - xs[1]) || 1, v0: [...view], cx: localX((xs[0] + xs[1]) / 2) };
+      drag = null;
+    }
+  });
+  svg.addEventListener('pointermove', e => {
+    if (pointers.has(e.pointerId)) pointers.set(e.pointerId, e.clientX);
+    if (pinch && pointers.size === 2) {
+      const xs = [...pointers.values()];
+      const d = Math.abs(xs[0] - xs[1]) || 1;
+      const span0 = pinch.v0[1] - pinch.v0[0];
+      const uc = pinch.v0[0] + (pinch.cx - plotX) / plotW * span0;
+      const ns = Math.min(1, Math.max(0.025, span0 * pinch.d0 / d));
+      setView(uc - (pinch.cx - plotX) / plotW * ns, uc - (pinch.cx - plotX) / plotW * ns + ns);
+      return;
+    }
+    if (drag) {
+      const dxp = (e.clientX - drag.x0) * (W / svg.getBoundingClientRect().width);
+      if (Math.abs(dxp) > 4) { drag.moved = true; svg.classList.add('dragging'); hideTip(); }
+      if (drag.moved) { const span = drag.v0[1] - drag.v0[0]; setView(drag.v0[0] - dxp / plotW * span, drag.v0[1] - dxp / plotW * span); }
+      return;
+    }
+    const g = e.target.closest && e.target.closest('.g-node');
+    hoverNode(g ? g.dataset.id : null, e);
+  });
+  const endPointer = e => {
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinch = null;
+    if (drag && pointers.size === 0) {
+      if (!drag.moved) {
+        if (drag.target) select(drag.target.dataset.id, true);
+        else if (st.selected) clearSelect(true);
+      }
+      drag = null;
+      svg.classList.remove('dragging');
+    }
+  };
+  svg.addEventListener('pointerup', endPointer);
+  svg.addEventListener('pointercancel', endPointer);
+  svg.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse' && !drag) hoverNode(null); });
+
+  function hoverNode(id, e) {
+    if (id === st.hover) { if (id && e) placeTip(id); return; }
+    st.hover = id;
+    applyFocus();
+    if (id) { showTip(id); placeTip(id); } else hideTip();
+  }
+  function showTip(id) {
+    const n = NODE.get(id);
+    tip.innerHTML = `<b>${esc(n.name)}</b><span class="num">${esc(yearText(n))} · ${esc(LANE[n.lane].name)} · ${esc(KIND_NAME[n.kind])}</span><br>${esc(n.one)}`;
+    tip.hidden = false;
+  }
+  function placeTip(id) {
+    const n = NODE.get(id);
+    const scale = svg.getBoundingClientRect().width / W;
+    const bw = box.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = n._x * scale + 14, y = n._y * scale + 14;
+    if (x + tw > bw - 8) x = n._x * scale - tw - 14;
+    if (y + th > box.clientHeight - 8) y = n._y * scale - th - 14;
+    tip.style.left = Math.max(8, x) + 'px';
+    tip.style.top = Math.max(8, y) + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+
+  function select(id, fromUser) {
+    st.selected = id;
+    st.hover = null;
+    hideTip();
+    const n = NODE.get(id);
+    if (n && nodeEls.has(id) && (n._x < plotX || n._x > W - 20)) {
+      const span = view[1] - view[0], u = toU(n.year);
+      animateTo(Math.max(0, Math.min(1 - span, u - span / 2)), Math.max(0, Math.min(1 - span, u - span / 2)) + span);
+    }
+    applyFocus();
+    if (onSelect) onSelect(id, fromUser);
+  }
+  function clearSelect(fromUser) {
+    st.selected = null;
+    applyFocus();
+    if (onSelect && fromUser) onSelect(null, true);
+  }
+
+  new ResizeObserver(() => { const w = box.clientWidth; if (w && w !== W) { size(); build(); } }).observe(box);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measureAll(); layout(); });
+
+  measureAll();
+  size();
+  build();
+
+  return {
+    setTourFocus(ids) { st.tourFocus = ids ? new Set(ids) : null; applyFocus(); },
+    setRange([y0, y1], animate = true) { const a = toU(y0), b = toU(y1); if (animate) animateTo(a, b); else { view = [a, b]; layout(); } },
+    select, clearSelect,
+    get selected() { return st.selected; },
+    setFilters(lanes, statuses) { st.lanes = lanes; st.statuses = statuses; build(); },
+    search(q) {
+      q = q.trim().toLowerCase();
+      st.hits = q ? new Set(G.nodes.filter(n => visible(n) && (n.name.toLowerCase().includes(q) || n.en.toLowerCase().includes(q))).map(n => n.id)) : null;
+      applyFocus();
+      return st.hits ? [...st.hits] : [];
+    },
+    zoomBy(f) { zoomAt(plotX + plotW / 2, f); },
+    reset() { animateTo(0, 1); },
+  };
+}
+
+// Small SVG charts drawn to scale from trends.json, with a nearest-point tooltip.
+const SERIES = Object.fromEntries(T.series.map(s => [s.id, s]));
+const usd = v => '$' + fmtNum(v);
+const minutes = v => (v < 1 ? `${Math.round(v * 60)} 秒` : v < 60 ? `${v} 分钟` : `${(v / 60).toFixed(1)} 小时`);
+const CHART_CFG = {
+  compute: { fmt: v => `${sci(v)} FLOP`, tick: sci, labels: ['AlexNet', 'GPT-3', 'GPT-4', 'GPT-6 Astra'] },
+  horizon: { fmt: minutes, ticks: [[0.1, '6 秒'], [1, '1 分'], [10, '10 分'], [60, '1 时'], [480, '8 时']], labels: ['GPT-4', 'o1', 'GPT-5', 'Claude Mythos Preview'] },
+  capex: { fmt: v => `${(v * 10).toLocaleString('en-US')} 亿美元`, tick: v => String(v) },
+  dc: { fmt: v => `${v.toLocaleString('en-US')} TWh`, tick: v => v.toLocaleString('en-US') },
+  internet: { fmt: v => `${v}%`, tick: v => v + '%' },
+  waymo: { fmt: v => `每周 ${v} 千单`, tick: v => String(v) },
+  solar: { fmt: v => `$${v.toFixed(v < 1 ? 2 : 1)}/W`, tick: usd },
+  genome: { fmt: v => usd(v), tick: usd },
+  launch: { fmt: v => `$${v.toLocaleString('en-US')}/kg`, tick: usd, labels: ['Saturn V', 'Space Shuttle', 'Falcon 9', 'Falcon Heavy'] },
+};
+
+function niceStep(span, n) {
+  const raw = span / n, p = 10 ** Math.floor(Math.log10(raw));
+  return [1, 2, 2.5, 5, 10].map(m => m * p).find(s => span / s <= n) || 10 * p;
+}
+
+function drawChart(holder, s, { mini = false } = {}) {
+  const cfg = CHART_CFG[s.id] || {};
+  const W = Math.max(240, holder.clientWidth || 320);
+  const H = mini ? 150 : 190;
+  const m = { l: 46, r: 14, t: 14, b: 24 };
+  const pw = W - m.l - m.r, ph = H - m.t - m.b;
+  const pts = s.points;
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  let x0 = Math.min(...xs), x1 = Math.max(...xs);
+  if (s.kind === 'bar') { x0 -= 0.6; x1 += 0.6; } else { const pad = (x1 - x0) * 0.03; x0 -= pad; x1 += pad; }
+  let y0, y1, yTicks;
+  if (s.log) {
+    y0 = 10 ** Math.floor(Math.log10(Math.min(...ys)));
+    y1 = 10 ** Math.ceil(Math.log10(Math.max(...ys) * 1.05));
+    if (cfg.ticks) yTicks = cfg.ticks.filter(([v]) => v >= y0 && v <= y1);
+    else {
+      const dec = Math.log10(y1 / y0), step = Math.max(1, Math.ceil(dec / (mini ? 4 : 5)));
+      yTicks = [];
+      for (let e = Math.log10(y0); e <= Math.log10(y1) + 1e-9; e += step) yTicks.push([10 ** e, cfg.tick ? cfg.tick(10 ** e) : fmtNum(10 ** e)]);
+    }
+  } else {
+    y0 = 0;
+    const st = niceStep(Math.max(...ys), mini ? 3 : 4);
+    y1 = Math.ceil(Math.max(...ys) * 1.08 / st) * st;
+    yTicks = [];
+    for (let v = 0; v <= y1 + 1e-9; v += st) yTicks.push([v, cfg.tick ? cfg.tick(v) : fmtNum(v)]);
+  }
+  const X = x => m.l + (x - x0) / (x1 - x0) * pw;
+  const Y = v => (s.log ? m.t + ph - Math.log10(v / y0) / Math.log10(y1 / y0) * ph : m.t + ph - (v - y0) / (y1 - y0) * ph);
+
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `${s.title}，${s.sub}` });
+  const grid = svgEl('g', { class: 'c-grid' }, svg);
+  const axis = svgEl('g', { class: 'c-axis' }, svg);
+  for (const [v, lab] of yTicks) {
+    svgEl('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, grid);
+    const t = svgEl('text', { x: m.l - 6, y: Y(v) + 3, 'text-anchor': 'end' }, axis);
+    t.textContent = lab;
+  }
+  const xspan = x1 - x0, xstep = s.kind === 'bar' ? 1 : ([1, 2, 5, 10, 20, 25, 50, 100].find(k => xspan / k <= (mini ? 3 : 5)) || 100);
+  for (let x = Math.ceil(x0 / xstep) * xstep; x <= x1; x += xstep) {
+    const t = svgEl('text', { x: X(x), y: H - 6, 'text-anchor': 'middle' }, axis);
+    t.textContent = Math.round(x);
+  }
+  svgEl('line', { class: 'c-base', x1: m.l, x2: W - m.r, y1: m.t + ph, y2: m.t + ph }, svg);
+
+  const isProj = p => s.proj_from != null && p[0] >= s.proj_from;
+  if (s.kind === 'bar') {
+    const bw = Math.min(24, pw / pts.length * 0.5);
+    for (const p of pts) {
+      const x = X(p[0]) - bw / 2, y = Y(p[1]), yb = m.t + ph, r = Math.min(4, (yb - y) / 2);
+      svgEl('path', { class: 'c-bar' + (isProj(p) ? ' proj' : ''), d: `M${x} ${yb} V${y + r} Q${x} ${y} ${x + r} ${y} H${x + bw - r} Q${x + bw} ${y} ${x + bw} ${y + r} V${yb} Z` }, svg);
+      const t = svgEl('text', { class: 'c-lab', x: X(p[0]), y: y - 5, 'text-anchor': 'middle' }, svg);
+      t.textContent = p[1] + (isProj(p) ? '*' : '');
+    }
+  } else if (s.kind === 'line') {
+    const act = pts.filter(p => !isProj(p)), proj = pts.filter(isProj);
+    const line = list => list.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('');
+    if (!s.log && act.length > 1) svgEl('path', { class: 'c-area', d: `${line(act)}L${X(act[act.length - 1][0])} ${m.t + ph}L${X(act[0][0])} ${m.t + ph}Z` }, svg);
+    svgEl('path', { class: 'c-line', d: line(act) }, svg);
+    if (proj.length) svgEl('path', { class: 'c-line proj', d: line([act[act.length - 1], ...proj]) }, svg);
+    const dotsAll = pts.length <= 8;
+    pts.forEach((p, i) => { if (dotsAll || i === act.length - 1) svgEl('circle', { class: 'c-dot' + (isProj(p) ? ' proj' : ''), cx: X(p[0]), cy: Y(p[1]), r: 4 }, svg); });
+    const last = act[act.length - 1];
+    const early = X(last[0]) < m.l + pw * 0.35;
+    const t = svgEl('text', { class: 'c-lab end', x: X(last[0]) + (early ? 8 : -6), y: Y(last[1]) - 8, 'text-anchor': early ? 'start' : 'end' }, svg);
+    t.textContent = (cfg.fmt || fmtNum)(last[1]);
+  } else {
+    for (const p of pts) svgEl('circle', { class: 'c-dot', cx: X(p[0]), cy: Y(p[1]), r: 4 }, svg);
+    const want = cfg.labels || [];
+    if (!mini) for (const p of pts) {
+      if (!want.includes(p[2])) continue;
+      const right = X(p[0]) < m.l + pw * 0.7;
+      const t = svgEl('text', { class: 'c-lab' + (p === pts[pts.length - 1] ? ' end' : ''), x: X(p[0]) + (right ? 7 : -7), y: Y(p[1]) + (right ? 4 : -7), 'text-anchor': right ? 'start' : 'end' }, svg);
+      t.textContent = p[2];
+    }
+  }
+
+  // hover layer
+  const cross = svgEl('line', { class: 'c-cross', y1: m.t, y2: m.t + ph, opacity: 0 }, svg);
+  const hit = svgEl('rect', { x: m.l, y: m.t, width: pw, height: ph, fill: 'transparent' }, svg);
+  const tip = document.createElement('div');
+  tip.className = 'tip';
+  tip.hidden = true;
+  const move = e => {
+    const r = svg.getBoundingClientRect(), k = W / r.width;
+    const px = (e.clientX - r.left) * k, py = (e.clientY - r.top) * k;
+    let best = null, bd = Infinity;
+    for (const p of pts) {
+      const d = s.kind === 'scatter' ? Math.hypot(X(p[0]) - px, Y(p[1]) - py) : Math.abs(X(p[0]) - px);
+      if (d < bd) { bd = d; best = p; }
+    }
+    if (!best) return;
+    cross.setAttribute('x1', X(best[0])); cross.setAttribute('x2', X(best[0])); cross.setAttribute('opacity', 1);
+    const label = typeof best[2] === 'string' && !/^\d{4}-\d{2}$/.test(best[2]) ? best[2] : '';
+    tip.innerHTML = `<b>${esc((cfg.fmt || fmtNum)(best[1]))}</b><span class="num">${esc(fmtYear(best[0]))}${label ? ' · ' + esc(label) : ''}${isProj(best) ? ' · 预测/指引' : ''}</span>`;
+    tip.hidden = false;
+    const tx = X(best[0]) / k, ty = Y(best[1]) / k;
+    const hw = holder.clientWidth;
+    tip.style.left = Math.min(hw - tip.offsetWidth - 4, Math.max(4, tx + 10)) + 'px';
+    tip.style.top = Math.max(0, ty - tip.offsetHeight - 10 + svg.offsetTop) + 'px';
+  };
+  hit.addEventListener('pointermove', move);
+  hit.addEventListener('pointerdown', move);
+  hit.addEventListener('pointerleave', () => { cross.setAttribute('opacity', 0); tip.hidden = true; });
+
+  holder.innerHTML = '';
+  holder.appendChild(svg);
+  holder.appendChild(tip);
+}
+
+function chartCard(s) {
+  const el = document.createElement('figure');
+  el.className = 'chart glass';
+  el.style.margin = '0';
+  el.innerHTML = `<div><h4>${esc(s.title)}</h4><p class="sub">${esc(s.sub)}</p></div><div class="c-body" style="position:relative"></div><p class="note">${esc(s.note || '')} <span class="num">数据截至 ${esc(s.asof)}</span></p>${sources(s.src)}`;
+  return el;
+}
+
+function mountChart(holder, id, opts) {
+  const s = SERIES[id];
+  if (!s) return;
+  const draw = () => drawChart(holder, s, opts);
+  draw();
+  let w = holder.clientWidth;
+  new ResizeObserver(() => { if (holder.clientWidth && Math.abs(holder.clientWidth - w) > 2) { w = holder.clientWidth; draw(); } }).observe(holder);
+}
+
+// Candidate scoring: adjustable weights, live ranking against two retrospective baselines, robustness checks.
+const CRIT = V.criteria;
+const CANDS = V.candidates.map(c => ({ ...c, node: NODE.get(c.id), v: Object.fromEntries(c.scores.map(s => [s.c, s.s])) }));
+
+function readiness(id) {
+  const pre = IN.get(id).filter(([, t]) => t === 'e' || t === 'a').map(([a]) => NODE.get(a));
+  return { score: pre.length ? 5 * pre.filter(n => n.status !== 'future').length / pre.length : 0, pre };
+}
+CANDS.forEach(c => { c.ready = readiness(c.id); c.v.enablers = c.ready.score; });
+
+const DEFAULT_W = Object.fromEntries(CRIT.map(c => [c.id, c.w]));
+function loadWeights() {
+  try {
+    const saved = JSON.parse(store.get('pw-weights') || 'null');
+    if (saved && CRIT.every(c => typeof saved[c.id] === 'number')) return saved;
+  } catch { /* ignore bad storage */ }
+  return { ...DEFAULT_W };
+}
+const norm = w => { const s = CRIT.reduce((a, c) => a + w[c.id], 0) || 1; return Object.fromEntries(CRIT.map(c => [c.id, w[c.id] / s])); };
+const totalOf = (v, wn) => CRIT.reduce((a, c) => a + wn[c.id] * v[c.id], 0);
+function ranked(w) {
+  const wn = norm(w);
+  return CANDS.map(c => ({ c, t: totalOf(c.v, wn) })).sort((a, b) => b.t - a.t);
+}
+
+// deterministic PRNG so the published numbers are reproducible
+function rng(seed) { return () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296); }
+function randomWeightWins(n = 20000) {
+  const r = rng(20261003), wins = Object.fromEntries(CANDS.map(c => [c.id, 0]));
+  for (let i = 0; i < n; i++) {
+    const w = Object.fromEntries(CRIT.map(c => [c.id, -Math.log(1 - r())]));
+    const wn = norm(w);
+    let best = null, bv = -1;
+    for (const c of CANDS) { const t = totalOf(c.v, wn); if (t > bv) { bv = t; best = c.id; } }
+    wins[best]++;
+  }
+  return Object.fromEntries(Object.entries(wins).map(([k, v]) => [k, v / n]));
+}
+function perturbWins(w, n = 6000) {
+  // every hand-given score moves by −1, 0 or +1 at random (clamped to 0–5); weights stay as set
+  const r = rng(7), wn = norm(w), wins = Object.fromEntries(CANDS.map(c => [c.id, 0]));
+  for (let i = 0; i < n; i++) {
+    let best = null, bv = -1;
+    for (const c of CANDS) {
+      let t = 0;
+      for (const k of CRIT) {
+        let s = c.v[k.id];
+        if (!k.auto) s = Math.max(0, Math.min(5, s + Math.floor(r() * 3) - 1));
+        t += wn[k.id] * s;
+      }
+      if (t > bv) { bv = t; best = c.id; }
+    }
+    wins[best]++;
+  }
+  return Object.fromEntries(Object.entries(wins).map(([k, v]) => [k, v / n]));
+}
+const RANDOM_WINS = randomWeightWins();
+const pct = x => (x * 100).toFixed(x >= 0.995 || x < 0.005 ? 0 : 1) + '%';
+
+function initScore({ onPick }) {
+  let w = loadWeights();
+  let picked = CANDS[0].id;
+  const wrap = $('#weights');
+  wrap.innerHTML = CRIT.map(c => `<div class="w-row"><label for="w-${c.id}">${esc(c.name)}</label><input type="range" id="w-${c.id}" min="0" max="40" step="1" value="${Math.round(w[c.id] * 100)}"><output id="wo-${c.id}" for="w-${c.id}"></output><p class="d">${esc(c.d)}</p></div>`).join('');
+  CRIT.forEach(c => $('#w-' + c.id).addEventListener('input', e => { w[c.id] = Number(e.target.value) / 100; update(); }));
+  $('#w-reset').addEventListener('click', () => { w = { ...DEFAULT_W }; CRIT.forEach(c => { $('#w-' + c.id).value = Math.round(w[c.id] * 100); }); update(); });
+
+  const baseTotals = wn => V.baselines.map(b => ({ b, t: totalOf(b.scores, wn) }));
+
+  function update() {
+    store.set('pw-weights', JSON.stringify(w));
+    const wn = norm(w);
+    CRIT.forEach(c => { $('#wo-' + c.id).textContent = Math.round(wn[c.id] * 100) + '%'; });
+    const rk = ranked(w);
+    const bases = baseTotals(wn);
+    const pos = t => (t / 5 * 100).toFixed(2) + '%';
+    $('#rank').innerHTML = `<div class="rank-axis"><span></span><div><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div><span></span></div>` +
+      rk.map(({ c, t }, i) => {
+        // label the higher baseline above the first row and the lower one below the last row so they never collide
+        const lines = bases.map(({ b, t: bt }, j) => {
+          const above = j === 0 ? bt >= bases[1].t : bt > bases[0].t;
+          const show = (above && i === 0) || (!above && i === rk.length - 1);
+          return `<div class="r-base${above ? '' : ' below'}" style="left:${pos(bt)}">${show ? `<span>${esc(b.name)} ${bt.toFixed(2)}</span>` : ''}</div>`;
+        }).join('');
+        return `<div class="r-row"><span class="nm"><i style="background:${laneVar(c.node.lane)}"></i>${esc(c.name)}</span><div class="r-track">${lines}<div class="r-fill" style="width:${pos(t)};background:${laneVar(c.node.lane)}"></div></div><b>${t.toFixed(2)}</b></div>`;
+      }).join('') + '<div class="rank-pad"></div>';
+    $('#rank-note').textContent = `虚线：${V.baselines.map(b => b.name).join('、')}的回看得分`;
+    const pw = perturbWins(w);
+    const bar = obj => {
+      const list = CANDS.map(c => [c, obj[c.id]]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+      return `<div class="bar100">${list.map(([c, v]) => `<i style="width:${v * 100}%;background:${laneVar(c.node.lane)}" title="${esc(c.name)} ${pct(v)}"></i>`).join('')}</div><div class="keys">${list.map(([c, v]) => `<span><i style="background:${laneVar(c.node.lane)}"></i>${esc(c.short)} ${pct(v)}</span>`).join('')}</div>`;
+    };
+    $('#robust').innerHTML = `<p><b>稳健性</b> <span class="muted">两种扰动下各候选排第一的比例</span></p><p class="small muted">权重完全随机（2 万次）</p>${bar(RANDOM_WINS)}<p class="small muted">当前权重下，每项人工打分随机 ±1（6,000 次）</p>${bar(pw)}`;
+
+    $('#matrix').innerHTML = `<thead><tr><th>候选</th>${CRIT.map(c => `<th class="cell">${esc(c.name)}<br><span class="num">${Math.round(wn[c.id] * 100)}%</span></th>`).join('')}<th class="cell">总分</th></tr></thead><tbody>` +
+      rk.map(({ c, t }) => `<tr class="cand${c.id === picked ? ' sel' : ''}" data-id="${c.id}" tabindex="0"><td class="k"><i style="background:${laneVar(c.node.lane)}"></i>${esc(c.name)}</td>${CRIT.map(k => {
+        const s = c.v[k.id], on = Math.round(s);
+        return `<td class="cell${k.auto ? ' auto' : ''}"><span class="meter" aria-hidden="true">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= on ? 'on' : ''}"></i>`).join('')}</span><span class="num">${k.auto ? s.toFixed(1) : s}</span></td>`;
+      }).join('')}<td class="cell tot">${t.toFixed(2)}</td></tr>`).join('') +
+      bases.map(({ b, t }) => `<tr><td class="k muted">${esc(b.name)}</td>${CRIT.map(k => `<td class="cell auto"><span class="num">${b.scores[k.id]}</span></td>`).join('')}<td class="cell tot muted">${t.toFixed(2)}</td></tr>`).join('') + '</tbody>';
+    document.querySelectorAll('#matrix tr.cand').forEach(tr => {
+      const go = () => { picked = tr.dataset.id; update(); renderWhy(); };
+      tr.addEventListener('click', go);
+      tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+
+  function renderWhy() {
+    const c = CANDS.find(x => x.id === picked);
+    const ready = c.ready.pre.map(n => `${n.status === 'future' ? '○' : '●'} ${n.name}`).join('、');
+    $('#why').innerHTML = `<h3>${esc(c.name)}：每项得分的理由</h3>` + c.scores.map(s => {
+      const k = CRIT.find(x => x.id === s.c);
+      return `<div class="why-item"><b>${esc(k.name)}<span>${s.s} / 5</span></b><p>${esc(s.why)}</p>${sources(s.src)}</div>`;
+    }).join('') + `<div class="why-item"><b>使能就绪<span>${c.ready.score.toFixed(1)} / 5</span></b><p>网络中的直接前提（● 已实现，○ 未实现）：${esc(ready)}。</p><p><button type="button" class="link-btn" data-show="${c.id}">在大网中查看</button></p></div>`;
+    $('#why').querySelector('[data-show]').addEventListener('click', () => onPick(c.id));
+  }
+
+  update();
+  renderWhy();
+  return { ranked: () => ranked(w), defaultRanked: () => ranked(DEFAULT_W) };
+}
+
+// Page assembly: hero verdict, map + tour + node evidence, trend charts, niche radar, scoring, counter-arguments, sources.
+const C = V.conclusion;
+$('#asof').textContent = `数据截至 ${G.asof}`;
+
+// ---------- scoring first: the hero quotes its numbers ----------
+const score = initScore({ onPick: id => showOnMap(id) });
+const DEF = score.defaultRanked();
+const PERTURB_DEFAULT = perturbWins(DEFAULT_W);
+const top1 = DEF[0], top2 = DEF[1];
+const conf = RANDOM_WINS[top1.c.id] >= 0.8 ? '较高' : RANDOM_WINS[top1.c.id] >= 0.6 ? '中' : '低';
+
+const [word, wordSub] = C.answer.split('：');
+$('#answer-word').innerHTML = `${esc(word)}<small>${esc(wordSub || '')}</small>`;
+$('#answer-line').textContent = C.line;
+$('#answer-dek').textContent = C.dek;
+$('#answer-conf').innerHTML = `<b>置信度：${conf}。</b>默认权重下 ${esc(top1.c.name)} ${top1.t.toFixed(2)} 分，比第二名${esc(top2.c.name)}高 ${(top1.t - top2.t).toFixed(2)} 分。权重完全随机时，它在 ${pct(RANDOM_WINS[top1.c.id])} 的情况下排第一；每项人工打分随机 ±1 时，这一比例是 ${pct(PERTURB_DEFAULT[top1.c.id])}。`;
+$('#mini-rank').innerHTML = DEF.slice(0, 4).map(({ c, t }) => `<li><span>${esc(c.short)}</span><span class="track"><span class="fill" style="width:${t / 5 * 100}%;background:${laneVar(c.node.lane)}"></span></span><b>${t.toFixed(2)}</b></li>`).join('');
+$('#hero-figs').innerHTML = C.figs.map(f => `<button type="button" class="fig" data-node="${f.node}"><b>${esc(f.v)}${f.u ? `<small>${esc(f.u)}</small>` : ''}</b><span>${esc(f.l)}</span></button>`).join('');
+$('#chain').innerHTML = V.chain.map(x => `<li class="${x.next ? 'next' : ''}"><span class="yr">${esc(x.yr)}</span><h3>${esc(x.h)}</h3><p class="what">${esc(x.what)}</p><p class="ev">${esc(x.ev)}</p></li>`).join('');
+document.querySelectorAll('[data-node]').forEach(b => b.addEventListener('click', () => showOnMap(b.dataset.node)));
+
+// ---------- map ----------
+const counts = { e: 0, a: 0, b: 0, r: 0 };
+G.edges.forEach(e => counts[e[2]]++);
+$('#map-dek').textContent = `${G.nodes.length} 个节点，${G.edges.length} 条连线，${G.lanes.length} 条泳道。连线有四种关系：促成 ${counts.e}、加速 ${counts.a}、约束 ${counts.b}、缓解 ${counts.r}。今天右侧是预测区，未来节点带年份区间。`;
+
+const graph = createGraph({ svg: $('#graph'), box: $('#map-box'), labelsEl: $('#lane-labels'), tip: $('#graph-tip'), onSelect: (id, fromUser) => (id ? openNode(id) : closeNode()) });
+
+let mode = 'tour';
+let step = Math.max(0, Math.min(V.tour.length - 1, Number(store.get('pw-step')) || 0));
+
+function setMode(m) {
+  mode = m;
+  $('#mode-tour').setAttribute('aria-pressed', m === 'tour');
+  $('#mode-free').setAttribute('aria-pressed', m === 'free');
+  if (m === 'tour') goStep(step);
+  else { graph.setTourFocus(null); renderFree(); }
+  showTab('tour');
+}
+$('#mode-tour').addEventListener('click', () => setMode('tour'));
+$('#mode-free').addEventListener('click', () => setMode('free'));
+
+function goStep(i, animate = true) {
+  step = Math.max(0, Math.min(V.tour.length - 1, i));
+  store.set('pw-step', String(step));
+  const t = V.tour[step];
+  graph.setRange(t.range, animate);
+  graph.setTourFocus(t.focus);
+  const kpiMap = Object.fromEntries(T.kpis.map(k => [k.id, k]));
+  const pat = V.pattern;
+  $('#side-tour').innerHTML = `<p class="tour-kicker">${esc(t.kicker)} / 0${V.tour.length}</p><h3>${esc(t.title)}</h3>` +
+    t.body.map((p, j) => `<p class="${j ? 'p2' : ''}">${esc(p)}</p>`).join('') +
+    (t.pattern ? `<div class="pattern"><p class="small muted">五次浪潮起点的间隔（年）</p><div class="pattern-row">${pat.intervals.map((d, j) => `<div>${d}<span>${G.eras[j].start}→${G.eras[j + 1].start}</span></div>`).join('')}</div></div>` : '') +
+    (t.kpis ? `<div class="mini-kpis">${t.kpis.map(k => `<div><b>${esc(kpiMap[k].v)}${kpiMap[k].u ? `<small class="num"> ${esc(kpiMap[k].u)}</small>` : ''}</b><span>${esc(kpiMap[k].l)}</span></div>`).join('')}</div>` : '') +
+    (t.chart ? `<div><p class="small muted">${esc(SERIES[t.chart].title)}</p><div class="c-body" id="tour-chart" style="position:relative"></div></div>` : '') +
+    (t.note === 'anthropic' ? `<p class="note">${esc(DISCLOSE)}</p>` : '') +
+    `<div class="tour-nav"><button type="button" id="t-prev" ${step === 0 ? 'disabled' : ''}>上一步</button><div class="dots">${V.tour.map((x, j) => `<button type="button" aria-label="第 ${j + 1} 步：${esc(x.title)}" ${j === step ? 'aria-current="step"' : ''} data-step="${j}"></button>`).join('')}</div><button type="button" class="primary" id="t-next">${step === V.tour.length - 1 ? '自由探索' : '下一步'}</button></div>`;
+  if (t.chart) mountChart($('#tour-chart'), t.chart, { mini: true });
+  $('#t-prev').addEventListener('click', () => goStep(step - 1));
+  $('#t-next').addEventListener('click', () => (step === V.tour.length - 1 ? setMode('free') : goStep(step + 1)));
+  document.querySelectorAll('#side-tour .dots button').forEach(b => b.addEventListener('click', () => goStep(Number(b.dataset.step))));
+}
+
+function renderFree() {
+  const cands = G.nodes.filter(n => n.kind === 'candidate');
+  $('#side-tour').innerHTML = `<p class="tour-kicker">自由探索</p><h3>点任意节点看证据</h3><p class="p2">悬停或点击节点会高亮它的全部上游和下游。用上方的领域和状态筛选器缩小范围，或直接搜索。</p>
+    <div class="rel"><h4>7 个候选</h4><div>${cands.map(n => `<button type="button" data-go="${n.id}"><i style="background:${laneVar(n.lane)}"></i>${esc(n.name)}</button>`).join('')}</div></div>
+    <div class="rel"><h4>五次浪潮的起点</h4><div>${G.eras.map(e => `<button type="button" data-go="${e.bang}">${e.start} ${esc(e.name)}</button>`).join('')}</div></div>
+    <div class="tour-nav"><button type="button" class="primary" id="back-tour">回到导览</button></div>`;
+  document.querySelectorAll('#side-tour [data-go]').forEach(b => b.addEventListener('click', () => graph.select(b.dataset.go, true)));
+  $('#back-tour').addEventListener('click', () => setMode('tour'));
+  graph.setRange([1760, 2045]);
+}
+
+function showTab(which) {
+  const node = which === 'node';
+  $('#tab-tour').setAttribute('aria-selected', !node);
+  $('#tab-node').setAttribute('aria-selected', node);
+  $('#side-tour').hidden = node;
+  $('#side-node').hidden = !node;
+}
+$('#tab-tour').addEventListener('click', () => { graph.clearSelect(); closeNode(); });
+$('#tab-node').addEventListener('click', () => { if (graph.selected) showTab('node'); });
+
+function relButtons(title, list) {
+  if (!list.length) return '';
+  return `<div class="rel"><h4>${esc(title)}</h4><div>${list.map(id => { const n = NODE.get(id); return `<button type="button" data-go="${id}"><i style="background:${laneVar(n.lane)}"></i>${esc(n.name)}</button>`; }).join('')}</div></div>`;
+}
+function openNode(id) {
+  const n = NODE.get(id);
+  const ins = IN.get(id), outs = OUT.get(id);
+  const pick = (arr, types) => arr.filter(([, t]) => types.includes(t)).map(([x]) => x);
+  const cand = CANDS.find(c => c.id === id);
+  let candHtml = '';
+  if (cand) {
+    const r = DEF.findIndex(x => x.c.id === id) + 1;
+    candHtml = `<div class="mini-kpis"><div><b>${DEF[r - 1].t.toFixed(2)}</b><span>默认权重得分，第 ${r} 名</span></div><div><b>${cand.ready.score.toFixed(1)}</b><span>使能就绪（${cand.ready.pre.filter(p => p.status !== 'future').length}/${cand.ready.pre.length} 个前提已实现）</span></div></div><p><a class="link-btn" href="#score">看每项得分的理由</a></p>`;
+  }
+  $('#side-node').innerHTML = `<div class="node-meta"><span class="pill"><i style="background:${laneVar(n.lane)}"></i>${esc(LANE[n.lane].name)}</span><span class="pill">${esc(KIND_NAME[n.kind])}</span><span class="pill st-${n.status}">${esc(STATUS_NAME[n.status])}</span><span class="num small muted">${esc(yearText(n))}</span></div>
+    <div><h3>${esc(n.name)}</h3><p class="node-en">${esc(n.en)}</p></div><p>${esc(n.one)}</p>` +
+    (n.figs ? `<div class="mini-kpis">${n.figs.map(f => `<div><b>${esc(f.v)}${f.u ? `<small class="num"> ${esc(f.u)}</small>` : ''}</b><span>${esc(f.l)}</span></div>`).join('')}</div>` : '') +
+    candHtml +
+    (n.chart ? `<div><p class="small muted">${esc(SERIES[n.chart].title)}</p><div class="c-body" id="node-chart" style="position:relative"></div></div>` : '') +
+    relButtons('被谁促成或加速', pick(ins, ['e', 'a'])) + relButtons('促成或加速了谁', pick(outs, ['e', 'a'])) +
+    relButtons('受到约束', pick(ins, ['b'])) + relButtons('约束了', pick(outs, ['b'])) +
+    relButtons('被缓解', pick(ins, ['r'])) + relButtons('缓解了', pick(outs, ['r'])) +
+    `<div class="rel"><h4>来源</h4>${sources(n.src)}</div>` +
+    (n.note === 'anthropic' ? `<p class="note">${esc(DISCLOSE)}</p>` : '');
+  if (n.chart) mountChart($('#node-chart'), n.chart, { mini: true });
+  document.querySelectorAll('#side-node [data-go]').forEach(b => b.addEventListener('click', () => graph.select(b.dataset.go, true)));
+  $('#tab-node').disabled = false;
+  showTab('node');
+}
+function closeNode() {
+  $('#tab-node').disabled = true;
+  showTab('tour');
+}
+function showOnMap(id) {
+  $('#map').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  graph.select(id, true);
+}
+
+// filters, search, zoom
+const laneOn = new Set(G.lanes.map(l => l.id)), statusOn = new Set(['past', 'now', 'future']);
+$('#lane-chips').innerHTML = G.lanes.map(l => `<button type="button" class="chip" aria-pressed="true" data-lane="${l.id}"><i style="background:${laneVar(l.id)}"></i>${esc(laneShort(l.id))}</button>`).join('');
+$('#status-chips').innerHTML = Object.entries(STATUS_NAME).map(([k, v]) => `<button type="button" class="chip" aria-pressed="true" data-status="${k}"><i style="background:var(--ink)"></i>${esc(v)}</button>`).join('');
+const toggle = (set, key, btn) => {
+  if (set.has(key) && set.size > 1) set.delete(key); else set.add(key);
+  btn.setAttribute('aria-pressed', set.has(key));
+  graph.setFilters(new Set(laneOn), new Set(statusOn));
+};
+document.querySelectorAll('[data-lane]').forEach(b => b.addEventListener('click', () => toggle(laneOn, b.dataset.lane, b)));
+document.querySelectorAll('[data-status]').forEach(b => b.addEventListener('click', () => toggle(statusOn, b.dataset.status, b)));
+const search = $('#node-search');
+search.addEventListener('input', () => graph.search(search.value));
+search.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { const hits = graph.search(search.value); if (hits.length) { search.value = ''; graph.search(''); graph.select(hits[0], true); } }
+  if (e.key === 'Escape') { search.value = ''; graph.search(''); }
+});
+$('#zoom-in').addEventListener('click', () => graph.zoomBy(0.6));
+$('#zoom-out').addEventListener('click', () => graph.zoomBy(1.6));
+$('#zoom-all').addEventListener('click', () => graph.reset());
+document.addEventListener('keydown', e => {
+  if (e.target.closest && e.target.closest('input, textarea, select')) return;
+  if (e.key === 'Escape' && graph.selected) { graph.clearSelect(); closeNode(); return; }
+  const r = $('#map').getBoundingClientRect();
+  if (r.bottom < 0 || r.top > innerHeight || mode !== 'tour') return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); goStep(step + 1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); goStep(step - 1); }
+});
+
+// legend
+const lg = (svg, label) => `<span><svg width="22" height="14" viewBox="-11 -7 22 14" aria-hidden="true">${svg}</svg>${label}</span>`;
+$('#legend').innerHTML = [
+  lg('<circle r="4.5" fill="var(--ink)"/>', '已实现'),
+  lg('<circle r="7" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle r="4.5" fill="var(--ink)"/>', '进行中'),
+  lg('<circle r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="2 2"/>', '预测（带年份区间）'),
+  lg('<path d="M0 -6.5 L6.5 0 L0 6.5 L-6.5 0Z" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.8"/>', '候选'),
+  lg('<rect x="-4.5" y="-4.5" width="9" height="9" rx="1.5" fill="var(--ink)"/>', '瓶颈'),
+  lg('<circle r="6.5" fill="none" stroke="var(--ink)" stroke-width="1.5"/><circle r="3.5" fill="var(--faint)"/>', '浪潮起点'),
+  lg('<line x1="-10" x2="10" stroke="var(--faint)" stroke-width="1.5"/>', '促成'),
+  lg('<line x1="-10" x2="10" stroke="var(--faint)" stroke-width="1.5" stroke-dasharray="3 3"/>', '加速'),
+  lg('<line x1="-10" x2="10" stroke="var(--crit)" stroke-width="1.5"/>', '约束'),
+  lg('<line x1="-10" x2="10" stroke="var(--good)" stroke-width="1.5" stroke-dasharray="6 3"/>', '缓解'),
+].join('');
+
+// node table (the accessible, text-only view of the map)
+$('#node-table').innerHTML = `<thead><tr><th>年份</th><th>领域</th><th>节点</th><th>类型</th><th>状态</th><th>说明</th></tr></thead><tbody>` +
+  [...G.nodes].sort((a, b) => a.year - b.year || LANE_IDX[a.lane] - LANE_IDX[b.lane]).map(n => `<tr><td class="yr">${esc(yearText(n))}</td><td class="k"><i style="background:${laneVar(n.lane)}"></i>${esc(laneShort(n.lane))}</td><td><button type="button" class="link-btn" data-node="${n.id}">${esc(n.name)}</button></td><td class="yr">${esc(KIND_NAME[n.kind])}</td><td class="yr">${esc(STATUS_NAME[n.status])}</td><td>${esc(n.one)}</td></tr>`).join('') + '</tbody>';
+document.querySelectorAll('#node-table [data-node]').forEach(b => b.addEventListener('click', () => showOnMap(b.dataset.node)));
+
+// ---------- trends ----------
+$('#kpis').innerHTML = T.kpis.map(k => `<div class="kpi glass"><b>${esc(k.v)}${k.u ? `<small>${esc(k.u)}</small>` : ''}</b><span class="l">${esc(k.l)}</span><span class="d">${esc(k.d)}${k.note === 'anthropic' ? ' ' + esc(DISCLOSE) : ''}</span>${sources(k.src)}</div>`).join('');
+const mountGroup = (el, ids) => ids.forEach(id => { const card = chartCard(SERIES[id]); el.appendChild(card); mountChart(card.querySelector('.c-body'), id); });
+mountGroup($('#charts-ai'), ['compute', 'horizon', 'capex', 'dc']);
+mountGroup($('#charts-next'), ['internet', 'waymo', 'solar', 'genome', 'launch']);
+
+// ---------- niches ----------
+const W0 = 2026, W1 = 2045, wpos = y => ((Math.max(W0, Math.min(W1, y)) - W0) / (W1 - W0) * 100).toFixed(1) + '%';
+$('#niche-table').innerHTML = `<thead><tr><th>方向</th><th>对应候选</th><th>2026 年现状</th><th>关键数字</th><th>下一个里程碑</th><th>时间窗口 <span class="num">${W0}–${W1}</span></th><th>来源</th></tr></thead><tbody>` +
+  NICHES.items.map(x => { const c = NODE.get(x.cand); return `<tr><td class="k"><button type="button" class="link-btn" data-node="${x.node}">${esc(x.name)}</button></td><td class="k"><i style="background:${laneVar(c.lane)}"></i>${esc(c.name)}</td><td>${esc(x.now)}</td><td><span class="bigfig">${esc(x.fig)}</span><span>${esc(x.figl)}</span></td><td>${esc(x.next)}</td><td><div class="win" role="img" aria-label="${x.win[0]} 到 ${x.win[1]} 年"><div class="axis"></div><div class="band" style="left:${wpos(x.win[0])};width:calc(${wpos(x.win[1])} - ${wpos(x.win[0])} + 6px)"></div></div><span class="num small muted">${x.win[0]}–${x.win[1]}</span></td><td>${sources(x.src)}</td></tr>`; }).join('') + '</tbody>';
+document.querySelectorAll('#niche-table [data-node]').forEach(b => b.addEventListener('click', () => showOnMap(b.dataset.node)));
+
+$('#score-dek').textContent = `7 个候选、7 项指标。6 项人工打分（0–5 分，每个分数都附理由和来源），“使能就绪”由大网自动计算。权重可调，总分按归一化后的权重加权；两条虚线是互联网（1995 年）和深度学习（2012 年）用同一套指标回看的得分。${V.baselineNote}`;
+
+// ---------- verdict ----------
+$('#verdict-dek').textContent = `${C.answer}。${C.line}判断成立需要下面的反对意见不成立；观察指标越过阈值时，应重新打分。`;
+$('#counter').innerHTML = V.counterpoints.map(x => `<li><b>${esc(x.t)}</b><p>${esc(x.b)}${x.note === 'anthropic' ? ' ' + esc(DISCLOSE) : ''}</p>${sources(x.src)}</li>`).join('');
+$('#falsify').innerHTML = C.falsifiers.map(f => `<li>${esc(f)}</li>`).join('');
+$('#watch').innerHTML = `<thead><tr><th>指标</th><th>现在</th><th>阈值</th><th>越线意味着</th><th>相关候选</th><th>来源</th></tr></thead><tbody>` +
+  V.watchlist.map(x => `<tr><td class="k">${esc(x.k)}</td><td class="num">${esc(x.now)}</td><td class="th">${esc(x.th)}</td><td>${esc(x.m)}</td><td>${x.cand ? `<span class="k"><i style="background:${laneVar(NODE.get(x.cand).lane)}"></i>${esc(NODE.get(x.cand).name)}</span>` : '<span class="muted">AI 本身</span>'}</td><td>${sources(x.src)}</td></tr>`).join('') + '</tbody>';
+
+// ---------- method & sources ----------
+$('#method').innerHTML = [
+  ['时间轴', '分段线性：1760–1900 占 20% 宽度，1900–1990 占 24%，1990–今天占 36%，今天到 2045 年占 20%。近期更密，所以给得更宽。'],
+  ['节点与连线', `节点分为里程碑、现状趋势、前沿、瓶颈和候选五类。连线 A→B 表示 A 促成、加速、约束或缓解 B；构建脚本要求促成和加速边不能从晚的节点指向早的节点（允许 2 年误差）。`],
+  ['总分', '总分 = Σ 归一化权重 × 指标得分。6 项指标由人工打 0–5 的整数分，每个分数都附一句理由和至少一个来源。'],
+  ['使能就绪', '候选在大网中的直接前提（促成或加速它的节点）里，状态为“已实现”或“进行中”的比例 × 5。连线画法本身是判断，所以默认权重只给 10%。'],
+  ['稳健性', '两种检验：权重从均匀狄利克雷分布随机抽取 2 万次；或保持当前权重，把每项人工打分随机 ±1 共 6,000 次。统计各候选排第一的比例。'],
+  ['第 6 次浪潮窗口', V.pattern.text],
+  ['数据口径', `数据截至 ${G.asof}。优先使用一手来源（Epoch AI、METR、IEA、ITU、IFR、BNEF、公司公告），部分 2026 年的数字来自财经媒体转述。核实不了的数字不写。`],
+  ['利益声明', DISCLOSE.replace('此条', '涉及 Anthropic 的条目')],
+].map(([h, p]) => `<div><b>${esc(h)}</b><p>${esc(p)}</p></div>`).join('');
+const all = new Map();
+const walk = v => { if (Array.isArray(v)) { if (v.length === 2 && typeof v[1] === 'string' && /^https:\/\//.test(v[1])) { if (!all.has(v[1])) all.set(v[1], v[0]); } else v.forEach(walk); } else if (v && typeof v === 'object') Object.values(v).forEach(walk); };
+walk(DATA);
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+const srcRows = [...all].sort((a, b) => host(a[0]).localeCompare(host(b[0])) || a[1].localeCompare(b[1]));
+$('#src-sum').textContent = `全部来源（${srcRows.length} 个链接）`;
+$('#src-list').innerHTML = srcRows.map(([u, n]) => `<li><a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a><span>${esc(host(u))}</span></li>`).join('');
+$('#foot').textContent = `数据截至 ${G.asof}。打分是判断，不是预测：每个分数都附理由和来源，可以在打分区调整权重看排名怎么变。`;
+
+goStep(step, false);
+
+})();</script>

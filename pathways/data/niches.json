@@ -1,0 +1,31 @@
+{
+  "asof": "2026-10-03",
+  "items": [
+    { "id": "humanoid", "cand": "c_embodied", "name": "人形机器人", "now": "宇树出货领先，Figure 进入宝马工厂，特斯拉 Optimus 第三代仍未发布", "fig": "5,500 台", "figl": "宇树 2025 年人形出货，七成以上用于科研教育", "next": "单台成本低于 2 万美元，走出科研教育市场", "win": [2028, 2033], "node": "unitree",
+      "src": [["Rest of World", "https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"], ["Electrek", "https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/"]] },
+    { "id": "av", "cand": "c_embodied", "name": "自动驾驶", "now": "Waymo 在美国 14 个城市商业运营，已进入陡峭增长段", "fig": "每周 50 万单", "figl": "两年增长 10 倍", "next": "每周 100 万单（公司 2026 年底目标）", "win": [2026, 2028], "node": "waymo",
+      "src": [["TechCrunch", "https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"]] },
+    { "id": "robotfm", "cand": "c_embodied", "name": "机器人基础模型", "now": "π0.5、英伟达 GR00T、谷歌 Gemini Robotics 竞相做跨机型泛化", "fig": "56 亿美元", "figl": "Physical Intelligence 2025 年 11 月估值", "next": "一套权重在新机型、新环境上零样本可用", "win": [2026, 2030], "node": "pi05",
+      "src": [["Physical Intelligence", "https://physicalintelligence.company/blog/pi05"], ["Bloomberg Law", "https://news.bloomberglaw.com/private-equity/robotics-startup-physical-intelligence-valued-at-5-6-billion"]] },
+    { "id": "world", "cand": "c_embodied", "name": "世界模型", "now": "Genie 3 开放给订阅用户，Waymo 用它做驾驶仿真", "fig": "24 帧/秒", "figl": "可交互 3D 世界，保持数分钟一致", "next": "长时间一致且物理可信，可替代大部分真机数据", "win": [2026, 2030], "node": "worldmodel",
+      "src": [["Google DeepMind", "https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/"]] },
+    { "id": "ai4sci", "cand": "c_bio", "name": "AI for Science", "now": "AlphaFold 获诺奖；FutureHouse 的 Robin 从提出假设到论文用了 2.5 个月", "fig": "0", "figl": "截至 2026 年年中获 FDA 批准的 AI 设计药物", "next": "第一个 AI 设计的药物获批", "win": [2027, 2030], "node": "aidrug",
+      "src": [["Nature Medicine", "https://www.nature.com/articles/s41591-025-03743-2"], ["FutureHouse", "https://www.futurehouse.org/ai-scientist"]] },
+    { "id": "synbio", "cand": "c_bio", "name": "合成生物", "now": "Evo 系列基因组语言模型从零设计出能存活的噬菌体", "fig": "16/302", "figl": "AI 设计的噬菌体基因组中存活的比例", "next": "AI 设计的完整细菌级基因组", "win": [2028, 2035], "node": "evo2",
+      "src": [["bioRxiv（King 等 2025）", "https://doi.org/10.1101/2025.09.12.675911"], ["Arc Institute", "https://arcinstitute.org/news/evo-2-one-year-later"]] },
+    { "id": "solarstore", "cand": "c_energy", "name": "光伏与储能", "now": "光伏是全球能源投资里最大的单项（2025 年约 4,500 亿美元）", "fig": "70 美元/kWh", "figl": "储能电池包 2025 年均价，一年降 45%", "next": "储能低于 50 美元/kWh", "win": [2028, 2033], "node": "battery",
+      "src": [["BloombergNEF", "https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"], ["IEA", "https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]] },
+    { "id": "fusion", "cand": "c_energy", "name": "聚变与先进核能", "now": "NIF 已点火；三哩岛 1 号机组为微软重启；SPARC 在建", "fig": "Q<1", "figl": "所有私营聚变装置至今的净增益", "next": "SPARC 实现 Q>1", "win": [2027, 2035], "node": "fusionq",
+      "src": [["TechCrunch", "https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"], ["LLNL", "https://lasers.llnl.gov/science/achieving-fusion-ignition"]] },
+    { "id": "quantum", "cand": "c_quantum", "name": "量子计算", "now": "谷歌 Willow 低于纠错阈值；Quantinuum Helios 实现 48 个逻辑比特", "fig": "99.921%", "figl": "Helios 双比特门保真度", "next": "IBM Starling：200 个逻辑比特、1 亿次门", "win": [2029, 2033], "node": "helios",
+      "src": [["HPCwire", "https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"], ["IBM", "https://www.ibm.com/quantum/blog/large-scale-ftqc"]] },
+    { "id": "orbit", "cand": "c_space", "name": "轨道算力", "now": "Starcloud 和谷歌 Suncatcher 已把 GPU、TPU 送上轨道做实验", "fig": "1 块 H100", "figl": "Starcloud-1 在轨运行，Starcloud-2 计划 2026 年 10 月发射", "next": "商用轨道云服务", "win": [2027, 2035], "node": "orbital",
+      "src": [["TechCrunch", "https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]] },
+    { "id": "space", "cand": "c_space", "name": "发射与卫星", "now": "星舰 2026 年 9 月首次入轨；星链订户超过 1,200 万", "fig": "165 次", "figl": "SpaceX 2025 年发射次数", "next": "星舰完全复用，发射低于 200 美元/kg", "win": [2028, 2035], "node": "starship",
+      "src": [["CNN", "https://www.cnn.com/2026/09/28/science/live-news/spacex-starship-flight-14-launch"], ["Wikipedia: SpaceX", "https://en.wikipedia.org/wiki/SpaceX"], ["Wikipedia: Starlink", "https://en.wikipedia.org/wiki/Starlink"]] },
+    { "id": "glasses", "cand": "c_spatial", "name": "AI 眼镜", "now": "Meta 眼镜销量一年三倍；Reality Labs 2025 年亏损 192 亿美元", "fig": "700 万副", "figl": "2025 年 Meta 智能眼镜销量", "next": "年销 1 亿副", "win": [2029, 2035], "node": "glasses",
+      "src": [["CNBC", "https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]] },
+    { "id": "bci", "cand": "c_bci", "name": "脑机接口", "now": "Neuralink 2025 年 9 月累计 12 名受试者；语音解码达到每分钟 78 词", "fig": "12 人", "figl": "Neuralink 受试者（2025-09）", "next": "非医疗的消费级产品", "win": [2036, 2045], "node": "neuralink",
+      "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Neuralink"], ["Nature", "https://www.nature.com/articles/s41586-023-06443-4"]] }
+  ]
+}

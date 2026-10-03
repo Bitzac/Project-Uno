@@ -1,0 +1,142 @@
+{
+  "asof": "2026-10-03",
+  "conclusion": {
+    "answer": "具身智能：AI 走进物理世界",
+    "line": "互联网让传输信息几乎免费，AI 让产生认知几乎免费，下一个是让物理动作变便宜。",
+    "dek": "默认权重下，具身智能得分第一，廉价清洁能源紧随其后，它是具身智能和 AI 共同的底座；可编程生物是第二战场。时间上，2030 年前的主线仍是 AI 本身的扩散，具身智能的陡峭增长段预计落在 2027–2040 年。",
+    "figs": [
+      { "v": "10×", "l": "Robotaxi 每周订单两年增幅", "node": "waymo" },
+      { "v": "129 天", "l": "智能体任务时长翻倍周期", "node": "horizon" },
+      { "v": "415→945", "u": "TWh", "l": "全球数据中心用电 2024→2030", "node": "dcpower" }
+    ],
+    "falsifiers": [
+      "到 2030 年人形机器人年出货仍不到 10 万台，且 Robotaxi 增长停滞：具身智能的判断不成立。",
+      "AI 资本开支同比削减 30% 以上：AI 进入 Perez 所说的转折点，所有下游时间表推后。",
+      "储能和聚变进展快于预期，机器人停滞：能源取代具身智能成为首选。"
+    ]
+  },
+  "chain": [
+    { "yr": "1969 年起", "h": "互联网", "what": "传输信息的成本趋近于零", "ev": "2025 年约 60 亿人在线，占世界人口 74%", "node": "online6b" },
+    { "yr": "2012 年起", "h": "AI", "what": "产生认知的成本趋近于零", "ev": "达到 GPT-4 水平的推理价格每年下降约 40 倍", "node": "frontier26" },
+    { "yr": "2027–2040 年", "h": "具身智能", "what": "物理动作的成本开始下降", "ev": "Robotaxi 每周订单两年增长 10 倍；人形机器人出货仍以千台计", "node": "c_embodied", "next": true }
+  ],
+  "criteria": [
+    { "id": "pervasive", "name": "普适性", "w": 0.20, "d": "能进入多少行业。通用目的技术的第一条标准（Bresnahan & Trajtenberg 1995）。" },
+    { "id": "cost", "name": "成本曲线", "w": 0.15, "d": "核心投入的成本下降速度。Perez 定义的关键要素必须廉价且快速变得更廉价。" },
+    { "id": "spawn", "name": "衍生创新", "w": 0.10, "d": "改进空间和互补创新的密度，通用目的技术的第二、三条标准。" },
+    { "id": "capital", "name": "资本流入", "w": 0.15, "d": "2025–2026 年的投资规模和增速。" },
+    { "id": "timing", "name": "拐点时机", "w": 0.15, "d": "陡峭增长段是否落在 2027–2040 年。已在陡峭段多年的算“正在进行”，2040 年以后的算“更远”。" },
+    { "id": "synergy", "name": "AI 互补", "w": 0.15, "d": "AI 是否加速它，以及它是否缓解 AI 的瓶颈（电力、数据、物理动作）。互联网之于 AI 就是这种关系：它提供了训练数据。" },
+    { "id": "enablers", "name": "使能就绪", "w": 0.10, "auto": true, "d": "由网络自动计算：候选的直接前提节点里，已经实现（过去或现在）的比例 × 5。" }
+  ],
+  "candidates": [
+    { "id": "c_embodied", "name": "具身智能", "short": "具身", "scores": [
+      { "c": "pervasive", "s": 5, "why": "物理劳动遍及农业（全球就业的 26%）、制造、物流、建筑和护理，作用面与 AI 本身相当。", "src": [["Our World in Data", "https://ourworldindata.org/grapher/share-of-employment-in-agriculture"]] },
+      { "c": "cost", "s": 3, "why": "成本在降，但还没有长期学习曲线：高盛估计人形机器人制造成本一年内从 5–25 万美元降到 3–15 万美元。", "src": [["Goldman Sachs", "https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]] },
+      { "c": "spawn", "s": 4, "why": "机器人基础模型、世界模型、灵巧手、仿真到真机强化学习同时推进；π0.5 能在陌生家庭里完成 10–15 分钟的任务。", "src": [["Physical Intelligence", "https://physicalintelligence.company/blog/pi05"]] },
+      { "c": "capital", "s": 4, "why": "Figure 估值 390 亿美元，宇树以约 90 亿美元估值 IPO，Physical Intelligence 估值 56 亿美元；但规模仍远小于 AI 每年约 7,000 亿美元的资本开支。", "src": [["TechCrunch", "https://techcrunch.com/2025/09/16/figure-reaches-39b-valuation-in-latest-funding-round/"], ["CNBC", "https://www.cnbc.com/2026/08/06/chinese-humanoid-robot-maker-unitree-prices-ipo-at-9-billion-valuation.html"]] },
+      { "c": "timing", "s": 5, "why": "Robotaxi 已进入陡峭段，两年 10 倍；人形机器人 2025 年出货以千台计，正处在 S 曲线的起点。", "src": [["TechCrunch", "https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"], ["Rest of World", "https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"]] },
+      { "c": "synergy", "s": 5, "why": "直接消耗 AI 能力（视觉-语言-动作模型、世界模型），同时给 AI 带来身体和新的物理数据，绕开文本数据墙。", "src": [["Google DeepMind", "https://deepmind.google/discover/blog/rt-2-new-model-translates-vision-and-language-into-action/"], ["Epoch AI", "https://epoch.ai/blog/will-we-run-out-of-data-limits-of-llm-scaling-based-on-human-generated-data"]] }
+    ] },
+    { "id": "c_energy", "name": "廉价清洁能源", "short": "能源", "scores": [
+      { "c": "pervasive", "s": 5, "why": "能源是所有行业的投入，AI 本身也受它约束。", "src": [["IEA", "https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]] },
+      { "c": "cost", "s": 5, "why": "光伏组件 1975→2024 年降了约 500 倍；储能电池包 2025 年一年降了 45%。", "src": [["Our World in Data", "https://ourworldindata.org/grapher/solar-pv-prices"], ["BloombergNEF", "https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]] },
+      { "c": "spawn", "s": 3, "why": "改进空间大，但产出主要是同一种商品（电）变便宜，衍生出的新产品品类少于信息技术。", "src": [["IEA", "https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]] },
+      { "c": "capital", "s": 5, "why": "2025 年全球能源投资约 3.3 万亿美元，其中清洁能源 2.2 万亿，光伏约 4,500 亿是最大单项。", "src": [["IEA", "https://www.iea.org/news/global-energy-investment-set-to-rise-to-3-3-trillion-in-2025-amid-economic-uncertainty-and-energy-security-concerns"]] },
+      { "c": "timing", "s": 3, "why": "光伏和储能已在陡峭段多年，属于“正在进行”而不是“下一个”；聚变的拐点在 2035 年以后。", "src": [["SolarPower Europe", "https://www.solarpowereurope.org/press-releases/new-report-global-solar-market-hits-new-record-of-664-gw-installation-in-2025-as-global-solar-fleet-passes-3-tw"], ["TechCrunch", "https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"]] },
+      { "c": "synergy", "s": 4, "why": "直接缓解 AI 最硬的约束：数据中心用电 2030 年预计翻倍到约 945 TWh。反过来，AI 对能源技术本身的加速作用有限。", "src": [["IEA Energy and AI", "https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"]] }
+    ] },
+    { "id": "c_bio", "name": "可编程生物", "short": "生物", "scores": [
+      { "c": "pervasive", "s": 3, "why": "覆盖医疗、农业、材料和化工，但不像能源或劳动那样进入所有行业。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Synthetic_biology"]] },
+      { "c": "cost", "s": 4, "why": "测序成本 2001→2022 年降了约 18 万倍，但 2015 年以后基本走平。", "src": [["Our World in Data", "https://ourworldindata.org/grapher/cost-of-sequencing-a-full-human-genome"]] },
+      { "c": "spawn", "s": 4, "why": "蛋白质设计、基因组语言模型、AI 科学家同时出现；Evo 系列设计的 302 个噬菌体基因组中有 16 个存活。", "src": [["bioRxiv（King 等 2025）", "https://doi.org/10.1101/2025.09.12.675911"], ["Arc Institute", "https://arcinstitute.org/news/evo-2-one-year-later"]] },
+      { "c": "capital", "s": 3, "why": "截至 2026 年年中还没有 AI 设计的药物获批，商业验证尚未完成，资本以风险投资和药企合作为主。", "src": [["Nature Medicine", "https://www.nature.com/articles/s41591-025-03743-2"]] },
+      { "c": "timing", "s": 4, "why": "第一个 AI 设计药物的获批预计在 2027–2030 年；GLP-1 已证明新一代药物能形成大众市场。", "src": [["Drugs.com", "https://www.drugs.com/history/foundayo.html"]] },
+      { "c": "synergy", "s": 4, "why": "AI 是这条路线的主引擎（AlphaFold 获 2024 年诺贝尔化学奖），但它不缓解 AI 自身的电力、数据和物理瓶颈。", "src": [["Nobel Prize", "https://www.nobelprize.org/prizes/chemistry/2024/summary/"]] }
+    ] },
+    { "id": "c_spatial", "name": "AI 眼镜与空间计算", "short": "眼镜", "scores": [
+      { "c": "pervasive", "s": 3, "why": "改变的是人和信息之间的接口，覆盖所有知识工作者和消费者，但不改变生产本身。", "src": [["CNBC", "https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]] },
+      { "c": "cost", "s": 3, "why": "Vision Pro 售价 3,499 美元，智能眼镜还没出现手机那样的规模降本。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Apple_Vision_Pro"]] },
+      { "c": "spawn", "s": 3, "why": "应用生态仍在早期，主要用法是拍照、语音助手和翻译。", "src": [["UploadVR", "https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]] },
+      { "c": "capital", "s": 3, "why": "Meta Reality Labs 2025 年亏损 192 亿美元，投入持续但集中在少数公司。", "src": [["Shacknews", "https://www.shacknews.com/article/147618/facebook-meta-reality-labs-fy25-losses"]] },
+      { "c": "timing", "s": 4, "why": "智能眼镜 2025 年销量增长两倍，依视路陆逊梯卡在扩产。", "src": [["UploadVR", "https://www.uploadvr.com/meta-essilorluxottica-sold-7-million-smart-glasses-in-2025/"]] },
+      { "c": "synergy", "s": 4, "why": "眼镜是 AI 的第一人称传感器和随身接口；但对算力和电力瓶颈没有帮助。", "src": [["CNBC", "https://www.cnbc.com/2026/02/11/ray-ban-maker-essilorluxottica-triples-sales-of-meta-ai-glasses.html"]] }
+    ] },
+    { "id": "c_space", "name": "太空经济", "short": "太空", "scores": [
+      { "c": "pervasive", "s": 2, "why": "直接影响通信、导航和遥感，占整体经济的比重小。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Starlink"]] },
+      { "c": "cost", "s": 4, "why": "发射成本从航天飞机约 65,400 美元/kg 降到猎鹰重型约 1,500 美元/kg。", "src": [["Our World in Data", "https://ourworldindata.org/grapher/cost-space-launches-low-earth-orbit"]] },
+      { "c": "spawn", "s": 3, "why": "卫星互联网已成规模（星链订户超 1,200 万），轨道算力和在轨制造还在实验。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Starlink"], ["TechCrunch", "https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]] },
+      { "c": "capital", "s": 3, "why": "高度集中在 SpaceX 一家；轨道算力创业公司 Starcloud 2026 年融资 1.7 亿美元。", "src": [["TechCrunch", "https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]] },
+      { "c": "timing", "s": 4, "why": "星舰 2026 年 9 月首次入轨，完全复用后成本曲线会再下一个台阶。", "src": [["CNN", "https://www.cnn.com/2026/09/28/science/live-news/spacex-starship-flight-14-launch"]] },
+      { "c": "synergy", "s": 3, "why": "轨道太阳能算力可能缓解地面的电力约束，但目前只有单块 GPU 规模的实验。", "src": [["TechCrunch", "https://techcrunch.com/2026/03/30/starcloud-raises-170-million-series-ato-build-data-centers-in-space"]] }
+    ] },
+    { "id": "c_quantum", "name": "量子计算", "short": "量子", "scores": [
+      { "c": "pervasive", "s": 2, "why": "优势集中在化学模拟、材料和密码学等特定问题。", "src": [["IBM", "https://www.ibm.com/quantum/blog/large-scale-ftqc"]] },
+      { "c": "cost", "s": 1, "why": "还没有可观察的成本下降曲线。", "src": [["HPCwire", "https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]] },
+      { "c": "spawn", "s": 2, "why": "主要算法和应用都依赖尚未建成的容错机器。", "src": [["IBM", "https://www.ibm.com/quantum/blog/large-scale-ftqc"]] },
+      { "c": "capital", "s": 2, "why": "投入规模远小于 AI 和能源，集中在少数公司和政府项目。", "src": [["HPCwire", "https://www.hpcwire.com/2025/11/05/quantinuum-introduces-helios-quantum-system-as-roadmap-advances-toward-apollo/"]] },
+      { "c": "timing", "s": 2, "why": "IBM 把实用容错机定在 2029 年，大规模应用更晚。", "src": [["IBM", "https://www.ibm.com/quantum/blog/large-scale-ftqc"]] },
+      { "c": "synergy", "s": 2, "why": "对当前的 AI 训练和推理帮助有限。", "src": [["IBM", "https://www.ibm.com/quantum/blog/large-scale-ftqc"]] }
+    ] },
+    { "id": "c_bci", "name": "脑机接口", "short": "脑机", "scores": [
+      { "c": "pervasive", "s": 2, "why": "近期只面向重度瘫痪等医疗适应症。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Neuralink"]] },
+      { "c": "cost", "s": 1, "why": "需要开颅手术植入。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Brain%E2%80%93computer_interface"]] },
+      { "c": "spawn", "s": 2, "why": "语音解码进展很快（每分钟 78 词），但受试者以个位数到几十人计。", "src": [["Nature", "https://www.nature.com/articles/s41586-023-06443-4"]] },
+      { "c": "capital", "s": 2, "why": "Neuralink 2025 年融资 6.5 亿美元，整个行业的资本规模小。", "src": [["Bloomberg", "https://www.bloomberg.com/news/articles/2025-06-02/neuralink-raises-650-million-in-late-stage-funding-round"]] },
+      { "c": "timing", "s": 1, "why": "消费级产品预计在 2035 年以后。", "src": [["Wikipedia", "https://en.wikipedia.org/wiki/Neuralink"]] },
+      { "c": "synergy", "s": 3, "why": "AI 让神经信号解码变得可行，但它不缓解 AI 的任何瓶颈。", "src": [["Nature", "https://www.nature.com/articles/s41586-023-06377-x"]] }
+    ] }
+  ],
+  "baselines": [
+    { "id": "b_internet", "name": "互联网 @1995", "d": "以 1995 年为观察点回看打分：TCP/IP、万维网、个人电脑、光纤都已就位，网景刚刚上市。", "scores": { "pervasive": 5, "cost": 4, "spawn": 5, "capital": 3, "timing": 5, "synergy": 5, "enablers": 5 } },
+    { "id": "b_dl", "name": "深度学习 @2012", "d": "以 2012 年为观察点回看打分：GPU、ImageNet、反向传播、云计算已就位，规模定律还没被发现，资本很少。", "scores": { "pervasive": 4, "cost": 4, "spawn": 4, "capital": 2, "timing": 4, "synergy": 5, "enablers": 4 } }
+  ],
+  "baselineNote": "两条刻度线是事后回看的打分，有后见之明偏差，只用来判断候选今天的得分处在什么量级。",
+  "pattern": {
+    "intervals": [58, 46, 33, 63],
+    "text": "五次浪潮的起点间隔分别是 58、46、33、63 年，平均 50 年。按这个区间，第六次浪潮的起点应落在 2004–2034 年（1971 + 33 到 63 年）。2022 年的 ChatGPT 落在区间内，但 Perez 本人认为 AI 属于第五次浪潮。"
+  },
+  "counterpoints": [
+    { "t": "Perez 认为 AI 属于第五次浪潮", "b": "Perez 把 AI 看作 1971 年开始的信息通信革命内部的关键发展，而不是一次新的技术革命。按这个看法，“互联网、AI、下一个”并不是三次革命，下一次真正的浪潮可能要到 2030 年代以后才开始。", "src": [["Perez", "https://carlotaperez.org/second-machine-age-or-fifth-technological-revolution-part-3"]] },
+    { "t": "新技术扩散要几十年", "b": "David（1990）指出，电力从开始普及到在生产率统计里显现用了约 40 年。美国企业 AI 采用率只有 17–20%，2030 年前的主线仍是 AI 本身的扩散。", "src": [["David 1990, AER", "https://www.jstor.org/stable/2006600"], ["U.S. Census Bureau", "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]] },
+    { "t": "机器人还缺数据和订单", "b": "宇树七成以上的人形机器人卖给科研和教育机构；特斯拉 Optimus 第三代一再推迟；机器人没有互联网规模的动作数据，世界模型和仿真能否补上还没有定论。", "src": [["Rest of World", "https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"], ["Electrek", "https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/"]] },
+    { "t": "能源可能才是真正的下一个", "b": "能源只比具身智能低约 0.2 分。把“成本曲线”和“资本流入”的权重调高，能源就会反超。如果电力成为 AI 扩张的硬约束，资本会先流向能源。", "src": [["IEA Energy and AI", "https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai"]] },
+    { "t": "AI 狂热之后可能有一次崩盘", "b": "四大云厂商 2026 年资本开支约 7,000 亿美元，OpenAI 和 Anthropic 的年化收入合计约 1,350 亿美元。在 Perez 的框架里，安装期的狂热之后通常有一次崩盘，比如 2000 年的互联网泡沫，它会推迟所有下游方向。", "note": "anthropic", "src": [["CNBC（资本开支）", "https://www.cnbc.com/2026/02/06/google-microsoft-meta-amazon-ai-cash.html"], ["CNBC（Anthropic 收入）", "https://www.cnbc.com/2026/08/17/anthropic-says-annualized-revenue-climbed-to-65-billion-in-july.html"], ["Yahoo Finance（OpenAI 收入）", "https://finance.yahoo.com/markets/stocks/articles/openai-q3-2026-revenue-run-171727199.html"]] }
+  ],
+  "watchlist": [
+    { "k": "Robotaxi 每周订单", "now": "约 50 万（2026-03）", "th": "500 万", "m": "具身智能进入大众市场", "cand": "c_embodied", "src": [["TechCrunch", "https://techcrunch.com/2026/03/27/waymo-skyrocketing-ridership-in-one-chart/"]] },
+    { "k": "人形机器人年出货", "now": "宇树 5,500 台（2025）", "th": "10 万台以上，多数用于生产", "m": "走出科研教育市场", "cand": "c_embodied", "src": [["Rest of World", "https://restofworld.org/2026/unitree-china-humanoid-robot-shanghai-ipo/"]] },
+    { "k": "人形机器人制造成本", "now": "3–15 万美元（高盛 2024）", "th": "低于 2 万美元", "m": "接近规模化的经济性", "cand": "c_embodied", "src": [["Goldman Sachs", "https://www.goldmansachs.com/insights/articles/the-global-market-for-robots-could-reach-38-billion-by-2035"]] },
+    { "k": "智能体任务时长", "now": "17.4 小时（2026-04）", "th": "170 小时（一个月工时）", "m": "数字劳动可以整块外包", "cand": "c_embodied", "src": [["METR", "https://metr.org/time-horizons/"]] },
+    { "k": "储能电池包价格", "now": "70 美元/kWh（2025）", "th": "低于 50 美元/kWh", "m": "能源底座就位", "cand": "c_energy", "src": [["BloombergNEF", "https://about.bnef.com/insights/clean-energy/lithium-ion-battery-pack-prices-fall-to-108-per-kilowatt-hour-despite-rising-metal-prices-bloombergnef/"]] },
+    { "k": "私营聚变净增益", "now": "Q<1", "th": "Q>1", "m": "聚变进入工程阶段", "cand": "c_energy", "src": [["TechCrunch", "https://techcrunch.com/2026/02/13/fusion-startup-helion-hits-blistering-temps-as-it-races-toward-2028-deadline/"]] },
+    { "k": "美国企业 AI 采用率", "now": "17–20%（2026-05）", "th": "50%", "m": "AI 部署期过半", "cand": null, "src": [["U.S. Census Bureau", "https://www.census.gov/library/stories/2026/05/ai-use-businesses.html"]] },
+    { "k": "AI 设计药物获批", "now": "0 个", "th": "第 1 个", "m": "可编程生物得到商业验证", "cand": "c_bio", "src": [["Nature Medicine", "https://www.nature.com/articles/s41591-025-03743-2"]] }
+  ],
+  "tour": [
+    { "id": "t1", "kicker": "01 · 结论", "title": "下一个是具身智能", "range": [1760, 2045],
+      "body": ["互联网让传输信息几乎免费，AI 让产生认知几乎免费。按同一套指标给 7 个候选打分，具身智能排第一：把 AI 装进机器人和汽车，让物理动作变便宜。", "廉价清洁能源紧随其后，它是具身智能和 AI 共同的底座；可编程生物是第二战场。接下来 7 步说明这个判断是怎么得出的。"],
+      "focus": ["arkwright", "rocket", "carnegie", "modelt", "intel4004", "www", "chatgpt", "frontier26", "c_embodied", "c_energy", "c_bio"] },
+    { "id": "t2", "kicker": "02 · 规律", "title": "五次浪潮，每次让一种投入变廉价", "range": [1760, 2045],
+      "body": ["Perez 把工业革命以来的历史分成五次技术浪潮，起点分别是 1771 年的纺纱厂、1829 年的火箭号机车、1875 年的贝塞麦钢厂、1908 年的 T 型车和 1971 年的微处理器。每次都有一种关键投入变得廉价、近乎无限供给：水力、煤铁、钢、石油、芯片。", "起点间隔平均 50 年，第六次的起点应落在 2004–2034 年。ChatGPT 落在区间内，但 Perez 本人认为 AI 属于第五次浪潮，这一点放在最后的反方论据里。"],
+      "focus": ["arkwright", "rocket", "carnegie", "modelt", "intel4004"], "pattern": true },
+    { "id": "t3", "kicker": "03 · 互联网", "title": "传输信息的成本趋近于零", "range": [1835, 2026],
+      "body": ["从 1844 年的电报到 2025 年的 60 亿网民，通信这条线花了 180 年。1995 年网景上市引发狂热，2000 年泡沫破裂，之后才是移动互联网的大规模部署。", "互联网对 AI 最重要的遗产是数据：Common Crawl 网页语料占 GPT-3 训练数据权重的约 60%。"],
+      "focus": ["telegraph", "cable", "telephone", "radio", "arpanet", "tcpip", "fiber", "www", "netscape", "dotcom", "google", "social", "crawl", "lte", "online6b"], "chart": "internet" },
+    { "id": "t4", "kicker": "04 · AI", "title": "产生认知的成本趋近于零", "range": [1945, 2026],
+      "body": ["前沿模型的训练算力 2020 年以来每年增长 5 倍，GPT-6 Astra 约 10²⁷ FLOP，是 GPT-3 的 3,000 多倍。", "同时，达到 GPT-4 水平的推理价格每年下降约 40 倍。认知能力在变强，也在变便宜，这正是 Perez 所说的“关键投入”的特征。"],
+      "focus": ["perceptron", "backprop", "imagenet", "alexnet", "transformer", "scaling", "gpt3", "chatgpt", "gpt4", "reasoning", "agents", "frontier26", "crawl", "cuda", "aicompute"], "chart": "compute", "kpis": ["price", "cost"] },
+    { "id": "t5", "kicker": "05 · 2026", "title": "头部大模型：从回答问题到独立干活", "range": [2012, 2030],
+      "body": ["9 月到 10 月，OpenAI、Anthropic、谷歌相继发布 GPT-6、Claude 5.5 和 Gemini 4。METR 测得最新模型能以 50% 成功率完成人类专家 17 小时的任务，2023 年以来每 129 天翻一番。", "收入跟上了，但还没追上投入：两家头部实验室年化收入约 1,350 亿美元，四大云厂商当年资本开支约 7,000 亿美元，美国企业的 AI 采用率只有 17–20%。失控智能体事件和 FTC 调查说明，安全正在成为约束。"],
+      "focus": ["frontier26", "horizon", "agents", "reasoning", "safety", "aicompute", "chatgpt", "adopt50"], "chart": "horizon", "kpis": ["rev", "users", "adopt"], "note": "anthropic" },
+    { "id": "t6", "kicker": "06 · 瓶颈", "title": "AI 被物理世界卡住", "range": [2000, 2035],
+      "body": ["四个约束同时出现：电，全球数据中心用电 2030 年预计翻倍到约 945 TWh；芯片，美光 2027 年超过 75% 的 HBM 产能已被锁定；数据，网页文本已有 31.1% 由 AI 生成，高质量人类文本预计 2026–2032 年用完；物理动作，模型能写代码，却还搬不动箱子。", "能缓解这些瓶颈、又被 AI 加速的方向，最可能接棒。"],
+      "focus": ["dcpower", "hbm", "datawall", "aitext", "safety", "frontier26", "aicompute"], "chart": "dc", "kpis": ["data", "aitext"] },
+    { "id": "t7", "kicker": "07 · 候选", "title": "7 个候选，同一套指标", "range": [2000, 2045],
+      "body": ["7 项指标里，6 项人工打分并给出来源，第 7 项“使能就绪”直接从这张网络计算：候选的直接前提里，已经实现的占多少。", "具身智能在拐点时机和 AI 互补两项拿满分，能源在成本曲线和资本流入两项拿满分。往下翻到打分区，可以自己调权重。"],
+      "focus": ["c_embodied", "c_energy", "c_bio", "c_spatial", "c_space", "c_quantum", "c_bci", "waymo", "pi05", "worldmodel", "fleet", "solar", "storage50", "fusionq", "evo2", "aidrug"], "chart": "waymo" },
+    { "id": "t8", "kicker": "08 · 结论与反方", "title": "判断成立的条件", "range": [1990, 2045],
+      "body": ["结论：下一个是具身智能，能源是底座，生物是第二战场；2030 年前的主线仍是 AI 本身。", "最强的反对意见是：Perez 认为 AI 仍属第五次浪潮；新技术扩散要几十年；机器人还缺数据和订单。页面底部列出 8 个观察指标和 3 个推翻信号，任何一个越线都应该重新打分。"],
+      "focus": ["c_embodied", "waymo", "pi05", "worldmodel", "fleet", "humanoid20k", "battery", "robots", "frontier26", "agentmonth", "c_energy", "c_bio"] }
+  ]
+}
