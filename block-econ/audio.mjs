@@ -175,7 +175,17 @@ for (const c of CUES) {
   voiced++;
 }
 
-// —— 混音：人声期间背景乐 −9 dB、音效 −3 dB（起 0.12s / 收 0.35s 平滑），整体软削波，首尾淡入淡出 ——
+// —— 混音：人声期间背景乐 −14 dB 并切掉 600 Hz 以下、音效 −8 dB（起 0.12s / 收 0.35s 平滑），整体软削波，首尾淡入淡出 ——
+// 这些参数按成片识别回转定：只压音量时，贝斯和铺底和弦会盖住"愿"字的鼻音韵尾（被识别成"月"），
+// 让出 600 Hz 以下后，背景乐不必压到 −23 dB 也能听清。
+const musicHP = new Float32Array(music);
+{
+  const a = Math.exp(-2 * Math.PI * 600 / SR);
+  for (let pass = 0; pass < 2; pass++) {
+    let lp = 0;
+    for (let i = 0; i < N; i++) { lp = (1 - a) * musicHP[i] + a * lp; musicHP[i] -= lp; }
+  }
+}
 const out = new Int16Array(N);
 let peak = 0, env = 0;
 const aUp = 1 - Math.exp(-1 / (0.12 * SR)), aDown = 1 - Math.exp(-1 / (0.35 * SR));
@@ -184,7 +194,8 @@ for (let i = 0; i < N; i++) {
   const t = i / SR;
   env += (duckOn[i] - env) * (duckOn[i] > env ? aUp : aDown);
   const fade = Math.min(1, t / 1.2) * clamp((DURATION - t) / 2.5);
-  mix[i] = Math.tanh(music[i] * 0.6 * (1 - 0.65 * env) + sfx[i] * (1 - 0.3 * env) + voice[i]) * fade;
+  const m = music[i] * (1 - env) + musicHP[i] * env;
+  mix[i] = Math.tanh(m * 0.6 * (1 - 0.8 * env) + sfx[i] * (1 - 0.6 * env) + voice[i]) * fade;
   peak = Math.max(peak, Math.abs(mix[i]));
 }
 const g = 0.89 / peak;
@@ -198,4 +209,9 @@ hdr.write('fmt ', 12); hdr.writeUInt32LE(16, 16); hdr.writeUInt16LE(1, 20); hdr.
 hdr.writeUInt32LE(SR, 24); hdr.writeUInt32LE(SR * 2, 28); hdr.writeUInt16LE(2, 32); hdr.writeUInt16LE(16, 34);
 hdr.write('data', 36); hdr.writeUInt32LE(out.byteLength, 40);
 fs.writeFileSync(path.join(OUT, 'audio.wav'), Buffer.concat([hdr, Buffer.from(out.buffer)]));
+// 调试用：STEMS=1 时另存背景乐 / 音效 / 人声三条分轨（未压低、未削波）
+if (process.env.STEMS) for (const [name, buf] of [['music', music], ['sfx', sfx], ['voice', voice]]) {
+  const pcm = Int16Array.from(buf, v => Math.round(clamp(v * (name === 'music' ? 0.6 : 1), -1, 1) * 32767));
+  fs.writeFileSync(path.join(OUT, `stem-${name}.wav`), Buffer.concat([hdr, Buffer.from(pcm.buffer)]));
+}
 console.log(`audio.wav ${DURATION.toFixed(2)}s, ${voiced} voice lines, peak gain ${g.toFixed(2)}`);
