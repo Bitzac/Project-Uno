@@ -1,10 +1,11 @@
 // 配乐与音效：纯代码合成，写出 out/audio.wav（44.1kHz 单声道 16-bit）。
+// 有配音时（src/voice.js + out/voice/*.wav），人声按字幕时间放入，背景乐和音效在人声期间自动压低。
 // 背景乐是原创的音符盒风格循环（C–Am–F–G，96 BPM）；
 // 音效按 state.js 逐帧采样触发，所以和画面里的人物出现、成交、曲线绘制严格同步。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DURATION, SCENES, TRADES, TOASTS, DEMAND_PTS, SUPPLY_PTS, DRAW, SUMMARY_ROW_AT, INSIGHTS, qd, qs } from './src/timeline.js';
+import { DURATION, SCENES, CUES, TRADES, TOASTS, DEMAND_PTS, SUPPLY_PTS, DRAW, SUMMARY_ROW_AT, INSIGHTS, qd, qs } from './src/timeline.js';
 import { stateAt, clamp } from './src/state.js';
 
 const SR = 44100;
@@ -150,20 +151,46 @@ for (const ins of Object.values(INSIGHTS)) { pluck(sfx, ins.at, 84, 0.04, 0.4, 0
 SUMMARY_ROW_AT.forEach((at, i) => pluck(sfx, at, 76 + i * 3, 0.04, 0.25, 0.3));
 pad(sfx, 0.4, [60, 67, 72, 76], 0.015, 2.5);
 
-// —— 混音：背景乐压低，整体软削波，首尾淡入淡出 ——
+// —— 人声：读入每句配音，按字幕时间摆放 ——
+const ROOT = path.dirname(fileURLToPath(import.meta.url));
+const voice = new Float32Array(N);
+const duckOn = new Uint8Array(N);
+function readWav(file) {
+  const b = fs.readFileSync(file);
+  let o = 12;
+  while (o < b.length - 8) {
+    const id = b.toString('ascii', o, o + 4), len = b.readUInt32LE(o + 4);
+    if (id === 'data') return Float32Array.from({ length: len / 2 }, (_, i) => b.readInt16LE(o + 8 + i * 2) / 32768);
+    o += 8 + len;
+  }
+  throw new Error('no data chunk: ' + file);
+}
+let voiced = 0;
+for (const c of CUES) {
+  if (!c.voice) continue;
+  const clip = readWav(path.join(ROOT, 'out/voice', c.voice.file));
+  const i0 = Math.round(c.voice.at * SR);
+  for (let j = 0; j < clip.length && i0 + j < N; j++) voice[i0 + j] += clip[j];
+  for (let j = Math.max(0, i0 - Math.round(0.1 * SR)); j < Math.min(N, i0 + clip.length + Math.round(0.05 * SR)); j++) duckOn[j] = 1;
+  voiced++;
+}
+
+// —— 混音：人声期间背景乐 −9 dB、音效 −3 dB（起 0.12s / 收 0.35s 平滑），整体软削波，首尾淡入淡出 ——
 const out = new Int16Array(N);
-let peak = 0;
+let peak = 0, env = 0;
+const aUp = 1 - Math.exp(-1 / (0.12 * SR)), aDown = 1 - Math.exp(-1 / (0.35 * SR));
 const mix = new Float32Array(N);
 for (let i = 0; i < N; i++) {
   const t = i / SR;
+  env += (duckOn[i] - env) * (duckOn[i] > env ? aUp : aDown);
   const fade = Math.min(1, t / 1.2) * clamp((DURATION - t) / 2.5);
-  mix[i] = Math.tanh((music[i] * 0.6 + sfx[i]) * 1.1) * fade;
+  mix[i] = Math.tanh(music[i] * 0.6 * (1 - 0.65 * env) + sfx[i] * (1 - 0.3 * env) + voice[i]) * fade;
   peak = Math.max(peak, Math.abs(mix[i]));
 }
 const g = 0.89 / peak;
 for (let i = 0; i < N; i++) out[i] = Math.round(mix[i] * g * 32767);
 
-const OUT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'out');
+const OUT = path.join(ROOT, 'out');
 fs.mkdirSync(OUT, { recursive: true });
 const hdr = Buffer.alloc(44);
 hdr.write('RIFF', 0); hdr.writeUInt32LE(36 + out.byteLength, 4); hdr.write('WAVE', 8);
@@ -171,4 +198,4 @@ hdr.write('fmt ', 12); hdr.writeUInt32LE(16, 16); hdr.writeUInt16LE(1, 20); hdr.
 hdr.writeUInt32LE(SR, 24); hdr.writeUInt32LE(SR * 2, 28); hdr.writeUInt16LE(2, 32); hdr.writeUInt16LE(16, 34);
 hdr.write('data', 36); hdr.writeUInt32LE(out.byteLength, 40);
 fs.writeFileSync(path.join(OUT, 'audio.wav'), Buffer.concat([hdr, Buffer.from(out.buffer)]));
-console.log(`audio.wav ${DURATION}s, peak gain ${g.toFixed(2)}`);
+console.log(`audio.wav ${DURATION.toFixed(2)}s, ${voiced} voice lines, peak gain ${g.toFixed(2)}`);
