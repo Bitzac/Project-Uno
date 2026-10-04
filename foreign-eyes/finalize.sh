@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 ls build/seg_*.mp4 | sort -V | sed "s#^build/#file '#; s#\$#'#" > build/segs.txt
 ffmpeg -y -hide_banner -loglevel warning -stats \
   -f concat -safe 0 -i build/segs.txt -i build/mix.wav \
-  -filter_complex "[0:v]noise=alls=5:allf=t,format=yuv420p[v];[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]" \
+  -filter_complex "[0:v]noise=alls=3:allf=t,format=yuv420p[v];[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]" \
   -map "[v]" -map "[a]" \
   -c:v libx264 -preset slow -crf 21 -profile:v high -tune film -g 60 \
   -c:a aac -b:a 224k -movflags +faststart -shortest \
