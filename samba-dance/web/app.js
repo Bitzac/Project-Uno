@@ -323,5 +323,13 @@ function sampleMotion(fps = 120) {
   return out;
 }
 
-Object.assign(window, { renderAt, animTime, sampleMotion, THREE, scene, camera, renderer });
+// 视频时间 t 下若干骨骼的世界坐标（米），供照片木偶版本驱动 2D 部件
+function bonesAt(t, names) {
+  mixer.setTime(animTime(t));
+  model.updateMatrixWorld(true);
+  const v = new THREE.Vector3();
+  return names.map((n) => model.getObjectByName('mixamorig' + n).getWorldPosition(v).toArray().map((x) => +x.toFixed(5)));
+}
+
+Object.assign(window, { renderAt, animTime, sampleMotion, bonesAt, THREE, scene, camera, renderer });
 init().then(() => { if (Q.has('t')) renderAt(+Q.get('t')); });
