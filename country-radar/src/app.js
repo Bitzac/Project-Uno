@@ -68,6 +68,7 @@ const S = {
   showIdeal: lsGet('showIdeal', false),
   dim: 'health',
   sort: 'all',
+  region: lsGet('region', 'all'),
   pair: lsGet('pair', ['cn', 'de']),
   ideal: lsGet('ideal', null)
 };
@@ -78,12 +79,18 @@ if (!S.ideal || !S.ideal.imp || !S.ideal.tgt || D.some(d => S.ideal.imp[d.id] ==
 S.ideal.answers = S.ideal.answers || {};
 if (!Array.isArray(S.pair) || S.pair.length !== 2 || !S.pair.every(byId) || S.pair[0] === S.pair[1]) S.pair = ['cn', 'de'];
 const saveIdeal = () => lsSet('ideal', S.ideal);
+if (S.region !== 'all' && S.region !== 'cmp' && !REGIONS.includes(S.region)) S.region = 'all';
 
 // A compared country keeps its slot (color + marker shape) for as long as it stays compared; removing one never repaints the others.
 const slotOf = id => S.cmp.indexOf(id);
 const compared = () => S.cmp.map((id, k) => id ? { c: byId(id), k } : null).filter(Boolean);
 const sc = id => { const k = slotOf(id); return k >= 0 ? 's' + k : ''; };
 const mk = c => { const k = slotOf(c.id); return k >= 0 ? `<i class="mk ${SHAPE[k]} s${k}" aria-hidden="true"></i>` : '<i class="mk none" aria-hidden="true"></i>'; };
+
+// Region filter: narrows the long lists (ranking, heat table, shape wall, dimension table, matches). Ranks stay global.
+const inRegion = c => S.region === 'all' || (S.region === 'cmp' ? slotOf(c.id) >= 0 : c.region === S.region);
+const withRank = list => list.map((x, i) => ({ ...x, rank: i + 1 })).filter(x => inRegion(x.c));
+const regionChips = () => `<div class="ctl-row filter"><span>范围</span><div class="chips" role="radiogroup" aria-label="按地区筛选">${[['all', `全部 ${N}`], ...REGIONS.map(rg => [rg, `${rg} ${C.filter(c => c.region === rg).length}`]), ['cmp', `对比中 ${compared().length}`]].map(([v, t]) => `<button class="chip" role="radio" aria-checked="${S.region === v}" data-region="${v}">${t}</button>`).join('')}</div></div>`;
 
 const toastEl = $('#toast');
 function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => toastEl.classList.remove('on'), 2600); }
@@ -274,7 +281,8 @@ function renderOverview() {
   const cur = C.map(c => ({ c, s: overall(c.id, dims) })).sort((a, b) => b.s - a.s);
   const H = headline();
   const sortKey = S.sort === 'all' || S.dims.includes(S.sort) ? S.sort : 'all';
-  const rows = C.map(c => ({ c, s: sortKey === 'all' ? overall(c.id, dims) : DS[sortKey][c.id] })).sort((a, b) => b.s - a.s);
+  const rows = withRank(C.map(c => ({ c, s: sortKey === 'all' ? overall(c.id, dims) : DS[sortKey][c.id] })).sort((a, b) => b.s - a.s));
+  const shown = withRank(cur);
   const colMax = Object.fromEntries(D.map(d => [d.id, Math.max(...C.map(c => DS[d.id][c.id]))]));
   const allMax = Math.max(...cur.map(x => x.s));
   const [A, B] = S.pair.map(byId);
@@ -287,10 +295,11 @@ function renderOverview() {
 
   $('#v-overview').innerHTML = `
     <div class="lead">
-      <div class="eyebrow">第二版 · ${N} 国 × ${D.length} 维 × ${D.reduce((s, d) => s + d.ind.length, 0)} 项公开指标</div>
+      <div class="eyebrow">第三版 · ${N} 国 × ${D.length} 维 × ${D.reduce((s, d) => s + d.ind.length, 0)} 项公开指标</div>
       <h1>${H.h1.map(t => `<span class="cl">${esc(t)}</span>`).join('')}</h1>
       <p>${esc(H.p)}</p>
     </div>
+    ${regionChips()}
     <div class="ov">
       <div class="chart">
         <div class="ctl">
@@ -304,8 +313,8 @@ function renderOverview() {
       </div>
       <div class="panel">
         <h3>综合排名<small>${dimNote} · 点一行加入或移出对比</small></h3>
-        <div class="rank" role="list">${cur.map((x, i) => `<button class="rk-row ${sc(x.c.id)}" role="listitem" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}">
-          <span class="rk">${i + 1}</span><span class="nm">${mk(x.c)}${x.c.name}<small>${x.c.region}</small></span>
+        <div class="rank" role="list">${shown.map(x => `<button class="rk-row ${sc(x.c.id)}" role="listitem" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}">
+          <span class="rk">${x.rank}</span><span class="nm">${mk(x.c)}${x.c.name}<small>${x.c.region}</small></span>
           <span class="tr" aria-hidden="true"><i style="width:${x.s.toFixed(1)}%"></i></span><b>${f1(x.s)}</b></button>`).join('')}</div>
         <div class="callout" style="margin-top:12px">
           <b>排名取决于你看重什么</b>
@@ -326,8 +335,8 @@ function renderOverview() {
     </div>
     <div class="panel">
       <h3>${N} 国形状一览<small>同一套坐标轴（从“${dims[0].name}”起顺时针），按综合分排序 · 点一张加入或移出对比</small></h3>
-      <div class="sm-grid">${cur.map((x, i) => `<button class="sm-card ${sc(x.c.id)}" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}" aria-label="${x.c.name}，综合 ${f1(x.s)}，第 ${i + 1}">
-        ${mini(x.c, dims)}<span class="nm">${mk(x.c)}${x.c.name}<b>${f1(x.s)}</b></span><small>第 ${i + 1} · ${x.c.region}</small></button>`).join('')}</div>
+      <div class="sm-grid">${shown.map(x => `<button class="sm-card ${sc(x.c.id)}" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}" aria-label="${x.c.name}，综合 ${f1(x.s)}，第 ${x.rank}">
+        ${mini(x.c, dims)}<span class="nm">${mk(x.c)}${x.c.name}<b>${f1(x.s)}</b></span><small>第 ${x.rank} · ${x.c.region}</small></button>`).join('')}</div>
     </div>
     <div class="ov">
       <div class="panel">
@@ -353,21 +362,22 @@ function renderOverview() {
 // ---------- dimension detail ----------
 function renderDims() {
   const d = dimById(S.dim);
-  const order = C.map(c => ({ c, s: DS[d.id][c.id] })).sort((a, b) => b.s - a.s);
+  const order = C.map(c => ({ c, s: DS[d.id][c.id] })).sort((a, b) => b.s - a.s), shown = withRank(order);
   // Mark the best value only when at most two countries share it; a ten-way tie at 100% says nothing.
   const best = Object.fromEntries(d.ind.map(ind => { const xs = C.map(c => IS[d.id][ind.id][c.id] ?? -1), m = Math.max(...xs); return [ind.id, xs.filter(x => x === m).length <= 2 ? m : null]; }));
   $('#v-dims').innerHTML = `
     <div class="seg" role="radiogroup" aria-label="选择维度" style="justify-self:start">${D.map(x => `<button role="radio" aria-checked="${x.id === d.id}" data-pick="${x.id}">${x.name}</button>`).join('')}</div>
+    ${regionChips()}
     <div class="dhead">
       <div class="lead"><div class="eyebrow">维度 ${D.indexOf(d) + 1} / ${D.length} · ${d.ind.length} 项指标等权平均</div><h1>${d.name}<small>${d.en}</small></h1><p>${esc(d.q)}</p>
         <p>第一是${order[0].c.name}（${f1(order[0].s)}），最后是${order[N - 1].c.name}（${f1(order[N - 1].s)}），中国第 ${1 + order.findIndex(x => x.c.id === 'cn')}。</p></div>
-      <div class="bars" role="list" aria-label="${d.name}维度得分">${order.map(x => `<div class="bar ${sc(x.c.id)}" role="listitem" data-emph="${x.c.id}"><span>${mk(x.c)}${x.c.name}</span><div class="tr"><i style="width:${x.s.toFixed(1)}%"></i></div><b>${f1(x.s)}</b></div>`).join('')}</div>
+      <div class="bars" role="list" aria-label="${d.name}维度得分">${shown.map(x => `<div class="bar ${sc(x.c.id)}" role="listitem" data-emph="${x.c.id}"><span><em class="brk">${x.rank}</em>${mk(x.c)}${x.c.name}</span><div class="tr"><i style="width:${x.s.toFixed(1)}%"></i></div><b>${f1(x.s)}</b></div>`).join('')}</div>
     </div>
     <div class="tbl-wrap">
       <table class="ind-tbl">
         <caption class="eyebrow" style="text-align:left;padding:12px 12px 0">原始值 · 换算分 · 按维度分排序</caption>
         <thead><tr><th>国家</th><th class="n">维度分</th>${d.ind.map(ind => `<th><span class="ih">${esc(ind.name)}</span><small class="iu">${esc(ind.unit)} · ${ind.b > ind.w ? '越高越好' : '越低越好'}</small></th>`).join('')}</tr></thead>
-        <tbody>${order.map(({ c, s }) => `<tr class="${sc(c.id)}">
+        <tbody>${shown.map(({ c, s }) => `<tr class="${sc(c.id)}">
           <td><button class="cn-btn" data-cmp="${c.id}" data-emph="${c.id}" aria-pressed="${slotOf(c.id) >= 0}">${mk(c)}${c.name}</button></td>
           <td class="n"><b class="ds">${f1(s)}</b>${MISS[d.id][c.id] ? '<sup title="有缺失指标">*</sup>' : ''}</td>
           ${d.ind.map(ind => { const v = ind.v[c.id], x = IS[d.id][ind.id][c.id]; if (v == null) return '<td><div class="cell na"><b>—</b><span>无数据</span></div></td>'; const y = ind.yx && ind.yx[c.id]; return `<td><div class="cell ${x === best[ind.id] ? 'best' : ''}"><b>${fmtV(ind, v)}${y ? `<small>${y}</small>` : ''}</b><div class="mini-bar"><i style="width:${x.toFixed(1)}%"></i></div><span>${f1(x)} 分</span></div></td>`; }).join('')}
@@ -413,8 +423,9 @@ function idealSide() {
     </div>
     <div class="panel">
       <div class="ph">${N} 国匹配度<small>100 = 每个关心的维度都达标 · 点一行加入或移出对比</small></div>
-      <div class="matches" style="margin-top:6px">${r.map((x, k) => `<button class="m ${sc(x.c.id)}" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}">
-        <span class="rk">${k + 1}</span>
+      <div class="ctl" style="margin-top:8px">${regionChips()}</div>
+      <div class="matches" style="margin-top:6px">${withRank(r).map(x => `<button class="m ${sc(x.c.id)}" aria-pressed="${slotOf(x.c.id) >= 0}" data-cmp="${x.c.id}" data-emph="${x.c.id}">
+        <span class="rk">${x.rank}</span>
         <span class="nm">${mk(x.c)}${x.c.name}</span>
         <span class="fit">${f1(x.fit)}</span>
         <span class="mt" aria-hidden="true"><i style="width:${x.fit.toFixed(1)}%"></i></span>
@@ -472,7 +483,7 @@ function renderMethod() {
     ['统计口径不完全可比', '杀人率年份不同（中国最新 2020）；医保覆盖率各国口径不同；Gallup 中国样本为网络问卷；阿联酋近九成人口是外籍劳工，很多人均指标反映的是这一人口结构。'],
     ['调查型指数带主观成分', '清廉指数、自由之家、WJP、Gallup、幸福报告都依赖问卷或专家打分，评估机构的立场会影响结果，尤其是对中国、新加坡、阿联酋等非西方体制国家。'],
     ['众包数据样本偏差', 'Numbeo 购买力和房价收入比来自用户提交，偏向大城市和外籍人士；Ookla 网速来自用户自测。'],
-    ['以“本国居民”为视角', '没有计入签证难度、语言、华人社区、种族歧视、税负、汇率等移居者特有的因素。'],
+    ['以“本国居民”为视角', '没有计入签证难度、语言、华人社区、种族歧视、税负、汇率等移居者特有的因素。“可负担”按当地工资衡量，所以泰国、越南分数很低；带着海外收入去生活的人，看到的是另一回事（见“可负担”维度的备注）。'],
     ['部分数据较旧或缺失', `社会流动性指数只有 2020 年一版；LPI 为 2023 年版；共 ${gaps.length} 个国家-指标组合没有数据，所在维度按其余指标平均。`]
   ];
   $('#v-method').innerHTML = `
@@ -536,6 +547,7 @@ document.addEventListener('click', e => {
   }
   if (t.id === 'dims-all') { S.dims = D.map(d => d.id); lsSet('dims', S.dims); return renderOverview(); }
   if (ds.sort) { S.sort = ds.sort; return renderOverview(); }
+  if (ds.region) { S.region = ds.region; lsSet('region', S.region); return rerender(); }
   if (ds.pick) { S.dim = ds.pick; return renderDims(); }
   if (ds.preset) {
     const p = PRESETS.find(x => x.id === ds.preset);
