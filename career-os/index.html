@@ -1,0 +1,1465 @@
+<title>事业 OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>/* Layout: one liquid-glass window over a cool aurora; top bar (brand · project · sync), a left rail of capability modules, one scrolling module view, a detail sheet from the right. Hairline rules, heavy type. Same visual language as health-os and groundbreak; cobalt accent, amber marks "you are here". */
+:root{--bg:#EDF1F7;--blob1:#9CC3FF;--blob2:#A8E6D3;--blob3:#FFE1A6;--blob4:#C9C2FF;--ink:#0B1220;--muted:#4D5A6E;--faint:#7C8799;--glass-a:rgba(255,255,255,.62);--glass-b:rgba(255,255,255,.3);--glass-edge:rgba(255,255,255,.9);--glass-inner:rgba(255,255,255,.96);--shadow:rgba(24,44,90,.18);--line:rgba(11,18,32,.16);--line-soft:rgba(11,18,32,.08);--field:rgba(255,255,255,.5);--accent:#1F57D6;--accent-ink:#FFFFFF;--accent-soft:rgba(31,87,214,.1);--track:rgba(31,87,214,.14);--now:#A86B00;--now-soft:rgba(220,150,20,.16);--good:#0A7F4F;--good-soft:rgba(10,127,79,.12);--warn:#B86E00;--warn-soft:rgba(230,150,20,.16);--bad:#C93A30;--bad-soft:rgba(201,58,48,.1);--h1:#DCE7FB;--h2:#B7CEF6;--h3:#86AEEE;--h4:#4F86E2;--h5:#1F57D6;--h-ink:#0B1220;--h-ink4:#0B1220;--h-ink5:#FFFFFF;--scrim:rgba(18,28,50,.24);--sheet:rgba(246,248,252,.94);--hair:1px;--f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;--f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070C16;--blob1:#173E86;--blob2:#0F5A4A;--blob3:#5A4313;--blob4:#33287A;--ink:#E9EEF7;--muted:#A3AEC2;--faint:#76829A;--glass-a:rgba(26,34,52,.62);--glass-b:rgba(12,18,30,.42);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#6E9DFF;--accent-ink:#06142F;--accent-soft:rgba(110,157,255,.14);--track:rgba(110,157,255,.18);--now:#F2B13D;--now-soft:rgba(242,177,61,.16);--good:#3FCB8E;--good-soft:rgba(63,203,142,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.14);--h1:#14233F;--h2:#1B3A73;--h3:#2853A6;--h4:#4A80E8;--h5:#7BA6FF;--h-ink:#E9EEF7;--h-ink4:#06142F;--h-ink5:#06142F;--scrim:rgba(0,0,0,.45);--sheet:rgba(12,18,30,.94);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070C16;--blob1:#173E86;--blob2:#0F5A4A;--blob3:#5A4313;--blob4:#33287A;--ink:#E9EEF7;--muted:#A3AEC2;--faint:#76829A;--glass-a:rgba(26,34,52,.62);--glass-b:rgba(12,18,30,.42);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#6E9DFF;--accent-ink:#06142F;--accent-soft:rgba(110,157,255,.14);--track:rgba(110,157,255,.18);--now:#F2B13D;--now-soft:rgba(242,177,61,.16);--good:#3FCB8E;--good-soft:rgba(63,203,142,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.14);--h1:#14233F;--h2:#1B3A73;--h3:#2853A6;--h4:#4A80E8;--h5:#7BA6FF;--h-ink:#E9EEF7;--h-ink4:#06142F;--h-ink5:#06142F;--scrim:rgba(0,0,0,.45);--sheet:rgba(12,18,30,.94);color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;padding-inline:16px;padding-block:16px;overflow:hidden;position:relative}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums}
+.latin{font-family:var(--f-display)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+a{color:inherit}
+svg{display:block}
+
+/* aurora + glass */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.7}
+.aurora i:nth-child(1){width:44vw;height:44vw;left:-12vw;top:-14vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:34vw;height:34vw;right:-8vw;top:-8vw;background:var(--blob2)}
+.aurora i:nth-child(3){width:36vw;height:36vw;left:30vw;bottom:-24vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:28vw;height:28vw;right:4vw;bottom:-12vw;background:var(--blob4)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(28px) saturate(170%);backdrop-filter:blur(28px) saturate(170%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -24px var(--shadow)}
+.window{position:relative;z-index:1;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);grid-template-columns:232px minmax(0,1fr);border-radius:28px;overflow:hidden}
+
+/* top bar */
+.top{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:var(--hair) solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{font:900 24px/1 var(--f-body);letter-spacing:.02em}
+.brand span{font:600 11px var(--f-display);letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+.seg{display:inline-flex;padding:3px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--field);gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{border:0;background:none;padding:7px 13px;border-radius:11px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;flex:none}
+.seg button[aria-selected="true"],.seg button[aria-pressed="true"]{background:var(--glass-a);color:var(--ink);font-weight:700;box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 14px -6px var(--shadow)}
+.seg .add{color:var(--accent);font-weight:700}
+.proj{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);min-width:0;max-width:100%}
+.sync{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--good)}
+.sync.local i{background:var(--warn)}
+.sync.ro i{background:var(--faint)}
+
+/* rail */
+.rail{border-right:var(--hair) solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;min-height:0}
+.rail h2{font:600 11px var(--f-display);letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:0 10px 8px}
+.mod{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:center;text-align:left;border:var(--hair) solid transparent;background:none;border-radius:16px;padding:10px 12px;cursor:pointer;width:100%}
+.mod b{font:800 15px/1.3 var(--f-body)}
+.mod small{grid-column:1/-1;font-size:12px;color:var(--faint)}
+.mod .pct{font:700 12.5px var(--f-display);color:var(--muted)}
+.mod[aria-current="true"]{background:var(--glass-a);border-color:var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 8px 22px -14px var(--shadow)}
+.mod[aria-current="true"] .pct{color:var(--accent)}
+.mod.planned{cursor:default;opacity:.55}
+.mod.planned b{font-weight:600}
+.mod .bar{grid-column:1/-1;height:3px;border-radius:2px;background:var(--track);overflow:hidden;margin-top:6px}
+.mod .bar i{display:block;height:100%;background:var(--accent);border-radius:2px}
+.rail .sep{border-top:var(--hair) solid var(--line);margin:10px 8px}
+.rail .note{font-size:12px;color:var(--faint);padding:0 10px;line-height:1.6}
+
+/* views */
+.main{overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.view{padding:20px 22px 40px;display:grid;gap:18px;min-width:0}
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.vhead h1{font:900 30px/1.15 var(--f-body);letter-spacing:.01em}
+.vhead p{margin:4px 0 0;color:var(--muted);font-size:14.5px;max-width:66ch}
+.eyebrow{font:600 11.5px var(--f-display);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.subnav{position:sticky;top:0;z-index:5;padding:10px 22px;margin:0 0 -8px;background:linear-gradient(180deg,var(--glass-a),transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:var(--hair) solid var(--line-soft)}
+.panel{border-radius:22px;border:var(--hair) solid var(--line);background:var(--field);padding:16px 18px;min-width:0;display:grid;gap:12px;align-content:start}
+.panel>h3{font:800 16px var(--f-body);display:flex;align-items:baseline;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.panel>h3 small{font:500 12.5px var(--f-body);color:var(--faint)}
+.panel>p{margin:0;color:var(--muted);font-size:14px}
+.cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.lead{font:800 19px/1.5 var(--f-body);margin:0;max-width:60ch}
+.lead em{font-style:normal;color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:var(--hair) solid var(--line);background:none;border-radius:999px;padding:4px 12px;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);font-weight:700}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--muted);border:var(--hair) solid var(--line);border-radius:999px;padding:1px 9px;white-space:nowrap;line-height:1.6}
+.tag i{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+.tag.ok{color:var(--good);border-color:currentColor}
+.tag.warn{color:var(--warn);border-color:currentColor}
+.tag.bad{color:var(--bad);border-color:currentColor}
+.tag.acc{color:var(--accent);border-color:currentColor}
+.tag.now{color:var(--now);border-color:currentColor}
+.btn{border:0;border-radius:13px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;text-decoration:none}
+.btn.pri{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:none;border:var(--hair) solid var(--line);color:var(--ink);font-weight:500}
+.btn.sm{padding:5px 11px;font-size:13px;border-radius:10px}
+.btn.on{border-color:var(--accent);color:var(--accent);font-weight:700}
+.btn:disabled{opacity:.45;cursor:default}
+body.ro [data-w]{pointer-events:none;opacity:.5}
+
+/* overview */
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center}
+.ring{width:132px;height:132px;position:relative;flex:none}
+.ring svg{width:100%;height:100%}
+.ring .tr{stroke:var(--track)}
+.ring .fg{stroke:var(--accent)}
+.ring div{position:absolute;inset:0;display:grid;place-items:center;align-content:center;text-align:center}
+.ring b{font:800 34px/1 var(--f-display)}
+.ring span{font-size:12px;color:var(--muted);margin-top:4px}
+.where{display:grid;gap:10px;min-width:0}
+.where h2{font:900 26px/1.25 var(--f-body)}
+.where h2 em{font-style:normal;color:var(--now)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{border-top:var(--hair) solid var(--line);padding-top:10px;display:grid;gap:2px;min-width:0}
+.kpi b{font:800 28px/1.1 var(--f-display)}
+.kpi b small{font-size:15px;font-weight:600;margin-left:2px}
+.kpi span{font-size:13px;color:var(--ink);font-weight:500}
+.kpi em{font-style:normal;font-size:12px;color:var(--faint)}
+.todo{display:grid;gap:0}
+.todo li{list-style:none}
+.todo .it{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.todo .it:last-child{border-bottom:0}
+.todo .ph{font:700 12px var(--f-display);color:var(--faint);white-space:nowrap;margin-top:2px}
+.rank{display:grid;gap:10px}
+.rk{display:grid;grid-template-columns:minmax(0,1fr) 120px 30px;gap:12px;align-items:center;font-size:14px;cursor:pointer;border-radius:12px;padding:4px 6px;margin:0 -6px;border:0;background:none;text-align:left;width:calc(100% + 12px)}
+.rk:hover{background:var(--field)}
+.rk b{font-weight:800}
+.rk small{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.rk .num{font-weight:800;text-align:right}
+.meter{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:3px;background:var(--accent)}
+.flags{display:grid;gap:10px}
+.flag{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:13.5px;line-height:1.6}
+.flag svg{width:16px;height:16px;margin-top:3px;stroke:var(--warn)}
+.flag b{font-weight:700}
+.flag span{color:var(--muted)}
+
+/* step rows (checklist) */
+.chk{appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);background:var(--glass-a);cursor:pointer;display:grid;place-items:center;margin:1px 0 0;flex:none}
+.chk:checked{background:var(--accent);border-color:var(--accent)}
+.chk:checked::after{content:"";width:11px;height:6px;border-left:2px solid var(--accent-ink);border-bottom:2px solid var(--accent-ink);transform:translateY(-1px) rotate(-45deg)}
+.steprow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;padding:11px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.steprow:last-child{border-bottom:0}
+.steprow .t{font-weight:700;font-size:14.5px;line-height:1.5}
+.steprow .t .tag{margin-left:6px;vertical-align:1px}
+.steprow.done .t{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:var(--faint)}
+.steprow .d{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.6}
+.steprow .d b{color:var(--ink);font-weight:600}
+.steprow .more{display:grid;gap:8px;margin-top:8px;padding:12px 14px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--glass-b);font-size:13px}
+.steprow .more p{margin:0;color:var(--muted)}
+.steprow .more .pn{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px}
+.steprow .more .pn b{font-weight:700;color:var(--ink);white-space:nowrap}
+.steprow textarea{width:100%;min-height:58px;resize:vertical;border:var(--hair) solid var(--line);border-radius:10px;background:var(--field);padding:7px 9px;font-size:13px;line-height:1.5}
+.steprow .meta{font-size:11.5px;color:var(--faint)}
+.tgl{border:var(--hair) solid var(--line);background:none;border-radius:9px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.tgl svg{width:14px;height:14px;transition:transform .2s}
+.tgl[aria-expanded="true"] svg{transform:rotate(180deg)}
+.notedot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:2px}
+
+/* charts */
+.fig{margin:0;display:grid;gap:8px;min-width:0}
+.fig figcaption{font-size:12.5px;color:var(--faint)}
+.chart{overflow-x:auto;min-width:0}
+.chart svg{width:100%;height:auto;min-width:560px;color:var(--ink);overflow:visible}
+.chart .grid line{stroke:var(--line-soft);stroke-width:1}
+.chart .axis line{stroke:var(--line);stroke-width:1}
+.chart text{fill:var(--muted);font:500 11.5px var(--f-display)}
+.chart text.lb{fill:var(--ink);font:700 12.5px var(--f-body)}
+.chart text.sub{fill:var(--faint);font:500 11px var(--f-body)}
+.chart .rng{stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+.chart .dot{fill:var(--accent);stroke:var(--bg);stroke-width:2}
+.chart .now-band{fill:var(--now-soft)}
+.chart .now-t{fill:var(--now);font:700 11.5px var(--f-body)}
+.chart .bar{fill:var(--accent)}
+.chart .bar.lo{fill:var(--h3)}
+.chart .hit{fill:transparent;cursor:default}
+.chart .hit:hover+.mk,.chart g.h:hover .mk,.chart g.h:focus .mk{opacity:.78}
+.chart g.h{outline:none}
+.chart g.h:focus-visible .hit{stroke:var(--accent);stroke-width:1.5;fill:var(--accent-soft)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;background:var(--accent);margin-right:6px;vertical-align:3px}
+.legend i.now{height:10px;background:var(--now-soft);border:var(--hair) solid var(--now);vertical-align:-1px}
+.legend i.sw{width:12px;height:12px;border-radius:3px;vertical-align:-1px}
+.tip{position:fixed;z-index:40;pointer-events:none;padding:8px 11px;border-radius:12px;font-size:12.5px;max-width:280px;opacity:0;transition:opacity .12s;line-height:1.5}
+.tip.on{opacity:1}
+.tip b{display:block;font:800 15px var(--f-display);color:var(--ink)}
+.tip span{color:var(--muted)}
+
+/* round cards */
+.rounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.rc{border-radius:18px;border:var(--hair) solid var(--line);background:var(--glass-b);padding:14px 14px 12px;display:grid;gap:8px;align-content:start;min-width:0}
+.rc.now{border-color:var(--now);background:linear-gradient(180deg,var(--now-soft),transparent 70%)}
+.rc h4{font:800 17px var(--f-body);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rc h4 small{font:600 11px var(--f-display);color:var(--faint);letter-spacing:.12em}
+.rc dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;font-size:13px}
+.rc dt{color:var(--faint)}
+.rc dd{margin:0;color:var(--ink);font-weight:500}
+.rc p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6}
+
+/* heatmap */
+.heat{overflow-x:auto;min-width:0}
+.heat table{border-collapse:separate;border-spacing:2px;width:100%;min-width:420px;font-size:13px}
+.heat th{font:600 11.5px var(--f-display);letter-spacing:.08em;color:var(--faint);text-align:left;padding:6px 8px;white-space:nowrap}
+.heat th.c{text-align:center}
+.heat td{padding:0}
+.heat td.nm{padding:8px 10px 8px 0;font-weight:700;white-space:nowrap;width:100%}
+.heat td.nm small{display:block;font-weight:400;font-size:11.5px;color:var(--faint)}
+.heat .cell{display:grid;place-items:center;height:38px;border-radius:6px;font:800 14px var(--f-display);cursor:pointer;border:0;width:100%;min-width:84px}
+.heat .cell:hover{filter:brightness(1.06)}
+.heat .s0{background:var(--line-soft);color:var(--faint)}
+.heat .s1{background:var(--h1);color:var(--h-ink)}
+.heat .s2{background:var(--h2);color:var(--h-ink)}
+.heat .s3{background:var(--h3);color:var(--h-ink)}
+.heat .s4{background:var(--h4);color:var(--h-ink4)}
+.heat .s5{background:var(--h5);color:var(--h-ink5)}
+.heat tr.cur td.nm{color:var(--accent)}
+.scale{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--faint)}
+.scale i{width:22px;height:10px;border-radius:3px}
+
+/* source cards & institutions */
+.srcs{display:grid;gap:12px}
+.sc{border-radius:20px;border:var(--hair) solid var(--line);background:var(--glass-b);padding:14px 16px;display:grid;gap:10px;min-width:0}
+.sc .hd{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+.sc h4{font:800 17px var(--f-body);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sc .fit{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.sc .fit b{font:800 20px var(--f-display);color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.facts div{font-size:12px;color:var(--faint);min-width:0}
+.facts b{display:block;font:600 13px/1.55 var(--f-body);color:var(--ink);margin-top:2px}
+.why{font-size:13.5px;color:var(--muted);margin:0;line-height:1.65}
+.why b{color:var(--ink)}
+.insts{display:grid;gap:0;border-top:var(--hair) solid var(--line-soft)}
+.inst{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.inst:last-child{border-bottom:0}
+.inst b{font-weight:800;font-size:14.5px}
+.inst .ev{grid-column:1;font-size:12.5px;color:var(--muted);line-height:1.6}
+.inst .ev a{color:var(--faint);text-decoration-thickness:1px;text-underline-offset:2px}
+.inst .act{grid-row:1/3;grid-column:2;display:flex;gap:6px;align-items:center}
+.inst select{border:var(--hair) solid var(--line);background:var(--field);border-radius:9px;padding:4px 6px;font-size:12.5px}
+details.more-insts summary{cursor:pointer;font-size:13px;color:var(--accent);font-weight:700;list-style:none;padding-top:6px}
+details.more-insts summary::-webkit-details-marker{display:none}
+
+/* pitch */
+.slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;counter-reset:sl}
+.sl{border-radius:16px;border:var(--hair) solid var(--line);background:var(--glass-b);padding:12px 13px;display:grid;gap:5px;align-content:start;position:relative;min-width:0}
+.sl::before{counter-increment:sl;content:counter(sl,decimal-leading-zero);font:700 11px var(--f-display);color:var(--faint);letter-spacing:.1em}
+.sl b{font:800 14.5px var(--f-body)}
+.sl span{font-size:12.5px;color:var(--muted);line-height:1.55}
+.sl em{font-style:normal;font-size:12.5px;color:var(--ink);line-height:1.55;border-top:var(--hair) solid var(--line-soft);padding-top:6px;margin-top:2px}
+.flow{overflow-x:auto}
+.flow svg{width:100%;min-width:640px;height:auto;color:var(--ink)}
+.flow text{fill:var(--ink);font:700 12.5px var(--f-body)}
+.flow text.s{fill:var(--muted);font:500 11px var(--f-body)}
+.flow text.k{fill:var(--faint);font:600 10.5px var(--f-display);letter-spacing:.08em}
+.flow rect{fill:var(--glass-a);stroke:var(--line);stroke-width:1}
+.flow rect.hi{stroke:var(--accent);fill:var(--accent-soft)}
+.flow path,.flow line{stroke:var(--faint);stroke-width:1.2;fill:none}
+.flow polygon{fill:var(--faint)}
+.qa{display:grid;gap:0}
+.qa details{border-bottom:var(--hair) solid var(--line-soft);padding:10px 0}
+.qa details:last-child{border-bottom:0}
+.qa summary{cursor:pointer;font-weight:700;font-size:14.5px;list-style:none;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary svg{width:14px;height:14px;color:var(--muted);transition:transform .2s}
+.qa details[open] summary svg{transform:rotate(180deg)}
+.qa p{margin:8px 0 0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.qa p b{color:var(--ink)}
+
+/* process */
+.gantt svg{min-width:640px}
+.phase{display:grid;gap:4px}
+.phase>header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:baseline;padding-bottom:6px;border-bottom:var(--hair) solid var(--line)}
+.phase>header h3{font:800 17px var(--f-body);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.phase>header h3 small{font:600 12px var(--f-display);color:var(--faint);letter-spacing:.06em}
+.phase>header .cnt{font:700 13px var(--f-display);color:var(--muted)}
+.phase.now>header h3::after{content:"当前阶段";font:700 11.5px var(--f-body);color:var(--now);border:var(--hair) solid var(--now);border-radius:999px;padding:0 8px}
+.phase>p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.branch{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted)}
+
+/* progress */
+.phbars{display:grid;gap:10px}
+.phb{display:grid;grid-template-columns:96px minmax(0,1fr) 54px;gap:12px;align-items:center;font-size:13.5px}
+.phb span{color:var(--muted)}
+.phb b{font:700 13px var(--f-display);text-align:right}
+.phb.now span{color:var(--now);font-weight:700}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.col{border-radius:18px;border:var(--hair) solid var(--line);background:var(--glass-b);padding:10px;display:grid;gap:8px;align-content:start;min-height:120px;min-width:0}
+.col h4{font:800 13.5px var(--f-body);display:flex;justify-content:space-between;color:var(--muted);padding:2px 4px}
+.col h4 b{font-family:var(--f-display);color:var(--ink)}
+.card{border-radius:12px;border:var(--hair) solid var(--line);background:var(--glass-a);padding:8px 10px;display:grid;gap:4px;font-size:13px;min-width:0}
+.card b{font-weight:800}
+.card small{color:var(--faint);font-size:11.5px}
+.card select{border:var(--hair) solid var(--line);background:var(--field);border-radius:8px;padding:3px 5px;font-size:12px;width:100%}
+.empty{padding:18px 8px;text-align:center;color:var(--faint);font-size:13px}
+.funnel{display:grid;gap:8px}
+.fbar{display:grid;grid-template-columns:80px minmax(0,1fr);gap:10px;align-items:center;font-size:13px}
+.fbar span{color:var(--muted)}
+.fbar .tr{position:relative;height:22px}
+.fbar .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--accent);min-width:3px}
+.fbar .tr em{position:absolute;top:50%;transform:translateY(-50%);font:700 13px var(--f-display);font-style:normal;white-space:nowrap;color:var(--ink)}
+
+/* tables */
+.tbl{overflow-x:auto;border-radius:18px;border:var(--hair) solid var(--line);background:var(--field);min-width:0}
+.tbl table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+.tbl th{font:600 11.5px var(--f-display);letter-spacing:.1em;color:var(--faint);text-align:left;padding:11px 12px 8px;border-bottom:var(--hair) solid var(--line);white-space:nowrap}
+.tbl td{padding:10px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:top;line-height:1.6}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.n{font-family:var(--f-display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td b{font-weight:800}
+
+/* sources */
+.refs{display:grid;gap:6px;font-size:12.5px;color:var(--muted);counter-reset:r;padding:0;margin:0}
+.refs li{list-style:none;display:grid;grid-template-columns:30px minmax(0,1fr);gap:6px;line-height:1.6}
+.refs li::before{counter-increment:r;content:"[" counter(r) "]";font:600 11.5px var(--f-display);color:var(--faint)}
+.refs a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:2px;word-break:break-word}
+sup.ref{font:600 10px var(--f-display);color:var(--accent);margin-left:1px;cursor:pointer}
+sup.ref a{text-decoration:none;color:inherit}
+
+/* sheet + form */
+.scrim{position:fixed;inset:0;z-index:20;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:21;top:16px;right:16px;bottom:16px;width:min(560px,calc(100% - 32px));border-radius:26px;overflow-y:auto;transform:translateX(110%);transition:transform .32s cubic-bezier(.2,.8,.2,1);padding:22px 22px 30px;display:grid;gap:16px;align-content:start}
+.sheet.on{transform:none}
+.sheet.glass{background:linear-gradient(145deg,var(--sheet),var(--sheet))}
+.sheet .hd{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start}
+.sheet .hd h2{font:900 24px/1.25 var(--f-body)}
+.sheet .hd p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.x{width:34px;height:34px;border-radius:50%;border:var(--hair) solid var(--line);background:var(--glass-a);cursor:pointer;display:grid;place-items:center}
+.x svg{width:14px;height:14px}
+.sec{display:grid;gap:10px;padding-top:14px;border-top:var(--hair) solid var(--line)}
+.sec h3{font:800 15px var(--f-body)}
+.sec p{margin:0;font-size:14px;color:var(--muted);line-height:1.7}
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:5px;font-size:13px;color:var(--muted)}
+.form input,.form select,.form textarea{border:var(--hair) solid var(--line);background:var(--field);border-radius:11px;padding:8px 10px;font-size:14px;color:var(--ink)}
+.form .acts{display:flex;gap:8px;flex-wrap:wrap}
+.confirm{display:grid;gap:8px;padding:12px 14px;border-radius:16px;border:var(--hair) solid var(--bad);background:var(--bad-soft);font-size:13.5px}
+.toast{position:fixed;z-index:30;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;transition:all .25s;padding:10px 18px;border-radius:14px;font-size:14px;font-weight:500;max-width:calc(100% - 32px);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.foot{font-size:12px;color:var(--faint);padding:0 22px 20px;line-height:1.7}
+.planned-v{display:grid;place-items:center;align-content:center;gap:10px;min-height:50vh;text-align:center;color:var(--muted)}
+.planned-v h1{font:900 28px var(--f-body);color:var(--ink)}
+
+@media (max-width:1100px){.cols3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:980px){.cols,.cols3{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:860px){
+  .window{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr)}
+  .rail{flex-direction:row;border-right:0;border-bottom:var(--hair) solid var(--line);padding:8px 12px;overflow-x:auto;overflow-y:hidden;gap:6px;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail h2,.rail .sep,.rail .note,.mod small,.mod .bar{display:none}
+  .mod{width:auto;flex:none;padding:7px 12px;border-radius:12px}
+  .mod b{font-size:14px;white-space:nowrap}
+}
+@media (max-width:640px){
+  body{padding-block:10px;font-size:14.5px}
+  .window{border-radius:22px}
+  .top{padding:10px 14px;gap:8px}
+  .proj{order:3;width:100%}
+  .proj>span{display:none}
+  .subnav{padding:8px 14px}
+  .view{padding:16px 14px 32px}
+  .vhead h1{font-size:24px}
+  .panel{padding:12px 12px;border-radius:18px}
+  .hero{grid-template-columns:minmax(0,1fr);justify-items:start}
+  .ring{width:112px;height:112px}
+  .where h2{font-size:21px}
+  .kpis{grid-template-columns:minmax(0,1fr)}
+  .kpi b{font-size:24px}
+  .rk{grid-template-columns:minmax(0,1fr) 70px 26px}
+  .facts{grid-template-columns:minmax(0,1fr)}
+  .board{grid-template-columns:minmax(0,1fr)}
+  .tag{white-space:normal}
+  .phb{grid-template-columns:72px minmax(0,1fr) 46px}
+  .sheet{top:10px;right:16px;bottom:10px;width:calc(100% - 32px);padding:18px 16px 26px}
+  .inst{grid-template-columns:minmax(0,1fr)}
+  .inst .act{grid-row:auto;grid-column:1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <header class="top">
+    <div class="brand"><b>事业 OS</b><span>Career System</span></div>
+    <div class="proj"><span>当前项目</span>
+      <div class="seg" role="tablist" aria-label="切换项目" id="projs"></div>
+    </div>
+    <span class="sync local" id="sync"><i></i><span>正在连接…</span></span>
+  </header>
+  <nav class="rail" aria-label="能力模块" id="rail"></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet glass" id="sheet" aria-hidden="true" aria-label="详情"></aside>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+<div class="tip glass" id="tip" role="tooltip"></div>
+
+<script>(()=>{'use strict';
+// Fundraising module content (China mainland). Facts carry a source key into SRC; copy may cite inline by wrapping a source key in double square brackets.
+// Fit scores (0–5) are this system's judgement for a seed / angel round, with the reason written next to each one.
+const ASOF = '2026-10-06';
+
+// ----- one round, phase by phase -----
+// w: typical weeks [smooth, common upper bound]
+const PHASES = [
+  { id: 'prep', n: '准备', short: '公司、股权、材料', w: [2, 6], d: '投资人尽调时会回头查这里的每一项。融资前做好，比签了 TS 再补快得多。' },
+  { id: 'find', n: '找资方', short: '名单与引荐', w: [1, 4], d: '按适配度矩阵列出目标机构，逐家核对近期同赛道、同阶段的投资案例，再找引荐人。' },
+  { id: 'pitch', n: '路演', short: '见面到立项', w: [3, 10], d: '首次会面集中排在两三周内，让几家机构的节奏对齐；每次会后复盘问题清单。' },
+  { id: 'ts', n: '条款', short: 'TS 谈判', w: [1, 3], src: ['yunting'], d: '投资意向书（TS）里只有保密、排他期、费用等少数条款有约束力，但估值和关键权利基本在这一步定下来。' },
+  { id: 'dd', n: '尽调', short: '业务 · 财务 · 法律', w: [4, 16], src: ['yunting'], d: '律所口径：尽调一般要 1–4 个月。投资方和他们请的律所、会计所会核对你在路演里说过的每个数字。' },
+  { id: 'ic', n: '投决', short: '投资决策委员会', w: [1, 3], src: ['tryw'], d: '尽调报告上投决会，通过后才进入签约。一家融资服务机构的样本经验：初审会淘汰九成上下，立项会淘汰五到七成，投决会淘汰三到五成（单一机构样本，不是行业统计）。' },
+  { id: 'sign', n: '签约', short: '增资协议 · 股东协议 · 章程', w: [2, 8], src: ['yunting'], d: '律所口径：签署投资协议要两周到两个月。交易文件把 TS 的条款写成有约束力的合同。' },
+  { id: 'close', n: '交割', short: '工商变更与到账', w: [1, 6], d: '先决条件满足后打款，并在规定时间内办理变更登记。' },
+  { id: 'post', n: '投后', short: '报告与下一轮', w: null, d: '按协议定期报送经营数据；在现金还能撑 6 个月以上时启动下一轮。' }
+];
+
+// pre: done by default for this user (company already registered). br: 'gov' (state-owned investor) | 'usd' (offshore structure).
+// only: limit to sectors. tip: per-project or per-sector note shown when expanded.
+const STEPS = [
+  // 准备
+  { id: 'prep-company', ph: 'prep', pre: true, t: '境内有限公司已设立', d: '营业执照、公司章程、银行基本户、社保和税务登记齐全。', out: '营业执照与章程扫描件，放进数据室「公司文件」目录。' },
+  { id: 'prep-capital', ph: 'prep', t: '核对注册资本和实缴期限', d: '新《公司法》要求有限公司股东认缴的出资在公司成立之日起 5 年内缴足[[company-law]]。注册资本定得过高，股东要在 5 年内按认缴额承担出资责任；融资前按实际需要确认或减资。', out: '股东出资情况表（认缴额、实缴额、期限）。', who: '创始人 + 代账会计' },
+  { id: 'prep-cap-table', ph: 'prep', t: '定股权结构和控制权', d: '写清每位创始人的持股、表决权安排和成熟期（常见 4 年，满 1 年开始成熟）。联合创始人之间签合伙人协议，约定提前离开时公司按什么价格回购未成熟部分。', out: '股权结构表（cap table）、合伙人协议。', who: '创始人 + 律师', tip: { 'health-os': '如果医学顾问拿股份，用期权或限制性股权，并写明服务期。', 'groundbreak': '合规合伙人如果拿股份，同样设成熟期。' } },
+  { id: 'prep-esop', ph: 'prep', t: '预留期权池和持股平台', d: '常见做法是设一个有限合伙企业作为员工持股平台，创始人担任普通合伙人保留表决权；期权池比例由创始人和投资人在 TS 里谈，经验区间多在 10%–15%。符合条件的非上市公司股权激励可申请递延纳税[[tax-101]]。', out: '持股平台工商登记、期权计划草案。', who: '创始人 + 律师 + 税务顾问' },
+  { id: 'prep-ip', ph: 'prep', t: '代码、商标和域名归属公司', d: '尽调会核对核心资产是否在公司名下：代码著作权（可做软件著作权登记）、商标、域名、App 账号。创始人与公司签劳动合同和知识产权转让协议。', out: '知识产权清单、转让协议、软著与商标证书。', tip: { 'health-os': '代码目前在个人 GitHub 仓库（bitzac/project-uno）里，融资前把著作权转让给公司，并把仓库迁到公司组织账号。', 'groundbreak': '同一个仓库：先完成著作权转让；「破土」名称尽早做商标检索和申请。' } },
+  { id: 'prep-finance', ph: 'prep', t: '财务规范', d: '公私账户分开，所有支出走公司账户并取得发票；委托代账，按月出财务报表。财务尽调会看银行流水和发票。', out: '最近 12 个月的财务报表和银行流水。', who: '代账会计' },
+  { id: 'prep-compliance', ph: 'prep', t: '准备合规底稿', d: '把投资人一定会问的合规问题写成书面材料，尽调时直接交出。', out: '合规说明（2–4 页）+ 相关文件。', tip: { 'health-os': '隐私政策、敏感个人信息单独同意的页面截图、个人信息保护影响评估记录[[pipl]]；一页「产品不做诊断」的功能边界说明[[nmpa-sw]]。', 'groundbreak': '律师意见书：专区是否构成公开劝诱、分期放款能否由支付机构执行、订阅收费的业务定性[[sec-law]][[illegal-fund]]。' } },
+  { id: 'prep-plan', ph: 'prep', t: '定融资计划：金额、用途、里程碑', d: '金额按达到下一轮门槛所需的 18 个月花费，再加约 6 个月缓冲；出让比例先定一个上限。写清这笔钱花完公司会有什么数据。', out: '一页融资计划（金额、出让上限、资金用途饼图、里程碑）。' },
+  // 找资方
+  { id: 'find-list', ph: 'find', t: '列出 30–50 家目标机构', d: '按「找资方」页的适配度矩阵从高到低挑。每家写清：类型、近 12 个月在同赛道同阶段的案例、负责这个方向的合伙人。', out: '目标机构表（可直接在「找资方」页加入目标清单）。' },
+  { id: 'find-check', ph: 'find', t: '逐家核对近期案例', d: '用机构官网、公众号和融资新闻核对它最近还在投这个阶段。基金到了投资期末尾、或刚换了方向的机构，见了也很难出手。', out: '每家机构一行：最近一次同类投资的时间、公司、轮次。' },
+  { id: 'find-intro', ph: 'find', t: '找引荐人', d: '最有效的引荐来自机构投过的创始人、合作过的律师和会计师。冷邮件也可以发：一页纸 + 一句话说清为什么找这家。', out: '每家目标机构对应的引荐人或联系渠道。' },
+  { id: 'find-gov', ph: 'find', br: 'gov', t: '了解国资基金的投资流程和返投要求', d: '国资和政府引导基金参股的子基金，常要求被投企业在当地注册或落地，并且投资流程更长。先问清：是否要求迁址、决策要几轮会、是否需要资产评估。', out: '每家国资背景机构的流程和条件表。', src: ['gov-fund-2025'] },
+  { id: 'find-usd', ph: 'find', br: 'usd', t: '评估是否需要境外架构', d: '只有确定要拿美元基金、未来在境外上市时才搭红筹或 VIE 架构。境内居民设立境外特殊目的公司要办外汇登记[[safe-37]]，境外上市要向证监会备案[[csrc-overseas]]；先确认业务是否在外商投资准入负面清单里[[neg-list]]。', out: '架构选择备忘录（律师出具）。' },
+  // 路演
+  { id: 'pitch-bp', ph: 'pitch', t: '写 BP（12 页）', d: '按「路演」页的 12 页结构写，每页回答一个问题。先写给不认识你的人看的版本，发出去的版本控制在 15 页以内。', out: 'BP（PDF），文件名带项目名和日期。' },
+  { id: 'pitch-onepager', ph: 'pitch', t: '一页纸', d: '一页纸用于冷启动和引荐：一句话、问题、产品、数据、团队、本轮金额。', out: '一页纸（PDF）。' },
+  { id: 'pitch-model', ph: 'pitch', t: '财务模型', d: '36 个月按月预测：收入假设、人员计划、主要成本。投资人会改你的假设看结果，所以把假设单独放一页。', out: '财务模型（表格）。' },
+  { id: 'pitch-demo', ph: 'pitch', t: '产品演示', d: '准备 3 分钟能演示完的主流程，以及一个能现场打开的数据看板。', out: '演示脚本、演示账号。' },
+  { id: 'pitch-dataroom', ph: 'pitch', t: '搭数据室', d: '按尽调清单提前整理：公司文件、股权、财务、合同、知识产权、合规、团队。签了 TS 再整理会拖慢尽调。', out: '数据室目录（公司 / 股权 / 财务 / 合同 / IP / 合规 / 团队）。' },
+  { id: 'pitch-batch', ph: 'pitch', t: '首次会面集中排在 2–3 周内', d: '把首次会面集中排，几家机构的进度会接近，最后能在同一时间比较条款。', out: '会面日程表。' },
+  { id: 'pitch-review', ph: 'pitch', t: '每次会后复盘', d: '记下被问到的问题、没答好的地方、对方下一步。同一个问题被问三次，就把答案写进 BP。', out: '问答记录（可写在本步骤的备注里）。' },
+  { id: 'pitch-ic', ph: 'pitch', t: '推进到立项或合伙人会', d: '问清对方内部还要过几道会、每道会需要什么材料、谁拍板。', out: '每家机构的内部流程和时间点。', src: ['vc-process'] },
+  // TS
+  { id: 'ts-compare', ph: 'ts', t: '收到 TS，逐项对比', d: '把几份 TS 放进同一张表：投前估值、金额、期权池是否计入投前、优先清算倍数、反稀释方式、回购触发条件、一票否决事项、董事席位、排他期。', out: 'TS 对比表。' },
+  { id: 'ts-terms', ph: 'ts', t: '谈关键条款', d: '优先清算权常见是 1 倍不参与分配；反稀释常见是广义加权平均，完全棘轮对创始人最不利。回购条款要看由谁承担：与公司对赌，履行时须先完成减资程序[[jiumin]]；要求创始人个人承担的，尽量去掉或设上限。', out: '谈判后的 TS 修订稿。', src: ['ts-terms'] },
+  { id: 'ts-lawyer', ph: 'ts', t: '请律师审 TS', d: '找做过创投交易的律师，按次或按交易收费。TS 阶段改条款的成本最低。', out: '律师批注版 TS。' },
+  { id: 'ts-sign', ph: 'ts', t: '签 TS', d: 'TS 的大部分条款没有法律约束力，保密、排他期和费用承担条款通常有约束力；排他期内不能再和其他机构谈。', out: '签署版 TS。', src: ['ts-binding'] },
+  // 尽调
+  { id: 'dd-biz', ph: 'dd', t: '业务尽调', d: '投资方会访谈用户、客户和团队，核对 BP 里的数据口径。', out: '数据口径说明、用户和客户访谈名单。' },
+  { id: 'dd-fin', ph: 'dd', t: '财务尽调', d: '核对收入、成本、银行流水和税务，查有没有未披露的负债。', out: '财务报表、流水、纳税记录。' },
+  { id: 'dd-legal', ph: 'dd', t: '法律尽调', d: '查股权沿革、出资、重大合同、知识产权、劳动关系、诉讼和合规资质。', out: '律师尽调问卷的回复和文件。', tip: { 'health-os': '会重点问个人信息处理和产品是否触及医疗器械。', 'groundbreak': '会重点问证券和非法集资的定性、支付和资金流。' } },
+  { id: 'dd-eval', ph: 'dd', br: 'gov', t: '国资：资产评估与备案', d: '国有投资方入股时，可能要求对公司做资产评估并完成备案，多出数周时间。提前问清是否需要、由谁委托、费用谁承担。', out: '评估报告与备案文件。', src: ['eval-rule'] },
+  { id: 'dd-fix', ph: 'dd', t: '整改尽调发现的问题', d: '尽调发现的问题会写进交易文件的先决条件或陈述保证，能在签约前改的先改。', out: '整改清单与完成证明。' },
+  // 投决
+  { id: 'ic-pass', ph: 'ic', t: '投决会通过', d: '投资方投委会表决通过。没通过时问清原因，常见是估值、团队或某个尽调问题。', out: '投资方书面通知。' },
+  // 签约
+  { id: 'sign-spa', ph: 'sign', t: '增资协议', d: '写明投资金额、认购的注册资本、价格、交割先决条件、陈述与保证。', out: '增资协议签署版。' },
+  { id: 'sign-sha', ph: 'sign', t: '股东协议', d: '写入 TS 里谈好的股东权利：优先清算、反稀释、回购、优先认购、共售、领售、信息权、董事会席位和保护性条款。', out: '股东协议签署版。' },
+  { id: 'sign-aoa', ph: 'sign', t: '修订公司章程', d: '把需要对工商登记生效的条款写进新章程；新《公司法》下股份公司可以发行类别股[[company-law]]，有限公司可以在章程里约定不按出资比例分红和表决。', out: '新章程。' },
+  { id: 'sign-resolution', ph: 'sign', t: '股东会决议', d: '股东会同意增资，原股东书面放弃对新增注册资本的优先认缴权[[company-law]]。', out: '股东会决议、放弃优先认缴权声明。' },
+  { id: 'sign-usd', ph: 'sign', br: 'usd', t: '美元：境外重组与外汇登记', d: '设立境外控股公司、境内外商独资企业，完成 37 号文登记[[safe-37]]；投资款进境后按外汇规定结汇。', out: '境外公司文件、外汇登记凭证。' },
+  // 交割
+  { id: 'close-cp', ph: 'close', t: '满足交割先决条件', d: '逐项完成增资协议里的先决条件（文件签署、决议、整改项），取得投资方确认。', out: '先决条件满足确认函。' },
+  { id: 'close-pay', ph: 'close', t: '投资款到账', d: '投资方按协议打款到公司账户；公司出具出资证明书，更新股东名册。', out: '银行回单、出资证明书、股东名册。' },
+  { id: 'close-reg', ph: 'close', t: '办理工商变更登记', d: '注册资本、股东和章程变更，应在作出变更决议之日起 30 日内申请变更登记[[reg-change]]。', out: '新营业执照、变更登记通知书。' },
+  { id: 'close-gov', ph: 'close', br: 'gov', t: '国资：产权登记', d: '国有股东入股后办理国有资产产权登记；以后国有股权转让通常要进场交易[[sasac-32]]，影响后续轮次老股转让的安排。', out: '产权登记表。' },
+  // 投后
+  { id: 'post-report', ph: 'post', t: '按协议报送经营数据', d: '月报或季报：收入、用户、现金余额、重大事项。按时报送比数据好看更重要。', out: '月报模板。' },
+  { id: 'post-board', ph: 'post', t: '开董事会', d: '投资方有董事席位时按章程开董事会，保护性条款事项要提前取得同意。', out: '董事会决议记录。' },
+  { id: 'post-next', ph: 'post', t: '规划下一轮', d: '在现金还能撑 6 个月以上时启动下一轮；回到「找资方」，按下一轮重新看适配度。', out: '下一轮融资计划。' }
+];
+const STEP_BY_ID = Object.fromEntries(STEPS.map(s => [s.id, s]));
+
+// ----- pitch -----
+const BP = [
+  { id: 'cover', t: '封面与一句话', q: '你们是谁，做什么？一句话说清。' },
+  { id: 'problem', t: '痛点', q: '谁、在什么场景下痛？现在怎么凑合解决？' },
+  { id: 'solution', t: '产品', q: '怎么解决？最好直接演示。' },
+  { id: 'whynow', t: '为什么是现在', q: '为什么以前做不成，现在能做成？' },
+  { id: 'market', t: '市场规模', q: '能做多大？自下而上算给我看。' },
+  { id: 'model', t: '商业模式', q: '谁付钱、付多少、多久付一次？' },
+  { id: 'traction', t: '数据与进展', q: '有什么证据说明有人要？' },
+  { id: 'competition', t: '竞争', q: '别人为什么做不了或做不好？' },
+  { id: 'team', t: '团队', q: '为什么是你们？缺谁？' },
+  { id: 'risk', t: '合规与风险', q: '在中国做这件事有什么监管风险，怎么处理？' },
+  { id: 'finance', t: '财务预测', q: '钱怎么花，花完公司在哪？' },
+  { id: 'ask', t: '融资计划', q: '要多少、让多少、用在哪、到什么里程碑？' }
+];
+
+const QA = [
+  { q: '估值是怎么来的？', a: '早期估值主要由「要融多少钱」和「愿意让出多少」反推：融资额 ÷ 出让比例 = 投后估值。准备好同赛道、同阶段近一年的公开融资案例做参照，说清楚这笔钱能把公司带到哪个里程碑。' },
+  { q: '为什么要这么多钱？花完到哪？', a: '按月列出 18 个月的花费（人员、服务器、获客、合规），标出下一轮融资要达到的数据门槛。投资人看的是「这笔钱够不够你走到能融下一轮的位置」。' },
+  { q: '创始团队的股权怎么分的？有没有代持？', a: '给出股权结构表、合伙人协议（含退出回购和成熟期）、期权池。代持在尽调中一定会被要求还原，融资前就清理掉。' },
+  { q: '还在和哪些机构谈？进展到哪一步？', a: '可以说进度（几家在立项、几家在尽调），一般不报具体机构名单。如果已有领投方，说出来会加快跟投方决策。' },
+  { q: '如果大厂也做，你怎么办？', a: '回答你的差异在哪里、大厂为什么短期内不会投入：细分人群、合规门槛、渠道或数据积累。别回答「大厂不会做」。' },
+  { q: '下一轮什么时候融、靠什么数据？', a: '给出时间点和数据门槛，例如「12 个月后，月活 X、留存 Y、收入 Z」，并说明这些数字和本轮资金用途的关系。' }
+];
+
+// ----- sectors: fit of each source type for a seed / angel round -----
+// key: which institution tag (INSTS.fit) this sector matches besides 'general'.
+const SECTORS = {
+  health: { n: '数字健康 / 健康管理软件', key: 'health',
+    fit: { angel: 4, incubator: 4, competition: 3, vc_rmb: 4, vc_usd: 1, cvc: 3, gov_fund: 2, local_gov: 2, bank: 1, equity_market: 1, fa: 1 },
+    why: {
+      angel: '种子轮最常见的第一张支票。优先找投过数字健康的天使，他们能帮你补医学顾问和第一批机构合作。',
+      incubator: '加速器给小额种子资金和固定节奏的路演日，适合还没有用户数据的阶段。',
+      competition: '大赛的价值是曝光和投资人对接，奖金不是重点；选有「医疗健康」或「互联网」赛道的。',
+      vc_rmb: '医疗健康一直是人民币 VC 的主要赛道之一，但多数早期基金更偏好药、械和 AI 医疗；找有消费级健康或健康管理案例的基金。',
+      vc_usd: '美元基金在中国的新投资明显收缩，健康数据出境也受限制；种子轮不建议走境外架构。',
+      cvc: '保险、体检、可穿戴厂商对健康数据有战略兴趣，但通常在有留存后才投。',
+      gov_fund: '产业基金偏药、械和医疗服务；消费级健康软件多通过天使母基金参股的子基金间接获得。',
+      local_gov: '软件企业的落地补贴和房租减免金额通常不大，可以作为补充，不要为此换注册地。',
+      bank: '没有收入和抵押物，银行贷款很难拿到；有了合同和收入后再看科创贷。',
+      equity_market: '挂牌区域性股权市场对种子轮的融资帮助有限。',
+      fa: '种子轮金额小，主流 FA 一般不接；A 轮以后再考虑。'
+    } },
+  platform: { n: '平台 · 创投服务 · 金融科技相邻', key: 'groundbreak',
+    fit: { angel: 4, incubator: 4, competition: 3, vc_rmb: 3, vc_usd: 0, cvc: 3, gov_fund: 1, local_gov: 2, bank: 1, equity_market: 2, fa: 1 },
+    why: {
+      angel: '投资人本身就是平台的用户。找创投圈里愿意早期下注、又能帮你拉第一批项目和投资人的天使。',
+      incubator: '加速器自带项目源和投资人网络，正好是平台冷启动需要的两边。',
+      competition: '大赛主办方和孵化器都是潜在的项目来源和合作伙伴，参赛同时谈合作。',
+      vc_rmb: '平台模式要先过监管定性这一关，机构会要求律师意见；找投过企业服务和交易平台的早期基金。',
+      vc_usd: '涉及证券和众筹的平台业务、加上美元基金在华收缩，基本不适配。',
+      cvc: '创投媒体、数据服务商、券商和区域性股权市场运营方有战略协同，可能以合作或小额战投进入。',
+      gov_fund: '监管定性未明的平台业务，国资基金容忍度低。',
+      local_gov: '部分地方政府把投融资对接当作营商环境服务，可以谈合作和场地，资金支持有限。',
+      bank: '没有收入和抵押物，银行贷款很难拿到。',
+      equity_market: '更适合作为合作渠道：合规的股权交易通道和项目来源，而不是资金来源。',
+      fa: 'FA 是潜在竞争者也是合作方，不是种子轮的资金来源。'
+    } },
+  ai: { n: 'AI 应用', key: null,
+    fit: { angel: 4, incubator: 5, competition: 4, vc_rmb: 5, vc_usd: 1, cvc: 4, gov_fund: 4, local_gov: 4, bank: 2, equity_market: 2, fa: 2 },
+    why: {
+      angel: '活跃天使最多的赛道之一，竞争也激烈；靠产品演示和早期数据说话。',
+      incubator: 'AI 是加速器近年的主要方向，种子资金和算力资源都有。',
+      competition: 'AI 赛道的大赛多、政府关注度高，适合拿曝光和地方资源。',
+      vc_rmb: 'AI 占早期投资笔数和金额的比例都最高，是人民币 VC 的主赛道。',
+      vc_usd: '美国对外投资规则限制美国资金投中国的部分 AI 领域，种子轮不建议走美元架构。',
+      cvc: '大模型和云厂商有生态投资，适合有明确场景的应用。',
+      gov_fund: 'AI 是各地引导基金的重点方向之一。',
+      local_gov: '多地有算力券、场地和落地奖励，适合愿意在当地组建团队的公司。',
+      bank: '有合同和收入后可以看科创贷。',
+      equity_market: '对早期融资帮助有限。',
+      fa: 'A 轮以后再考虑。'
+    } },
+  hardtech: { n: '硬科技 / 先进制造', key: null,
+    fit: { angel: 3, incubator: 3, competition: 4, vc_rmb: 5, vc_usd: 1, cvc: 4, gov_fund: 5, local_gov: 5, bank: 3, equity_market: 3, fa: 2 },
+    why: {
+      angel: '硬科技天使更看重技术来源和团队背景，科研院所背景的天使基金更合适。',
+      incubator: '高校和科研院所的孵化器更对口。',
+      competition: '大赛是硬科技项目接触地方政府和国资的主要渠道之一。',
+      vc_rmb: '人民币 VC 的主赛道，国产替代和先进制造案例多。',
+      vc_usd: '半导体、量子等领域受美国对外投资规则限制。',
+      cvc: '产业链上下游的大企业常作为战略投资方。',
+      gov_fund: '引导基金和国资直投的重点方向，常要求在当地落地。',
+      local_gov: '「国资领投 + 项目落地」模式最常见于硬科技和制造业。',
+      bank: '有订单、设备和知识产权后，科创贷、知识产权质押更可行。',
+      equity_market: '专精特新专板对制造业中小企业更有用。',
+      fa: '中后期大额融资时用。'
+    } },
+  saas: { n: '企业服务 / SaaS', key: null,
+    fit: { angel: 4, incubator: 4, competition: 3, vc_rmb: 4, vc_usd: 1, cvc: 3, gov_fund: 2, local_gov: 3, bank: 2, equity_market: 2, fa: 2 },
+    why: {
+      angel: '有行业经验的天使能直接带来第一批客户。',
+      incubator: '加速器的企业客户资源适合早期验证。',
+      competition: '可以对接地方产业园和企业客户。',
+      vc_rmb: '看付费客户数、续费率和客单价。',
+      vc_usd: '美元基金在华收缩，种子轮不建议。',
+      cvc: '大厂生态投资看与其平台的协同。',
+      gov_fund: '一般通过子基金间接获得。',
+      local_gov: '产业园区常给场地和补贴。',
+      bank: '有稳定合同后可看科创贷。',
+      equity_market: '对早期融资帮助有限。',
+      fa: 'A 轮以后再考虑。'
+    } },
+  consumer: { n: '消费品牌', key: null,
+    fit: { angel: 4, incubator: 2, competition: 2, vc_rmb: 3, vc_usd: 1, cvc: 3, gov_fund: 1, local_gov: 2, bank: 2, equity_market: 2, fa: 2 },
+    why: {
+      angel: '消费天使看复购和渠道数据。',
+      incubator: '多数加速器偏科技项目。',
+      competition: '大赛对消费品牌帮助有限。',
+      vc_rmb: '消费投资较前几年明显降温，看复购和毛利。',
+      vc_usd: '美元基金在华收缩。',
+      cvc: '渠道和供应链企业可能战略投资。',
+      gov_fund: '引导基金较少投消费品牌。',
+      local_gov: '部分地方有电商、品牌补贴。',
+      bank: '有流水后可看经营贷。',
+      equity_market: '对早期融资帮助有限。',
+      fa: '有规模后再考虑。'
+    } },
+  content: { n: '内容 / 媒体 / 文创', key: null,
+    fit: { angel: 3, incubator: 2, competition: 2, vc_rmb: 1, vc_usd: 0, cvc: 3, gov_fund: 1, local_gov: 2, bank: 1, equity_market: 1, fa: 0 },
+    why: {
+      angel: '个人天使和内容圈的投资人更愿意早期支持。',
+      incubator: '多数加速器偏科技项目。',
+      competition: '文创类大赛和平台扶持计划更对口。',
+      vc_rmb: '内容公司很少拿到机构 VC，规模化路径要讲清。',
+      vc_usd: '内容领域外资准入受限。',
+      cvc: '平台型公司（视频、音频、出版）有内容投资和扶持计划。',
+      gov_fund: '宣传文化类专项资金比股权投资更现实。',
+      local_gov: '部分地方有文创园区补贴。',
+      bank: '很难获得。',
+      equity_market: '帮助有限。',
+      fa: '不适用。'
+    } }
+};
+
+// ----- rounds -----
+// amt: common single-round amount range in 万元 (experience range, see ROUNDS_LEAD); avg: a sourced mean where one exists.
+// dil: common dilution range in % (experience range). who: SOURCE_TYPES ids.
+const EARLY_AVG = { v: 3534, src: 'qk-26h1', grp: '种子 / 天使 / Pre-A 合计' };
+const ROUNDS = [
+  { id: 'seed', n: '种子轮', en: 'SEED', amt: [100, 1000], avg: EARLY_AVG, dil: [5, 15], who: ['angel', 'incubator', 'competition'], gap: '美国中位数：种子到 A 轮 2.2 年[[carta-gap]]',
+    gate: '团队、可演示的原型和一个清楚的问题定义。烯牛数据统计 2025 年种子轮平均投后估值约 2,200 万元（样本 79 个种子和天使项目，偏少）[[xiniu-25]]。' },
+  { id: 'angel', n: '天使轮', en: 'ANGEL', amt: [500, 3000], avg: EARLY_AVG, dil: [10, 20], who: ['angel', 'vc_rmb', 'incubator', 'local_gov'], gap: '常见 6–12 个月；近年「+ 轮」变多，同一轮分几次融[[itjz-plus]]',
+    gate: '产品已上线，有第一批真实用户或付费客户。医疗健康赛道的投资人建议天使轮对外稀释最好不超过 30%[[vb-angel]]。' },
+  { id: 'preA', n: 'Pre-A', en: 'PRE-A', amt: [1000, 5000], avg: EARLY_AVG, dil: [8, 15], who: ['vc_rmb', 'angel', 'cvc'], gap: '常见 6–12 个月',
+    gate: '留存或收入开始出现可重复的信号；获客渠道跑通至少一条。' },
+  { id: 'A', n: 'A 轮', en: 'SERIES A', amt: [3000, 15000], avg: { v: 9214, src: 'qk-26h1', grp: 'A 轮' }, dil: [10, 20], who: ['vc_rmb', 'cvc', 'gov_fund'], gap: '美国中位数：A 到 B 轮 2.5 年[[carta-gap]]',
+    gate: '可复制的增长和收入，单位经济开始成立；有清楚的规模化路径。' },
+  { id: 'B', n: 'B 轮', en: 'SERIES B', amt: [10000, 50000], dil: [8, 15], who: ['vc_rmb', 'cvc', 'gov_fund', 'fa'], gap: '美国中位数：B 到 C 轮 2.4 年[[carta-gap]]',
+    gate: '规模化收入、行业前几名；管理团队和财务体系完整。' },
+  { id: 'C', n: 'C 轮', en: 'SERIES C', amt: [30000, 100000], dil: [5, 12], who: ['vc_rmb', 'gov_fund', 'cvc', 'fa'], gap: '视上市窗口而定',
+    gate: '市场领先，接近盈利或已盈利；开始对照上市标准整理财务和合规。' },
+  { id: 'preIPO', n: 'Pre-IPO', en: 'PRE-IPO', amt: [50000, 300000], dil: [3, 8], who: ['gov_fund', 'cvc', 'fa', 'vc_rmb'], gap: '通常在申报前 1–2 年',
+    gate: '财务指标接近或达到目标板块的上市标准，完成股份制改造，券商进场辅导。' }
+];
+const ROUND_IDS = ROUNDS.map(r => r.id);
+const ROUNDS_LEAD = '金额和出让比例是经验区间：国内统计机构只公布按轮次的笔数和总额，不公布每轮的典型区间。图上短横是可以算出的平均值：2026 年上半年种子 / 天使 / Pre-A 共 1,475 笔、521.30 亿元，平均每笔约 3,534 万元；A 轮 1,189 笔、1,095.57 亿元，平均约 9,214 万元[[qk-26h1]]。平均值被少数大额交易拉高，大多数项目的单笔金额低于平均值。';
+
+const LISTING = [
+  { b: '科创板', pos: '硬科技：研发投入、发明专利有硬性要求', std: '五套标准之一：预计市值 ≥ 10 亿元，最近两年净利润均为正且累计 ≥ 5,000 万元；或市值 ≥ 10 亿元、最近一年净利润为正且营收 ≥ 1 亿元。第五套（市值 ≥ 40 亿元、未盈利）2025 年起扩展到人工智能、商业航天、低空经济[[csrc-star-2025]]。', src: ['sina-boards'], mean: '消费级健康软件和平台业务一般不符合「科创属性」，不是这两个项目的首选。' },
+  { b: '创业板', pos: '成长型创新企业，含互联网、大数据、人工智能', std: '三套之一：最近两年净利润均为正、累计 ≥ 1 亿元且最近一年 ≥ 6,000 万元；或市值 ≥ 15 亿元、最近一年净利润为正且营收 ≥ 4 亿元；第三套（市值 ≥ 50 亿元、营收 ≥ 3 亿元）2025 年起用于未盈利的创新企业[[stcn-gem3]]。', src: ['sina-boards'], mean: '互联网和健康科技公司的常见目标；要先做到稳定盈利。' },
+  { b: '北交所', pos: '创新型中小企业，先在新三板创新层挂牌满 12 个月', std: '四套之一：预计市值 ≥ 2 亿元，最近两年净利润均 ≥ 1,500 万元且加权平均净资产收益率平均 ≥ 8%。', src: ['bse-rules'], mean: '门槛最低，但要先走新三板；2026 年前三季度 A 股新股里有一半在北交所[[deloitte-26q3]]。' },
+  { b: '主板', pos: '大型成熟企业', std: '三套之一：最近 3 年净利润均为正，累计 ≥ 2 亿元，最近一年 ≥ 1 亿元。', src: ['sina-boards'], mean: '规模门槛最高，早期项目不必考虑。' },
+  { b: '港股 18C', pos: '特专科技：新一代信息技术、先进硬件软件、先进材料、新能源、新食品农业', std: '已商业化：上市市值 ≥ 40 亿港元、最近一年特专科技收入 ≥ 2.5 亿港元；未商业化：市值 ≥ 80 亿港元。这两个市值门槛是 2024-09-01 至 2027-08-31 的临时下调[[hkex-18c-2024]]。', src: ['hkex-18c'], mean: '适合未盈利但技术壁垒高的公司；需要有资深独立投资者的实质投资。' }
+];
+
+// ----- market data -----
+const KPI = [
+  { v: '1,475', u: '笔', l: '2026 上半年早期投资笔数', d: '种子 / 天使 / Pre-A，同比 +71.1%', src: 'qk-26h1' },
+  { v: '11.9', u: '%', l: '早期项目拿到的金额占比', d: '笔数占 37.8%，钱只占一成多', src: 'qk-26h1' },
+  { v: '97.8', u: '%', l: '2025 年新募资金里人民币基金的占比', d: '外币基金只占 2.2%，同比 −36%', src: 'qk-25-fund' }
+];
+const MARKET = [
+  { l: '全年投资案例 / 金额', v: '10,795 起 / 9,287.16 亿元', d: '2025', src: 'qk-25-fund', mean: '同比 +28.4% / +45.6%，市场在回暖。' },
+  { l: '新募基金数 / 规模', v: '5,039 只 / 1.65 万亿元', d: '2025', src: 'qk-25-fund', mean: '人民币基金占募资额 97.8%：融资主要找人民币基金。' },
+  { l: '政府资金在 LP 出资里的占比', v: '62%', d: '2025', src: 'cls-lp-25', mean: '国资控股 LP 出资占比达 89%：国资是最大的出钱方，条款和流程要按国资的规矩准备。' },
+  { l: '上半年投资笔数 / 金额', v: '3,899 笔 / 4,314.25 亿元', d: '2026H1', src: 'qk-26h1', mean: '同比 +37.5% / +173.4%。' },
+  { l: '人工智能占投资金额', v: '44.7%', d: '2026H1', src: 'qk-26h1', mean: '846 笔、1,930.04 亿元；钱高度集中在少数热门赛道。' },
+  { l: '国内数字健康融资', v: '36 次 / 约 3 亿美元', d: '2026H1', src: 'vb-26h1', mean: '同期国内医疗健康整体 451 笔、约 75 亿美元：回暖主要来自药和器械，不在数字健康。' },
+  { l: '活跃投资机构数', v: '737 家', d: '2025', src: 'itjz-active', mean: '2015 年为 1,661 家，减少 55.6%：能出手的机构变少，名单要更准。' },
+  { l: 'A 股 IPO', v: '116 家 / 1,317.71 亿元', d: '2025', src: 'wind-ipo-25', mean: '2026 年前三季度已有 122 家、2,123 亿元[[deloitte-26q3]]。' },
+  { l: '港股 IPO', v: '119 家 / 374 亿美元', d: '2025', src: 'hkex-25', mean: '全球募资额第一；2026 年前三季度 116 家、3,879 亿港元[[deloitte-26q3]]。' }
+];
+
+// ----- pitch -----
+const MEETINGS = [
+  { k: 'GATE 1', n: '首次会面 · 初审', who: '投资经理 / VP', dur: '30–60 分钟', out: '淘汰九成上下' },
+  { k: 'GATE 2', n: '合伙人会 · 立项会', who: '合伙人 + 投资团队', dur: '1–2 周', out: '再淘汰五到七成' },
+  { k: 'WORK', n: '尽调', who: '投资团队 + 律所 + 会计所', dur: '1–4 个月', out: '尽调报告' },
+  { k: 'GATE 3', n: '投决会', who: '投资决策委员会', dur: '数周', out: '再淘汰三到五成', hi: true },
+  { k: 'DONE', n: '签约交割', who: '双方律师', dur: '两周到两个月', out: '投资款到账' }
+];
+const MEET_NOTE = '淘汰比例来自一家融资服务机构三年的样本经验：从第一次接触投资人算起，最终拿到投资的概率通常在 1%–2%（单一机构、B 轮前、长三角样本，不是行业统计）。时长是律所口径。';
+const MEET_SRC = ['tryw', 'yunting'];
+const FUNNEL_NOTE = '按上面的淘汰率粗算：想拿到 1 份 TS，首次会面通常要见几十家机构。所以目标清单要有 30–50 家。';
+const FUNNEL_SRC = ['tryw'];
+const SOURCES_LEAD = '先看矩阵里你这一列颜色最深的几类；每类下面的机构都附了一个公开的近期投资案例，点「＋ 目标清单」后可以在「我的进度」里跟踪。适配度是本系统对种子 / 天使轮的判断，理由写在每张卡片上。2026 年上半年一级市场的钱高度集中在 AI、机器人、集成电路等硬科技赛道[[qk-ni-26]]，应用类项目要更准地挑机构。';
+const PITCH_LEAD = '投资机构内部要过好几道会，你见到的投资经理要拿你的材料去说服合伙人和投委会。BP 要写成「别人替你转述也不会走样」的样子。';
+const PROCESS_LEAD = '从写 BP 到投资款到账，律所的口径是一般 2–6 个月[[yunting]]。下面每一段都可以勾选、写备注；打开「国资」或「美元」开关，会加入对应的支线步骤。';
+
+
+// ----- capital source types -----
+// amt / cyc: common ticket size and time to money; gate: what they need to see; terms: what to watch in their paper; how: how to reach them.
+const SOURCE_TYPES = [
+  { id: 'angel', n: '天使投资人 / 天使基金', short: '天使', amt: '几十万到数千万元', cyc: '2–8 周',
+    gate: '看人为主：团队背景、原型和对问题的理解。医疗健康天使轮普遍「看人下估值」[[vb-angel]]。',
+    terms: '估值和出让比例；个人天使有时要求创始人个人承担回购，尽量不接受。',
+    how: '最好由他们投过的创始人引荐；天使基金一般在官网或公众号接收 BP。' },
+  { id: 'incubator', n: '孵化器 / 加速器', short: '加速器', amt: '数十万到数百万元', cyc: '按批次，3 个月左右一期',
+    gate: '团队和方向；多数加速器不要求已有收入。',
+    terms: '用多少股份换多少钱和服务，写清是否附带后续投资的优先权。',
+    how: '按批次在官网申请，有固定的截止日期和路演日。' },
+  { id: 'competition', n: '创业大赛', short: '大赛', amt: '奖金通常不是重点；价值在曝光和对接', cyc: '按赛季，3–6 个月',
+    gate: '一般要求已注册公司；部分地方赛要求获奖后在当地落地。',
+    terms: '获奖附带的落地、注册地或返投要求。',
+    how: '官网报名，按赛道提交 BP 和路演视频。' },
+  { id: 'vc_rmb', n: '市场化 VC（人民币 / 双币）', short: '人民币 VC', amt: '数百万到数亿元', cyc: '2–6 个月',
+    gate: '可验证的数据：留存、收入、增长速度；赛道要在基金的投资方向里。',
+    terms: '优先清算、反稀释、回购、一票否决、董事席位；TS 阶段就要谈。',
+    how: '引荐优先；核对这家基金近 12 个月在同赛道同阶段的案例，找到负责这个方向的合伙人。' },
+  { id: 'vc_usd', n: '美元基金（境外架构）', short: '美元 VC', amt: '数百万美元起', cyc: '3–9 个月（含搭建架构）',
+    gate: '要搭红筹或 VIE 架构、办外汇登记；业务不能落在外资受限领域。2025 年外币基金新募资金同比下降 36%[[qk-25-fund]]。',
+    terms: '架构搭建费用高；美国对外投资规则限制美国资金投中国的半导体、量子和部分 AI 领域。',
+    how: '只有确定要在境外上市、而且业务不受限时才考虑。' },
+  { id: 'cvc', n: '产业资本 CVC', short: '产业资本', amt: '数百万到数亿元', cyc: '3–9 个月，常要过战略和投资两条线',
+    gate: '和投资方主业有协同：渠道、数据、供应链或技术。',
+    terms: '优先购买权、排他合作、竞业限制；要防止被锁死在一个产业方。',
+    how: '先从业务合作谈起，再谈投资；找产业方的战略投资部。' },
+  { id: 'gov_fund', n: '政府引导基金 / 国资', short: '国资', amt: '多通过子基金投，直投从数千万元起', cyc: '3–12 个月',
+    gate: '属于地方重点产业；通常要求在当地注册或落地。',
+    terms: '返投比例和注册地、回购条款、资产评估和备案、后续国有股权转让要进场交易。深圳天使母基金 2026 年版申报指南取消了 1.75 倍返投要求[[szangel-26]]。',
+    how: '找引导基金参股的市场化子基金，比直接找母基金快。' },
+  { id: 'local_gov', n: '地方招商 / 国资领投', short: '地方招商', amt: '补贴、场地，或国资平台领投', cyc: '1–6 个月',
+    gate: '愿意把公司或团队落到当地。',
+    terms: '迁址、纳税、就业承诺和对赌；写清承诺做不到时的后果。',
+    how: '通过园区招商部门或地方国资平台对接。' },
+  { id: 'bank', n: '银行科创贷 / 投贷联动', short: '银行', amt: '几十万到数千万元（债权）', cyc: '2–8 周',
+    gate: '有收入、合同或知识产权可以质押；早期公司很难拿到。',
+    terms: '创始人个人连带担保。',
+    how: '科技支行、地方担保公司；拿到股权融资后再谈投贷联动更容易。' },
+  { id: 'equity_market', n: '区域性股权市场 / 专精特新专板', short: '股权市场', amt: '挂牌后对接投资人，金额不定', cyc: '挂牌 1–3 个月',
+    gate: '在本省注册；单只证券的投资者不超过 200 人。',
+    terms: '挂牌费用和信息披露义务。',
+    how: '联系本省的股权交易中心；26 家区域性股权市场设有专精特新专板，服务企业 1.56 万家[[ssxt-board]]。' },
+  { id: 'fa', n: '财务顾问 FA', short: 'FA', amt: '不出钱，按融资额收费', cyc: '随项目',
+    gate: '一般从 A 轮或数千万元规模起接。',
+    terms: '成功费比例、独家期限、是否收前期费用。',
+    how: '大额融资时再找；种子和天使轮自己跑更合适。' }
+];
+
+// ----- institutions: public facts only (focus + one recent public deal), each with its own link -----
+// fit: 'health' (身体健康 OS), 'groundbreak' (破土), 'general' (any sector)
+const INSTS = [
+  // 天使
+  { id: 'innoangel', n: '英诺天使基金', type: 'angel', fit: ['health', 'general'], focus: '天使轮机构，覆盖 AI 医疗和健康管理', ev: '2025-11 跟投紫荆智康近亿元天使轮（星连资本领投），产品覆盖诊前到诊后健康管理。', src: 'https://cj.sina.com.cn/articles/view/5953190035/162d67893019017egs', srcT: '新浪财经转 36氪 · 2025-11' },
+  { id: 'legendstar', n: '联想之星', type: 'angel', fit: ['health', 'general'], focus: '早期投资；医疗健康分「生物医药」和「数智医疗」两块', ev: '2026-01 介绍医疗投资策略：数智医疗关注用 AI、大数据和机器人升级医疗服务。', src: 'https://news.pedaily.cn/202601/559682.shtml', srcT: '投资界 · 2026-01' },
+  // 加速器
+  { id: 'miracleplus', n: '奇绩创坛', type: 'incubator', fit: ['health', 'groundbreak', 'general'], focus: '早期创业加速器，按批次招募', ev: '2026-04 跟投智能戒指公司弦指科技千万元级天使轮（国香资本领投）。', src: 'https://www.36kr.com/p/3805911108328965', srcT: '36氪 · 2026-05' },
+  // 人民币 / 双币 VC
+  { id: 'qiming', n: '启明创投', type: 'vc_rmb', fit: ['health', 'general'], focus: '人民币和美元双币基金；国内最活跃的医疗健康投资机构之一，方向是创新药、创新器械和 AI + 医疗', ev: '动脉智库统计：2025 年国内医疗健康出手 37 次，居首。', src: 'https://news.pedaily.cn/202601/560467.shtml', srcT: '投资界转动脉智库 · 2026-01' },
+  { id: 'hillhouse-ventures', n: '高瓴创投', type: 'vc_rmb', fit: ['health', 'general'], focus: '早期科技与消费健康硬件', ev: '2026 年参与睡眠健康公司今日宜休的首轮种子融资（数千万元），2026-05 第二轮继续超额追投。', src: 'https://news.pedaily.cn/202605/563740.shtml', srcT: '投资界 · 2026-05' },
+  { id: 'hongshan', n: '红杉中国', type: 'vc_rmb', fit: ['health', 'general'], focus: '全阶段科技投资', ev: '2026-03 与 Monolith 分别领投 AI 健康硬件公司 Odyss 近 2 亿元融资（硬件 + 订阅模式）。', src: 'https://finance.sina.com.cn/stock/t/2026-03-26/doc-inhshnwy0370633.shtml', srcT: '新浪财经转 36氪 · 2026-03' },
+  { id: 'linear', n: '线性资本', type: 'vc_rmb', fit: ['health', 'general'], focus: '早期技术驱动型投资', ev: '作为 Odyss 老股东，2026-03 在近 2 亿元新一轮中继续加注。', src: 'https://m.chinaventure.com.cn/news/80-20260327-390693.html', srcT: '投中网 · 2026-03' },
+  { id: 'starlink-cap', n: '星连资本', type: 'vc_rmb', fit: ['health'], focus: '早期硬科技与 AI 医疗', ev: '2025-11 领投紫荆智康近亿元天使轮（AI 医院 Agent 系统）。', src: 'https://cj.sina.com.cn/articles/view/5953190035/162d67893019017egs', srcT: '新浪财经转 36氪 · 2025-11' },
+  { id: 'puhua', n: '普华资本', type: 'vc_rmb', fit: ['health'], focus: '投资 AI 驱动的数字健康管理平台', ev: '2026-05 与晓池基金、嘉兴欣颐联合投资花生健康（旗下好孕帮 1,200 万用户）。', src: 'https://news.pedaily.cn/202605/564006.shtml', srcT: '投资界 · 2026-05' },
+  { id: 'vision-plus', n: '元璟资本', type: 'vc_rmb', fit: ['health'], focus: '长期持有互联网医疗和全病程管理平台', ev: '作为微脉老股东，2025-01 跟投微脉 2 亿元 D 轮。', src: 'https://www.vbdata.cn/1519002566', srcT: '动脉网 · 2025-01' },
+  { id: 'yuansheng', n: '元生创投', type: 'vc_rmb', fit: ['health'], focus: '医疗健康专业投资机构', ev: '动脉智库 2025 年度报告：医疗健康投资次数翻倍。', src: 'https://news.pedaily.cn/202601/560467.shtml', srcT: '投资界转动脉智库 · 2026-01' },
+  { id: 'hongfund', n: '弘晖基金', type: 'vc_rmb', fit: ['health'], focus: '医疗健康基金，参与睡眠健康早期轮次', ev: '2026-05 以新进投资方身份参与今日宜休第二轮融资。', src: 'https://news.pedaily.cn/202605/563740.shtml', srcT: '投资界 · 2026-05' },
+  // 产业资本
+  { id: 'ant', n: '蚂蚁集团', type: 'cvc', fit: ['health'], focus: '支付宝医疗健康和 AI 健康应用 AQ；战略入股 C 端健康管理公司', ev: '2026-07 战略投资体重管理平台薄荷健康，持股超 28%，成为最大外部股东。', src: 'https://technode.global/2026/07/08/ant-group-takes-28-stake-in-chinas-boohee-health-as-ai-health-app-aq-surpasses-100m-users/', srcT: 'TechNode Global · 2026-07' },
+  { id: 'xiaomi', n: '小米', type: 'cvc', fit: ['health'], focus: '可穿戴厂商，产业投资延伸到运动健康服务', ev: '2025-01 入股健身社交应用爱动健身，持股约 15%。', src: 'https://m.jiemian.com/article/12199159.html', srcT: '界面新闻 · 2025-01' },
+  { id: 'sensetime-gx', n: '国香资本（商汤系）', type: 'cvc', fit: ['health', 'general'], focus: 'AI 产业资本', ev: '2026-04 领投智能戒指公司弦指科技千万元级天使轮，奇绩创坛跟投。', src: 'https://www.36kr.com/p/3805911108328965', srcT: '36氪 · 2026-05' },
+  // 国资
+  { id: 'sz-angel', n: '深圳市天使投资引导基金', type: 'gov_fund', fit: ['health', 'general'], focus: '天使母基金，通过子基金投天使阶段', ev: '2026-03 发布新版申报指南：存续期延至 15 年，取消 1.75 倍返投；累计出资 98 支子基金。', src: 'https://www.36kr.com/p/3740976625139716', srcT: '36氪 · 2026-03' },
+  { id: 'bj-health-fund', n: '北京市医药健康产业投资基金', type: 'gov_fund', fit: ['health'], focus: '北京市级国资医药健康产业基金，直投创新医疗企业', ev: '2026-04 领投安宇艾心数千万元融资；连续两年进入动脉网国内最活跃医疗投资机构前五。', src: 'https://news.pedaily.cn/202604/562504.shtml', srcT: '投资界 · 2026-04' },
+  { id: 'sh-bio-fund', n: '上海生物医药先导产业母基金', type: 'gov_fund', fit: ['health'], focus: '投向创新药、高端医疗器械、生物技术，强调投早投小', ev: '2024-07 签约设立，规模 215.01 亿元，期限 15 年。', src: 'https://www.jiemian.com/article/11476091.html', srcT: '界面新闻 · 2024-07' },
+  // 大赛
+  { id: 'hicool', n: 'HICOOL 全球创业大赛', type: 'competition', fit: ['health', 'general'], focus: '北京主办的综合性创业大赛，医药健康是落地区重点产业之一', ev: '2025 届收到 10,055 个项目，往届获奖项目赛后融资超 446 亿元。', src: 'https://www.news.cn/science/20250509/15e98df5aaee4995a3e7b5c3bb37aacb/c.html', srcT: '新华网 · 2025-05' },
+  { id: 'ai-med-contest', n: '新质生产力 AI + 医疗创新应用大赛', type: 'competition', fit: ['health'], focus: '美年健康、阿里云等主办；方向含智能健康管理和远程医疗监护', ev: '2025-11 在上海举办，300 余个项目报名，设美年创新需求对接专场（产品采购、数据合作）。', src: 'https://finance.eastmoney.com/a/202511033553695621.html', srcT: '东方财富 · 2025-11' },
+  // FA
+  { id: 'cdh-yikai', n: '易凯资本', type: 'fa', fit: ['health'], focus: '医疗健康产业财务顾问（融资、并购）', ev: '2026-08 担任蓝帆医疗出售武汉必凯尔 100% 股权的独家财务顾问。', src: 'https://news.pedaily.cn/202608/567769.shtml', srcT: '投资界 · 2026-08' }
+];
+
+// ----- sources -----
+// t: title · u: https link · d: publication or effective date
+const SRC = {
+  'qk-26h1': { t: '2026 创投半年报（新浪财经；数据来自清科、中基协、天眼查等）', u: 'https://finance.sina.com.cn/stock/vcpe/yc/2026-07-08/doc-inihaicz1450225.shtml', d: '2026-07-08' },
+  'qk-25-fund': { t: '清科研究中心：2025 年中国股权投资市场募资与投资（投资界）', u: 'https://research.pedaily.cn/202602/560947.shtml', d: '2026-02-10' },
+  'cls-lp-25': { t: '财联社创投通：2025 年一级市场 LP 出资数据', u: 'https://www.cls.cn/detail/2246723', d: '2026-01-04' },
+  'vb-26h1': { t: '动脉网：2026 年上半年全球医疗健康投融资，国内同比大涨 214%', u: 'https://www.vbdata.cn/1519086238', d: '2026-07-19' },
+  'itjz-active': { t: 'IT桔子：中国活跃投资机构十年变化（虎嗅转载）', u: 'https://www.huxiu.com/article/4862282.html', d: '2026-05-28' },
+  'hkex-25': { t: 'HKEX Insight: ECM performance in 2025', u: 'https://www.hkexgroup.com/Media-Centre/Insight/Insight/2026/HKEX-Insight/ECM-performance-in-2025?sc_lang=en', d: '2026-01' },
+  'deloitte-26q3': { t: '德勤：2026 年前三季度 A 股与港股 IPO 市场（东方财富）', u: 'https://finance.eastmoney.com/a/202609243883913360.html', d: '2026-09-24' },
+  'carta-gap': { t: 'VC Cafe 引 Carta 数据：美国创业公司轮次间隔中位数（2024 年底）', u: 'https://vccafe.com/2025/04/25/founders-need-to-adjust-to-longer-cycles-between-rounds', d: '2025-04-25' },
+  'xiniu-25': { t: '烯牛数据《2025 年中国私募股权市场深度解析报告》（新浪财经）', u: 'https://finance.sina.com.cn/roll/2026-02-05/doc-inhkuimi2909295.shtml', d: '2026-02-05' },
+  'itjz-plus': { t: '证券时报：2025 年「+ 轮」融资激增 78.2%（IT桔子数据）', u: 'https://www.stcn.com/article/detail/3607557.html', d: '2026-01-23' },
+  'vb-angel': { t: '动脉网：医疗健康天使轮专题', u: 'https://www.vbdata.cn/1518932505', d: '2023-10-17' },
+  'csrc-star-2025': { t: '证监会：科创板设置科创成长层、扩大第五套标准适用范围（中国政府网）', u: 'https://www.gov.cn/zhengce/202506/content_7028578.htm', d: '2025-06-18' },
+  'sina-boards': { t: '沪深北交易所现行上市标准汇总（新浪财经）', u: 'https://finance.sina.com.cn/roll/2024-12-24/doc-ineapfhx1939552.shtml', d: '2024-12-24' },
+  'stcn-gem3': { t: '证券时报：创业板第三套上市标准启用', u: 'https://www.stcn.com/article/detail/2125826.html', d: '2025-06-19' },
+  'bse-rules': { t: '北京证券交易所股票上市规则（北证公告〔2025〕20 号）', u: 'https://www.bse.cn/cxjg_list/200025638.html', d: '2025-04-25' },
+  'hkex-18c-2024': { t: 'HKEX / SFC：特专科技公司市值门槛临时下调', u: 'https://www.hkex.com.hk/News/Regulatory-Announcements/2024/240823news?sc_lang=en', d: '2024-08-23' },
+  'hkex-18c': { t: 'HKEX Insight: Chapter 18C explained', u: 'https://www.hkexgroup.com/Media-Centre/Insight/Insight/2026/HKEX-Insight/18C-Explained?sc_lang=en', d: '2026-05-04' },
+  'tryw': { t: '投融湾：融资成功率与机构三道会的淘汰比例（东方财富财富号）', u: 'https://caifuhao.eastmoney.com/news/20261005122327462211580', d: '2026-10-05' },
+  'yunting': { t: '云亭律师事务所：一轮投融资的关键环节与时间（36氪）', u: 'https://www.36kr.com/p/1123375006977286', d: '2021-03-04' },
+  'qk-ni-26': { t: '21 世纪经济报道：倪正东称一级市场 90% 资金集中在硬科技赛道', u: 'https://www.21jingji.com/article/20260616/herald/a7e108d961da3a1120bf7c7d8c956824.html', d: '2026-06-16' },
+  'smes': { t: '工信部：全国登记在册中小企业数量超 6,000 万家（中新网）', u: 'https://www.chinanews.com.cn/cj/2025/09-09/10479004.shtml', d: '2025-09-09' },
+  'jd-crowd': { t: '京东众筹暂停运营（澎湃新闻）', u: 'https://www.thepaper.cn/newsDetail_forward_20239061', d: '2022-10' },
+  'gb-proposal': { t: '破土 Groundbreak 产品方案 v0.1', u: 'https://claude.ai/artifact/TJkLUgu1zkES464h8pRSVK', d: '2026-10-01' },
+  'illegal-fund': { t: '防范和处置非法集资条例（国务院令第 737 号）', u: 'https://www.gov.cn/gongbao/content/2021/content_5588815.htm', d: '2021-05-01' },
+  'pipl': { t: '中华人民共和国个人信息保护法（第 28–31、55 条）', u: 'https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm', d: '2021-11-01' },
+  'nmpa-sw': { t: '移动医疗器械注册技术审查指导原则（原 CFDA 2017 年第 222 号通告）', u: 'https://www.nmpa.gov.cn/directory/web/nmpa/images/MjAxN8TqtdoyMjK6xc2ouOa4vbz+LmRvYw==.doc', d: '2017' },
+  'szangel-26': { t: '36氪：深圳天使母基金发布 2026 年版申报指南', u: 'https://www.36kr.com/p/3740976625139716', d: '2026-03-26' },
+  'ssxt-board': { t: '「专精特新」专板三年汇聚 1.56 万家企业（新浪财经）', u: 'https://finance.sina.com.cn/jjxw/2025-11-18/doc-infxumzq3001341.shtml', d: '2025-11-18' },
+  'nmpa-ai': { t: '国家药监局：人工智能医用软件产品分类界定指导原则（2021 年第 47 号）', u: 'https://www.nmpa.gov.cn/ylqx/ylqxggtg/20210708111147171.html', d: '2021-07-08' }
+};
+
+// Built-in projects: the scalable projects already in this repository. Content here is page copy, not user records;
+// what the user does (ticks, notes, target investors, extra projects) lives in the db / browser storage.
+// Every `src` key must exist in SRC (fund-data.js); build.mjs checks it.
+const BUILTIN = [
+  {
+    id: 'health-os', name: '身体健康 OS', short: '健康 OS', sector: 'health', stage: 'seed', order: 0,
+    kpi: { v: '36', u: '次', l: '2026 上半年国内数字健康融资', d: '约 3 亿美元；医疗健康整体 451 笔', src: 'vb-26h1' },
+    status: '已注册境内公司 · 可交互原型已上线（health-os/）· 尚未融资 · 仓库里没有用户数和收入数据',
+    lead: '先把两件事写成书面材料：产品只做健康记录、不做诊断（不进医疗器械注册），以及健康数据按敏感个人信息处理。然后带着 3 个月留存数据找投过数字健康的天使和早期基金；保险、体检、可穿戴厂商的产业资本放到有留存曲线之后。',
+    bp: {
+      cover: '家庭健康档案：体检单、手表数据和问题记录放到同一个 3D 人体上。',
+      problem: '用 10–20 个家庭访谈回答：病史、体检单、手表数据现在分散在哪里，找一次要多久。',
+      solution: '可旋转的 3D 玻璃人体，35 个部位按严重程度着色；问题 / 体征 / 体检 / 计划四个模块；一个账号管全家。',
+      whynow: '原型已能接 10 类可穿戴体征（HRV、血氧、VO₂max、呼吸频率等），这些指标几年前还不是普通手表的标配。',
+      market: '自下而上算：目标家庭数 × 付费率 × 年费。不要只引用「大健康万亿市场」。',
+      model: '候选三条：C 端订阅、体检机构 / 保险公司采购（B2B2C）、可穿戴厂商合作。BP 里只写一条主路径，另两条放附录。',
+      traction: '仓库里只有原型。种子轮前至少拿到：注册家庭数、周活、第 4 周和第 12 周留存。',
+      competition: '对比手机自带健康 App、体检机构 App、互联网医院 App；差异写跨来源汇总和家庭视角。',
+      team: '补一位医学顾问（临床或公共卫生背景），写进团队页。',
+      risk: '敏感个人信息单独同意；不做诊断和治疗建议；数据存境内。',
+      finance: '18 个月的花费按人员、服务器、获客拆开，标出每一项假设。',
+      ask: '金额 = 达到下一个里程碑（例如稳定的 12 周留存）所需花费 + 6 个月缓冲；写清出让比例上限和资金用途。'
+    },
+    flags: [
+      { t: '是不是医疗器械软件', d: '只做记录、展示和提醒，不对疾病做诊断、分级或给出治疗建议，就停在健康管理软件一侧；一旦出现「根据指标判断疾病风险并给出处置意见」，就可能需要按医疗器械软件注册。BP 和隐私政策里的措辞要一致。', src: ['nmpa-sw'] },
+      { t: '健康数据是敏感个人信息', d: '医疗健康信息属于敏感个人信息：要取得单独同意、告知必要性和影响，并做个人信息保护影响评估。家人档案涉及他人信息，授权要分别取得。', src: ['pipl'] },
+      { t: '没有用户数据', d: '原型可以证明能做出来，证明不了有人用。投资人会先问留存：用多久、多少人每周回来。' },
+      { t: '谁付钱', d: 'C 端为健康记录付费的意愿要用数据证明；B2B2C 路径要有至少一家机构的试点意向书。' }
+    ],
+    qa: [
+      { q: '这是医疗器械吗？要不要去药监局注册？', a: '回答时给出产品边界：只做记录、可视化和提醒，不输出诊断结论或治疗建议，因此不属于医疗器械软件。附上功能清单和以后不做的功能。若路线图里有「风险评估」类功能，说明会单独评估注册路径和时间。', src: ['nmpa-sw'] },
+      { q: '健康数据怎么合规？存在哪里？', a: '说明三点：敏感个人信息的单独同意流程、数据存储在境内、谁能看到家人的档案。准备好隐私政策、个人信息保护影响评估记录和数据权限表，尽调时会要。', src: ['pipl'] },
+      { q: '用户为什么不用手机自带的健康 App？', a: '自带 App 只汇总自家设备的数据，不管体检单和全家人。用访谈或留存数据证明这两点有人在乎。' },
+      { q: '谁买单？', a: '给出你选定的主路径和证据：C 端看付费转化率，B2B2C 看试点机构名单和意向书。两条都没有证据时，坦白这是种子轮要验证的事，并说明用多少钱、多长时间验证。' }
+    ],
+    why: {
+      cvc: '保险、体检、可穿戴厂商对家庭健康数据有战略兴趣，但通常在产品有留存后才出手；种子轮先建立联系，用试点合作代替投资。',
+      gov_fund: '生物医药 / 医疗产业基金主要投药、械和医疗服务，消费级健康软件少见；更现实的是通过天使母基金参股的子基金间接拿到钱。'
+    }
+  },
+  {
+    id: 'groundbreak', name: '破土 Groundbreak', short: '破土', sector: 'platform', stage: 'seed', order: 1,
+    kpi: { v: '737', u: '家', l: '2025 年活跃投资机构', d: '2015 年为 1,661 家，减少 55.6%', src: 'itjz-active' },
+    status: '已注册境内公司 · 产品方案 v0.1 与可交互原型（groundbreak/）· 尚未融资',
+    lead: '先拿律师意见书，再融资：投资人的第一个问题会是「这算不算变相公开发行证券或非法集资」。对口资方是投过创投服务、企业服务平台的天使和早期基金，以及能带来项目源的合作方；国资引导基金适配度低。',
+    bp: {
+      cover: '公开晒产品，不公开卖股权：用首发和众筹产生的真实数据，替投资人做第一轮筛选。',
+      problem: '2026 年上半年早期项目占投资笔数 37.8%，只拿到披露金额的 11.9%[[qk-26h1]]；长尾项目缺被看见的渠道。',
+      solution: '三层漏斗：每日首发榜 → 奖励型众筹（回报只能是产品）→ 信号分 ≥ 60 的项目推送给认证合格投资者。',
+      whynow: '京东众筹 2022 年 10 月暂停运营[[jd-crowd]]，大厂奖励众筹退场；早期投资笔数在回暖[[qk-26h1]]。',
+      market: '供给侧：全国登记在册中小企业超 6,000 万户[[smes]]；需求侧：天使、早期基金、产业 CVC、地方引导基金。',
+      model: '方案测算第 3 年收入约 ¥2,174 万：投资人订阅 53%、众筹佣金 29%、创业者服务 18%（全部是假设，BP 里要列出）[[gb-proposal]]。',
+      traction: '原型有 14 个虚构示例项目。种子轮前要有：签约的首批真实项目数、首发日活跃、愿意试用的投资人名单。',
+      competition: 'Product Hunt、Kickstarter、AngelList 各借一件事；国内对比 36氪 / 鲸准、IT桔子、摩点和区域性股权市场。',
+      team: '补一位有证券或私募合规背景的合伙人或顾问。',
+      risk: '公开页零融资信息、合格投资者认证、平台不经手投资款、支持款只走持牌支付机构；上线前取得律师意见书。',
+      finance: '按路线图：0–3 个月合规底座，3–6 个月首发榜，6–12 个月众筹，9–15 个月投资人专区；每段的费用和验收指标。',
+      ask: '种子轮覆盖「合规底座 + 首发榜」两段，验收指标：日均首发 ≥ 10 个、周活 ≥ 2 万（方案里的目标值）。'
+    },
+    flags: [
+      { t: '变相公开发行证券', d: '向不特定对象发行证券、或向特定对象累计超过 200 人，都属于公开发行，必须注册；非公开发行不得公开劝诱。公开页不能出现「正在融资」和条款信息。', src: ['sec-law'] },
+      { t: '非法集资', d: '众筹回报只能是产品或服务，不承诺现金、分红、股权或回购；储值类回报不可提现。', src: ['illegal-fund'] },
+      { t: '私募基金募集', d: '多人凑钱投一个项目属于私募基金募集，要由登记的私募基金管理人来做；平台只做信息展示和撮合。', src: ['pf-reg'] },
+      { t: '双边冷启动', d: '先有项目、再有支持者、最后才有付费投资人。投资人会问首批 100 个项目从哪来。', src: ['gb-proposal'] }
+    ],
+    qa: [
+      { q: '这会不会被认定为变相公开发行证券？', a: '展示信息防火墙：访客看不到项目是否在融资、轮次和金额；投资人专区要合格投资者认证、实名和水印；单个项目经平台新增的股东设上限。拿出律师意见书或正在出具的进度。', src: ['sec-law'] },
+      { q: '众筹会不会碰非法集资？', a: '回报只有产品或服务；资金只在持牌支付机构的存管账户里，平台不设资金池；未达标原路退回。', src: ['illegal-fund'] },
+      { q: '投资人凭什么付订阅费？', a: '信号分的价值要用「推送 → 约谈」转化率证明。第 1 年免费，用转化数据定价。', src: ['gb-proposal'] },
+      { q: '和 36氪 / 鲸准、IT桔子、以太资本有什么不同？', a: '它们主要服务已经在融资的项目和机构；破土的入口是产品首发和众筹，先拿到需求数据，再决定推给谁。用一张对比表说明。' }
+    ],
+    why: {
+      equity_market: '区域性股权市场的价值在合作而不是给钱：它是合规的股权交易通道，也是首批项目的来源（专精特新专板）。',
+      gov_fund: '平台业务的监管定性还没有定论，国资基金对这类风险的容忍度低；返投和注册地要求也会限制早期选择。'
+    }
+  }
+];
+
+// ---------- helpers ----------
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+function lsGet(k, d) { try { const v = JSON.parse(localStorage.getItem('cos.' + k)); return v ?? d; } catch { return d; } }
+function lsSet(k, v) { try { localStorage.setItem('cos.' + k, JSON.stringify(v)); } catch { } }
+function lsDel(k) { try { localStorage.removeItem('cos.' + k); } catch { } }
+const newId = () => 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+const I = {
+  chev: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 5 4 4 4-4"/></svg>',
+  x: '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m3 3 8 8M11 3l-8 8"/></svg>',
+  warn: '<svg viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11h.01"/></svg>',
+  ext: '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:-1px"><path d="M5 2H2v8h8V7M7 2h3v3M10 2 5.5 6.5"/></svg>'
+};
+
+// ---------- capability modules ----------
+// Only `fund` is built in v1; the rest are placeholders so the system's shape is visible.
+const MODULES = [
+  { id: 'fund', name: '融资能力', sub: '中国大陆 · v1', live: true },
+  { id: 'product', name: '产品能力', sub: '规划中' },
+  { id: 'growth', name: '增长获客', sub: '规划中' },
+  { id: 'team', name: '团队与组织', sub: '规划中' },
+  { id: 'legal', name: '法务合规', sub: '规划中' },
+  { id: 'finance', name: '财务管理', sub: '规划中' }
+];
+
+// ---------- state ----------
+const UI0 = lsGet('ui', {});
+const S = { mod: 'fund', tab: UI0.tab || 'overview', pid: UI0.pid || BUILTIN[0].id, gov: !!UI0.gov, usd: !!UI0.usd, open: {} };
+let mode = 'init', DB = null, RO = false, UNSUB = [], CUSTOM = [], PROG = { steps: {}, targets: {} }, pendingRender = false;
+const saveUI = () => lsSet('ui', { tab: S.tab, pid: S.pid, gov: S.gov, usd: S.usd });
+const allProjects = () => [...BUILTIN, ...CUSTOM];
+const curProj = () => allProjects().find(p => p.id === S.pid) || BUILTIN[0];
+const byOrder = (a, b) => (a.order ?? 99) - (b.order ?? 99) || String(a.name).localeCompare(String(b.name), 'zh');
+
+function cleanProj(p) {
+  if (!p || typeof p !== 'object' || !p.id || !p.name) return null;
+  return { id: String(p.id), name: String(p.name).slice(0, 16), sector: SECTORS[p.sector] ? p.sector : 'saas', stage: ROUND_IDS.includes(p.stage) ? p.stage : 'seed', note: String(p.note || '').slice(0, 200), order: Number.isFinite(p.order) ? p.order : 99, custom: true };
+}
+const TARGET_STATUS = ['target', 'contact', 'meet1', 'meet2', 'ts', 'dd', 'closed', 'pass'];
+function cleanRec(c, d) {
+  if (!d || typeof d !== 'object') return null;
+  if (c === 'steps') return { done: !!d.done, note: String(d.note || '').slice(0, 1000), at: String(d.at || '') };
+  return TARGET_STATUS.includes(d.status) ? { status: d.status, note: String(d.note || '').slice(0, 1000), at: String(d.at || '') } : null;
+}
+
+// ---------- progress helpers (used by every view) ----------
+const stepRec = sid => PROG.steps[sid];
+const stepDone = sid => { const r = stepRec(sid); return r ? r.done : !!(STEP_BY_ID[sid] && STEP_BY_ID[sid].pre); };
+const stepNote = sid => (stepRec(sid) || {}).note || '';
+const stepVisible = st => (!st.br || (st.br === 'gov' && S.gov) || (st.br === 'usd' && S.usd)) && (!st.only || st.only.includes(curProj().sector));
+const visibleSteps = () => STEPS.filter(stepVisible);
+function progressOf() {
+  const vs = visibleSteps(), done = vs.filter(s => stepDone(s.id)).length;
+  return { done, total: vs.length, pct: vs.length ? done / vs.length : 0 };
+}
+function currentPhase() {
+  const first = visibleSteps().find(s => !stepDone(s.id));
+  return first ? PHASES.find(p => p.id === first.ph) : PHASES[PHASES.length - 1];
+}
+
+// ---------- data layer: cloud db when available, this browser otherwise ----------
+const lsProgKey = pid => 'prog.' + pid;
+function loadLocal() {
+  CUSTOM = (lsGet('custom', []) || []).map(cleanProj).filter(Boolean).sort(byOrder);
+  if (!allProjects().some(p => p.id === S.pid)) S.pid = BUILTIN[0].id;
+  loadLocalProg();
+}
+function loadLocalProg() {
+  const raw = lsGet(lsProgKey(S.pid), {}) || {};
+  PROG = { steps: {}, targets: {} };
+  for (const c of ['steps', 'targets']) for (const [k, v] of Object.entries(raw[c] || {})) { const r = cleanRec(c, v); if (r) PROG[c][k] = r; }
+}
+const saveLocalProg = pid => lsSet(lsProgKey(pid), PROG);
+
+function setSync(text, cls) { const el = $('sync'); el.className = 'sync ' + (cls || ''); el.querySelector('span').textContent = text; }
+function setRO() {
+  if (RO) return; RO = true; document.body.classList.add('ro');
+  setSync('只读 · 你没有修改权限', 'ro');
+}
+function onDbError(e) {
+  if (e && e.code === 'invalid_argument') { setRO(); toast('你只有查看权限，修改没有保存'); return; }
+  if (e && e.code === 'quota_exceeded') { toast('云端存储已满，删除一些记录后再试'); return; }
+  setSync('同步中断，显示最后一次数据', 'local');
+}
+
+async function connect() {
+  let db = null;
+  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
+  if (!db) { mode = 'local'; loadLocal(); setSync('本地模式 · 只保存在此浏览器', 'local'); render(); return; }
+  DB = db; mode = 'db'; setSync('已同步到云端');
+  try {
+    const u = await window.claude.use('user');
+    if (u && u.can && (await u.can('data.write')) === false) setRO();
+  } catch { }
+  DB.collection('projects').onSnapshot(s => {
+    CUSTOM = s.docs.map(d => cleanProj({ id: d.id, ...d.data() })).filter(Boolean).sort(byOrder);
+    if (!allProjects().some(p => p.id === S.pid)) { S.pid = BUILTIN[0].id; saveUI(); subscribeProg(); }
+    render();
+  }, onDbError);
+  subscribeProg();
+  render();
+}
+function subscribeProg() {
+  UNSUB.forEach(u => u()); UNSUB = [];
+  PROG = { steps: {}, targets: {} };
+  if (mode === 'local') { loadLocalProg(); return; }
+  if (mode !== 'db') return;
+  const pid = S.pid;
+  for (const c of ['steps', 'targets']) UNSUB.push(DB.collection(`projects/${pid}/${c}`).onSnapshot(s => {
+    if (pid !== S.pid) return;
+    const o = {};
+    for (const d of s.docs) { const r = cleanRec(c, d.data()); if (r) o[d.id] = r; }
+    PROG[c] = o; render();
+  }, onDbError));
+}
+
+// One write at a time per document; later writes wait for earlier ones.
+const chains = {};
+function queueWrite(path, fn) {
+  const p = (chains[path] || Promise.resolve()).then(fn, fn).catch(onDbError);
+  chains[path] = p; return p;
+}
+function canWrite() {
+  if (RO) { toast('你只有查看权限'); return false; }
+  if (mode === 'init') { toast('正在连接数据，请稍候再试'); return false; }
+  return true;
+}
+function setStep(sid, patch) {
+  if (!canWrite()) return false;
+  const pid = S.pid, cur = stepRec(sid) || { done: stepDone(sid), note: '' };
+  const next = { done: !!cur.done, note: cur.note || '', ...patch, at: today() };
+  PROG.steps = { ...PROG.steps, [sid]: next };
+  if (mode === 'db') queueWrite(`projects/${pid}/steps/${sid}`, () => DB.doc(`projects/${pid}/steps/${sid}`).set(next));
+  else saveLocalProg(pid);
+  return true;
+}
+function setTarget(iid, patch) {
+  if (!canWrite()) return false;
+  const pid = S.pid, path = `projects/${pid}/targets/${iid}`, t = { ...PROG.targets };
+  if (patch === null) { delete t[iid]; PROG.targets = t; if (mode === 'db') queueWrite(path, () => DB.doc(path).delete()); else saveLocalProg(pid); return true; }
+  const next = { status: 'target', note: '', ...(t[iid] || {}), ...patch, at: today() };
+  t[iid] = next; PROG.targets = t;
+  if (mode === 'db') queueWrite(path, () => DB.doc(path).set(next)); else saveLocalProg(pid);
+  return true;
+}
+async function addProject(o) {
+  if (!canWrite()) return;
+  const body = { name: o.name, sector: o.sector, stage: o.stage, note: o.note, order: 10 + CUSTOM.length };
+  if (mode === 'db') {
+    const r = DB.collection('projects').doc();
+    try { await r.set(body); } catch (e) { onDbError(e); return; }
+    switchProject(r.id);
+  } else {
+    const p = cleanProj({ id: newId(), ...body });
+    CUSTOM = [...CUSTOM, p].sort(byOrder); lsSet('custom', CUSTOM.map(({ custom, ...r }) => r));
+    switchProject(p.id);
+  }
+  toast('已新增项目「' + o.name + '」');
+}
+async function deleteProject(pid) {
+  if (!canWrite()) return;
+  const p = CUSTOM.find(x => x.id === pid); if (!p) return;
+  if (mode === 'db') {
+    try {
+      for (const c of ['steps', 'targets']) { const s = await DB.collection(`projects/${pid}/${c}`).get(); for (const d of s.docs) await DB.doc(`projects/${pid}/${c}/${d.id}`).delete(); }
+      await DB.doc('projects/' + pid).delete();
+    } catch (e) { onDbError(e); return; }
+  } else {
+    CUSTOM = CUSTOM.filter(x => x.id !== pid); lsSet('custom', CUSTOM.map(({ custom, ...r }) => r)); lsDel(lsProgKey(pid));
+  }
+  switchProject(BUILTIN[0].id);
+  toast('已删除项目「' + p.name + '」');
+}
+function switchProject(pid) {
+  if (pid === S.pid) { render(); return; }
+  S.pid = pid; S.open = {}; saveUI(); subscribeProg(); render();
+}
+
+// ---------- render shell ----------
+function render() {
+  // Don't rebuild the view under the viewer's cursor while they are typing a note.
+  const a = document.activeElement;
+  if (a && $('main').contains(a) && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && a.type === 'text'))) { pendingRender = true; return; }
+  pendingRender = false;
+  renderProjs(); renderRail();
+  const m = MODULES.find(x => x.id === S.mod);
+  if (m && m.live) Fund.render($('main'));
+  else $('main').innerHTML = `<section class="view planned-v"><h1>${esc(m ? m.name : '')}</h1><p>这个能力模块还在规划中。</p></section>`;
+}
+function renderProjs() {
+  $('projs').innerHTML = allProjects().map(p => `<button role="tab" aria-selected="${p.id === S.pid}" data-act="proj" data-id="${esc(p.id)}">${esc(p.short || p.name)}</button>`).join('')
+    + `<button class="add" data-act="newproj" data-w aria-label="新增项目">＋ 新增</button>`;
+}
+function renderRail() {
+  const pr = progressOf();
+  $('rail').innerHTML = `<h2>能力模块</h2>` + MODULES.map(m => m.live
+    ? `<button class="mod" aria-current="${S.mod === m.id}" data-act="mod" data-id="${m.id}"><b>${esc(m.name)}</b><span class="pct num">${Math.round(pr.pct * 100)}%</span><small>${esc(m.sub)}</small><span class="bar"><i style="width:${(pr.pct * 100).toFixed(1)}%"></i></span></button>`
+    : `<div class="mod planned" aria-disabled="true"><b>${esc(m.name)}</b><small>${esc(m.sub)}</small></div>`).join('')
+    + `<div class="sep"></div><p class="note">按能力分模块构建。每个模块对你的每个项目单独记录进度。</p>`;
+}
+
+// ---------- sheet, toast, tooltip ----------
+function openSheet(html) {
+  const sh = $('sheet'); sh.innerHTML = html; sh.classList.add('on'); sh.setAttribute('aria-hidden', 'false'); $('scrim').classList.add('on');
+  sh.scrollTop = 0; const x = sh.querySelector('.x'); if (x) x.focus();
+}
+function closeSheet() { $('sheet').classList.remove('on'); $('sheet').setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('on'); }
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2600);
+}
+function showTip(el, x, y) {
+  const tip = $('tip'), [head, ...rest] = String(el.dataset.tip).split('\n');
+  tip.textContent = '';
+  const b = document.createElement('b'); b.textContent = head; tip.appendChild(b);
+  if (rest.length) { const s = document.createElement('span'); s.textContent = rest.join(' · '); tip.appendChild(s); }
+  tip.classList.add('on');
+  const r = tip.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+  let left = x + 14, top = y + 14;
+  if (left + r.width > W - 12) left = Math.max(12, x - r.width - 14);
+  if (top + r.height > H - 12) top = Math.max(12, y - r.height - 14);
+  tip.style.left = left + 'px'; tip.style.top = top + 'px';
+}
+const hideTip = () => $('tip').classList.remove('on');
+
+// ---------- events ----------
+const ACT = {
+  proj: el => switchProject(el.dataset.id),
+  mod: el => { S.mod = el.dataset.id; render(); },
+  newproj: () => Fund.projectForm(),
+  close: () => closeSheet()
+};
+function bind() {
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const fn = ACT[el.dataset.act]; if (fn) { e.preventDefault(); fn(el, e); }
+  });
+  document.addEventListener('change', e => { const el = e.target.closest('[data-chg]'); if (el && ACT[el.dataset.chg]) ACT[el.dataset.chg](el, e); });
+  document.addEventListener('input', e => { const el = e.target.closest('[data-inp]'); if (el && ACT[el.dataset.inp]) ACT[el.dataset.inp](el, e); });
+  document.addEventListener('submit', e => { const el = e.target.closest('[data-sub]'); if (el && ACT[el.dataset.sub]) { e.preventDefault(); ACT[el.dataset.sub](el, e); } });
+  document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender) render(); }, 0));
+  $('scrim').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('sheet').classList.contains('on')) closeSheet(); });
+  document.addEventListener('pointermove', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) showTip(el, e.clientX, e.clientY); else hideTip(); });
+  document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) { const r = el.getBoundingClientRect(); showTip(el, r.left + r.width / 2, r.bottom); } });
+  document.addEventListener('focusout', e => { if (e.target.closest && e.target.closest('[data-tip]')) hideTip(); });
+  $('main').addEventListener('scroll', hideTip, { passive: true });
+}
+
+// ---------- fundraising module (China) ----------
+const Fund = (() => {
+  const TABS = [
+    { id: 'overview', n: '总览' }, { id: 'rounds', n: '轮次地图' }, { id: 'sources', n: '找资方' },
+    { id: 'pitch', n: '路演' }, { id: 'process', n: '交割流程' }, { id: 'progress', n: '我的进度' }
+  ];
+  const TYPE = Object.fromEntries(SOURCE_TYPES.map(t => [t.id, t]));
+  const ROUND = Object.fromEntries(ROUNDS.map(r => [r.id, r]));
+  const STATUS_N = { target: '目标', contact: '已联系', meet1: '首次会面', meet2: '二次会/立项', ts: '已签 TS', dd: '尽调中', closed: '已交割', pass: '放弃 / 被拒' };
+  const COLS = [
+    { n: '待接触', s: ['target'] }, { n: '接触中', s: ['contact', 'meet1', 'meet2'] },
+    { n: '谈判中', s: ['ts', 'dd'] }, { n: '结果', s: ['closed', 'pass'] }
+  ];
+  const FUNNEL = ['contact', 'meet1', 'meet2', 'ts', 'dd', 'closed'];
+
+  // ----- references: each view numbers the sources it cites, listed at its foot -----
+  let REFS = [];
+  function ref(...keys) {
+    return keys.filter(k => SRC[k]).map(k => {
+      let i = REFS.indexOf(k); if (i < 0) { REFS.push(k); i = REFS.length - 1; }
+      return `<sup class="ref"><a href="#ref-${i + 1}" title="${esc(SRC[k].t)}">[${i + 1}]</a></sup>`;
+    }).join('');
+  }
+  // Inline citations inside copy: "…[[src-key]]" renders as a numbered reference.
+  const rich = s => String(s ?? '').replace(/\[\[([a-z0-9-]+)\]\]/g, (_, k) => ref(k));
+  const plain = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '').replace(/<[^>]+>/g, '');
+  const plainRich = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '');
+  const refsHTML = () => REFS.length ? `<section class="panel"><h3>来源 <small>截至 ${esc(ASOF)} 的公开资料；点击打开原文</small></h3><ol class="refs">${REFS.map((k, i) => `<li id="ref-${i + 1}"><span><a href="${esc(SRC[k].u)}" target="_blank" rel="noopener">${esc(SRC[k].t)}</a> · ${esc(SRC[k].d)}</span></li>`).join('')}</ol></section>` : '';
+  const foot = () => `<p class="foot">本页数据来自公开报道与法规原文，口径与日期见各条来源；机构信息只列公开可查的投资案例，不代表其当前一定在投。内容不构成投资或法律意见，签约前请律师与财务顾问复核。</p>`;
+
+  // ----- small pieces -----
+  const proj = () => curProj();
+  const sector = () => SECTORS[proj().sector];
+  const fitOf = (tid, p = proj()) => SECTORS[p.sector].fit[tid] ?? 0;
+  const whyOf = (tid, p = proj()) => (p.why && p.why[tid]) || SECTORS[p.sector].why[tid] || '';
+  const rankedTypes = (p = proj()) => SOURCE_TYPES.map(t => ({ t, f: fitOf(t.id, p) })).sort((a, b) => b.f - a.f || SOURCE_TYPES.indexOf(a.t) - SOURCE_TYPES.indexOf(b.t));
+  const nextRound = () => ROUND[proj().stage] || ROUNDS[0];
+  const instFits = (i, p = proj()) => i.fit.includes('general') || i.fit.includes(SECTORS[p.sector].key);
+  const instsOf = (tid, p = proj()) => INSTS.filter(i => i.type === tid && instFits(i, p)).sort((a, b) => (b.fit.includes(SECTORS[p.sector].key) - a.fit.includes(SECTORS[p.sector].key)));
+  const wk = a => a[0] === a[1] ? `${a[0]} 周` : `${a[0]}–${a[1]} 周`;
+  const yi = n => n >= 1e4 ? (n / 1e4 >= 10 ? Math.round(n / 1e4) : +(n / 1e4).toFixed(1)) + ' 亿' : Math.round(n) + ' 万';
+
+  function stepRow(st, opts = {}) {
+    const done = stepDone(st.id), open = !!S.open[st.id], note = stepNote(st.id), p = proj();
+    const tip = st.tip && (st.tip[p.id] || st.tip[p.sector]);
+    const br = st.br === 'gov' ? '<span class="tag acc">国资支线</span>' : st.br === 'usd' ? '<span class="tag acc">美元支线</span>' : '';
+    const ph = opts.phase ? `<span class="tag">${esc(PHASES.find(x => x.id === st.ph).n)}</span>` : '';
+    const rec = stepRec(st.id);
+    return `<div class="steprow${done ? ' done' : ''}">
+      <input type="checkbox" class="chk" id="chk-${st.id}" data-chg="step" data-id="${st.id}" data-w ${done ? 'checked' : ''} aria-label="${esc(st.t)}">
+      <div><label class="t" for="chk-${st.id}">${esc(st.t)}${note ? '<i class="notedot" title="有备注"></i>' : ''}${br}${ph}</label>
+        <div class="d">${rich(st.d)}${st.src ? ref(...st.src) : ''}</div>
+        ${open ? `<div class="more">
+          ${st.out ? `<div class="pn"><b>产出物</b><span>${rich(st.out)}</span></div>` : ''}
+          ${st.who ? `<div class="pn"><b>谁来做</b><span>${esc(st.who)}</span></div>` : ''}
+          ${tip ? `<div class="pn"><b>${esc(p.short || p.name)}</b><span>${rich(tip)}</span></div>` : ''}
+          <textarea id="note-${st.id}" data-inp="note" data-id="${st.id}" data-w placeholder="备注：约了谁、卡在哪、下一步…">${esc(note)}</textarea>
+          ${rec && rec.at ? `<span class="meta">最后更新 ${esc(rec.at)}</span>` : ''}
+        </div>` : ''}
+      </div>
+      <button class="tgl" data-act="open" data-id="${st.id}" aria-expanded="${open}" aria-label="${open ? '收起' : '展开'}详情">${I.chev}</button>
+    </div>`;
+  }
+
+  // ----- charts -----
+  function roundsChart() {
+    const rs = ROUNDS.filter(r => r.amt), W = 760, H = 290, L = 70, R = 16, T = 26, B = 50;
+    const lo = 2, hi = 6, y = v => T + (hi - Math.log10(v)) / (hi - lo) * (H - T - B);
+    const bw = (W - L - R) / rs.length, x = i => L + bw * (i + .5), cur = nextRound().id;
+    const ticks = [[1e2, '100 万'], [1e3, '1,000 万'], [1e4, '1 亿'], [1e5, '10 亿'], [1e6, '100 亿']];
+    let g = `<g class="grid">${ticks.map(([v]) => `<line x1="${L}" x2="${W - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/>`).join('')}</g>`;
+    g += ticks.map(([v, t]) => `<text x="${L - 10}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${t}</text>`).join('');
+    rs.forEach((r, i) => {
+      const cx = x(i), y1 = y(r.amt[1]), y0 = y(r.amt[0]), isCur = r.id === cur;
+      if (isCur) g += `<rect class="now-band" x="${(cx - bw / 2 + 3).toFixed(1)}" y="${T - 18}" width="${(bw - 6).toFixed(1)}" height="${H - B - T + 18}" rx="10"/><text class="now-t" x="${cx.toFixed(1)}" y="${T - 5}" text-anchor="middle">下一轮</text>`;
+      const tipText = `${yi(r.amt[0])}–${yi(r.amt[1])}元\n${r.n} · 经验区间${r.avg ? ` · ${r.avg.grp}平均约 ${yi(r.avg.v)}元` : ''}`;
+      g += `<g class="h" tabindex="0" data-tip="${esc(tipText)}"><rect class="hit" x="${(cx - bw / 2).toFixed(1)}" y="${T}" width="${bw.toFixed(1)}" height="${H - B - T}"/>
+        <g class="mk"><line class="rng" x1="${cx.toFixed(1)}" x2="${cx.toFixed(1)}" y1="${y0.toFixed(1)}" y2="${y1.toFixed(1)}"/><circle class="dot" cx="${cx.toFixed(1)}" cy="${y0.toFixed(1)}" r="4.5"/><circle class="dot" cx="${cx.toFixed(1)}" cy="${y1.toFixed(1)}" r="4.5"/>
+        ${r.avg && rs.filter(o => o.avg === r.avg).length === 1 ? `<line class="rng" x1="${(cx - 9).toFixed(1)}" x2="${(cx + 9).toFixed(1)}" y1="${y(r.avg.v).toFixed(1)}" y2="${y(r.avg.v).toFixed(1)}"/>` : ''}</g></g>`;
+      g += `<text class="lb" x="${cx.toFixed(1)}" y="${H - B + 20}" text-anchor="middle">${esc(r.n)}</text><text class="sub" x="${cx.toFixed(1)}" y="${H - B + 36}" text-anchor="middle">${yi(r.amt[0])}–${yi(r.amt[1])}</text>`;
+    });
+    for (const av of new Set(rs.filter(r => r.avg).map(r => r.avg))) {
+      const idx = rs.map((r, i) => r.avg === av ? i : -1).filter(i => i >= 0);
+      if (idx.length < 2) continue;
+      const x0 = x(idx[0]) - bw * .32, x1 = x(idx[idx.length - 1]) + bw * .32, yy = y(av.v);
+      g += `<line class="rng" x1="${x0.toFixed(1)}" x2="${x1.toFixed(1)}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}"/><text x="${x1.toFixed(1)}" y="${(yy - 7).toFixed(1)}" text-anchor="end">${esc(av.grp)}平均 ${yi(av.v)}</text>`;
+    }
+    g += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="currentColor" stroke-opacity=".2"/>`;
+    return `<figure class="fig"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="各轮次常见单笔融资金额区间，对数刻度">${g}</svg></div>
+      <div class="legend"><span><i></i>常见单笔金额（经验区间）</span>${rs.some(r => r.avg) ? '<span><i style="width:10px"></i>横线：2026 上半年平均值</span>' : ''}<span><i class="now"></i>你的下一轮</span></div>
+      <figcaption>纵轴为对数刻度：每一格是上一格的 10 倍。</figcaption></figure>`;
+  }
+  function dilutionChart() {
+    const rs = ROUNDS.filter(r => r.dil), W = 760, H = 200, L = 70, R = 16, T = 18, B = 40, max = 30;
+    const y = v => T + (1 - v / max) * (H - T - B), bw = (W - L - R) / rs.length, x = i => L + bw * (i + .5), cur = nextRound().id;
+    let g = `<g class="grid">${[0, 10, 20, 30].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`).join('')}</g>`;
+    g += [0, 10, 20, 30].map(v => `<text x="${L - 10}" y="${y(v) + 4}" text-anchor="end">${v}%</text>`).join('');
+    rs.forEach((r, i) => {
+      const cx = x(i), w = 22, isCur = r.id === cur;
+      if (isCur) g += `<rect class="now-band" x="${(cx - bw / 2 + 3).toFixed(1)}" y="${T - 8}" width="${(bw - 6).toFixed(1)}" height="${H - B - T + 8}" rx="10"/>`;
+      const top = y(r.dil[1]), bot = y(r.dil[0]);
+      g += `<g class="h" tabindex="0" data-tip="${esc(`${r.dil[0]}%–${r.dil[1]}%\n${r.n} · 常见出让比例`)}"><rect class="hit" x="${(cx - bw / 2).toFixed(1)}" y="${T}" width="${bw.toFixed(1)}" height="${H - B - T}"/>
+        <rect class="bar mk" x="${(cx - w / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${w}" height="${Math.max(3, bot - top).toFixed(1)}" rx="4"/></g>
+        <text x="${cx.toFixed(1)}" y="${(top - 7).toFixed(1)}" text-anchor="middle">${r.dil[0]}–${r.dil[1]}%</text>
+        <text class="lb" x="${cx.toFixed(1)}" y="${H - B + 20}" text-anchor="middle">${esc(r.n)}</text>`;
+    });
+    return `<figure class="fig"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="各轮次常见出让比例区间">${g}</svg></div>
+      <figcaption>每轮新增股份占融资后总股本的比例。多轮累计后，创始团队通常在 B 轮前后跌破 51%，在那之前就要设计好控制权（见交割流程「准备」阶段）。</figcaption></figure>`;
+  }
+  function gantt() {
+    const ph = PHASES.filter(p => p.w), W = 760, rowH = 34, T = 30, L = 120, R = 70, H = T + ph.length * rowH + 30;
+    let acc = 0; const ends = ph.map(p => { const e = acc + p.w[1]; acc += p.w[0]; return e; });
+    const xmax = Math.ceil(Math.max(...ends) / 4) * 4, x = v => L + v / xmax * (W - L - R);
+    const curId = currentPhase().id;
+    let start = 0, g = `<g class="grid">${Array.from({ length: xmax / 4 + 1 }, (_, i) => i * 4).map(v => `<line x1="${x(v).toFixed(1)}" x2="${x(v).toFixed(1)}" y1="${T - 6}" y2="${T + ph.length * rowH}"/>`).join('')}</g>`;
+    g += Array.from({ length: xmax / 4 + 1 }, (_, i) => i * 4).map(v => `<text x="${x(v).toFixed(1)}" y="${T - 12}" text-anchor="middle">${v}</text>`).join('') + `<text x="${W - R + 8}" y="${T - 12}">周</text>`;
+    ph.forEach((p, i) => {
+      const yy = T + i * rowH, isCur = p.id === curId, s0 = start;
+      if (isCur) g += `<rect class="now-band" x="4" y="${yy + 2}" width="${W - 8}" height="${rowH - 4}" rx="9"/>`;
+      g += `<text class="lb" x="${L - 12}" y="${yy + rowH / 2 + 4}" text-anchor="end">${esc(p.n)}</text>`;
+      g += `<g class="h" tabindex="0" data-tip="${esc(`${wk(p.w)}\n${p.n} · ${p.short || ''}`)}"><rect class="hit" x="${L}" y="${yy}" width="${W - L - R}" height="${rowH}"/>
+        <rect class="bar lo mk" x="${x(s0).toFixed(1)}" y="${yy + 10}" width="${Math.max(3, x(s0 + p.w[1]) - x(s0)).toFixed(1)}" height="14" rx="4"/>
+        <rect class="bar mk" x="${x(s0).toFixed(1)}" y="${yy + 10}" width="${Math.max(3, x(s0 + p.w[0]) - x(s0)).toFixed(1)}" height="14" rx="4"/></g>
+        <text x="${(x(s0 + p.w[1]) + 8).toFixed(1)}" y="${yy + rowH / 2 + 4}">${wk(p.w)}</text>`;
+      start += p.w[0];
+    });
+    const sumMin = ph.reduce((s, p) => s + p.w[0], 0);
+    return `<figure class="fig gantt"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="一轮融资各阶段的典型时长，顺利时合计约 ${sumMin} 周">${g}</svg></div>
+      <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>顺利时</span><span><i class="sw" style="background:var(--h3)"></i>常见上限</span><span><i class="now"></i>你所在的阶段</span></div>
+      <figcaption>每段从上一段「顺利时」的终点起算，顺利时合计约 ${sumMin} 周；浅色是这一段常见的上限，通常不会每段都碰到上限。时长口径见「交割流程」各阶段的来源。</figcaption></figure>`;
+  }
+  function heatmap() {
+    const ps = allProjects();
+    const scale = [0, 1, 2, 3, 4, 5].map(v => `<i class="s${v}" style="display:inline-block;background:${v ? `var(--h${v})` : 'var(--line-soft)'}"></i>`).join('');
+    return `<div class="heat"><table><thead><tr><th>资方类型</th>${ps.map(p => `<th class="c">${esc(p.short || p.name)}</th>`).join('')}</tr></thead><tbody>
+      ${SOURCE_TYPES.map(t => `<tr><td class="nm">${esc(t.n)}<small>${esc(t.amt || '')}</small></td>${ps.map(p => { const f = fitOf(t.id, p); return `<td><button class="cell s${f}" data-act="type" data-id="${t.id}" data-pid="${esc(p.id)}" data-tip="${esc(`${f} / 5\n${p.short || p.name} × ${t.n}`)}" aria-label="${esc(`${p.name}与${t.n}的适配度 ${f} 分`)}">${f}</button></td>`; }).join('')}</tr>`).join('')}
+      </tbody></table></div><div class="scale">0 不适配 ${scale} 5 最对口</div>`;
+  }
+
+  // ----- views -----
+  function vOverview() {
+    const p = proj(), pr = progressOf(), cp = currentPhase(), nr = nextRound(), top = rankedTypes().slice(0, 3);
+    const todo = visibleSteps().filter(s => !stepDone(s.id)).slice(0, 3);
+    const C = 2 * Math.PI * 56, off = C * (1 - pr.pct);
+    const phIdx = PHASES.findIndex(x => x.id === cp.id);
+    return `<div class="vhead"><div><div class="eyebrow">融资能力 · 中国大陆</div><h1>${esc(p.name)} 的融资路线</h1>
+      <p>${esc(p.status || '')}</p></div></div>
+    <section class="panel"><div class="hero">
+      <div class="ring"><svg viewBox="0 0 132 132" aria-hidden="true"><circle class="tr" cx="66" cy="66" r="56" fill="none" stroke-width="7"/><circle class="fg" cx="66" cy="66" r="56" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 66 66)"/></svg>
+        <div><b>${Math.round(pr.pct * 100)}%</b><span>${pr.done} / ${pr.total} 步</span></div></div>
+      <div class="where"><h2>下一轮：<em>${esc(nr.n)}</em>。你在第 ${phIdx + 1} 段「${esc(cp.n)}」</h2>
+        <p class="lead">${rich(p.lead)}</p>
+        <div class="chips"><button class="btn pri sm" data-act="tab" data-id="process">打开交割流程</button><button class="btn ghost sm" data-act="tab" data-id="sources">看对口资方</button><button class="btn ghost sm" data-act="tab" data-id="pitch">准备路演</button></div>
+      </div></div></section>
+    <section class="panel"><h3>市场现在什么样 <small>中国大陆股权投资</small></h3><div class="kpis">${[...KPI, ...(p.kpi ? [p.kpi] : [])].map(k => `<div class="kpi"><b>${esc(k.v)}<small>${esc(k.u || '')}</small></b><span>${esc(k.l)}${ref(k.src)}</span><em>${esc(k.d || '')}</em></div>`).join('')}</div></section>
+    <div class="cols">
+      <section class="panel"><h3>先做这 3 件事 <small>按流程顺序，勾掉一件补上一件</small></h3>
+        ${todo.length ? todo.map(s => stepRow(s, { phase: true })).join('') : '<p class="empty">全部步骤都已完成。</p>'}</section>
+      <section class="panel"><h3>最对口的资方 <small>适配度 0–5</small></h3><div class="rank">
+        ${top.map(({ t, f }) => `<button class="rk" data-act="type" data-id="${t.id}"><span><b>${esc(t.n)}</b><small>${esc(plain(whyOf(t.id)).slice(0, 46))}…</small></span><span class="meter" role="img" aria-label="${f} 分"><i style="width:${f * 20}%"></i></span><span class="num">${f}</span></button>`).join('')}
+      </div><button class="btn ghost sm" data-act="tab" data-id="sources" style="justify-self:start">全部 ${SOURCE_TYPES.length} 类资方 →</button></section>
+    </div>
+    <section class="panel"><h3>投资人一定会问的风险 <small>${esc(p.short || p.name)}</small></h3><div class="flags">
+      ${(p.flags || []).map(f => `<div class="flag">${I.warn}<div><b>${esc(f.t)}</b>${f.src ? ref(...f.src) : ''}<br><span>${rich(f.d)}</span></div></div>`).join('') || '<p class="muted small">新增项目没有预置风险清单，可在「路演」页按通用问题自查。</p>'}
+    </div></section>
+    <section class="panel"><h3>整条路 <small>单轮融资 ${PHASES.length} 段；轮次之间重复这条路</small></h3>${gantt()}</section>`;
+  }
+
+  function vRounds() {
+    const nr = nextRound();
+    return `<div class="vhead"><div><div class="eyebrow">全轮次</div><h1>从种子到上市</h1>
+      <p>${rich(ROUNDS_LEAD)}</p></div></div>
+    <section class="panel"><h3>每轮拿多少钱 <small>常见单笔金额</small></h3>${roundsChart()}</section>
+    <section class="panel"><h3>每轮让出多少 <small>常见出让比例</small></h3>${dilutionChart()}</section>
+    <div class="rounds">${ROUNDS.map(r => `<article class="rc${r.id === nr.id ? ' now' : ''}"><h4>${esc(r.n)} <small>${esc(r.en)}</small></h4>
+      <dl>${r.amt ? `<dt>金额</dt><dd>${yi(r.amt[0])}–${yi(r.amt[1])}元${r.avg ? `<br><span class="muted small">${esc(r.avg.grp)}平均 ${yi(r.avg.v)}元${ref(r.avg.src)}</span>` : ''}</dd>` : ''}
+      ${r.dil ? `<dt>出让</dt><dd>${r.dil[0]}%–${r.dil[1]}%</dd>` : ''}
+      <dt>主力资方</dt><dd>${r.who.map(id => esc(TYPE[id] ? TYPE[id].short || TYPE[id].n : id)).join('、')}</dd>
+      ${r.gap ? `<dt>间隔</dt><dd>${rich(r.gap)}</dd>` : ''}</dl>
+      <p><b>要拿到这一轮，通常已经有：</b>${rich(r.gate)}${r.src ? ref(...r.src) : ''}</p></article>`).join('')}</div>
+    <section class="panel"><h3>上市：五个板块的门槛 <small>交易所规则原文</small></h3><div class="tbl"><table><thead><tr><th>板块</th><th>定位</th><th>典型上市标准（之一）</th><th>对你意味着</th></tr></thead><tbody>
+      ${LISTING.map(l => `<tr><td><b>${esc(l.b)}</b></td><td>${esc(l.pos)}</td><td>${rich(l.std)}${ref(...l.src)}</td><td>${rich(l.mean)}</td></tr>`).join('')}
+    </tbody></table></div></section>
+    <section class="panel"><h3>市场数据 <small>募资与投资两端</small></h3><div class="tbl"><table><thead><tr><th>指标</th><th>数值</th><th>时间</th><th>说明什么</th></tr></thead><tbody>
+      ${MARKET.map(m => `<tr><td>${esc(m.l)}</td><td class="n"><b>${esc(m.v)}</b>${ref(m.src)}</td><td class="n">${esc(m.d)}</td><td>${rich(m.mean)}</td></tr>`).join('')}
+    </tbody></table></div></section>`;
+  }
+
+  function instRow(i) {
+    const t = PROG.targets[i.id];
+    return `<div class="inst"><b>${esc(i.n)}</b>
+      <div class="ev">${esc(i.focus)}。${esc(i.ev)} <a href="${esc(i.src)}" target="_blank" rel="noopener">${esc(i.srcT)} ${I.ext}</a></div>
+      <div class="act">${t ? `<select data-chg="tstatus" data-id="${i.id}" data-w aria-label="${esc(i.n)} 的进度">${TARGET_STATUS.map(s => `<option value="${s}" ${t.status === s ? 'selected' : ''}>${STATUS_N[s]}</option>`).join('')}</select>`
+        : `<button class="btn ghost sm" data-act="target" data-id="${i.id}" data-w>＋ 目标清单</button>`}</div></div>`;
+  }
+  function typeCard(t, f) {
+    const list = instsOf(t.id), shown = list.slice(0, 4), rest = list.slice(4);
+    return `<article class="sc" id="type-${t.id}"><div class="hd"><h4>${esc(t.n)}${f >= 4 ? '<span class="tag ok"><i></i>优先</span>' : f <= 1 ? '<span class="tag">不建议</span>' : ''}</h4>
+      <div class="fit"><span class="meter" style="width:72px" role="img" aria-label="适配度 ${f} 分"><i style="width:${f * 20}%"></i></span><b>${f}</b>/5</div></div>
+      <p class="why">${rich(whyOf(t.id))}</p>
+      <div class="facts"><div>常见额度<b>${esc(t.amt)}</b></div><div>周期<b>${esc(t.cyc)}</b></div><div>门槛<b>${rich(t.gate)}</b></div><div>要留意的条款<b>${rich(t.terms)}</b></div></div>
+      <p class="why"><b>怎么接触：</b>${rich(t.how)}${t.src ? ref(...t.src) : ''}</p>
+      ${list.length ? `<div class="insts">${shown.map(instRow).join('')}</div>${rest.length ? `<details class="more-insts"><summary>再看 ${rest.length} 家</summary><div class="insts">${rest.map(instRow).join('')}</div></details>` : ''}` : ''}
+    </article>`;
+  }
+  function vSources() {
+    const p = proj(), r = rankedTypes(), top = r.slice(0, 3).map(x => x.t.short || x.t.n).join('、');
+    return `<div class="vhead"><div><div class="eyebrow">找对口资方</div><h1>${esc(p.short || p.name)} 先找：${esc(top)}</h1>
+      <p>${rich(SOURCES_LEAD)}</p></div></div>
+    <section class="panel"><h3>适配度矩阵 <small>点格子看这一类资方的门槛和机构</small></h3>${heatmap()}</section>
+    <div class="srcs">${r.map(({ t, f }) => typeCard(t, f)).join('')}</div>`;
+  }
+
+  function vPitch() {
+    const p = proj(), pitchSteps = STEPS.filter(s => s.ph === 'pitch' && stepVisible(s));
+    const mine = Object.values(PROG.targets);
+    const reached = FUNNEL.map(s => ({ s, n: mine.filter(t => FUNNEL.indexOf(t.status) >= FUNNEL.indexOf(s)).length }));
+    const mx = Math.max(1, ...reached.map(x => x.n));
+    return `<div class="vhead"><div><div class="eyebrow">路演</div><h1>一份 BP，过三道会</h1>
+      <p>${rich(PITCH_LEAD)}</p></div></div>
+    <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
+    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是${esc(p.short || p.name)}的要点</small></h3>
+      <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
+    <div class="cols">
+      <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>
+      <section class="panel"><h3>你的漏斗 <small>按「目标清单」里每家机构走到的最远一步</small></h3>
+        ${mine.length ? `<div class="funnel">${reached.map(x => `<div class="fbar"><span>${STATUS_N[x.s]}</span><div class="tr" data-tip="${esc(`${x.n} 家\n${STATUS_N[x.s]}`)}"><i style="width:${(x.n / mx * 100).toFixed(1)}%"></i><em style="left:calc(${(x.n / mx * 100).toFixed(1)}% + 8px)">${x.n}</em></div></div>`).join('')}</div>`
+        : `<p class="empty">还没有目标机构。到「找资方」点「＋ 目标清单」，这里会按进度画出漏斗。</p>`}
+        <p class="small muted">${rich(FUNNEL_NOTE)}${ref(...FUNNEL_SRC)}</p></section>
+    </div>
+    <section class="panel"><h3>投资人必问 <small>${esc(p.short || p.name)}的专属问题在前</small></h3><div class="qa">
+      ${[...(p.qa || []), ...QA].map(q => `<details><summary>${esc(q.q)}${I.chev}</summary><p>${rich(q.a)}${q.src ? ref(...q.src) : ''}</p></details>`).join('')}
+    </div></section>`;
+  }
+  function meetFlow() {
+    const W = 760, H = 150, n = MEETINGS.length, gap = 14, bw = (W - gap * (n - 1)) / n;
+    let g = `<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8z" fill="currentColor" opacity=".55"/></marker></defs>`;
+    MEETINGS.forEach((m, i) => {
+      const x = i * (bw + gap);
+      g += `<rect x="${x.toFixed(1)}" y="26" width="${bw.toFixed(1)}" height="96" rx="14" class="${m.hi ? 'hi' : ''}"/>
+        <text class="k" x="${(x + 12).toFixed(1)}" y="18">${esc(m.k)}</text>
+        <text x="${(x + 12).toFixed(1)}" y="52">${esc(m.n)}</text>
+        <text class="s" x="${(x + 12).toFixed(1)}" y="74">${esc(m.who)}</text>
+        <text class="s" x="${(x + 12).toFixed(1)}" y="92">${esc(m.dur)}</text>
+        <text class="s" x="${(x + 12).toFixed(1)}" y="110">${esc(m.out)}</text>`;
+      if (i < n - 1) g += `<line x1="${(x + bw + 2).toFixed(1)}" x2="${(x + bw + gap - 2).toFixed(1)}" y1="74" y2="74" marker-end="url(#ar)" style="color:var(--faint)"/>`;
+    });
+    return `<figure class="fig"><div class="flow"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(MEETINGS.map(m => m.n).join(' → '))}">${g}</svg></div><figcaption>${rich(MEET_NOTE)}${ref(...MEET_SRC)}</figcaption></figure>`;
+  }
+
+  function vProcess() {
+    const cp = currentPhase();
+    return `<div class="vhead"><div><div class="eyebrow">单轮交割</div><h1>一轮融资：从准备到打款</h1>
+      <p>${rich(PROCESS_LEAD)}</p></div></div>
+    <section class="panel"><h3>时间线 <small>悬停看每段时长</small></h3>${gantt()}
+      <div class="branch"><span>你的投资方里有：</span><button class="chip" aria-pressed="${S.gov}" data-act="br" data-id="gov">国资 / 国有创投</button><button class="chip" aria-pressed="${S.usd}" data-act="br" data-id="usd">美元基金（境外架构）</button><span class="small">打开后对应支线步骤会加入清单</span></div></section>
+    ${PHASES.map(ph => { const ss = STEPS.filter(s => s.ph === ph.id && stepVisible(s)); if (!ss.length) return ''; const d = ss.filter(s => stepDone(s.id)).length;
+      return `<section class="panel phase${ph.id === cp.id ? ' now' : ''}" id="ph-${ph.id}"><header><h3>${esc(ph.n)} <small>${ph.w ? wk(ph.w) : ''}</small></h3><span class="cnt">${d} / ${ss.length}</span></header>
+        <p>${rich(ph.d)}${ph.src ? ref(...ph.src) : ''}</p>${ss.map(s => stepRow(s)).join('')}</section>`; }).join('')}`;
+  }
+
+  function vProgress() {
+    const p = proj(), pr = progressOf(), cp = currentPhase(), ts = PROG.targets;
+    const card = id => { const i = INSTS.find(x => x.id === id); if (!i) return ''; const t = ts[id];
+      return `<div class="card"><b>${esc(i.n)}</b><small>${esc(TYPE[i.type] ? TYPE[i.type].short || TYPE[i.type].n : '')}${t.at ? ' · ' + esc(t.at) : ''}</small>
+        <select data-chg="tstatus" data-id="${id}" data-w aria-label="${esc(i.n)} 的进度">${TARGET_STATUS.map(s => `<option value="${s}" ${t.status === s ? 'selected' : ''}>${STATUS_N[s]}</option>`).join('')}</select>
+        <button class="btn ghost sm" data-act="untarget" data-id="${id}" data-w>移出清单</button></div>`; };
+    const notes = visibleSteps().filter(s => stepNote(s.id));
+    return `<div class="vhead"><div><div class="eyebrow">我的进度 · ${esc(p.name)}</div><h1>完成 ${pr.done} / ${pr.total} 步，当前在「${esc(cp.n)}」</h1>
+      <p>${mode === 'db' ? '进度保存在云端，换设备打开同一链接也能看到。' : mode === 'local' ? '当前是本地模式：进度只保存在这个浏览器里。' : '正在连接数据…'}${p.custom ? ' 这是你新增的项目，' : ''}${p.custom ? '<button class="btn ghost sm" data-act="editproj" data-w>编辑或删除项目</button>' : ''}</p></div></div>
+    <div class="cols">
+      <section class="panel"><h3>各阶段完成度</h3><div class="phbars">${PHASES.map(ph => { const ss = STEPS.filter(s => s.ph === ph.id && stepVisible(s)); if (!ss.length) return ''; const d = ss.filter(s => stepDone(s.id)).length;
+        return `<div class="phb${ph.id === cp.id ? ' now' : ''}"><span>${esc(ph.n)}</span><span class="meter" role="img" aria-label="${esc(ph.n)} 完成 ${d} / ${ss.length}"><i style="width:${(d / ss.length * 100).toFixed(1)}%"></i></span><b>${d}/${ss.length}</b></div>`; }).join('')}</div>
+        <button class="btn ghost sm" data-act="tab" data-id="process" style="justify-self:start">去勾选步骤 →</button></section>
+      <section class="panel"><h3>写过备注的步骤 <small>${notes.length} 条</small></h3>${notes.length ? notes.map(s => `<div class="steprow"><span></span><div><b class="t">${esc(s.t)}</b><div class="d">${esc(stepNote(s.id))}</div></div><span></span></div>`).join('') : '<p class="empty">在任意步骤展开后写备注，会汇总到这里。</p>'}</section>
+    </div>
+    <section class="panel"><h3>目标机构看板 <small>${Object.keys(ts).length} 家 · 从「找资方」加入</small></h3>
+      <div class="board">${COLS.map(c => { const ids = Object.keys(ts).filter(id => c.s.includes(ts[id].status) && INSTS.some(i => i.id === id));
+        return `<div class="col"><h4>${c.n}<b>${ids.length}</b></h4>${ids.length ? ids.map(card).join('') : '<p class="empty">—</p>'}</div>`; }).join('')}</div></section>`;
+  }
+
+  // ----- sheets -----
+  function typeSheet(tid, pid) {
+    const t = TYPE[tid], p = allProjects().find(x => x.id === pid) || proj();
+    openSheet(`<div class="hd"><div><div class="eyebrow">资方类型</div><h2>${esc(t.n)}</h2><p>${esc(p.name)} 适配度 <b class="num">${fitOf(tid, p)}</b> / 5</p></div><button class="x" data-act="close" aria-label="关闭">${I.x}</button></div>
+      <div class="sec"><h3>为什么是这个分数</h3><p>${plainRich(whyOf(tid, p))}</p></div>
+      <div class="sec"><h3>要点</h3><div class="facts" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div>常见额度<b>${esc(t.amt)}</b></div><div>周期<b>${esc(t.cyc)}</b></div><div>门槛<b>${plainRich(t.gate)}</b></div><div>要留意的条款<b>${plainRich(t.terms)}</b></div></div><p><b>怎么接触：</b>${plainRich(t.how)}</p></div>
+      <div class="sec"><h3>机构 <small class="muted">${instsOf(tid, p).length} 家</small></h3><div class="insts">${instsOf(tid, p).map(instRow).join('') || '<p class="muted small">这一类不点名具体机构。</p>'}</div></div>
+      <div class="sec"><p class="small">来源：${(t.src || []).filter(k => SRC[k]).map(k => `<a href="${esc(SRC[k].u)}" target="_blank" rel="noopener">${esc(SRC[k].t)}</a>`).join('；') || '见「找资方」页底部'}</p></div>`);
+  }
+  function projectForm(edit) {
+    const p = edit ? proj() : { name: '', sector: 'saas', stage: 'seed', note: '' };
+    openSheet(`<div class="hd"><div><div class="eyebrow">${edit ? '编辑项目' : '新增项目'}</div><h2>${edit ? esc(p.name) : '把另一个项目放进来'}</h2><p>赛道决定资方适配度；下一轮决定轮次地图上的位置。</p></div><button class="x" data-act="close" aria-label="关闭">${I.x}</button></div>
+      <form class="form" data-sub="${edit ? 'saveproj' : 'addproj'}">
+        <label for="pf-name">项目名称<input id="pf-name" name="name" maxlength="16" required value="${esc(p.name)}" placeholder="例如：UNO 日刊"></label>
+        <label for="pf-sector">赛道<select id="pf-sector" name="sector">${Object.entries(SECTORS).map(([k, s]) => `<option value="${k}" ${p.sector === k ? 'selected' : ''}>${esc(s.n)}</option>`).join('')}</select></label>
+        <label for="pf-stage">下一轮要融<select id="pf-stage" name="stage">${ROUNDS.map(r => `<option value="${r.id}" ${p.stage === r.id ? 'selected' : ''}>${esc(r.n)}</option>`).join('')}</select></label>
+        <label for="pf-note">备注<textarea id="pf-note" name="note" maxlength="200" rows="3" placeholder="一句话说明项目">${esc(p.note)}</textarea></label>
+        <div class="acts"><button class="btn pri" type="submit">${edit ? '保存' : '新增项目'}</button><button class="btn ghost" type="button" data-act="close">取消</button></div>
+      </form>
+      ${edit ? `<div class="sec"><h3>删除项目</h3><p>会同时删除这个项目的全部进度和目标清单。</p><div id="delbox"><button class="btn ghost sm" data-act="askdel">删除「${esc(p.name)}」</button></div></div>` : ''}`);
+  }
+
+  // ----- actions -----
+  Object.assign(ACT, {
+    tab: el => { S.tab = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
+    open: el => { S.open[el.dataset.id] = !S.open[el.dataset.id]; render(); const t = $('note-' + el.dataset.id); if (t && S.open[el.dataset.id]) t.focus({ preventScroll: true }); },
+    step: el => { if (!setStep(el.dataset.id, { done: el.checked })) el.checked = !el.checked; render(); },
+    note: el => { const id = el.dataset.id, v = el.value.slice(0, 1000); clearTimeout(ACT.note[id]); ACT.note[id] = setTimeout(() => { if (v !== stepNote(id)) setStep(id, { note: v }); }, 700); },
+    br: el => { S[el.dataset.id] = !S[el.dataset.id]; saveUI(); render(); },
+    type: el => typeSheet(el.dataset.id, el.dataset.pid || S.pid),
+    target: el => { if (setTarget(el.dataset.id, { status: 'target' })) { toast('已加入目标清单'); render(); if ($('sheet').classList.contains('on')) { const b = $('sheet').querySelector(`[data-act="target"][data-id="${el.dataset.id}"]`); if (b) b.replaceWith(Object.assign(document.createElement('span'), { className: 'tag ok', textContent: '已加入' })); } } },
+    untarget: el => { if (setTarget(el.dataset.id, null)) render(); },
+    tstatus: el => { if (setTarget(el.dataset.id, { status: el.value })) render(); },
+    editproj: () => projectForm(true),
+    addproj: el => { const f = new FormData(el), name = String(f.get('name') || '').trim(); if (!name) return; closeSheet(); addProject({ name, sector: f.get('sector'), stage: f.get('stage'), note: String(f.get('note') || '').trim() }); },
+    saveproj: async el => {
+      const f = new FormData(el), p = proj(), name = String(f.get('name') || '').trim(); if (!name || !canWrite()) return;
+      const body = { name, sector: f.get('sector'), stage: f.get('stage'), note: String(f.get('note') || '').trim(), order: p.order };
+      closeSheet();
+      if (mode === 'db') { try { await DB.doc('projects/' + p.id).set(body); } catch (e) { onDbError(e); } }
+      else { CUSTOM = CUSTOM.map(x => x.id === p.id ? cleanProj({ id: p.id, ...body }) : x); lsSet('custom', CUSTOM.map(({ custom, ...r }) => r)); render(); }
+      toast('已保存');
+    },
+    askdel: () => { $('delbox').innerHTML = `<div class="confirm">确定删除？这一步不能撤销。<div class="acts" style="display:flex;gap:8px"><button class="btn sm" style="background:var(--bad);color:#fff" data-act="dodel">删除</button><button class="btn ghost sm" data-act="close">取消</button></div></div>`; },
+    dodel: () => { closeSheet(); deleteProject(S.pid); }
+  });
+
+  const VIEWS = { overview: vOverview, rounds: vRounds, sources: vSources, pitch: vPitch, process: vProcess, progress: vProgress };
+  function renderModule(main) {
+    if (!VIEWS[S.tab]) S.tab = 'overview';
+    REFS = [];
+    const body = VIEWS[S.tab]();
+    main.innerHTML = `<div class="subnav"><div class="seg" role="tablist" aria-label="融资能力">${TABS.map(t => `<button role="tab" aria-selected="${S.tab === t.id}" data-act="tab" data-id="${t.id}">${t.n}</button>`).join('')}</div></div>
+      <section class="view" role="tabpanel">${body}${refsHTML()}</section>${foot()}`;
+  }
+  return { render: renderModule, projectForm };
+})();
+
+// ---------- boot ----------
+bind();
+if (/^#(overview|rounds|sources|pitch|process|progress)$/.test(location.hash)) S.tab = location.hash.slice(1);
+render();
+connect();
+
+})();</script>

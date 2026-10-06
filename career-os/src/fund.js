@@ -73,16 +73,22 @@ const Fund = (() => {
     rs.forEach((r, i) => {
       const cx = x(i), y1 = y(r.amt[1]), y0 = y(r.amt[0]), isCur = r.id === cur;
       if (isCur) g += `<rect class="now-band" x="${(cx - bw / 2 + 3).toFixed(1)}" y="${T - 18}" width="${(bw - 6).toFixed(1)}" height="${H - B - T + 18}" rx="10"/><text class="now-t" x="${cx.toFixed(1)}" y="${T - 5}" text-anchor="middle">下一轮</text>`;
-      const tipText = `${yi(r.amt[0])}–${yi(r.amt[1])}元\n${r.n} · 常见单笔金额${r.avg ? ' · 平均约 ' + yi(r.avg.v) + '元' : ''}`;
+      const tipText = `${yi(r.amt[0])}–${yi(r.amt[1])}元\n${r.n} · 经验区间${r.avg ? ` · ${r.avg.grp}平均约 ${yi(r.avg.v)}元` : ''}`;
       g += `<g class="h" tabindex="0" data-tip="${esc(tipText)}"><rect class="hit" x="${(cx - bw / 2).toFixed(1)}" y="${T}" width="${bw.toFixed(1)}" height="${H - B - T}"/>
         <g class="mk"><line class="rng" x1="${cx.toFixed(1)}" x2="${cx.toFixed(1)}" y1="${y0.toFixed(1)}" y2="${y1.toFixed(1)}"/><circle class="dot" cx="${cx.toFixed(1)}" cy="${y0.toFixed(1)}" r="4.5"/><circle class="dot" cx="${cx.toFixed(1)}" cy="${y1.toFixed(1)}" r="4.5"/>
-        ${r.avg ? `<line class="rng" x1="${(cx - 9).toFixed(1)}" x2="${(cx + 9).toFixed(1)}" y1="${y(r.avg.v).toFixed(1)}" y2="${y(r.avg.v).toFixed(1)}"/>` : ''}</g></g>`;
+        ${r.avg && rs.filter(o => o.avg === r.avg).length === 1 ? `<line class="rng" x1="${(cx - 9).toFixed(1)}" x2="${(cx + 9).toFixed(1)}" y1="${y(r.avg.v).toFixed(1)}" y2="${y(r.avg.v).toFixed(1)}"/>` : ''}</g></g>`;
       g += `<text class="lb" x="${cx.toFixed(1)}" y="${H - B + 20}" text-anchor="middle">${esc(r.n)}</text><text class="sub" x="${cx.toFixed(1)}" y="${H - B + 36}" text-anchor="middle">${yi(r.amt[0])}–${yi(r.amt[1])}</text>`;
     });
+    for (const av of new Set(rs.filter(r => r.avg).map(r => r.avg))) {
+      const idx = rs.map((r, i) => r.avg === av ? i : -1).filter(i => i >= 0);
+      if (idx.length < 2) continue;
+      const x0 = x(idx[0]) - bw * .32, x1 = x(idx[idx.length - 1]) + bw * .32, yy = y(av.v);
+      g += `<line class="rng" x1="${x0.toFixed(1)}" x2="${x1.toFixed(1)}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}"/><text x="${x1.toFixed(1)}" y="${(yy - 7).toFixed(1)}" text-anchor="end">${esc(av.grp)}平均 ${yi(av.v)}</text>`;
+    }
     g += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="currentColor" stroke-opacity=".2"/>`;
     return `<figure class="fig"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="各轮次常见单笔融资金额区间，对数刻度">${g}</svg></div>
-      <div class="legend"><span><i></i>常见单笔金额区间（竖线两端）</span>${rs.some(r => r.avg) ? '<span><i style="width:10px"></i>短横：统计平均值</span>' : ''}<span><i class="now"></i>你的下一轮</span></div>
-      <figcaption>纵轴为对数刻度：每一格是上一格的 10 倍。区间口径见下方各轮卡片的来源。</figcaption></figure>`;
+      <div class="legend"><span><i></i>常见单笔金额（经验区间）</span>${rs.some(r => r.avg) ? '<span><i style="width:10px"></i>横线：2026 上半年平均值</span>' : ''}<span><i class="now"></i>你的下一轮</span></div>
+      <figcaption>纵轴为对数刻度：每一格是上一格的 10 倍。</figcaption></figure>`;
   }
   function dilutionChart() {
     const rs = ROUNDS.filter(r => r.dil), W = 760, H = 200, L = 70, R = 16, T = 18, B = 40, max = 30;
@@ -103,7 +109,8 @@ const Fund = (() => {
   }
   function gantt() {
     const ph = PHASES.filter(p => p.w), W = 760, rowH = 34, T = 30, L = 120, R = 70, H = T + ph.length * rowH + 30;
-    const total = ph.reduce((s, p) => s + p.w[1], 0), xmax = Math.ceil(total / 4) * 4, x = v => L + v / xmax * (W - L - R);
+    let acc = 0; const ends = ph.map(p => { const e = acc + p.w[1]; acc += p.w[0]; return e; });
+    const xmax = Math.ceil(Math.max(...ends) / 4) * 4, x = v => L + v / xmax * (W - L - R);
     const curId = currentPhase().id;
     let start = 0, g = `<g class="grid">${Array.from({ length: xmax / 4 + 1 }, (_, i) => i * 4).map(v => `<line x1="${x(v).toFixed(1)}" x2="${x(v).toFixed(1)}" y1="${T - 6}" y2="${T + ph.length * rowH}"/>`).join('')}</g>`;
     g += Array.from({ length: xmax / 4 + 1 }, (_, i) => i * 4).map(v => `<text x="${x(v).toFixed(1)}" y="${T - 12}" text-anchor="middle">${v}</text>`).join('') + `<text x="${W - R + 8}" y="${T - 12}">周</text>`;
@@ -117,10 +124,10 @@ const Fund = (() => {
         <text x="${(x(s0 + p.w[1]) + 8).toFixed(1)}" y="${yy + rowH / 2 + 4}">${wk(p.w)}</text>`;
       start += p.w[0];
     });
-    const sumMin = ph.reduce((s, p) => s + p.w[0], 0), sumMax = total;
-    return `<figure class="fig gantt"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="一轮融资各阶段的典型时长，合计约 ${sumMin} 到 ${sumMax} 周">${g}</svg></div>
-      <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>顺利时</span><span><i class="sw" style="background:var(--h3)"></i>常见上限</span><span><i class="now"></i>你所在的阶段</span></div>
-      <figcaption>每段从上一段「顺利时」的终点起算。合计约 ${sumMin}–${sumMax} 周；时长口径见各阶段说明的来源。</figcaption></figure>`;
+    const sumMin = ph.reduce((s, p) => s + p.w[0], 0);
+    return `<figure class="fig gantt"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="一轮融资各阶段的典型时长，顺利时合计约 ${sumMin} 周">${g}</svg></div>
+      <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>顺利时</span><span><i class="sw" style="background:var(--accent);opacity:.3"></i>常见上限</span><span><i class="now"></i>你所在的阶段</span></div>
+      <figcaption>每段从上一段「顺利时」的终点起算，顺利时合计约 ${sumMin} 周；浅色是这一段常见的上限，通常不会每段都碰到上限。时长口径见「交割流程」各阶段的来源。</figcaption></figure>`;
   }
   function heatmap() {
     const ps = allProjects();
@@ -145,7 +152,7 @@ const Fund = (() => {
         <p class="lead">${rich(p.lead)}</p>
         <div class="chips"><button class="btn pri sm" data-act="tab" data-id="process">打开交割流程</button><button class="btn ghost sm" data-act="tab" data-id="sources">看对口资方</button><button class="btn ghost sm" data-act="tab" data-id="pitch">准备路演</button></div>
       </div></div></section>
-    <section class="panel"><h3>市场现在什么样 <small>中国大陆股权投资</small></h3><div class="kpis">${KPI.map(k => `<div class="kpi"><b>${esc(k.v)}<small>${esc(k.u || '')}</small></b><span>${esc(k.l)}${ref(k.src)}</span><em>${esc(k.d || '')}</em></div>`).join('')}</div></section>
+    <section class="panel"><h3>市场现在什么样 <small>中国大陆股权投资</small></h3><div class="kpis">${[...KPI, ...(p.kpi ? [p.kpi] : [])].map(k => `<div class="kpi"><b>${esc(k.v)}<small>${esc(k.u || '')}</small></b><span>${esc(k.l)}${ref(k.src)}</span><em>${esc(k.d || '')}</em></div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>先做这 3 件事 <small>按流程顺序，勾掉一件补上一件</small></h3>
         ${todo.length ? todo.map(s => stepRow(s, { phase: true })).join('') : '<p class="empty">全部步骤都已完成。</p>'}</section>
@@ -166,16 +173,16 @@ const Fund = (() => {
     <section class="panel"><h3>每轮拿多少钱 <small>常见单笔金额</small></h3>${roundsChart()}</section>
     <section class="panel"><h3>每轮让出多少 <small>常见出让比例</small></h3>${dilutionChart()}</section>
     <div class="rounds">${ROUNDS.map(r => `<article class="rc${r.id === nr.id ? ' now' : ''}"><h4>${esc(r.n)} <small>${esc(r.en)}</small></h4>
-      <dl>${r.amt ? `<dt>金额</dt><dd>${yi(r.amt[0])}–${yi(r.amt[1])}元${r.avg ? `；平均 ${yi(r.avg.v)}元${ref(r.avg.src)}` : ''}</dd>` : ''}
+      <dl>${r.amt ? `<dt>金额</dt><dd>${yi(r.amt[0])}–${yi(r.amt[1])}元${r.avg ? `<br><span class="muted small">${esc(r.avg.grp)}平均 ${yi(r.avg.v)}元${ref(r.avg.src)}</span>` : ''}</dd>` : ''}
       ${r.dil ? `<dt>出让</dt><dd>${r.dil[0]}%–${r.dil[1]}%</dd>` : ''}
       <dt>主力资方</dt><dd>${r.who.map(id => esc(TYPE[id] ? TYPE[id].short || TYPE[id].n : id)).join('、')}</dd>
-      ${r.gap ? `<dt>间隔</dt><dd>${esc(r.gap)}</dd>` : ''}</dl>
+      ${r.gap ? `<dt>间隔</dt><dd>${rich(r.gap)}</dd>` : ''}</dl>
       <p><b>要拿到这一轮，通常已经有：</b>${rich(r.gate)}${r.src ? ref(...r.src) : ''}</p></article>`).join('')}</div>
     <section class="panel"><h3>上市：五个板块的门槛 <small>交易所规则原文</small></h3><div class="tbl"><table><thead><tr><th>板块</th><th>定位</th><th>典型上市标准（之一）</th><th>对你意味着</th></tr></thead><tbody>
-      ${LISTING.map(l => `<tr><td><b>${esc(l.b)}</b></td><td>${esc(l.pos)}</td><td>${rich(l.std)}${ref(...l.src)}</td><td>${esc(l.mean)}</td></tr>`).join('')}
+      ${LISTING.map(l => `<tr><td><b>${esc(l.b)}</b></td><td>${esc(l.pos)}</td><td>${rich(l.std)}${ref(...l.src)}</td><td>${rich(l.mean)}</td></tr>`).join('')}
     </tbody></table></div></section>
     <section class="panel"><h3>市场数据 <small>募资与投资两端</small></h3><div class="tbl"><table><thead><tr><th>指标</th><th>数值</th><th>时间</th><th>说明什么</th></tr></thead><tbody>
-      ${MARKET.map(m => `<tr><td>${esc(m.l)}</td><td class="n"><b>${esc(m.v)}</b>${ref(m.src)}</td><td class="n">${esc(m.d)}</td><td>${esc(m.mean)}</td></tr>`).join('')}
+      ${MARKET.map(m => `<tr><td>${esc(m.l)}</td><td class="n"><b>${esc(m.v)}</b>${ref(m.src)}</td><td class="n">${esc(m.d)}</td><td>${rich(m.mean)}</td></tr>`).join('')}
     </tbody></table></div></section>`;
   }
 
@@ -198,7 +205,7 @@ const Fund = (() => {
   }
   function vSources() {
     const p = proj(), r = rankedTypes(), top = r.slice(0, 3).map(x => x.t.short || x.t.n).join('、');
-    return `<div class="vhead"><div><div class="eyebrow">找对口资方</div><h1>${esc(p.short || p.name)}先找：${esc(top)}</h1>
+    return `<div class="vhead"><div><div class="eyebrow">找对口资方</div><h1>${esc(p.short || p.name)} 先找：${esc(top)}</h1>
       <p>${rich(SOURCES_LEAD)}</p></div></div>
     <section class="panel"><h3>适配度矩阵 <small>点格子看这一类资方的门槛和机构</small></h3>${heatmap()}</section>
     <div class="srcs">${r.map(({ t, f }) => typeCard(t, f)).join('')}</div>`;
@@ -209,10 +216,10 @@ const Fund = (() => {
     const mine = Object.values(PROG.targets);
     const reached = FUNNEL.map(s => ({ s, n: mine.filter(t => FUNNEL.indexOf(t.status) >= FUNNEL.indexOf(s)).length }));
     const mx = Math.max(1, ...reached.map(x => x.n));
-    return `<div class="vhead"><div><div class="eyebrow">路演</div><h1>一份 BP、四次会、一个投决会</h1>
+    return `<div class="vhead"><div><div class="eyebrow">路演</div><h1>一份 BP，过三道会</h1>
       <p>${rich(PITCH_LEAD)}</p></div></div>
     <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
-    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；下划线后是${esc(p.short || p.name)}的要点</small></h3>
+    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是${esc(p.short || p.name)}的要点</small></h3>
       <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>

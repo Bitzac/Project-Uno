@@ -42,13 +42,14 @@ for (const p of D.BUILTIN) {
   (p.flags || []).forEach(f => (f.src || []).forEach(k => need(k, `${p.id} flag ${f.t}`)));
   (p.qa || []).forEach(q => (q.src || []).forEach(k => need(k, `${p.id} qa ${q.q}`)));
   if (!D.SECTORS[p.sector]) errs.push(`${p.id}: unknown sector`);
+  if (p.kpi) need(p.kpi.src, `${p.id} kpi`);
   for (const k of Object.keys(p.why || {})) if (!typeIds.has(k)) errs.push(`${p.id}: why for unknown type ${k}`);
   for (const k of Object.keys(p.bp || {})) if (!D.BP.some(b => b.id === k)) errs.push(`${p.id}: bp for unknown slide ${k}`);
 }
 // inline citations written as [[key]] anywhere in the copy
 const copy = DATA.map(src).join('\n');
 for (const m of copy.matchAll(/\[\[([^\]]+)\]\]/g)) need(m[1], 'inline [[...]]');
-if (errs.length) { console.error(errs.join('\n')); process.exit(1); }
+if (errs.length) { console.error(errs.join('\n')); if (!process.env.DRAFT) process.exit(1); console.error(`DRAFT: ${errs.length} problems ignored`); }
 
 const html = `<title>事业 OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
