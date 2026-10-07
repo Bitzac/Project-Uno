@@ -1,0 +1,232 @@
+<div class="atmo" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="topbar glass">
+  <div class="brand"><b>人生路径 OS</b><span>Life Path OS</span></div>
+  <nav class="seg" aria-label="章节">
+    <a href="#verdict">结论</a><a href="#path">路径</a><a href="#cities">选城</a><a href="#life">生活</a><a href="#risks">风险</a><a href="#summary">总结</a>
+  </nav>
+  <div class="now num">28 岁 · 2026.10</div>
+</header>
+
+<main class="wrap">
+
+  <!-- 总：结论先行 -->
+  <section id="verdict" class="hero glass">
+    <div class="eyebrow">结论</div>
+    <h1>北京做基地，按季节流动</h1>
+    <p class="lead">不建议全年无基地漂流。用 <b>1 个基地 + 2 个季节站</b>：基地锁定 3 年，7–8 月陪母亲回呼和浩特避暑，1–2 月去三亚过冬。你要的流动由季节站满足，母亲的医疗、社交和事业积累由基地兜住。</p>
+    <div class="stations" id="stations"></div>
+    <div class="tiles" id="heroTiles"></div>
+    <div class="why">
+      <div><h3>事业</h3><p>2025 年北京一级市场投资事件 <b class="num">1,221</b> 起，全国第一；你在北京已有 3 年工作根基。</p></div>
+      <div><h3>母亲</h3><p>本市有 A++++ 级医院；冬季集中供暖，和呼市习惯一致；高铁 <b class="num">2h09m</b> 回呼市，她可以自己往返。</p></div>
+      <div><h3>代价</h3><p>成本是候选城市里最高的：两人月支出约 <b class="num" id="whyBurn">—</b>。储备撑不过 12 个月，就改用呼和浩特做基地（成本优先权重下排第一）。</p></div>
+    </div>
+  </section>
+
+  <!-- 分 1：人生路径 -->
+  <section id="path" class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">人生路径</div><h2>28 年，5 段，停留越来越短</h2></div>
+      <p class="lead">按 2026 年 28 岁推算。虚线是建议的下一段。</p>
+    </div>
+    <div class="glass card">
+      <p class="note scroll-hint">左右滑动看完整时间轴</p>
+      <div class="scroll-x"><svg id="lifeBar" class="chart" role="img" aria-label="人生时间轴：0 到 40 岁"></svg></div>
+    </div>
+    <div class="grid2">
+      <div class="glass card">
+        <h3>每段停留年数</h3>
+        <p class="note">前四段每段都不到上一段的一半：15 → 7 → 3 → 1。创业要在一个地方攒客户、合伙人和信用，这个趋势需要打断。</p>
+        <svg id="stayBars" class="chart" role="img" aria-label="每段停留年数"></svg>
+      </div>
+      <div class="glass card">
+        <h3>每段留下的资产</h3>
+        <div class="tbl"><table id="stageTable"></table></div>
+      </div>
+    </div>
+    <div class="glass card map-card">
+      <div class="map-h">
+        <h3>地图</h3>
+        <div class="seg" role="group" aria-label="地图视图" id="mapMode">
+          <button data-m="past" aria-pressed="true">过去</button>
+          <button data-m="future">未来</button>
+        </div>
+        <span class="note" id="visitCount"></span>
+      </div>
+      <div class="map-box" id="mapBox">
+        <svg id="map" role="img" aria-label="人生路径地图"></svg>
+        <div class="us-card glass" id="usCard">
+          <svg id="usMap" aria-hidden="true"></svg>
+          <b>美国</b><span class="num">15–21 岁 · 7 年</span>
+        </div>
+      </div>
+      <p class="note">点击省份，点亮你环游时去过的地方（只存在本机浏览器）。美国的具体城市没有提供，所以只画国家轮廓。</p>
+    </div>
+  </section>
+
+  <!-- 分 2：选城模型 -->
+  <section id="cities" class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">选城模型</div><h2>7 个候选基地 × 7 项指标</h2></div>
+      <p class="lead">换一套权重看结论变不变。每个数字标了 <span class="q">实</span> 有来源 / <span class="q e">估</span> 估算。</p>
+    </div>
+    <div class="glass card">
+      <div class="ctrl-row">
+        <div class="seg" role="group" aria-label="权重方案" id="presets"></div>
+        <button class="chip" id="customBtn" aria-expanded="false">自定义权重</button>
+      </div>
+      <div class="sliders" id="sliders" hidden></div>
+      <div class="grid2 rank-wrap">
+        <div>
+          <h3>总分</h3>
+          <div class="rank" id="rank"></div>
+        </div>
+        <div>
+          <h3>换权重，第一名变不变</h3>
+          <div class="robust" id="robust"></div>
+          <p class="note" id="runnerUp"></p>
+        </div>
+      </div>
+    </div>
+    <div class="glass card">
+      <h3>明细（格子越深，该项得分越高）</h3>
+      <div class="tbl"><table id="heat" class="heat"></table></div>
+      <details class="method">
+        <summary>打分方法</summary>
+        <div class="tbl"><table>
+          <tr><th>指标</th><th>0–100 分怎么算</th></tr>
+          <tr><td>创业生态</td><td>100 × √(投资事件 ÷ 1,221)。开平方是为了不让北上深把其余城市压成 0</td></tr>
+          <tr><td>生活成本</td><td>100 × 最低月支出 ÷ 本市月支出。月支出 = 租金 × 75㎡ + 两人生活费 + ¥1,000 医疗/保险预留</td></tr>
+          <tr><td>母亲医疗</td><td>100 × e<sup>−0.25 ×（小时 − 0.5）</sup>，小时 = 门到门到最近的复旦版 A++++ 级医院</td></tr>
+          <tr><td>气候</td><td>100 − 7 月均温超过 24°C 的部分 × 10 − 冬季扣分。有集中供暖：1 月低于 5°C 的部分 × 2；没有供暖：1 月低于 12°C 的部分 × 5</td></tr>
+          <tr><td>空气</td><td>100 ×（1 −（PM2.5 − 10）÷ 30）</td></tr>
+          <tr><td>回呼和浩特</td><td>100 − 门到门小时 × 15；飞机按航程 + 1.5 小时计</td></tr>
+          <tr><td>已有根基</td><td>住过年数 × 25，封顶 100</td></tr>
+        </table></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 分 3：怎么生活 -->
+  <section id="life" class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">生活方案</div><h2>一年怎么过，钱够撑多久</h2></div>
+      <p class="lead">季节站避开北京最冷的 1–2 月和最热的 7–8 月。</p>
+    </div>
+    <div class="glass card">
+      <h3>一年 12 个月在哪</h3>
+      <div class="months" id="months"></div>
+      <svg id="tempChart" class="chart" role="img" aria-label="按方案所在地的月均温与全年留在北京对比"></svg>
+      <div class="legend-row" id="tempLegend"></div>
+    </div>
+
+    <div class="glass card">
+      <h3>预算与储备</h3>
+      <div class="calc">
+        <label class="field"><span>基地城市</span><select id="base"></select></label>
+        <label class="field"><span>你的储备（元）<em>示例数字，改成你的</em></span><input id="savings" type="number" min="0" step="10000" value="300000" inputmode="numeric"></label>
+        <label class="check"><input id="own" type="checkbox"><span>呼和浩特家里有房，夏站不用租</span></label>
+        <label class="check"><input id="keep" type="checkbox" checked><span>去季节站时保留基地租约</span></label>
+      </div>
+      <div class="tiles" id="calcTiles"></div>
+      <p class="note" id="calcNote"></p>
+    </div>
+
+    <div class="grid2">
+      <div class="glass card">
+        <h3>事业的 5 道关口</h3>
+        <p class="note">盈亏线 = 上面算出的平均月支出。到点没过关就按右列执行，不靠感觉续命。</p>
+        <ol class="gates" id="gates"></ol>
+      </div>
+      <div class="glass card">
+        <h3>带母亲生活的清单</h3>
+        <div class="tbl"><table>
+          <tr><th>事项</th><th>做法</th><th>依据</th></tr>
+          <tr><td><b>医保</b></td><td>在「国家医保局」小程序为她办「异地长期居住」备案，备案到基地城市</td><td>备案长期有效；变更或取消时限原则上 ≤ 6 个月 <span class="q">实</span></td></tr>
+          <tr><td><b>慢病</b></td><td>常用药和门诊慢病走跨省直接结算</td><td>高血压、糖尿病等 10 种已开通 <span class="q">实</span></td></tr>
+          <tr><td><b>住处</b></td><td>选在离目标 A++++ 级医院 30 分钟以内的区域</td><td>复旦版 2023 年度榜单 <span class="q">实</span></td></tr>
+          <tr><td><b>社交</b></td><td>每年 7–8 月回呼市；在基地找老乡群和社区活动</td><td>流动老人近 1,800 万，43% 是来照顾晚辈的（2016）<span class="q">实</span></td></tr>
+          <tr><td><b>独立</b></td><td>让她能不靠你自己回家</td><td>北京—呼市高铁最快 2h09m <span class="q">实</span></td></tr>
+          <tr><td><b>季节站</b></td><td>三亚就医前先在小程序确认备案范围；急诊按临时外出就医处理</td><td>各省细则不同，出发前核对 <span class="q e">估</span></td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="glass card">
+      <h3>你手里的资产，能往哪做</h3>
+      <p class="note">只列证据，不替你选。方向定了，基地排名可能会变（见「风险」里的“答案会变的情况”）。</p>
+      <div class="assets">
+        <div class="asset">
+          <div class="tag">A</div><h4>入境游 / 外国人在华服务</h4>
+          <p>英语 + 7 年美国 + 2 年走遍中国。</p>
+          <p class="stat"><b class="num">3,008 万</b>人次<span>2025 年外国人免签入境，同比 +49.5% <span class="q">实</span></span></p>
+        </div>
+        <div class="asset">
+          <div class="tag">B</div><h4>出海服务</h4>
+          <p>帮国内团队做海外市场。英语 + 北京、杭州的工作人脉。</p>
+          <p class="stat"><b class="num">3,413</b>起<span>2025 年北上深投资事件合计，占全国 37.7% <span class="q">实</span></span></p>
+        </div>
+        <div class="asset">
+          <div class="tag">C</div><h4>AI 一人公司产品</h4>
+          <p>这个仓库里已有 5 个做出来的项目：健康 OS、破土融资平台、UNO 日刊、外国视角历史片、人口潮汐地图。</p>
+          <p class="stat"><b class="num">5</b>个作品<span>Project-Uno 仓库，试错成本最低，在哪都能做</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分 4：反方观点 -->
+  <section id="risks" class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">反方观点</div><h2>这个方案可能错在哪</h2></div>
+    </div>
+    <div class="grid2">
+      <div class="glass card">
+        <h3>风险</h3>
+        <div class="tbl"><table>
+          <tr><th>风险</th><th>数据</th><th>对策</th></tr>
+          <tr><td><b>全年流动 + 带母亲</b></td><td>流动老人近 1,800 万；每换一次城市，医保备案、常去的医院和朋友圈都要重来</td><td>基地住 8 个月，季节站只用两段，每段 2 个月</td></tr>
+          <tr><td><b>停留越来越短</b></td><td class="num">15 → 7 → 3 → 1 年</td><td>基地先锁 3 年，再复盘</td></tr>
+          <tr><td><b>北京太贵</b></td><td id="riskCost">—</td><td>储备 &lt; 12 个月就改用呼市做基地</td></tr>
+          <tr><td><b>两年没工资后创业</b></td><td>储备决定能试错多久</td><td>先备足 18 个月，按 6/12/18 个月关口走</td></tr>
+          <tr><td><b>数据不全</b></td><td>部分指标是估算</td><td>每格标了 实/估；用滑块换权重看结论稳不稳</td></tr>
+        </table></div>
+      </div>
+      <div class="glass card">
+        <h3>答案会变的情况</h3>
+        <div class="tbl"><table>
+          <tr><th>如果</th><th>基地改为</th><th>依据</th></tr>
+          <tr><td>储备不够 12 个月</td><td><b>呼和浩特</b></td><td>成本优先权重下第一；月支出约为北京的一半；去北京见客户坐高铁 2h09m</td></tr>
+          <tr><td>母亲不愿离开呼市</td><td><b>呼和浩特 + 北京短住</b></td><td>高铁当天往返</td></tr>
+          <tr><td>做出海，要供应链</td><td><b>深圳</b></td><td>投资事件 1,018 起；PM2.5 17；但回呼市要 5 小时以上</td></tr>
+          <tr><td>你明确不想回北京</td><td id="altBase"><b>—</b></td><td id="altWhy">—</td></tr>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 总：总结 -->
+  <section id="summary" class="hero glass">
+    <div class="eyebrow">总结</div>
+    <h2>北京为锚，季节流动，三年为期</h2>
+    <p class="lead">在哪：北京做基地，夏天呼和浩特，冬天三亚。怎么过：先备足 18 个月的钱，母亲先办医保备案，事业按 6/12/18 个月关口检验；三年后用数据决定续约北京还是换城市。</p>
+    <h3>接下来 90 天</h3>
+    <div class="tbl"><table class="todo">
+      <tr><th>时间</th><th>做什么</th><th>完成标准</th></tr>
+      <tr><td class="num">2026.10</td><td>算清储备，定基地（北京或降级方案）</td><td>储备 ÷ 平均月支出 ≥ 18 个月</td></tr>
+      <tr><td class="num">2026.10–11</td><td>给母亲办异地长期居住备案；在北京选房</td><td>备案通过；住处到目标医院 ≤ 30 分钟</td></tr>
+      <tr><td class="num">2026.11</td><td>从 A / B / C 里定一个方向，启动第一个 6 个月</td><td>写下 6 个月后的收入目标</td></tr>
+      <tr><td class="num">2026.12</td><td>订好 1–2 月的三亚住处</td><td>冬季旺季，提前 1–2 个月订</td></tr>
+      <tr><td class="num">2027.01</td><td>第一次复盘</td><td>首笔收入，或明确的付费意向</td></tr>
+    </table></div>
+  </section>
+
+  <section class="block sources">
+    <div class="eyebrow">数据来源</div>
+    <ol id="sources"></ol>
+    <p class="note">标 <span class="q e">估</span> 的数字：城市租金与生活费、成都/厦门/昆明/呼市的投资事件数（只确知各自 &lt; 362 起）、厦门/昆明/呼市的 PM2.5、飞机航程、月均温。量级可信，具体值请以最新公报为准。</p>
+  </section>
+</main>
+
+<div class="tip glass" id="tip" hidden></div>
