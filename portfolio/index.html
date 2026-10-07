@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zackery Chen</title>
+<meta name="description" content="陈晨 Zackery Chen：跨境电商增长、生态商务拓展与 AI 原生创业。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@300;500&family=Noto+Sans+SC:wght@300;400;700;900&display=swap">
+<style>
+/* Layout: dark-first liquid glass. Aurora light drifts behind frosted panes; hairline 0.5px rules,
+   heavy display type. One signature moment: the sticky career "flight panel" that tracks the scroll. */
+:root{
+  --bg:#06080c; --bg-2:#0b0f16;
+  --fg:#eef2f7; --muted:#8b95a6; --faint:#4a5260;
+  --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.22);
+  --glass:rgba(255,255,255,.045); --panel-solid:rgba(10,13,19,.86); --glass-2:rgba(255,255,255,.08); --sheen:rgba(255,255,255,.16);
+  --accent:#8ccfff; --warm:#ffb878;
+  --aura-1:rgba(64,140,255,.42); --aura-2:rgba(255,150,90,.30); --aura-3:rgba(80,220,200,.26);
+  --shadow:0 30px 80px -30px rgba(0,0,0,.7);
+  --f-display:"Bricolage Grotesque","Noto Sans SC",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Noto Sans SC","Bricolage Grotesque",ui-sans-serif,system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --hair:.5px;
+  --r:22px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#eef1f5; --bg-2:#e4e8ee;
+    --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
+    --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
+    --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+    --accent:#0a66b0; --warm:#c2621a;
+    --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
+    --shadow:0 30px 70px -35px rgba(30,40,60,.35);
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#eef1f5; --bg-2:#e4e8ee;
+  --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
+  --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
+  --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+  --accent:#0a66b0; --warm:#c2621a;
+  --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
+  --shadow:0 30px 70px -35px rgba(30,40,60,.35);
+  color-scheme:light;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.7 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:1.5px solid var(--accent);outline-offset:3px;border-radius:8px}
+::selection{background:var(--accent);color:var(--bg)}
+
+/* bilingual */
+html[data-lang="zh"] .en, html[data-lang="en"] .zh{display:none!important}
+
+/* ---------- ambient ---------- */
+.aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;background:radial-gradient(120% 80% at 50% -10%,var(--bg-2),var(--bg) 60%)}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);will-change:transform}
+.b1{width:56vmax;height:56vmax;left:-14vmax;top:-18vmax;background:var(--aura-1);animation:drift1 26s ease-in-out infinite alternate}
+.b2{width:44vmax;height:44vmax;right:-16vmax;top:22vh;background:var(--aura-2);animation:drift2 32s ease-in-out infinite alternate}
+.b3{width:40vmax;height:40vmax;left:20vw;bottom:-22vmax;background:var(--aura-3);animation:drift3 29s ease-in-out infinite alternate}
+@keyframes drift1{to{translate:10vw 8vh;scale:1.12}}
+@keyframes drift2{to{translate:-12vw 14vh;scale:.9}}
+@keyframes drift3{to{translate:8vw -10vh;scale:1.15}}
+.grid-lines{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(to right,var(--line) var(--hair),transparent var(--hair));
+  background-size:calc((100% - 32px)/6) 100%;background-position:16px 0;opacity:.35;
+  mask-image:linear-gradient(to bottom,transparent,#000 20%,#000 80%,transparent)}
+
+.progress{position:fixed;left:0;top:0;height:1.5px;width:100%;transform-origin:0 50%;transform:scaleX(var(--p,0));
+  background:linear-gradient(90deg,var(--accent),var(--warm));z-index:60}
+
+/* ---------- liquid glass ---------- */
+.glass{position:relative;background:var(--glass);border:var(--hair) solid var(--line-strong);border-radius:var(--r);
+  -webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);
+  box-shadow:inset 0 1px 0 var(--sheen),inset 0 -1px 0 rgba(255,255,255,.03),var(--shadow);isolation:isolate}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),var(--sheen),transparent 45%)}
+.glass:hover::before{opacity:.55}
+
+/* ---------- nav ---------- */
+.nav-wrap{position:fixed;left:0;right:0;top:0;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 0;pointer-events:none}
+.nav{pointer-events:auto;margin:0 auto;max-width:980px;display:flex;align-items:center;gap:8px;padding:7px 7px 7px 18px;border-radius:999px}
+.mark{font:800 15px/1 var(--f-display);letter-spacing:.02em;text-decoration:none;margin-right:auto;display:flex;align-items:center;gap:10px}
+.mark i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.nav-links{display:flex;gap:2px}
+.nav-links a{font-size:13px;text-decoration:none;color:var(--muted);padding:7px 12px;border-radius:999px;transition:color .25s,background .25s}
+.nav-links a:hover,.nav-links a.on{color:var(--fg);background:var(--glass-2)}
+.lang{border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:6px 12px;cursor:pointer;
+  font:500 12px/1 var(--f-mono);letter-spacing:.06em;display:flex;gap:6px}
+.lang span{opacity:.4;transition:opacity .2s}
+html[data-lang="zh"] .lang .l-zh,html[data-lang="en"] .lang .l-en{opacity:1}
+
+/* ---------- shared ---------- */
+.wrap{max-width:1120px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+section{position:relative}
+.eyebrow{font:500 11.5px/1 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.eyebrow::after{content:"";height:var(--hair);flex:0 0 56px;background:var(--line-strong)}
+.h2{font:800 clamp(34px,6vw,72px)/1.02 var(--f-display);letter-spacing:-.025em;margin:18px 0 0;text-wrap:balance}
+html[data-lang="zh"] .h2{font-family:var(--f-body);font-weight:900;letter-spacing:-.01em}
+.h2 em{font-style:normal;color:var(--muted);font-weight:300}
+.sec{padding-block:clamp(90px,14vw,170px)}
+.rv{transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1),filter 1s}
+.rv.pre{opacity:0;transform:translateY(40px);filter:blur(6px)}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(120px,18vh,170px);padding-bottom:clamp(60px,10vw,110px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,64px);align-items:end}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;font-size:13px;color:var(--fg)}
+.pulse{width:8px;height:8px;border-radius:50%;background:#3ddc97;position:relative}
+.pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid #3ddc97;animation:ping 2.2s ease-out infinite}
+@keyframes ping{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(1.6)}}
+.name{margin:28px 0 0;font:800 clamp(64px,13vw,184px)/.88 var(--f-display);letter-spacing:-.045em;
+  transform:translateY(calc(var(--sy,0) * -.18px));opacity:calc(1 - var(--sy,0) / 900)}
+.name .row{display:block;overflow:hidden;padding-bottom:.06em}
+.name .zh-name{font-family:var(--f-body);font-weight:900;letter-spacing:.02em;font-size:.62em;display:block;margin-bottom:.12em}
+.ch{display:inline-block;transform:translateY(0);animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 45ms + 150ms)}
+@keyframes rise{from{transform:translateY(105%);filter:blur(8px)}to{transform:none;filter:none}}
+.name .outline .ch{background:linear-gradient(100deg,var(--accent),var(--warm) 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:36em;margin:34px 0 0;font-size:clamp(16px,1.6vw,19px);color:var(--muted);font-weight:300;text-wrap:pretty}
+.lead b{color:var(--fg);font-weight:700}
+.portrait{width:clamp(150px,20vw,240px);aspect-ratio:304/365;border-radius:120px 120px 28px 28px;padding:8px;
+  transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg)) translateY(calc(var(--sy,0) * .08px));transition:transform .4s ease-out}
+.portrait img{width:100%;height:100%;object-fit:cover;border-radius:112px 112px 22px 22px;filter:saturate(.92) contrast(1.02)}
+.portrait figcaption{background:var(--panel-solid);position:absolute;left:-14px;bottom:24px;font:500 11px/1 var(--f-mono);letter-spacing:.12em;padding:8px 12px;border-radius:999px;white-space:nowrap}
+.hero-meta{margin-top:56px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:var(--hair) solid var(--line-strong)}
+.hero-meta div{padding:18px 18px 0 0;font-size:13px;color:var(--muted)}
+.hero-meta div+div{padding-left:18px;border-left:var(--hair) solid var(--line)}
+.hero-meta b{display:block;color:var(--fg);font:700 15px/1.4 var(--f-display);margin-bottom:4px}
+.cue{margin-top:56px;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.cue span{width:1px;height:46px;background:linear-gradient(var(--fg),transparent);animation:cue 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ---------- figures ---------- */
+.figs{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.fig{padding:26px 24px 22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fig .v{font:800 clamp(40px,5vw,62px)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig .v small{font-size:.42em;font-weight:500;letter-spacing:0;color:var(--muted);margin-left:2px}
+.fig .k{font-size:14.5px;font-weight:700}
+.fig .s{font:400 12px/1.5 var(--f-mono);color:var(--muted);margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
+
+/* ---------- career ---------- */
+.career{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,5vw,72px);margin-top:64px;align-items:start}
+.panel{position:sticky;top:110px;padding:28px;overflow:hidden}
+.panel .yr{font:800 clamp(56px,7vw,96px)/.9 var(--f-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:block}
+.panel .yr small{display:block;font:300 14px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--muted);margin-top:14px}
+.panel .city{margin-top:26px;font:700 22px/1.2 var(--f-display)}
+.panel .org{color:var(--muted);font-size:14px;margin-top:4px}
+.swap{transition:opacity .35s,transform .35s,filter .35s}
+.swap.out{opacity:0;transform:translateY(10px);filter:blur(4px)}
+.route{margin-top:30px;position:relative;height:56px}
+.route svg{width:100%;height:100%;overflow:visible}
+.route .track{stroke:var(--line-strong);stroke-width:1;fill:none;stroke-dasharray:2 4}
+.route .lit{stroke:url(#rg);stroke-width:1.5;fill:none}
+.route circle{fill:var(--bg);stroke:var(--line-strong);stroke-width:1;transition:all .4s}
+.route circle.on{fill:var(--accent);stroke:var(--accent)}
+.route-labels{display:flex;justify-content:space-between;margin-top:8px;font:500 10px/1 var(--f-mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.route-labels span.on{color:var(--fg)}
+.jobs{display:flex;flex-direction:column;gap:22px;min-width:0}
+.job{padding:30px clamp(20px,3vw,34px);min-width:0;transition:border-color .4s,transform .5s}
+.job.active{border-color:var(--accent)}
+.job header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline}
+.job h3{margin:0;font:800 clamp(22px,2.6vw,28px)/1.2 var(--f-display);letter-spacing:-.01em}
+html[data-lang="zh"] .job h3{font-family:var(--f-body);font-weight:900}
+.job .when{font:400 12px/1 var(--f-mono);color:var(--muted);letter-spacing:.04em;white-space:nowrap}
+.job .role{margin:6px 0 0;color:var(--accent);font-size:14.5px;font-weight:700}
+.job h4{margin:26px 0 10px;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center}
+.job h4::after{content:"";flex:1;height:var(--hair);background:var(--line)}
+.job ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.job li{position:relative;padding-left:18px;color:var(--muted);font-size:15px;line-height:1.75}
+.job li::before{content:"";position:absolute;left:0;top:.82em;width:8px;height:var(--hair);background:var(--fg)}
+.job li b{color:var(--fg);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.chip{font:400 11.5px/1 var(--f-mono);padding:7px 10px;border-radius:999px;border:var(--hair) solid var(--line-strong);color:var(--muted)}
+
+/* ---------- marquee ---------- */
+.marquee{padding-block:46px;border-block:var(--hair) solid var(--line);overflow:hidden;margin-top:clamp(70px,10vw,120px)}
+.mq-label{font:500 11px/1 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:26px}
+.mq{display:flex;width:max-content;gap:56px;transform:translateX(var(--mq,0px));will-change:transform}
+.mq span{font:800 clamp(28px,4vw,48px)/1 var(--f-display);letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:.8px var(--muted);transition:color .3s}
+.mq span:hover{color:var(--fg);-webkit-text-stroke-color:var(--fg)}
+.mq span.f{color:var(--fg);-webkit-text-stroke:0}
+
+/* ---------- skills ---------- */
+.skills{margin-top:64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.skill{padding:30px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.skill .ix{font:300 12px/1 var(--f-mono);color:var(--muted);letter-spacing:.1em}
+.skill h3{margin:0;font:800 24px/1.25 var(--f-display)}
+html[data-lang="zh"] .skill h3{font-family:var(--f-body);font-weight:900}
+.skill p{margin:0;color:var(--muted);font-size:14.5px}
+.tools{margin-top:14px;padding:22px 26px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
+.tools .eyebrow{flex-basis:100%}
+.tools span{font:700 16px/1.4 var(--f-display)}
+
+/* ---------- education / life ---------- */
+.edu{margin-top:64px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.edu article{padding:30px;min-width:0}
+.edu .when{font:400 12px/1 var(--f-mono);color:var(--muted)}
+.edu h3{margin:14px 0 4px;font:800 24px/1.2 var(--f-display)}
+html[data-lang="zh"] .edu h3{font-family:var(--f-body);font-weight:900}
+.edu p{margin:0;color:var(--muted);font-size:14.5px}
+.edu .tag{display:inline-block;margin-top:16px;font:400 11.5px/1 var(--f-mono);padding:7px 10px;border-radius:999px;border:var(--hair) solid var(--line-strong);color:var(--fg);margin-right:6px}
+.life{margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:var(--hair) solid var(--line-strong);border-radius:var(--r);overflow:hidden}
+.life div{padding:24px 26px;min-width:0}
+.life div+div{border-left:var(--hair) solid var(--line)}
+.life b{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.life p{margin:0;font-size:15px}
+
+/* ---------- contact ---------- */
+.contact{text-align:left}
+.cta{font:800 clamp(44px,9vw,128px)/.95 var(--f-display);letter-spacing:-.04em;margin:22px 0 0;text-wrap:balance}
+html[data-lang="zh"] .cta{font-family:var(--f-body);font-weight:900;letter-spacing:-.01em}
+.cta .grad{background:linear-gradient(100deg,var(--accent),var(--warm));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cards{margin-top:48px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cc{padding:22px 22px 22px 26px;display:flex;align-items:center;gap:16px;min-width:0}
+.cc div{min-width:0;flex:1}
+.cc small{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.cc a,.cc .txt{font:700 clamp(17px,2vw,22px)/1.2 var(--f-display);text-decoration:none;user-select:all;overflow-wrap:anywhere}
+.copy{flex:none;border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:9px 14px;cursor:pointer;font:500 12px/1 var(--f-mono);transition:background .2s}
+.copy:hover{background:var(--sheen)}
+footer{padding-block:40px 60px;border-top:var(--hair) solid var(--line);margin-top:clamp(80px,10vw,140px);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font:400 12px/1.4 var(--f-mono);color:var(--muted)}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .nav-links{display:none}
+  .career{grid-template-columns:minmax(0,1fr)}
+  .panel{background:var(--panel-solid);top:76px;z-index:5;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 18px;align-items:center}
+  .panel .yr{font-size:40px;grid-row:span 2}
+  .panel .yr small{display:none}
+  .panel .city{margin-top:0;font-size:17px}
+  .panel .org{margin-top:0;font-size:12.5px}
+  .route,.route-labels{display:none}
+  .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skills,.edu,.cards{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .portrait{order:-1;width:132px}
+  .hero-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-meta div:nth-child(3){padding-left:0;border-left:0}
+  .figs{grid-template-columns:minmax(0,1fr)}
+  .life{grid-template-columns:minmax(0,1fr)}
+  .life div+div{border-left:0;border-top:var(--hair) solid var(--line)}
+  .cc{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv.pre{opacity:1;transform:none;filter:none}
+  .name,.portrait{transform:none!important;opacity:1!important}
+}
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="grid-lines" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<div class="nav-wrap">
+  <nav class="nav glass" aria-label="Primary">
+    <a class="mark" href="#top"><i></i>Zackery Chen</a>
+    <div class="nav-links">
+      <a href="#figures"><span class="zh">数据</span><span class="en">Figures</span></a>
+      <a href="#work"><span class="zh">经历</span><span class="en">Work</span></a>
+      <a href="#skills"><span class="zh">能力</span><span class="en">Skills</span></a>
+      <a href="#edu"><span class="zh">教育</span><span class="en">Education</span></a>
+      <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
+    </div>
+    <button class="lang" id="lang" type="button" aria-label="Switch language / 切换语言"><span class="l-zh">中</span>/<span class="l-en">EN</span></button>
+  </nav>
+</div>
+
+<main id="top">
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="status glass"><i class="pulse"></i><span class="zh">随时到岗 · 北京</span><span class="en">Available now · Beijing</span></span>
+        <h1 class="name" aria-label="陈晨 Zackery Chen">
+          <span class="row zh-name" data-split>陈晨</span>
+          <span class="row" data-split>Zackery</span>
+          <span class="row outline" data-split>Chen</span>
+        </h1>
+        <p class="lead">
+          <span class="zh">跨境电商增长 × 生态商务拓展 × AI 原生创业。在<b>京东</b>、<b>阿里国际</b>和自己的公司里，先把 0 到 1 的合作谈下来，再把它跑成能复盘、能放量的商业闭环。</span>
+          <span class="en">Cross-border growth × ecosystem BD × AI-native founder. At <b>JD.com</b>, <b>Alibaba International</b> and my own company, I land the zero-to-one partnership first, then turn it into a closed business loop that can be measured and scaled.</span>
+        </p>
+      </div>
+      <figure class="portrait glass" id="portrait">
+        <img src="data:image/jpeg;base64,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" alt="陈晨 Zackery Chen" width="304" height="365">
+        <figcaption class="glass">UC DAVIS ’22</figcaption>
+      </figure>
+    </div>
+
+    <div class="hero-meta">
+      <div><b><span class="zh">创始人</span><span class="en">Founder</span></b><span class="zh">云想亿创 · 2025 至今</span><span class="en">Yunxiang Yichuang · 2025–now</span></div>
+      <div><b>AliExpress</b><span class="zh">欧洲联盟运营 · 荷/法/德</span><span class="en">EU affiliates · NL / FR / DE</span></div>
+      <div><b><span class="zh">京东集团</span><span class="en">JD.com</span></b><span class="zh">两次晋升 · 三个事业部</span><span class="en">Promoted twice · 3 units</span></div>
+      <div><b>UC Davis</b><span class="zh">商业经济管理 · 本科</span><span class="en">B.S. Managerial Economics</span></div>
+    </div>
+
+    <div class="cue"><span></span><i class="zh" style="font-style:normal">向下滚动</i><i class="en" style="font-style:normal">Scroll</i></div>
+  </div>
+</section>
+
+<!-- ===== FIGURES ===== -->
+<section class="sec" id="figures" style="padding-top:40px">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="zh">关键数据</span><span class="en">Key figures</span></div>
+    <h2 class="h2 rv"><span class="zh">用数字说话。<em>每一项都来自真实业务。</em></span><span class="en">Numbers first. <em>Each one from live business.</em></span></h2>
+    <div class="figs">
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="10.7" data-pre=">">10.7</span></div>
+        <div class="k"><span class="zh">联盟渠道运营 ROI</span><span class="en">Affiliate channel ROI</span></div>
+        <div class="s"><span class="zh">同比 +65% · AliExpress 荷兰</span><span class="en">+65% YoY · AliExpress NL</span></div>
+      </div>
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="130" data-pre="+" data-suf="%">+130%</span></div>
+        <div class="k"><span class="zh">月度峰值 GMV 同比增长</span><span class="en">Peak monthly GMV growth</span></div>
+        <div class="s"><span class="zh">峰值 &gt; 15 万欧 · AliExpress</span><span class="en">Peak &gt; €150K · AliExpress</span></div>
+      </div>
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="9800" data-n-en="98" data-pre="¥" data-suf="万+" data-suf-en="M+">¥9800万+</span></div>
+        <div class="k"><span class="zh">类目 GMV 运营达成</span><span class="en">Category GMV delivered</span></div>
+        <div class="s"><span class="zh">手机 / 数码 / 汽车用品 · 京东国际</span><span class="en">Phones, digital, auto · JD International</span></div>
+      </div>
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="2600" data-n-en="26" data-suf="万+" data-suf-en="M+">2600万+</span></div>
+        <div class="k"><span class="zh">AI 模型训练数据处理量</span><span class="en">AI training data items processed</span></div>
+        <div class="s"><span class="zh">首年客户群 +50% · 京东科技</span><span class="en">Client base +50% in year one · JD Tech</span></div>
+      </div>
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="1200" data-n-en="12" data-pre="¥" data-suf="万" data-suf-en="M">¥1200万</span></div>
+        <div class="k"><span class="zh">B 端项目收入贡献</span><span class="en">B2B project revenue</span></div>
+        <div class="s"><span class="zh">毛利 ¥200 万 · 交付准确率 &gt; 96%</span><span class="en">¥2M gross profit · &gt; 96% accuracy</span></div>
+      </div>
+      <div class="fig glass rv">
+        <div class="v"><span class="num" data-n="180" data-suf="%+">180%+</span></div>
+        <div class="k"><span class="zh">生态 BD 季度目标达成</span><span class="en">Ecosystem BD quarterly target</span></div>
+        <div class="s"><span class="zh">贡献毛利 200 万+ · 京东科技</span><span class="en">¥2M+ gross profit · JD Tech</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORK ===== -->
+<section class="sec" id="work" style="padding-top:40px">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="zh">工作经历 · 2019 — 至今</span><span class="en">Experience · 2019 — now</span></div>
+    <h2 class="h2 rv"><span class="zh">四座城市，<em>一条增长曲线。</em></span><span class="en">Four cities, <em>one growth curve.</em></span></h2>
+
+    <div class="career">
+      <aside class="panel glass" aria-live="polite">
+        <div class="swap" id="pSwap">
+          <span class="yr" id="pYear">2025<small id="pSpan">2025.05 — 至今</small></span>
+          <div class="city" id="pCity">全国</div>
+          <div class="org" id="pOrg">云想亿创</div>
+        </div>
+        <div class="route" aria-hidden="true">
+          <svg viewBox="0 0 300 56" preserveAspectRatio="none">
+            <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--warm)"/></linearGradient></defs>
+            <path class="track" d="M6 40 C 50 4, 90 4, 78 28 S 140 52, 150 28 S 210 0, 222 22 S 280 50, 294 16"/>
+            <path class="lit" id="routeLit" d="M6 40 C 50 4, 90 4, 78 28 S 140 52, 150 28 S 210 0, 222 22 S 280 50, 294 16"/>
+            <circle cx="6" cy="40" r="4"/><circle cx="78" cy="28" r="4"/><circle cx="150" cy="28" r="4"/><circle cx="222" cy="22" r="4"/><circle cx="294" cy="16" r="4"/>
+          </svg>
+        </div>
+        <div class="route-labels" aria-hidden="true"><span>SF/BJ</span><span>BJ</span><span>BJ</span><span>HZ</span><span>CN</span></div>
+      </aside>
+
+      <div class="jobs">
+        <!-- order: newest first; panel route maps index from oldest -->
+        <article class="job glass rv" data-step="4" data-year="2025" data-span-zh="2025.05 — 至今" data-span-en="May 2025 — now" data-city-zh="全国" data-city-en="Nationwide, China" data-org-zh="北京云想亿创科技有限公司" data-org-en="Beijing Yunxiang Yichuang Technology">
+          <header><h3><span class="zh">云想亿创</span><span class="en">Yunxiang Yichuang</span></h3><span class="when">2025.05 — <span class="zh">至今</span><span class="en">now</span></span></header>
+          <p class="role"><span class="zh">创始人 &amp; 产品经理</span><span class="en">Founder &amp; Product Manager</span></p>
+          <h4><span class="zh">项目定义与精准拓客</span><span class="en">Positioning &amp; targeting</span></h4>
+          <ul>
+            <li><span class="zh">创立 <b>AI 原生</b>青少年社会化赋能与高阶咨询平台，切中家长面对 AI 变革时代的教育与成长焦虑。</span><span class="en">Founded an <b>AI-native</b> platform for youth social development and premium advisory, addressing parents’ education anxiety in the AI era.</span></li>
+            <li><span class="zh">亲自跑通 B 端市场调研（关键机构合作、国际校区洽谈）、客群画像与竞品分析，定位高净值核心客群。</span><span class="en">Ran B2B market research myself (institution partnerships, international-school talks), customer personas and competitor analysis to target high-net-worth families.</span></li>
+          </ul>
+          <h4><span class="zh">获客与商业化</span><span class="en">Acquisition &amp; monetisation</span></h4>
+          <ul>
+            <li><span class="zh">设计“引流标品 → 高客单全案”的阶梯式盈利模式，推进与国际学校、素质教育机构的战略合作与联合招募。</span><span class="en">Designed a tiered model from entry product to high-ticket full programme; built partnerships and joint enrolment with international schools and enrichment providers.</span></li>
+            <li><span class="zh">作为唯一负责人，不依赖外部大额融资，独立跑通“研发 → 获客 → 交付 → 结算”闭环，累计 <b>GMV 10 万+</b>。</span><span class="en">As sole operator and without large outside funding, closed the full R&amp;D → acquisition → delivery → settlement loop; <b>¥100K+ cumulative GMV</b>.</span></li>
+          </ul>
+          <div class="chips"><span class="chip">0→1</span><span class="chip">B2B2C</span><span class="chip">AI-native</span><span class="chip">Pricing ladder</span></div>
+        </article>
+
+        <article class="job glass rv" data-step="3" data-year="2024" data-span-zh="2024.09 — 2025.04" data-span-en="Sep 2024 — Apr 2025" data-city-zh="杭州 · 面向欧洲" data-city-en="Hangzhou → Europe" data-org-zh="阿里巴巴 · AliExpress 速卖通" data-org-en="Alibaba · AliExpress">
+          <header><h3><span class="zh">阿里国际 · 阿里巴巴集团</span><span class="en">Alibaba International</span></h3><span class="when">2024.09 — 2025.04</span></header>
+          <p class="role"><span class="zh">国家联盟运营经理 · AliExpress 速卖通事业部</span><span class="en">Country Affiliate Operations Manager · AliExpress</span></p>
+          <h4><span class="zh">用户增长 &amp; 联盟 BD · 荷兰 / 法国 / 德国</span><span class="en">User growth &amp; affiliate BD · NL / FR / DE</span></h4>
+          <ul>
+            <li><span class="zh">负责荷兰联盟渠道整体用户数与 GMV，按月制定各渠道合作策略与 ROI 规划，同步集团大促节奏。</span><span class="en">Owned users and GMV for all Dutch affiliate channels; set monthly per-channel strategy and ROI plans aligned with group campaigns.</span></li>
+            <li><span class="zh">Black Friday、Cyber Monday、Anniversary 等核心大促 GMV 目标达成 <b>105%</b>，用户数同比 <b>+120%</b>。</span><span class="en">Hit <b>105%</b> of GMV target across Black Friday, Cyber Monday and Anniversary; users <b>+120% YoY</b>.</span></li>
+            <li><span class="zh">从 0 到 1 牵头达成与 Tweakers、Beslist、TradeTracker、Shoparize、Connexity、Salesoar、Twenga、Booncy 的官方合作，接入 CPS / Fixed / CPC 模式。</span><span class="en">Led zero-to-one partnerships with Tweakers, Beslist, TradeTracker, Shoparize, Connexity, Salesoar, Twenga and Booncy on CPS, fixed and CPC terms.</span></li>
+            <li><span class="zh">月度峰值 GMV <b>&gt; 15 万欧</b>（同比 +130%），运营 ROI <b>&gt; 10.7</b>（同比 +65%；比价 2–4.8、CSS 8–12、Coupon 2–6）。</span><span class="en">Peak monthly GMV <b>&gt; €150K</b> (+130% YoY); ROI <b>&gt; 10.7</b> (+65% YoY; price-comparison 2–4.8, CSS 8–12, coupon 2–6).</span></li>
+          </ul>
+          <h4><span class="zh">技术与协作</span><span class="en">Tech &amp; collaboration</span></h4>
+          <ul>
+            <li><span class="zh">原有数据路径无法同步链接，主动搭建 <b>OSS 云服务</b>直连渠道商，实现商品、库存、价格的稳定同步。</span><span class="en">When the existing feed couldn’t sync links, built a direct <b>OSS cloud</b> feed to partners for stable product, stock and price sync.</span></li>
+            <li><span class="zh">协助法、德团队推进 PriceComp 与 Google CSS 渠道；与荷兰、法国、西班牙、波兰、乌克兰同事跨时区协作。</span><span class="en">Supported FR and DE teams on PriceComp and Google CSS; worked across time zones with colleagues in NL, FR, ES, PL and UA.</span></li>
+          </ul>
+          <div class="chips"><span class="chip">Affiliate</span><span class="chip">CSS</span><span class="chip">CPS / CPC</span><span class="chip">ROI</span><span class="chip">OSS feed</span></div>
+        </article>
+
+        <article class="job glass rv" data-step="2" data-year="2022" data-span-zh="2022.05 — 2024.07" data-span-en="May 2022 — Jul 2024" data-city-zh="北京" data-city-en="Beijing" data-org-zh="京东科技控股 · 两次晋升" data-org-en="JD Technology · promoted twice">
+          <header><h3><span class="zh">京东集团 · 京东科技</span><span class="en">JD.com · JD Technology</span></h3><span class="when">2022.05 — 2024.07</span></header>
+          <p class="role"><span class="zh">产品运营 &amp; 商品经理（两次晋升）</span><span class="en">Product Ops &amp; Merchandise Manager (promoted twice)</span></p>
+          <h4><span class="zh">工业国际事业部 · 采销</span><span class="en">Industrial International · Procurement</span></h4>
+          <ul>
+            <li><span class="zh">负责工业 MRO 清洁用品类目，针对目标国与 KA 客户引入品牌及供应商 <b>30+</b> 家。</span><span class="en">Ran the industrial MRO cleaning category; brought in <b>30+</b> brands and suppliers for target markets and KA clients.</span></li>
+            <li><span class="zh">承接新能源企业全球工厂物料需求，结合 AI 需求识别模型流转 <b>2000+</b> 条有效商机；需求有效转化率 <b>85%+</b>。</span><span class="en">Served global factories of new-energy companies; routed <b>2,000+</b> qualified leads via an AI demand model; <b>85%+</b> demand conversion.</span></li>
+            <li><span class="zh">拉通巴西使馆与头部零售商，安排 VP 与 3M、Bosch、Delta 海外分部洽谈；代表京东主持 Global Shapers 活动，覆盖 <b>120+</b> 国青年领袖，会后收到简历 50+ 份。</span><span class="en">Connected the Brazilian embassy and top retailers; set up VP meetings with 3M, Bosch and Delta overseas; hosted a Global Shapers event for leaders from <b>120+</b> countries (50+ applications received).</span></li>
+          </ul>
+          <h4><span class="zh">技术服务事业部 · 内容安全风控</span><span class="en">Tech Services · Content safety</span></h4>
+          <ul>
+            <li><span class="zh">承接 ML 大模型数据训练需求，处理数据 <b>2600 万+</b>，首年客户群体 +50%；人机协同需求立项 <b>140+</b>。</span><span class="en">Delivered ML training data at <b>26M+</b> items, growing clients 50% in year one; scoped <b>140+</b> human-in-the-loop projects.</span></li>
+            <li><span class="zh">打通零售、工业、医药、物流全板块合作，季度目标 <b>180%+</b>；交付准确率 &gt; 96%，收入 / 毛利 <b>1200 万 / 200 万</b>。</span><span class="en">Won work across retail, industrial, health and logistics, <b>180%+</b> of quarterly target; &gt; 96% accuracy, revenue / GP <b>¥12M / ¥2M</b>.</span></li>
+            <li><span class="zh">参与搭建英伟达自动驾驶等项目的启动 → 培训 → 投产 → 交付 → 结算全生命周期，产出 SOP 知识库 40+ 页、培训文档 80+ 版。</span><span class="en">Helped stand up full lifecycles for projects incl. NVIDIA autonomous driving; wrote a 40+ page SOP base and 80+ training doc versions.</span></li>
+          </ul>
+          <h4><span class="zh">财税商事业务部 · 知识产权</span><span class="en">Finance &amp; Tax · IP services</span></h4>
+          <ul>
+            <li><span class="zh">商标专利服务覆盖 45 全类目，累计服务中小企业 <b>1 万+</b>，产品收入 <b>1000 万+</b>。</span><span class="en">Trademark and patent services across all 45 classes; <b>10K+</b> SME cases, <b>¥10M+</b> revenue.</span></li>
+            <li><span class="zh">组织知识产权主题活动 30+ 场，单次 ROI &gt; 10，单轮最高收入 / 毛利 290 万 / 100 万。</span><span class="en">Ran 30+ IP events, ROI &gt; 10 each; best single round ¥2.9M revenue / ¥1M GP.</span></li>
+          </ul>
+          <div class="chips"><span class="chip">MRO</span><span class="chip">KA</span><span class="chip">AI data</span><span class="chip">ERP / WMS</span><span class="chip">IP</span></div>
+        </article>
+
+        <article class="job glass rv" data-step="1" data-year="2021" data-span-zh="2021.08 — 2022.01" data-span-en="Aug 2021 — Jan 2022" data-city-zh="北京" data-city-en="Beijing" data-org-zh="京东国际 · 管培生留用 offer" data-org-en="JD International · MT return offer">
+          <header><h3><span class="zh">京东国际 · 京东零售</span><span class="en">JD International · JD Retail</span></h3><span class="when">2021.08 — 2022.01</span></header>
+          <p class="role"><span class="zh">行业经理实习（获事业部管培生留用 offer）</span><span class="en">Industry Manager Intern (management-trainee return offer)</span></p>
+          <ul>
+            <li><span class="zh">参与双 11、黑五、双 12、年货节，官方店海外用户增长 <b>4000+</b>，手机、数码、汽车用品类目 GMV <b>9800 万+</b>。</span><span class="en">Through Singles’ Day, Black Friday and New Year campaigns, grew overseas users by <b>4,000+</b>; phones, digital and auto GMV <b>¥98M+</b>.</span></li>
+            <li><span class="zh">协助打标出海商品 2000 万+ 件；客服平响缩短 20 秒（-50%），售后时效 -50%，海关报备时效 -57%。</span><span class="en">Tagged 20M+ SKUs for export; cut service response by 20s (-50%), after-sales time 50% and customs filing time 57%.</span></li>
+            <li><span class="zh">撰写系统优化 BRD，统筹跨境 WMS、17track 物流监控、海关税务报备与商家后台售后全流程。</span><span class="en">Wrote system BRDs; ran cross-border WMS, 17track monitoring, customs filing and merchant after-sales end to end.</span></li>
+          </ul>
+        </article>
+
+        <article class="job glass rv" data-step="0" data-year="2019" data-span-zh="2019.07 — 2020.11" data-span-en="Jul 2019 — Nov 2020" data-city-zh="北京 / 旧金山" data-city-en="Beijing / San Francisco" data-org-zh="引思知 InGenius Prep" data-org-en="InGenius Prep">
+          <header><h3>InGenius Prep</h3><span class="when">2019.07 — 2020.11</span></header>
+          <p class="role"><span class="zh">市场部实习</span><span class="en">Marketing Intern</span></p>
+          <ul>
+            <li><span class="zh">协助 BD 多地举办线下活动，吸引 <b>100+</b> 已签约家庭与 <b>2000+</b> 潜在客户；策划制作 4 分钟公司宣传片。</span><span class="en">Supported offline events reaching <b>100+</b> signed families and <b>2,000+</b> prospects; produced a 4-minute company film.</span></li>
+            <li><span class="zh">发表文章 5+ 篇，平均阅读 1000+，最高 5k+；与三家合作企业共同策划公众活动。</span><span class="en">Published 5+ articles, avg 1,000+ reads, peak 5K+; co-planned public events with three partner firms.</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-label="Partners and brands">
+    <div class="mq-label"><span class="zh">合作过的渠道与品牌</span><span class="en">Channels &amp; brands worked with</span></div>
+    <div class="mq" id="mq">
+      <span class="f">Tweakers</span><span>Beslist</span><span class="f">TradeTracker</span><span>Shoparize</span><span class="f">Connexity</span><span>Salesoar</span><span class="f">Twenga</span><span>Booncy</span><span class="f">Google CSS</span><span>3M</span><span class="f">Bosch</span><span>Delta</span><span class="f">NVIDIA</span><span>Global Shapers</span>
+      <span class="f" aria-hidden="true">Tweakers</span><span aria-hidden="true">Beslist</span><span class="f" aria-hidden="true">TradeTracker</span><span aria-hidden="true">Shoparize</span><span class="f" aria-hidden="true">Connexity</span><span aria-hidden="true">Salesoar</span><span class="f" aria-hidden="true">Twenga</span><span aria-hidden="true">Booncy</span><span class="f" aria-hidden="true">Google CSS</span><span aria-hidden="true">3M</span><span class="f" aria-hidden="true">Bosch</span><span aria-hidden="true">Delta</span><span class="f" aria-hidden="true">NVIDIA</span><span aria-hidden="true">Global Shapers</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section class="sec" id="skills" style="padding-top:20px">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="zh">核心能力</span><span class="en">Capabilities</span></div>
+    <h2 class="h2 rv"><span class="zh">谈得下来，<em>也跑得起来。</em></span><span class="en">Close the deal, <em>then run it.</em></span></h2>
+    <div class="skills">
+      <div class="skill glass rv">
+        <span class="ix">A · GROWTH</span>
+        <h3><span class="zh">用户增长与联盟渠道</span><span class="en">User growth &amp; affiliates</span></h3>
+        <p><span class="zh">比价、CSS、Coupon、内容渠道的 ROI 规划与放量；大促节奏、GMV 与用户双目标管理。</span><span class="en">ROI planning and scaling across price-comparison, CSS, coupon and content channels; campaign pacing with GMV and user targets.</span></p>
+      </div>
+      <div class="skill glass rv">
+        <span class="ix">B · PARTNERSHIPS</span>
+        <h3><span class="zh">生态 BD 与大客户</span><span class="en">Ecosystem BD &amp; key accounts</span></h3>
+        <p><span class="zh">从 0 到 1 拿下海外头部渠道；对接使馆、国际品牌与国央企 KA，跨文化、跨时区推进。</span><span class="en">Zero-to-one deals with leading overseas channels; embassies, global brands and SOE key accounts across cultures and time zones.</span></p>
+      </div>
+      <div class="skill glass rv">
+        <span class="ix">C · SUPPLY</span>
+        <h3><span class="zh">采销、商品与跨境供应链</span><span class="en">Merchandising &amp; cross-border supply</span></h3>
+        <p><span class="zh">品牌与供应商引入、价格与毛利模型、WMS 与海关报备、一站式 MRO 采购方案。</span><span class="en">Brand and supplier sourcing, pricing and margin models, WMS and customs, one-stop MRO procurement plans.</span></p>
+      </div>
+      <div class="skill glass rv">
+        <span class="ix">D · AI &amp; OPS</span>
+        <h3><span class="zh">AI 数据与 B 端交付</span><span class="en">AI data &amp; B2B delivery</span></h3>
+        <p><span class="zh">模型训练数据项目从立项到结算的全生命周期，SOP 沉淀与成本收入模型；如今用 AI 工具独立构建产品。</span><span class="en">Full lifecycle of model-training data projects, SOPs and cost-revenue models; now builds products solo with AI tools.</span></p>
+      </div>
+    </div>
+    <div class="tools glass rv">
+      <div class="eyebrow"><span class="zh">工具</span><span class="en">Tools</span></div>
+      <span>Claude Code</span><span>Gemini</span><span>ChatGPT / Codex</span><span>SQL</span><span>MS Office</span><span>ERP · WMS</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION ===== -->
+<section class="sec" id="edu" style="padding-top:20px">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="zh">教育背景</span><span class="en">Education</span></div>
+    <h2 class="h2 rv"><span class="zh">在美国读书，<em>在中国做事。</em></span><span class="en">Educated in the US, <em>building in China.</em></span></h2>
+    <div class="edu">
+      <article class="glass rv">
+        <span class="when">2018.08 — 2022.04 · California</span>
+        <h3>University of California, Davis</h3>
+        <p><span class="zh">加州大学戴维斯分校 · 本科 · 主修商业经济管理</span><span class="en">B.S. Managerial Economics, full-time</span></p>
+        <span class="tag"><span class="zh">美国公立大学 Top 5</span><span class="en">Top 5 US public university</span></span><span class="tag">QS US Top 25</span>
+      </article>
+      <article class="glass rv">
+        <span class="when">2014.08 — 2018.06 · New Jersey</span>
+        <h3>Pope John XXIII Regional High School</h3>
+        <p><span class="zh">约翰教皇二十三世高中 · NJSIAA 联盟</span><span class="en">NJSIAA member school</span></p>
+        <span class="tag"><span class="zh">机器人大赛州冠军</span><span class="en">State champion, robotics</span></span><span class="tag"><span class="zh">音乐剧团体州冠军</span><span class="en">State champion, musical theatre</span></span><span class="tag"><span class="zh">公立大学奖学金</span><span class="en">University scholarship</span></span>
+      </article>
+    </div>
+    <div class="life rv">
+      <div><b><span class="zh">语言</span><span class="en">Languages</span></b><p><span class="zh">英语 · 德语（基础）</span><span class="en">English · German (basic)</span></p></div>
+      <div><b><span class="zh">证照</span><span class="en">Licences</span></b><p><span class="zh">中、美两国机动车驾驶证</span><span class="en">Driving licences, China &amp; US</span></p></div>
+      <div><b><span class="zh">户外</span><span class="en">Outdoors</span></b><p><span class="zh">自驾 50+ 城市 · 重装/轻装徒步 · L2 冲浪 · 网球 · 滑雪</span><span class="en">Road trips to 50+ cities · trekking · L2 surfing · tennis · skiing</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="sec contact" id="contact" style="padding-top:20px">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="zh">联系</span><span class="en">Contact</span></div>
+    <p class="cta rv"><span class="zh">下一条增长曲线，<span class="grad">一起谈。</span></span><span class="en">Let’s talk about the <span class="grad">next growth curve.</span></span></p>
+    <div class="cards">
+      <div class="cc glass rv">
+        <div><small><span class="zh">邮箱</span><span class="en">Email</span></small><a href="mailto:zackerychen@outlook.com" id="email">zackerychen@outlook.com</a></div>
+        <button class="copy" type="button" data-copy="zackerychen@outlook.com"><span class="zh">复制</span><span class="en">Copy</span></button>
+      </div>
+      <div class="cc glass rv">
+        <div><small><span class="zh">电话 / 微信</span><span class="en">Phone</span></small><span class="txt">+86 155 6099 5809</span></div>
+        <button class="copy" type="button" data-copy="+8615560995809"><span class="zh">复制</span><span class="en">Copy</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <footer><span>© 2026 陈晨 Zackery Chen</span><span><span class="zh">北京 · 随时到岗</span><span class="en">Beijing · Available now</span></span></footer>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  if(!root.dataset.lang) root.dataset.lang='zh';
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- language ---- */
+  function lang(){return root.dataset.lang}
+  try{var saved=localStorage.getItem('zc-lang'); if(saved==='en'||saved==='zh') root.dataset.lang=saved;}catch(e){}
+  function syncLang(){root.lang=lang()==='zh'?'zh-CN':'en'; nums.forEach(function(n){if(n.done)n.el.textContent=fmt(n,1)}); updatePanel(true)}
+  document.getElementById('lang').addEventListener('click',function(){
+    root.dataset.lang=lang()==='zh'?'en':'zh';
+    try{localStorage.setItem('zc-lang',lang())}catch(e){}
+    syncLang();
+  });
+
+  /* ---- split hero name into characters ---- */
+  var ci=0;
+  document.querySelectorAll('[data-split]').forEach(function(el){
+    var t=el.textContent; el.textContent='';
+    Array.from(t).forEach(function(c){var s=document.createElement('span');s.className='ch';s.style.setProperty('--i',ci++);s.textContent=c;s.setAttribute('aria-hidden','true');el.appendChild(s)});
+  });
+
+  /* ---- counters ---- */
+  var nums=Array.from(document.querySelectorAll('.num')).map(function(el){return {el:el,done:false}});
+  function fmt(n,k){
+    var d=n.el.dataset, en=lang()==='en';
+    var target=parseFloat(en&&d.nEn?d.nEn:d.n), dec=((en&&d.nEn?d.nEn:d.n).split('.')[1]||'').length;
+    var v=(target*k).toFixed(dec);
+    if(!dec) v=Number(v).toLocaleString('en-US');
+    var suf=en&&d.sufEn!==undefined?d.sufEn:(d.suf||'');
+    return (d.pre||'')+v+suf;
+  }
+  function count(n){
+    if(n.done) return; n.done=true;
+    if(reduce){n.el.textContent=fmt(n,1);return}
+    var t0=performance.now(),dur=1600;
+    (function step(t){var k=Math.min(1,(t-t0)/dur);k=1-Math.pow(1-k,4);n.el.textContent=fmt(n,k);if(k<1)requestAnimationFrame(step)})(t0);
+  }
+
+  /* ---- reveal: only hide what's below the fold at load ---- */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  var nio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var n=nums.find(function(x){return x.el===e.target});if(n)count(n);nio.unobserve(e.target)}})},{threshold:.6});
+  if(!reduce){document.querySelectorAll('.rv').forEach(function(el){if(el.getBoundingClientRect().top>innerHeight*.92){el.classList.add('pre');io.observe(el)}})}
+  nums.forEach(function(n){ if(n.el.getBoundingClientRect().top<innerHeight){count(n)} else {n.el.textContent=fmt(n,0); nio.observe(n.el)} });
+
+  /* ---- liquid sheen follows pointer ---- */
+  document.addEventListener('pointermove',function(e){
+    var g=e.target.closest&&e.target.closest('.glass'); if(!g) return;
+    var r=g.getBoundingClientRect(); g.style.setProperty('--mx',(e.clientX-r.left)+'px'); g.style.setProperty('--my',(e.clientY-r.top)+'px');
+  },{passive:true});
+  var portrait=document.getElementById('portrait');
+  if(!reduce&&matchMedia('(pointer:fine)').matches){
+    window.addEventListener('pointermove',function(e){
+      var x=(e.clientX/innerWidth-.5),y=(e.clientY/innerHeight-.5);
+      portrait.style.setProperty('--rx',(x*14).toFixed(2)+'deg'); portrait.style.setProperty('--ry',(-y*14).toFixed(2)+'deg');
+    },{passive:true});
+  }
+
+  /* ---- career panel ---- */
+  var jobs=Array.from(document.querySelectorAll('.job')), active=-1;
+  var pSwap=document.getElementById('pSwap'),pYear=document.getElementById('pYear'),pCity=document.getElementById('pCity'),pOrg=document.getElementById('pOrg');
+  var lit=document.getElementById('routeLit'), dots=Array.from(document.querySelectorAll('.route circle')), labs=Array.from(document.querySelectorAll('.route-labels span'));
+  var L=lit.getTotalLength(); lit.style.strokeDasharray=L; lit.style.strokeDashoffset=L;
+  var stops=[0,.27,.5,.74,1];
+  function fill(j){
+    var d=j.dataset,en=lang()==='en';
+    pYear.firstChild.nodeValue=d.year;
+    pYear.querySelector('small').textContent=en?d.spanEn:d.spanZh;
+    pCity.textContent=en?d.cityEn:d.cityZh; pOrg.textContent=en?d.orgEn:d.orgZh;
+  }
+  function updatePanel(force){
+    var mid=innerHeight*.5, idx=0;
+    jobs.forEach(function(j,i){if(j.getBoundingClientRect().top<mid) idx=i});
+    if(idx===active&&!force) return;
+    var changed=idx!==active; active=idx;
+    jobs.forEach(function(j,i){j.classList.toggle('active',i===idx)});
+    var step=+jobs[idx].dataset.step;
+    dots.forEach(function(c,i){c.classList.toggle('on',i<=step)}); labs.forEach(function(s,i){s.classList.toggle('on',i===step)});
+    if(changed&&!reduce){pSwap.classList.add('out');setTimeout(function(){fill(jobs[active]);pSwap.classList.remove('out')},220)} else fill(jobs[idx]);
+  }
+
+  /* ---- scroll loop ---- */
+  var prog=document.getElementById('progress'), mq=document.getElementById('mq'), navLinks=Array.from(document.querySelectorAll('.nav-links a'));
+  var secs=navLinks.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var ticking=false, t0=performance.now();
+  function frame(){
+    ticking=false;
+    var sy=scrollY, max=document.documentElement.scrollHeight-innerHeight;
+    prog.style.setProperty('--p',max>0?(sy/max).toFixed(4):0);
+    if(!reduce) root.style.setProperty('--sy',Math.min(sy,1200).toFixed(0));
+    updatePanel(false);
+    // route progress across the work section
+    var w=document.getElementById('work').getBoundingClientRect();
+    var k=Math.max(0,Math.min(1,(innerHeight*.5-w.top)/(w.height-innerHeight*.4)));
+    var step=+jobs[active].dataset.step; var target=Math.max(stops[step],Math.min(1,k));
+    lit.style.strokeDashoffset=(L*(1-target)).toFixed(1);
+    var on=-1; secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<innerHeight*.4)on=i});
+    navLinks.forEach(function(a,i){a.classList.toggle('on',i===on)});
+  }
+  addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(frame)}},{passive:true});
+  addEventListener('resize',frame);
+
+  // marquee: time drift + scroll push
+  if(!reduce){
+    (function loop(t){
+      var half=mq.scrollWidth/2;
+      var x=-(((t-t0)*.03+scrollY*.35)%half);
+      mq.style.setProperty('--mq',x.toFixed(1)+'px');
+      requestAnimationFrame(loop);
+    })(t0);
+  }
+
+  /* ---- copy ---- */
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var v=b.dataset.copy, orig=b.innerHTML;
+      function ok(){b.innerHTML=lang()==='en'?'Copied':'已复制';setTimeout(function(){b.innerHTML=orig},1600)}
+      function fallback(){var s=getSelection(),r=document.createRange();r.selectNodeContents(b.previousElementSibling.lastElementChild);s.removeAllRanges();s.addRange(r)}
+      try{navigator.clipboard.writeText(v).then(ok,fallback)}catch(e){fallback()}
+    });
+  });
+
+  syncLang(); frame();
+})();
+</script>
+</body>
+</html>
