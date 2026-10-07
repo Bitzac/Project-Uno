@@ -208,6 +208,9 @@ const Fund = (() => {
     return `<div class="vhead"><div><div class="eyebrow">找对口资方</div><h1>${esc(p.short || p.name)} 先找：${esc(top)}</h1>
       <p>${rich(SOURCES_LEAD)}</p></div></div>
     <section class="panel"><h3>适配度矩阵 <small>点格子看这一类资方的门槛和机构</small></h3>${heatmap()}</section>
+    ${p.precedents ? `<section class="panel"><h3>同类公司怎么融到钱 <small>${esc(p.short || p.name)} 的参照案例，点公司名看原文</small></h3><div class="tbl"><table><thead><tr><th>公司</th><th>做什么</th><th>融资</th><th>时间</th></tr></thead><tbody>
+      ${p.precedents.map(c => `<tr><td><b><a href="${esc(c.src)}" target="_blank" rel="noopener">${esc(c.co)} ${I.ext}</a></b></td><td>${esc(c.what)}</td><td>${esc(c.deal)}</td><td class="n">${esc(c.d)}</td></tr>`).join('')}
+    </tbody></table></div></section>` : ''}
     <div class="srcs">${r.map(({ t, f }) => typeCard(t, f)).join('')}</div>`;
   }
 
@@ -219,7 +222,7 @@ const Fund = (() => {
     return `<div class="vhead"><div><div class="eyebrow">路演</div><h1>一份 BP，过三道会</h1>
       <p>${rich(PITCH_LEAD)}</p></div></div>
     <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
-    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是${esc(p.short || p.name)}的要点</small></h3>
+    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是 ${esc(p.short || p.name)} 的要点</small></h3>
       <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>
@@ -228,7 +231,7 @@ const Fund = (() => {
         : `<p class="empty">还没有目标机构。到「找资方」点「＋ 目标清单」，这里会按进度画出漏斗。</p>`}
         <p class="small muted">${rich(FUNNEL_NOTE)}${ref(...FUNNEL_SRC)}</p></section>
     </div>
-    <section class="panel"><h3>投资人必问 <small>${esc(p.short || p.name)}的专属问题在前</small></h3><div class="qa">
+    <section class="panel"><h3>投资人必问 <small>${esc(p.short || p.name)} 的专属问题在前</small></h3><div class="qa">
       ${[...(p.qa || []), ...QA].map(q => `<details><summary>${esc(q.q)}${I.chev}</summary><p>${rich(q.a)}${q.src ? ref(...q.src) : ''}</p></details>`).join('')}
     </div></section>`;
   }

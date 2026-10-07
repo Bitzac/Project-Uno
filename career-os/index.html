@@ -305,6 +305,7 @@ details.more-insts summary::-webkit-details-marker{display:none}
 .tbl tr:last-child td{border-bottom:0}
 .tbl td.n{font-family:var(--f-display);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tbl td b{font-weight:800}
+.tbl td b a{white-space:nowrap;text-decoration-thickness:1px;text-underline-offset:2px}
 
 /* sources */
 .refs{display:grid;gap:6px;font-size:12.5px;color:var(--muted);counter-reset:r;padding:0;margin:0}
@@ -405,7 +406,7 @@ const PHASES = [
   { id: 'prep', n: '准备', short: '公司、股权、材料', w: [2, 6], d: '投资人尽调时会回头查这里的每一项。融资前做好，比签了 TS 再补快得多。' },
   { id: 'find', n: '找资方', short: '名单与引荐', w: [1, 4], d: '按适配度矩阵列出目标机构，逐家核对近期同赛道、同阶段的投资案例，再找引荐人。' },
   { id: 'pitch', n: '路演', short: '见面到立项', w: [3, 10], d: '首次会面集中排在两三周内，让几家机构的节奏对齐；每次会后复盘问题清单。' },
-  { id: 'ts', n: '条款', short: 'TS 谈判', w: [1, 3], src: ['yunting'], d: '投资意向书（TS）里只有保密、排他期、费用等少数条款有约束力，但估值和关键权利基本在这一步定下来。' },
+  { id: 'ts', n: '条款', short: 'TS 谈判', w: [1, 3], src: ['yunting', 'ts-binding'], d: '投资意向书（TS）里只有排他期、费用、保密、管辖法律等少数条款有约束力，但估值和关键权利基本在这一步定下来。' },
   { id: 'dd', n: '尽调', short: '业务 · 财务 · 法律', w: [4, 16], src: ['yunting'], d: '律所口径：尽调一般要 1–4 个月。投资方和他们请的律所、会计所会核对你在路演里说过的每个数字。' },
   { id: 'ic', n: '投决', short: '投资决策委员会', w: [1, 3], src: ['tryw'], d: '尽调报告上投决会，通过后才进入签约。一家融资服务机构的样本经验：初审会淘汰九成上下，立项会淘汰五到七成，投决会淘汰三到五成（单一机构样本，不是行业统计）。' },
   { id: 'sign', n: '签约', short: '增资协议 · 股东协议 · 章程', w: [2, 8], src: ['yunting'], d: '律所口径：签署投资协议要两周到两个月。交易文件把 TS 的条款写成有约束力的合同。' },
@@ -418,9 +419,9 @@ const PHASES = [
 const STEPS = [
   // 准备
   { id: 'prep-company', ph: 'prep', pre: true, t: '境内有限公司已设立', d: '营业执照、公司章程、银行基本户、社保和税务登记齐全。', out: '营业执照与章程扫描件，放进数据室「公司文件」目录。' },
-  { id: 'prep-capital', ph: 'prep', t: '核对注册资本和实缴期限', d: '新《公司法》要求有限公司股东认缴的出资在公司成立之日起 5 年内缴足[[company-law]]；2024 年 6 月 30 日前成立的公司，要在 2027 年 6 月 30 日前把剩余出资期限调整到 5 年内[[reg-capital-rule]]。注册资本定得过高，股东要在 5 年内按认缴额承担出资责任；融资前按实际需要确认或减资。', out: '股东出资情况表（认缴额、实缴额、期限）。', who: '创始人 + 代账会计' },
+  { id: 'prep-capital', ph: 'prep', t: '核对注册资本和实缴期限', d: '新《公司法》要求有限公司股东认缴的出资在公司成立之日起 5 年内缴足[[company-law]]；2024 年 6 月 30 日前成立的公司，要在 2027 年 6 月 30 日前把剩余出资期限调整到 5 年内[[reg-capital-rule]]。注册资本定得过高，股东要在 5 年内按认缴额承担出资责任；融资前按实际需要确认或减资。2025 年有 62.39% 的交易里创始股东在交割前没有缴足注册资本（绝大多数因为还没到期限），投资人通常会在协议里约定缴纳安排[[hankun-25]]。', out: '股东出资情况表（认缴额、实缴额、期限）。', who: '创始人 + 代账会计' },
   { id: 'prep-cap-table', ph: 'prep', t: '定股权结构和控制权', d: '写清每位创始人的持股、表决权安排和成熟期（常见 4 年，满 1 年开始成熟）。联合创始人之间签合伙人协议，约定提前离开时公司按什么价格回购未成熟部分。', out: '股权结构表（cap table）、合伙人协议。', who: '创始人 + 律师', tip: { 'health-os': '如果医学顾问拿股份，用期权或限制性股权，并写明服务期。', 'groundbreak': '合规合伙人如果拿股份，同样设成熟期。' } },
-  { id: 'prep-esop', ph: 'prep', t: '预留期权池和持股平台', d: '常见做法是设一个有限合伙企业作为员工持股平台，创始人担任普通合伙人保留表决权；期权池比例由创始人和投资人在 TS 里谈，经验区间多在 10%–15%。非上市公司股权激励满足条件可以递延到转让股权时再缴个税，条件包括：激励对象累计不超过最近 6 个月在职职工平均人数的 30%、期权授予后持有满 3 年且行权后持有满 1 年[[tax-101]]。', out: '持股平台工商登记、期权计划草案。', who: '创始人 + 律师 + 税务顾问' },
+  { id: 'prep-esop', ph: 'prep', t: '预留期权池和持股平台', d: '常见做法是设一个有限合伙企业作为员工持股平台，创始人担任普通合伙人保留表决权；期权池比例由创始人和投资人在 TS 里谈；汉坤统计 2025 年境内架构项目的激励额度多在总股本的 5%–10% 或 10%–15%，境外架构多在 10%–15%[[hankun-25]]。非上市公司股权激励满足条件可以递延到转让股权时再缴个税，条件包括：激励对象累计不超过最近 6 个月在职职工平均人数的 30%、期权授予后持有满 3 年且行权后持有满 1 年[[tax-101]]。', out: '持股平台工商登记、期权计划草案。', who: '创始人 + 律师 + 税务顾问' },
   { id: 'prep-ip', ph: 'prep', t: '代码、商标和域名归属公司', d: '尽调会核对核心资产是否在公司名下：代码著作权（可做软件著作权登记）、商标、域名、App 账号。创始人与公司签劳动合同和知识产权转让协议。', out: '知识产权清单、转让协议、软著与商标证书。', tip: { 'health-os': '代码目前在个人 GitHub 仓库（bitzac/project-uno）里，融资前把著作权转让给公司，并把仓库迁到公司组织账号。', 'groundbreak': '同一个仓库：先完成著作权转让；「破土」名称尽早做商标检索和申请。' } },
   { id: 'prep-finance', ph: 'prep', t: '财务规范', d: '公私账户分开，所有支出走公司账户并取得发票；委托代账，按月出财务报表。财务尽调会看银行流水和发票。', out: '最近 12 个月的财务报表和银行流水。', who: '代账会计' },
   { id: 'prep-compliance', ph: 'prep', t: '准备合规底稿', d: '把投资人一定会问的合规问题写成书面材料，尽调时直接交出。', out: '合规说明（2–4 页）+ 相关文件。', tip: { 'health-os': '隐私政策、敏感个人信息单独同意的页面截图、个人信息保护影响评估记录[[pipl]]；一页「产品不做诊断」的功能边界说明[[nmpa-sw]]。', 'groundbreak': '律师意见书：专区是否构成公开劝诱、分期放款能否由支付机构执行、订阅收费的业务定性[[sec-law]][[illegal-fund]]。' } },
@@ -430,7 +431,7 @@ const STEPS = [
   { id: 'find-check', ph: 'find', t: '逐家核对近期案例', d: '用机构官网、公众号和融资新闻核对它最近还在投这个阶段。基金到了投资期末尾、或刚换了方向的机构，见了也很难出手。', out: '每家机构一行：最近一次同类投资的时间、公司、轮次。' },
   { id: 'find-intro', ph: 'find', t: '找引荐人', d: '最有效的引荐来自机构投过的创始人、合作过的律师和会计师。冷邮件也可以发：一页纸 + 一句话说清为什么找这家。', out: '每家目标机构对应的引荐人或联系渠道。' },
   { id: 'find-gov', ph: 'find', br: 'gov', t: '了解国资基金的投资流程和返投要求', d: '国资和政府引导基金参股的子基金，常要求被投企业在当地注册或落地，并且投资流程更长。2025 年国务院办公厅的指导意见鼓励取消注册地限制、降低或取消返投比例，但各地执行进度不一。先问清：是否要求迁址、决策要几轮会、是否需要资产评估。', out: '每家国资背景机构的流程和条件表。', src: ['gov-fund-2025'] },
-  { id: 'find-usd', ph: 'find', br: 'usd', t: '评估是否需要境外架构', d: '只有确定要拿美元基金、未来在境外上市时才搭红筹或 VIE 架构。境内居民设立境外特殊目的公司要办外汇登记[[safe-37]]，境内企业直接和间接境外上市都要向证监会备案（2023-03-31 起）[[csrc-overseas]]；先确认业务是否在外商投资准入负面清单里[[neg-list]]。', out: '架构选择备忘录（律师出具）。' },
+  { id: 'find-usd', ph: 'find', br: 'usd', t: '评估是否需要境外架构', d: '只有确定要拿美元基金、未来在境外上市时才搭红筹或 VIE 架构。境内居民设立境外特殊目的公司要办外汇登记[[safe-37]]，境内企业直接和间接境外上市都要向证监会备案（2023-03-31 起）[[csrc-overseas]]；先确认业务是否在外商投资准入负面清单里（2024 年版共 29 条，2024-11-01 施行）[[neg-list]]。汉坤统计 2025 年 66.51% 的项目用境内架构[[hankun-25]]。', out: '架构选择备忘录（律师出具）。' },
   // 路演
   { id: 'pitch-bp', ph: 'pitch', t: '写 BP（12 页）', d: '按「路演」页的 12 页结构写，每页回答一个问题。先写给不认识你的人看的版本，发出去的版本控制在 15 页以内。', out: 'BP（PDF），文件名带项目名和日期。' },
   { id: 'pitch-onepager', ph: 'pitch', t: '一页纸', d: '一页纸用于冷启动和引荐：一句话、问题、产品、数据、团队、本轮金额。', out: '一页纸（PDF）。' },
@@ -439,17 +440,17 @@ const STEPS = [
   { id: 'pitch-dataroom', ph: 'pitch', t: '搭数据室', d: '按尽调清单提前整理：公司文件、股权、财务、合同、知识产权、合规、团队。签了 TS 再整理会拖慢尽调。', out: '数据室目录（公司 / 股权 / 财务 / 合同 / IP / 合规 / 团队）。' },
   { id: 'pitch-batch', ph: 'pitch', t: '首次会面集中排在 2–3 周内', d: '把首次会面集中排，几家机构的进度会接近，最后能在同一时间比较条款。', out: '会面日程表。' },
   { id: 'pitch-review', ph: 'pitch', t: '每次会后复盘', d: '记下被问到的问题、没答好的地方、对方下一步。同一个问题被问三次，就把答案写进 BP。', out: '问答记录（可写在本步骤的备注里）。' },
-  { id: 'pitch-ic', ph: 'pitch', t: '推进到立项或合伙人会', d: '问清对方内部还要过几道会、每道会需要什么材料、谁拍板。', out: '每家机构的内部流程和时间点。', src: ['vc-process'] },
+  { id: 'pitch-ic', ph: 'pitch', t: '推进到立项或合伙人会', d: '问清对方内部还要过几道会、每道会需要什么材料、谁拍板。一家融资服务机构的样本经验：初审会淘汰九成上下，立项会再淘汰五到七成。', out: '每家机构的内部流程和时间点。', src: ['tryw'] },
   // TS
   { id: 'ts-compare', ph: 'ts', t: '收到 TS，逐项对比', d: '把几份 TS 放进同一张表：投前估值、金额、期权池是否计入投前、优先清算倍数、反稀释方式、回购触发条件、一票否决事项、董事席位、排他期。', out: 'TS 对比表。' },
-  { id: 'ts-terms', ph: 'ts', t: '谈关键条款', d: '优先清算权常见是 1 倍不参与分配；反稀释常见是广义加权平均，完全棘轮对创始人最不利。回购条款要看由谁承担：与公司对赌，履行时须先完成减资程序[[jiumin]]；要求创始人个人承担的，尽量去掉或设上限。', out: '谈判后的 TS 修订稿。', src: ['ts-terms'] },
+  { id: 'ts-terms', ph: 'ts', t: '谈关键条款', d: '先看国内的实际做法（汉坤 2025 年项目统计）：88.68% 的项目约定了清算优先权，境内架构下 89.43% 是参与型，优先金额最常见的算法是「原始投资额 + 年化约 8% 的单利或复利」；85.85% 约定了反稀释，境内架构下加权平均占 74.38%、完全棘轮占 25.62%；79.72% 约定了回购权，境内架构下只有 9.84% 由公司单独承担，其余多要求创始人连带[[hankun-25]]。与公司对赌的回购，履行时须先完成减资程序[[jiumin]]。谈判重点放在：创始人回购责任设上限、回购触发条件写清楚、上市期限不要太短、反稀释用加权平均。', out: '谈判后的 TS 修订稿。', src: ['hankun-25'] },
   { id: 'ts-lawyer', ph: 'ts', t: '请律师审 TS', d: '找做过创投交易的律师，按次或按交易收费。TS 阶段改条款的成本最低。', out: '律师批注版 TS。' },
-  { id: 'ts-sign', ph: 'ts', t: '签 TS', d: 'TS 的大部分条款没有法律约束力，保密、排他期和费用承担条款通常有约束力；排他期内不能再和其他机构谈。', out: '签署版 TS。', src: ['ts-binding'] },
+  { id: 'ts-sign', ph: 'ts', t: '签 TS', d: 'TS 里通常只有排他期、费用、保密和管辖法律条款有约束力，估值、金额、优先权等条款要到正式协议才生效。排他期一般在一个月到三个月之间，排他期内不能再和其他机构谈，所以签之前把条款谈到位[[ts-binding]]。', out: '签署版 TS。', src: ['ts-binding'] },
   // 尽调
   { id: 'dd-biz', ph: 'dd', t: '业务尽调', d: '投资方会访谈用户、客户和团队，核对 BP 里的数据口径。', out: '数据口径说明、用户和客户访谈名单。' },
   { id: 'dd-fin', ph: 'dd', t: '财务尽调', d: '核对收入、成本、银行流水和税务，查有没有未披露的负债。', out: '财务报表、流水、纳税记录。' },
   { id: 'dd-legal', ph: 'dd', t: '法律尽调', d: '查股权沿革、出资、重大合同、知识产权、劳动关系、诉讼和合规资质。', out: '律师尽调问卷的回复和文件。', tip: { 'health-os': '会重点问个人信息处理和产品是否触及医疗器械。', 'groundbreak': '会重点问证券和非法集资的定性、支付和资金流。' } },
-  { id: 'dd-eval', ph: 'dd', br: 'gov', t: '国资：资产评估与备案', d: '国有投资方入股时，可能要求对公司做资产评估并完成备案，多出数周时间。提前问清是否需要、由谁委托、费用谁承担。', out: '评估报告与备案文件。', src: ['eval-rule'] },
+  { id: 'dd-eval', ph: 'dd', br: 'gov', t: '国资：资产评估与备案', d: '《企业国有资产评估管理暂行办法》第六条把「收购非国有单位的资产」「非上市公司国有股东股权比例变动」等列为需要评估的情形；国资基金投你时是否必须评估，取决于基金是公司制还是合伙制、投资方式和属地国资监管[[eval-rule]]。提前问清是否需要、由谁委托、费用谁承担，评估和备案会多出数周。', out: '评估报告与备案文件。', src: ['eval-rule'] },
   { id: 'dd-fix', ph: 'dd', t: '整改尽调发现的问题', d: '尽调发现的问题会写进交易文件的先决条件或陈述保证，能在签约前改的先改。', out: '整改清单与完成证明。' },
   // 投决
   { id: 'ic-pass', ph: 'ic', t: '投决会通过', d: '投资方投委会表决通过。没通过时问清原因，常见是估值、团队或某个尽调问题。', out: '投资方书面通知。' },
@@ -505,8 +506,8 @@ const SECTORS = {
       angel: '种子轮最常见的第一张支票。优先找投过数字健康的天使，他们能帮你补医学顾问和第一批机构合作。',
       incubator: '加速器给小额种子资金和固定节奏的路演日，适合还没有用户数据的阶段。',
       competition: '大赛的价值是曝光和投资人对接，奖金不是重点；选有「医疗健康」或「互联网」赛道的。',
-      vc_rmb: '医疗健康一直是人民币 VC 的主要赛道之一，但多数早期基金更偏好药、械和 AI 医疗；找有消费级健康或健康管理案例的基金。',
-      vc_usd: '美元基金在中国的新投资明显收缩，健康数据出境也受限制；种子轮不建议走境外架构。',
+      vc_rmb: '医疗健康一直是人民币 VC 的主要赛道之一，但钱主要流向药和器械：2026 年上半年国内数字健康只有 36 次融资、约 3 亿美元[[vb-26h1]]。找有消费级健康或健康管理案例的基金。',
+      vc_usd: '2025 年外币基金新募资金只占 2.2%、同比 −36%[[qk-25-fund]]；向境外提供 1 万人以上的敏感个人信息要申报安全评估[[cac-crossborder]]。种子轮不建议走境外架构。',
       cvc: '保险、体检、可穿戴厂商对健康数据有战略兴趣，但通常在有留存后才投。',
       gov_fund: '产业基金偏药、械和医疗服务；消费级健康软件多通过天使母基金参股的子基金间接获得。',
       local_gov: '软件企业的落地补贴和房租减免金额通常不大，可以作为补充，不要为此换注册地。',
@@ -521,7 +522,7 @@ const SECTORS = {
       incubator: '加速器自带项目源和投资人网络，正好是平台冷启动需要的两边。',
       competition: '大赛主办方和孵化器都是潜在的项目来源和合作伙伴，参赛同时谈合作。',
       vc_rmb: '平台模式要先过监管定性这一关，机构会要求律师意见；找投过企业服务和交易平台的早期基金。',
-      vc_usd: '涉及证券和众筹的平台业务、加上美元基金在华收缩，基本不适配。',
+      vc_usd: '涉及证券和众筹的平台业务，加上外币基金新募资金只占 2.2%[[qk-25-fund]]，基本不适配。',
       cvc: '创投媒体、数据服务商、券商和区域性股权市场运营方有战略协同，可能以合作或小额战投进入。',
       gov_fund: '监管定性未明的平台业务，国资基金容忍度低。',
       local_gov: '部分地方政府把投融资对接当作营商环境服务，可以谈合作和场地，资金支持有限。',
@@ -535,8 +536,8 @@ const SECTORS = {
       angel: '活跃天使最多的赛道之一，竞争也激烈；靠产品演示和早期数据说话。',
       incubator: 'AI 是加速器近年的主要方向，种子资金和算力资源都有。',
       competition: 'AI 赛道的大赛多、政府关注度高，适合拿曝光和地方资源。',
-      vc_rmb: 'AI 占早期投资笔数和金额的比例都最高，是人民币 VC 的主赛道。',
-      vc_usd: '美国对外投资规则限制美国资金投中国的部分 AI 领域，种子轮不建议走美元架构。',
+      vc_rmb: '2026 年上半年 AI 占全部投资金额的 44.7%[[qk-26h1]]，是人民币 VC 的主赛道。',
+      vc_usd: '美国财政部对外投资规则自 2025-01-02 起限制美国资金投中国的半导体、量子和部分 AI 领域[[us-outbound]]，种子轮不建议走美元架构。',
       cvc: '大模型和云厂商有生态投资，适合有明确场景的应用。',
       gov_fund: 'AI 是各地引导基金的重点方向之一。',
       local_gov: '多地有算力券、场地和落地奖励，适合愿意在当地组建团队的公司。',
@@ -551,7 +552,7 @@ const SECTORS = {
       incubator: '高校和科研院所的孵化器更对口。',
       competition: '大赛是硬科技项目接触地方政府和国资的主要渠道之一。',
       vc_rmb: '人民币 VC 的主赛道，国产替代和先进制造案例多。',
-      vc_usd: '半导体、量子等领域受美国对外投资规则限制。',
+      vc_usd: '半导体、量子等领域受美国对外投资规则限制[[us-outbound]]。',
       cvc: '产业链上下游的大企业常作为战略投资方。',
       gov_fund: '引导基金和国资直投的重点方向，常要求在当地落地。',
       local_gov: '「国资领投 + 项目落地」模式最常见于硬科技和制造业。',
@@ -580,7 +581,7 @@ const SECTORS = {
       angel: '消费天使看复购和渠道数据。',
       incubator: '多数加速器偏科技项目。',
       competition: '大赛对消费品牌帮助有限。',
-      vc_rmb: '消费投资较前几年明显降温，看复购和毛利。',
+      vc_rmb: '清科倪正东称 2026 年消费投资「更是凉快」[[qk-ni-26]]，看复购和毛利。',
       vc_usd: '美元基金在华收缩。',
       cvc: '渠道和供应链企业可能战略投资。',
       gov_fund: '引导基金较少投消费品牌。',
@@ -678,13 +679,13 @@ const SOURCE_TYPES = [
   { id: 'angel', n: '天使投资人 / 天使基金', short: '天使', amt: '几十万到数千万元', cyc: '2–8 周',
     gate: '看人为主：团队背景、原型和对问题的理解。医疗健康天使轮普遍「看人下估值」[[vb-angel]]。',
     terms: '估值和出让比例；个人天使有时要求创始人个人承担回购，尽量不接受。',
-    how: '最好由他们投过的创始人引荐；天使基金一般在官网或公众号接收 BP。' },
+    how: '最好由他们投过的创始人引荐；天使基金一般在官网或公众号接收 BP。清科每年发布的中国早期投资机构 30 强可以当作起点名单[[qk-early30]]。' },
   { id: 'incubator', n: '孵化器 / 加速器', short: '加速器', amt: '数十万到数百万元', cyc: '按批次，3 个月左右一期',
-    gate: '团队和方向；多数加速器不要求已有收入。',
+    gate: '团队和方向；多数加速器不要求已有收入。奇绩创坛公开的标准条款是 30 万美元换 7% 股份，每年两期、每期 3 个月，申请截止一般在 1 月中和 7 月中[[miracleplus]]。',
     terms: '用多少股份换多少钱和服务，写清是否附带后续投资的优先权。',
     how: '按批次在官网申请，有固定的截止日期和路演日。' },
   { id: 'competition', n: '创业大赛', short: '大赛', amt: '奖金通常不是重点；价值在曝光和对接', cyc: '按赛季，3–6 个月',
-    gate: '一般要求已注册公司；部分地方赛要求获奖后在当地落地。',
+    gate: '一般要求已注册公司；部分地方赛要求获奖后在当地落地。有的赛区用股权投资代替奖金，例如 2025 年中国创新创业大赛宁波赛区，获奖团队可获当地天使引导基金最高 500 万元投资[[ningbo-contest]]。',
     terms: '获奖附带的落地、注册地或返投要求。',
     how: '官网报名，按赛道提交 BP 和路演视频。' },
   { id: 'vc_rmb', n: '市场化 VC（人民币 / 双币）', short: '人民币 VC', amt: '数百万到数亿元', cyc: '2–6 个月',
@@ -693,31 +694,31 @@ const SOURCE_TYPES = [
     how: '引荐优先；核对这家基金近 12 个月在同赛道同阶段的案例，找到负责这个方向的合伙人。' },
   { id: 'vc_usd', n: '美元基金（境外架构）', short: '美元 VC', amt: '数百万美元起', cyc: '3–9 个月（含搭建架构）',
     gate: '要搭红筹或 VIE 架构、办外汇登记；业务不能落在外资受限领域。2025 年外币基金新募资金同比下降 36%[[qk-25-fund]]。',
-    terms: '架构搭建费用高；美国对外投资规则限制美国资金投中国的半导体、量子和部分 AI 领域。',
+    terms: '架构搭建费用高；美国对外投资规则自 2025-01-02 起限制美国资金投中国的半导体、量子和部分 AI 领域[[us-outbound]]。',
     how: '只有确定要在境外上市、而且业务不受限时才考虑。' },
   { id: 'cvc', n: '产业资本 CVC', short: '产业资本', amt: '数百万到数亿元', cyc: '3–9 个月，常要过战略和投资两条线',
     gate: '和投资方主业有协同：渠道、数据、供应链或技术。',
     terms: '优先购买权、排他合作、竞业限制；要防止被锁死在一个产业方。',
     how: '先从业务合作谈起，再谈投资；找产业方的战略投资部。' },
   { id: 'gov_fund', n: '政府引导基金 / 国资', short: '国资', amt: '多通过子基金投，直投从数千万元起', cyc: '3–12 个月',
-    gate: '属于地方重点产业；通常要求在当地注册或落地。',
-    terms: '返投比例和注册地、回购条款、资产评估和备案、后续国有股权转让要进场交易。2025 年国务院办公厅鼓励降低或取消返投比例[[gov-fund-2025]]，深圳天使母基金 2026 年版申报指南已取消 1.75 倍返投[[szangel-26]]。',
+    gate: '属于地方重点产业；通常要求在当地注册或落地。2025 年底启动的国家创业投资引导基金：财政出资 1,000 亿元，投向种子期、初创期企业的比例不低于 70%，单笔不超过 5,000 万元、标的估值 5 亿元以下[[nat-vc-fund]]。',
+    terms: '返投比例和注册地、回购条款、资产评估和备案、后续国有股权转让要进场交易。2025 年国务院办公厅鼓励降低或取消返投比例[[gov-fund-2025]]，深圳天使母基金 2026 年版申报指南已取消 1.75 倍返投[[szangel-26]]；但仍有地方保留，例如杭州萧山 2026 年的天使引导基金要求子基金在当地投资不低于出资额的 1.5 倍[[xiaoshan-26]]。',
     how: '找引导基金参股的市场化子基金，比直接找母基金快。' },
   { id: 'local_gov', n: '地方招商 / 国资领投', short: '地方招商', amt: '补贴、场地，或国资平台领投', cyc: '1–6 个月',
     gate: '愿意把公司或团队落到当地。',
     terms: '迁址、纳税、就业承诺和对赌；写清承诺做不到时的后果。',
     how: '通过园区招商部门或地方国资平台对接。' },
   { id: 'bank', n: '银行科创贷 / 投贷联动', short: '银行', amt: '几十万到数千万元（债权）', cyc: '2–8 周',
-    gate: '有收入、合同或知识产权可以质押；早期公司很难拿到。',
+    gate: '有收入、合同或知识产权可以质押；早期公司很难拿到。2025 年末科技型中小企业获贷率 50.2%[[pbc-tech-loan]]；2025 年知识产权质押贷款 2,979 亿元、2.87 万户[[cnipa-ip-25]]。',
     terms: '创始人个人连带担保。',
-    how: '科技支行、地方担保公司；拿到股权融资后再谈投贷联动更容易。' },
+    how: '科技支行、地方担保公司；拿到股权融资后再谈投贷联动更容易。银行系金融资产投资公司（AIC）的股权投资试点已扩至 18 个城市，签约超过 3,500 亿元[[aic-25]]。' },
   { id: 'equity_market', n: '区域性股权市场 / 专精特新专板', short: '股权市场', amt: '挂牌后对接投资人，金额不定', cyc: '挂牌 1–3 个月',
     gate: '在本省注册；单只证券的投资者不超过 200 人。',
     terms: '挂牌费用和信息披露义务。',
     how: '联系本省的股权交易中心；26 家区域性股权市场设有专精特新专板，服务企业 1.56 万家[[ssxt-board]]。' },
   { id: 'fa', n: '财务顾问 FA', short: 'FA', amt: '不出钱，按融资额收费', cyc: '随项目',
     gate: '一般从 A 轮或数千万元规模起接。',
-    terms: '成功费比例、独家期限、是否收前期费用。',
+    terms: '成功费比例、独家期限、是否收前期费用。业内口径：早期项目一般不超过融资额的 5%，中后期约 3%，大额融资 1%–2%，常按金额分段递减[[fa-fee]]。',
     how: '大额融资时再找；种子和天使轮自己跑更合适。' }
 ];
 
@@ -750,6 +751,25 @@ const INSTS = [
   // 大赛
   { id: 'hicool', n: 'HICOOL 全球创业大赛', type: 'competition', fit: ['health', 'general'], focus: '北京主办的综合性创业大赛，医药健康是落地区重点产业之一', ev: '2025 届收到 10,055 个项目，往届获奖项目赛后融资超 446 亿元。', src: 'https://www.news.cn/science/20250509/15e98df5aaee4995a3e7b5c3bb37aacb/c.html', srcT: '新华网 · 2025-05' },
   { id: 'ai-med-contest', n: '新质生产力 AI + 医疗创新应用大赛', type: 'competition', fit: ['health'], focus: '美年健康、阿里云等主办；方向含智能健康管理和远程医疗监护', ev: '2025-11 在上海举办，300 余个项目报名，设美年创新需求对接专场（产品采购、数据合作）。', src: 'https://finance.eastmoney.com/a/202511033553695621.html', srcT: '东方财富 · 2025-11' },
+  // 通用与破土相关
+  { id: 'zhenfund', n: '真格基金', type: 'angel', fit: ['groundbreak', 'general'], focus: '国内最早的天使投资机构之一；清科 2025 年中国早期投资机构 30 强第 4 名', ev: '2014-04 参与众筹平台摩点网 1,800 万元天使轮（同轮有华兴资本、华创资本等）。', src: 'https://pitchhub.36kr.com/project/2144721173447939', srcT: '36氪 PitchHub · 摩点网' },
+  { id: 'jiuhe', n: '九合创投', type: 'angel', fit: ['groundbreak', 'general'], focus: '天使和早期投资，由百度创始团队成员王啸创立', ev: '36氪的早期投资方，2019-11 36氪在纳斯达克上市时是其主要股东之一。', src: 'https://www.pingwest.com/w/197383', srcT: '品玩 · 2019-11' },
+  { id: 'zkcx', n: '中科创星', type: 'angel', fit: ['general'], focus: '硬科技早期投资；清科 2025 年中国早期投资机构 30 强第 1 名', ev: '2025-12 先导创业投资基金完成终关，规模 40.8 亿元，90% 的项目在前两轮。', src: 'https://m.thepaper.cn/detail/32153009', srcT: '澎湃新闻 · 2025-12' },
+  { id: 'sinovation', n: '创新工场', type: 'vc_rmb', fit: ['general'], focus: '早期科技投资', ev: '清科 2025 年中国早期投资机构 30 强第 6 名。', src: 'https://news.pedaily.cn/202512/559271.shtml', srcT: '投资界 · 2025-12' },
+  { id: 'lanchi', n: '蓝驰创投', type: 'vc_rmb', fit: ['general'], focus: '早期科技投资，人民币和美元双币', ev: '清科 2025 年中国早期投资机构 30 强第 8 名；2026 年上半年美元四期募资 5.6 亿美元。', src: 'https://finance.sina.com.cn/stock/vcpe/yc/2026-07-08/doc-inihaicz1450225.shtml', srcT: '新浪财经 · 2026-07' },
+  { id: 'meihua', n: '梅花创投', type: 'angel', fit: ['general'], focus: '天使和早期投资', ev: '清科 2025 年中国早期投资机构 30 强第 12 名。', src: 'https://news.pedaily.cn/202512/559271.shtml', srcT: '投资界 · 2025-12' },
+  { id: 'qidi', n: '启迪之星', type: 'incubator', fit: ['groundbreak', 'general'], focus: '孵化器网络，覆盖 90 多个城市、200 多个孵化基地', ev: '2018 年投资项目视频路演平台「起风了」B 轮，这家公司做创业者与天使投资人的投融资对接。', src: 'https://news.pedaily.cn/201803/429179.shtml', srcT: '投资界 · 2018-03' },
+  { id: 'huaxing', n: '华兴资本', type: 'fa', fit: ['groundbreak', 'general'], focus: '新经济财务顾问和投行', ev: '2019-06 控股创投数据库 IT桔子；更早参与其 A、B 轮。', src: 'https://pitchhub.36kr.com/project/2083102193953541', srcT: '36氪 PitchHub · IT桔子' },
+  { id: 'ethercap', n: '以太资本', type: 'fa', fit: ['groundbreak', 'general'], focus: '专注 TMT 早期创业公司的融资顾问', ev: '自述已为 200 多个初创团队完成融资，合计超 11 亿美元；和破土的投资人对接业务直接相关。', src: 'https://www.baijing.cn/people/34681', srcT: '白鲸出海' },
+  { id: 'lighthouse', n: '光源资本', type: 'fa', fit: ['general'], focus: '新经济精品投行', ev: '自述帮助 160 多家公司完成超过 250 笔私募融资。', src: 'https://pitchhub.36kr.com/organization/1678202207171588', srcT: '36氪 PitchHub · 光源资本' },
+  { id: 'nat-vc', n: '国家创业投资引导基金', type: 'gov_fund', fit: ['health', 'general'], focus: '国家级创投引导基金，设京津冀、长三角、粤港澳大湾区三只区域基金', ev: '2025-12-26 启动，财政出资 1,000 亿元；投向种子期、初创期企业的比例不低于 70%，单笔不超过 5,000 万元。', src: 'https://www.gov.cn/zhengce/202512/content_7052828.htm', srcT: '中国政府网 · 2025-12' },
+  { id: 'jjj-vc', n: '京津冀创业投资引导基金', type: 'gov_fund', fit: ['health', 'general'], focus: '国家创投引导基金的区域基金，重点投人工智能、医药健康、商业航天等', ev: '总规模 500 亿元，中金资本管理；2026-03 启动宣讲，子基金投种子期、初创期的比例不低于 70%。', src: 'https://www.bjnews.com.cn/detail/1773921693129400.html', srcT: '新京报 · 2026-03' },
+  { id: 'xiaoshan', n: '杭州萧山「潮启航」天使引导基金', type: 'gov_fund', fit: ['general'], focus: '区级天使引导基金，投早、投小、投硬科技', ev: '2026-02 设立，10 亿元；子基金在萧山的投资不低于出资额的 1.5 倍。', src: 'https://news.pedaily.cn/202602/560839.shtml', srcT: '投资界 · 2026-02' },
+  { id: 'hefei', n: '合肥国资平台（建投、产投、兴泰）', type: 'local_gov', fit: ['general'], focus: '「以投带引」：国资领投，换企业总部或产线落地', ev: '2020-04 合肥战略投资者向蔚来中国投资 70 亿元，合计持股 24.1%，蔚来中国总部落户合肥经开区。', src: 'https://www.jiemian.com/article/4318507.html', srcT: '界面新闻 · 2020-04' },
+  { id: 'ningbo', n: '中国创新创业大赛（宁波赛区）', type: 'competition', fit: ['general'], focus: '科技部火炬中心主办的全国性大赛的地方赛区', ev: '2025 年用股权投资代替现金奖励：获奖团队可获宁波天使引导基金最高 500 万元投资，企业组「天使之星」最高 1,000 万元。', src: 'https://www.stdaily.com/web/gdxw/2025-08/01/content_379392.html', srcT: '科技日报 · 2025-08' },
+  { id: 'cnmaker', n: '「创客中国」大赛', type: 'competition', fit: ['general'], focus: '工信部、财政部主办的中小企业创新创业大赛', ev: '获奖项目可优先入驻国家级和省级双创示范基地，并获得免费的法律、财务、知识产权服务和投融资对接。', src: 'https://www.cnfin.com/xy-lb/detail/20260728/4447363_1.html', srcT: '新华财经 · 2026-07' },
+  { id: 'aic', n: '金融资产投资公司（AIC）股权投资试点', type: 'bank', fit: ['general'], focus: '银行系股权投资，偏大中型科技项目', ev: '2024 年试点扩至 18 个城市，签约金额超过 3,500 亿元；2025 年起可在试点城市所在省份投资。', src: 'https://news.10jqka.com.cn/20250306/c666500565.shtml', srcT: '同花顺财经 · 2025-03' },
+  { id: 'bj-equity', n: '北京股权交易中心专精特新专板', type: 'equity_market', fit: ['groundbreak', 'general'], focus: '区域性股权市场的专精特新专板，可作为破土首批项目来源', ev: '专板挂牌企业 974 家，累计融资超过 400 亿元；9 家通过绿色通道转到新三板。', src: 'https://www.stcn.com/article/detail/3499410.html', srcT: '证券时报 · 2025-11' },
   // FA
   { id: 'cdh-yikai', n: '易凯资本', type: 'fa', fit: ['health'], focus: '医疗健康产业财务顾问（融资、并购）', ev: '2026-08 担任蓝帆医疗出售武汉必凯尔 100% 股权的独家财务顾问。', src: 'https://news.pedaily.cn/202608/567769.shtml', srcT: '投资界 · 2026-08' }
 ];
@@ -757,6 +777,22 @@ const INSTS = [
 // ----- sources -----
 // t: title · u: https link · d: publication or effective date
 const SRC = {
+  'cac-crossborder': { t: '国家网信办：促进和规范数据跨境流动规定（第 7 条）', u: 'https://www.cac.gov.cn/2024-03/22/c_1712776611775634.htm', d: '2024-03-22' },
+  'us-outbound': { t: 'Perkins Coie: Treasury’s final rule on outbound investments takes effect January 2, 2025', u: 'https://perkinscoie.com/insights/update/treasurys-final-rule-outbound-investments-takes-effect-january-2', d: '2025-01-02' },
+  'hankun-25': { t: '汉坤律师事务所：汉坤 2025 年度 VC/PE 项目数据分析报告', u: 'https://www.hankunlaw.com/upload/portal/20260630/12b9ddda0f0fd05d74d07e067f29ab1a.pdf', d: '2026-06-30' },
+  'ts-binding': { t: '锦天城律师事务所：投资篇（四）一文读懂 Term Sheet', u: 'https://www.allbrightlaw.com/CN/10475/7d75e796613626e0.aspx', d: '2023-12-04' },
+  'eval-rule': { t: '锦天城律师事务所：国有企业出资基金对拟投标的公司的评估要求', u: 'https://www.allbrightlaw.com/CN/10475/30B5EB15311F8F80.aspx', d: '2025-07-08' },
+  'neg-list': { t: '国家发展改革委：2024 年版外商投资准入负面清单解读', u: 'https://www.ndrc.gov.cn/xxgk/jd/jd/202409/t20240907_1392878.html', d: '2024-09-08' },
+  'safe-37': { t: '国家外汇管理局河北省分局：特殊目的公司项下境内个人购付汇服务指南（依据汇发〔2014〕37 号）', u: 'https://www.safe.gov.cn/hebei/file/file/20220208/5290fceaeb43487db815300be4c70812.pdf', d: '2022-02' },
+  'miracleplus': { t: '奇绩创坛官网：投资条款与常见问题', u: 'https://www.miracleplus.com/faq', d: '2026-10' },
+  'nat-vc-fund': { t: '中国政府网：国家创业投资引导基金启动', u: 'https://www.gov.cn/zhengce/202512/content_7052828.htm', d: '2025-12-26' },
+  'xiaoshan-26': { t: '投资界：杭州萧山 10 亿元「潮启航」天使引导基金', u: 'https://news.pedaily.cn/202602/560839.shtml', d: '2026-02-06' },
+  'pbc-tech-loan': { t: '新华网：人民银行发布 2025 年末科技型中小企业贷款数据', u: 'https://www.news.cn/20260127/6fa8a25c704e4f1583f93d69d18ee097/c.html', d: '2026-01-27' },
+  'cnipa-ip-25': { t: '国家知识产权局：2025 年知识产权质押融资数据', u: 'https://www.cnipa.gov.cn/art/2026/3/25/art_55_205496.html', d: '2026-03-25' },
+  'aic-25': { t: '同花顺财经：金融资产投资公司股权投资试点扩围', u: 'https://news.10jqka.com.cn/20250306/c666500565.shtml', d: '2025-03-05' },
+  'fa-fee': { t: '36氪：创业者如何选择和使用 FA（程浩）', u: 'https://www.36kr.com/p/1705026232218884', d: '2022-04-19' },
+  'ningbo-contest': { t: '科技日报：第十四届中国创新创业大赛宁波赛区', u: 'https://www.stdaily.com/web/gdxw/2025-08/01/content_379392.html', d: '2025-08-01' },
+  'qk-early30': { t: '投资界：清科 2025 年中国早期投资机构 30 强', u: 'https://news.pedaily.cn/202512/559271.shtml', d: '2025-12-29' },
   'company-law': { t: '中华人民共和国公司法（2023 年修订，第 42、47、144、227 条；新华网全文）', u: 'https://www.news.cn/politics/20231230/e6964c1620e04f3a94989df81581389f/c.html', d: '2024-07-01' },
   'reg-capital-rule': { t: '国务院关于实施公司法注册资本登记管理制度的规定（中国政府网）', u: 'https://www.gov.cn/zhengce/202407/content_6960502.htm', d: '2024-07-01' },
   'reg-change': { t: '中华人民共和国市场主体登记管理条例（第 24 条）', u: 'https://www.gov.cn/zhengce/zhengceku/2021-08/24/content_5632964.htm', d: '2022-03-01' },
@@ -805,6 +841,14 @@ const SRC = {
 const BUILTIN = [
   {
     id: 'health-os', name: '身体健康 OS', short: '健康 OS', sector: 'health', stage: 'seed', order: 0,
+    precedents: [
+      { co: '智诊科技', what: '医疗大模型 + 个人健康管理 App「好伴AI」（体检报告解读、家庭健康管理）', deal: '天使轮 6,500 万元，杭州千遇智汇、无锡元启联合领投', d: '2026-05', src: 'https://www.vbdata.cn/1519075128' },
+      { co: '今日宜休', what: '睡眠健康', deal: '首轮种子融资数千万元（高瓴创投、智元、云九资本），约三个月后完成第二轮', d: '2026-05', src: 'https://news.pedaily.cn/202605/563740.shtml' },
+      { co: 'Odyss', what: '记录饮食与运动的 AI 健康项链，硬件 + 订阅', deal: '近 2 亿元，红杉中国、Monolith 分别领投', d: '2026-03', src: 'https://finance.sina.com.cn/stock/t/2026-03-26/doc-inhshnwy0370633.shtml' },
+      { co: '紫荆智康', what: 'AI 医院：诊前预问诊到诊后健康管理', deal: '天使轮近亿元，星连资本领投，英诺天使跟投', d: '2025-11', src: 'https://cj.sina.com.cn/articles/view/5953190035/162d67893019017egs' },
+      { co: '倍佐健康', what: '心脑血管数字健康管理，数字会员制', deal: '天使轮千万级人民币', d: '2024-08', src: 'https://www.vbdata.cn/1518982732' },
+      { co: '薄荷健康', what: '体重管理平台，累计注册用户 2 亿', deal: '蚂蚁集团战略投资，持股超 28%', d: '2026-07', src: 'https://technode.global/2026/07/08/ant-group-takes-28-stake-in-chinas-boohee-health-as-ai-health-app-aq-surpasses-100m-users/' }
+    ],
     kpi: { v: '36', u: '次', l: '2026 上半年国内数字健康融资', d: '约 3 亿美元；医疗健康整体 451 笔', src: 'vb-26h1' },
     status: '已注册境内公司 · 可交互原型已上线（health-os/）· 尚未融资 · 仓库里没有用户数和收入数据',
     lead: '先把两件事写成书面材料：产品只做健康记录、不做诊断（不进医疗器械注册），以及健康数据按敏感个人信息处理。然后带着 3 个月留存数据找投过数字健康的天使和早期基金；保险、体检、可穿戴厂商的产业资本放到有留存曲线之后。',
@@ -841,6 +885,17 @@ const BUILTIN = [
   },
   {
     id: 'groundbreak', name: '破土 Groundbreak', short: '破土', sector: 'platform', stage: 'seed', order: 1,
+    precedents: [
+      { co: '36氪 NEXT', what: '每日新产品展示 + 用户投票，和破土的首发榜同一个形态', deal: '36氪内部产品，2014-08 上线', d: '2014-08', src: 'https://www.36kr.com/p/1641919447041' },
+      { co: 'IT桔子', what: '创投数据库', deal: '2013 天使 150 万元（极客帮、PreAngel）→ 2014 A 轮 200 万美元（IDG、华兴、北极光）→ 2019 被华兴资本控股', d: '2019-06', src: 'https://pitchhub.36kr.com/project/2083102193953541' },
+      { co: '36氪', what: '创投媒体与企业服务', deal: '2019-11 纳斯达克上市，IPO 募资至多 2,415 万美元；2025 年上半年营收 9,320 万元、净亏损 480 万元', d: '2025-09', src: 'https://www.sec.gov/Archives/edgar/data/0001779476/000110465925093519/tm2526847d1_ex99-1.htm' },
+      { co: '鲸准', what: '融资对接、资管系统、政府招商服务', deal: 'B 轮 1 亿元，兰璞资本、德屹资本领投', d: '2020-10', src: 'https://www.36kr.com/p/933707095984003' },
+      { co: '投中信息', what: '创投数据 CVSource', deal: '新三板定增 5,000 万元（投控东海、红杉中国）', d: '2018-06', src: 'https://pitchhub.36kr.com/project/2144720942793989' },
+      { co: '摩点网', what: '游戏、动漫类奖励众筹', deal: '2014 天使 1,800 万元（真格基金等）→ 2018 A 轮 1 亿元（新浪微博基金）', d: '2018-02', src: 'https://pitchhub.36kr.com/project/2144721173447939' },
+      { co: '开始众筹', what: '民宿、餐厅类消费权益众筹', deal: 'C 轮 1.9 亿元，云锋基金领投，投后估值超 2 亿美元', d: '2017-08', src: 'https://yicaiglobal.com/news/chinese-crowd-funding-platform-bags-usd29-million-in-c-round-financing' },
+      { co: '京东众筹', what: '大厂奖励众筹', deal: '2022-10-10 暂停运营；众筹平台从 2016 年峰值 532 家降到 2019 年中的 105 家', d: '2022-10', src: 'https://www.thepaper.cn/newsDetail_forward_20239061' },
+      { co: 'Product Hunt', what: '每日新产品榜', deal: '2016 年被 AngelList 以约 2,000 万美元收购', d: '2016-12', src: 'https://www.ifanr.com/756365' }
+    ],
     kpi: { v: '737', u: '家', l: '2025 年活跃投资机构', d: '2015 年为 1,661 家，减少 55.6%', src: 'itjz-active' },
     status: '已注册境内公司 · 产品方案 v0.1 与可交互原型（groundbreak/）· 尚未融资',
     lead: '先拿律师意见书，再融资：投资人的第一个问题会是「这算不算变相公开发行证券或非法集资」。对口资方是投过创投服务、企业服务平台的天使和早期基金，以及能带来项目源的合作方；国资引导基金适配度低。',
@@ -1338,6 +1393,9 @@ const Fund = (() => {
     return `<div class="vhead"><div><div class="eyebrow">找对口资方</div><h1>${esc(p.short || p.name)} 先找：${esc(top)}</h1>
       <p>${rich(SOURCES_LEAD)}</p></div></div>
     <section class="panel"><h3>适配度矩阵 <small>点格子看这一类资方的门槛和机构</small></h3>${heatmap()}</section>
+    ${p.precedents ? `<section class="panel"><h3>同类公司怎么融到钱 <small>${esc(p.short || p.name)} 的参照案例，点公司名看原文</small></h3><div class="tbl"><table><thead><tr><th>公司</th><th>做什么</th><th>融资</th><th>时间</th></tr></thead><tbody>
+      ${p.precedents.map(c => `<tr><td><b><a href="${esc(c.src)}" target="_blank" rel="noopener">${esc(c.co)} ${I.ext}</a></b></td><td>${esc(c.what)}</td><td>${esc(c.deal)}</td><td class="n">${esc(c.d)}</td></tr>`).join('')}
+    </tbody></table></div></section>` : ''}
     <div class="srcs">${r.map(({ t, f }) => typeCard(t, f)).join('')}</div>`;
   }
 
@@ -1349,7 +1407,7 @@ const Fund = (() => {
     return `<div class="vhead"><div><div class="eyebrow">路演</div><h1>一份 BP，过三道会</h1>
       <p>${rich(PITCH_LEAD)}</p></div></div>
     <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
-    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是${esc(p.short || p.name)}的要点</small></h3>
+    <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是 ${esc(p.short || p.name)} 的要点</small></h3>
       <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>
@@ -1358,7 +1416,7 @@ const Fund = (() => {
         : `<p class="empty">还没有目标机构。到「找资方」点「＋ 目标清单」，这里会按进度画出漏斗。</p>`}
         <p class="small muted">${rich(FUNNEL_NOTE)}${ref(...FUNNEL_SRC)}</p></section>
     </div>
-    <section class="panel"><h3>投资人必问 <small>${esc(p.short || p.name)}的专属问题在前</small></h3><div class="qa">
+    <section class="panel"><h3>投资人必问 <small>${esc(p.short || p.name)} 的专属问题在前</small></h3><div class="qa">
       ${[...(p.qa || []), ...QA].map(q => `<details><summary>${esc(q.q)}${I.chev}</summary><p>${rich(q.a)}${q.src ? ref(...q.src) : ''}</p></details>`).join('')}
     </div></section>`;
   }

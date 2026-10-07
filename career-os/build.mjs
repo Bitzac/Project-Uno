@@ -43,6 +43,7 @@ for (const p of D.BUILTIN) {
   (p.qa || []).forEach(q => (q.src || []).forEach(k => need(k, `${p.id} qa ${q.q}`)));
   if (!D.SECTORS[p.sector]) errs.push(`${p.id}: unknown sector`);
   if (p.kpi) need(p.kpi.src, `${p.id} kpi`);
+  (p.precedents || []).forEach(c => { if (!/^https:\/\//.test(c.src) || !c.co || !c.deal || !c.d) errs.push(`${p.id} precedent ${c.co}: needs https src, deal and date`); });
   for (const k of Object.keys(p.why || {})) if (!typeIds.has(k)) errs.push(`${p.id}: why for unknown type ${k}`);
   for (const k of Object.keys(p.bp || {})) if (!D.BP.some(b => b.id === k)) errs.push(`${p.id}: bp for unknown slide ${k}`);
 }

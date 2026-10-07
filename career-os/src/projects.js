@@ -4,6 +4,14 @@
 const BUILTIN = [
   {
     id: 'health-os', name: '身体健康 OS', short: '健康 OS', sector: 'health', stage: 'seed', order: 0,
+    precedents: [
+      { co: '智诊科技', what: '医疗大模型 + 个人健康管理 App「好伴AI」（体检报告解读、家庭健康管理）', deal: '天使轮 6,500 万元，杭州千遇智汇、无锡元启联合领投', d: '2026-05', src: 'https://www.vbdata.cn/1519075128' },
+      { co: '今日宜休', what: '睡眠健康', deal: '首轮种子融资数千万元（高瓴创投、智元、云九资本），约三个月后完成第二轮', d: '2026-05', src: 'https://news.pedaily.cn/202605/563740.shtml' },
+      { co: 'Odyss', what: '记录饮食与运动的 AI 健康项链，硬件 + 订阅', deal: '近 2 亿元，红杉中国、Monolith 分别领投', d: '2026-03', src: 'https://finance.sina.com.cn/stock/t/2026-03-26/doc-inhshnwy0370633.shtml' },
+      { co: '紫荆智康', what: 'AI 医院：诊前预问诊到诊后健康管理', deal: '天使轮近亿元，星连资本领投，英诺天使跟投', d: '2025-11', src: 'https://cj.sina.com.cn/articles/view/5953190035/162d67893019017egs' },
+      { co: '倍佐健康', what: '心脑血管数字健康管理，数字会员制', deal: '天使轮千万级人民币', d: '2024-08', src: 'https://www.vbdata.cn/1518982732' },
+      { co: '薄荷健康', what: '体重管理平台，累计注册用户 2 亿', deal: '蚂蚁集团战略投资，持股超 28%', d: '2026-07', src: 'https://technode.global/2026/07/08/ant-group-takes-28-stake-in-chinas-boohee-health-as-ai-health-app-aq-surpasses-100m-users/' }
+    ],
     kpi: { v: '36', u: '次', l: '2026 上半年国内数字健康融资', d: '约 3 亿美元；医疗健康整体 451 笔', src: 'vb-26h1' },
     status: '已注册境内公司 · 可交互原型已上线（health-os/）· 尚未融资 · 仓库里没有用户数和收入数据',
     lead: '先把两件事写成书面材料：产品只做健康记录、不做诊断（不进医疗器械注册），以及健康数据按敏感个人信息处理。然后带着 3 个月留存数据找投过数字健康的天使和早期基金；保险、体检、可穿戴厂商的产业资本放到有留存曲线之后。',
@@ -40,6 +48,17 @@ const BUILTIN = [
   },
   {
     id: 'groundbreak', name: '破土 Groundbreak', short: '破土', sector: 'platform', stage: 'seed', order: 1,
+    precedents: [
+      { co: '36氪 NEXT', what: '每日新产品展示 + 用户投票，和破土的首发榜同一个形态', deal: '36氪内部产品，2014-08 上线', d: '2014-08', src: 'https://www.36kr.com/p/1641919447041' },
+      { co: 'IT桔子', what: '创投数据库', deal: '2013 天使 150 万元（极客帮、PreAngel）→ 2014 A 轮 200 万美元（IDG、华兴、北极光）→ 2019 被华兴资本控股', d: '2019-06', src: 'https://pitchhub.36kr.com/project/2083102193953541' },
+      { co: '36氪', what: '创投媒体与企业服务', deal: '2019-11 纳斯达克上市，IPO 募资至多 2,415 万美元；2025 年上半年营收 9,320 万元、净亏损 480 万元', d: '2025-09', src: 'https://www.sec.gov/Archives/edgar/data/0001779476/000110465925093519/tm2526847d1_ex99-1.htm' },
+      { co: '鲸准', what: '融资对接、资管系统、政府招商服务', deal: 'B 轮 1 亿元，兰璞资本、德屹资本领投', d: '2020-10', src: 'https://www.36kr.com/p/933707095984003' },
+      { co: '投中信息', what: '创投数据 CVSource', deal: '新三板定增 5,000 万元（投控东海、红杉中国）', d: '2018-06', src: 'https://pitchhub.36kr.com/project/2144720942793989' },
+      { co: '摩点网', what: '游戏、动漫类奖励众筹', deal: '2014 天使 1,800 万元（真格基金等）→ 2018 A 轮 1 亿元（新浪微博基金）', d: '2018-02', src: 'https://pitchhub.36kr.com/project/2144721173447939' },
+      { co: '开始众筹', what: '民宿、餐厅类消费权益众筹', deal: 'C 轮 1.9 亿元，云锋基金领投，投后估值超 2 亿美元', d: '2017-08', src: 'https://yicaiglobal.com/news/chinese-crowd-funding-platform-bags-usd29-million-in-c-round-financing' },
+      { co: '京东众筹', what: '大厂奖励众筹', deal: '2022-10-10 暂停运营；众筹平台从 2016 年峰值 532 家降到 2019 年中的 105 家', d: '2022-10', src: 'https://www.thepaper.cn/newsDetail_forward_20239061' },
+      { co: 'Product Hunt', what: '每日新产品榜', deal: '2016 年被 AngelList 以约 2,000 万美元收购', d: '2016-12', src: 'https://www.ifanr.com/756365' }
+    ],
     kpi: { v: '737', u: '家', l: '2025 年活跃投资机构', d: '2015 年为 1,661 家，减少 55.6%', src: 'itjz-active' },
     status: '已注册境内公司 · 产品方案 v0.1 与可交互原型（groundbreak/）· 尚未融资',
     lead: '先拿律师意见书，再融资：投资人的第一个问题会是「这算不算变相公开发行证券或非法集资」。对口资方是投过创投服务、企业服务平台的天使和早期基金，以及能带来项目源的合作方；国资引导基金适配度低。',
