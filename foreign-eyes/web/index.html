@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>他者之眼</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+<script src="d3-array.min.js"></script>
+<script src="d3-geo.min.js"></script>
+<script src="topojson-client.min.js"></script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="map" width="1920" height="1080"></canvas>
+  <div id="vignette"></div>
+  <div id="layers"></div>
+  <div id="frame"><i></i><i></i><i></i><i></i></div>
+  <div id="hud"></div>
+  <div id="subs"></div>
+  <div id="fade" style="position:absolute;inset:0;background:#000;pointer-events:none"></div>
+</div>
+<div id="prewarm"></div>
+<script src="app.js"></script>
+<script>
+  init().then(() => { const q = new URLSearchParams(location.search); if (q.has('t')) renderAt(+q.get('t')); });
+</script>
+</body>
+</html>

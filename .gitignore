@@ -1,2 +1,4 @@
 .m/
 .seed/
+popflow/.cache/
+node_modules/

@@ -1,0 +1,55 @@
+<div class="app" id="app">
+  <header class="top glass">
+    <div class="brand"><b>人口潮汐</b><span>Population Tides · 1800–2100</span></div>
+    <div class="ctrls">
+      <div class="seg" role="group" aria-label="视角" id="view">
+        <button data-v="world" aria-pressed="true">全球</button>
+        <button data-v="CN">中国</button>
+        <button data-v="EU">欧洲</button>
+        <button data-v="US">美国</button>
+      </div>
+      <div class="seg" role="group" aria-label="地图着色" id="mode">
+        <button data-m="growth" aria-pressed="true">增减率</button>
+        <button data-m="density">密度</button>
+        <button data-m="mig">净迁移</button>
+        <button data-m="error">回测误差</button>
+      </div>
+      <div class="seg" role="group" aria-label="未来情景" id="scen">
+        <button data-s="Low">低</button>
+        <button data-s="Medium" aria-pressed="true">中</button>
+        <button data-s="High">高</button>
+      </div>
+      <button class="chip" id="flowsBtn" aria-pressed="true"><i></i>流向</button>
+    </div>
+  </header>
+
+  <section class="stage" id="stage">
+    <svg id="map" role="img" aria-label="人口地图"></svg>
+    <div class="legend glass" id="legend"></div>
+    <div class="tip glass" id="tip" hidden></div>
+    <div class="timeline glass">
+      <button class="play" id="play" aria-label="播放">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path id="playIcon" d="M4 2.5v11l9-5.5z"/></svg>
+      </button>
+      <div class="yr"><b class="num" id="year">2020</b><span id="era">观测</span></div>
+      <div class="track">
+        <div class="bands" aria-hidden="true"><i class="b-rec"></i><i class="b-obs"></i><i class="b-proj"></i></div>
+        <input type="range" id="slider" min="1800" max="2100" step="1" value="2020" aria-label="年份">
+        <div class="ticks num" aria-hidden="true" id="ticks"></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel glass" id="panel">
+    <nav class="tabs" role="tablist" aria-label="面板">
+      <button role="tab" data-t="sum" aria-selected="true" id="t-sum">总览</button>
+      <button role="tab" data-t="unit" id="t-unit">地区</button>
+      <button role="tab" data-t="bt" id="t-bt">回测</button>
+      <button role="tab" data-t="how" id="t-how">方法</button>
+    </nav>
+    <div class="pane" id="p-sum" role="tabpanel"></div>
+    <div class="pane" id="p-unit" role="tabpanel" hidden></div>
+    <div class="pane" id="p-bt" role="tabpanel" hidden></div>
+    <div class="pane" id="p-how" role="tabpanel" hidden></div>
+  </aside>
+</div>

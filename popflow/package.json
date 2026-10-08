@@ -1,0 +1,16 @@
+{
+  "name": "popflow",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch": "bash pipeline/fetch.sh",
+    "geo": "node pipeline/build_geo.mjs",
+    "data": "python3 pipeline/build_data.py",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "d3-geo": "^3.1.1",
+    "mapshaper": "^0.6.102",
+    "topojson-client": "^3.1.0"
+  }
+}

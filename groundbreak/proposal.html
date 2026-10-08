@@ -1,0 +1,447 @@
+<title>破土 Groundbreak 产品方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: a single reading column of liquid-glass sheets over a soft aurora; hairline tables carry the content, heavy type carries the hierarchy. */
+:root{--bg:#ECF2EF;--blob1:#8FE0C0;--blob2:#A9CBFF;--blob3:#FFD9A0;--blob4:#CDBDFF;--ink:#0B1714;--muted:#4C5E58;--faint:#7D8D87;--glass-a:rgba(255,255,255,.62);--glass-b:rgba(255,255,255,.34);--glass-edge:rgba(255,255,255,.9);--glass-inner:rgba(255,255,255,.96);--shadow:rgba(22,70,56,.16);--line:rgba(11,23,20,.16);--line-soft:rgba(11,23,20,.08);--field:rgba(255,255,255,.45);--accent:#0A8F63;--accent-ink:#FFFFFF;--accent-soft:rgba(10,143,99,.12);--warn:#B86E00;--warn-soft:rgba(230,150,20,.14);--bad:#CF3F35;--bad-soft:rgba(214,69,58,.11);--inv:#4A55D6;--inv-soft:rgba(74,85,214,.1);--s1:#0A8F63;--s2:#4A55D6;--hair:1px;--f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;--f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#06110E;--blob1:#0F5E46;--blob2:#1A3F7A;--blob3:#5E4012;--blob4:#3A2D7A;--ink:#E8F3EE;--muted:#A0B3AC;--faint:#71857E;--glass-a:rgba(24,40,36,.66);--glass-b:rgba(12,24,21,.46);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.04);--accent:#34D39E;--accent-ink:#04261A;--accent-soft:rgba(52,211,158,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.15);--bad:#FF7468;--bad-soft:rgba(255,116,104,.15);--inv:#959DFF;--inv-soft:rgba(149,157,255,.14);--s1:#1BA676;--s2:#6E78F2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#06110E;--blob1:#0F5E46;--blob2:#1A3F7A;--blob3:#5E4012;--blob4:#3A2D7A;--ink:#E8F3EE;--muted:#A0B3AC;--faint:#71857E;--glass-a:rgba(24,40,36,.66);--glass-b:rgba(12,24,21,.46);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.04);--accent:#34D39E;--accent-ink:#04261A;--accent-soft:rgba(52,211,158,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.15);--bad:#FF7468;--bad-soft:rgba(255,116,104,.15);--inv:#959DFF;--inv-soft:rgba(149,157,255,.14);--s1:#1BA676;--s2:#6E78F2;color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.7;padding-inline:16px;padding-block:28px 64px;position:relative;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.65}
+.aurora i:nth-child(1){width:44vw;height:44vw;left:-14vw;top:-14vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:36vw;height:36vw;right:-10vw;top:10vh;background:var(--blob2)}
+.aurora i:nth-child(3){width:40vw;height:40vw;left:20vw;bottom:-26vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:30vw;height:30vw;right:0;bottom:-12vw;background:var(--blob4)}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;display:grid;gap:22px}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(26px) saturate(165%);backdrop-filter:blur(26px) saturate(165%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -28px var(--shadow);border-radius:28px}
+.sheet{padding:30px 34px 32px;min-width:0}
+h1,h2,h3{margin:0;text-wrap:balance}
+.eyebrow{font:600 11.5px var(--f-display);letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+header.sheet{padding:40px 34px 34px}
+header h1{font:900 clamp(38px,6vw,60px)/1.05 var(--f-body);letter-spacing:.01em;margin-top:12px}
+header h1 span{font:600 .38em var(--f-display);letter-spacing:.24em;color:var(--muted);margin-left:10px;vertical-align:middle;text-transform:uppercase}
+.thesis{font:800 clamp(20px,2.6vw,27px)/1.45 var(--f-body);margin:18px 0 0;max-width:30em}
+.thesis em{font-style:normal;color:var(--accent)}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);border:var(--hair) solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.tag.inv{color:var(--inv);border-color:currentColor}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:14.5px;border-radius:13px;padding:9px 16px;background:var(--accent);color:var(--accent-ink)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h2{font:900 25px/1.3 var(--f-body);display:flex;align-items:baseline;gap:12px}
+h2 small{font:600 12px var(--f-display);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+h3{font:800 17px/1.4 var(--f-body);margin-top:24px}
+p{margin:10px 0 0;max-width:68ch}
+.lead{color:var(--muted)}
+.sheet>h2+p{margin-top:8px}
+b,strong{font-weight:800}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;margin-top:16px;border-top:var(--hair) solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6}
+.tw.wide table{min-width:720px}
+th{font:600 11.5px var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);text-align:left;padding:12px 12px 8px;border-bottom:var(--hair) solid var(--line);vertical-align:bottom;white-space:nowrap}
+td{padding:11px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:top}
+td:first-child,th:first-child{padding-left:0}
+td:first-child{font-weight:800;white-space:nowrap}
+td.r,th.r{text-align:right}
+td .num,td.num{font-variant-numeric:tabular-nums}
+tr.sum td{border-top:var(--hair) solid var(--line);border-bottom:0;font-weight:800}
+td small{display:block;color:var(--faint);font-size:12.5px}
+.y{color:var(--accent);font-weight:700}.n{color:var(--faint)}
+.lv{display:inline-flex;align-items:center;gap:6px;font-weight:700;white-space:nowrap}
+.lv i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.lv.hi{color:var(--bad)}.lv.mid{color:var(--warn)}.lv.lo{color:var(--accent)}
+.concl{display:grid;gap:0;margin-top:16px;border-top:var(--hair) solid var(--line)}
+.concl div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;padding:16px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.concl dt{font:800 15px var(--f-body);color:var(--muted)}
+.concl dd{margin:0}
+.concl dd b{display:block;font-size:18px;line-height:1.45}
+.concl dd span{color:var(--muted);font-size:14px}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:20px;position:relative}
+.stage{padding:18px 18px 16px;border:var(--hair) solid var(--line);min-width:0;position:relative;background:var(--field)}
+.stage:first-child{border-radius:20px 0 0 20px}
+.stage:last-child{border-radius:0 20px 20px 0;border-color:var(--inv);background:var(--inv-soft)}
+.stage+.stage{border-left:0}
+.stage:last-child{border-left:var(--hair) solid var(--inv)}
+.stage .k{font:600 11.5px var(--f-display);letter-spacing:.16em;color:var(--faint)}
+.stage h4{margin:4px 0 0;font:900 21px var(--f-body)}
+.stage h4 span{font:500 13px var(--f-body);color:var(--muted);margin-left:6px}
+.stage ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px;color:var(--muted)}
+.stage li{padding-left:14px;position:relative}
+.stage li::before{content:"";position:absolute;left:0;top:.75em;width:6px;height:var(--hair);background:var(--muted)}
+.stage .out{margin-top:12px;font-size:13px;font-weight:700;color:var(--accent)}
+.stage:last-child .out{color:var(--inv)}
+.wall{display:flex;justify-content:space-between;gap:12px;margin-top:8px;font-size:12.5px;color:var(--faint)}
+.wall span:last-child{color:var(--inv);font-weight:700}
+.money{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:16px;counter-reset:m}
+.money div{padding:12px 14px 0 0;border-top:2px solid var(--accent);font-size:13.5px;color:var(--muted);counter-increment:m}
+.money div::before{content:counter(m);display:block;font:800 22px var(--f-display);color:var(--ink)}
+.money b{display:block;color:var(--ink);font-size:14.5px}
+/* chart */
+.chart{margin-top:18px;position:relative}
+.chart .lg{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.chart .lg span{display:inline-flex;align-items:center;gap:7px}
+.chart .lg i{width:12px;height:12px;border-radius:3px}
+.chart svg{display:block;width:100%;max-width:720px;height:auto;overflow:visible}
+.chart .ax{font:500 12px var(--f-display);fill:var(--faint)}
+.chart .cat{font:700 13.5px var(--f-body);fill:var(--ink)}
+.chart .val{font:700 12.5px var(--f-display);fill:var(--ink)}
+.chart .grid{stroke:var(--line-soft);stroke-width:1}
+.chart .base{stroke:var(--line);stroke-width:1}
+.chart rect.m{cursor:default;transition:opacity .15s}
+.chart rect.m:hover,.chart rect.m:focus{opacity:.8;outline:none}
+.tip{position:absolute;pointer-events:none;padding:6px 10px;border-radius:10px;font-size:12.5px;white-space:nowrap;background:var(--glass-a);border:var(--hair) solid var(--glass-edge);box-shadow:0 10px 24px -12px var(--shadow);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.tip b{font:800 14px var(--f-display);margin-right:6px}
+.note{font-size:13px;color:var(--faint);margin-top:12px}
+.callout{margin-top:16px;padding:14px 16px;border-radius:18px;border:var(--hair) solid var(--accent);background:var(--accent-soft);font-size:14.5px}
+.callout.inv{border-color:var(--inv);background:var(--inv-soft)}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft)}
+.src{font-size:13px;color:var(--muted);padding-left:1.2em;margin:12px 0 0}
+.src li{margin:4px 0}
+.src a{color:var(--ink);text-decoration-color:var(--line);text-underline-offset:3px}
+footer{font-size:12.5px;color:var(--faint);text-align:center}
+@media (max-width:760px){
+  body{padding-block:16px 48px;font-size:15px}
+  .sheet,header.sheet{padding:22px 18px 24px;border-radius:22px}
+  .concl div{grid-template-columns:minmax(0,1fr);gap:4px}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .stage:first-child{border-radius:20px 20px 0 0}
+  .stage:last-child{border-radius:0 0 20px 20px;border-left:var(--hair) solid var(--inv)}
+  .stage+.stage{border-left:var(--hair) solid var(--line);border-top:0}
+  .money{grid-template-columns:minmax(0,1fr);gap:12px}
+  h2{font-size:21px;flex-wrap:wrap;gap:4px 10px}
+  .tw table{min-width:560px}
+  td:first-child{white-space:normal;min-width:6.5em}
+  .wall{flex-direction:column;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+
+<header class="sheet glass">
+  <div class="eyebrow">产品方案 v0.1 · 2026 年 10 月 1 日 · 面向中国大陆</div>
+  <h1>破土<span>Groundbreak</span></h1>
+  <p class="thesis">公开晒产品，<em>不公开卖股权</em>。用首发和众筹产生的真实数据，替投资人做第一轮筛选。</p>
+  <div class="meta">
+    <a class="btn" href="https://claude.ai/artifact/YEX1WeZNJtKdFsFodbZjSM" target="_blank" rel="noopener">打开可交互原型 ↗</a>
+    <span class="tag">借鉴 Product Hunt · Kickstarter · AngelList</span>
+    <span class="tag">早期 · 全行业</span>
+  </div>
+</header>
+
+<!-- 总 -->
+<section class="sheet glass" id="summary">
+  <h2>结论 <small>Summary</small></h2>
+  <p class="lead">四句话说完这个平台。后面的章节逐条给出依据。</p>
+  <dl class="concl">
+    <div><dt>能做什么</dt><dd><b>在大陆不能向公众卖股权，只能做“曝光 + 产品众筹 + 合格投资者对接”。</b><span>证券法第九条：向不特定对象发行，或向特定对象累计超过 200 人，都是公开发行，必须注册；非公开发行不得公开劝诱。2015 年《指导意见》提出的公开股权众筹，至今没有配套办法；截至 2026 年 10 月，没有检索到试点办法。</span></dd></div>
+    <div><dt>怎么做</dt><dd><b>三层漏斗：首发榜拿曝光 → 众筹验证需求 → 信号分达到 60 的项目推送给认证投资人。</b><span>公开层和投资人层之间是一道信息防火墙：访客看不到估值、出让比例，也看不到某个项目是否在融资。</span></dd></div>
+    <div><dt>靠什么赚钱</dt><dd><b>第 3 年测算收入约 ¥2,174 万，其中投资人订阅占 53%，众筹佣金占 29%。</b><span>众筹是获客和信号来源，不是利润中心。平台不收股权交易的成功费，也不卖榜单位置。</span></dd></div>
+    <div><dt>最大风险</dt><dd><b>被认定为变相公开发行证券或非法集资。上线前必须拿到律师意见书。</b><span>众筹回报只能是产品或服务；支持款只走持牌支付机构，平台不设资金池。</span></dd></div>
+  </dl>
+</section>
+
+<!-- 分 1 -->
+<section class="sheet glass" id="why">
+  <h2>为什么值得做 <small>Data</small></h2>
+  <p>供给侧企业数量巨大，早期融资在回暖，但钱高度集中在少数热门赛道；大厂众筹已经退场，留下了空位。</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>指标</th><th>数据</th><th>说明什么</th></tr></thead>
+    <tbody>
+      <tr><td>中小企业数量</td><td><b class="num">6,348.7 万户</b>（2025 年 9 月），98.1% 是小微企业<small>工信部</small></td><td>供给侧足够大，缺的是被看见的渠道</td></tr>
+      <tr><td>早期融资</td><td>2026 上半年种子 / 天使 / Pre-A <b class="num">1,475 起</b>，同比 +71.1%；披露金额 521.3 亿元，同比 +229.6%<small>清科、中基协、天眼查，经新浪财经汇总</small></td><td>早期投资在回暖，投资人在找项目</td></tr>
+      <tr><td>早期占比</td><td>占投资笔数 <b class="num">37.8%</b>，只占披露金额 <b class="num">11.9%</b></td><td>单笔小、项目散，适合平台化发现，不适合逐个靠 FA</td></tr>
+      <tr><td>人工智能占比</td><td>846 笔，占笔数 21.7%，占披露金额 <b class="num">44.7%</b></td><td>钱集中在热门赛道，长尾项目缺曝光</td></tr>
+      <tr><td>京东众筹</td><td>2022 年 10 月 10 日暂停运营，上线 8 年</td><td>大厂众筹“预售化”后退场，独立众筹平台只剩摩点等垂直平台</td></tr>
+      <tr><td>Kickstarter</td><td>累计 <b class="num">$87.1 亿</b>、277,302 个成功项目、2,410 万支持者（2025 年 4 月）；整体成功率约 42.7%，科技类约 20%；平台费 5%</td><td>奖励众筹模式成熟；科技类成功率低，需要更好的前期验证</td></tr>
+      <tr><td>众筹到风投</td><td>筹款超过 $10 万的 443 个硬件项目中，<b class="num">9.5%</b> 后来拿到风投，合计 $3.21 亿（CB Insights，2014）</td><td>众筹成功和后续融资有关联，但转化率低，这正是平台要提高的</td></tr>
+      <tr><td>交付风险</td><td>Kickstarter 项目失败率 <b class="num">8.6%</b>（Mollick，2015，47,188 名支持者调查）；超过 75% 的项目延期交付（Mollick，2014）</td><td>必须设计放款节奏和交付记录</td></tr>
+      <tr><td>专精特新专板</td><td>26 家区域性股权市场设立专板，服务企业 <b class="num">1.56 万家</b>（2025 年 9 月）</td><td>合规的股权对接渠道，也是冷启动的项目来源</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="chart" id="chart1">
+    <h3 style="margin-top:22px">2026 上半年：早期项目占 38% 的笔数，只拿到 12% 的金额</h3>
+    <div class="lg" style="margin-top:10px"><span><i style="background:var(--s1)"></i>占投资笔数</span><span><i style="background:var(--s2)"></i>占披露金额</span></div>
+    <svg viewBox="0 0 640 162" role="img" aria-label="种子、天使和 Pre-A 轮占投资笔数 37.8%，占披露金额 11.9%；人工智能占笔数 21.7%，占金额 44.7%"></svg>
+  </div>
+  <p class="note">数据：清科研究中心等，2026 年上半年中国股权投资市场。人工智能的笔数占比按 846 ÷ 3,899 计算。</p>
+</section>
+
+<!-- 分 2 -->
+<section class="sheet glass" id="bench">
+  <h2>对标拆解 <small>Benchmarks</small></h2>
+  <p>每个对标只借一件事，同时标出在大陆不能照搬的部分。</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>平台</th><th>核心机制</th><th>借鉴</th><th>不能照搬</th></tr></thead>
+    <tbody>
+      <tr><td>Product Hunt</td><td>每日首发榜，社区投票排序；2016 年被 AngelList 以约 $2,000 万收购</td><td>每日首发的节奏，让“被看见”有固定日子</td><td>原始票数易被刷，改为按账号可信度加权</td></tr>
+      <tr><td>Kickstarter</td><td>全有或全无，成功收 5%</td><td>全有或全无、回报分档、5% 佣金</td><td>平台不能自己收款，改由持牌支付机构存管分账</td></tr>
+      <tr><td>Wefunder / Republic</td><td>美国 Reg CF，向公众出售股权</td><td>项目页的信息披露结构</td><td>大陆没有对应的公开发行豁免，改为合格投资者专区</td></tr>
+      <tr><td>AngelList</td><td>投资人看项目、领投跟投</td><td>投资人端的筛选、关注、约谈流程</td><td>多人凑钱投一个项目属于私募基金募集，必须由持牌管理人做</td></tr>
+      <tr><td>摩点</td><td>国内存活的奖励众筹，偏文创和游戏</td><td>垂直社区运营</td><td>不连接投资人，众筹数据没有被用起来</td></tr>
+      <tr><td>区域性股权市场</td><td>省内中小微企业向合格投资者非公开发行，单只证券不超过 200 人</td><td>作为合规交易通道</td><td>只服务本省企业，需要逐省合作</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 分 3 -->
+<section class="sheet glass" id="arch">
+  <h2>三层架构 <small>Architecture</small></h2>
+  <p>每一层都产出数据，喂给下一层。前两层对所有人公开，第三层只对认证投资人开放。</p>
+  <div class="flow">
+    <div class="stage"><div class="k">LAYER 1 · 公开</div><h4>首发榜<span>借鉴 Product Hunt</span></h4>
+      <ul><li>每天一批项目首发，24 小时投票</li><li>票数按账号可信度加权</li><li>只展示产品、团队、进度</li></ul>
+      <div class="out">产出：曝光、加权票、讨论</div></div>
+    <div class="stage"><div class="k">LAYER 2 · 公开</div><h4>众筹<span>借鉴 Kickstarter</span></h4>
+      <ul><li>全有或全无，30 天为一期</li><li>回报只能是产品或服务</li><li>持牌机构存管，分两期放款</li></ul>
+      <div class="out">产出：达成率、支持人数、交付记录</div></div>
+    <div class="stage"><div class="k">LAYER 3 · 仅认证投资人</div><h4>对接<span>借鉴 AngelList</span></h4>
+      <ul><li>信号分 ≥ 60 才推送</li><li>融资条款、数据室、约谈</li><li>平台不经手投资款</li></ul>
+      <div class="out">产出：关注、约谈、成交</div></div>
+  </div>
+  <div class="wall"><span>访客、支持者可见</span><span>信息防火墙 → 合格投资者认证后可见</span></div>
+
+  <h3>谁能看到什么</h3>
+  <div class="tw"><table>
+    <thead><tr><th>信息</th><th>访客</th><th>支持者</th><th>认证投资人</th></tr></thead>
+    <tbody>
+      <tr><td>产品、团队、动态</td><td class="y">可见</td><td class="y">可见</td><td class="y">可见</td></tr>
+      <tr><td>众筹进度、回报档位</td><td class="y">可见</td><td class="y">可见</td><td class="y">可见</td></tr>
+      <tr><td>信号分</td><td class="y">总分和分项</td><td class="y">总分和分项</td><td class="y">另加 8 周趋势</td></tr>
+      <tr><td>项目是否在融资</td><td class="n">不可见</td><td class="n">不可见</td><td class="y">可见</td></tr>
+      <tr><td>轮次、金额、出让比例</td><td class="n">不可见</td><td class="n">不可见</td><td class="y">可见</td></tr>
+      <tr><td>数据室</td><td class="n">不可见</td><td class="n">不可见</td><td class="y">签保密书后可见</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout inv">“是否在融资”也对访客隐藏。如果公开页挂一个“正在融资”的标识，就可能被理解为对不特定对象的劝诱。</div>
+</section>
+
+<!-- 分 4 -->
+<section class="sheet glass" id="mech">
+  <h2>关键机制 <small>Mechanisms</small></h2>
+
+  <h3 style="margin-top:14px">信号分：把三层串起来的那个数</h3>
+  <p>每项 0–100，加权求和。权重按“造假成本”排：花真钱的需求验证最难造假，权重最高；票数最容易刷，权重最低。</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>维度</th><th class="r">权重</th><th>数据来源</th><th>防造假</th></tr></thead>
+    <tbody>
+      <tr><td>需求验证</td><td class="r num">30%</td><td>众筹达成率、支持人数、退款率、复购</td><td>同一实名、设备或支付账户的自买剔除</td></tr>
+      <tr><td>执行交付</td><td class="r num">20%</td><td>历史准时交付率、进度更新频率</td><td>以支持者确认收货为准</td></tr>
+      <tr><td>经营数据</td><td class="r num">20%</td><td>经授权的发票、支付流水、电商后台</td><td>直连数据源，不收截图</td></tr>
+      <tr><td>社区热度</td><td class="r num">15%</td><td>首发日加权票、讨论质量</td><td>实名且账龄满 30 天计 1 票，新账号 0.3 票，重复票不计</td></tr>
+      <tr><td>信息完整</td><td class="r num">15%</td><td>资料、团队实名、数据室</td><td>人工抽查</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">阈值 60 是初始值，应在积累约 200 个完成对接的项目后，用“推送 → 约谈”的实际转化率回调权重和阈值。</p>
+
+  <h3>资金怎么走</h3>
+  <div class="money">
+    <div><b>支持者付款</b>进入持牌支付机构的存管账户，平台不碰钱</div>
+    <div><b>未达标</b>截止日未达到目标，原路全额退回</div>
+    <div><b>达标</b>扣除 5% 佣金和通道费，首期放款 50%</div>
+    <div><b>发货确认</b>确认收货率达到 80%，或发货 15 天后自动确认，放剩余 50%</div>
+    <div><b>延期</b>超过承诺日期 90 天未发货，支持者可申请退回未放款部分</div>
+  </div>
+  <p class="note">依据《非银行支付机构监督管理条例》（2024 年 5 月 1 日施行），没有支付业务许可的平台不能自己代收代付、沉淀资金，所以钱只在支付机构的存管账户里流转。分期比例需要和支付机构确认是否可行。</p>
+
+  <h3>全行业怎么做众筹</h3>
+  <p>不是所有企业都能卖产品预售。第二层按企业类型给出不同的“支持”形式：</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>企业类型</th><th>支持形式</th><th>原型里的例子</th><th>注意</th></tr></thead>
+    <tbody>
+      <tr><td>硬件、消费品</td><td>产品预售</td><td>拾光 植物灯 · 山野咖啡</td><td>交付风险最高，必须分期放款</td></tr>
+      <tr><td>软件、SaaS</td><td>年费预购</td><td>码上记 记账</td><td>写清退款规则</td></tr>
+      <tr><td>B2B、硬科技</td><td>付费试点订单</td><td>声纹 · 光合农场</td><td>核验下单企业真实性，关联交易剔除</td></tr>
+      <tr><td>本地服务</td><td>体验额度、限量套餐</td><td>冷链小站 · 老宅焕新</td><td>不做可提现的储值卡，储值类预付卡另有监管</td></tr>
+      <tr><td>文创、内容</td><td>实体或数字回报</td><td>绘本岛</td><td>版权清晰</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>投资人专区的合规设计</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>环节</th><th>做法</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>准入</td><td>个人金融资产不低于 300 万元，或近三年年均收入不低于 50 万元；机构净资产不低于 1,000 万元</td><td>参照《私募投资基金监督管理暂行办法》第十二条</td></tr>
+      <tr><td>签署</td><td>风险测评，签《保密及风险揭示书》；页面带个人水印</td><td>界定“特定对象”</td></tr>
+      <tr><td>人数</td><td>单个项目经平台新增的股东设上限；提示有限公司股东总数不超过 50 人</td><td>证券法第九条（200 人）、公司法第四十二条（50 人）</td></tr>
+      <tr><td>资金</td><td>平台不经手投资款；交易由双方签约，或经区域性股权市场、持牌私募基金管理人完成</td><td>多人集合投资属于私募基金募集</td></tr>
+      <tr><td>收费</td><td>只收订阅费，不收按融资额计算的成功费</td><td>按成交额收费更容易被认定为证券中介业务，需律师意见</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 分 5 -->
+<section class="sheet glass" id="journey">
+  <h2>三类用户 <small>Journeys</small></h2>
+  <div class="tw wide"><table>
+    <thead><tr><th>用户</th><th>来平台做什么</th><th>关键动作</th><th>平台给什么</th></tr></thead>
+    <tbody>
+      <tr><td>创业者</td><td>被看见，拿到第一笔钱，见到投资人</td><td>建档实名 → 选首发日 → 发起众筹 → 信号分达标后进入专区</td><td>首发流量、众筹工具、信号分改进建议、投资人漏斗</td></tr>
+      <tr><td>支持者</td><td>发现新东西，早鸟价买到</td><td>逛首发榜 → 投票 → 支持 → 收货确认</td><td>全有或全无保护、分期放款、延期退款</td></tr>
+      <tr><td>投资人</td><td>找到有真实需求数据的早期项目</td><td>认证 → 按行业、轮次、信号分筛选 → 关注 → 约谈</td><td>经过需求验证的项目流、数据室、趋势</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 分 6 -->
+<section class="sheet glass" id="biz">
+  <h2>商业模式与测算 <small>Revenue</small></h2>
+  <p>三项收入。测算只算收入，不含成本；所有数量都是假设，依据列在下面。</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>收入来源</th><th>定价</th><th class="r">第 1 年</th><th class="r">第 2 年</th><th class="r">第 3 年</th><th class="r">第 3 年占比</th></tr></thead>
+    <tbody>
+      <tr><td>众筹佣金</td><td>成功筹款额的 5%，失败不收</td><td class="r num">52.5</td><td class="r num">240</td><td class="r num">630</td><td class="r num">29%</td></tr>
+      <tr><td>投资人订阅</td><td>个人 ¥3,600 / 年；机构 ¥36,000 / 年</td><td class="r num">0</td><td class="r num">288</td><td class="r num">1,152</td><td class="r num">53%</td></tr>
+      <tr><td>创业者增值服务</td><td>首发陪跑套餐 ¥9,800（路演视频、财务规范、数据室整理）</td><td class="r num">29.4</td><td class="r num">147</td><td class="r num">392</td><td class="r num">18%</td></tr>
+      <tr class="sum"><td>合计（万元）</td><td></td><td class="r num">81.9</td><td class="r num">675</td><td class="r num">2,174</td><td class="r num">100%</td></tr>
+    </tbody>
+  </table></div>
+  <h3>假设</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>假设</th><th class="r">第 1 年</th><th class="r">第 2 年</th><th class="r">第 3 年</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>发起众筹的项目</td><td class="r num">200</td><td class="r num">800</td><td class="r num">2,000</td><td>目标值</td></tr>
+      <tr><td>众筹成功率</td><td class="r num">35%</td><td class="r num">40%</td><td class="r num">42%</td><td>Kickstarter 整体约 42.7%</td></tr>
+      <tr><td>成功项目平均筹款</td><td class="r num">¥15 万</td><td class="r num">¥15 万</td><td class="r num">¥15 万</td><td>Kickstarter 约 $3.1 万（$87.1 亿 ÷ 277,302）；国内客单价更低，保守取值</td></tr>
+      <tr><td>付费个人投资人</td><td class="r num">0</td><td class="r num">500</td><td class="r num">2,000</td><td>第 1 年免费，用约谈转化率证明价值后再收费</td></tr>
+      <tr><td>付费机构</td><td class="r num">0</td><td class="r num">30</td><td class="r num">120</td><td>天使基金、产业 CVC、地方引导基金</td></tr>
+      <tr><td>购买增值服务的项目</td><td class="r num">30</td><td class="r num">150</td><td class="r num">400</td><td>约占发起项目的 15%–20%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">测算说明了一件事：第 3 年过半收入来自投资人订阅。平台的核心资产是信号分的准确度。如果投资人觉得推送的项目不值得看，收入结构就不成立。</div>
+  <p class="note">不做的收入：股权交易成功费（法律风险最高）、付费上榜（会毁掉榜单的可信度）。支付通道费由支付机构收取，不计入平台收入。</p>
+</section>
+
+<!-- 分 7 -->
+<section class="sheet glass" id="cold">
+  <h2>冷启动 <small>Cold start</small></h2>
+  <p>先有项目，再有支持者，最后才有付费投资人。Product Hunt 在 2013 年也是从一个邮件列表起步的。</p>
+  <div class="tw wide"><table>
+    <thead><tr><th>阶段</th><th>项目</th><th>支持者</th><th>投资人</th></tr></thead>
+    <tbody>
+      <tr><td>0–6 个月</td><td>与 2–3 家专精特新专板、高校创业大赛、孵化器合作，人工邀请首批 100 个项目</td><td>创始人自带流量，众筹页一键分享</td><td>邀请 50 位活跃天使，免费使用</td></tr>
+      <tr><td>6–12 个月</td><td>开放自助申请，人工审核</td><td>首发日报、榜单周刊分发到公众号、小红书、B 站</td><td>引入产业 CVC 和地方引导基金</td></tr>
+      <tr><td>12 个月以后</td><td>往期成功案例带来自然申请</td><td>老支持者复购</td><td>开始收订阅费</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 分 8 -->
+<section class="sheet glass" id="risk">
+  <h2>风险 <small>Risks</small></h2>
+  <div class="tw wide"><table>
+    <thead><tr><th>风险</th><th>可能性</th><th>影响</th><th>对策</th></tr></thead>
+    <tbody>
+      <tr><td>被认定为变相公开发行</td><td><span class="lv mid"><i></i>中</span></td><td><span class="lv hi"><i></i>致命</span></td><td>公开页零融资信息；专区实名、认证、水印；单项目新增股东设上限；上线前取得律师意见书</td></tr>
+      <tr><td>被认定为非法集资</td><td><span class="lv lo"><i></i>低</span></td><td><span class="lv hi"><i></i>致命</span></td><td>回报只能是产品或服务；禁止承诺现金、分红、股权或回购；储值类回报不可提现</td></tr>
+      <tr><td>项目延期或不交付</td><td><span class="lv hi"><i></i>高</span></td><td><span class="lv hi"><i></i>高</span></td><td>分两期放款；交付记录计入执行分；超期 90 天可退未放款部分</td></tr>
+      <tr><td>资金池</td><td><span class="lv mid"><i></i>中</span></td><td><span class="lv hi"><i></i>高</span></td><td>资金只在持牌支付机构分账，平台账户不过钱</td></tr>
+      <tr><td>刷票刷单</td><td><span class="lv hi"><i></i>高</span></td><td><span class="lv mid"><i></i>中</span></td><td>加权票；按实名、设备、支付账户去重；自买剔除</td></tr>
+      <tr><td>双边冷启动失败</td><td><span class="lv hi"><i></i>高</span></td><td><span class="lv hi"><i></i>高</span></td><td>先供给：从专板和孵化器批量引入项目</td></tr>
+      <tr><td>投资人不愿付费</td><td><span class="lv mid"><i></i>中</span></td><td><span class="lv hi"><i></i>高</span></td><td>第 1 年免费；用“推送 → 约谈”转化率说话</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 分 9 -->
+<section class="sheet glass" id="road">
+  <h2>路线图 <small>Roadmap</small></h2>
+  <div class="tw wide"><table>
+    <thead><tr><th>阶段</th><th>时间</th><th>交付</th><th>验收指标</th></tr></thead>
+    <tbody>
+      <tr><td>0 · 合规底座</td><td>第 0–3 个月</td><td>律师意见书；支付机构分账签约；合格投资者认证流程</td><td>意见书结论允许上线</td></tr>
+      <tr><td>1 · 首发榜</td><td>第 3–6 个月</td><td>首发榜、加权投票、项目页</td><td>日均首发 ≥ 10 个；周活跃 ≥ 2 万</td></tr>
+      <tr><td>2 · 众筹</td><td>第 6–12 个月</td><td>全有或全无、分期放款、信号分 v1</td><td>成功率 ≥ 35%；准时交付率 ≥ 60%</td></tr>
+      <tr><td>3 · 投资人专区</td><td>第 9–15 个月</td><td>专区、数据室、约谈、区域性股权市场对接</td><td>推送 → 约谈转化 ≥ 3%；首批 10 个项目完成融资</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">原型里拾光的投资人漏斗是 214 次推送、6 次约谈申请，转化 2.8%，略低于 3% 的目标线。</p>
+</section>
+
+<!-- 总 -->
+<section class="sheet glass" id="close">
+  <h2>回到结论 <small>Recap</small></h2>
+  <p>这个平台在大陆成立的前提只有一个：<b>公开的部分只谈产品，谈钱的部分只对合格投资者</b>。在这个前提下，首发榜和众筹负责产生别处拿不到的需求数据，信号分把数据变成投资人愿意付费的筛选结果。</p>
+  <h3>需要你拍板的事</h3>
+  <div class="tw wide"><table>
+    <thead><tr><th>问题</th><th>选项</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td>股权交易通道</td><td>A 只做撮合，线下签约 · B 与区域性股权市场合作 · C 申请成为持牌私募管理人</td><td>先 A，同时谈 B</td></tr>
+      <tr><td>首批切入行业</td><td>全行业同时开 · 先硬件和消费品 · 先企业服务</td><td>先硬件和消费品：众筹最契合，数据最快</td></tr>
+      <tr><td>首批城市</td><td>一个省 · 长三角 · 全国</td><td>一个省：区域性股权市场只服务本省企业</td></tr>
+      <tr><td>投资人订阅定价</td><td>¥3,600 / 年 · 按项目解锁 · 免费 + 增值</td><td>第 1 年免费，第 2 年按年订阅</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn">本方案中的法规理解不构成法律意见。上线前需要律师就“专区是否构成公开劝诱”“分期放款是否可由支付机构执行”“订阅收费的业务定性”三点出具书面意见。</div>
+</section>
+
+<section class="sheet glass" id="sources">
+  <h2>来源 <small>Sources</small></h2>
+  <ol class="src">
+    <li><a href="https://www.chinanews.com.cn/cj/2025/09-09/10479004.shtml" target="_blank" rel="noopener">工信部：全国登记在册中小企业数量超 6,000 万家（中新网，2025-09）</a>；<a href="https://www.yicai.com/news/102954266.html" target="_blank" rel="noopener">第一财经：中小企业数量超 6,000 万户</a></li>
+    <li><a href="https://finance.sina.com.cn/stock/vcpe/yc/2026-07-08/doc-inihaicz1450225.shtml" target="_blank" rel="noopener">2026 创投半年报（新浪财经，2026-07-08；数据来自清科、中基协、天眼查、Wind）</a></li>
+    <li><a href="http://gongbao.court.gov.cn/Details/f13dbd8440674d35651c31d4edc4eb.html" target="_blank" rel="noopener">中华人民共和国证券法（2019 修订）第九条</a></li>
+    <li><a href="https://www.gov.cn/gongbao/content/2021/content_5588815.htm" target="_blank" rel="noopener">防范和处置非法集资条例（国务院令第 737 号，2021-05-01 施行）</a></li>
+    <li><a href="https://www.chinanews.com/stock/2015/08-14/7467152.shtml" target="_blank" rel="noopener">证监会 2015 年股权融资平台专项检查（中新网）</a>；<a href="https://www.allbrightlaw.com/CN/10475/c1d3f17f105a4f3c.aspx" target="_blank" rel="noopener">锦天城律所：股权众筹与互联网非公开股权融资</a></li>
+    <li><a href="https://www.gov.cn/zhengce/2021-12/16/content_5724585.htm" target="_blank" rel="noopener">区域性股权市场监督管理试行办法（证监会令第 132 号）</a></li>
+    <li><a href="https://finance.sina.com.cn/jjxw/2025-11-18/doc-infxumzq3001341.shtml" target="_blank" rel="noopener">“专精特新”专板三年汇聚 1.56 万家企业（新浪财经，2025-11）</a></li>
+    <li><a href="http://www.csrc.gov.cn/xizang/c105486/c1304230/1304230/files/%E7%A7%81%E5%8B%9F%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E8%80%85%E9%80%82%E5%BD%93%E6%80%A7%E7%9B%B8%E5%85%B3%E8%A7%84%E5%AE%9A.pdf" target="_blank" rel="noopener">私募基金投资者适当性相关规定（证监会西藏监管局）</a></li>
+    <li><a href="https://www.thepaper.cn/newsDetail_forward_20239061" target="_blank" rel="noopener">京东众筹暂停运营（澎湃新闻）</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Kickstarter" target="_blank" rel="noopener">Kickstarter（Wikipedia，2025 年 4 月数据）</a>；<a href="https://expandedramblings.com/index.php/kickstarter-statistics/" target="_blank" rel="noopener">Kickstarter 统计（成功率）</a>；<a href="https://adamwebb.pro/blog/kickstarter-success-rate/" target="_blank" rel="noopener">分类成功率</a></li>
+    <li><a href="https://www.cbinsights.com/research/crowdfunded-venture-capital-hardware/" target="_blank" rel="noopener">CB Insights：众筹硬件项目的风投融资（2014-08）</a></li>
+    <li><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2699251" target="_blank" rel="noopener">Mollick：Delivery Rates on Kickstarter（2015）</a>；<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2088298" target="_blank" rel="noopener">Mollick：The Dynamics of Crowdfunding（2014）</a></li>
+    <li><a href="https://www.fastcompany.com/4026196/angellist-acquires-product-hunt-to-become-a-hub-for-startups-to-fundraise-recruit-and-launch" target="_blank" rel="noopener">AngelList 收购 Product Hunt（Fast Company，2016）</a>；<a href="https://en.wikipedia.org/wiki/Product_Hunt" target="_blank" rel="noopener">Product Hunt（Wikipedia）</a></li>
+  </ol>
+</section>
+
+<footer>破土 Groundbreak · 产品方案 v0.1 · 原型中的项目、人物和数字均为虚构示例</footer>
+</div>
+
+<script>
+(() => {
+  const data = [
+    { cat: '种子 / 天使 / Pre-A', a: 37.8, b: 11.9 },
+    { cat: '人工智能', a: 21.7, b: 44.7 }
+  ];
+  const series = [['a', '占投资笔数', 'var(--s1)'], ['b', '占披露金额', 'var(--s2)']];
+  const root = document.getElementById('chart1');
+  const svg = root.querySelector('svg');
+  const NS = 'http://www.w3.org/2000/svg';
+  const L = 150, R = 600, top = 10, bh = 20, gap = 2, group = 74, max = 50;
+  const x = v => L + v / max * (R - L);
+  const el = (n, a, txt) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+  [0, 10, 20, 30, 40, 50].forEach(t => {
+    el('line', { x1: x(t), x2: x(t), y1: top - 4, y2: top + group * data.length - 22, class: t ? 'grid' : 'base' });
+    el('text', { x: x(t), y: top + group * data.length - 4, 'text-anchor': 'middle', class: 'ax' }, t + '%');
+  });
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; root.appendChild(tip);
+  const show = (e, d, s) => {
+    tip.replaceChildren();
+    const b = document.createElement('b'); b.textContent = d[s[0]] + '%'; tip.append(b, document.createTextNode(d.cat + ' · ' + s[1]));
+    tip.hidden = false;
+    const r = root.getBoundingClientRect(), m = e.target.getBoundingClientRect();
+    tip.style.left = Math.min(r.width - tip.offsetWidth, Math.max(0, m.right - r.left + 8)) + 'px';
+    tip.style.top = (m.top - r.top - 4) + 'px';
+  };
+  data.forEach((d, gi) => {
+    const y0 = top + gi * group;
+    el('text', { x: 0, y: y0 + bh + 4, class: 'cat' }, d.cat);
+    series.forEach((s, si) => {
+      const y = y0 + si * (bh + gap), w = x(d[s[0]]) - L;
+      const p = el('path', { d: `M${L} ${y}h${w - 4}a4 4 0 0 1 4 4v${bh - 8}a4 4 0 0 1 -4 4h${-(w - 4)}z`, fill: s[2] });
+      const hit = el('rect', { x: L, y: y - 1, width: Math.max(w + 40, 24), height: bh + gap, fill: 'transparent', class: 'm', tabindex: 0, 'aria-label': `${d.cat}，${s[1]} ${d[s[0]]}%` });
+      el('text', { x: x(d[s[0]]) + 8, y: y + bh / 2 + 4.5, class: 'val' }, d[s[0]] + '%');
+      hit.addEventListener('pointermove', e => show(e, d, s));
+      hit.addEventListener('focus', e => show(e, d, s));
+      hit.addEventListener('pointerleave', () => tip.hidden = true);
+      hit.addEventListener('blur', () => tip.hidden = true);
+    });
+  });
+})();
+</script>
