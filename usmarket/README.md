@@ -1,48 +1,41 @@
-# 美股晨报 OS
+# 美股晨报 OS（v2 决策台）
 
-每个交易日美西 05:00 前出刊的美股晨报，设计沿用「机会猎手 OS」：整屏标普 500 热力图 + 液态玻璃侧栏。周六出周报，周日和休市日不出刊。
+每个交易日美西 05:00 前给出三件事：股票仓位上限、下一个开盘的买卖指令（含止损和股数）、为什么可信（回测和模拟组合记录）。设计沿用「机会猎手 OS」的液态玻璃风格。
 
-- 在线阅读：https://claude.ai/artifact/DzjCRcTt3iZFr2SE8tiB7T
+- 在线：https://claude.ai/artifact/DzjCRcTt3iZFr2SE8tiB7T
 - 出刊流程与编辑规则：[`EDITOR.md`](EDITOR.md)
+
+## 规则（回测后上线的部分）
+
+| 层 | 规则 | 回测 2017-11 至 2026-10（次日开盘成交，单边 5 个基点） |
+|---|---|---|
+| 仓位上限 | 15% ÷ SPY 20 日年化波动，取 100/75/50/25% 中不超过它的一档 | 总闸 × SPY：年化 10.4%，最大回撤 −15.6%，夏普 0.87 |
+| 核心仓 | SPY，占 min(60%, 上限) | — |
+| 卫星仓 | 上限超过 60% 的部分；S3 趋势突破，止损 2×ATR，退出线 50 日线或最高收盘 − 3×ATR，每笔风险 0.5% | 3,050 笔，胜率 34%，盈亏比 2.69，每笔 +0.20R |
+| 组合 | 核心 + 卫星 | 年化 13.3%，最大回撤 −18.4%，夏普 1.00；SPY 13.2%、−34.1%、0.75 |
+
+**没有上线的：** 5 项择时信号组合（夏普 0.69）、板块轮动（0.60）、S4 趋势回调（每笔 0.05R）、S5 放量跳空（每笔 −0.34R）。
+
+**局限：** 只有约 9 年数据，不含 2008 年；价格不含分红，现金收益按 0 计；个股规则用当前成分股，有幸存者偏差；模型是在同一段数据上选出来的。
+
+## 文件
 
 | 文件 | 内容 |
 |---|---|
-| `pipeline/fetch.mjs` | 抓取行情、盘前、板块、宏观、财报、经济日历，写入 `issues/<日期>.json` 的 `data`，并生成待写的 `edit` 骨架 |
-| `pipeline/peek.mjs` | 打印编辑要用的全部数字 |
-| `issues/YYYY-MM-DD.json` | 每期内容：`data`（脚本生成）+ `edit`（结论、板块点评、异动原因、要闻） |
-| `data/sp500.json` | 标普 500 成分股与 GICS 分类缓存，Wikipedia 抓取失败时使用 |
-| `src/` | 页面：`app.js` 渲染、`style.css` 液态玻璃样式、`body.html` 骨架 |
-| `build.mjs` | 校验所有期刊（有 `TODO`、异动缺原因或来源就报错），把最新 30 期内联进 `index.html` |
-| `index.html` | 构建产物，直接发布为 Artifact |
-
-## 构建
+| `pipeline/lib.mjs` | 指标（与 TradingView 对账误差 < 0.001%）、买卖规则、仓位模型；回测和实盘共用 |
+| `pipeline/history.mjs` | Nasdaq 日线（2016 年起）和 CBOE VIX / VIX3M，缓存在 `.cache/`（不提交） |
+| `pipeline/backtest.mjs` | 全部候选规则的回测和上线门槛，写 `data/backtest.json` |
+| `pipeline/fetch.mjs` | 当天快照：标普 500 成分股的价格和指标、模型用的 ETF、经济日历 |
+| `pipeline/signals.mjs` | 仓位上限、指令、候选；推进模拟组合 `data/ledger.json` |
+| `issues/YYYY-MM-DD.json` | 每期：`data`（脚本生成）+ `edit`（结论和催化剂） |
+| `src/`、`build.mjs` | 页面与构建；构建时校验每条指令和每段文字 |
 
 ```bash
-node usmarket/pipeline/fetch.mjs    # 抓数；周日/休市退出码 3
-node usmarket/pipeline/peek.mjs     # 看数
-node usmarket/build.mjs             # 校验并生成 index.html（--draft 跳过校验，仅本地预览）
+node usmarket/pipeline/fetch.mjs      # 快照；周日/休市退出码 3
+node usmarket/pipeline/signals.mjs    # 决策 + 账本
+node usmarket/build.mjs               # 校验并生成 index.html
+# 每月一次
+node usmarket/pipeline/history.mjs --stocks && node usmarket/pipeline/backtest.mjs
 ```
 
-## 数据来源与口径
-
-| 模块 | 来源 | 口径 |
-|---|---|---|
-| 个股、ETF、指数、期货、利率、汇率、商品、加密 | TradingView 行情筛选器 | 延迟约 15 分钟；股票取最近一个交易时段收盘，盘前另列 |
-| 成分股与板块分类 | Wikipedia 标普 500 成分股表 | GICS 11 个板块、子行业 |
-| 交易日 | Nasdaq 市场状态 | 上一 / 下一交易日、是否休市 |
-| 财报 | Nasdaq 财报日历 | 标普 500 或市值 ≥ 200 亿美元 |
-| 经济数据 | TradingView 经济日历 | 美国，中高重要性 |
-| 异动原因、要闻 | 编辑检索新闻 | 每条附来源；查不到写「无明确消息」 |
-
-## 版面
-
-| 区块 | 内容 |
-|---|---|
-| 热力图 | 面积 = 市值，颜色 = 涨跌；可切换前收 / 盘前 / 近一周 / 近一月 / 年初至今；点板块展开到子行业 |
-| 总览 | 今日结论、主要指数、股指期货、宏观看板、要闻 |
-| 板块 | 11 个 GICS 板块（SPDR ETF）+ 14 个主题 ETF，附点评 |
-| 异动 | 盘前异动、涨幅榜、跌幅榜（每只附原因和来源）、放量 |
-| 日历 | 已公布财报、未来一周财报、美国经济数据 |
-| 宽度 | 涨跌家数、等权 vs 市值加权、站上 50/200 日均线比例、52 周新高新低 |
-
-右上角可切换往期和「红涨绿跌 / 绿涨红跌」（只存在本机浏览器）。
+页面里的「我的持仓」只存在浏览器本地：录入代码、成本、股数，按同一套止损规则给出持有、上移止损、警戒或卖出。

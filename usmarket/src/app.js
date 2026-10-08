@@ -1,5 +1,8 @@
-// Renders one issue of 美股晨报 from the embedded archive (newest first). The only external load is d3 for the heat map.
+// Renders one issue of the decision desk from the embedded archive (newest first), the backtest and the rule constants.
+// Account size, risk per trade and "my holdings" live only in this browser (localStorage).
 const ISSUES = JSON.parse(document.getElementById('issues-data').textContent);
+const BT = JSON.parse(document.getElementById('bt-data').textContent);
+const CFG = JSON.parse(document.getElementById('cfg-data').textContent);
 const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const href = u => (/^https:\/\//.test(u) ? u : '#');
@@ -9,465 +12,334 @@ const store = {
 };
 
 const WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-const STATUS = { pre: '盘前', open: '盘中', post: '盘后', closed: '休市' };
-const SCALE = { c: 3, pm: 3, w: 6, m: 10, ytd: 40 };
-const MODE_NAME = { pm: '盘前涨跌', w: '近一周涨跌', m: '近一月涨跌', ytd: '年初至今涨跌' };
-
-// Chinese names for the names readers know best; everything else shows the English name.
-const CN = {
-  NVDA: '英伟达', AAPL: '苹果', MSFT: '微软', GOOGL: '谷歌 A', GOOG: '谷歌 C', AMZN: '亚马逊', META: 'Meta', AVGO: '博通', TSLA: '特斯拉',
-  'BRK.B': '伯克希尔', LLY: '礼来', JPM: '摩根大通', V: 'Visa', MA: '万事达', WMT: '沃尔玛', ORCL: '甲骨文', XOM: '埃克森美孚',
-  NFLX: '奈飞', COST: '好市多', JNJ: '强生', HD: '家得宝', PG: '宝洁', BAC: '美国银行', ABBV: '艾伯维', UNH: '联合健康', KO: '可口可乐',
-  CSCO: '思科', AMD: 'AMD', CVX: '雪佛龙', CRM: '赛富时', IBM: 'IBM', WFC: '富国银行', MRK: '默沙东', MCD: '麦当劳', PEP: '百事',
-  QCOM: '高通', INTC: '英特尔', BA: '波音', CAT: '卡特彼勒', GS: '高盛', MS: '摩根士丹利', DIS: '迪士尼', MU: '美光', AMAT: '应用材料',
-  LRCX: '泛林', KLAC: '科磊', TXN: '德州仪器', ADBE: 'Adobe', INTU: '财捷', ISRG: '直觉外科', PFE: '辉瑞', AMGN: '安进', GILD: '吉利德',
-  NKE: '耐克', SBUX: '星巴克', UBER: '优步', PLTR: 'Palantir', SMCI: '超微电脑', DELL: '戴尔', HPQ: '惠普', HPE: '慧与', GE: '通用电气航空',
-  GEV: 'GE Vernova', HON: '霍尼韦尔', LMT: '洛克希德·马丁', RTX: '雷神', NOC: '诺斯罗普', GD: '通用动力', GM: '通用汽车', F: '福特',
-  UPS: 'UPS', FDX: '联邦快递', AXP: '美国运通', BLK: '贝莱德', BX: '黑石', SCHW: '嘉信理财', C: '花旗', COP: '康菲石油', NEE: '新纪元能源',
-  CEG: '星座能源', VST: 'Vistra', OXY: '西方石油', SLB: '斯伦贝谢', CMG: 'Chipotle', TGT: '塔吉特', LOW: '劳氏', ABNB: '爱彼迎',
-  BKNG: 'Booking', PYPL: 'PayPal', ANET: 'Arista', MRVL: '迈威尔', ADI: '亚德诺', NOW: 'ServiceNow', PANW: '派拓网络', CRWD: 'CrowdStrike',
-  SNPS: '新思科技', CDNS: '楷登电子', TMO: '赛默飞', ABT: '雅培', DHR: '丹纳赫', BMY: '百时美施贵宝', CVS: 'CVS 健康', CI: '信诺',
-  HUM: 'Humana', ELV: 'Elevance', VRTX: '福泰制药', REGN: '再生元', MDT: '美敦力', SYK: '史赛克', T: 'AT&T', VZ: '威瑞森', TMUS: 'T-Mobile',
-  CMCSA: '康卡斯特', CHTR: '特许通讯', WBD: '华纳兄弟探索', EA: '艺电', TTWO: 'Take-Two', MO: '奥驰亚', PM: '菲利普莫里斯', MDLZ: '亿滋',
-  CL: '高露洁', KHC: '卡夫亨氏', KMB: '金佰利', DE: '迪尔', MMM: '3M', UNP: '联合太平洋', LIN: '林德', SHW: '宣伟', FCX: '自由港',
-  NEM: '纽蒙特', DOW: '陶氏', DD: '杜邦', DUK: '杜克能源', SO: '南方电力', AMT: '美国铁塔', PLD: '安博', EQIX: 'Equinix', SPG: '西蒙地产',
-  O: 'Realty Income', MPC: '马拉松原油', VLO: '瓦莱罗', PSX: 'Phillips 66', EOG: 'EOG 资源', APA: 'APA', HAL: '哈里伯顿', COIN: 'Coinbase',
-  HOOD: 'Robinhood', MSTR: 'Strategy', APP: 'AppLovin', DDOG: 'Datadog', WDAY: 'Workday', ADSK: '欧特克', FTNT: '飞塔', ON: '安森美',
-  NXPI: '恩智浦', MCHP: '微芯', SWKS: '思佳讯', WDC: '西部数据', STX: '希捷', COHR: 'Coherent', GLW: '康宁', JBL: '捷普', TER: '泰瑞达',
-  LULU: 'Lululemon', ROST: 'Ross', TJX: 'TJX', ORLY: "O'Reilly", AZO: 'AutoZone', YUM: '百胜', DPZ: '达美乐', MAR: '万豪', HLT: '希尔顿',
-  CCL: '嘉年华', RCL: '皇家加勒比', DAL: '达美航空', UAL: '美联航', LUV: '西南航空', LVS: '金沙', WYNN: '永利', MGM: '美高梅',
-};
-
-const pct = v => (typeof v === 'number' ? (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2) + '%' : '—');
-const cls = v => (typeof v === 'number' ? (v > 0 ? 'up' : v < 0 ? 'dn' : 'flat') : 'flat');
-const pc = v => `<span class="${cls(v)}">${pct(v)}</span>`;
-const bp = v => (typeof v === 'number' ? `<span class="${cls(v)}">${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v).toFixed(1)}bp</span>` : '—');
-const px = v => (typeof v !== 'number' ? '—' : Math.abs(v) >= 1000 ? v.toLocaleString('en-US', { maximumFractionDigits: 2 }) : Math.abs(v) < 20 ? String(v) : v.toFixed(2));
-const capUsd = v => (typeof v !== 'number' ? '—' : v >= 1000 ? `$${(v / 1000).toFixed(2)}T` : `$${v.toFixed(v >= 100 ? 0 : 1)}B`);
-const md = d => `${Number(d.slice(5, 7))}/${Number(d.slice(8, 10))}`;
+const num = v => typeof v === 'number' && Number.isFinite(v);
+const sgn = (v, d = 1) => (num(v) ? (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 100).toFixed(d) + '%' : '—');
+const pc0 = v => (num(v) ? Math.round(v * 100) + '%' : '—');
+const pc1 = v => (num(v) ? (v * 100).toFixed(1) + '%' : '—');
+const cls = v => (num(v) ? (v > 0 ? 'up' : v < 0 ? 'dn' : 'flat') : 'flat');
+const sp = (v, d) => `<span class="${cls(v)}">${sgn(v, d)}</span>`;
+const usd = (v, d = 2) => (num(v) ? '$' + v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) : '—');
+const md = d => (d ? `${Number(d.slice(5, 7))}/${Number(d.slice(8, 10))}` : '');
 const wd = d => WEEK[new Date(d + 'T12:00:00Z').getUTCDay()];
 const ptTime = iso => new Date(iso).toLocaleTimeString('en-GB', { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit' });
-const etDate = iso => new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+const ptDate = iso => new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
 const sources = src => (src && src.length ? `<div class="src">${src.map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>` : '');
+const isTodo = x => x == null || (typeof x === 'string' && /TODO/.test(x));
 
+const CN = {
+  NVDA: '英伟达', AAPL: '苹果', MSFT: '微软', GOOGL: '谷歌 A', GOOG: '谷歌 C', AMZN: '亚马逊', META: 'Meta', AVGO: '博通', TSLA: '特斯拉',
+  'BRK.B': '伯克希尔', LLY: '礼来', JPM: '摩根大通', V: 'Visa', MA: '万事达', WMT: '沃尔玛', ORCL: '甲骨文', XOM: '埃克森美孚', NFLX: '奈飞',
+  COST: '好市多', JNJ: '强生', HD: '家得宝', PG: '宝洁', BAC: '美国银行', ABBV: '艾伯维', UNH: '联合健康', KO: '可口可乐', CSCO: '思科',
+  AMD: 'AMD', CVX: '雪佛龙', CRM: '赛富时', IBM: 'IBM', WFC: '富国银行', MRK: '默沙东', MCD: '麦当劳', PEP: '百事', QCOM: '高通',
+  INTC: '英特尔', BA: '波音', CAT: '卡特彼勒', GS: '高盛', MS: '摩根士丹利', DIS: '迪士尼', MU: '美光', AMAT: '应用材料', LRCX: '泛林',
+  KLAC: '科磊', TXN: '德州仪器', ADBE: 'Adobe', INTU: '财捷', ISRG: '直觉外科', PFE: '辉瑞', AMGN: '安进', GILD: '吉利德', NKE: '耐克',
+  SBUX: '星巴克', UBER: '优步', PLTR: 'Palantir', SMCI: '超微电脑', DELL: '戴尔', HPQ: '惠普', HPE: '慧与', GE: '通用电气航空',
+  GEV: 'GE Vernova', HON: '霍尼韦尔', LMT: '洛克希德·马丁', RTX: '雷神', GM: '通用汽车', F: '福特', AXP: '美国运通', BLK: '贝莱德',
+  BX: '黑石', SCHW: '嘉信理财', C: '花旗', COP: '康菲石油', NEE: '新纪元能源', CEG: '星座能源', VST: 'Vistra', MPC: '马拉松原油',
+  VLO: '瓦莱罗', PSX: 'Phillips 66', SWKS: '思佳讯', MRNA: '莫德纳', RVTY: '瑞孚迪', IQV: '艾昆纬', ELV: 'Elevance', CF: 'CF 工业',
+  PFG: '信安金融', APA: 'APA', CRWD: 'CrowdStrike', FTNT: '飞塔', ANET: 'Arista', TMO: '赛默飞', ILMN: 'Illumina', FFIV: 'F5', VRSN: 'Verisign',
+  TWLO: 'Twilio', NTAP: '美国网存', LITE: 'Lumentum', COHR: 'Coherent', CMG: 'Chipotle', LULU: 'Lululemon', ABNB: '爱彼迎',
+  SPY: '标普 500 ETF', QQQ: '纳指 100 ETF', IWM: '罗素 2000 ETF', DIA: '道指 ETF', VOO: '标普 500 ETF（先锋）', VTI: '全市场 ETF', TLT: '20 年以上美债 ETF',
+  GLD: '黄金 ETF', SMH: '半导体 ETF', RSP: '标普 500 等权 ETF', HYG: '高收益债 ETF', IEF: '7–10 年美债 ETF', SGOV: '0–3 个月美债 ETF',
+  XLK: '信息技术 ETF', XLC: '通信服务 ETF', XLY: '可选消费 ETF', XLP: '必需消费 ETF', XLV: '医疗保健 ETF', XLF: '金融 ETF', XLI: '工业 ETF',
+  XLE: '能源 ETF', XLB: '原材料 ETF', XLU: '公用事业 ETF', XLRE: '房地产 ETF',
+};
 const ECON = [
-  [/^Fed (.+?) Speech$/, '美联储 $1 讲话'], [/^Fed (.+?) Testimony$/, '美联储 $1 国会证词'], [/^FOMC Minutes/, 'FOMC 会议纪要'],
-  [/^Fed Interest Rate Decision/, '美联储利率决议'], [/^FOMC Press Conference/, '美联储新闻发布会'], [/^FOMC Economic Projections/, 'FOMC 经济预测'],
-  [/^Initial Jobless Claims/, '首次申领失业救济'], [/^Continuing Jobless Claims/, '持续申领失业救济'], [/^Jobless Claims 4-week Average/, '首申四周均值'],
-  [/^Non Farm Payrolls/, '非农就业'], [/^Unemployment Rate/, '失业率'], [/^Average Hourly Earnings (MoM|YoY)/, '平均时薪 $1'],
-  [/^ADP Employment Change/, 'ADP 就业'], [/^JOLTs Job Openings/, 'JOLTS 职位空缺'], [/^Challenger Job Cuts/, '挑战者裁员'],
-  [/^Core Inflation Rate (MoM|YoY)/, '核心 CPI $1'], [/^Inflation Rate (MoM|YoY)/, 'CPI $1'], [/^CPI$/, 'CPI 指数'],
+  [/^Fed Interest Rate Decision/, '美联储利率决议'], [/^FOMC Minutes/, 'FOMC 会议纪要'], [/^FOMC Press Conference/, '美联储新闻发布会'],
+  [/^Non Farm Payrolls/, '非农就业'], [/^Unemployment Rate/, '失业率'], [/^Core Inflation Rate (MoM|YoY)/, '核心 CPI $1'], [/^Inflation Rate (MoM|YoY)/, 'CPI $1'],
   [/^Core PCE Price Index (MoM|YoY)/, '核心 PCE $1'], [/^PCE Price Index (MoM|YoY)/, 'PCE $1'], [/^Core PPI (MoM|YoY)/, '核心 PPI $1'], [/^PPI (MoM|YoY)/, 'PPI $1'],
-  [/^Retail Sales Ex Autos (MoM)/, '零售销售（除汽车）$1'], [/^Retail Sales (MoM|YoY)/, '零售销售 $1'], [/^GDP Growth Rate QoQ/, 'GDP 季环比年化'],
-  [/^GDP Price Index/, 'GDP 价格指数'], [/^ISM Manufacturing PMI/, 'ISM 制造业 PMI'], [/^ISM Services PMI/, 'ISM 服务业 PMI'],
-  [/^S&P Global Manufacturing PMI/, '标普全球制造业 PMI'], [/^S&P Global Services PMI/, '标普全球服务业 PMI'], [/^S&P Global Composite PMI/, '标普全球综合 PMI'],
-  [/^Michigan Consumer Sentiment/, '密歇根消费者信心'], [/^Michigan (\d+)-Year Inflation Expectations/, '密歇根 $1 年通胀预期'],
-  [/^CB Consumer Confidence/, '世企研消费者信心'], [/^EIA Crude Oil Stocks Change/, 'EIA 原油库存'], [/^EIA Gasoline Stocks Change/, 'EIA 汽油库存'],
-  [/^EIA Natural Gas Stocks Change/, 'EIA 天然气库存'], [/^EIA Distillate Stocks Change/, 'EIA 馏分油库存'], [/^EIA Refinery Crude Runs Change/, 'EIA 炼厂开工'],
-  [/^EIA Crude Oil Imports Change/, 'EIA 原油进口'], [/^EIA Cushing Crude Oil Stocks Change/, 'EIA 库欣原油库存'], [/^EIA Heating Oil Stocks Change/, 'EIA 取暖油库存'],
-  [/^EIA Gasoline Production Change/, 'EIA 汽油产量'], [/^EIA Distillate Fuel Production Change/, 'EIA 馏分油产量'],
-  [/^API Crude Oil Stock Change/, 'API 原油库存'], [/^(\d+)-Year Note Auction/, '$1 年期国债拍卖'], [/^(\d+)-Year Bond Auction/, '$1 年期国债拍卖'],
-  [/^(\d+)-Year TIPS Auction/, '$1 年期 TIPS 拍卖'], [/^(\d+)-Week Bill Auction/, '$1 周国库券拍卖'], [/^(\d+)-Month Bill Auction/, '$1 个月国库券拍卖'],
-  [/^MBA 30-Year Mortgage Rate/, 'MBA 30 年房贷利率'], [/^MBA Mortgage Applications/, 'MBA 房贷申请'], [/^MBA Purchase Index/, 'MBA 购房指数'],
-  [/^MBA Mortgage Refinance Index/, 'MBA 再融资指数'], [/^MBA Mortgage Market Index/, 'MBA 房贷市场指数'],
-  [/^Wholesale Inventories/, '批发库存'], [/^Consumer Credit/, '消费信贷'], [/^Building Permits/, '营建许可'], [/^Housing Starts/, '新屋开工'],
-  [/^Existing Home Sales/, '成屋销售'], [/^New Home Sales/, '新屋销售'], [/^Pending Home Sales/, '成屋签约'], [/^Durable Goods Orders/, '耐用品订单'],
-  [/^Industrial Production/, '工业产出'], [/^Balance of Trade/, '贸易差额'], [/^Baker Hughes (Oil |Total )?Rig Count/, '贝克休斯钻井数'],
-  [/^Monthly Budget Statement/, '月度财政预算'], [/^Fed Balance Sheet/, '美联储资产负债表'], [/^NY Empire State Manufacturing/, '纽约州制造业指数'],
-  [/^Philadelphia Fed Manufacturing/, '费城联储制造业指数'], [/^Import Prices/, '进口价格'], [/^Export Prices/, '出口价格'], [/^Factory Orders/, '工厂订单'],
-  [/^Business Inventories/, '企业库存'], [/^Personal Income/, '个人收入'], [/^Personal Spending/, '个人支出'], [/^NFIB Business Optimism/, 'NFIB 小企业信心'],
-  [/^Total Vehicle Sales/, '汽车销量'], [/^Retail Inventories Ex Autos/, '零售库存（除汽车）'], [/^Goods Trade Balance/, '商品贸易差额'],
-  [/^Chicago PMI/, '芝加哥 PMI'], [/^Dallas Fed/, '达拉斯联储制造业指数'], [/^Richmond Fed/, '里士满联储制造业指数'], [/^Kansas Fed/, '堪萨斯联储制造业指数'],
-  [/^Fed (.+)$/, '美联储 $1'],
+  [/^Retail Sales (MoM|YoY)/, '零售销售 $1'], [/^Retail Sales Ex Autos/, '零售销售（除汽车）'], [/^GDP Growth Rate/, 'GDP 增速'], [/^ISM Manufacturing PMI/, 'ISM 制造业 PMI'],
+  [/^ISM Services PMI/, 'ISM 服务业 PMI'], [/^Michigan Consumer Sentiment/, '密歇根消费者信心'], [/^Initial Jobless Claims/, '首次申领失业救济'],
+  [/^Existing Home Sales/, '成屋销售'], [/^New Home Sales/, '新屋销售'], [/^Housing Starts/, '新屋开工'], [/^Building Permits/, '营建许可'],
+  [/^Durable Goods Orders/, '耐用品订单'], [/^JOLTs Job Openings/, 'JOLTS 职位空缺'], [/^ADP Employment Change/, 'ADP 就业'], [/^CB Consumer Confidence/, '世企研消费者信心'],
+  [/^Industrial Production/, '工业产出'], [/^Fed (.+?) Speech$/, '美联储 $1 讲话'],
 ];
-const econName = n => { for (const [re, zh] of ECON) if (re.test(n)) return n.replace(re, zh); return null; };
+const econName = n => { for (const [re, zh] of ECON) if (re.test(n)) return n.replace(re, zh); return n; };
 
 // ---------- state ----------
-let issue = ISSUES[0];
-let D, E, COL, BY;
-let mode = 'c';
-let sector = null;
-let selected = null;
-let tab = 'sum';
+let I = 0, issue, D, E, COL, BY;
+const settings = {
+  eq: Number(store.get('usmb-eq')) || 100000,
+  risk: Number(store.get('usmb-risk')) || CFG.risk,
+};
+let holdings = (() => { try { return JSON.parse(store.get('usmb-holdings') || '[]'); } catch { return []; } })();
+const nameOf = s => CN[s] || (BY[s] ? BY[s][COL.n] : s);
+const KEYNAME = { core: '核心仓', s3: 'S3 趋势突破', s4: 'S4 趋势回调', s5: 'S5 放量跳空' };
+const CAPNAME = c => (c >= 1 ? '满仓上限' : c >= 0.75 ? '七成五' : c >= 0.5 ? '半仓' : c > 0 ? '两成五' : '空仓');
 
 function load(i) {
-  issue = ISSUES[i];
-  D = issue.data;
-  E = issue.edit;
+  I = i; issue = ISSUES[i]; D = issue.data; E = issue.edit;
   COL = Object.fromEntries(D.cols.map((c, j) => [c, j]));
-  BY = {};
-  for (const r of D.stocks) BY[r[COL.s]] = r;
-  if (mode === 'pm' && D.status !== 'pre') mode = 'c';
-  if (D.kind === 'weekly' && mode === 'c') mode = 'w';
-  sector = null;
-  selected = null;
+  BY = Object.fromEntries(D.stocks.map(r => [r[COL.s], r]));
 }
-const v = (row, k) => row[COL[k]];
-const cMetric = () => (D.kind === 'weekly' ? 'w' : 'c');
-const closeLabel = () => (D.session === issue.date ? (D.status === 'open' ? '盘中' : '今日收盘') : `前收 ${md(D.session)}`);
-const modeName = m => (m === 'c' ? (D.session === issue.date && D.status === 'open' ? '盘中涨跌' : `${md(D.session)} 收盘涨跌`) : MODE_NAME[m]);
-const nameOf = s => CN[s] || (BY[s] ? v(BY[s], 'n') : s);
-const enName = s => (BY[s] ? v(BY[s], 'n') : '');
-
-// ---------- heat map ----------
-let cssVars = {};
-function readVars() {
-  const cs = getComputedStyle(document.body);
-  for (const k of ['--tile-mid', '--pos-1', '--pos-2', '--pos-3', '--neg-1', '--neg-2', '--neg-3', '--ink', '--bg']) cssVars[k] = cs.getPropertyValue(k).trim();
-}
-function colorScale(m) {
-  const s = SCALE[m];
-  return d3.scaleLinear()
-    .domain([-s, -s * 0.5, -s * 0.12, 0, s * 0.12, s * 0.5, s])
-    .range([cssVars['--neg-3'], cssVars['--neg-2'], cssVars['--neg-1'], cssVars['--tile-mid'], cssVars['--pos-1'], cssVars['--pos-2'], cssVars['--pos-3']])
-    .interpolate(d3.interpolateLab).clamp(true);
+function quote(sym) {
+  const r = BY[sym];
+  if (r) return { c: r[COL.c], atr: r[COL.atr], s50: r[COL.s50], s200: r[COL.s200], h1m: r[COL.h1m], en: r[COL.en], chg: r[COL.chg] / 100, kind: 'stock' };
+  const e = D.decision.etfs[sym];
+  if (e && num(e.c)) return { c: e.c, atr: e.atr, s50: e.s50, s200: e.s200, h1m: e.h1m, en: null, chg: num(e.chg) ? e.chg / 100 : null, kind: 'etf' };
+  return null;
 }
 
-function drawMap() {
-  const host = $('#map');
-  const W = host.clientWidth, H = host.clientHeight;
-  if (!W || !H || typeof d3 === 'undefined') return;
-  const color = colorScale(mode);
-  const zoom = sector !== null;
-  const groups = zoom
-    ? d3.groups(D.stocks.filter(r => v(r, 'g') === sector), r => D.inds[v(r, 'i')])
-    : D.sectors.map((s, gi) => [gi, D.stocks.filter(r => v(r, 'g') === gi)]);
-  const root = d3.hierarchy({ children: groups.map(([key, rows]) => ({ key, children: rows.map(r => ({ r })) })) })
-    .sum(d => (d.r ? Math.max(v(d.r, 'mc') || 0, 0.5) : 0))
-    .sort((a, b) => b.value - a.value);
-  d3.treemap().size([W, H]).tile(d3.treemapSquarify.ratio(1.2)).paddingOuter(2).paddingTop(d => (d.depth === 1 ? 17 : 0)).paddingInner(1).round(true)(root);
+// ---------- line chart ----------
+function lineChart(el, { x, series, shadeTo, fmt }) {
+  const W = 640, H = 220, L = 46, R = 70, T = 12, B = 26;
+  const all = series.flatMap(s => s.v).filter(num);
+  let lo = Math.min(...all), hi = Math.max(...all);
+  const pad = (hi - lo) * 0.08 || 1; lo -= pad; hi += pad;
+  const sx = i => L + (i / Math.max(x.length - 1, 1)) * (W - L - R);
+  const sy = v => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+  const ticks = Array.from({ length: 4 }, (_, k) => lo + ((k + 0.5) * (hi - lo)) / 4);
+  const xt = [0, Math.floor((x.length - 1) / 2), x.length - 1];
+  const path = v => v.map((y, i) => (num(y) ? `${i && num(v[i - 1]) ? 'L' : 'M'}${sx(i).toFixed(1)},${sy(y).toFixed(1)}` : '')).join('');
+  const ends = series.map(s => ({ s, y: sy(s.v[s.v.length - 1]) })).sort((a, b) => a.y - b.y);
+  for (let k = 1; k < ends.length; k++) if (ends[k].y - ends[k - 1].y < 13) ends[k].y = ends[k - 1].y + 13;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(series.map(s => s.n).join('、'))}">
+    ${shadeTo > 0 ? `<rect class="replay" x="${L}" y="${T}" width="${(sx(shadeTo) - L).toFixed(1)}" height="${H - T - B}"></rect><text class="replay-l" x="${L + 6}" y="${T + 14}">规则回放</text>` : ''}
+    <g class="grid">${ticks.map(t => `<line x1="${L}" x2="${W - R}" y1="${sy(t)}" y2="${sy(t)}"></line>`).join('')}</g>
+    <g class="axis">${ticks.map(t => `<text x="${L - 6}" y="${sy(t) + 3.5}" text-anchor="end">${esc(fmt(t))}</text>`).join('')}
+      ${xt.map((i, k) => `<text x="${sx(i)}" y="${H - 8}" text-anchor="${k === 0 ? 'start' : k === 2 ? 'end' : 'middle'}">${esc(x[i])}</text>`).join('')}</g>
+    <line class="base" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"></line>
+    ${series.map(s => `<path d="${path(s.v)}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"${s.dash ? ' stroke-dasharray="5 4"' : ''}></path>`).join('')}
+    ${series.map(s => `<circle cx="${sx(s.v.length - 1)}" cy="${sy(s.v[s.v.length - 1])}" r="3.5" fill="${s.color}" stroke="var(--bg)" stroke-width="2"></circle>`).join('')}
+    ${ends.map(({ s, y }) => `<text class="end" x="${W - R + 8}" y="${y + 4}">${esc(fmt(s.v[s.v.length - 1]))}</text>`).join('')}
+    <line class="xh" y1="${T}" y2="${H - B}" x1="0" x2="0" visibility="hidden"></line>
+    <rect class="hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}"></rect></svg>
+    <div class="tip glass" hidden></div>`;
+  const svg = el.querySelector('svg'), tip = el.querySelector('.tip'), xh = el.querySelector('.xh');
+  svg.querySelector('.hit').addEventListener('pointermove', ev => {
+    const b = svg.getBoundingClientRect(), px = ((ev.clientX - b.left) / b.width) * W;
+    const i = Math.max(0, Math.min(x.length - 1, Math.round(((px - L) / (W - L - R)) * (x.length - 1))));
+    xh.setAttribute('x1', sx(i)); xh.setAttribute('x2', sx(i)); xh.setAttribute('visibility', 'visible');
+    tip.innerHTML = `<b>${esc(x[i])}</b>${series.map(s => `<div class="r"><span>${esc(s.n)}</span><span>${esc(fmt(s.v[i]))}</span></div>`).join('')}`;
+    tip.hidden = false;
+    const left = (sx(i) / W) * b.width;
+    tip.style.left = Math.min(Math.max(0, left + 12), b.width - tip.offsetWidth) + 'px';
+  });
+  svg.querySelector('.hit').addEventListener('pointerleave', () => { tip.hidden = true; xh.setAttribute('visibility', 'hidden'); });
+}
+const css = k => getComputedStyle(document.body).getPropertyValue(k).trim();
 
-  const svg = d3.create('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H);
-  for (const g of root.children || []) {
-    const gw = g.x1 - g.x0;
-    svg.append('rect').attr('class', 'sec-box').attr('x', g.x0 + 0.5).attr('y', g.y0 + 0.5).attr('width', Math.max(gw - 1, 0)).attr('height', Math.max(g.y1 - g.y0 - 1, 0)).attr('rx', 4);
-    if (gw > 46) {
-      const label = zoom ? g.data.key : D.sectors[g.data.key].n;
-      const sv = zoom ? null : D.sectors[g.data.key][mode === 'c' ? 'c' : mode];
-      const t = svg.append('text').attr('class', 'sec-h').attr('x', g.x0 + 5).attr('y', g.y0 + 12.5);
-      const maxChars = Math.floor((gw - 10) / 11.5);
-      t.append('tspan').text(label.length > maxChars ? label.slice(0, Math.max(maxChars - 1, 1)) + '…' : label);
-      if (sv != null && gw > 110) t.append('tspan').attr('class', `v`).attr('dx', 6).attr('fill', 'currentColor').text(pct(sv));
-    }
+// ---------- cards ----------
+function renderGate() {
+  const dec = D.decision, r = dec.regime, cover = E.cover || {};
+  const steps = CFG.volSteps, tgt = CFG.volTarget;
+  // vol zones: the scaler is the largest step s with target / vol >= s
+  const bounds = steps.map(s => tgt / s);
+  const zones = steps.map((s, k) => ({ s, from: k ? bounds[k - 1] : 0, to: k < steps.length - 1 ? bounds[k] : 0.4 }));
+  const W = 600, X = v => 10 + (Math.min(v, 0.4) / 0.4) * (W - 20);
+  const ch = r.prevCap === r.cap ? '与上一交易日相同' : `上一交易日 ${pc0(r.prevCap)}`;
+  $('#gate').innerHTML = `
+    <div class="ch"><span class="eyebrow">今日结论 · ${esc(md(dec.session))} ${wd(dec.session)} 收盘后</span></div>
+    <div><h1 style="font-size:21px;font-weight:900;line-height:1.4">${esc(cover.title)}</h1><p class="note" style="font-size:13.5px;margin-top:6px">${esc(cover.dek)}</p></div>
+    <div class="ch"><h2 id="gate-h">仓位总闸</h2><span class="sub">${esc(BT.regime.model.n)} · ${esc(ch)}</span></div>
+    <div class="cap"><div class="big num">${Math.round(r.cap * 100)}<small>%</small></div>
+      <div class="lbl"><b>${CAPNAME(r.cap)}：股票仓位最多 ${pc0(r.cap)}</b>
+        <div class="split" aria-hidden="true"><i class="core" style="flex:${r.coreW}"></i><i class="sat" style="flex:${r.satCap}"></i><i class="cash" style="flex:${Math.max(0, 1 - r.cap)}"></i></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>核心仓 SPY ${pc0(r.coreW)}</span><span><i style="background:var(--accent-2)"></i>卫星仓 个股 ${pc0(r.satCap)}</span><span><i style="border:1px solid var(--line)"></i>现金 ${pc0(Math.max(0, 1 - r.cap))}</span></div></div></div>
+    <div class="gauge"><svg viewBox="0 0 ${W} 58" role="img" aria-label="SPY 20 日年化波动 ${pc1(r.vol20)}，对应仓位 ${pc0(r.cap)}">
+      ${zones.map(z => `<rect class="zone${z.s === r.volMult ? ' on' : ''}" x="${X(z.from)}" y="16" width="${Math.max(X(z.to) - X(z.from) - 2, 0)}" height="16" rx="4"></rect>
+        <text class="zl${z.s === r.volMult ? ' on' : ''}" x="${(X(z.from) + X(z.to)) / 2}" y="28" text-anchor="middle">${Math.round(z.s * 100)}%</text>`).join('')}
+      ${bounds.slice(0, -1).map(b => `<text class="tick" x="${X(b)}" y="46" text-anchor="middle">${Math.round(b * 100)}%</text>`).join('')}
+      <text class="tick" x="${X(0)}" y="46">0</text><text class="tick" x="${X(0.4)}" y="46" text-anchor="end">40%+</text>
+      <path class="mk" d="M${X(r.vol20) - 6},4 L${X(r.vol20) + 6},4 L${X(r.vol20)},14 Z"></path>
+      <text class="mkl" x="${Math.min(Math.max(X(r.vol20), 60), W - 60)}" y="${56}" text-anchor="middle">SPY 20 日波动 ${pc1(r.vol20)}</text></svg>
+      <p class="note">SPY 过去 20 个交易日的年化波动是 <b>${pc1(r.vol20)}</b>，${r.vol20 <= tgt ? `低于 ${pc0(tgt)} 的目标，仓位系数 1` : `高于 ${pc0(tgt)} 的目标，仓位系数降到 ${r.volMult}`}。波动越高，仓位越低：${zones.map(z => `${z.to >= 0.4 ? Math.round(z.from * 100) + '% 以上' : (z.from ? Math.round(z.from * 100) : 0) + '–' + Math.round(z.to * 100) + '%'} 对应 ${Math.round(z.s * 100)}%`).join('，')}。核心仓买 SPY，占 min(60%, 上限)；超出 60% 的部分给卫星仓个股。</p></div>
+    ${(cover.points || []).length ? `<ul class="rules">${cover.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}`;
+}
+
+function scaledOrder(o) {
+  const mult = o.act === 'buy' ? settings.risk / CFG.risk : 1;
+  let value = o.w * settings.eq * mult;
+  if (o.act === 'buy') value = Math.min(value, CFG.maxPos * settings.eq);
+  return { value, sh: o.act === 'sell' ? null : Math.floor(value / o.px) };
+}
+function renderOrders() {
+  const dec = D.decision, r = dec.regime;
+  const nextLbl = `${md(dec.next)} ${wd(dec.next)} 开盘`;
+  const sat = dec.positions.filter(p => p.key !== 'core');
+  const body = dec.orders.length ? `<div class="orders">${dec.orders.map(o => {
+    const sc = scaledOrder(o), note = (E.notes || {})[o.s];
+    const chip = o.act === 'buy' ? '<span class="pill buy">买入</span>' : o.act === 'sell' ? '<span class="pill sell">卖出</span>' : '<span class="pill adj">调整</span>';
+    const qty = o.act === 'sell' ? '全部卖出<small>模拟组合 ' + o.sh + ' 股</small>' : o.act === 'adjust' ? `${sc.sh} 股<small>目标占净值 ${pc0(o.w)}</small>` : `${sc.sh} 股<small>约 ${usd(sc.value, 0)} · 占 ${pc1(sc.value / settings.eq)}</small>`;
+    const pm = BY[o.s] && num(BY[o.s][COL.pm]) ? `<span>盘前 ${sp(BY[o.s][COL.pm] / 100, 1)}</span>` : '';
+    return `<div class="order">${chip}<div class="tk">${esc(o.s)}<small>${esc(nameOf(o.s))}</small></div><div class="qty">${qty}</div>
+      <div class="det"><span>参考价 <b>${usd(o.px)}</b></span>${o.stop ? `<span>止损 <b>${usd(o.stop)}</b>（成交价 − 2×ATR）</span><span>风险 <b>${pc1(settings.risk)}</b> 净值</span>` : ''}${o.act === 'adjust' ? `<span>现在 <b>${pc0(o.from)}</b> → 目标 <b>${pc0(o.w)}</b></span>` : ''}<span>${esc(KEYNAME[o.key] || o.key)}</span>${pm}</div>
+      <p class="why">${esc(o.why)}${o.exit ? `。卖出条件：${esc(o.exit)}` : ''}</p>
+      ${note && !isTodo(note.why) ? `<p class="why" style="color:var(--muted)">${esc(note.why)}</p>${sources(note.src)}` : ''}</div>`;
+  }).join('')}</div>` : `<div class="empty"><b>今日无操作。</b><ul class="checks">
+      <li>仓位上限 ${pc0(r.cap)}，核心仓 SPY 已在 ${pc0(r.coreW)} 的目标上</li>
+      <li>${dec.candidates.filter(c => c.status === 'order').length ? '' : dec.candidates.length ? `${dec.candidates.length} 只股票满足条件，但都因名额、财报或预算跳过` : '没有股票同时满足趋势突破的 5 个条件'}</li>
+      <li>${sat.length ? `${sat.length} 只卫星股都在止损和退出线之上` : '卫星仓没有持仓'}</li></ul></div>`;
+  $('#orders').innerHTML = `<div class="ch"><h2 id="orders-h">今日指令</h2><span class="sub">对应 ${esc(nextLbl)} · 股数按你的净值 ${usd(settings.eq, 0)}、每笔风险 ${pc1(settings.risk)} 换算</span></div>${body}`;
+}
+
+function renderBook() {
+  const dec = D.decision, L = dec.ledger;
+  const rows = dec.positions.map(p => `<tr><td class="code">${esc(p.s)}<small>${esc(nameOf(p.s))}</small></td><td>${esc(KEYNAME[p.key] || p.key)}</td>
+    <td class="n">${num(p.sh) ? (p.sh % 1 ? p.sh.toFixed(2) : p.sh) : '—'}</td><td class="n">${usd(p.fill)}</td><td class="n">${usd(p.c)}</td><td class="n">${sp(p.pnl)}</td>
+    <td class="n">${pc1(p.w)}</td><td class="n">${p.stop ? usd(p.stop) : '—'}</td><td class="n">${p.trail ? usd(p.trail) : '—'}</td><td class="n">${p.bars ?? '—'}</td></tr>`).join('');
+  $('#book').innerHTML = `<div class="ch"><h2 id="book-h">模拟组合持仓</h2><span class="sub">${usd(L.equity0, 0)} 起步 · ${esc(md(L.start))} 开始${L.liveFrom ? ` · ${esc(md(L.liveFrom))} 起实盘记录` : ' · 目前全部是规则回放'}</span></div>
+    <div class="tbl"><table><thead><tr><th>代码</th><th>策略</th><th class="n">股数</th><th class="n">成本</th><th class="n">现价</th><th class="n">盈亏</th><th class="n">仓位</th><th class="n">止损</th><th class="n">退出线</th><th class="n">天数</th></tr></thead>
+    <tbody>${rows}<tr class="foot"><td class="code">现金</td><td></td><td></td><td></td><td></td><td></td><td class="n">${pc1(L.cash / L.eq)}</td><td></td><td></td><td></td></tr></tbody></table></div>
+    <p class="note">止损：盘中触及即卖出。退出线（S3）：最高收盘价 − 3×ATR，收盘跌破或跌破 50 日线就在下一个开盘卖出。</p>`;
+}
+
+function renderMine() {
+  $('#acct-eq').value = settings.eq;
+  $('#acct-risk').value = String(settings.risk);
+  const r = D.decision.regime;
+  if (!holdings.length) {
+    $('#h-table').innerHTML = '<div class="empty">还没有录入持仓。添加后，这里会按同一套规则给出每只的止损价和建议：<b>持有、上移止损、减仓或卖出</b>。覆盖标普 500 成分股和常见指数 ETF（SPY、QQQ、IWM、VOO、TLT、GLD 等）。</div>';
+    $('#h-bulk').value = '';
+    return;
   }
-  const leaves = root.leaves();
-  for (const lf of leaves) {
-    const r = lf.data.r;
-    const val = v(r, mode);
-    const w = lf.x1 - lf.x0, h = lf.y1 - lf.y0;
-    const fill = typeof val === 'number' ? color(val) : cssVars['--tile-mid'];
-    svg.append('rect').attr('class', 'cell' + (selected === v(r, 's') ? ' sel' : '')).attr('data-s', v(r, 's'))
-      .attr('x', lf.x0).attr('y', lf.y0).attr('width', Math.max(w, 0)).attr('height', Math.max(h, 0)).attr('fill', fill);
-    if (w < 20 || h < 13) continue;
-    const s = v(r, 's');
-    const fs = Math.min(w / (s.length * 0.66 + 0.5), h * 0.4, 26);
-    if (fs < 7.5) continue;
-    const ink = d3.lab(fill).l < 58 ? '#FFFFFF' : '#0B1520';
-    const showPct = h > fs * 2.25 && fs >= 9 && typeof val === 'number';
-    const cy = lf.y0 + h / 2 + (showPct ? -fs * 0.18 : fs * 0.35);
-    svg.append('text').attr('class', 'tk').attr('x', lf.x0 + w / 2).attr('y', cy).attr('font-size', fs.toFixed(1)).attr('fill', ink).text(s);
-    if (showPct) {
-      const label = pct(val);
-      const pfs = Math.min(fs * 0.62, (w - 4) / (label.length * 0.6));
-      if (pfs >= 7.5) svg.append('text').attr('class', 'pc').attr('x', lf.x0 + w / 2).attr('y', cy + fs * 0.95).attr('font-size', pfs.toFixed(1)).attr('fill', ink).text(label);
-    }
-  }
-  host.replaceChildren(svg.node());
-  drawLegend();
+  let total = 0;
+  const rows = holdings.map((h, k) => {
+    const q = quote(h.s);
+    if (!q) return { h, k, html: `<tr><td class="code">${esc(h.s)}</td><td class="n">${h.sh}</td><td class="n">${usd(h.cost)}</td><td colspan="5" class="act"><span class="pill">不在覆盖范围</span></td><td><button class="x" type="button" data-del="${k}" aria-label="删除 ${esc(h.s)}">×</button></td></tr>` };
+    const value = q.c * h.sh; total += value;
+    const hardStop = h.cost - 2 * q.atr, trail = num(q.h1m) ? q.h1m - 3 * q.atr : null;
+    const stop = Math.max(hardStop, trail ?? -Infinity);
+    const pnl = q.c / h.cost - 1;
+    let act, chip;
+    if (q.c <= stop) { chip = 'sell'; act = `卖出：收盘 ${usd(q.c)} 已低于止损 ${usd(stop)}`; }
+    else if (num(q.s200) && q.c < q.s200) { chip = 'sell'; act = `卖出：跌破 200 日线 ${usd(q.s200)}`; }
+    else if (num(q.s50) && q.c < q.s50) { chip = 'warn'; act = `警戒：跌破 50 日线 ${usd(q.s50)}，止损 ${usd(stop)}`; }
+    else if (trail != null && trail > hardStop && trail > h.cost) { chip = 'adj'; act = `持有，止损上移到 ${usd(stop)}（锁定盈利）`; }
+    else { chip = 'live'; act = `持有，止损 ${usd(stop)}`; }
+    const label = { sell: '卖出', warn: '警戒', adj: '上移止损', live: '持有' }[chip];
+    const er = q.en && q.en >= D.decision.session && (new Date(q.en) - new Date(D.decision.session)) / 864e5 <= 7 ? ` · <span class="pill warn">${md(q.en)} 财报</span>` : '';
+    return { h, k, value, html: `<tr><td class="code">${esc(h.s)}<small>${esc(nameOf(h.s))}</small></td><td class="n">${h.sh}</td><td class="n">${usd(h.cost)}</td><td class="n">${usd(q.c)}</td><td class="n">${sp(pnl)}</td>
+      <td class="n" data-w="${k}"></td><td class="n">${usd(stop)}</td><td class="act"><span class="pill ${chip === 'live' ? 'live' : chip}">${label}</span> ${esc(act.replace(/^(卖出|警戒|持有)[：，]?/, ''))}${er}</td><td><button class="x" type="button" data-del="${k}" aria-label="删除 ${esc(h.s)}">×</button></td></tr>` };
+  });
+  const capVal = r.cap * settings.eq, over = total - capVal;
+  $('#h-table').innerHTML = `<div class="tbl"><table><thead><tr><th>代码</th><th class="n">股数</th><th class="n">成本</th><th class="n">现价</th><th class="n">盈亏</th><th class="n">占净值</th><th class="n">止损</th><th>建议</th><th></th></tr></thead>
+    <tbody>${rows.map(x => x.html).join('')}</tbody></table></div>
+    <p class="note">止损 = max(成本 − 2×ATR, 1 个月最高价 − 3×ATR)。股票合计 <b>${usd(total, 0)}</b>，占净值 <b>${pc1(total / settings.eq)}</b>；仓位上限 ${pc0(r.cap)}，${over > settings.eq * 0.01 ? `<b>超出 ${usd(over, 0)}，先减「卖出」「警戒」和浮亏最大的仓位</b>` : '在上限之内'}。</p>`;
+  for (const x of rows) { const td = document.querySelector(`[data-w="${x.k}"]`); if (td && x.value) td.textContent = pc1(x.value / settings.eq); }
+  $('#h-bulk').value = holdings.map(h => `${h.s},${h.cost},${h.sh}`).join('\n');
 }
-
-function drawLegend() {
-  const s = SCALE[mode];
-  const color = colorScale(mode);
-  const steps = d3.range(-s, s + 0.001, s / 5);
-  const n = D.stocks.filter(r => typeof v(r, mode) === 'number').length;
-  const legend = $('#legend');
-  legend.title = `面积为市值，${n} 只标普 500 成分股，${sector !== null ? '按 GICS 子行业分组' : '按 GICS 板块分组'}`;
-  legend.innerHTML = `<b>${esc(modeName(mode))}${sector !== null ? ` · ${esc(D.sectors[sector].n)}` : ''}<small>面积 = 市值</small></b>
-    <div class="ramp">${steps.map(x => `<i style="background:${color(x)}"></i>`).join('')}</div>
-    <div class="lab num"><span>≤ −${s}%</span><span>0</span><span>≥ +${s}%</span></div>`;
-}
-
-function drawChips() {
-  const k = mode === 'c' ? 'c' : mode;
-  const chips = [`<span class="lbl">板块</span><button class="chip" type="button" data-g="" aria-pressed="${sector === null}">全部</button>`]
-    .concat(D.sectors.map((s, gi) => `<button class="chip" type="button" data-g="${gi}" aria-pressed="${sector === gi}">${esc(s.n)}<b class="${cls(s[k])}">${pct(s[k])}</b></button>`));
-  $('#secs').innerHTML = chips.join('');
-}
-
-// tooltip
-const tip = $('#tip');
-function tipHtml(s) {
-  const r = BY[s];
-  if (!r) return '';
-  const mv = E.movers && E.movers[s];
-  const row = (k, val) => `<div class="r"><span>${k}</span>${val}</div>`;
-  return `<div class="h"><b>${esc(s)}</b><span>$${px(v(r, 'p'))}</span></div>
-    <div class="nm">${esc(nameOf(s))}${CN[s] ? ' · ' + esc(enName(s)) : ''} · ${esc(D.inds[v(r, 'i')])}</div>
-    ${row(D.kind === 'weekly' ? `${md(D.session)} 收盘` : closeLabel(), pc(v(r, 'c')))}
-    ${D.status === 'pre' ? row('盘前', pc(v(r, 'pm'))) : ''}
-    ${row('近一周', pc(v(r, 'w')))}${row('近一月', pc(v(r, 'm')))}${row('年初至今', pc(v(r, 'ytd')))}
-    ${row('相对成交量', `<span>${typeof v(r, 'rv') === 'number' ? v(r, 'rv').toFixed(2) + '×' : '—'}</span>`)}
-    ${row('市值', `<span>${capUsd(v(r, 'mc'))}</span>`)}
-    ${mv && mv.why && mv.why !== 'TODO' ? `<div class="why">${esc(mv.why)}</div>` : ''}`;
-}
-function placeTip(x, y) {
-  const st = $('#stage').getBoundingClientRect();
-  const tw = tip.offsetWidth, th = tip.offsetHeight;
-  let left = x - st.left + 14, top = y - st.top + 14;
-  if (left + tw > st.width - 8) left = x - st.left - tw - 14;
-  if (top + th > st.height - 8) top = Math.max(8, st.height - th - 8);
-  tip.style.left = Math.max(8, left) + 'px';
-  tip.style.top = Math.max(8, top) + 'px';
-}
-$('#map').addEventListener('pointermove', e => {
-  const el = e.target.closest('rect.cell');
-  if (!el) { if (!selected) tip.hidden = true; return; }
-  tip.innerHTML = tipHtml(el.dataset.s);
-  tip.hidden = false;
-  placeTip(e.clientX, e.clientY);
+function saveHoldings() { store.set('usmb-holdings', JSON.stringify(holdings)); renderMine(); }
+$('#h-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const s = $('#h-sym').value.trim().toUpperCase().replace('/', '.'), cost = Number($('#h-cost').value), sh = Number($('#h-sh').value);
+  if (!s || !(cost > 0) || !(sh > 0)) { $('#h-msg').textContent = '请填写代码、成本价和股数，成本和股数要大于 0。'; return; }
+  holdings = holdings.filter(h => h.s !== s).concat({ s, cost, sh });
+  $('#h-msg').textContent = quote(s) ? `已添加 ${s}。` : `已添加 ${s}，但它不在覆盖范围内，无法计算止损。`;
+  e.target.reset();
+  saveHoldings();
 });
-$('#map').addEventListener('pointerleave', () => { if (!selected) tip.hidden = true; });
-$('#map').addEventListener('click', e => {
-  const el = e.target.closest('rect.cell');
-  if (!el) { selected = null; tip.hidden = true; drawMap(); return; }
-  focusStock(el.dataset.s, false);
+$('#h-table').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (!b) return; holdings.splice(Number(b.dataset.del), 1); $('#h-msg').textContent = '已删除。'; saveHoldings(); });
+$('#h-import').addEventListener('click', () => {
+  const rows = $('#h-bulk').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => l.split(/[,\s，]+/));
+  const ok = rows.filter(r => r.length >= 3 && Number(r[1]) > 0 && Number(r[2]) > 0).map(r => ({ s: r[0].toUpperCase(), cost: Number(r[1]), sh: Number(r[2]) }));
+  if (!ok.length) { $('#h-msg').textContent = '没有识别到有效的行。格式：代码,成本价,股数'; return; }
+  holdings = ok;
+  $('#h-msg').textContent = `已导入 ${ok.length} 只${rows.length > ok.length ? `，跳过 ${rows.length - ok.length} 行格式不对的` : ''}。`;
+  saveHoldings();
 });
+$('#h-copy').addEventListener('click', () => {
+  const t = $('#h-bulk');
+  navigator.clipboard?.writeText(t.value).then(() => { $('#h-msg').textContent = '已复制。'; }, () => { t.select(); $('#h-msg').textContent = '已选中文本，请手动复制。'; }) ?? (t.select());
+});
+$('#acct-eq').addEventListener('change', e => { const v = Number(e.target.value); if (v >= 1000) { settings.eq = v; store.set('usmb-eq', v); renderOrders(); renderMine(); } });
+$('#acct-risk').addEventListener('change', e => { settings.risk = Number(e.target.value); store.set('usmb-risk', settings.risk); renderOrders(); });
 
-function focusStock(s, fromPanel) {
-  if (!BY[s]) return;
-  selected = s;
-  if (fromPanel && sector !== null && sector !== v(BY[s], 'g')) sector = null;
-  drawMap();
-  drawChips();
-  const el = document.querySelector(`#map rect.cell[data-s="${CSS.escape(s)}"]`);
-  if (!el) return;
-  const b = el.getBoundingClientRect();
-  tip.innerHTML = tipHtml(s);
-  tip.hidden = false;
-  placeTip(b.left + b.width / 2, b.top + b.height / 2);
-  if (fromPanel && window.matchMedia('(max-width:1080px)').matches) $('#stage').scrollIntoView({ behavior: 'smooth', block: 'start' });
+function renderPerf() {
+  const dec = D.decision, L = dec.ledger, cv = dec.curve;
+  const liveIdx = cv.findIndex(x => !x[3]);
+  const shade = liveIdx < 0 ? cv.length - 1 : liveIdx;
+  $('#perf').innerHTML = `<div class="ch"><h2 id="perf-h">模拟组合</h2><span class="sub">${esc(md(L.start))} 起 · 和 SPY 买入持有同期对比</span></div>
+    <div class="tiles">
+      <div class="tile"><span class="k">组合收益</span><span class="v ${cls(L.ret)}">${sgn(L.ret)}</span><span class="d">净值 ${usd(L.eq, 0)}</span></div>
+      <div class="tile"><span class="k">SPY 同期</span><span class="v ${cls(L.spyRet)}">${sgn(L.spyRet)}</span><span class="d">差 ${sgn(L.ret - L.spyRet)}</span></div>
+      <div class="tile"><span class="k">距净值高点</span><span class="v ${cls(L.dd)}">${sgn(L.dd)}</span><span class="d">回撤 8% 时风险减半</span></div>
+      <div class="tile"><span class="k">已平仓</span><span class="v">${L.trades}<small style="font-size:12px;color:var(--muted)"> 笔</small></span><span class="d">胜率 ${L.win == null ? '—' : pc0(L.win)}</span></div></div>
+    <div class="chart" id="perf-chart"></div>
+    <div class="legend"><span><i class="ln" style="border-color:var(--accent)"></i>模拟组合</span><span><i class="dash" style="border-color:var(--bench)"></i>SPY 买入持有</span>${shade > 0 ? '<span><i style="background:var(--line-soft)"></i>规则回放（非实盘）</span>' : ''}</div>
+    ${L.recent.length ? `<div><span class="eyebrow">最近平仓</span><div class="trades" style="margin-top:6px">${L.recent.map(t => `<div><span class="num" style="font-weight:800">${esc(t.s)}</span><span class="why">${esc(md(t.fillDate))} → ${esc(md(t.exitDate))} · ${esc(t.why)}</span><span class="num ${cls(t.r)}">${sgn(t.r)}${num(t.R) ? ` · ${t.R > 0 ? '+' : ''}${t.R}R` : ''}</span></div>`).join('')}</div></div>` : ''}`;
+  lineChart($('#perf-chart'), { x: cv.map(c => md(c[0])), shadeTo: shade, fmt: v => usd(v, 0),
+    series: [{ n: 'SPY 买入持有', v: cv.map(c => c[2]), color: css('--bench'), dash: true }, { n: '模拟组合', v: cv.map(c => c[1]), color: css('--accent') }] });
 }
 
-// ---------- panel ----------
-const sec = (title, small, body) => `<section class="sec"><h3>${esc(title)}${small ? `<small>${small}</small>` : ''}</h3>${body}</section>`;
-const isTodo = x => x == null || x === 'TODO' || (typeof x === 'string' && /TODO/.test(x));
-
-function renderSum() {
-  const idx = k => D.macro.find(m => m.k === k) || {};
-  const tiles = ['SPX', 'NDX', 'DJI', 'RUT'].map(k => {
-    const m = idx(k);
-    return `<div class="tile"><span class="k"><span>${esc(m.n)}</span><span>${esc(D.kind === 'weekly' ? '本周' : closeLabel())}</span></span>
-      <span class="v">${px(m.v)}</span><span class="d"><span class="${cls(D.kind === 'weekly' ? m.w : m.c)}">${pct(D.kind === 'weekly' ? m.w : m.c)}</span><em>${D.kind === 'weekly' ? `当日 ${pct(m.c)}` : `近一周 ${pct(m.w)}`}</em></span></div>`;
-  }).join('');
-  const fut = D.macro.filter(m => m.grp === 'fut');
-  const macroRows = D.macro.filter(m => ['rate', 'vol', 'fx', 'cmd', 'crypto'].includes(m.grp));
-  const futStamp = `${ptTime(D.fetched)} PT`;
-  const cover = E.cover || {};
-  $('#p-sum').innerHTML = `
-    <div class="stamp"><span class="eyebrow">${issue.date.replace(/-/g, '.')} ${wd(issue.date)}</span>
-      <span class="pill solid">${D.kind === 'weekly' ? '周报' : STATUS[D.status] + '版'}</span>
-      <span>No.${String(E.no).padStart(3, '0')} · 数据截至 <span class="num">${ptTime(D.fetched)}</span> PT</span></div>
-    <div class="thesis"><span class="eyebrow" style="color:var(--accent)">今日结论</span><h2>${esc(cover.title)}</h2><p>${esc(cover.dek)}</p></div>
-    ${(cover.points || []).length ? `<ul class="points">${cover.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
-    ${sec('主要指数', esc(D.kind === 'weekly' ? `截至 ${md(D.session)} 收盘` : closeLabel()), `<div class="tiles">${tiles}</div>`)}
-    ${fut.length && D.kind !== 'weekly' ? sec('股指期货', `相对前结算 · ${esc(futStamp)}`, `<div class="kv">${fut.map(m => `<div><span>${esc(m.n)}</span><b class="${cls(m.c)}">${pct(m.c)}</b></div>`).join('')}</div>`) : ''}
-    ${sec('宏观看板', `利率涨跌以基点计 · ${esc(futStamp)}`, `<div class="tbl"><table>
-      <thead><tr><th>品种</th><th class="n">最新</th><th class="n">${D.kind === 'weekly' ? '当日' : '涨跌'}</th><th class="n">近一周</th><th class="n">年初至今</th></tr></thead>
-      <tbody>${macroRows.map(m => `<tr><td class="nm">${esc(m.n)}<small>${esc(m.k)}</small></td><td class="n">${px(m.v)}${m.grp === 'rate' ? '%' : ''}</td>
-        <td class="n">${m.grp === 'rate' ? bp(m.bp) : pc(m.c)}</td><td class="n">${pc(m.w)}</td><td class="n">${pc(m.ytd)}</td></tr>`).join('')}</tbody></table></div>`)}
-    ${(E.news || []).length ? sec('要闻', `${E.news.length} 条 · 每条附来源`, `<div class="news">${E.news.map(n => `<article>
-      <div class="tg"><span class="pill a">${esc(n.tag)}</span><span class="num">${esc(n.date)}</span></div>
-      <h4>${esc(n.title)}</h4><p>${esc(n.body)}</p>${sources(n.src)}</article>`).join('')}</div>`) : ''}`;
+function renderCands() {
+  const dec = D.decision;
+  const live = dec.candidates;
+  const st = c => (c.status === 'order' ? '<span class="pill buy">下单</span>' : c.status === 'held' ? '<span class="pill live">已持有</span>' : `<span class="pill">跳过</span>`);
+  const ev = (dec.events || []).slice(0, 8);
+  $('#cands').innerHTML = `<div class="ch"><h2 id="cands-h">候选池</h2><span class="sub">S3 趋势突破 · 标普 500 · ${esc(md(dec.session))} 收盘</span></div>
+    ${live.length ? `<div class="cands">${live.map(c => { const n = (E.notes || {})[c.s]; return `<article><div class="tk">${esc(c.s)}<small>${esc(nameOf(c.s))}</small></div><div>${st(c)}</div>
+      <div class="meta"><span>收盘 ${usd(c.c)}</span><span>6 个月 ${sp(c.m6 / 100, 0)}</span><span>相对量 ${num(c.rv) ? c.rv.toFixed(1) + '×' : '—'}</span><span>估算止损 ${usd(c.stop)}</span>${c.reason ? `<span>${esc(c.reason)}</span>` : ''}${c.flags.map(f => `<span class="pill warn">${esc(f)}</span>`).join('')}</div>
+      ${n && !isTodo(n.why) ? `<p class="why">${esc(n.why)}</p>${sources(n.src)}` : ''}</article>`; }).join('')}</div>`
+    : `<div class="empty"><b>没有股票同时满足 5 个条件：</b><ul class="checks"><li>收盘 &gt; 50 日线 &gt; 200 日线</li><li>当天创 1 个月新高</li><li>收盘距 52 周高点不超过 5%</li><li>6 个月涨幅排在标普 500 前 20%</li><li>成交量 ≥ 10 日均量的 1.5 倍</li></ul></div>`}
+    <div><span class="eyebrow">未来 7 天的高风险事件</span><div class="events" style="margin-top:6px">${ev.length ? ev.map(e => `<div><span class="num" style="color:var(--muted)">${md(ptDate(e.t))} ${ptTime(e.t)} PT</span><span>${esc(econName(e.n))}${num(e.f) ? `<span style="color:var(--faint)"> · 预期 ${esc(e.f)}${esc(e.u)}</span>` : ''}</span></div>`).join('') : '<div><span>—</span><span>没有高重要性的美国经济数据</span></div>'}</div>
+    <p class="note" style="margin-top:6px">这些日子波动通常更大；规则不因此改变，只提醒你下单时留意。</p></div>`;
 }
 
-function renderSec() {
-  const k = cMetric();
-  const pre = D.status === 'pre';
-  const rows = D.sectors.map((s, gi) => ({ ...s, gi })).sort((a, b) => (b[k] ?? -99) - (a[k] ?? -99));
-  const stack = s => {
-    const t = s.adv + s.dec || 1;
-    return `<div class="stack" title="上涨 ${s.adv} · 下跌 ${s.dec}"><i class="p" style="flex:${s.adv / t}"></i><i class="q" style="flex:${s.dec / t}"></i></div>`;
-  };
-  const cm = s => (E.sectors && E.sectors[s.k] && !isTodo(E.sectors[s.k].t) ? E.sectors[s.k] : null);
-  const head = `<tr><th>板块</th><th class="n">${D.kind === 'weekly' ? '近一周' : esc(closeLabel())}</th>${pre ? '<th class="n">盘前</th>' : ''}${D.kind === 'weekly' ? '' : '<th class="n">近一周</th>'}<th class="n">近一月</th><th class="n">年初至今</th><th>涨 / 跌</th></tr>`;
-  const body = rows.map(s => {
-    const c = cm(s);
-    const cols = 4 + (pre ? 1 : 0) + (D.kind === 'weekly' ? 0 : 1) + 1;
-    return `<tr class="click${c ? ' has-cm' : ''}" tabindex="0" data-g="${s.gi}"><td class="nm">${esc(s.n)}<small>${esc(s.k)} · ${s.cnt} 只</small></td>
-      <td class="n">${pc(s[k])}</td>${pre ? `<td class="n">${pc(s.pm)}</td>` : ''}${D.kind === 'weekly' ? '' : `<td class="n">${pc(s.w)}</td>`}<td class="n">${pc(s.m)}</td><td class="n">${pc(s.ytd)}</td>
-      <td style="min-width:80px">${stack(s)}<small class="num" style="color:var(--faint);font-size:10.5px">${s.adv} / ${s.dec}</small></td></tr>
-      ${c ? `<tr class="cm"><td colspan="${cols}">${esc(c.t)}${sources(c.src)}</td></tr>` : ''}`;
-  }).join('');
-  const th = D.themes.filter(t => t.c != null).sort((a, b) => (b[k] ?? -99) - (a[k] ?? -99));
-  $('#p-sec').innerHTML = `
-    ${sec('GICS 11 个板块', `SPDR 板块 ETF · 按${D.kind === 'weekly' ? '近一周' : '当日'}涨跌排序 · 点击在热力图展开`, `<div class="tbl"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`)}
-    ${sec('主题 ETF', '细分赛道', `<div class="tbl"><table><thead><tr><th>主题</th><th class="n">${D.kind === 'weekly' ? '近一周' : '当日'}</th>${pre ? '<th class="n">盘前</th>' : ''}<th class="n">近一月</th><th class="n">年初至今</th></tr></thead>
-      <tbody>${th.map(t => `<tr><td class="nm">${esc(t.n)}<small>${esc(t.k)} · $${px(t.px)}</small></td><td class="n">${pc(t[k])}</td>${pre ? `<td class="n">${pc(t.pm)}</td>` : ''}<td class="n">${pc(t.m)}</td><td class="n">${pc(t.ytd)}</td></tr>`).join('')}</tbody></table></div>`)}
-    <p class="note">板块涨跌取 SPDR 板块 ETF；「涨 / 跌」是该板块标普 500 成分股中上涨与下跌的家数。</p>`;
-}
-
-function moverList(list, key) {
-  if (!list.length) return '<p class="empty">没有符合条件的股票</p>';
-  return `<div class="mv">${list.map(s => {
-    const r = BY[s];
-    if (!r) return '';
-    const e = (E.movers || {})[s] || {};
-    return `<article tabindex="0" data-s="${esc(s)}"><div class="t"><b>${esc(s)}</b><span>${esc(nameOf(s))}</span></div><div class="c ${cls(v(r, key))}">${pct(v(r, key))}</div>
-      <div class="meta"><span>$${px(v(r, 'p'))}</span>${key !== 'c' && D.kind !== 'weekly' ? `<span>当日 ${pct(v(r, 'c'))}</span>` : ''}<span>相对量 ${typeof v(r, 'rv') === 'number' ? v(r, 'rv').toFixed(1) + '×' : '—'}</span><span>${capUsd(v(r, 'mc'))}</span><span>${esc(D.inds[v(r, 'i')])}</span>${v(r, 'er') ? `<span>财报 ${md(v(r, 'er'))}</span>` : ''}</div>
-      ${!isTodo(e.why) ? `<p class="why">${esc(e.why)}</p>` : ''}${sources(e.src)}</article>`;
-  }).join('')}</div>`;
-}
-function renderMov() {
-  const k = cMetric();
-  const lab = D.kind === 'weekly' ? '近一周' : closeLabel();
-  const pre = D.movers.pmUp.length || D.movers.pmDown.length;
-  $('#p-mov').innerHTML = `
-    ${pre ? sec('盘前异动', `盘前成交 ≥ 1 万股且涨跌 ≥ 1% · ${esc(ptTime(D.fetched))} PT`, `<div class="duo"><div>${moverList(D.movers.pmUp, 'pm')}</div><div>${moverList(D.movers.pmDown, 'pm')}</div></div>`) : ''}
-    ${sec('涨幅榜', `标普 500 · ${esc(lab)}`, moverList(D.movers.up, k))}
-    ${sec('跌幅榜', `标普 500 · ${esc(lab)}`, moverList(D.movers.down, k))}
-    ${sec('放量', '相对 10 日均量', `<div class="tbl"><table><thead><tr><th>代码</th><th>名称</th><th class="n">相对量</th><th class="n">成交量</th><th class="n">当日</th></tr></thead>
-      <tbody>${D.movers.vol.map(s => { const r = BY[s]; return `<tr class="click" tabindex="0" data-s="${esc(s)}"><td class="code">${esc(s)}</td><td>${esc(nameOf(s))}</td><td class="n">${v(r, 'rv').toFixed(2)}×</td><td class="n">${v(r, 'v').toFixed(1)}M</td><td class="n">${pc(v(r, 'c'))}</td></tr>`; }).join('')}</tbody></table></div>`)}
-    <p class="note">点击任意一行可在热力图上定位。异动原因由编辑检索新闻后撰写，查不到明确消息的会写明。</p>`;
-}
-
-function renderCal() {
-  const today = issue.date;
-  const byDay = d3.groups(D.econ, e => etDate(e.t));
-  const dayTag = d => (d === today ? ' · 今天' : d < today ? ' · 已公布' : '');
-  const unit = (x, u) => (x == null ? '—' : x + (u || ''));
-  const econHtml = byDay.length ? byDay.map(([d, evs]) => `<div class="day"><h4>${md(d)} ${wd(d)}<small>${dayTag(d)}</small></h4>
-    ${evs.map(e => {
-      const zh = econName(e.n);
-      return `<div class="ev${e.a != null ? ' done' : ''}"><span class="tm">${ptTime(e.t)}</span>
-        <span class="ti"><span class="imp" title="重要性">${[0, 1, 2].map(i => `<i class="${i <= e.imp + 1 ? 'on' : ''}"></i>`).join('')}</span>${esc(zh || e.n)}${zh ? `<small>${esc(e.n)}</small>` : ''}${e.per ? `<small>${esc(e.per)}</small>` : ''}</span><span></span>
-        <span class="vals"><span>实际 <b>${esc(unit(e.a, e.u))}</b></span><span>预期 ${esc(unit(e.f, e.u))}</span><span>前值 ${esc(unit(e.p, e.u))}</span></span></div>`;
-    }).join('')}</div>`).join('') : '<p class="empty">经济日历暂无数据</p>';
-
-  const res = D.earnings.results;
-  const up = d3.groups(D.earnings.upcoming, e => e.d);
-  const tm = t => (t === 'bmo' ? '盘前' : t === 'amc' ? '盘后' : '—');
-  const eps = x => (x == null ? '—' : (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(2));
-  $('#p-cal').innerHTML = `
-    ${res.length ? sec('财报 · 已公布', '标普 500 或市值 ≥ 200 亿美元', `<div class="tbl"><table><thead><tr><th>代码</th><th>名称</th><th class="n">EPS 实际</th><th class="n">预期</th><th class="n">超预期</th></tr></thead>
-      <tbody>${res.map(e => `<tr class="click" tabindex="0" data-s="${esc(e.s)}"><td class="code">${esc(e.s)}</td><td>${esc(CN[e.s] || e.n)}</td><td class="n">${eps(e.eA)}</td><td class="n">${eps(e.eF)}</td><td class="n">${pc(e.sp)}</td></tr>`).join('')}</tbody></table></div>`) : ''}
-    ${sec('财报 · 未来一周', 'EPS 为市场一致预期 · 标普 500 或市值 ≥ 200 亿美元', up.length ? up.map(([d, rows]) => `<div class="day"><h4>${md(d)} ${wd(d)}<small>${d === today ? ' · 今天' : ''} · ${rows.length} 家</small></h4>
-      <div class="tbl"><table><tbody>${rows.sort((a, b) => (b.mc || 0) - (a.mc || 0)).map(e => `<tr><td class="code">${esc(e.s)}</td><td>${esc(CN[e.s] || e.n)}</td><td>${tm(e.t)}</td><td class="n">EPS ${eps(e.eF)}</td><td class="n">${capUsd(e.mc)}</td></tr>`).join('')}</tbody></table></div></div>`).join('') : '<p class="empty">未来一周没有大型公司发布财报</p>')}
-    ${sec('经济数据', '美国 · 时间为美西 PT · 圆点为重要性', econHtml)}`;
-}
-
-function renderBr() {
-  const b = D.breadth;
-  const k = cMetric();
-  const rsp = D.macro.find(m => m.k === 'RSP') || {}, spx = D.macro.find(m => m.k === 'SPX') || {};
-  const gap = typeof rsp[k] === 'number' && typeof spx[k] === 'number' ? rsp[k] - spx[k] : null;
-  const t = b.adv + b.dec + b.unch || 1;
-  const bar = (x, cls2 = '') => `<div class="bar"><i class="${cls2}" style="width:${Math.max(0, Math.min(100, x))}%"></i></div>`;
-  $('#p-br').innerHTML = `
-    ${sec('标普 500 宽度', esc(D.kind === 'weekly' ? '近一周' : closeLabel()), `<div class="tiles">
-      <div class="tile"><span class="k">上涨 / 下跌</span><span class="v"><span class="up">${b.adv}</span><small>/</small><span class="dn">${b.dec}</span></span>
-        <div class="stack" style="margin-top:5px"><i class="p" style="flex:${b.adv / t}"></i><i class="z" style="flex:${b.unch / t}"></i><i class="q" style="flex:${b.dec / t}"></i></div></div>
-      <div class="tile"><span class="k">等权 − 市值加权</span><span class="v ${cls(gap)}">${gap == null ? '—' : (gap > 0 ? '+' : gap < 0 ? '−' : '') + Math.abs(gap).toFixed(2)}<small>个百分点</small></span><span class="d" style="color:var(--faint);font-weight:500">RSP ${pct(rsp[k])} · 标普 ${pct(spx[k])}</span></div>
-      <div class="tile"><span class="k">站上 50 日均线</span><span class="v">${b.a50}<small>%</small></span>${bar(b.a50)}</div>
-      <div class="tile"><span class="k">站上 200 日均线</span><span class="v">${b.a200}<small>%</small></span>${bar(b.a200)}</div>
-      <div class="tile"><span class="k">52 周新高</span><span class="v">${b.hi}<small>只</small></span><span class="d" style="color:var(--faint);font-weight:500">当日最高价触及 52 周高点</span></div>
-      <div class="tile"><span class="k">52 周新低</span><span class="v">${b.lo}<small>只</small></span><span class="d" style="color:var(--faint);font-weight:500">当日最低价触及 52 周低点</span></div>
-      ${b.pmAdv != null ? `<div class="tile" style="grid-column:1/-1"><span class="k">盘前上涨 / 下跌（有盘前成交的成分股）</span><span class="v"><span class="up">${b.pmAdv}</span><small>/</small><span class="dn">${b.pmDec}</span></span></div>` : ''}
-    </div>`)}
-    ${sec('各板块站上均线比例', '实心 50 日 · 空心 200 日', `<div class="tbl"><table><thead><tr><th>板块</th><th class="n">50 日</th><th style="width:40%"></th><th class="n">200 日</th></tr></thead>
-      <tbody>${D.sectors.slice().sort((a, b2) => b2.a50 - a.a50).map(s => `<tr><td class="nm">${esc(s.n)}</td><td class="n">${s.a50}%</td>
-        <td style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:3px">${bar(s.a50)}${bar(s.a200, 'b2')}</div></td><td class="n">${s.a200}%</td></tr>`).join('')}</tbody></table></div>`)}
-    <p class="note">宽度只统计标普 500 成分股。站上均线用最新收盘价对比 50 日、200 日简单均线；等权减市值加权为正，说明多数股票跑赢了权重股。</p>`;
+function renderScore() {
+  const b = BT, s3 = b.strat.s3, model = b.regime.models.find(m => m.id === b.regime.model.id);
+  const row = (n, st, status, sub = '') => `<tr${status === 'live' ? ' class="hi"' : ''}><td class="wrap">${n}${sub ? `<small style="display:block;color:var(--faint);font-size:11px">${sub}</small>` : ''}</td>
+    <td class="n">${pc1(st.cagr)}</td><td class="n">${pc1(st.mdd)}</td><td class="n">${st.sharpe.toFixed(2)}</td>
+    <td>${status === 'live' ? '<span class="pill live">上线</span>' : status === 'bench' ? '<span class="pill">基准</span>' : '<span class="pill">观察</span>'}</td></tr>`;
+  const st = k => b.strat[k];
+  $('#score').innerHTML = `<div class="ch"><h2 id="score-h">策略成绩单</h2><span class="sub">回测 ${esc(b.window[0])} → ${esc(b.window[1])} · 次日开盘成交 · 单边成本 ${(b.cost * 1e4).toFixed(0)} 个基点</span></div>
+    <div class="tbl"><table><thead><tr><th>策略</th><th class="n">年化</th><th class="n">最大回撤</th><th class="n">夏普</th><th>状态</th></tr></thead><tbody>
+      ${row('SPY 买入持有', b.bench.SPY, 'bench')}
+      ${row('组合：核心 SPY + 卫星 S3', b.total, 'live', '实际执行的组合，两仓按 60/40 每日再平衡近似')}
+      ${row('仓位总闸 × SPY', b.regime.final, 'live', `${esc(model.n)}，平均仓位 ${pc0(b.regime.timeIn)}`)}
+      ${row('S3 趋势突破（卫星仓单独）', s3.sleeve, 'live', `${s3.filtered.n} 笔 · 胜率 ${pc0(s3.filtered.win)} · 盈亏比 ${s3.filtered.payoff.toFixed(2)} · 每笔 ${sgn(s3.filtered.exp)}（${s3.filtered.expR.toFixed(2)}R）· 平均持有 ${s3.filtered.hold.toFixed(0)} 天`)}
+      ${row('S4 趋势回调', st('s4').sleeve, st('s4').live ? 'live' : 'obs', `每笔 ${st('s4').filtered.expR.toFixed(2)}R，扣成本后几乎没有优势`)}
+      ${row('S5 放量跳空', st('s5').sleeve, st('s5').live ? 'live' : 'obs', `每笔 ${st('s5').filtered.expR.toFixed(2)}R，期望为负`)}
+      ${row('板块轮动（前 3 名）', b.rotation, b.rotation.live ? 'live' : 'obs', `换成 SPY 后夏普从 ${b.rotation.core.sharpe.toFixed(2)} 升到 ${b.core.sharpe.toFixed(2)}`)}
+      ${row('个股等权', b.bench.EW_UNIV, 'bench', '当前成分股，有幸存者偏差；S3 的对照基准')}
+    </tbody></table></div>
+    <div class="chart" id="bt-chart"></div>
+    <div class="legend"><span><i class="ln" style="border-color:var(--accent)"></i>组合</span><span><i class="ln" style="border-color:var(--accent-2)"></i>仓位总闸 × SPY</span><span><i class="dash" style="border-color:var(--bench)"></i>SPY 买入持有</span></div>
+    <details><summary>为什么只用波动率？4 个择时模型的前后半段对比</summary>
+      <div class="tbl"><table><thead><tr><th>模型</th><th class="n">夏普 前半</th><th class="n">后半</th><th class="n">最大回撤</th><th class="n">年化</th></tr></thead><tbody>
+      ${b.regime.models.map(m => `<tr${m.id === b.regime.model.id ? ' class="hi"' : ''}><td class="wrap">${esc(m.n)}</td><td class="n">${m.halves[0].sharpe.toFixed(2)}</td><td class="n">${m.halves[1].sharpe.toFixed(2)}</td><td class="n">${pc1(m.stats.mdd)}</td><td class="n">${pc1(m.stats.cagr)}</td></tr>`).join('')}
+      <tr class="foot"><td>SPY 买入持有</td><td class="n">${b.regime.spyHalves[0].sharpe.toFixed(2)}</td><td class="n">${b.regime.spyHalves[1].sharpe.toFixed(2)}</td><td class="n">${pc1(b.bench.SPY.mdd)}</td><td class="n">${pc1(b.bench.SPY.cagr)}</td></tr></tbody></table></div>
+      <p class="note">分段点 ${esc(b.regime.split)}。选模型的规则：取前后两段中较差那段的夏普，最高者上线，打平时选输入更少的。趋势、宽度、波动结构、信用、动能 5 项信号单独或组合使用，都没有超过只按波动率调仓。</p></details>`;
+  const c = b.curves;
+  lineChart($('#bt-chart'), { x: c.d, fmt: v => v.toFixed(2) + '×',
+    series: [{ n: 'SPY 买入持有', v: c.spy, color: css('--bench'), dash: true }, { n: '仓位总闸 × SPY', v: c.regime, color: css('--accent-2') }, { n: '组合', v: c.total, color: css('--accent') }] });
 }
 
 function renderHow() {
   const s = D.src;
-  $('#p-how').innerHTML = `
-    ${sec('这份晨报怎么做', '', `<p class="note">每个交易日美西 05:00 前出刊（美东 08:00，盘前时段），周六出一期周报，周日和美股休市日不出刊。数据由脚本抓取后，编辑（Claude）检索新闻写结论、板块点评和每只异动股的原因，每条附来源。本期编辑于 <b class="num">${esc(E.edited)}</b>。</p>`)}
-    ${sec('口径', '', `<ul class="points">
-      <li><b>${esc(closeLabel())}</b>：本期收盘数据属于 ${md(D.session)} ${wd(D.session)} 的交易时段${D.session === issue.date && D.status === 'open' ? '（抓取时市场仍在交易，为盘中数据）' : ''}。</li>
-      <li><b>盘前</b>：美东 04:00–09:30 的成交价相对前收；只在盘前时段出刊时显示。</li>
-      <li><b>期货、利率、汇率、商品、加密</b>：抓取时的最新报价，期货相对前结算价。</li>
-      <li><b>板块</b>：SPDR 板块 ETF 的涨跌；成分股按 Wikipedia 上的 GICS 分类归入 11 个板块。</li>
-      <li><b>异动</b>：标普 500 成分股按涨跌幅排序；盘前榜要求盘前成交 ≥ 1 万股且涨跌 ≥ 1%。</li>
-      <li><b>相对量</b>：当日成交量 ÷ 过去 10 日平均成交量。</li>
-      <li>行情延迟约 15 分钟。本页不构成投资建议。</li></ul>`)}
-    ${sec('数据来源', '', `<div class="src" style="flex-direction:column;gap:6px">${Object.values(s).map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>`)}
-    ${D.warn && D.warn.length ? sec('本期数据提示', '', `<ul class="points">${D.warn.map(w => `<li>${esc(w)}</li>`).join('')}</ul>`) : ''}
-    <p class="note">数据抓取于 <span class="num">${esc(new Date(D.fetched).toLocaleString('zh-CN', { timeZone: 'America/Los_Angeles', hour12: false }))}</span> PT。</p>`;
+  $('#how').innerHTML = `<div class="ch"><h2 id="how-h">规则与局限</h2></div>
+    <ul class="rules">
+      <li><b>仓位上限</b>：${pc0(CFG.volTarget)} ÷ SPY 20 日年化波动，取 100% / 75% / 50% / 25% 中不超过它的最大一档。</li>
+      <li><b>核心仓</b>：SPY，占 min(60%, 上限)。上限变化时在下一个开盘调整。</li>
+      <li><b>卫星仓</b>：上限超过 60% 的部分。S3 趋势突破：收盘 &gt; 50 日线 &gt; 200 日线、创 1 个月新高、距 52 周高点 ≤ 5%、6 个月涨幅前 20%、成交量 ≥ 1.5 倍 10 日均量。</li>
+      <li><b>买卖</b>：信号出现后的下一个开盘买入；止损 = 成交价 − 2×ATR，盘中触及即卖；收盘跌破 50 日线或最高收盘 − 3×ATR，下一个开盘卖出。</li>
+      <li><b>仓位大小</b>：每笔亏到止损只损失净值的 0.5%；单只不超过 10%；最多 8 只，同一板块最多 2 只；5 个交易日内发财报的不开新仓。</li>
+      <li><b>局限</b>：回测只有 2017-11 至今约 9 年，不含 2008 年；价格不含分红，现金收益按 0 计；个股规则用的是当前成分股，有幸存者偏差，收益偏乐观；模型是在同一段数据上挑出来的。这些是公开的系统化规则，不是个人投资建议。</li>
+    </ul>
+    <div class="src" style="flex-direction:column;gap:5px">${Object.values(s).map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>
+    <p class="note">本期编辑于 <span class="num">${esc(E.edited)}</span>；行情抓取于 <span class="num">${esc(new Date(D.fetched).toLocaleString('zh-CN', { timeZone: 'America/Los_Angeles', hour12: false }))}</span> PT${D.decision.asof ? '；本期收盘数据由历史行情重建' : ''}。${D.warn && D.warn.length ? ' 数据提示：' + esc(D.warn.join('；')) : ''}</p>`;
 }
 
-function renderPanel() {
-  renderSum(); renderSec(); renderMov(); renderCal(); renderBr(); renderHow();
+function render(i) {
+  load(i);
+  $('#brand-sub').textContent = `Decision Desk · ${issue.date.replace(/-/g, '.')} · No.${String(E.no).padStart(3, '0')}`;
+  renderGate(); renderOrders(); renderBook(); renderMine(); renderPerf(); renderCands(); renderScore(); renderHow();
 }
 
-function setTab(t) {
-  tab = t;
-  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t)));
-  document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'p-' + t; });
-}
-document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('button[data-t]'); if (b) setTab(b.dataset.t); });
-
-$('#panel').addEventListener('click', e => {
-  const st = e.target.closest('[data-s]');
-  if (st && !e.target.closest('a')) { focusStock(st.dataset.s, true); return; }
-  const sg = e.target.closest('tr[data-g]');
-  if (sg) { sector = Number(sg.dataset.g); selected = null; tip.hidden = true; drawMap(); drawChips(); if (window.matchMedia('(max-width:1080px)').matches) $('#stage').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-});
-$('#panel').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-s],tr[data-g]')) { e.preventDefault(); e.target.click(); } });
-
-$('#secs').addEventListener('click', e => {
-  const b = e.target.closest('button[data-g]');
-  if (!b) return;
-  sector = b.dataset.g === '' ? null : Number(b.dataset.g);
-  selected = null; tip.hidden = true;
-  drawMap(); drawChips();
-});
-
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === m)));
-  drawMap(); drawChips();
-  if (selected) focusStock(selected, false);
-}
-$('#mode').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (b && !b.disabled) setMode(b.dataset.m); });
+const pick = $('#issue-pick');
+pick.innerHTML = ISSUES.map((it, i) => `<option value="${i}">${esc(md(it.date))} ${wd(it.date)} · No.${String(it.edit.no).padStart(3, '0')}</option>`).join('');
+pick.addEventListener('change', () => render(Number(pick.value)));
 
 function setUpDown(m) {
   document.body.dataset.updown = m;
   $('#ud-cn').setAttribute('aria-pressed', String(m === 'cn'));
   $('#ud-us').setAttribute('aria-pressed', String(m === 'us'));
   store.set('usmb-updown', m);
-  readVars();
-  drawMap();
 }
 $('#ud-cn').addEventListener('click', () => setUpDown('cn'));
 $('#ud-us').addEventListener('click', () => setUpDown('us'));
-
-function show(i) {
-  load(i);
-  $('#brand-sub').textContent = `US Market Brief · ${issue.date.replace(/-/g, '.')} · No.${String(E.no).padStart(3, '0')}`;
-  const pmBtn = document.querySelector('#mode button[data-m="pm"]');
-  pmBtn.disabled = D.status !== 'pre';
-  pmBtn.title = D.status !== 'pre' ? '本期不在盘前时段出刊，没有盘前数据' : '';
-  document.querySelector('#mode button[data-m="c"]').textContent = D.session === issue.date && D.status === 'open' ? '盘中' : '前收';
-  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === mode)));
-  tip.hidden = true;
-  renderPanel();
-  drawChips();
-  drawMap();
-}
-
-const pick = $('#issue-pick');
-pick.innerHTML = ISSUES.map((it, i) => `<option value="${i}">${esc(md(it.date))} ${wd(it.date)} · No.${String(it.edit.no).padStart(3, '0')}${it.data.kind === 'weekly' ? ' 周报' : ''}</option>`).join('');
-pick.addEventListener('change', () => show(Number(pick.value)));
-
-document.body.dataset.updown = store.get('usmb-updown') === 'us' ? 'us' : 'cn';
-$('#ud-cn').setAttribute('aria-pressed', String(document.body.dataset.updown === 'cn'));
-$('#ud-us').setAttribute('aria-pressed', String(document.body.dataset.updown === 'us'));
-readVars();
-const tabFromHash = location.hash.slice(1);
-if (['sum', 'sec', 'mov', 'cal', 'br', 'how'].includes(tabFromHash)) setTab(tabFromHash);
-show(0);
-new ResizeObserver(() => drawMap()).observe($('#map'));
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readVars(); drawMap(); });
-new MutationObserver(() => { readVars(); drawMap(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+setUpDown(store.get('usmb-updown') === 'us' ? 'us' : 'cn');
+render(0);
+const rerender = () => { renderPerf(); renderScore(); };
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rerender);
+new MutationObserver(rerender).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
