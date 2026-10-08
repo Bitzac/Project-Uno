@@ -1,6 +1,6 @@
 # 身体健康 OS · Body Health OS
 
-单文件网页应用：支持多人档案（侧栏顶部切换，数据按人分开存），右侧是可旋转的 3D 透明玻璃人体（按档案性别使用男性或女性模型），分为 **头部 / 内脏 / 躯干四肢** 三个可点击分区，有问题的部位按严重程度着色（留意 → 轻度 → 中度 → 严重）。旁边的资料面板显示年龄、身高、体重、BMI、血型、静息心率、血压和睡眠；左侧栏有 **问题 / 体征 / 体检 / 计划** 四个模块。设计沿用「地球探索 OS」的液态玻璃风格。
+单文件网页应用：支持多人档案（侧栏顶部切换，数据按人分开存），右侧是可旋转的 3D 透明玻璃人体（按档案性别使用男性或女性模型），分为 **头部 / 内脏 / 躯干四肢** 三个可点击分区，有问题的部位按严重程度着色（留意 → 轻度 → 中度 → 严重）。旁边的资料面板显示年龄、身高、体重、BMI、血型、静息心率、血压和睡眠；左侧栏有 **问题 / 体征 / 体检 / 计划 / 建议** 五个模块。设计沿用「地球探索 OS」的液态玻璃风格。
 
 ## 目录
 
@@ -43,6 +43,7 @@ people/{pid}/issues/{id}      问题：part, side, title, sev(1–4), status, si
 people/{pid}/vitals/{id}      体征：type(weight|rhr|bp|sleep|steps|bodyfat|hrv|vo2max|spo2|resp), date, value[, value2]
 people/{pid}/labs/{id}        化验：key, name, value, unit, low, high, cat, part, date
 people/{pid}/plans/{id}       计划：title, kind, due, repeat, part, done
+people/{pid}/advice/{id}      用药/饮食建议：kind(drug|food), tone(do 宜|avoid 忌|note 注意), title, part, note, ref
 ```
 
 真实的健康数据只存放在私有 Artifact 的数据库里，不提交到本仓库。

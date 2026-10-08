@@ -73,14 +73,18 @@ const LAB_PRESETS = [
 // sex-specific reference intervals: WS/T 404 (ALT, AST, GGT, Cr, Hb); uric acid per common Chinese lab ranges
 const presets = () => LAB_PRESETS.filter(p => !p.only || p.only === SEX()).map(p => SEX() === 'F' && p.f ? { ...p, low: p.f[0], high: p.f[1] } : p);
 const PLAN_KINDS = { recheck: '复查', med: '用药', exercise: '运动', habit: '习惯' };
+// medication and food advice: kind = drug | food, tone = do (宜) | avoid (忌) | note (注意)
+const ADV_KIND = { drug: '用药', food: '饮食' };
+const ADV_TONE = { do: '宜', avoid: '忌', note: '注意' };
+const ADV_PILL = { do: 'ok', avoid: 's3', note: 's1' };
 const REPEATS = { '': '不重复', daily: '每天', weekly: '每周', monthly: '每月' };
 
 /* ---------- data: one document per person, their records in sub-collections ---------- */
-const COLS = ['issues', 'vitals', 'labs', 'plans'];
+const COLS = ['issues', 'vitals', 'labs', 'plans', 'advice'];
 const LSK = { people: 'bos-people', ui: 'bos-ui' };
 const lsRec = (pid, c) => `bos-p-${pid}-${c}`;
 const EX = JSON.parse($('examples').textContent);
-const D = { issues: [], vitals: [], labs: [], plans: [], profile: null, people: [] };
+const D = { issues: [], vitals: [], labs: [], plans: [], advice: [], profile: null, people: [] };
 let mode = 'init', DB = null, RO = false, CUR = null, UNSUB = [], PENDING = null;
 const SEX = () => D.profile && D.profile.sex === '女' ? 'F' : 'M';
 const curParts = () => PARTS.filter(p => !p.sex || p.sex === SEX());
@@ -102,6 +106,9 @@ function clean(col, arr) {
     } else if (col === 'plans') {
       if (!r.title || !isDate(r.due)) continue;
       out.push({ ...r, title: String(r.title), kind: PLAN_KINDS[r.kind] ? r.kind : 'recheck', repeat: REPEATS[r.repeat] !== undefined ? r.repeat : '', part: PART[r.part] ? r.part : '', done: !!r.done, note: String(r.note || '') });
+    } else if (col === 'advice') {
+      if (!r.title || !ADV_KIND[r.kind] || !ADV_TONE[r.tone]) continue;
+      out.push({ ...r, title: String(r.title), part: PART[r.part] ? r.part : '', note: String(r.note || ''), ref: String(r.ref || '') });
     }
   }
   return out;
@@ -301,10 +308,11 @@ const planPill = p => { const s = planStatus(p); return `<span class="pill ${s.c
 const partName = id => id ? PART[id].name : '全身';
 
 /* ---------- UI state ---------- */
-const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat' }, vt: null, sel: null, armed: null, cur: null };
+const GRP = { issue: ['zone', 'sev'], lab: ['cat', 'abn'], advice: ['part', 'tone'] };
+const ST = { mod: 'issue', q: '', grp: { issue: 'zone', lab: 'cat', advice: 'part' }, vt: null, sel: null, armed: null, cur: null };
 {
   const u = lsGet(LSK.ui);
-  if (u && ['issue', 'vital', 'lab', 'plan'].includes(u.mod)) ST.mod = u.mod;
+  if (u && ['issue', 'vital', 'lab', 'plan', 'advice'].includes(u.mod)) ST.mod = u.mod;
   if (u && u.grp) Object.assign(ST.grp, u.grp);
   if (u && typeof u.cur === 'string') ST.cur = u.cur;
 }
@@ -325,22 +333,23 @@ function renderSide() {
   $('n-vital').textContent = D.vitals.length || '';
   $('n-lab').textContent = labGroups().filter(g => labStatus(g.latest).dir).length || '';
   $('n-plan').textContent = D.plans.filter(p => !p.done).length || '';
-  const segMap = { issue: ['分区', '严重度'], lab: ['分类', '异常优先'] };
+  $('n-advice').textContent = D.advice.length || '';
+  const segMap = { issue: ['分区', '严重度'], lab: ['分类', '异常优先'], advice: ['按部位', '宜 / 忌'] };
   const seg = segMap[ST.mod];
   $('seg').hidden = !seg || !!(ST.mod === 'vital' && ST.vt);
   if (seg) {
     $('g-a').textContent = seg[0]; $('g-b').textContent = seg[1];
-    const b = ST.grp[ST.mod] !== (ST.mod === 'issue' ? 'zone' : 'cat');
+    const b = ST.grp[ST.mod] !== GRP[ST.mod][0];
     $('g-a').setAttribute('aria-pressed', String(!b)); $('g-b').setAttribute('aria-pressed', String(b));
   }
   $('tools').hidden = ST.mod === 'vital';
-  $('q').placeholder = { issue: '搜索问题、部位', vital: '', lab: '搜索指标，如 ALT、尿酸', plan: '搜索计划' }[ST.mod];
-  $('addLbl').textContent = { issue: '记录问题', vital: '记录体征', lab: '录入指标', plan: '新建计划' }[ST.mod];
+  $('q').placeholder = { issue: '搜索问题、部位', vital: '', lab: '搜索指标，如 ALT、尿酸', plan: '搜索计划', advice: '搜索建议，如 钙、碘、酒' }[ST.mod];
+  $('addLbl').textContent = { issue: '记录问题', vital: '记录体征', lab: '录入指标', plan: '新建计划', advice: '添加建议' }[ST.mod];
   const zc = $('zchip');
   zc.hidden = G.zone === 'all' || ST.mod === 'vital';
   if (!zc.hidden) zc.innerHTML = `只看 <button type="button" data-act="zall" aria-label="取消筛选，查看全身">${ZONES[G.zone].name}<i>×</i></button>`;
   $('exNotice').hidden = RO || !COLS.some(c => D[c].some(x => x.example));
-  ({ issue: sideIssue, vital: sideVital, lab: sideLab, plan: sidePlan })[ST.mod]();
+  ({ issue: sideIssue, vital: sideVital, lab: sideLab, plan: sidePlan, advice: sideAdvice })[ST.mod]();
 }
 
 function sideIssue() {
@@ -525,6 +534,27 @@ function sidePlan() {
   }).join('')).join('') : `<div class="empty">${ST.q ? '没有匹配的计划' : '还没有计划'}</div>`;
 }
 
+const advSub = a => `${ADV_KIND[a.kind]} · ${esc(partName(a.part))}${a.ref ? ' · ' + esc(a.ref) : ''}`;
+const advPill = a => `<span class="pill ${ADV_PILL[a.tone]}">${a.tone === 'do' ? '' : '<i></i>'}${ADV_TONE[a.tone]}</span>`;
+const advOrd = (a, b) => ['avoid', 'note', 'do'].indexOf(a.tone) - ['avoid', 'note', 'do'].indexOf(b.tone) || (a.kind > b.kind ? 1 : a.kind < b.kind ? -1 : 0);
+function sideAdvice() {
+  const A = D.advice, n = t => A.filter(a => a.tone === t).length;
+  $('stats').innerHTML = stat(A.filter(a => a.kind === 'drug').length, '用药') + stat(A.filter(a => a.kind === 'food').length, '饮食') + stat(n('avoid'), '忌') + stat(n('note'), '注意');
+  const top = A.filter(a => a.tone === 'avoid').sort(advOrd)[0];
+  $('trail').innerHTML = A.length ? `${top ? `首要避免：<b>${esc(top.title)}</b>。` : ''}建议按已记录的问题和化验整理，用药决定请以医生为准。` : '还没有用药或饮食建议。';
+  const list = A.filter(a => inZone(a.part) || (!a.part && G.zone === 'all')).filter(a => match(a.title, a.note, a.ref, partName(a.part), ADV_KIND[a.kind], ADV_TONE[a.tone]));
+  let groups;
+  if (ST.grp.advice === 'part') {
+    const parts = [...new Set(list.map(a => a.part))].sort((x, y) => (x ? PARTS.indexOf(PART[x]) : -1) - (y ? PARTS.indexOf(PART[y]) : -1));
+    groups = parts.map(p => [partName(p), list.filter(a => a.part === p).sort(advOrd)]);
+  } else groups = [['avoid', '忌'], ['note', '注意'], ['do', '宜']].map(([t, h]) => [h, list.filter(a => a.tone === t).sort(advOrd)]);
+  groups = groups.filter(g => g[1].length);
+  $('list').innerHTML = groups.length ? groups.map(([h, a]) => `<div class="group-h"><span>${h}</span><span class="num">${a.length}</span></div>` + a.map(x => {
+    const cur = ST.sel && ST.sel.adv === x.id;
+    return `<button class="item adv" data-act="adv" data-id="${esc(x.id)}" aria-current="${cur}"><i class="dot ${x.tone === 'avoid' ? 's3' : x.tone === 'note' ? 's1' : 'ok'}"></i><div><div class="nm">${esc(x.title)}</div><div class="sub">${advSub(x)}</div>${x.note ? `<div class="sub an">${esc(x.note)}</div>` : ''}</div>${advPill(x)}</button>`;
+  }).join('')).join('') : `<div class="empty">${ST.q ? '没有匹配的建议' : G.zone !== 'all' ? `${ZONES[G.zone].name}没有相关建议` : '还没有建议'}</div>`;
+}
+
 /* ---------- stage: profile, zone HUD, card ---------- */
 function renderProfile() {
   const p = D.profile, el = $('profile');
@@ -579,11 +609,13 @@ function renderCard() {
     const iss = D.issues.filter(i => i.part === s.id).sort((a, b) => (a.status === 'resolved') - (b.status === 'resolved') || b.sev - a.sev);
     const labs = labGroups().filter(g => g.latest.part === s.id).sort((a, b) => !!labStatus(b.latest).dir - !!labStatus(a.latest).dir);
     const plans = D.plans.filter(x => x.part === s.id).sort((a, b) => a.done - b.done || (a.due < b.due ? -1 : 1));
+    const advs = D.advice.filter(x => x.part === s.id).sort(advOrd);
     h += `<h2>${esc(p.name)}${sevPill(partSev(s.id))}</h2><div class="en">${ZONES[p.zone].name} · ${esc(p.sys)}${p.pair && SM[s.id] ? ` · 左 ${SEVN[SM[s.id].L]} / 右 ${SEVN[SM[s.id].R]}` : ''}</div>`;
     h += iss.length ? `<h4>问题 <span class="num">${iss.length}</span></h4>` + iss.map(i => issueBlock(i, s.issue === i.id)).join('') : `<p class="ok-msg">这个部位还没有记录问题。</p>`;
     if (labs.length) h += `<h4>相关指标 <span class="num">${labs.length}</span></h4>` + labs.map(g => `<button class="cl" data-act="lab" data-key="${esc(g.latest.key)}"><div><span>${esc(g.latest.name)}</span><small>${fmtD(g.latest.date)} · 参考 ${refText(g.latest)}</small></div><div class="r"><span><b class="num">${g.latest.value}</b> <small>${esc(g.latest.unit)}</small></span>${labPill(g.latest)}</div></button>`).join('');
     if (plans.length) h += `<h4>计划 <span class="num">${plans.length}</span></h4>` + plans.map(x => `<div class="cl"><div><span>${esc(x.title)}</span><small>${PLAN_KINDS[x.kind]}${x.repeat ? ' · ' + REPEATS[x.repeat] : ''} · ${fmtMD(x.due)}</small></div><div class="r">${planPill(x)}<button class="linkbtn" data-act="pedit2" data-id="${esc(x.id)}" data-w>编辑</button></div></div>`).join('');
-    h += `<div class="cacts" data-w><button class="btn primary sm" data-act="iadd" data-part="${s.id}">＋ 记录问题</button><button class="btn ghost sm" data-act="padd" data-part="${s.id}">＋ 计划</button></div>`;
+    if (advs.length) h += `<h4>用药与饮食 <span class="num">${advs.length}</span></h4>` + advs.map(x => `<div class="cl${s.adv === x.id ? ' hl' : ''}"><div><span>${esc(x.title)}</span><small>${ADV_KIND[x.kind]}${x.ref ? ' · ' + esc(x.ref) : ''}</small>${x.note ? `<small class="an">${esc(x.note)}</small>` : ''}</div><div class="r">${advPill(x)}<button class="linkbtn" data-act="aedit" data-id="${esc(x.id)}" data-w>编辑</button></div></div>`).join('');
+    h += `<div class="cacts" data-w><button class="btn primary sm" data-act="iadd" data-part="${s.id}">＋ 记录问题</button><button class="btn ghost sm" data-act="padd" data-part="${s.id}">＋ 计划</button><button class="btn ghost sm" data-act="aadd" data-part="${s.id}">＋ 建议</button></div>`;
   } else if (s.kind === 'lab') {
     const g = labGroups().find(x => x.latest.key === s.key);
     if (!g) { ST.sel = null; el.hidden = true; return; }

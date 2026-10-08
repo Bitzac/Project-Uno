@@ -123,6 +123,9 @@ async function onAct(e) {
         ST.armed = null; await del('labs', id); toast('已删除这次记录'); break;
       case 'plan': { const p = D.plans.find(x => x.id === id); if (!p) break; if (p.part) selectPart(p.part, '', { plan: id }); else openForm('plan', { id }); break; }
       case 'pedit2': openForm('plan', { id }); break;
+      case 'adv': { const a = D.advice.find(x => x.id === id); if (!a) break; if (a.part) selectPart(a.part, '', { adv: id }); else openForm('advice', { id }); break; }
+      case 'aedit': openForm('advice', { id }); break;
+      case 'aadd': openForm('advice', { part: b.dataset.part }); break;
       case 'chk': if (guardWrite()) await togglePlan(id); break;
       case 'close': clearSel(); break;
       case 'zall': setZone('all'); break;
@@ -153,13 +156,14 @@ function wire() {
     ST.mod = b.dataset.mod; ST.vt = null; ST.q = ''; $('q').value = ''; saveUI(); renderAll(); $('list').scrollTop = 0;
   }));
   $('q').addEventListener('input', e => { ST.q = e.target.value; renderSide(); });
-  $('g-a').onclick = () => { ST.grp[ST.mod] = ST.mod === 'issue' ? 'zone' : 'cat'; saveUI(); renderSide(); };
-  $('g-b').onclick = () => { ST.grp[ST.mod] = ST.mod === 'issue' ? 'sev' : 'abn'; saveUI(); renderSide(); };
+  $('g-a').onclick = () => { ST.grp[ST.mod] = GRP[ST.mod][0]; saveUI(); renderSide(); };
+  $('g-b').onclick = () => { ST.grp[ST.mod] = GRP[ST.mod][1]; saveUI(); renderSide(); };
   $('addBtn').onclick = () => {
     const part = ST.sel && ST.sel.id ? ST.sel.id : '';
     if (ST.mod === 'issue') openForm('issue', { part: part || undefined });
     else if (ST.mod === 'vital') openForm('vital', { type: ST.vt || 'weight' });
     else if (ST.mod === 'lab') openForm('lab', {});
+    else if (ST.mod === 'advice') openForm('advice', { part });
     else openForm('plan', { part });
   };
   $('exClear').onclick = clearExamples;

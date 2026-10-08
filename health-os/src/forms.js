@@ -119,6 +119,27 @@ const FORMS = {
     },
     del: async o => { await del('plans', o.id); toast('已删除这个计划'); }
   },
+  advice: {
+    title: o => o.id ? '编辑建议' : '添加用药或饮食建议',
+    hint: '写清楚对应哪个问题或指标；涉及开始、停止或调整处方药的，只记录「需医生评估」，不要自行改药。',
+    html: o => {
+      const a = o.id ? D.advice.find(x => x.id === o.id) : null;
+      return fld('kind', '类型', selHtml('kind', Object.entries(ADV_KIND), a ? a.kind : 'food')) + fld('tone', '宜 / 忌', selHtml('tone', Object.entries(ADV_TONE), a ? a.tone : 'do'))
+        + fld('title', '建议', inp('title', a?.title, 'maxlength="60" placeholder="例如：每天饮奶 300–500 mL"'), 'full')
+        + fld('part', '关联部位', partSel('part', a ? a.part : (o.part || ''), '全身 / 不关联'))
+        + fld('ref', '依据（可选）', inp('ref', a?.ref, 'maxlength="60" placeholder="例如：中国居民膳食指南（2022）"'))
+        + fld('note', '说明（可选）', `<textarea id="f-note" rows="3" maxlength="240">${esc(a?.note)}</textarea>`, 'full');
+    },
+    save: async o => {
+      const title = val('title');
+      if (!title) throw '请写下建议内容，例如「每天饮奶 300–500 mL」';
+      const obj = { kind: val('kind'), tone: val('tone'), title, part: val('part'), ref: val('ref'), note: val('note').slice(0, 240), example: false };
+      if (o.id) await put('advice', o.id, obj); else await add('advice', obj);
+      toast(`${o.id ? '已保存' : '已添加'}：${title}`);
+      closeForm(); if (!ST.sel) { ST.mod = 'advice'; saveUI(); } renderAll();
+    },
+    del: async o => { await del('advice', o.id); toast('已删除这条建议'); }
+  },
   profile: {
     title: o => o.isNew ? '新建档案' : '编辑档案资料',
     hint: '每个档案的问题、体征、体检和计划分开保存。性别决定使用男性还是女性人体模型；身高用来缩放模型和计算 BMI。',
