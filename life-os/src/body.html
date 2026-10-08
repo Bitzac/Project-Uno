@@ -12,16 +12,24 @@
 
   <!-- 总：结论先行 -->
   <section id="verdict" class="hero glass">
-    <div class="eyebrow">结论</div>
-    <h1>北京做基地，按季节流动</h1>
-    <p class="lead">不建议全年无基地漂流。用 <b>1 个基地 + 2 个季节站</b>：基地锁定 3 年，7–8 月陪母亲回呼和浩特避暑，1–2 月去三亚过冬。你要的流动由季节站满足，母亲的医疗、社交和事业积累由基地兜住。</p>
+    <div class="eyebrow">结论 · 第 2 版，按你 10 月 8 日的回答更新</div>
+    <h1>上海做基地，冬天去深圳接香港</h1>
+    <p class="lead">按你给的优先级（投资人、全球资源、创业生态、带母亲），6 座南方沿海城市里 <b>上海第一、深圳第二</b>。用 <b>1 个基地 + 2 个季节站</b>：上海住 8 个月；1–2 月去深圳过冬，顺路对接香港的资本；7–8 月陪母亲回呼和浩特避暑。基地先锁 3 年。</p>
     <div class="stations" id="stations"></div>
     <div class="tiles" id="heroTiles"></div>
     <div class="why">
-      <div><h3>事业</h3><p>2025 年北京一级市场投资事件 <b class="num">1,221</b> 起，全国第一；你在北京已有 3 年工作根基。</p></div>
-      <div><h3>母亲</h3><p>本市有 A++++ 级医院；冬季集中供暖，和呼市习惯一致；高铁 <b class="num">2h09m</b> 回呼市，她可以自己往返。</p></div>
-      <div><h3>代价</h3><p>成本是候选城市里最高的：两人月支出约 <b class="num" id="whyBurn">—</b>。储备撑不过 12 个月，就改用呼和浩特做基地（成本优先权重下排第一）。</p></div>
+      <div><h3>事业</h3><p>全球创业生态排名第 <b class="num">10</b>，南方第一；2025 年投资事件 <b class="num">1,174</b> 起；跨国公司地区总部 <b class="num">1,084</b> 家。</p></div>
+      <div><h3>母亲</h3><p>复旦版百强医院 <b class="num">18</b> 家，南方最多。缺点是冬天湿冷、没有集中供暖，所以 1–2 月去深圳（1 月均温 15.9°C）。</p></div>
+      <div><h3>代价</h3><p>候选里最贵，两人月支出约 <b class="num" id="whyBurn">—</b>。只比深圳高 <b class="num" id="whyGap">—</b> 分；在「<span id="altWins"></span>」权重下深圳第一。</p></div>
     </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">决策记录</div><h2>你给的条件</h2></div>
+      <p class="lead">第 1 版推荐北京；你排除了北京常住，并要求南方沿海、接近全球资源，所以换了候选城市和指标。</p>
+    </div>
+    <div class="glass card"><div class="tbl"><table id="inputs"></table></div></div>
   </section>
 
   <!-- 分 1：人生路径 -->
@@ -68,7 +76,7 @@
   <!-- 分 2：选城模型 -->
   <section id="cities" class="block">
     <div class="sec-h">
-      <div><div class="eyebrow">选城模型</div><h2>7 个候选基地 × 7 项指标</h2></div>
+      <div><div class="eyebrow">选城模型</div><h2>6 座南方沿海城市 × 7 项指标</h2></div>
       <p class="lead">换一套权重看结论变不变。每个数字标了 <span class="q">实</span> 有来源 / <span class="q e">估</span> 估算。</p>
     </div>
     <div class="glass card">
@@ -96,15 +104,37 @@
         <summary>打分方法</summary>
         <div class="tbl"><table>
           <tr><th>指标</th><th>0–100 分怎么算</th></tr>
-          <tr><td>创业生态</td><td>100 × √(投资事件 ÷ 1,221)。开平方是为了不让北上深把其余城市压成 0</td></tr>
-          <tr><td>生活成本</td><td>100 × 最低月支出 ÷ 本市月支出。月支出 = 租金 × 75㎡ + 两人生活费 + ¥1,000 医疗/保险预留</td></tr>
+          <tr><td>创业生态</td><td>100 ×（51 − Startup Genome 2025 全球排名）÷ 50；未进前 40 的按第 46 名计</td></tr>
+          <tr><td>投资人</td><td>100 × √(2025 投资事件 ÷ 1,174)。开平方是为了不让头部城市把其余城市压成 0。深圳的数不含香港的机构</td></tr>
+          <tr><td>全球连接</td><td>100 × e<sup>−0.35 ×（小时 − 0.5）</sup>，小时 = 门到门到最近的全球门户（上海或香港）</td></tr>
           <tr><td>母亲医疗</td><td>100 × e<sup>−0.25 ×（小时 − 0.5）</sup>，小时 = 门到门到最近的复旦版 A++++ 级医院</td></tr>
-          <tr><td>气候</td><td>100 − 7 月均温超过 24°C 的部分 × 10 − 冬季扣分。有集中供暖：1 月低于 5°C 的部分 × 2；没有供暖：1 月低于 12°C 的部分 × 5</td></tr>
+          <tr><td>生活成本</td><td>100 × 最低月支出 ÷ 本市月支出。月支出 = 租金 × 75㎡ + 两人生活费 + ¥1,000 医疗/保险预留</td></tr>
+          <tr><td>气候</td><td>100 − 7 月均温超过 24°C 的部分 × 10 − 1 月均温低于 12°C 的部分 × 5（南方都没有集中供暖）</td></tr>
           <tr><td>空气</td><td>100 ×（1 −（PM2.5 − 10）÷ 30）</td></tr>
-          <tr><td>回呼和浩特</td><td>100 − 门到门小时 × 15；飞机按航程 + 1.5 小时计</td></tr>
-          <tr><td>已有根基</td><td>住过年数 × 25，封顶 100</td></tr>
         </table></div>
       </details>
+    </div>
+    <div class="glass card hk">
+      <div class="hk-h"><h3>为什么不是香港</h3><span class="pill-x">不能做基地，当门户用</span></div>
+      <div class="grid2">
+        <div>
+          <h4>它强在哪</h4>
+          <ul class="facts">
+            <li><b class="num">第 27</b><span>Startup Genome 2025 全球创业生态，从“新兴”直接进前 40 <span class="q">实</span></span></li>
+            <li><b class="num">6,100 万</b><span>2025 年机场客运人次，同比 +15% <span class="q">实</span></span></li>
+            <li><b class="num">全球第一</b><span>2025 年 IPO 募资额，Wind 统计约 2,857 亿港元 <span class="q">实</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>卡在哪</h4>
+          <ul class="facts">
+            <li><b>母亲住不下</b><span>受养人签证只给父母年满 60 岁、且你已是永久性居民的情况；通过人才计划去的头 7 年不符合 <span class="q">实</span></span></li>
+            <li><b>医保不通</b><span>她的内地医保在香港医院不能结算 <span class="q e">估</span></span></li>
+            <li><b>最贵</b><span>住宅租金是上海的数倍 <span class="q e">估</span></span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">所以香港的用法是：冬天住深圳时，福田坐高铁 <b>14 分钟</b>到西九龙见投资人、开账户、参加活动；平时从上海飞过去约 2.5 小时。</p>
     </div>
   </section>
 
@@ -112,7 +142,7 @@
   <section id="life" class="block">
     <div class="sec-h">
       <div><div class="eyebrow">生活方案</div><h2>一年怎么过，钱够撑多久</h2></div>
-      <p class="lead">季节站避开北京最冷的 1–2 月和最热的 7–8 月。</p>
+      <p class="lead">季节站避开上海最冷的 1–2 月和最热的 7–8 月。</p>
     </div>
     <div class="glass card">
       <h3>一年 12 个月在哪</h3>
@@ -135,41 +165,41 @@
 
     <div class="grid2">
       <div class="glass card">
-        <h3>事业的 5 道关口</h3>
+        <h3>事业的 6 道关口</h3>
         <p class="note">盈亏线 = 上面算出的平均月支出。到点没过关就按右列执行，不靠感觉续命。</p>
         <ol class="gates" id="gates"></ol>
       </div>
       <div class="glass card">
         <h3>带母亲生活的清单</h3>
-        <div class="tbl"><table>
+        <div class="tbl"><table class="kv-list">
           <tr><th>事项</th><th>做法</th><th>依据</th></tr>
           <tr><td><b>医保</b></td><td>在「国家医保局」小程序为她办「异地长期居住」备案，备案到基地城市</td><td>备案长期有效；变更或取消时限原则上 ≤ 6 个月 <span class="q">实</span></td></tr>
           <tr><td><b>慢病</b></td><td>常用药和门诊慢病走跨省直接结算</td><td>高血压、糖尿病等 10 种已开通 <span class="q">实</span></td></tr>
-          <tr><td><b>住处</b></td><td>选在离目标 A++++ 级医院 30 分钟以内的区域</td><td>复旦版 2023 年度榜单 <span class="q">实</span></td></tr>
+          <tr><td><b>住处</b></td><td>选在离目标 A++++ 级医院 30 分钟以内的区域；上海的房子要有地暖或空调制热</td><td>上海 18 家复旦版百强医院 <span class="q">实</span></td></tr>
           <tr><td><b>社交</b></td><td>每年 7–8 月回呼市；在基地找老乡群和社区活动</td><td>流动老人近 1,800 万，43% 是来照顾晚辈的（2016）<span class="q">实</span></td></tr>
-          <tr><td><b>独立</b></td><td>让她能不靠你自己回家</td><td>北京—呼市高铁最快 2h09m <span class="q">实</span></td></tr>
-          <tr><td><b>季节站</b></td><td>三亚就医前先在小程序确认备案范围；急诊按临时外出就医处理</td><td>各省细则不同，出发前核对 <span class="q e">估</span></td></tr>
+          <tr><td><b>回家</b></td><td>上海、深圳都有直飞呼和浩特的航班；夏站两个月让她回到自己的朋友圈</td><td>直飞约 2h40m–3h40m <span class="q e">估</span></td></tr>
+          <tr><td><b>冬站</b></td><td>深圳就医前在小程序确认备案范围；急诊按临时外出就医处理</td><td>各省细则不同，出发前核对 <span class="q e">估</span></td></tr>
         </table></div>
       </div>
     </div>
 
     <div class="glass card">
-      <h3>你手里的资产，能往哪做</h3>
-      <p class="note">只列证据，不替你选。方向定了，基地排名可能会变（见「风险」里的“答案会变的情况”）。</p>
+      <h3>方向还没定：三个候选，各在哪座城最顺</h3>
+      <p class="note">只列证据，不替你选。前 3 个月每个方向做 4 周小测试，按付费信号定。</p>
       <div class="assets">
         <div class="asset">
           <div class="tag">A</div><h4>入境游 / 外国人在华服务</h4>
-          <p>英语 + 7 年美国 + 2 年走遍中国。</p>
+          <p>英语 + 7 年美国 + 2 年走遍中国。<b>最顺：上海</b>，全国空港出入境旅客的 28.9% 经过上海。</p>
           <p class="stat"><b class="num">3,008 万</b>人次<span>2025 年外国人免签入境，同比 +49.5% <span class="q">实</span></span></p>
         </div>
         <div class="asset">
           <div class="tag">B</div><h4>出海服务</h4>
-          <p>帮国内团队做海外市场。英语 + 北京、杭州的工作人脉。</p>
-          <p class="stat"><b class="num">3,413</b>起<span>2025 年北上深投资事件合计，占全国 37.7% <span class="q">实</span></span></p>
+          <p>帮国内团队做海外市场。英语 + 北京、杭州的工作人脉。<b>最顺：深圳 + 香港</b>，供应链在深圳，钱和法律在香港。</p>
+          <p class="stat"><b class="num">2,857 亿</b>港元<span>2025 年香港 IPO 募资额，全球第一 <span class="q">实</span></span></p>
         </div>
         <div class="asset">
           <div class="tag">C</div><h4>AI 一人公司产品</h4>
-          <p>这个仓库里已有 5 个做出来的项目：健康 OS、破土融资平台、UNO 日刊、外国视角历史片、人口潮汐地图。</p>
+          <p>这个仓库里已有 5 个做出来的项目：健康 OS、破土融资平台、UNO 日刊、外国视角历史片、人口潮汐地图。<b>最顺：上海或杭州</b>，全球创业生态第 10 和第 23。</p>
           <p class="stat"><b class="num">5</b>个作品<span>Project-Uno 仓库，试错成本最低，在哪都能做</span></p>
         </div>
       </div>
@@ -186,21 +216,22 @@
         <h3>风险</h3>
         <div class="tbl"><table>
           <tr><th>风险</th><th>数据</th><th>对策</th></tr>
-          <tr><td><b>全年流动 + 带母亲</b></td><td>流动老人近 1,800 万；每换一次城市，医保备案、常去的医院和朋友圈都要重来</td><td>基地住 8 个月，季节站只用两段，每段 2 个月</td></tr>
+          <tr><td><b>上海和深圳只差 5 分</b></td><td>两城在 4 套权重里各赢 2 套</td><td>前 3 个月的方向测试结果出来后再确认；做出海就换深圳</td></tr>
+          <tr><td><b>母亲过不惯上海的冬天</b></td><td>上海 1 月均温 4.8°C，没有集中供暖；呼市室内有暖气</td><td>1–2 月去深圳；上海住处要有地暖或空调制热</td></tr>
+          <tr><td><b>上海最贵</b></td><td id="riskCost">—</td><td>你的储备够 18 个月；18 个月关口没过就降到广州</td></tr>
+          <tr><td><b>两头经营，精力分散</b></td><td>长三角和大湾区是两套人脉</td><td>深圳只住 2 个月，目标只有一个：见香港和深圳的投资人</td></tr>
           <tr><td><b>停留越来越短</b></td><td class="num">15 → 7 → 3 → 1 年</td><td>基地先锁 3 年，再复盘</td></tr>
-          <tr><td><b>北京太贵</b></td><td id="riskCost">—</td><td>储备 &lt; 12 个月就改用呼市做基地</td></tr>
-          <tr><td><b>两年没工资后创业</b></td><td>储备决定能试错多久</td><td>先备足 18 个月，按 6/12/18 个月关口走</td></tr>
-          <tr><td><b>数据不全</b></td><td>部分指标是估算</td><td>每格标了 实/估；用滑块换权重看结论稳不稳</td></tr>
+          <tr><td><b>数据不全</b></td><td>部分指标是估算；GSER 是综合指数</td><td>每格标了 实/估；用滑块换权重看结论稳不稳</td></tr>
         </table></div>
       </div>
       <div class="glass card">
         <h3>答案会变的情况</h3>
         <div class="tbl"><table>
           <tr><th>如果</th><th>基地改为</th><th>依据</th></tr>
-          <tr><td>储备不够 12 个月</td><td><b>呼和浩特</b></td><td>成本优先权重下第一；月支出约为北京的一半；去北京见客户坐高铁 2h09m</td></tr>
-          <tr><td>母亲不愿离开呼市</td><td><b>呼和浩特 + 北京短住</b></td><td>高铁当天往返</td></tr>
-          <tr><td>做出海，要供应链</td><td><b>深圳</b></td><td>投资事件 1,018 起；PM2.5 17；但回呼市要 5 小时以上</td></tr>
-          <tr><td>你明确不想回北京</td><td id="altBase"><b>—</b></td><td id="altWhy">—</td></tr>
+          <tr><td>母亲的冬天比你的事业更要紧</td><td id="ifMom"><b>—</b></td><td id="ifMomWhy">—</td></tr>
+          <tr><td>想把成本压低</td><td id="ifCost"><b>—</b></td><td id="ifCostWhy">—</td></tr>
+          <tr><td>方向测试选了出海（B）</td><td><b>深圳</b></td><td>供应链在深圳，资本和法律在香港，14 分钟</td></tr>
+          <tr><td>你拿到香港永久居民身份</td><td><b>香港</b></td><td>那时母亲（年满 60 岁）才能以受养人身份长住，最快约 7 年后</td></tr>
         </table></div>
       </div>
     </div>
@@ -209,23 +240,23 @@
   <!-- 总：总结 -->
   <section id="summary" class="hero glass">
     <div class="eyebrow">总结</div>
-    <h2>北京为锚，季节流动，三年为期</h2>
-    <p class="lead">在哪：北京做基地，夏天呼和浩特，冬天三亚。怎么过：先备足 18 个月的钱，母亲先办医保备案，事业按 6/12/18 个月关口检验；三年后用数据决定续约北京还是换城市。</p>
+    <h2>上海为锚，冬接香港，三年为期</h2>
+    <p class="lead">在哪：上海做基地，1–2 月深圳（14 分钟到香港），7–8 月呼和浩特。怎么过：前 3 个月用小测试定方向，母亲先办医保备案，事业按 6/12/18 个月关口检验；三年后用真实数据决定续约上海还是换深圳。</p>
     <h3>接下来 90 天</h3>
     <div class="tbl"><table class="todo">
       <tr><th>时间</th><th>做什么</th><th>完成标准</th></tr>
-      <tr><td class="num">2026.10</td><td>算清储备，定基地（北京或降级方案）</td><td>储备 ÷ 平均月支出 ≥ 18 个月</td></tr>
-      <tr><td class="num">2026.10–11</td><td>给母亲办异地长期居住备案；在北京选房</td><td>备案通过；住处到目标医院 ≤ 30 分钟</td></tr>
-      <tr><td class="num">2026.11</td><td>从 A / B / C 里定一个方向，启动第一个 6 个月</td><td>写下 6 个月后的收入目标</td></tr>
-      <tr><td class="num">2026.12</td><td>订好 1–2 月的三亚住处</td><td>冬季旺季，提前 1–2 个月订</td></tr>
-      <tr><td class="num">2027.01</td><td>第一次复盘</td><td>首笔收入，或明确的付费意向</td></tr>
+      <tr><td class="num">2026.10</td><td>定基地上海；在上海选房</td><td>住处到目标医院 ≤ 30 分钟，有地暖或空调制热</td></tr>
+      <tr><td class="num">2026.10–11</td><td>给母亲办异地长期居住备案，备案到上海</td><td>备案通过</td></tr>
+      <tr><td class="num">2026.11–2027.01</td><td>A / B / C 三个方向各做 4 周小测试</td><td>每个方向拿到可比较的付费信号</td></tr>
+      <tr><td class="num">2026.12</td><td>订 1–2 月深圳住处；列出 10 位要见的香港、深圳投资人</td><td>1 月前约好至少 5 场</td></tr>
+      <tr><td class="num">2027.02</td><td>选定方向，进入 6 个月验证期；确认基地是否换深圳</td><td>写下 6 个月后的收入目标</td></tr>
     </table></div>
   </section>
 
   <section class="block sources">
     <div class="eyebrow">数据来源</div>
     <ol id="sources"></ol>
-    <p class="note">标 <span class="q e">估</span> 的数字：城市租金与生活费、成都/厦门/昆明/呼市的投资事件数（只确知各自 &lt; 362 起）、厦门/昆明/呼市的 PM2.5、飞机航程、月均温。量级可信，具体值请以最新公报为准。</p>
+    <p class="note">标 <span class="q e">估</span> 的数字：城市租金与生活费、广州/厦门/珠海的投资事件数（只确知各自 &lt; 362 起）、厦门/珠海的 PM2.5、到门户和医院的门到门时间（官方只有车程）、月均温。量级可信，具体值请以最新公报为准。</p>
   </section>
 </main>
 

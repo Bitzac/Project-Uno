@@ -10,7 +10,7 @@
   --shadow:rgba(16,36,52,.18);--line:rgba(12,20,27,.16);--line-soft:rgba(12,20,27,.08);--field:rgba(255,255,255,.52);
   --land:#F5F7F8;--land-edge:rgba(12,20,27,.22);--halo:#F5F7F8;--surface:#F3F6F8;
   --heat:12,20,27;
-  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s8:#e34948;
   --visit:rgba(232,123,164,.38);
   --hair:1px;
   --f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;
@@ -23,7 +23,7 @@
   --shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.16);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
   --land:#16212A;--land-edge:rgba(255,255,255,.18);--halo:#16212A;--surface:#0E1820;
   --heat:232,240,245;
-  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s8:#e66767;
   --visit:rgba(213,81,129,.42);color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#071016;--atmo-a:rgba(57,135,229,.20);--atmo-b:rgba(217,89,38,.13);--atmo-c:rgba(25,158,112,.14);
@@ -32,7 +32,7 @@
   --shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.16);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
   --land:#16212A;--land-edge:rgba(255,255,255,.18);--halo:#16212A;--surface:#0E1820;
   --heat:232,240,245;
-  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s8:#e66767;
   --visit:rgba(213,81,129,.42);color-scheme:dark}
 @media (min-resolution:2dppx){:root{--hair:.5px}}
 
@@ -214,6 +214,13 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
 .asset .stat b{font-size:24px;font-weight:800;margin-right:4px}
 .asset .stat>span{display:block;font-size:12px;color:var(--muted)}
 .todo td:first-child{white-space:nowrap;font-weight:700}
+.kv-list td:first-child{white-space:nowrap}
+.hk-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill-x{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;border:var(--hair) dashed var(--ink)}
+.hk h4{font-size:13px;color:var(--muted);margin-bottom:6px}
+.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)}
+.facts li{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:10px;align-items:baseline}
+.facts b{color:var(--ink);font-size:15px;font-weight:800}
 .sources ol{margin:6px 0 0;padding-left:20px;font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
 .sources a{color:var(--muted);text-decoration-thickness:var(--hair);text-underline-offset:2px;word-break:break-all}
 
@@ -253,16 +260,24 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
 
   <!-- 总：结论先行 -->
   <section id="verdict" class="hero glass">
-    <div class="eyebrow">结论</div>
-    <h1>北京做基地，按季节流动</h1>
-    <p class="lead">不建议全年无基地漂流。用 <b>1 个基地 + 2 个季节站</b>：基地锁定 3 年，7–8 月陪母亲回呼和浩特避暑，1–2 月去三亚过冬。你要的流动由季节站满足，母亲的医疗、社交和事业积累由基地兜住。</p>
+    <div class="eyebrow">结论 · 第 2 版，按你 10 月 8 日的回答更新</div>
+    <h1>上海做基地，冬天去深圳接香港</h1>
+    <p class="lead">按你给的优先级（投资人、全球资源、创业生态、带母亲），6 座南方沿海城市里 <b>上海第一、深圳第二</b>。用 <b>1 个基地 + 2 个季节站</b>：上海住 8 个月；1–2 月去深圳过冬，顺路对接香港的资本；7–8 月陪母亲回呼和浩特避暑。基地先锁 3 年。</p>
     <div class="stations" id="stations"></div>
     <div class="tiles" id="heroTiles"></div>
     <div class="why">
-      <div><h3>事业</h3><p>2025 年北京一级市场投资事件 <b class="num">1,221</b> 起，全国第一；你在北京已有 3 年工作根基。</p></div>
-      <div><h3>母亲</h3><p>本市有 A++++ 级医院；冬季集中供暖，和呼市习惯一致；高铁 <b class="num">2h09m</b> 回呼市，她可以自己往返。</p></div>
-      <div><h3>代价</h3><p>成本是候选城市里最高的：两人月支出约 <b class="num" id="whyBurn">—</b>。储备撑不过 12 个月，就改用呼和浩特做基地（成本优先权重下排第一）。</p></div>
+      <div><h3>事业</h3><p>全球创业生态排名第 <b class="num">10</b>，南方第一；2025 年投资事件 <b class="num">1,174</b> 起；跨国公司地区总部 <b class="num">1,084</b> 家。</p></div>
+      <div><h3>母亲</h3><p>复旦版百强医院 <b class="num">18</b> 家，南方最多。缺点是冬天湿冷、没有集中供暖，所以 1–2 月去深圳（1 月均温 15.9°C）。</p></div>
+      <div><h3>代价</h3><p>候选里最贵，两人月支出约 <b class="num" id="whyBurn">—</b>。只比深圳高 <b class="num" id="whyGap">—</b> 分；在「<span id="altWins"></span>」权重下深圳第一。</p></div>
     </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-h">
+      <div><div class="eyebrow">决策记录</div><h2>你给的条件</h2></div>
+      <p class="lead">第 1 版推荐北京；你排除了北京常住，并要求南方沿海、接近全球资源，所以换了候选城市和指标。</p>
+    </div>
+    <div class="glass card"><div class="tbl"><table id="inputs"></table></div></div>
   </section>
 
   <!-- 分 1：人生路径 -->
@@ -309,7 +324,7 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
   <!-- 分 2：选城模型 -->
   <section id="cities" class="block">
     <div class="sec-h">
-      <div><div class="eyebrow">选城模型</div><h2>7 个候选基地 × 7 项指标</h2></div>
+      <div><div class="eyebrow">选城模型</div><h2>6 座南方沿海城市 × 7 项指标</h2></div>
       <p class="lead">换一套权重看结论变不变。每个数字标了 <span class="q">实</span> 有来源 / <span class="q e">估</span> 估算。</p>
     </div>
     <div class="glass card">
@@ -337,15 +352,37 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
         <summary>打分方法</summary>
         <div class="tbl"><table>
           <tr><th>指标</th><th>0–100 分怎么算</th></tr>
-          <tr><td>创业生态</td><td>100 × √(投资事件 ÷ 1,221)。开平方是为了不让北上深把其余城市压成 0</td></tr>
-          <tr><td>生活成本</td><td>100 × 最低月支出 ÷ 本市月支出。月支出 = 租金 × 75㎡ + 两人生活费 + ¥1,000 医疗/保险预留</td></tr>
+          <tr><td>创业生态</td><td>100 ×（51 − Startup Genome 2025 全球排名）÷ 50；未进前 40 的按第 46 名计</td></tr>
+          <tr><td>投资人</td><td>100 × √(2025 投资事件 ÷ 1,174)。开平方是为了不让头部城市把其余城市压成 0。深圳的数不含香港的机构</td></tr>
+          <tr><td>全球连接</td><td>100 × e<sup>−0.35 ×（小时 − 0.5）</sup>，小时 = 门到门到最近的全球门户（上海或香港）</td></tr>
           <tr><td>母亲医疗</td><td>100 × e<sup>−0.25 ×（小时 − 0.5）</sup>，小时 = 门到门到最近的复旦版 A++++ 级医院</td></tr>
-          <tr><td>气候</td><td>100 − 7 月均温超过 24°C 的部分 × 10 − 冬季扣分。有集中供暖：1 月低于 5°C 的部分 × 2；没有供暖：1 月低于 12°C 的部分 × 5</td></tr>
+          <tr><td>生活成本</td><td>100 × 最低月支出 ÷ 本市月支出。月支出 = 租金 × 75㎡ + 两人生活费 + ¥1,000 医疗/保险预留</td></tr>
+          <tr><td>气候</td><td>100 − 7 月均温超过 24°C 的部分 × 10 − 1 月均温低于 12°C 的部分 × 5（南方都没有集中供暖）</td></tr>
           <tr><td>空气</td><td>100 ×（1 −（PM2.5 − 10）÷ 30）</td></tr>
-          <tr><td>回呼和浩特</td><td>100 − 门到门小时 × 15；飞机按航程 + 1.5 小时计</td></tr>
-          <tr><td>已有根基</td><td>住过年数 × 25，封顶 100</td></tr>
         </table></div>
       </details>
+    </div>
+    <div class="glass card hk">
+      <div class="hk-h"><h3>为什么不是香港</h3><span class="pill-x">不能做基地，当门户用</span></div>
+      <div class="grid2">
+        <div>
+          <h4>它强在哪</h4>
+          <ul class="facts">
+            <li><b class="num">第 27</b><span>Startup Genome 2025 全球创业生态，从“新兴”直接进前 40 <span class="q">实</span></span></li>
+            <li><b class="num">6,100 万</b><span>2025 年机场客运人次，同比 +15% <span class="q">实</span></span></li>
+            <li><b class="num">全球第一</b><span>2025 年 IPO 募资额，Wind 统计约 2,857 亿港元 <span class="q">实</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>卡在哪</h4>
+          <ul class="facts">
+            <li><b>母亲住不下</b><span>受养人签证只给父母年满 60 岁、且你已是永久性居民的情况；通过人才计划去的头 7 年不符合 <span class="q">实</span></span></li>
+            <li><b>医保不通</b><span>她的内地医保在香港医院不能结算 <span class="q e">估</span></span></li>
+            <li><b>最贵</b><span>住宅租金是上海的数倍 <span class="q e">估</span></span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">所以香港的用法是：冬天住深圳时，福田坐高铁 <b>14 分钟</b>到西九龙见投资人、开账户、参加活动；平时从上海飞过去约 2.5 小时。</p>
     </div>
   </section>
 
@@ -353,7 +390,7 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
   <section id="life" class="block">
     <div class="sec-h">
       <div><div class="eyebrow">生活方案</div><h2>一年怎么过，钱够撑多久</h2></div>
-      <p class="lead">季节站避开北京最冷的 1–2 月和最热的 7–8 月。</p>
+      <p class="lead">季节站避开上海最冷的 1–2 月和最热的 7–8 月。</p>
     </div>
     <div class="glass card">
       <h3>一年 12 个月在哪</h3>
@@ -376,41 +413,41 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
 
     <div class="grid2">
       <div class="glass card">
-        <h3>事业的 5 道关口</h3>
+        <h3>事业的 6 道关口</h3>
         <p class="note">盈亏线 = 上面算出的平均月支出。到点没过关就按右列执行，不靠感觉续命。</p>
         <ol class="gates" id="gates"></ol>
       </div>
       <div class="glass card">
         <h3>带母亲生活的清单</h3>
-        <div class="tbl"><table>
+        <div class="tbl"><table class="kv-list">
           <tr><th>事项</th><th>做法</th><th>依据</th></tr>
           <tr><td><b>医保</b></td><td>在「国家医保局」小程序为她办「异地长期居住」备案，备案到基地城市</td><td>备案长期有效；变更或取消时限原则上 ≤ 6 个月 <span class="q">实</span></td></tr>
           <tr><td><b>慢病</b></td><td>常用药和门诊慢病走跨省直接结算</td><td>高血压、糖尿病等 10 种已开通 <span class="q">实</span></td></tr>
-          <tr><td><b>住处</b></td><td>选在离目标 A++++ 级医院 30 分钟以内的区域</td><td>复旦版 2023 年度榜单 <span class="q">实</span></td></tr>
+          <tr><td><b>住处</b></td><td>选在离目标 A++++ 级医院 30 分钟以内的区域；上海的房子要有地暖或空调制热</td><td>上海 18 家复旦版百强医院 <span class="q">实</span></td></tr>
           <tr><td><b>社交</b></td><td>每年 7–8 月回呼市；在基地找老乡群和社区活动</td><td>流动老人近 1,800 万，43% 是来照顾晚辈的（2016）<span class="q">实</span></td></tr>
-          <tr><td><b>独立</b></td><td>让她能不靠你自己回家</td><td>北京—呼市高铁最快 2h09m <span class="q">实</span></td></tr>
-          <tr><td><b>季节站</b></td><td>三亚就医前先在小程序确认备案范围；急诊按临时外出就医处理</td><td>各省细则不同，出发前核对 <span class="q e">估</span></td></tr>
+          <tr><td><b>回家</b></td><td>上海、深圳都有直飞呼和浩特的航班；夏站两个月让她回到自己的朋友圈</td><td>直飞约 2h40m–3h40m <span class="q e">估</span></td></tr>
+          <tr><td><b>冬站</b></td><td>深圳就医前在小程序确认备案范围；急诊按临时外出就医处理</td><td>各省细则不同，出发前核对 <span class="q e">估</span></td></tr>
         </table></div>
       </div>
     </div>
 
     <div class="glass card">
-      <h3>你手里的资产，能往哪做</h3>
-      <p class="note">只列证据，不替你选。方向定了，基地排名可能会变（见「风险」里的“答案会变的情况”）。</p>
+      <h3>方向还没定：三个候选，各在哪座城最顺</h3>
+      <p class="note">只列证据，不替你选。前 3 个月每个方向做 4 周小测试，按付费信号定。</p>
       <div class="assets">
         <div class="asset">
           <div class="tag">A</div><h4>入境游 / 外国人在华服务</h4>
-          <p>英语 + 7 年美国 + 2 年走遍中国。</p>
+          <p>英语 + 7 年美国 + 2 年走遍中国。<b>最顺：上海</b>，全国空港出入境旅客的 28.9% 经过上海。</p>
           <p class="stat"><b class="num">3,008 万</b>人次<span>2025 年外国人免签入境，同比 +49.5% <span class="q">实</span></span></p>
         </div>
         <div class="asset">
           <div class="tag">B</div><h4>出海服务</h4>
-          <p>帮国内团队做海外市场。英语 + 北京、杭州的工作人脉。</p>
-          <p class="stat"><b class="num">3,413</b>起<span>2025 年北上深投资事件合计，占全国 37.7% <span class="q">实</span></span></p>
+          <p>帮国内团队做海外市场。英语 + 北京、杭州的工作人脉。<b>最顺：深圳 + 香港</b>，供应链在深圳，钱和法律在香港。</p>
+          <p class="stat"><b class="num">2,857 亿</b>港元<span>2025 年香港 IPO 募资额，全球第一 <span class="q">实</span></span></p>
         </div>
         <div class="asset">
           <div class="tag">C</div><h4>AI 一人公司产品</h4>
-          <p>这个仓库里已有 5 个做出来的项目：健康 OS、破土融资平台、UNO 日刊、外国视角历史片、人口潮汐地图。</p>
+          <p>这个仓库里已有 5 个做出来的项目：健康 OS、破土融资平台、UNO 日刊、外国视角历史片、人口潮汐地图。<b>最顺：上海或杭州</b>，全球创业生态第 10 和第 23。</p>
           <p class="stat"><b class="num">5</b>个作品<span>Project-Uno 仓库，试错成本最低，在哪都能做</span></p>
         </div>
       </div>
@@ -427,21 +464,22 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
         <h3>风险</h3>
         <div class="tbl"><table>
           <tr><th>风险</th><th>数据</th><th>对策</th></tr>
-          <tr><td><b>全年流动 + 带母亲</b></td><td>流动老人近 1,800 万；每换一次城市，医保备案、常去的医院和朋友圈都要重来</td><td>基地住 8 个月，季节站只用两段，每段 2 个月</td></tr>
+          <tr><td><b>上海和深圳只差 5 分</b></td><td>两城在 4 套权重里各赢 2 套</td><td>前 3 个月的方向测试结果出来后再确认；做出海就换深圳</td></tr>
+          <tr><td><b>母亲过不惯上海的冬天</b></td><td>上海 1 月均温 4.8°C，没有集中供暖；呼市室内有暖气</td><td>1–2 月去深圳；上海住处要有地暖或空调制热</td></tr>
+          <tr><td><b>上海最贵</b></td><td id="riskCost">—</td><td>你的储备够 18 个月；18 个月关口没过就降到广州</td></tr>
+          <tr><td><b>两头经营，精力分散</b></td><td>长三角和大湾区是两套人脉</td><td>深圳只住 2 个月，目标只有一个：见香港和深圳的投资人</td></tr>
           <tr><td><b>停留越来越短</b></td><td class="num">15 → 7 → 3 → 1 年</td><td>基地先锁 3 年，再复盘</td></tr>
-          <tr><td><b>北京太贵</b></td><td id="riskCost">—</td><td>储备 &lt; 12 个月就改用呼市做基地</td></tr>
-          <tr><td><b>两年没工资后创业</b></td><td>储备决定能试错多久</td><td>先备足 18 个月，按 6/12/18 个月关口走</td></tr>
-          <tr><td><b>数据不全</b></td><td>部分指标是估算</td><td>每格标了 实/估；用滑块换权重看结论稳不稳</td></tr>
+          <tr><td><b>数据不全</b></td><td>部分指标是估算；GSER 是综合指数</td><td>每格标了 实/估；用滑块换权重看结论稳不稳</td></tr>
         </table></div>
       </div>
       <div class="glass card">
         <h3>答案会变的情况</h3>
         <div class="tbl"><table>
           <tr><th>如果</th><th>基地改为</th><th>依据</th></tr>
-          <tr><td>储备不够 12 个月</td><td><b>呼和浩特</b></td><td>成本优先权重下第一；月支出约为北京的一半；去北京见客户坐高铁 2h09m</td></tr>
-          <tr><td>母亲不愿离开呼市</td><td><b>呼和浩特 + 北京短住</b></td><td>高铁当天往返</td></tr>
-          <tr><td>做出海，要供应链</td><td><b>深圳</b></td><td>投资事件 1,018 起；PM2.5 17；但回呼市要 5 小时以上</td></tr>
-          <tr><td>你明确不想回北京</td><td id="altBase"><b>—</b></td><td id="altWhy">—</td></tr>
+          <tr><td>母亲的冬天比你的事业更要紧</td><td id="ifMom"><b>—</b></td><td id="ifMomWhy">—</td></tr>
+          <tr><td>想把成本压低</td><td id="ifCost"><b>—</b></td><td id="ifCostWhy">—</td></tr>
+          <tr><td>方向测试选了出海（B）</td><td><b>深圳</b></td><td>供应链在深圳，资本和法律在香港，14 分钟</td></tr>
+          <tr><td>你拿到香港永久居民身份</td><td><b>香港</b></td><td>那时母亲（年满 60 岁）才能以受养人身份长住，最快约 7 年后</td></tr>
         </table></div>
       </div>
     </div>
@@ -450,23 +488,23 @@ td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tab
   <!-- 总：总结 -->
   <section id="summary" class="hero glass">
     <div class="eyebrow">总结</div>
-    <h2>北京为锚，季节流动，三年为期</h2>
-    <p class="lead">在哪：北京做基地，夏天呼和浩特，冬天三亚。怎么过：先备足 18 个月的钱，母亲先办医保备案，事业按 6/12/18 个月关口检验；三年后用数据决定续约北京还是换城市。</p>
+    <h2>上海为锚，冬接香港，三年为期</h2>
+    <p class="lead">在哪：上海做基地，1–2 月深圳（14 分钟到香港），7–8 月呼和浩特。怎么过：前 3 个月用小测试定方向，母亲先办医保备案，事业按 6/12/18 个月关口检验；三年后用真实数据决定续约上海还是换深圳。</p>
     <h3>接下来 90 天</h3>
     <div class="tbl"><table class="todo">
       <tr><th>时间</th><th>做什么</th><th>完成标准</th></tr>
-      <tr><td class="num">2026.10</td><td>算清储备，定基地（北京或降级方案）</td><td>储备 ÷ 平均月支出 ≥ 18 个月</td></tr>
-      <tr><td class="num">2026.10–11</td><td>给母亲办异地长期居住备案；在北京选房</td><td>备案通过；住处到目标医院 ≤ 30 分钟</td></tr>
-      <tr><td class="num">2026.11</td><td>从 A / B / C 里定一个方向，启动第一个 6 个月</td><td>写下 6 个月后的收入目标</td></tr>
-      <tr><td class="num">2026.12</td><td>订好 1–2 月的三亚住处</td><td>冬季旺季，提前 1–2 个月订</td></tr>
-      <tr><td class="num">2027.01</td><td>第一次复盘</td><td>首笔收入，或明确的付费意向</td></tr>
+      <tr><td class="num">2026.10</td><td>定基地上海；在上海选房</td><td>住处到目标医院 ≤ 30 分钟，有地暖或空调制热</td></tr>
+      <tr><td class="num">2026.10–11</td><td>给母亲办异地长期居住备案，备案到上海</td><td>备案通过</td></tr>
+      <tr><td class="num">2026.11–2027.01</td><td>A / B / C 三个方向各做 4 周小测试</td><td>每个方向拿到可比较的付费信号</td></tr>
+      <tr><td class="num">2026.12</td><td>订 1–2 月深圳住处；列出 10 位要见的香港、深圳投资人</td><td>1 月前约好至少 5 场</td></tr>
+      <tr><td class="num">2027.02</td><td>选定方向，进入 6 个月验证期；确认基地是否换深圳</td><td>写下 6 个月后的收入目标</td></tr>
     </table></div>
   </section>
 
   <section class="block sources">
     <div class="eyebrow">数据来源</div>
     <ol id="sources"></ol>
-    <p class="note">标 <span class="q e">估</span> 的数字：城市租金与生活费、成都/厦门/昆明/呼市的投资事件数（只确知各自 &lt; 362 起）、厦门/昆明/呼市的 PM2.5、飞机航程、月均温。量级可信，具体值请以最新公报为准。</p>
+    <p class="note">标 <span class="q e">估</span> 的数字：城市租金与生活费、广州/厦门/珠海的投资事件数（只确知各自 &lt; 362 起）、厦门/珠海的 PM2.5、到门户和医院的门到门时间（官方只有车程）、月均温。量级可信，具体值请以最新公报为准。</p>
   </section>
 </main>
 
@@ -487,76 +525,98 @@ const STAGES = [
   { id: 'trip', name: '环游中国', kind: '游历', a0: 26, a1: 27, c: 5, ll: null, asset: '两年走过的城市样本' },
 ];
 
-// 两人（你 + 母亲）口径。rent 元/㎡/月（估）；living 两人每月除房租外开销（估）
-const AREA = 75, MED_RESERVE = 1000, VC_MAX = 1221;
-const CITIES = [
-  { id: 'bj', name: '北京', ll: [116.40, 39.90], vc: 1221, vcQ: '实', rent: 90, living: 7000,
-    a4: 0.5, a4Note: '本市有 A++++ 级医院', a4Q: '实', jan: -3, jul: 27, heat: true,
-    pm: 27.0, pmQ: '实', pmNote: '2025', home: 2.7, homeNote: '高铁最快 2h09m', homeQ: '实', years: 3 },
-  { id: 'hz', name: '杭州', ll: [120.16, 30.27], vc: 640, vcQ: '实', rent: 55, living: 6000,
-    a4: 0.5, a4Note: '本市有 A++++ 级医院', a4Q: '实', jan: 5, jul: 29, heat: false,
-    pm: 30, pmQ: '实', pmNote: '2024 市区', home: 4.3, homeNote: '直飞约 2h45m', homeQ: '估', years: 1 },
-  { id: 'cd', name: '成都', ll: [104.07, 30.67], vc: 250, vcQ: '估', vcNote: '第三梯队，单城 < 362 起', rent: 35, living: 5000,
-    a4: 0.5, a4Note: '华西医院 A++++', a4Q: '实', jan: 6, jul: 25, heat: false,
-    pm: 33, pmQ: '实', pmNote: '2025', home: 4.0, homeNote: '直飞约 2h30m', homeQ: '估', years: 0 },
-  { id: 'sz', name: '深圳', ll: [114.06, 22.54], vc: 1018, vcQ: '实', rent: 80, living: 7000,
-    a4: 1.2, a4Note: '本市 1 家百强；广州 A++++ 高铁约 30 分钟', a4Q: '实', jan: 16, jul: 29, heat: false,
-    pm: 17, pmQ: '实', pmNote: '2025', home: 5.2, homeNote: '直飞约 3h40m', homeQ: '估', years: 0 },
-  { id: 'xm', name: '厦门', ll: [118.09, 24.48], vc: 80, vcQ: '估', vcNote: '单城 < 362 起', rent: 45, living: 5500,
-    a4: 3.5, a4Note: '最近的 A++++ 在杭州、上海或广州', a4Q: '估', jan: 13, jul: 29, heat: false,
-    pm: 19, pmQ: '估', home: 4.8, homeNote: '直飞约 3h20m', homeQ: '估', years: 0 },
-  { id: 'km', name: '昆明', ll: [102.83, 24.88], vc: 30, vcQ: '估', vcNote: '单城 < 362 起', rent: 28, living: 4500,
-    a4: 3.0, a4Note: '最近的 A++++ 是成都华西', a4Q: '估', jan: 9, jul: 20, heat: false,
-    pm: 22, pmQ: '估', home: 4.7, homeNote: '直飞约 3h10m', homeQ: '估', years: 0 },
-  { id: 'hh', name: '呼和浩特', ll: [111.75, 40.84], vc: 10, vcQ: '估', vcNote: '单城 < 362 起', rent: 25, living: 4500,
-    a4: 2.7, a4Note: '最近的 A++++ 在北京，高铁 2h09m', a4Q: '实', jan: -11, jul: 23, heat: true,
-    pm: 27, pmQ: '估', home: 0, homeNote: '就是家', homeQ: '实', years: 15 },
+// 你给过的回答，按轮次记录；模型的指标和权重由它们决定
+const INPUTS = [
+  { r: 1, q: '职业方向', a: '创业 / 自由职业', effect: '城市要有投资人和创业生态' },
+  { r: 1, q: '未来 5 年首要目标', a: '做自己的事业', effect: '投资人、全球连接权重最高' },
+  { r: 1, q: '地理范围', a: '不固定，多城旅居', effect: '1 个基地 + 2 个季节站' },
+  { r: 1, q: '现实牵挂', a: '单身；照顾母亲，带在身边', effect: '母亲医疗、气候进入模型' },
+  { r: 2, q: '储备够几个月', a: '≥ 18 个月', effect: '成本权重降到 5%' },
+  { r: 2, q: '母亲愿意离开呼市吗', a: '愿意', effect: '去掉“回呼和浩特”指标；夏天仍可回去' },
+  { r: 2, q: '事业方向', a: '还没定', effect: '先做 90 天方向验证' },
+  { r: 2, q: '城市偏好', a: '不常住北京；南方沿海发达城市，接近全球资源、投资人，对创业者友好', effect: '候选换成 6 座南方沿海城市，香港单独评估' },
 ];
 
+// 两人（你 + 母亲）口径。rent 元/㎡/月（估）；living 两人每月除房租外开销（估）
+// gser：Startup Genome 2025 全球创业生态排名（null = 未进前 40）
+// gw：到最近的全球门户（上海或香港）的门到门小时；a4：到最近的复旦版 A++++ 级医院的门到门小时
+const AREA = 75, MED_RESERVE = 1000, VC_MAX = 1174;
+const CITIES = [
+  { id: 'sh', name: '上海', ll: [121.47, 31.23], gser: 10, vc: 1174, vcQ: '实', rent: 95, living: 7500,
+    gw: 0.5, gwNote: '本身是门户：两机场出入境 3,990 万人次', gwQ: '实',
+    a4: 0.5, a4Note: '18 家复旦版百强医院', a4Q: '实', jan: 4.8, jul: 28.6, pm: 26, pmQ: '实' },
+  { id: 'sz', name: '深圳', ll: [114.06, 22.54], gser: 17, vc: 1018, vcQ: '实', vcNote: '不含香港的投资机构', rent: 80, living: 7000,
+    gw: 0.7, gwNote: '福田→香港西九龙高铁 14 分钟', gwQ: '实',
+    a4: 1.2, a4Note: '本市 1 家百强；广州 A++++ 高铁约 30 分钟', a4Q: '实', jan: 15.9, jul: 28.9, pm: 17, pmQ: '实' },
+  { id: 'hz', name: '杭州', ll: [120.16, 30.27], gser: 23, vc: 640, vcQ: '实', rent: 55, living: 6000,
+    gw: 1.5, gwNote: '高铁到上海约 1 小时', gwQ: '估',
+    a4: 0.5, a4Note: '本市有 A++++ 级医院', a4Q: '实', jan: 5, jul: 29, pm: 30, pmQ: '实', pmNote: '2024 市区' },
+  { id: 'gz', name: '广州', ll: [113.26, 23.13], gser: 35, vc: 300, vcQ: '估', vcNote: '第三梯队，单城 < 362 起', rent: 55, living: 6000,
+    gw: 1.2, gwNote: '广州南→香港西九龙高铁约 50 分钟', gwQ: '估',
+    a4: 0.5, a4Note: '中山一院、南方医院为 A++++', a4Q: '实', jan: 13.6, jul: 28.8, pm: 21.5, pmQ: '实' },
+  { id: 'xm', name: '厦门', ll: [118.09, 24.48], gser: null, vc: 80, vcQ: '估', vcNote: '单城 < 362 起', rent: 45, living: 5500,
+    gw: 2.8, gwNote: '飞香港约 1h20m', gwQ: '估',
+    a4: 3.5, a4Note: '最近的 A++++ 在杭州、上海或广州', a4Q: '估', jan: 13, jul: 29, pm: 19, pmQ: '估' },
+  { id: 'zh', name: '珠海', ll: [113.58, 22.27], gser: null, vc: 40, vcQ: '估', vcNote: '单城 < 362 起', rent: 40, living: 5500,
+    gw: 1.2, gwNote: '港珠澳大桥到香港机场约 45 分钟', gwQ: '估',
+    a4: 1.5, a4Note: '广州 A++++ 高铁约 1 小时', a4Q: '估', jan: 15.5, jul: 28.9, pm: 18, pmQ: '估' },
+];
+
+// 香港：全球门户，但不能做母亲同住的基地
+const HK = { ll: [114.17, 22.32], gser: 27, pax: 6100, ipo: 2857, rail: 14 };
+
 // 季节站
-const SANYA = { id: 'sy', name: '三亚', ll: [109.51, 18.25], cost: 14500 }; // 冬季短租两人月支出（估）
-const HH_OWN = 5500; // 呼市有自住房时两人月支出（估）
+const WINTER = { id: 'sz', name: '深圳', cost: 15800 }; // 冬季短租两人月支出（估，房租按长租 1.3 倍）
+const HH_BURN = 25 * AREA + 4500 + MED_RESERVE, HH_OWN = 5500; // 呼市夏站两人月支出（估）
 
 const DIMS = [
-  { k: 'vc', name: '创业生态', sub: '2025 投资事件' },
-  { k: 'cost', name: '生活成本', sub: '两人月支出' },
+  { k: 'eco', name: '创业生态', sub: 'GSER 2025 全球排名' },
+  { k: 'vc', name: '投资人', sub: '2025 投资事件' },
+  { k: 'gw', name: '全球连接', sub: '到上海或香港' },
   { k: 'med', name: '母亲医疗', sub: '到 A++++ 医院' },
+  { k: 'cost', name: '生活成本', sub: '两人月支出' },
   { k: 'clim', name: '气候', sub: '1 月 / 7 月均温' },
   { k: 'air', name: '空气', sub: 'PM2.5 μg/m³' },
-  { k: 'home', name: '回呼和浩特', sub: '门到门' },
-  { k: 'root', name: '已有根基', sub: '住过年数' },
 ];
 
 const PRESETS = {
-  mine: { label: '按你的回答', w: { vc: 25, cost: 20, med: 20, clim: 10, air: 10, home: 10, root: 5 } },
-  biz: { label: '事业优先', w: { vc: 40, cost: 15, med: 15, clim: 5, air: 5, home: 10, root: 10 } },
-  mom: { label: '母亲优先', w: { vc: 10, cost: 15, med: 30, clim: 15, air: 10, home: 15, root: 5 } },
-  cost: { label: '成本优先', w: { vc: 15, cost: 40, med: 15, clim: 10, air: 10, home: 5, root: 5 } },
+  mine: { label: '按你的回答', w: { eco: 20, vc: 25, gw: 25, med: 15, cost: 5, clim: 5, air: 5 } },
+  biz: { label: '事业优先', w: { eco: 25, vc: 30, gw: 20, med: 10, cost: 5, clim: 5, air: 5 } },
+  mom: { label: '母亲优先', w: { eco: 10, vc: 10, gw: 10, med: 30, cost: 10, clim: 20, air: 10 } },
+  cost: { label: '成本优先', w: { eco: 10, vc: 10, gw: 15, med: 15, cost: 35, clim: 10, air: 5 } },
 };
 
 // 月均温（1991–2020 气候平均值，取一位小数，估）
 const TEMP = {
-  bj: [-3.1, 0.3, 6.7, 14.8, 20.8, 24.9, 27.1, 25.8, 20.9, 13.7, 5.2, -1.1],
+  sh: [4.8, 6.6, 10.4, 15.8, 21.0, 24.6, 28.6, 28.3, 24.9, 19.9, 14.0, 7.6],
+  sz: [15.9, 17.0, 19.6, 23.4, 26.6, 28.2, 28.9, 28.7, 27.8, 25.4, 21.5, 17.2],
   hh: [-11.0, -6.3, 1.0, 9.6, 16.3, 21.2, 23.2, 21.2, 15.4, 7.8, -1.6, -9.1],
-  sy: [21.6, 22.8, 24.8, 27.1, 28.6, 28.9, 28.6, 28.2, 27.6, 26.4, 24.4, 22.2],
 };
-const PLAN = ['sy', 'sy', 'bj', 'bj', 'bj', 'bj', 'hh', 'hh', 'bj', 'bj', 'bj', 'bj'];
+const PLAN = ['sz', 'sz', 'sh', 'sh', 'sh', 'sh', 'hh', 'hh', 'sh', 'sh', 'sh', 'sh'];
 const STATION = {
-  bj: { name: '北京', role: '基地', c: 3 },
+  sh: { name: '上海', role: '基地', c: 0 }, // 新地点，不占人生阶段的色槽：基地用墨色
+  sz: { name: '深圳', role: '冬站', c: 8 },
   hh: { name: '呼和浩特', role: '夏站', c: 1 },
-  sy: { name: '三亚', role: '冬站', c: 0 }, // 新地点，不占人生阶段的色槽，用中性色
 };
 
 const SOURCES = [
-  { t: 'IT桔子：2025 年投资事件，北京 1,221、上海 1,174、深圳 1,018、苏州 713、杭州 640 起；其余城市单城占比 < 4%（< 362 起）', u: 'https://www.huxiu.com/article/4825684.html' },
-  { t: '北京 2025 年 PM2.5 年均 27.0 μg/m³，优良天比率 85.2%', u: 'https://www.bjnews.com.cn/detail/1767494399129673.html' },
-  { t: '深圳 2025 年生态环境状况公报：PM2.5 17 μg/m³', u: 'https://www.sznews.com/news/content/2026-07/02/content_32109152.htm' },
-  { t: '成都 2025 年 PM2.5 33 μg/m³，优良 311 天（媒体报道）', u: 'https://www.sina.cn/news/article/niktcuw9246611.html' },
-  { t: '杭州 2024 年市区 PM2.5 30 μg/m³', u: 'https://www.ehangzhou.gov.cn/2025-06/06/c_293906.htm' },
-  { t: '全国 2025 年 PM2.5 平均 28 μg/m³', u: 'https://english.www.gov.cn/news/202601/16/content_WS69698acec6d00ca5f9a08993.html' },
-  { t: '京张 + 张呼高铁：北京—呼和浩特最快 2 小时 9 分', u: 'https://www.ithome.com/0/465/578.htm' },
-  { t: '复旦版《2023 年度中国医院综合排行榜》：百强分五档，A++++ 档覆盖北京、上海、浙江、成都、广州等地', u: 'https://www.thepaper.cn/newsDetail_forward_29366149' },
+  { t: 'Startup Genome《GSER 2025》：上海第 10、深圳第 17、杭州第 23、香港第 27、广州第 35', u: 'https://startupgenome.com/report/gser2025/global-startup-ecosystem-ranking-2025-top-40' },
+  { t: 'IT桔子：2025 年投资事件，上海 1,174、深圳 1,018、杭州 640 起；其余城市单城占比 < 4%（< 362 起）', u: 'https://www.huxiu.com/article/4825684.html' },
+  { t: '上海机场 2025 年出入境旅客 3,990 万人次，占全国空港口岸 28.9%', u: 'https://english.shanghai.gov.cn/en-Latest-WhatsNew/20260421/e4fcc18857f247e3b7ae3634e3c06cce.html' },
+  { t: '上海跨国公司地区总部 1,084 家、外资研发中心 647 家（2026 年 2 月末）', u: 'https://www.news.cn/fortune/20260319/a695e739d388410280a5742ba8b3cb3d/c.html' },
+  { t: '香港国际机场 2025 年客运量约 6,100 万人次，同比 +15%', u: 'https://www.thestandard.com.hk/news/article/321702/HKIA-handles-61-million-passengers-in-2025-Christmas-peak-boosts-traffic' },
+  { t: '2025 年香港 IPO 募资额重回全球第一（毕马威）；Wind 统计全年约 2,857 亿港元', u: 'https://kpmg.com/cn/zh/home/media/press-releases/2025/12/hk-reclaims-top-global-ipo-spot-in-2025-says-kpmg.html' },
+  { t: '广深港高铁：福田→香港西九龙最快 14 分钟', u: 'https://www.yzwb.net/news/yw/202510/t20251015_276780.html' },
+  { t: '香港受养人签证：父母须年满 60 岁，且保证人为永久性居民或不受逗留期限限制的居民', u: 'https://www.immd.gov.hk/pdforms/ID%28C%29998.pdf' },
+  { t: '复旦版《2023 年度中国医院综合排行榜》：上海 18 家进入百强', u: 'https://img1.xinmin.cn/xmwb/2024-11-17/41117.pdf' },
+  { t: '复旦版百强：广东 11 家进入，中山一院、南方医院为 A++++', u: 'https://news.ycwb.com/2024-11/16/content_53061759.htm' },
+  { t: '复旦版百强分五档，A++++ 档覆盖北京、上海、浙江、成都、广州等地', u: 'https://www.thepaper.cn/newsDetail_forward_29366149' },
   { t: '深圳 1 家医院进入复旦版综合百强', u: 'https://www.sznews.com/news/content/2024-11/18/content_31345461.htm' },
+  { t: '上海 2025 年 PM2.5 26 μg/m³', u: 'https://sthj.sh.gov.cn/cmsres/17/17f73ef0f3474f2896027bb2cc33434b/ab78e00d8a18d52c971dfc2ead9d9a17.pdf' },
+  { t: '深圳 2025 年生态环境状况公报：PM2.5 17 μg/m³', u: 'https://www.sznews.com/news/content/2026-07/02/content_32109152.htm' },
+  { t: '广州 2025 年 PM2.5 21.5 μg/m³，优良天数比例 93.4%', u: 'https://news.ycwb.com/ikimvkjtkl/content_53895445.htm' },
+  { t: '杭州 2024 年市区 PM2.5 30 μg/m³', u: 'https://www.ehangzhou.gov.cn/2025-06/06/c_293906.htm' },
+  { t: '全国工商联 2022 年万家民营企业评营商环境：口碑最佳城市前五为深圳、杭州、广州、苏州、成都', u: 'https://cn.chinadaily.com.cn/a/202211/04/WS6364e8bca310ed1b2aca5987.html' },
   { t: '跨省异地长期居住人员备案长期有效；变更或取消时限原则上不超过 6 个月', u: 'https://www.chinanews.com.cn/cj/2022/07-26/9812276.shtml' },
   { t: '高血压、糖尿病等 10 种门诊慢特病已可跨省直接结算', u: 'https://www.stdaily.com/web/gdxw/2025-03/16/content_310280.html' },
   { t: '国家移民管理局：2025 年外国人免签入境 3,008 万人次，同比 +49.5%', u: 'https://www.stdaily.com/web/gdxw/2026-01/28/content_467200.html' },
@@ -597,57 +657,62 @@ const city = id => CITIES.find(c => c.id === id);
 const burn = c => c.rent * AREA + c.living + MED_RESERVE;
 const MIN_BURN = Math.min(...CITIES.map(burn));
 const SCORE = {
+  eco: c => c.gser ? 100 * (51 - c.gser) / 50 : 10, // 未进前 40 按第 46 名计
   vc: c => 100 * Math.sqrt(c.vc / VC_MAX),
-  cost: c => 100 * MIN_BURN / burn(c),
+  gw: c => 100 * Math.exp(-0.35 * (c.gw - 0.5)),
   med: c => 100 * Math.exp(-0.25 * (c.a4 - 0.5)),
-  clim: c => clamp(100 - Math.max(0, c.jul - 24) * 10 - (c.heat ? Math.max(0, 5 - c.jan) * 2 : Math.max(0, 12 - c.jan) * 5)),
+  cost: c => 100 * MIN_BURN / burn(c),
+  clim: c => clamp(100 - Math.max(0, c.jul - 24) * 10 - Math.max(0, 12 - c.jan) * 5), // 南方都没有集中供暖
   air: c => clamp(100 * (1 - (c.pm - 10) / 30)),
-  home: c => clamp(100 - c.home * 15),
-  root: c => Math.min(100, c.years * 25),
 };
 const SC = Object.fromEntries(CITIES.map(c => [c.id, Object.fromEntries(DIMS.map(d => [d.k, SCORE[d.k](c)]))]));
 const wsum = w => DIMS.reduce((a, d) => a + w[d.k], 0);
 const total = (c, w) => DIMS.reduce((a, d) => a + SC[c.id][d.k] * w[d.k], 0) / (wsum(w) || 1);
 const ranked = w => CITIES.map(c => ({ c, t: total(c, w) })).sort((a, b) => b.t - a.t);
 
-// 一年：基地 8 个月，呼市 7–8 月，三亚 1–2 月。基地是呼市时，夏站并入基地。
+// 一年：7–8 月回呼市避暑；基地 1 月均温低于 10°C（湿冷、无集中供暖）时，1–2 月再去深圳过冬。
+const coldBase = c => c.jan < 10;
 function plan(baseId, own, keep) {
-  const c = city(baseId), rentM = c.rent * AREA;
-  if (baseId === 'hh') {
-    const bm = own ? HH_OWN : burn(c);
-    return { base: bm, annual: 10 * bm + 2 * SANYA.cost + (keep && !own ? 2 * rentM : 0) };
-  }
-  const b = burn(c), hh = own ? HH_OWN : burn(city('hh'));
-  return { base: b, annual: 8 * b + 2 * hh + 2 * SANYA.cost + (keep ? 4 * rentM : 0) };
+  const c = city(baseId), b = burn(c), rentM = c.rent * AREA, hh = own ? HH_OWN : HH_BURN;
+  const cold = coldBase(c), away = cold ? 4 : 2;
+  return { base: b, cold, months: 12 - away, hh,
+    annual: (12 - away) * b + 2 * hh + (cold ? 2 * WINTER.cost : 0) + (keep ? away * rentM : 0) };
 }
 
 // ---------------------------------------------------------------- verdict
 const MINE = PRESETS.mine.w;
-const wins = Object.values(PRESETS).filter(p => ranked(p.w)[0].c.id === 'bj').length;
-const DEF = plan('bj', false, true), DEF_AVG = DEF.annual / 12;
+const [BASE, ALT] = ranked(MINE).map(x => x.c);
+const winsOf = id => Object.values(PRESETS).filter(p => ranked(p.w)[0].c.id === id).map(p => p.label);
+const DEF = plan(BASE.id, false, true), DEF_AVG = DEF.annual / 12;
+const gap = total(BASE, MINE) - total(ALT, MINE);
 
 $('#stations').innerHTML = [
-  ['bj', '3–6 月 · 9–12 月 · 8 个月', true],
-  ['hh', '7–8 月 · 避暑、母亲回家'],
-  ['sy', '1–2 月 · 过冬'],
+  ['sh', '3–6 月 · 9–12 月 · 8 个月', true],
+  ['sz', '1–2 月 · 过冬，见香港投资人'],
+  ['hh', '7–8 月 · 避暑，母亲回家'],
 ].map(([k, t, base]) => {
   const s = STATION[k];
   return `<div class="station"><i class="${base ? '' : 'ring'}" style="background:${col(s.c)};color:${col(s.c)}"></i><div><em>${s.role}</em><b>${s.name}</b><span>${t}</span></div></div>`;
 }).join('');
 
 $('#heroTiles').innerHTML = [
-  ['北京基地得分', Math.round(total(city('bj'), MINE)), '/ 100', `4 套权重里 ${wins} 套排第一`],
-  ['回呼和浩特', '2h09m', '', `高铁最快 ${Q('实')}`],
-  ['基地两人月支出', wan(burn(city('bj'))), '', `北京，含医疗预留 ${Q('估')}`],
-  ['启动储备', wan(18 * DEF_AVG), '', `18 个月 × 全年平均 ${wan(DEF_AVG)}/月`],
+  [`${BASE.name}基地得分`, Math.round(total(BASE, MINE)), '/ 100', `按你的权重第一，比${ALT.name}高 ${gap.toFixed(1)} 分`],
+  ['上海出入境旅客', '3,990 万', '人次', `2025 年，占全国空港 28.9% ${Q('实')}`],
+  ['冬站到香港', `${HK.rail} 分钟`, '', `深圳福田→西九龙高铁 ${Q('实')}`],
+  ['18 个月储备', wan(18 * DEF_AVG), '', `全年平均 ${wan(DEF_AVG)}/月；你已确认够用`],
 ].map(([k, v, u, d]) => `<div class="tile"><span class="k">${k}</span><span class="v">${v}<small>${u}</small></span><span class="d">${d}</span></div>`).join('');
-$('#whyBurn').textContent = wan(burn(city('bj')));
-$('#riskCost').innerHTML = `两人月支出：北京 <b class="num">${wan(burn(city('bj')))}</b>，呼市 <b class="num">${wan(burn(city('hh')))}</b> ${Q('估')}`;
-{
-  const r = ranked(MINE).filter(x => x.c.id !== 'bj');
-  $('#altBase').innerHTML = `<b>${r[0].c.name}</b>`;
-  $('#altWhy').textContent = `去掉北京后按你的权重排序：${r.slice(0, 3).map(x => `${x.c.name} ${Math.round(x.t)}`).join('、')}；分差小，按事业方向选`;
+$('#whyBurn').textContent = wan(burn(BASE));
+$('#whyGap').textContent = gap.toFixed(1);
+$('#altWins').textContent = winsOf(ALT.id).join('、');
+$('#riskCost').innerHTML = `两人月支出：上海 <b class="num">${wan(burn(BASE))}</b>，深圳 <b class="num">${wan(burn(ALT))}</b>，广州 <b class="num">${wan(burn(city('gz')))}</b> ${Q('估')}`;
+for (const [id, preset] of [['ifMom', 'mom'], ['ifCost', 'cost']]) {
+  const w = ranked(PRESETS[preset].w);
+  $('#' + id).innerHTML = `<b>${w[0].c.name}</b>`;
+  $('#' + id + 'Why').textContent = `「${PRESETS[preset].label}」权重下 ${w[0].c.name} ${Math.round(w[0].t)} 分，${w[1].c.name} ${Math.round(w[1].t)} 分`;
 }
+
+$('#inputs').innerHTML = `<tr><th>轮次</th><th>问题</th><th>你的回答</th><th>对模型的影响</th></tr>` +
+  INPUTS.map(x => `<tr><td class="n">${x.r}</td><td>${x.q}</td><td><b>${x.a}</b></td><td>${x.effect}</td></tr>`).join('');
 
 // ---------------------------------------------------------------- life bar
 const LIFE_SPAN = 40;
@@ -788,17 +853,20 @@ function drawMap() {
     dot(S('bj').ll, col(3), 6, '北京', '22–24 岁', stageTip(S('bj')));
     dot(S('hz').ll, col(4), 6, '杭州', '25 岁', stageTip(S('hz')));
   } else {
-    const bj = P(STAGES[2].ll);
-    gA.append('path').attr('class', 'arc future').attr('d', arc(bj, P(STAGES[0].ll), -.25)).attr('stroke', col(1));
-    gA.append('path').attr('class', 'arc future').attr('d', arc(bj, P(SANYA.ll), .15)).attr('stroke', col(0));
-    for (const c of CITIES) {
-      if (c.id === 'bj' || c.id === 'hh') continue;
+    const sh = P(city('sh').ll), sz = P(city('sz').ll);
+    gA.append('path').attr('class', 'arc future').attr('d', arc(sh, P(STAGES[0].ll), .2)).attr('stroke', col(STATION.hh.c));
+    gA.append('path').attr('class', 'arc future').attr('d', arc(sh, sz, -.2)).attr('stroke', col(STATION.sz.c));
+    const cand = (c, label, dx, anchor) => {
       const t = Math.round(total(c, MINE));
-      dot(c.ll, 'var(--faint)', 3.5, c.name, `${t} 分`, `<b>${c.name}</b>${row('按你的权重', t + ' 分')}${row('两人月支出', wan(burn(c)))}`, false, 8);
-    }
-    dot(STAGES[0].ll, col(1), 6, '呼和浩特 · 夏站', '7–8 月', `<b>呼和浩特</b>${row('7 月均温', '23°C')}${row('作用', '避暑、母亲回家')}`, true, -12, 'end');
-    dot(STAGES[2].ll, col(3), 7, '北京 · 基地', `${Math.round(total(city('bj'), MINE))} 分 · 8 个月`, `<b>北京</b>${row('按你的权重', Math.round(total(city('bj'), MINE)) + ' 分')}${row('两人月支出', wan(burn(city('bj'))))}`, false, 12);
-    dot(SANYA.ll, col(0), 6, '三亚 · 冬站', '1–2 月', `<b>三亚</b>${row('1 月均温', '22°C')}${row('两人月支出', wan(SANYA.cost) + '（冬季短租，估）')}`, true, 12);
+      dot(c.ll, 'var(--faint)', 3.5, label ? c.name : '', label ? `${t} 分` : '', `<b>${c.name}</b>${row('按你的权重', t + ' 分')}${row('两人月支出', wan(burn(c)))}`, false, dx, anchor);
+    };
+    // 珠三角三城挤在一起：广州、珠海只画点，分数看悬停和排名
+    cand(city('gz'), false); cand(city('zh'), false);
+    cand(city('hz'), true, -9, 'end'); cand(city('xm'), true, 9);
+    dot(HK.ll, 'var(--ink)', 3, '', '', `<b>香港 · 全球门户</b>${row('GSER 2025', '第 ' + HK.gser)}${row('机场客运', HK.pax + ' 万人次')}${row('福田→西九龙', HK.rail + ' 分钟')}`);
+    dot(STAGES[0].ll, col(STATION.hh.c), 6, '呼和浩特 · 夏站', '7–8 月', `<b>呼和浩特</b>${row('7 月均温', '23.2°C')}${row('上海 7 月', '28.6°C')}`, true, -12, 'end');
+    dot(city('sh').ll, col(STATION.sh.c), 7, '上海 · 基地', `${Math.round(total(city('sh'), MINE))} 分 · 8 个月`, `<b>上海</b>${row('按你的权重', Math.round(total(city('sh'), MINE)) + ' 分')}${row('两人月支出', wan(burn(city('sh'))))}`, false, 12);
+    dot(city('sz').ll, col(STATION.sz.c), 6, '深圳 · 冬站', `${Math.round(total(city('sz'), MINE))} 分 · 香港 ${HK.rail} 分钟`, `<b>深圳</b>${row('1 月均温', '15.9°C')}${row('两人月支出', wan(WINTER.cost) + '（冬季短租，估）')}`, true, 14);
   }
 }
 
@@ -838,16 +906,16 @@ function syncSliders() {
 
 function cellRaw(c, k) {
   switch (k) {
+    case 'eco': return [c.gser ? '第 ' + c.gser : '未进前 40', Q('实')];
     case 'vc': return [(c.vcQ === '估' ? '≈' : '') + fmtInt(c.vc), `起 ${Q(c.vcQ)}`];
-    case 'cost': return [wan(burn(c)), `每月 ${Q('估')}`];
+    case 'gw': return [c.gw <= .5 ? '本市' : '≈ ' + hm(c.gw), Q(c.gwQ)];
     case 'med': return [c.a4 <= .5 ? '本市' : '≈ ' + hm(c.a4), Q(c.a4Q)];
-    case 'clim': return [`${c.jan} / ${c.jul}°C`, c.heat ? '有集中供暖' : '无集中供暖'];
+    case 'cost': return [wan(burn(c)), `每月 ${Q('估')}`];
+    case 'clim': return [`${c.jan} / ${c.jul}°C`, coldBase(c) ? '冬季湿冷' : '冬季温和'];
     case 'air': return [String(c.pm), Q(c.pmQ)];
-    case 'home': return [c.home ? hm(c.home) : '0', Q(c.homeQ)];
-    case 'root': return [c.years + ' 年', ''];
   }
 }
-const cellNote = (c, k) => ({ vc: c.vcNote, med: c.a4Note, air: c.pmNote, home: c.homeNote })[k] || '';
+const cellNote = (c, k) => ({ vc: c.vcNote, gw: c.gwNote, med: c.a4Note, air: c.pmNote })[k] || '';
 
 function renderModel() {
   const r = ranked(S.w), top = r[0].c.id, max = r[0].t, s = wsum(S.w) || 1;
@@ -877,13 +945,13 @@ $('#months').innerHTML = MONTHS.map(i => {
   const s = STATION[PLAN[i]], first = i === 0 || PLAN[i - 1] !== PLAN[i];
   return `<div class="mo" style="--c:${col(s.c)}" title="${i + 1} 月 · ${s.name}（${s.role}）"><b>${i + 1}</b><span>${first ? s.name : '·'}</span></div>`;
 }).join('');
-$('#tempLegend').innerHTML = `<span><i></i>按方案，所在地月均温</span><span><i class="dash"></i>全年留在北京</span><span><i class="band"></i>15–25°C 参考带</span><span>北京 11 月 15 日起集中供暖</span>`;
+$('#tempLegend').innerHTML = `<span><i></i>按方案，所在地月均温</span><span><i class="dash"></i>全年留在上海</span><span><i class="band"></i>15–25°C 参考带</span><span>上海没有集中供暖</span>`;
 
 function drawTemp() {
   const svg = d3.select('#tempChart'), W = svg.node().clientWidth || 600, H = 230, m = { l: 36, r: 76, t: 12, b: 26 };
   svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H).selectAll('*').remove();
   const x = d3.scalePoint(MONTHS, [m.l + 8, W - m.r]), y = d3.scaleLinear([-12, 32], [H - m.b, m.t]);
-  const planT = MONTHS.map(i => TEMP[PLAN[i]][i]), stayT = TEMP.bj;
+  const planT = MONTHS.map(i => TEMP[PLAN[i]][i]), stayT = TEMP.sh;
   svg.append('rect').attr('x', m.l).attr('width', W - m.r - m.l + 8).attr('y', y(25)).attr('height', y(15) - y(25)).attr('fill', 'rgba(var(--heat),.07)');
   const ax = svg.append('g').attr('class', 'ax');
   for (const v of [-10, 0, 10, 20, 30]) {
@@ -897,43 +965,44 @@ function drawTemp() {
   const g = svg.append('g');
   MONTHS.forEach(i => g.append('circle').attr('cx', x(i)).attr('cy', y(planT[i])).attr('r', 4.5).attr('fill', col(STATION[PLAN[i]].c)).attr('stroke', 'var(--surface)').attr('stroke-width', 2));
   svg.append('text').attr('class', 'lbl').attr('font-size', 12).attr('x', x(11) + 10).attr('y', y(planT[11]) + 4).text('按方案');
-  svg.append('text').attr('class', 'sub').attr('x', x(11) + 10).attr('y', y(stayT[11]) + 18).text('全年北京');
+  svg.append('text').attr('class', 'sub').attr('x', x(11) + 10).attr('y', y(stayT[11]) + 18).text('全年上海');
   const cur = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).attr('stroke', 'var(--ink)').attr('stroke-dasharray', '2 3').attr('opacity', 0);
   svg.append('rect').attr('class', 'hit').attr('x', m.l).attr('y', m.t).attr('width', W - m.r - m.l + 8).attr('height', H - m.t - m.b)
     .on('pointermove', e => {
       const [mx] = d3.pointer(e), i = MONTHS.reduce((a, b) => Math.abs(x(b) - mx) < Math.abs(x(a) - mx) ? b : a, 0), s = STATION[PLAN[i]];
       cur.attr('x1', x(i)).attr('x2', x(i)).attr('opacity', .6);
-      showTip(e, `<b>${i + 1} 月 · ${s.name}（${s.role}）</b>${row('按方案', planT[i].toFixed(1) + '°C')}${row('全年北京', stayT[i].toFixed(1) + '°C')}`);
+      showTip(e, `<b>${i + 1} 月 · ${s.name}（${s.role}）</b>${row('按方案', planT[i].toFixed(1) + '°C')}${row('全年上海', stayT[i].toFixed(1) + '°C')}`);
     })
     .on('pointerleave', () => { cur.attr('opacity', 0); hideTip(); });
 }
 
-$('#base').innerHTML = CITIES.map(c => `<option value="${c.id}"${c.id === 'bj' ? ' selected' : ''}>${c.name}</option>`).join('');
+$('#base').innerHTML = CITIES.map(c => `<option value="${c.id}"${c.id === BASE.id ? ' selected' : ''}>${c.name}</option>`).join('');
 function calc() {
   const baseId = $('#base').value, own = $('#own').checked, keep = $('#keep').checked;
   const sv = Math.max(0, +$('#savings').value || 0), p = plan(baseId, own, keep), avg = p.annual / 12, runway = sv / avg, need = 18 * avg;
   const ok = runway >= 18;
   $('#calcTiles').innerHTML = [
     ['基地两人月支出', wan(p.base), city(baseId).name],
-    ['全年支出', wan(p.annual), '含两个季节站'],
+    ['全年支出', wan(p.annual), p.cold ? '含两个季节站' : '含夏站；冬天不用走'],
     ['盈亏线', wan(avg), '全年平均每月'],
     ['储备能撑', runway.toFixed(1), '个月', ok ? '够 18 个月' : `离 18 个月还差 ${wan(need - sv)}`],
   ].map(([k, v, u, d]) => d === undefined
     ? `<div class="tile"><span class="k">${k}</span><span class="v">${v}</span><span class="d">${u}</span></div>`
     : `<div class="tile"><span class="k">${k}</span><span class="v">${v}<small>${u}</small></span><span class="d">${d}</span></div>`).join('');
   const c = city(baseId);
-  $('#calcNote').innerHTML = baseId === 'hh'
-    ? `呼市做基地：10 个月在家，1–2 月三亚 ${wan(SANYA.cost)}/月${keep && !own ? '，外出时保留租约' : ''}。基地月支出 = 租金 ${c.rent} 元/㎡ × ${AREA}㎡ + 两人生活费 ${fmtInt(c.living)} + 医疗预留 ${fmtInt(MED_RESERVE)}（${own ? '自住房：只算生活费和预留' : '估'}）。`
-    : `基地月支出 = 租金 ${c.rent} 元/㎡ × ${AREA}㎡ + 两人生活费 ${fmtInt(c.living)} + 医疗预留 ${fmtInt(MED_RESERVE)}。全年 = 基地 8 个月 + 呼市 2 个月（${wan(own ? HH_OWN : burn(city('hh')))}/月）+ 三亚 2 个月（${wan(SANYA.cost)}/月）${keep ? ` + 外出 4 个月照付基地房租 ${wan(c.rent * AREA)}/月` : ''}。全部为估算。`;
+  $('#calcNote').innerHTML = `基地月支出 = 租金 ${c.rent} 元/㎡ × ${AREA}㎡ + 两人生活费 ${fmtInt(c.living)} + 医疗预留 ${fmtInt(MED_RESERVE)}。全年 = 基地 ${p.months} 个月 + 呼市 2 个月（${wan(p.hh)}/月）${p.cold ? ` + 深圳 2 个月（${wan(WINTER.cost)}/月，短租）` : ''}${keep ? ` + 外出 ${12 - p.months} 个月照付基地房租 ${wan(c.rent * AREA)}/月` : ''}。${p.cold ? '' : `${c.name} 1 月均温 ${c.jan}°C，冬天不用走。`}全部为估算。`;
 
-  const fb = plan('hh', own, keep).annual / 12;
+  // 降级：本市以外、本市就有 A++++ 医院的城市里最便宜的一个
+  const fbCity = CITIES.filter(x => x.id !== baseId && x.a4 <= .5).sort((a, b) => plan(a.id, own, keep).annual - plan(b.id, own, keep).annual)[0];
+  const fb = plan(fbCity.id, own, keep).annual / 12;
   const gates = [
-    ['0–6', '个月', '验证', `拿到第一笔收入，或 10 个明确的付费意向。没拿到：<b>换方向，不换城市</b>。`],
+    ['0–3', '个月', '选方向', `A / B / C 各做 4 周小测试，留下付费信号最强的一个。`],
+    ['3–6', '个月', '验证', `拿到第一笔收入，或 10 个明确的付费意向；开始约投资人。没拿到：<b>换方向，不换城市</b>。`],
     ['6–12', '个月', '起量', `月收入 ≥ 盈亏线的一半，约 <b class="num">${wan(avg / 2)}</b>。没到：砍掉非必要支出，季节站缩到一段。`],
     ['12–18', '个月', '自负盈亏', `月收入 ≥ 盈亏线，约 <b class="num">${wan(avg)}</b>。`],
-    ['18', '个月', '硬关口', baseId === 'hh'
-      ? `月收入仍不到一半：接项目或兼职补现金流，事业改为副线。`
-      : `月收入仍不到一半：基地换呼和浩特，平均月支出降到约 <b class="num">${wan(fb)}</b>，同时接项目补现金流。`],
+    ['18', '个月', '硬关口', fb < avg
+      ? `月收入仍不到一半：基地换${fbCity.name}（本市有 A++++ 医院），平均月支出降到约 <b class="num">${wan(fb)}</b>，同时接项目补现金流。`
+      : `月收入仍不到一半：接项目或兼职补现金流，事业降为副线。`],
     ['36', '个月', '复盘基地', `续约${c.name}或换城市。回到上面的选城模型，用三年的真实数据重新打分。`],
   ];
   $('#gates').innerHTML = gates.map(([m, u, h, p]) => `<li><div class="m">${m}<small>${u}</small></div><div><h4>${h}</h4><p>${p}</p></div></li>`).join('');
