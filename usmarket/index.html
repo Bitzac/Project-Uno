@@ -1,0 +1,749 @@
+<title>美股晨报 OS</title>
+<meta name="description" content="美股晨报：标普 500 热力图、板块进展、异动股与原因、盘前、宏观、财报与经济日历、市场宽度，每个交易日美西 05:00 出刊。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>/* Layout: the 机会猎手 OS frame — a full-bleed S&P 500 heat map (sized by market cap, grouped by GICS sector) with liquid-glass
+   instruments floating over it (legend, sector strip, tooltip) and a glass side panel. Hairline rules, heavy type.
+   Colour: one diverging ramp per direction around a neutral grey; the up/down hues swap with the 红涨/绿涨 toggle. */
+:root{
+  --bg:#E8EDF2;--sea:#DCE4EB;
+  --ink:#0B1520;--muted:#4A5765;--faint:#7C8995;
+  --glass-a:rgba(255,255,255,.68);--glass-b:rgba(255,255,255,.34);--glass-edge:rgba(255,255,255,.95);--glass-inner:rgba(255,255,255,.98);
+  --shadow:rgba(16,36,60,.20);--line:rgba(11,21,32,.16);--line-soft:rgba(11,21,32,.08);--field:rgba(255,255,255,.52);
+  --accent:#1F62C4;--accent-soft:rgba(31,98,196,.11);
+  --tile-mid:#C9D0D8;--tile-gap:#DCE4EB;
+  --red-1:#F0B9B2;--red-2:#DD5B52;--red-3:#A3201D;--red-t:#B42A25;
+  --green-1:#ACDDC0;--green-2:#2E9C61;--green-3:#0E5C37;--green-t:#127042;
+  --hair:1px;
+  --f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;
+  --f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070F16;--sea:#0A151E;
+  --ink:#E8EFF5;--muted:#A2B0BC;--faint:#6E7D89;
+  --glass-a:rgba(22,33,44,.68);--glass-b:rgba(10,19,28,.46);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.18);
+  --shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.16);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
+  --accent:#6FA8F2;--accent-soft:rgba(111,168,242,.14);
+  --tile-mid:#27313B;--tile-gap:#0A151E;
+  --red-1:#5E2A29;--red-2:#B8403A;--red-3:#FF7B72;--red-t:#FF8A82;
+  --green-1:#1C4632;--green-2:#22895A;--green-3:#4FDC8E;--green-t:#5BE39A;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070F16;--sea:#0A151E;
+  --ink:#E8EFF5;--muted:#A2B0BC;--faint:#6E7D89;
+  --glass-a:rgba(22,33,44,.68);--glass-b:rgba(10,19,28,.46);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.18);
+  --shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.16);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);
+  --accent:#6FA8F2;--accent-soft:rgba(111,168,242,.14);
+  --tile-mid:#27313B;--tile-gap:#0A151E;
+  --red-1:#5E2A29;--red-2:#B8403A;--red-3:#FF7B72;--red-t:#FF8A82;
+  --green-1:#1C4632;--green-2:#22895A;--green-3:#4FDC8E;--green-t:#5BE39A;
+  color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.55;padding-inline:16px;padding-block:16px;overflow:hidden;
+  --pos-1:var(--red-1);--pos-2:var(--red-2);--pos-3:var(--red-3);--pos-t:var(--red-t);
+  --neg-1:var(--green-1);--neg-2:var(--green-2);--neg-3:var(--green-3);--neg-t:var(--green-t)}
+body[data-updown="us"]{--pos-1:var(--green-1);--pos-2:var(--green-2);--pos-3:var(--green-3);--pos-t:var(--green-t);
+  --neg-1:var(--red-1);--neg-2:var(--red-2);--neg-3:var(--red-3);--neg-t:var(--red-t)}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.up{color:var(--pos-t)}.dn{color:var(--neg-t)}.flat{color:var(--muted)}
+
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -28px var(--shadow)}
+
+.app{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 440px;grid-template-rows:auto minmax(0,1fr);gap:12px}
+.top{grid-column:1/-1;display:flex;align-items:center;gap:10px 20px;padding:10px 16px;border-radius:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0;flex-wrap:wrap}
+.brand b{font:900 24px/1 var(--f-body);letter-spacing:.03em;white-space:nowrap}
+.brand span{font-weight:600;font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.ctrls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;min-width:0}
+.seg{display:inline-flex;padding:3px;border-radius:13px;border:var(--hair) solid var(--line);background:var(--field);gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:6px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--glass-a);color:var(--ink);font-weight:800;box-shadow:inset 0 1px 0 var(--glass-inner),0 4px 14px -6px var(--shadow)}
+.seg button:disabled{opacity:.4;cursor:default}
+.seg .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:1px}
+select{border:var(--hair) solid var(--line);background:var(--field);border-radius:12px;padding:0 10px;height:36px;font-size:13px;font-family:var(--f-display);font-weight:600}
+
+/* stage */
+.stage{position:relative;min-height:0;border-radius:24px;overflow:hidden;background:var(--sea);border:var(--hair) solid var(--line);display:flex;flex-direction:column;gap:8px;padding:10px}
+#map{position:relative;flex:1 1 0;min-height:0}
+#map svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+#map .sec-h{font:800 11.5px var(--f-body);fill:var(--muted);letter-spacing:.04em;pointer-events:none}
+#map .sec-h tspan.v{font-family:var(--f-display);font-weight:700}
+#map rect.cell{stroke:var(--tile-gap);stroke-width:1px;cursor:pointer;transition:fill .25s linear}
+#map rect.cell:hover,#map rect.cell.sel{stroke:var(--ink);stroke-width:1.6px}
+#map text.tk{font-family:var(--f-display);font-weight:800;pointer-events:none;text-anchor:middle}
+#map text.pc{font-family:var(--f-display);font-weight:500;pointer-events:none;text-anchor:middle;font-variant-numeric:tabular-nums}
+#map rect.sec-box{fill:none;stroke:var(--line);stroke-width:1px;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#map rect.cell{transition:none}}
+
+.dock{flex:none;border-radius:18px;padding:7px 10px;display:flex;gap:8px 14px;align-items:center;min-width:0}
+.legend{flex:none;width:210px;font-size:11px;color:var(--muted)}
+.legend b{display:flex;justify-content:space-between;gap:8px;color:var(--ink);font-size:12px;font-weight:800;margin-bottom:4px;white-space:nowrap}
+.legend b small{font-weight:500;color:var(--faint);font-size:11px}
+.legend .ramp{display:flex;height:6px;border-radius:3px;overflow:hidden;gap:1px;background:var(--line-soft)}
+.legend .ramp i{flex:1}
+.legend .lab{display:flex;justify-content:space-between;margin-top:2px;gap:8px;font-size:10.5px}
+
+.secs{flex:1 1 0;min-width:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;align-items:center;padding-left:12px;border-left:var(--hair) solid var(--line)}
+.secs .lbl{font:700 11px var(--f-display);letter-spacing:.14em;color:var(--faint);padding:0 4px 0 2px;white-space:nowrap}
+.chip{border:var(--hair) solid var(--line);background:var(--field);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.chip b{font:700 11.5px var(--f-display);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:800}
+.chip[aria-pressed="true"] b{color:var(--bg)}
+
+.tip{position:absolute;pointer-events:none;border-radius:14px;padding:10px 12px;font-size:12.5px;width:250px;z-index:5}
+.tip .h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tip .h b{font:800 17px var(--f-display)}
+.tip .h span{font:700 15px var(--f-display);font-variant-numeric:tabular-nums}
+.tip .nm{color:var(--muted);font-size:12px;margin:1px 0 6px}
+.tip .r{display:flex;justify-content:space-between;gap:14px;color:var(--muted)}
+.tip .r span:last-child{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-weight:600}
+.tip .r span:last-child:not(.up):not(.dn){color:var(--ink)}
+.tip .why{margin-top:7px;padding-top:7px;border-top:var(--hair) solid var(--line);color:var(--ink);line-height:1.5}
+
+/* panel */
+.panel{border-radius:24px;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+.tabs{display:flex;gap:2px;padding:10px 12px 0;border-bottom:var(--hair) solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:none;padding:8px 11px 10px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);font-weight:800;border-bottom-color:var(--ink)}
+.pane{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.pane>*{min-width:0}
+.eyebrow{font:700 11px var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.stamp{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.pill{display:inline-block;font:700 10.5px var(--f-body);letter-spacing:.04em;padding:1px 7px;border-radius:999px;border:var(--hair) solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.a{color:var(--accent);border-color:var(--accent)}
+.pill.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.thesis{border:var(--hair) solid var(--line);border-left:2px solid var(--accent);border-radius:4px 14px 14px 4px;background:var(--accent-soft);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.thesis h2{font-size:19px;font-weight:900;line-height:1.35}
+.thesis p{font-size:13.5px;color:var(--muted);line-height:1.65}
+ul.points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13.5px;line-height:1.6}
+ul.points li{padding-left:14px;position:relative}
+ul.points li::before{content:"";position:absolute;left:0;top:.72em;width:6px;height:1px;background:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{border:var(--hair) solid var(--line);border-radius:16px;padding:10px 11px 9px;background:var(--field);display:flex;flex-direction:column;gap:1px;min-width:0}
+.tile .k{font-size:11.5px;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;gap:6px}
+.tile .v{font:800 22px/1.15 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.tile .v small{font-size:12px;font-weight:600;color:var(--muted);margin-left:2px}
+.tile .d{font-size:12px;font-family:var(--f-display);font-variant-numeric:tabular-nums;font-weight:700}
+.tile .d em{font-style:normal;font-weight:500;color:var(--faint);margin-left:6px}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.kv div{border:var(--hair) solid var(--line);border-radius:12px;padding:7px 8px;background:var(--field);min-width:0}
+.kv span{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kv b{font:800 15px var(--f-display);font-variant-numeric:tabular-nums}
+.sec{display:flex;flex-direction:column;gap:9px}
+.sec>h3{font-size:14.5px;font-weight:900;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sec>h3 small{font-size:11.5px;font-weight:500;color:var(--faint)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-weight:700;color:var(--faint);text-align:left;font-size:11px;letter-spacing:.06em;padding:0 8px 6px 0;border-bottom:var(--hair) solid var(--line);white-space:nowrap}
+td{padding:7px 8px 7px 0;border-bottom:var(--hair) solid var(--line-soft);vertical-align:top}
+td.n,th.n{text-align:right;font-family:var(--f-display);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.code{font-family:var(--f-display);font-weight:700;white-space:nowrap;font-size:12px}
+td.nm{font-weight:700;white-space:nowrap}
+td.nm small{display:block;font:500 11px var(--f-display);color:var(--faint)}
+tr.click{cursor:pointer}
+tr.click:hover td,tr.click:focus-visible td{background:var(--accent-soft)}
+tr.click:focus-visible{outline:none}
+tr.cm td{border-bottom:var(--hair) solid var(--line-soft);padding-top:0;color:var(--muted);font-size:12px;line-height:1.6}
+tr.has-cm td{border-bottom:0}
+.note{font-size:12px;color:var(--muted);line-height:1.65}
+.note b{color:var(--ink)}
+.src{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px}
+.src a::before{content:"↗ ";color:var(--faint)}
+.empty{color:var(--muted);font-size:13px;border:var(--hair) dashed var(--line);border-radius:16px;padding:14px;text-align:center}
+
+.stack{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px;min-width:70px}
+.stack i{display:block;height:100%}
+.stack i.p{background:var(--pos-2)}.stack i.q{background:var(--neg-2)}.stack i.z{background:var(--line)}
+.bar{position:relative;height:8px;border-radius:4px;background:var(--line-soft)}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--accent)}
+.bar i.b2{background:none;border:1.5px solid var(--accent)}
+
+/* movers */
+.mv{display:flex;flex-direction:column;gap:0}
+.mv article{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 0;border-bottom:var(--hair) solid var(--line-soft);cursor:pointer}
+.mv article:hover .t b{text-decoration:underline}
+.mv .t{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;min-width:0}
+.mv .t b{font:800 15px var(--f-display)}
+.mv .t span{font-size:12.5px;color:var(--muted);min-width:0}
+.mv .c{font:800 16px var(--f-display);font-variant-numeric:tabular-nums;text-align:right}
+.mv .meta{grid-column:1/-1;font-size:11.5px;color:var(--faint);display:flex;gap:10px;flex-wrap:wrap;font-family:var(--f-display);font-variant-numeric:tabular-nums}
+.mv .why{grid-column:1/-1;font-size:13px;line-height:1.6;margin-top:3px}
+.mv .src{grid-column:1/-1;margin-top:2px}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.duo>*{min-width:0}
+
+/* news */
+.news{display:flex;flex-direction:column}
+.news article{padding:11px 0;border-bottom:var(--hair) solid var(--line-soft);display:flex;flex-direction:column;gap:4px}
+.news .tg{display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--faint)}
+.news h4{font-size:14.5px;font-weight:800;line-height:1.45}
+.news p{font-size:13px;color:var(--muted);line-height:1.65}
+
+/* calendar */
+.day{display:flex;flex-direction:column;gap:0}
+.day>h4{font:800 12.5px var(--f-body);padding:8px 0 6px;border-bottom:var(--hair) solid var(--line);display:flex;gap:8px;align-items:baseline}
+.day>h4 small{font:500 11px var(--f-display);color:var(--faint)}
+.ev{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:2px 10px;padding:7px 0;border-bottom:var(--hair) solid var(--line-soft);font-size:12.5px;align-items:baseline}
+.ev .tm{font-family:var(--f-display);font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+.ev .ti{font-weight:600;min-width:0}
+.ev .ti small{color:var(--faint);font-weight:400;margin-left:4px}
+.ev .imp{display:inline-flex;gap:2px;margin-right:6px;vertical-align:1px}
+.ev .imp i{width:5px;height:5px;border-radius:50%;background:var(--line)}
+.ev .imp i.on{background:var(--ink)}
+.ev .vals{grid-column:2/-1;font-family:var(--f-display);font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--faint);display:flex;gap:12px;flex-wrap:wrap}
+.ev .vals b{color:var(--ink);font-weight:700}
+.ev.done .ti{color:var(--ink)}
+
+@media (max-width:1080px){
+  body{overflow:auto;height:auto}
+  html{height:auto}
+  .app{height:auto;grid-template-columns:minmax(0,1fr);grid-template-rows:auto}
+  .stage{height:66vh;min-height:440px}
+  .pane{overflow:visible}
+}
+@media (max-width:560px){
+  .brand span{display:none}
+  .seg button{padding:6px 8px;font-size:12.5px}
+  .dock{flex-wrap:wrap}
+  .legend{width:100%}
+  .secs{flex-basis:100%;padding-left:0;border-left:0}
+  .kv{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .duo{grid-template-columns:minmax(0,1fr)}
+  .tip{width:220px}
+}
+</style>
+<div class="app" id="app">
+  <header class="top glass">
+    <div class="brand"><b>美股晨报 OS</b><span class="num" id="brand-sub">US Market Brief</span></div>
+    <div class="ctrls">
+      <label for="issue-pick" hidden>往期</label>
+      <select id="issue-pick" aria-label="选择日期"></select>
+      <div class="seg" role="group" aria-label="热力图口径" id="mode">
+        <button type="button" data-m="c" aria-pressed="true">前收</button>
+        <button type="button" data-m="pm">盘前</button>
+        <button type="button" data-m="w">近一周</button>
+        <button type="button" data-m="m">近一月</button>
+        <button type="button" data-m="ytd">年初至今</button>
+      </div>
+      <div class="seg" role="group" aria-label="涨跌配色">
+        <button type="button" id="ud-cn" aria-pressed="true" title="红涨绿跌"><i class="sw" style="background:var(--red-2)"></i>红涨</button>
+        <button type="button" id="ud-us" aria-pressed="false" title="绿涨红跌"><i class="sw" style="background:var(--green-2)"></i>绿涨</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="stage" id="stage" aria-label="标普 500 热力图">
+    <div id="map" role="img" aria-label="标普 500 成分股热力图，面积为市值，颜色为涨跌幅"></div>
+    <div class="tip glass" id="tip" hidden></div>
+    <div class="dock glass">
+      <div class="legend" id="legend"></div>
+      <div class="secs" id="secs" role="group" aria-label="板块"></div>
+    </div>
+  </section>
+
+  <aside class="panel glass" id="panel">
+    <nav class="tabs" role="tablist" aria-label="面板">
+      <button role="tab" data-t="sum" aria-selected="true" id="t-sum">总览</button>
+      <button role="tab" data-t="sec" id="t-sec">板块</button>
+      <button role="tab" data-t="mov" id="t-mov">异动</button>
+      <button role="tab" data-t="cal" id="t-cal">日历</button>
+      <button role="tab" data-t="br" id="t-br">宽度</button>
+      <button role="tab" data-t="how" id="t-how">方法</button>
+    </nav>
+    <div class="pane" id="p-sum" role="tabpanel" aria-labelledby="t-sum"></div>
+    <div class="pane" id="p-sec" role="tabpanel" aria-labelledby="t-sec" hidden></div>
+    <div class="pane" id="p-mov" role="tabpanel" aria-labelledby="t-mov" hidden></div>
+    <div class="pane" id="p-cal" role="tabpanel" aria-labelledby="t-cal" hidden></div>
+    <div class="pane" id="p-br" role="tabpanel" aria-labelledby="t-br" hidden></div>
+    <div class="pane" id="p-how" role="tabpanel" aria-labelledby="t-how" hidden></div>
+  </aside>
+</div>
+
+<script type="application/json" id="issues-data">[{"date":"2026-10-08","data":{"fetched":"2026-10-08T16:18:23.696Z","kind":"daily","status":"open","session":"2026-10-08","prev":"2026-10-07","next":"2026-10-09","delay":"15 分钟延迟","cols":["s","n","g","i","mc","p","c","pm","pv","w","m","ytd","rv","v","a50","a200","hi","lo","er","en"],"inds":["Advertising","Aerospace & Defense","Agricultural & Farm Machinery","Agricultural Products & Services","Air Freight & Logistics","Apparel Retail","Apparel, Accessories & Luxury Goods","Application Software","Asset Management & Custody Banks","Automobile Manufacturers","Automotive Parts & Equipment","Automotive Retail","Biotechnology","Broadcasting","Broadline Retail","Building Products","Cable & Satellite","Cargo Ground Transportation","Casinos & Gaming","Commodity Chemicals","Communications Equipment","Computer & Electronics Retail","Construction & Engineering","Construction Machinery & Heavy Transportation Equipment","Construction Materials","Consumer Electronics","Consumer Finance","Consumer Staples Merchandise Retail","Copper","Data Center REITs","Data Processing & Outsourced Services","Distillers & Vintners","Distributors","Diversified Banks","Diversified Support Services","Electric Utilities","Electrical Components & Equipment","Electronic Components","Electronic Equipment & Instruments","Electronic Manufacturing Services","Environmental & Facilities Services","Fertilizers & Agricultural Chemicals","Financial Exchanges & Data","Food Distributors","Food Retail","Footwear","Gas Utilities","Gold","Health Care Distributors","Health Care Equipment","Health Care Facilities","Health Care REITs","Health Care Services","Health Care Supplies","Health Care Technology","Heavy Electrical Equipment","Home Improvement Retail","Homebuilding","Homefurnishing Retail","Hotel & Resort REITs","Hotels, Resorts & Cruise Lines","Household Products","Human Resource & Employment Services","IT Consulting & Other Services","Independent Power Producers & Energy Traders","Industrial Conglomerates","Industrial Gases","Industrial Machinery & Supplies & Components","Industrial REITs","Insurance Brokers","Integrated Oil & Gas","Integrated Telecommunication Services","Interactive Home Entertainment","Interactive Media & Services","Internet Services & Infrastructure","Investment Banking & Brokerage","Leisure Products","Life & Health Insurance","Life Sciences Tools & Services","Managed Health Care","Metal, Glass & Plastic Containers","Movies & Entertainment","Multi-Family Residential REITs","Multi-Sector Holdings","Multi-Utilities","Multi-line Insurance","Office REITs","Oil & Gas Equipment & Services","Oil & Gas Exploration & Production","Oil & Gas Refining & Marketing","Oil & Gas Storage & Transportation","Other Specialized REITs","Other Specialty Retail","Packaged Foods & Meats","Paper & Plastic Packaging Products & Materials","Passenger Airlines","Passenger Ground Transportation","Personal Care Products","Pharmaceuticals","Property & Casualty Insurance","Publishing","Rail Transportation","Real Estate Services","Regional Banks","Reinsurance","Research & Consulting Services","Restaurants","Retail REITs","Self-Storage REITs","Semiconductor Materials & Equipment","Semiconductors","Single-Family Residential REITs","Soft Drinks & Non-alcoholic Beverages","Specialized Consumer Services","Specialty Chemicals","Steel","Systems Software","Technology Distributors","Technology Hardware, Storage & Peripherals","Telecom Tower REITs","Timber REITs","Tobacco","Trading Companies & Distributors","Transaction & Payment Processing Services","Water Utilities","Wireless Telecommunication Services"],"stocks":[["MMM","3M",6,65,83.5,161.86,-0.16,-0.93,969,-1.12,-3.75,1.1,0.21,0.63,0,1,0,0,null,null],["AOS","A. O. Smith",6,15,7.5,55.51,0.31,null,0,-1.14,-8.04,-17.22,0.23,0.34,0,0,0,0,null,null],["ABT","Abbott Laboratories",4,49,168.5,97.38,-1.37,-0.21,1954,-1.74,-10.14,-21.91,0.28,2.44,0,0,0,0,null,null],["ABBV","AbbVie",4,12,470.3,266.13,-1.93,-0.13,4681,2.16,5.67,16.34,0.27,1.25,1,1,0,0,null,null],["ACN","Accenture",0,63,121.7,198.9,1.15,0.69,11761,-7.91,7.89,-26,0.4,3.55,1,1,0,0,null,null],["ADBE","Adobe Inc.",0,7,90.9,233.59,0.35,0.12,39355,-5.02,-11.12,-33.39,0.37,1.5,0,0,0,0,null,null],["AMD","Advanced Micro Devices",0,110,1034.2,633.5,-1.91,-1.05,264988,3.39,29.57,189.4,0.39,7.54,1,1,0,0,null,null],["AES","AES Corporation",9,64,10.6,14.91,-0.13,-0.07,9970,0.07,0.81,2.76,0.5,4.29,1,1,0,0,null,null],["AFL","Aflac",5,77,56.9,113.49,0.67,null,0,1.57,-2.66,3.04,0.25,0.41,0,0,0,0,null,null],["A","Agilent Technologies",4,78,46.4,164.44,-2.75,-0.05,7286,-4.4,11.09,20.7,0.42,1,1,1,0,0,null,null],["APD","Air Products",8,66,61.6,276.82,-0.47,null,0,1.48,-7.37,12.86,0.17,0.18,0,0,0,0,null,null],["ABNB","Airbnb",2,60,97.3,162.49,1.16,-1.27,4426,0.83,-10.54,19.53,0.19,0.84,0,1,0,0,null,null],["AKAM","Akamai Technologies",0,74,14.6,101.46,-3.02,-0.2,34500,-5.33,-1.2,16.21,0.21,1.65,0,0,0,0,null,null],["ALB","Albemarle Corporation",8,114,11.9,100.86,-1.84,-0.52,11589,-3.11,-19.99,-29.85,0.32,0.64,0,0,0,0,null,null],["ARE","Alexandria Real Estate Equities",10,86,7.7,44.26,-2.1,0,1250,-6.21,-15.34,-9.28,0.21,0.42,0,0,0,0,null,null],["ALGN","Align Technology",4,53,9.8,138.25,-1.16,-1.07,200,-4.66,-11.45,-12.34,0.28,0.25,0,0,0,0,null,null],["ALLE","Allegion",6,15,12.6,148.64,0.49,null,0,-3.07,-5.58,-6.65,0.19,0.19,0,0,0,0,null,null],["LNT","Alliant Energy",9,35,16.9,65.05,-0.25,null,0,2.76,-4.14,0.06,0.12,0.42,0,0,0,0,null,null],["ALL","Allstate",5,99,57.4,227.01,1.36,null,0,1.78,-11.44,9.64,0.17,0.42,0,1,0,0,null,null],["GOOGL","Alphabet Inc. (Class A)",1,73,4253.2,349.17,-0.38,0.82,1013417,-0.46,4.1,10.18,0.4,9.84,1,1,0,0,null,null],["GOOG","Alphabet Inc. (Class C)",1,73,4251.7,345.94,-0.41,0.74,506658,-0.52,4.2,8.93,0.38,5.96,1,1,0,0,null,null],["MO","Altria",3,121,118.9,71.22,2.66,0.85,13334,5.55,3.58,23.53,0.66,4.5,1,1,0,0,null,null],["AMZN","Amazon",2,14,2785.4,258.23,-0.65,-0.09,364118,2.63,0.61,11.62,0.29,10.13,0,1,0,0,null,null],["AMCR","Amcor",8,94,18.9,40.84,-1.02,-1.02,915,-1.92,-8.7,-2.18,0.42,1.22,0,0,0,0,null,null],["AEE","Ameren",9,84,27.9,100.92,-0.39,null,0,2.13,-4.39,1.18,0.26,0.68,0,0,0,0,null,null],["AEP","American Electric Power",9,35,66.2,121.62,-0.38,0.16,848,2.86,-2.29,5.35,0.13,0.5,0,0,0,0,null,null],["AXP","American Express",5,26,203.8,301.8,-0.81,-1.07,5581,-0.4,-6.98,-18.32,0.3,1,0,0,0,0,null,null],["AIG","American International Group",5,85,40,76.41,0.99,null,0,2.51,1.42,-10.35,0.13,0.75,1,0,0,0,null,null],["AMT","American Tower",10,119,76.8,164.85,-0.8,-0.11,200,0.75,-7.56,-5.94,0.36,0.96,0,0,0,0,null,null],["AWK","American Water Works",9,124,25.1,126.55,-0.65,null,0,-1.94,-10.12,-2.83,0.19,0.35,0,0,0,0,null,null],["AMP","Ameriprise Financial",5,8,43.4,491.42,0.18,null,0,0.44,-11.91,0.29,0.19,0.12,0,0,0,0,null,null],["AME","Ametek",6,36,57,248.43,-0.08,null,0,0.07,4.53,20.6,0.22,0.32,1,1,0,0,null,null],["AMGN","Amgen",4,12,216.8,401.1,-2.9,-0.93,2103,-4.89,-1.91,22,0.19,0.52,0,1,0,0,null,null],["APH","Amphenol",0,37,212.9,86.34,-1.39,-1.31,16741,1.57,3.32,25.93,0.3,3.38,1,1,0,0,null,null],["ADI","Analog Devices",0,110,197.8,408.1,-0.48,-1.43,739,2.81,11.84,48.36,0.25,0.65,1,1,0,0,null,null],["AON","Aon plc",5,69,57.6,271.75,0.47,-0.17,40,-2.07,-14.21,-22.6,0.17,0.31,0,0,0,0,null,null],["APA","APA Corporation",7,88,16.1,46,4.99,3.06,40798,11.23,5.28,87.13,0.4,2.11,1,1,0,0,null,null],["APO","Apollo Global Management",5,8,67.8,114.77,-0.68,-0.53,240,-1.38,-13.09,-20.85,0.33,1.06,0,0,0,0,null,null],["AAPL","Apple Inc.",0,118,4934.4,338.11,0.43,0.07,198150,2.46,6.62,24.19,0.24,8.13,1,1,0,0,null,null],["AMAT","Applied Materials",0,109,412,519.11,-0.3,-2.05,43411,0.36,11.75,94.15,0.37,2.02,1,1,0,0,null,null],["APP","AppLovin",1,0,92.5,276.47,-1.71,-1.81,29650,-4.99,-13.44,-59.54,0.33,1.76,0,0,0,0,null,null],["APTV","Aptiv",2,10,9.1,43.75,-1.06,-0.9,482,1.74,-8.3,-32.78,0.2,0.58,0,0,0,0,null,null],["ACGL","Arch Capital Group",5,99,32.3,94.79,0.48,null,0,2.38,-2.15,-1.03,0.12,0.41,0,0,0,0,null,null],["ADM","Archer Daniels Midland",3,3,39.8,82.5,1.43,1.12,560,4.27,-3.51,43.63,0.2,0.6,1,1,0,0,null,null],["ARES","Ares Management",5,8,25.6,114.21,-1.33,null,0,-1.97,-18.06,-29.79,0.18,0.38,0,0,0,0,null,null],["ANET","Arista Networks",0,20,269.4,213.57,-1.05,-1.13,8950,4.34,8.51,59.32,0.36,1.62,1,1,1,0,null,null],["AJG","Arthur J. Gallagher & Co.",5,69,58.2,227.08,-0.01,null,0,-1.03,-11.88,-11.68,0.13,0.2,0,0,0,0,null,null],["AIZ","Assurant",5,85,13.3,269.4,1,null,0,2.24,-4.99,12.42,0.12,0.04,0,1,0,0,null,null],["T","AT&T",1,71,168.5,24.59,0.49,0.61,36483,0.78,-3.72,-0.81,0.31,9.77,0,0,0,0,null,null],["ATO","Atmos Energy",9,46,26.9,158.9,-0.19,null,0,1.85,-4.96,-4.94,0.2,0.21,0,0,0,0,null,null],["ADSK","Autodesk",0,7,48.4,231.65,-1.45,-0.45,1324,8.29,7.93,-21.74,0.2,0.43,0,0,0,0,null,null],["ADP","Automatic Data Processing",6,62,105.2,265.43,0.54,null,0,0.74,-3.24,3.27,0.22,0.39,0,1,0,0,null,null],["AZO","AutoZone",2,11,47.1,2882.39,1.27,0.34,10,1.67,-3.11,-14.6,0.09,0.03,0,0,0,0,null,null],["AVY","Avery Dennison",8,94,12.5,165.36,-0.97,-0.09,384,-2.49,-4.86,-9,0.14,0.1,0,0,0,0,null,null],["AXON","Axon Enterprise",6,1,33,405.64,-0.09,-0.74,22139,-4.93,-19.84,-29.25,0.29,0.3,0,0,0,0,null,null],["BKR","Baker Hughes",7,87,56,56.37,1.73,1.57,12315,3.33,-11.64,23.29,0.28,1.75,0,0,0,0,null,null],["BALL","Ball Corporation",8,80,15.3,57.77,0.5,-0.5,1918,3.65,-7.09,8.87,0.29,0.66,0,0,0,0,null,null],["BAC","Bank of America",5,33,366.1,52.36,-2.18,-0.99,125047,-2.88,-16.22,-4.86,0.6,21.13,0,0,0,0,null,"2026-10-14"],["BAX","Baxter International",4,49,12.2,23.64,-1.4,-0.6,3425,-1.32,-7.64,22.46,0.14,0.97,0,1,0,0,null,null],["BDX","Becton Dickinson",4,49,48.9,179.39,-0.43,null,0,0.16,-1.3,17.49,0.25,0.41,0,1,0,0,null,null],["BRK.B","Berkshire Hathaway",5,83,975.3,506.51,0.05,-0.03,7869,1.87,0.7,1.11,0.28,1.08,0,1,0,0,null,null],["BBY","Best Buy",2,21,18.3,87.39,3.3,-0.54,1030,0.2,-2.69,29.61,0.4,1.21,0,1,0,0,null,null],["TECH","Bio-Techne",4,78,11.4,72.44,-0.12,0.03,9985,-0.08,0.1,23.18,1.08,3.04,1,1,0,0,null,null],["BIIB","Biogen",4,12,32,216.71,-2.45,-0.07,1025,-3.9,0.58,23.57,0.26,0.31,1,1,0,0,null,null],["BLK","BlackRock",5,8,172.1,1059.33,-0.96,-0.81,663,-0.11,-4.37,-1.13,0.25,0.13,0,0,0,0,null,"2026-10-14"],["BX","Blackstone Inc.",5,8,138.5,111.53,-0.27,-0.88,3698,-1.08,-17.74,-28.11,0.22,1.18,0,0,0,0,null,null],["XYZ","Block, Inc.",5,123,44.3,73.78,-3.01,-1.5,5195,0.15,-9.57,12.26,0.51,2.03,0,1,0,0,null,null],["BE","Bloom Energy",6,36,81.2,275.65,-5.37,-2.71,200772,-3.15,2.95,204.35,0.41,5.89,1,1,0,0,null,null],["BNY","BNY Mellon",5,8,96.3,141.93,-0.55,-0.84,506,-1.2,-13.42,22.34,0.25,0.9,0,1,0,0,null,"2026-10-15"],["BA","Boeing",6,1,146.8,185.74,-1.37,-1.23,104070,-0.14,-12.43,-14.86,0.31,3.18,0,0,0,0,null,null],["BKNG","Booking Holdings",2,60,117.3,156.12,0.16,-0.83,28851,-4.5,-18.51,-27.14,0.23,1.81,0,0,0,0,null,null],["BSX","Boston Scientific",4,49,60.4,41.66,0.19,-0.46,33776,-4.25,-12.17,-56.48,0.33,5.47,0,0,0,1,null,null],["BMY","Bristol Myers Squibb",4,98,120.6,59.04,-1.11,-1.14,8163,-5.09,-10.09,10.95,0.21,2.77,0,0,0,0,null,null],["AVGO","Broadcom",0,110,1773.4,371.5,-1.33,-1.52,404985,5.49,2.15,5.31,0.34,7.49,0,1,0,0,null,null],["BR","Broadridge Financial Solutions",6,30,18.2,160.93,0.5,null,0,-1.33,-6.44,-27.89,0.23,0.19,0,0,0,0,null,null],["BRO","Brown & Brown",5,69,20.8,62.08,0.58,null,0,0.93,-11.35,-22.18,0.32,0.7,0,0,0,0,null,null],["BF.B","Brown–Forman",3,31,12.2,26.36,1.6,null,0,0.94,-1.7,0.86,0.15,0.28,0,0,0,0,null,null],["BG","Bunge Global",3,3,20.7,107.72,2.09,1.35,1067,1,-11.4,20.76,0.28,0.46,0,0,0,0,null,null],["BXP","BXP, Inc.",10,86,9.3,58.42,-1.68,null,0,-3.95,-13.19,-13.54,0.17,0.21,0,0,0,0,null,null],["CHRW","C.H. Robinson",6,4,24.7,138.18,2.22,null,0,-6.75,-7.56,-14.37,0.24,0.59,0,0,0,0,null,null],["CDNS","Cadence Design Systems",0,7,97.5,353.95,-0.61,-1.15,950,4.3,21.49,12.12,0.14,0.32,1,1,0,0,null,null],["CPT","Camden Property Trust",10,82,13,96.18,0.4,-0.05,100,-0.39,-9.05,-12.32,0.11,0.14,0,0,0,1,null,null],["COF","Capital One",5,26,119.9,195.45,-0.24,-0.74,1243,1.81,-10.11,-20.01,0.34,1.15,0,0,0,0,null,null],["CAH","Cardinal Health",4,48,53.8,232.44,0.12,null,0,2.15,-4.7,13.62,0.13,0.25,0,1,0,0,null,null],["CCL","Carnival Corporation",2,60,34.7,25.83,-1.21,-2.03,482779,4.76,11.01,-15.83,0.17,5.31,1,0,0,0,null,null],["CARR","Carrier Global",6,15,45.7,55.42,0.76,-1.52,950,1.09,-7.59,4.35,0.17,0.98,0,0,0,0,null,null],["CVNA","Carvana",2,11,69.2,62.87,0.17,-0.97,27053,1.3,-16.18,-25.46,0.18,1.5,0,0,0,0,null,null],["CASY","Casey's",3,44,23.8,643.29,1.58,0.79,815,5.51,-14.76,16.57,0.25,0.15,0,0,0,0,null,null],["CAT","Caterpillar Inc.",6,23,371.4,807.97,-0.72,-0.92,19879,-0.32,-1.87,39.89,0.33,0.75,0,1,0,0,null,null],["CBOE","Cboe Global Markets",5,42,30.5,292.06,3.73,null,0,6.61,-0.82,16.38,0.41,0.54,1,1,0,0,null,null],["CBRE","CBRE Group",10,102,36.8,127.08,-0.37,null,0,-1.49,-12.74,-20.73,0.2,0.45,0,0,0,0,null,null],["CDW","CDW Corporation",0,117,17.2,137.65,0.61,null,0,5.77,-9.44,0.33,0.27,0.34,0,1,0,0,null,null],["COR","Cencora",4,48,60.3,315.94,-0.41,-0.39,82,4.21,-3.54,-6.3,0.16,0.21,0,0,0,0,null,null],["CNC","Centene Corporation",4,79,31.7,64.1,-1.38,-0.6,1369,3.68,-3.12,55.65,0.18,0.8,0,1,0,0,null,null],["CNP","CenterPoint Energy",9,84,25.2,38.22,-0.82,null,0,4.27,-3.64,-0.3,0.2,1.46,0,0,0,0,null,null],["CF","CF Industries",8,41,17.3,114.54,0.09,1.52,3561,0.18,-14.56,47.83,0.38,0.89,0,1,0,0,null,null],["CRL","Charles River Laboratories",4,78,13.8,289.57,-3.57,null,0,-0.78,1.39,44.69,0.37,0.39,1,1,0,0,null,null],["SCHW","Charles Schwab Corporation",5,75,165.3,95.61,0.03,-0.08,1988,-1.82,-12.28,-4.17,0.25,1.85,0,0,0,0,null,"2026-10-15"],["CHTR","Charter Communications",1,16,19,107.9,0.88,0.22,1485,-3.13,-28.99,-48.48,0.23,0.7,0,0,0,0,null,null],["CVX","Chevron Corporation",7,70,417.9,211.49,3.09,2.06,26423,4.02,0.11,38.99,0.36,2.5,1,1,0,0,null,null],["CMG","Chipotle Mexican Grill",2,106,41.4,32.72,6.32,-0.88,25287,2.4,-10.98,-12.17,2.03,35.81,0,0,0,0,null,null],["CB","Chubb Limited",5,99,130.5,338.27,1.07,0.09,40,4,-0.51,8.96,0.15,0.24,0,1,0,0,null,null],["CHD","Church & Dwight",3,61,23.1,97.21,0.48,null,0,3.64,-0.45,16.39,0.18,0.32,0,1,0,0,null,null],["CIEN","Ciena",0,20,61.6,434.29,-2.72,-2.34,28878,22.27,32.64,80.2,0.44,1.19,1,1,0,0,null,null],["CI","Cigna",4,52,73.2,276.96,-0.56,0.52,288,0.36,-0.77,0.11,0.16,0.29,0,0,0,0,null,null],["CINF","Cincinnati Financial",5,99,25,162.62,0.62,0.01,126,1.73,-3.1,-0.43,0.14,0.09,0,0,0,0,null,null],["CTAS","Cintas",6,34,79.5,198.33,0.58,0.19,200,1.45,-0.02,5.73,0.11,0.22,0,1,0,0,null,null],["CSCO","Cisco",0,20,458.2,116.23,-0.99,-0.8,14407,7.58,6.27,51.65,0.16,2.93,1,1,0,0,null,null],["C","Citigroup",5,33,210.9,125.75,-1.23,-0.75,17317,-1.72,-8.33,7.29,0.3,2.64,0,0,0,0,null,"2026-10-13"],["CFG","Citizens Financial Group",5,103,26.3,62.43,-1.02,-0.27,745,-1.35,-11.57,6.78,0.39,1.74,0,0,0,0,null,"2026-10-16"],["CLX","Clorox",3,61,9.9,82.1,-0.14,0.26,5719,1.85,-11.54,-18.8,0.22,0.62,0,0,0,0,null,null],["CME","CME Group",5,42,99.6,276.97,2.48,0.78,893,4.94,-1.36,1.74,0.45,0.72,1,0,0,0,null,null],["CMS","CMS Energy",9,84,20.3,64.76,-0.48,0.37,100,2.86,-5.16,-7.37,0.1,0.49,0,0,0,0,null,null],["KO","Coca-Cola Company (The)",3,112,374.5,87.04,1.42,0.45,62086,0.93,-0.59,24.6,0.21,3.27,0,1,0,0,null,null],["CTSH","Cognizant",0,63,25.6,56.79,-0.49,0.32,2965,-8.26,-8.96,-31.57,0.59,4.04,0,0,0,0,null,null],["COHR","Coherent Corp.",0,37,62,316.45,-5.41,-4.4,99197,9.12,12.6,68.33,0.48,3.13,1,1,0,0,null,null],["COIN","Coinbase",5,42,45.9,173.85,-2.58,-2,129108,-6.54,-3.78,-24.61,0.46,3.37,0,0,0,0,null,null],["CL","Colgate-Palmolive",3,61,69.9,87.67,0.53,0.01,128,3.4,-0.42,11.07,0.23,1.09,0,0,0,0,null,null],["CMCSA","Comcast",1,16,74.2,20.92,-0.1,-0.14,35180,-4.74,-20.49,-25.28,0.23,6.76,0,0,0,1,null,null],["FIX","Comfort Systems USA",6,22,60.7,1724.11,-0.99,-1.51,663,3.99,5.19,83.73,0.26,0.08,1,1,0,0,null,null],["COP","ConocoPhillips",7,88,161.1,134.12,3.3,2.23,9808,7.86,-1.49,43.28,0.32,1.86,1,1,0,0,null,null],["ED","Consolidated Edison",9,84,38.6,104.7,0.06,null,0,1.98,-2.21,5.09,0.13,0.35,0,0,0,0,null,null],["STZ","Constellation Brands",3,31,20.8,122.06,3.1,-1.09,6087,7.92,-4.64,-11.81,0.58,1.55,0,0,0,0,"2026-10-06",null],["CEG","Constellation Energy",9,35,103.3,291.55,-2.68,-0.61,24142,11.49,-4.09,-18.56,0.49,2.16,1,1,0,0,null,null],["COO","Cooper Companies (The)",4,53,10.2,53.82,-1.7,-1.37,2000,-4.68,-21.49,-34.44,0.25,1.14,0,0,0,0,null,null],["CPRT","Copart",6,34,24.9,26.84,0.81,-0.08,5785,-2.49,-19.1,-31.45,0.21,1.9,0,0,0,0,null,null],["GLW","Corning Inc.",0,37,135.5,157.31,-3.64,-3.15,94709,2.22,-1.22,76.93,0.38,2.62,1,1,0,0,null,null],["CPAY","Corpay",5,123,26.1,397.61,-1.2,null,0,2.31,-3.42,31.81,0.4,0.21,0,1,0,0,null,null],["CSGP","CoStar Group",10,102,11.6,28.66,3.82,-1.12,960,2.69,-6.19,-57.3,0.26,1.37,0,0,0,0,null,null],["COST","Costco",3,27,420.1,947.76,0.58,1.14,15788,4.05,3.88,10.06,0.24,0.59,1,0,0,0,null,null],["CRH","CRH plc",8,24,53.9,81.04,-0.52,-0.38,1420,-1.35,-12.66,-35.43,0.21,1.28,0,0,0,0,null,null],["CRWD","CrowdStrike",0,116,272.5,266.09,0.25,-0.14,59427,0.94,26.8,124.55,0.52,3.88,1,1,0,0,null,null],["CCI","Crown Castle",10,119,28.9,67.87,-1.65,-0.2,1063,1.5,-9.88,-23.61,0.18,0.63,0,0,0,0,null,null],["CSX","CSX Corporation",6,101,86.9,46.94,0.27,0.51,1190,1.52,-4.18,28.96,0.24,2.27,0,1,0,0,null,null],["CMI","Cummins",6,23,71.2,517.52,0.04,-0.65,259,0.49,-8.41,1.39,0.35,0.36,0,0,0,0,null,null],["CVS","CVS Health",4,52,112.4,87.85,-0.12,0.06,3864,2.77,-8.33,10.8,0.21,2,0,0,0,0,null,null],["DHR","Danaher Corporation",4,78,149.7,212.94,-2.54,-0.22,967,-3.78,3.87,-6.94,0.49,2.15,1,1,0,0,null,null],["DRI","Darden Restaurants",2,106,22.6,200.1,-0.69,-0.24,300,3.15,-7.56,8.43,0.17,0.24,0,0,0,0,null,null],["DDOG","Datadog",0,7,99.8,277.99,2.45,0.39,171673,-0.27,34.29,102.54,0.29,0.84,1,1,0,0,null,null],["DVA","DaVita",4,52,11.3,176.82,0.02,null,0,1.2,-3.46,55.54,0.2,0.11,0,1,0,0,null,null],["DECK","Deckers Brands",2,45,11.1,81.46,1.34,0.53,2471,3.56,-4.95,-21.88,0.19,0.59,0,0,0,0,null,null],["DE","Deere & Company",6,2,173.5,643.59,-2.02,-1.2,297,-3.14,-6.35,38.11,0.39,0.44,0,1,0,0,null,null],["DELL","Dell Technologies",0,118,368.8,580.12,0.2,-1.84,60012,7.23,11.32,351.81,0.38,2.29,1,1,0,0,null,null],["DAL","Delta Air Lines",6,95,53.5,81.35,-1.95,-1.29,139264,-2.89,2.7,16.46,0.37,2.64,0,1,0,0,null,"2026-10-09"],["DVN","Devon Energy",7,88,53.9,48.96,2.26,2.65,56229,6.37,0.64,33.48,0.36,3.46,1,1,0,0,null,null],["DXCM","Dexcom",4,49,31.7,84.05,-0.3,-0.34,752,-2.79,-2.93,26.14,0.26,0.74,0,1,0,0,null,null],["FANG","Diamondback Energy",7,88,53.3,190.51,3.32,1.51,6225,3.98,-5.61,26.09,0.28,0.62,0,1,0,0,null,null],["DLR","Digital Realty",10,29,65.6,176.72,-2.08,null,0,1.08,-5.82,14.28,0.3,0.5,0,0,0,0,null,null],["DG","Dollar General",3,27,27.2,123.28,0.93,-0.02,100,2.71,-6.94,-7.16,0.15,0.34,0,0,0,0,null,null],["DLTR","Dollar Tree",3,27,22.1,117.89,1.36,null,0,2.58,-9.21,-3.9,0.31,0.66,0,1,0,0,null,null],["D","Dominion Energy",9,84,53.9,61.3,-0.37,-0.11,300,1.68,-7.01,4.06,0.17,0.72,0,0,0,0,null,null],["DPZ","Domino's",2,106,10.1,304.08,0.32,-0.4,459,1.45,-11.04,-27.03,0.31,0.21,0,0,0,0,null,"2026-10-13"],["DASH","DoorDash",2,113,81.8,188.74,-1.31,-0.28,140,2.75,-9.67,-17.84,0.13,0.52,0,1,0,0,null,null],["DOV","Dover Corporation",6,67,25.4,188.26,-0.02,null,0,1.08,-2.31,-3.55,0.11,0.13,0,0,0,0,null,null],["DOW","Dow Inc.",8,19,20.5,28.35,2.07,2.09,14136,4.79,-4.72,20.36,0.34,2.93,0,0,0,0,null,null],["DHI","D. R. Horton",2,57,37.4,133.56,0.21,-1.11,1551,-1.25,-5.28,-7.47,0.2,0.67,0,0,0,0,null,null],["DTE","DTE Energy",9,84,26.4,126.63,-0.48,null,0,4.36,-6.89,-2.1,0.08,0.16,0,0,0,0,null,null],["DUK","Duke Energy",9,35,89.7,115.05,-0.39,0,100,1.32,-4.29,-1.82,0.23,1,0,0,0,0,null,null],["DD","DuPont",6,65,17.6,130.03,-0.8,-0.11,1110,0.83,-1.04,7.18,0.33,0.26,0,0,0,0,null,null],["ETN","Eaton Corporation",6,36,169.1,435.35,0.93,-1.7,6765,1.33,2.75,34.7,0.47,0.83,1,1,0,0,null,null],["EBAY","eBay Inc.",2,14,48.5,109.07,1.37,0.69,800,1.83,6.27,25.37,0.15,0.47,1,1,0,0,null,null],["ECHO","EchoStar",1,125,27.3,93.78,-4.01,-1.72,587,4.88,0.19,-13.71,0.57,2.18,1,0,0,0,null,null],["ECL","Ecolab",8,114,78.3,279.39,0.46,null,0,2.46,0.7,6.96,0.18,0.21,1,1,0,0,null,null],["EIX","Edison International",9,35,20.7,53.88,-0.98,-0.39,4552,1.06,-4.7,-10.76,0.27,1.42,0,0,0,0,null,null],["EW","Edwards Lifesciences",4,49,47.7,82.83,-3.44,null,0,-3.64,-6.97,-3.04,0.84,2.91,0,0,0,0,null,null],["ELV","Elevance Health",4,79,87.2,401.89,-0.6,null,0,3.58,0.22,14.58,0.14,0.15,1,1,0,0,null,null],["EME","Emcor",6,22,34.5,782.51,-0.27,-1.73,290,3.71,3.24,26.93,0.2,0.07,1,1,0,0,null,null],["EMR","Emerson Electric",6,36,88.2,158.06,-0.73,-1.08,325,3.07,3.19,18.64,0.3,0.83,1,1,0,0,null,null],["ETR","Entergy",9,35,48.8,102.16,-0.62,null,0,3.43,-4.78,10.36,0.24,0.72,0,0,0,0,null,null],["EOG","EOG Resources",7,88,77.6,147.97,2.61,2.59,1861,7.23,-0.68,40.92,0.29,0.81,1,1,0,0,null,null],["EQT","EQT Corporation",7,88,33.1,52.88,1.09,1.03,9671,9.3,-4.46,-0.88,0.24,1.76,1,0,0,0,null,null],["EFX","Equifax",6,105,16.7,142.18,-0.18,4.46,130,1.6,-20.88,-34.34,0.11,0.25,0,0,0,0,null,null],["EQIX","Equinix",10,29,100,1013.94,-1.73,null,0,0.72,-0.83,32.34,0.23,0.11,0,1,0,0,null,null],["ERIE","Erie Indemnity",5,69,10.3,220.62,1.31,-0.35,290,-0.26,-11.63,-22.59,0.4,0.06,0,0,0,0,null,null],["ESS","Essex Property Trust",10,82,17.2,267.94,-0.04,null,0,-0.35,-3.11,3.44,0.12,0.07,0,0,0,0,null,null],["EL","Estée Lauder Companies (The)",3,97,34.1,94.09,-0.39,null,0,2.57,-10.12,-10.92,0.15,0.44,0,1,0,0,null,null],["EG","Everest Group",5,104,14.1,366.49,1.16,null,0,0.96,-2.25,8.37,0.22,0.08,0,1,0,0,null,null],["EVRG","Evergy",9,35,18.4,79.84,-0.57,null,0,1.86,-1.98,10.38,0.11,0.29,0,0,0,0,null,null],["P","Everpure",0,118,51.4,154.37,1.12,-0.6,23539,16.83,53.6,125.58,0.44,2.36,1,1,1,0,null,null],["ES","Eversource Energy",9,35,24.5,65.06,-0.28,-0.09,202,0.87,-8.33,-4.03,0.27,0.75,0,0,0,0,null,null],["EXC","Exelon",9,35,42.6,41.23,-0.63,0.27,21577,2.52,-5.22,-5.35,0.14,1.42,0,0,0,0,null,null],["EXE","Expand Energy",7,88,20.5,88.49,0.41,1.03,3305,4.72,-10.17,-19.54,0.16,0.5,0,0,0,0,null,null],["EXPE","Expedia Group",2,60,31.6,263.69,1.86,null,0,-0.36,-11.07,-6.83,0.24,0.44,0,1,0,0,null,null],["EXPD","Expeditors International",6,4,25,192.28,0.75,-0.43,200,2.6,2.12,28.93,0.18,0.19,1,1,0,0,null,null],["EXR","Extra Space Storage",10,108,27.6,130.79,-0.69,null,0,-0.28,-5.56,0.57,0.28,0.38,0,0,0,0,null,null],["XOM","ExxonMobil",7,70,693.6,168.69,2.83,1.94,63242,4.45,5.03,40.47,0.38,4.25,1,1,0,0,null,null],["FFIV","F5, Inc.",0,20,26.4,465.46,-0.26,-0.9,48,3.68,19.19,81.94,0.27,0.14,1,1,0,0,null,null],["FDS","FactSet",5,42,9.9,279.39,2.42,null,0,0.85,-7.69,-3.17,0.16,0.13,0,1,0,0,null,null],["FICO","Fair Isaac",0,7,15,696.56,2.17,0.28,1964,9.69,-24.33,-58.81,0.36,0.61,0,0,0,0,null,null],["FAST","Fastenal",6,122,57.6,50.19,0.71,-0.14,3053,1.55,1.47,24.65,0.21,1.49,1,1,0,0,null,"2026-10-14"],["FRT","Federal Realty Investment Trust",10,107,9.2,105.02,-0.09,-0.13,100,-1.62,-9.99,5.71,0.17,0.18,0,0,0,0,null,null],["FDX","FedEx",6,4,68,287.27,-0.61,null,0,-0.11,-10.23,23.47,0.17,0.28,0,0,0,0,null,null],["FDXF","FedEx Freight",6,17,17,113.53,0.04,null,0,4.07,-13.02,-15.9,0.24,0.39,0,null,0,0,null,null],["FERG","Ferguson Enterprises",6,122,41.5,214.77,-0.13,null,0,-3.37,-6.3,-3.76,0.21,0.32,0,0,0,0,null,null],["FIS","Fidelity National Information Services",5,123,17.3,33.63,-0.58,-0.15,4222,1.16,-18.86,-49.44,0.12,0.84,0,0,0,0,null,null],["FITB","Fifth Third Bancorp",5,103,45.2,49.85,-0.55,-0.24,11337,-0.92,-9.06,6.39,0.17,1.18,0,0,0,0,null,null],["FSLR","First Solar",0,110,19.1,177.84,-1.27,-0.9,4501,1.91,-13.86,-33.11,0.2,0.52,0,0,0,0,null,null],["FE","FirstEnergy",9,35,25.7,44.5,-0.18,null,0,3.28,-4.59,-0.8,0.19,0.94,0,0,0,0,null,null],["FISV","Fiserv",5,123,24,45.09,-0.49,-0.82,16973,-1.01,-14.21,-33.23,0.22,1.46,0,0,0,0,null,null],["FLEX","Flex Ltd.",0,39,43.2,116.81,-2.12,-1.12,1426,4.84,5.45,90.11,0.32,0.84,1,1,0,0,null,null],["F","Ford Motor Company",2,9,48,12.05,-0.62,-0.74,252422,0.37,-17.5,-8.61,0.2,8.47,0,0,0,0,null,null],["FTNT","Fortinet",0,116,139.9,190.66,0.73,0.3,6928,6.49,24.26,138.41,0.26,0.84,1,1,0,0,null,null],["FTV","Fortive",6,67,16.9,55.99,-0.95,null,0,2.14,-0.95,1.18,0.15,0.32,0,0,0,0,null,null],["FOXA","Fox Corporation (Class A)",1,13,25.2,63.26,0.89,null,0,0.99,-2.79,-13.5,0.16,0.66,0,1,0,0,null,null],["FOX","Fox Corporation (Class B)",1,13,25.2,56.5,0.92,null,0,0.24,-2.66,-13.02,0.16,0.15,0,0,0,0,null,null],["BEN","Franklin Resources",5,8,16.3,32.13,-1.08,-1.45,200,0.25,-6.82,33.99,0.41,1.77,0,1,0,0,null,null],["FCX","Freeport-McMoRan",8,28,101.7,70.81,-1.46,-1.68,99863,3.24,-6.8,36.9,0.22,2.5,0,1,0,0,null,null],["GRMN","Garmin",2,25,51.1,265.16,-3.98,null,0,-7.5,-3.22,30.19,0.48,0.35,0,1,0,0,null,null],["IT","Gartner",0,63,12,190.44,2.51,null,0,-2.93,3.55,-23.94,0.23,0.19,1,1,0,0,null,null],["GE","GE Aerospace",6,1,313.3,301.96,-0.55,-1.34,14254,-2.65,-10.69,-2.51,0.43,1.75,0,0,0,0,null,null],["GEHC","GE HealthCare",4,49,28.7,63.57,-1.71,-0.4,100,-2.76,-6.45,-23.03,0.24,0.9,0,0,0,0,null,null],["GEV","GE Vernova",6,55,268.7,1008.76,1.17,-1.01,10693,6.47,6.12,52.57,0.44,0.85,1,1,0,0,null,null],["GEN","Gen Digital",0,116,13.5,22.55,0.69,-0.4,2185,0.24,-25.89,-17.21,0.14,2.63,0,0,0,0,null,null],["GNRC","Generac",6,55,13.4,226.31,2.24,2.15,30604,9.86,20.2,64.01,0.72,0.72,1,1,0,0,null,null],["GD","General Dynamics",6,1,88.4,326.71,0.02,0.11,4169,-1.39,-8.92,-2.92,0.28,0.4,0,0,0,0,null,null],["GIS","General Mills",3,93,17.1,31.97,0.61,0.09,34112,-0.62,-17.3,-31.23,0.35,4.22,0,0,0,0,null,null],["GM","General Motors",2,9,71.1,81.02,0.04,-0.85,2747,5.91,-7.28,-0.48,0.18,1.39,0,1,0,0,null,null],["GPC","Genuine Parts Company",2,32,17.3,125.18,-0.18,0.07,110,0.15,-7.75,1.67,0.21,0.16,0,1,0,0,null,null],["GILD","Gilead Sciences",4,12,179.8,145.05,-1.23,null,0,-2.94,-1.32,18.41,0.25,1.28,1,1,0,0,null,null],["GPN","Global Payments",5,123,21.4,81.06,-0.02,0.62,9061,-1.15,-10.57,4.46,0.26,0.57,0,1,0,0,null,null],["GL","Globe Life",5,77,12.7,164.87,0.89,null,0,-1.61,-4.8,18.08,0.1,0.05,0,1,0,0,null,null],["GDDY","GoDaddy",0,74,12.9,101.72,4.64,0.08,14416,4.33,1,-17.71,0.2,0.53,1,1,0,0,null,null],["GS","Goldman Sachs",5,75,256.5,880.94,-0.71,-1.18,15393,-1.69,-15.34,-0.35,0.22,0.45,0,0,0,0,null,"2026-10-13"],["HAL","Halliburton",7,87,27.1,32.49,2.31,1.51,13478,2.48,-13.23,14.63,0.22,2.12,0,0,0,0,null,null],["HIG","Hartford (The)",5,99,34.6,127.85,0.73,null,0,6.17,-6.21,-6.8,0.18,0.34,0,0,0,0,null,null],["HAS","Hasbro",2,76,13,91.87,1.23,null,0,4.78,-0.05,12.04,0.14,0.26,0,1,0,0,null,null],["HCA","HCA Healthcare",4,50,95.5,441.02,0.42,0.1,662,3.22,9.83,-5.32,0.26,0.28,1,0,0,0,null,null],["DOC","Healthpeak Properties",10,51,13,18.43,-1.26,-0.21,2051,-7.37,-10.12,14.87,0.28,1.6,0,0,0,0,null,null],["HSIC","Henry Schein",4,48,9.2,82.94,-0.87,-5.07,19324,-1.22,-7.34,9.63,0.7,0.86,0,1,0,0,null,null],["HSY","Hershey Company (The)",3,93,32.6,162.11,1.1,0.99,531,3.45,-6.02,-10.92,0.15,0.22,0,0,0,0,null,null],["HPE","Hewlett Packard Enterprise",0,118,94.7,71.35,-1.03,-2.21,204117,8.81,36.35,193.66,0.32,6.32,1,1,0,0,null,null],["HLT","Hilton Worldwide",2,60,72.4,321.54,0.32,null,0,1.13,4.39,12.09,0.18,0.26,1,1,0,0,null,null],["HD","Home Depot (The)",2,56,289.3,290,1.48,-0.58,5944,2.43,-9.58,-15.56,0.28,1.61,0,0,0,0,null,null],["HONA","Honeywell Aerospace",6,1,48.6,153.37,0.2,-1.25,1453,-1.16,-3.32,-23.31,0.29,0.71,0,null,0,0,null,null],["HON","Honeywell Technologies",6,65,64.9,204.87,-1.56,-1,1454,-2.88,-1.98,-0.13,0.22,0.48,0,0,0,0,null,null],["HRL","Hormel Foods",3,93,10.7,19.48,-0.38,0,5069,-2.14,-9.84,-18.17,0.33,1.85,0,0,0,1,null,null],["HST","Host Hotels & Resorts",10,59,15.3,22.27,0.11,-0.13,423,-0.78,1.34,25.44,0.18,1.53,0,1,0,0,null,null],["HWM","Howmet Aerospace",6,1,89,223.12,0.17,-0.92,1737,-1.12,-8.11,8.58,0.34,0.78,0,0,0,0,null,null],["HPQ","HP Inc.",0,118,29.1,32.24,0.02,-0.28,10084,2.01,0.2,43.06,0.2,2.38,1,1,0,0,null,null],["HUBB","Hubbell Incorporated",6,67,25.4,480.53,1.08,-1.25,212,5.62,4.08,7.32,0.56,0.25,1,0,0,0,null,null],["HUM","Humana",4,79,46,382.72,-3.48,null,0,0.72,-3.24,49.48,0.61,0.89,0,1,0,0,null,null],["HBAN","Huntington Bancshares",5,103,30.4,15.07,-0.69,-0.46,2036,-0.89,-11.17,-13.32,0.19,5.81,0,0,0,0,null,null],["HII","Huntington Ingalls Industries",6,1,10.3,262.65,0.76,0.74,432,-2.39,-8.48,-22.77,0.17,0.1,0,0,0,0,null,null],["IBM","IBM",0,63,206.9,219.63,-0.4,-0.34,19157,-4.82,-5.72,-26.19,0.32,1.66,0,0,0,0,null,null],["IEX","IDEX Corporation",6,67,17,230.7,-0.95,null,0,1.76,2.17,29.58,0.32,0.22,1,1,0,0,null,null],["IDXX","Idexx Laboratories",4,49,40.2,509.95,0.65,null,0,-2.23,-3.5,-24.62,0.4,0.19,0,0,0,0,null,null],["ITW","Illinois Tool Works",6,67,74.6,262.1,0.36,null,0,2.13,-2.48,6.26,0.21,0.32,0,0,0,0,null,null],["ILMN","Illumina, Inc.",4,78,39.2,259.57,-3.06,-1.68,4011,-4.99,18.71,97.65,0.33,1.09,1,1,0,0,null,null],["INCY","Incyte",4,12,22.3,110.18,-2.88,0.49,338,-8.55,-11.22,12.14,0.35,0.62,0,1,0,0,null,null],["IR","Ingersoll Rand",6,67,30.3,77.99,0.97,-0.14,609,4.11,3.3,-2.3,0.27,1.34,0,0,0,0,null,null],["PODD","Insulet Corporation",4,49,9.3,133.6,-0.57,null,0,1.38,-9.36,-53.2,0.18,0.32,0,0,0,0,null,null],["INTC","Intel",0,110,576.4,109.05,-3.6,-2.32,2822400,-8.16,8.18,188.71,0.45,43.58,1,1,0,0,null,null],["IBKR","Interactive Brokers",5,75,148.3,87.18,-0.64,-0.51,3419,2.05,-5,33.27,0.15,0.57,0,1,0,0,null,"2026-10-15"],["ICE","Intercontinental Exchange",5,42,86.3,153.73,0.75,-0.38,100,0.71,-3.92,-4.72,0.21,0.5,0,0,0,0,null,null],["IFF","International Flavors & Fragrances",8,114,21.5,84.34,0.27,null,0,1.61,-1.47,24.89,0.21,0.39,0,1,0,0,null,null],["IP","International Paper",8,94,16.7,31.46,-1.15,-0.97,890,-3.95,-14.29,-20.41,0.16,0.86,0,0,0,0,null,null],["INTU","Intuit",0,7,78.9,295.33,-0.64,-0.67,18632,3.72,-9.43,-55.29,0.29,1.08,0,0,0,0,null,null],["ISRG","Intuitive Surgical",4,49,146.5,414.75,0.06,-0.36,4011,1.39,14.79,-26.82,0.37,0.69,1,0,0,0,null,null],["IVZ","Invesco",5,8,13.2,30,-1.66,null,0,-0.48,-9.11,13.49,0.14,0.7,0,1,0,0,null,null],["INVH","Invitation Homes",10,111,15.5,26.21,1.33,0.58,259,-0.13,-7.44,-5.29,0.41,2.18,0,0,0,0,null,null],["IQV","IQVIA",4,78,41.6,252.98,-1.99,null,0,-5.61,-4.17,12.23,0.17,0.24,0,1,0,0,null,null],["IRM","Iron Mountain",10,91,33.8,113.56,-1.89,null,0,2.56,-2.98,36.82,0.33,0.5,0,1,0,0,null,null],["JBHT","J.B. Hunt",6,17,21.1,224.4,0.79,null,0,0.18,-17.38,15.41,0.46,0.44,0,0,0,0,null,"2026-10-15"],["JBL","Jabil",0,39,31.3,299.05,-0.14,-1.49,2811,1.75,-4.35,29.3,0.18,0.33,0,0,0,0,null,null],["JKHY","Jack Henry & Associates",5,123,10.2,145.9,0.14,null,0,0.62,-11.03,-19.8,0.19,0.15,0,0,0,0,null,null],["J","Jacobs Solutions",6,22,15.9,135.53,-0.61,null,0,-0.63,-7.05,2.16,0.14,0.12,0,1,0,0,null,null],["JNJ","Johnson & Johnson",4,98,609.5,252.92,-2.14,-0.55,3875,-4.08,-6.77,22.29,0.24,1.68,0,1,0,0,null,"2026-10-13"],["JCI","Johnson Controls",6,15,93.8,154.89,-0.67,-0.01,528,3.27,6.45,28.58,0.26,0.74,1,1,0,0,null,null],["JPM","JPMorgan Chase",5,33,868.6,326.77,-0.85,-0.79,19464,-0.6,-8.49,1.32,0.37,2.93,0,1,0,0,null,"2026-10-13"],["KVUE","Kenvue",3,97,33.6,17.52,-0.09,-0.11,1160,0.46,-5.99,1.39,0.14,2.28,0,0,0,0,null,null],["KDP","Keurig Dr Pepper",3,112,42,30.85,1,0.13,803,0.87,-5.11,10.87,0.18,1.85,0,1,0,0,null,null],["KEY","KeyCorp",5,103,21,19.68,-0.73,-0.81,3127,-1.03,-10.69,-4.58,0.38,5.57,0,0,0,0,null,null],["KEYS","Keysight Technologies",0,38,64.3,377.95,-0.91,-1.92,539,2.93,14.53,84.09,0.41,0.44,1,1,0,0,null,null],["KMB","Kimberly-Clark",3,61,32,96.31,-0.18,0.15,1265,0.35,-7.88,-4.82,0.25,0.92,0,0,0,0,null,null],["KIM","Kimco Realty",10,107,14.7,21.85,0,-0.14,200,-1.27,-7.14,8.01,0.16,0.76,0,0,0,0,null,null],["KMI","Kinder Morgan",7,90,71.9,32.29,1.48,0.57,22268,7.45,2.7,17.46,0.25,2.61,1,1,0,0,null,null],["KKR","KKR & Co.",5,8,79.4,88.44,-1.37,-0.75,595,-3.95,-17,-31.38,0.36,1.68,0,0,0,0,null,null],["KLAC","KLA Corporation",0,109,261,199.99,1.61,-2.39,37018,1.68,5.17,58.76,0.36,2.81,1,1,0,0,null,null],["KHC","Kraft Heinz",3,93,26.2,22.06,0.36,0.36,19243,-2.69,-10.98,-9.18,0.44,6.06,0,0,0,0,null,null],["KR","Kroger",3,44,35.7,60.47,2.05,0.12,877,3.1,3.87,-3.05,0.23,1.93,1,0,0,0,null,null],["LHX","L3Harris",6,1,43.7,234.68,0.45,0.16,2772,-0.86,-7.46,-20.18,0.23,0.33,0,0,0,1,null,null],["LH","Labcorp",4,52,25.2,311.08,-0.28,-0.52,693,1.66,-3.14,23.79,0.17,0.12,0,1,0,0,null,null],["LRCX","Lam Research",0,109,409.9,327.58,-0.58,-2.81,21661,-1.41,4.08,84.04,0.35,2.71,1,1,0,0,null,null],["LVS","Las Vegas Sands",2,18,23,35.59,-0.63,-0.59,4717,-5.96,-19.64,-45.42,0.25,1.38,0,0,0,1,null,null],["LDOS","Leidos",6,34,14.3,114.2,0.57,-1.76,800,-7.91,-12.86,-36.41,0.33,0.38,0,0,0,0,null,null],["LEN","Lennar",2,57,18,75.9,-0.3,-1.13,13539,-5.92,-8.11,-26.32,0.2,1.31,0,0,0,0,null,null],["LII","Lennox International",6,15,12.4,357.54,-0.25,null,0,0.96,-8.7,-26.76,0.17,0.08,0,0,0,0,null,null],["LLY","Lilly (Eli)",4,98,1071,1137.74,-4.29,-0.6,8212,-1.49,0.42,5.7,0.6,1.33,0,1,0,0,null,null],["LIN","Linde plc",8,66,222.3,482.25,-0.36,-0.09,837,2.17,1.74,13.13,0.2,0.46,1,0,0,0,null,null],["LYV","Live Nation Entertainment",1,81,40.2,170.48,-0.21,null,0,-0.73,-1.34,19.69,0.17,0.32,0,1,0,0,null,null],["LMT","Lockheed Martin",6,1,116.1,503.12,0.78,0.26,5882,-0.96,-5.43,4.11,0.3,0.32,0,0,0,0,null,null],["L","Loews Corporation",5,85,21.8,106.43,0.72,null,0,2.08,-1.69,1.36,0.34,0.33,0,0,0,0,null,null],["LOW","Lowe's",2,56,103.6,184.65,1.71,-0.37,3756,0.79,-9.49,-23.54,0.21,0.68,0,0,0,0,null,null],["LULU","Lululemon Athletica",2,6,10.7,91.99,0.11,-1.34,36663,-4.48,-8.55,-56.03,0.26,1.34,0,0,0,1,null,null],["LITE","Lumentum",0,20,96.8,1068.91,-3.79,-3.97,81936,9.07,19.09,181.75,0.47,2.11,1,1,0,0,null,null],["LYB","LyondellBasell",8,114,19.4,60.02,2.61,2.58,22379,5.88,-6.81,37.71,0.3,0.95,0,0,0,0,null,null],["MTB","M&T Bank",5,103,30.9,213.63,-1.38,0.01,200,-0.87,-11.9,6.3,0.29,0.28,0,0,0,0,null,"2026-10-16"],["MPC","Marathon Petroleum",7,89,130.9,466,5.37,1.54,8388,18.51,17.53,186.15,0.51,1.02,1,1,1,0,null,null],["MAR","Marriott International",2,60,94,360.45,1.11,-0.2,759,0.74,8.54,16.07,0.17,0.21,1,1,0,0,null,null],["MRSH","Marsh McLennan",5,69,82.6,173.15,-0.29,null,0,1.87,-5.52,-6.11,0.47,1.25,0,0,0,0,null,"2026-10-15"],["MLM","Martin Marietta Materials",8,24,33.8,475.72,-0.69,null,0,-0.25,-8.5,-23.18,0.24,0.21,0,0,0,0,null,null],["MRVL","Marvell Technology",0,110,241.9,275.91,-3.08,-2.49,359560,4.08,21.55,218.09,0.55,10.71,1,1,0,0,null,null],["MAS","Masco",6,15,13.5,68.49,-0.55,null,0,1.98,-4.68,7.59,0.25,0.5,0,0,0,0,null,null],["MA","Mastercard",5,123,503.7,575.03,0.87,-0.91,1028,4.36,0.41,0.76,0.35,0.97,1,1,0,0,null,null],["MKC","McCormick & Company",3,93,12.2,45.36,0.23,0.44,1286,-3.09,-12.68,-33.54,0.15,0.65,0,0,0,0,null,null],["MCD","McDonald's",2,106,165.8,234.35,1.5,-0.25,34675,1.21,-7.88,-23.24,0.5,2.9,0,0,0,0,null,null],["MCK","McKesson Corporation",4,48,106.8,916.33,0.66,-0.09,40,3.37,2.79,12.02,0.28,0.19,1,1,0,0,null,null],["MDT","Medtronic",4,49,112.1,87.6,2.44,0.05,1548,2.04,-6.06,-8.79,1.17,36.01,0,0,0,0,null,null],["MRK","Merck & Co.",4,98,343.2,139.1,-2.58,-1.18,9434,-3.88,-6.27,31.81,0.21,1.8,0,1,0,0,null,null],["META","Meta Platforms",1,73,1835.2,720.39,-0.13,0.54,651379,-1.12,16.91,8.7,0.31,6.16,1,1,0,0,null,null],["MET","MetLife",5,77,61.6,96.86,1.13,-0.58,200,3.36,0.31,22.7,0.2,0.69,1,1,0,0,null,null],["MTD","Mettler Toledo",4,78,30.3,1510.93,-1.47,-0.1,43,-1.48,13.45,8.01,0.4,0.07,1,1,0,0,null,null],["MGM","MGM Resorts",2,18,7.5,29.9,-0.35,-0.33,9766,-3.94,-27.21,-18.39,0.24,1.81,0,0,0,0,null,null],["MCHP","Microchip Technology",0,110,41.3,76.07,-2.5,-0.56,4307,-2.49,1.9,16.56,0.25,1.9,1,0,0,0,null,null],["MU","Micron Technology",0,110,1201.9,1064.19,-2.19,-1.01,574938,0.96,2.68,260.59,0.41,10.69,1,1,0,0,null,null],["MSFT","Microsoft",0,116,3934.7,529.89,0.02,-0.14,194382,1.93,7.48,9.39,0.26,5.94,1,1,0,0,null,null],["MAA","Mid-America Apartment Communities",10,82,13.4,115.26,0.92,null,0,-2.01,-9.95,-16.79,0.21,0.28,0,0,0,1,null,null],["MRNA","Moderna",4,12,78,195.43,-0.53,-0.01,114697,4.73,33.87,555.15,0.34,5.32,1,1,0,0,null,null],["MDLZ","Mondelez International",3,93,76.5,59.97,0.99,1.08,2557,3.63,-1.47,11.17,0.2,1.54,0,1,0,0,null,null],["MPWR","Monolithic Power Systems",0,110,69.1,1406.48,-1.37,-1.47,1496,3.42,14.29,51.62,0.25,0.14,1,1,0,0,null,null],["MNST","Monster Beverage",3,112,85.5,43.66,1.81,0.75,3517,4.94,0.03,13.88,0.14,1.39,0,1,0,0,null,null],["MCO","Moody's Corporation",5,42,78.2,451.6,0.44,null,0,-0.75,-7.78,-11.4,0.11,0.11,0,0,0,0,null,null],["MS","Morgan Stanley",5,75,293.5,186.89,-1.49,-1.89,6019,0.45,-13.95,4.69,0.31,1.71,0,0,0,0,null,"2026-10-14"],["MOS","Mosaic Company (The)",8,41,6.3,19.96,-0.06,-0.6,25067,-6.3,-23.67,-17.19,0.44,3.81,0,0,0,1,null,null],["MSI","Motorola Solutions",0,20,73.7,445.24,-0.69,null,0,-0.39,-4.25,16.15,0.26,0.21,0,1,0,0,null,null],["MSCI","MSCI",5,42,40.5,557.21,0.33,null,0,2.76,-2.13,-2.51,0.18,0.1,0,0,0,0,null,null],["NDAQ","Nasdaq, Inc.",5,42,51.2,91.65,-0.3,-0.38,200,-0.73,-4.34,-5.76,0.17,0.57,0,1,0,0,null,null],["NTAP","NetApp",0,118,45.9,233.69,-0.88,-0.75,923,10.36,27.89,117.08,0.18,0.52,1,1,0,0,null,null],["NFLX","Netflix",1,81,296.1,71.12,2.03,0.53,303869,2.46,-8.29,-24.45,0.41,14.36,0,0,0,0,null,null],["NEM","Newmont",8,47,120.2,114.1,0.49,-0.55,19484,-0.62,-9.82,12.98,0.27,1.32,0,1,0,0,null,null],["NWSA","News Corp (Class A)",1,100,16.1,28.76,0.52,0.31,800,0.21,-4.45,10.02,0.18,0.72,0,1,0,0,null,null],["NWS","News Corp (Class B)",1,100,16,31.64,0.38,-0.06,100,-0.41,-5.55,6.75,0.39,0.36,0,1,0,0,null,null],["NEE","NextEra Energy",9,84,159.9,76.66,-0.52,0.17,15388,1.54,-7.99,-4.71,0.17,2.46,0,0,0,0,null,null],["NKE","Nike, Inc.",2,6,50.9,34.27,-0.28,-0.47,371358,-3.34,-11.05,-46.46,0.2,11.64,0,0,0,0,null,null],["NI","NiSource",9,84,19.3,40.22,-0.79,null,0,3.18,-2.76,-3.69,0.17,0.94,0,0,0,0,null,null],["NDSN","Nordson Corporation",6,67,18.1,325.19,-0.76,null,0,-0.17,2.23,34.83,0.29,0.1,1,1,0,0,null,null],["NSC","Norfolk Southern",6,101,70.5,313.77,0.18,null,0,2,-4.3,8.61,0.11,0.08,0,1,0,0,null,null],["NTRS","Northern Trust",5,8,30.6,167.42,-0.45,null,0,-0.99,-9.58,22.41,0.25,0.25,0,1,0,0,null,null],["NOC","Northrop Grumman",6,1,68,479.01,1.17,-0.1,2693,-0.93,-7.17,-15.9,0.22,0.23,0,0,0,0,null,null],["NCLH","Norwegian Cruise Line Holdings",2,60,7,15.14,0.6,-1.33,348926,3.7,-1.88,-32.77,0.3,7.26,0,0,0,0,null,null],["NRG","NRG Energy",9,64,22.4,106.66,-1.8,-1.48,4596,11.27,-11.8,-33.99,0.39,1.32,0,0,0,0,null,null],["NUE","Nucor",8,115,55.9,246.35,-0.04,-0.08,1077,6.48,-5.16,49.14,0.18,0.23,0,1,0,0,null,null],["NVDA","Nvidia",0,110,5670.9,235.31,-0.91,-1.08,1484808,2.32,0.94,23.95,0.33,35.97,1,1,0,0,null,null],["NVR","NVR, Inc.",2,57,15.7,5907.78,-0.4,null,0,-3.62,-5.04,-18.93,0.21,0.01,0,0,0,0,null,null],["NXPI","NXP Semiconductors",0,110,57.6,228.59,-2.82,-2.21,7871,-4.29,-0.79,3.53,0.41,1.06,0,0,0,0,null,null],["ORLY","O'Reilly Automotive",2,11,69.4,85.81,1.41,0.37,904,0.57,-1.37,-5.44,0.2,1,0,0,0,0,null,null],["OXY","Occidental Petroleum",7,88,59.9,59.92,2.94,2.44,128351,7.58,-1.87,45.3,0.37,3.36,1,1,0,0,null,null],["ODFL","Old Dominion",6,17,37.3,179.71,2.33,null,0,3.89,-3.37,13.92,0.2,0.38,0,0,0,0,null,null],["OMC","Omnicom Group",1,0,20.5,74.85,-0.03,-0.56,5070,-0.69,-9.1,-7.31,0.2,0.45,0,0,0,0,null,null],["ON","ON Semiconductor",0,110,31.4,80.61,-2.31,-2.46,45303,5.28,7.75,45.89,0.25,2.91,1,0,0,0,null,null],["OKE","Oneok",7,90,57.1,90.52,2.8,1.89,102,6.75,-5.81,23.22,0.35,1.2,0,1,0,0,null,null],["ORCL","Oracle Corporation",0,7,426.6,141.09,-1.72,-1.18,315603,1.06,-15.82,-28.55,0.24,7.31,0,0,0,0,null,null],["OTIS","Otis Worldwide",6,67,24.9,65.42,-0.49,-0.4,500,1.49,-8.09,-24.99,0.17,0.8,0,0,0,0,null,null],["PCAR","Paccar",6,23,56.3,106.93,0.07,-1.25,1099,-2.5,-13.73,-2.6,0.2,0.71,0,0,0,0,null,null],["PKG","Packaging Corporation of America",8,94,20.2,227.07,-0.08,null,0,-0.2,-3.25,10.25,0.14,0.08,0,1,0,0,null,null],["PLTR","Palantir Technologies",0,7,476.6,198.35,2.18,2.54,947239,4.34,14.26,9.4,1.52,27.2,1,1,0,0,null,null],["PANW","Palo Alto Networks",0,116,330.4,403.97,-0.4,-0.63,6659,2.01,23.32,118.58,0.27,1.34,1,1,0,0,null,null],["SKYD","Paramount Skydance Corporation",1,81,10.5,9.32,4.78,1.12,596321,-7.86,-13.35,-30.49,0.63,18.21,0,0,0,0,null,null],["PH","Parker Hannifin",6,67,119.4,946.94,-0.61,0.23,578,-0.51,-1.1,7.41,0.32,0.16,0,1,0,0,null,null],["PAYX","Paychex",6,62,36.4,102.18,0.62,0.25,400,2.89,-15.07,-8.87,0.16,0.54,0,0,0,0,null,null],["PYPL","PayPal",5,123,46.6,54.51,-0.81,-1.2,11273,2.7,0.27,-7.1,0.47,4.83,0,1,0,0,null,null],["PNR","Pentair",6,67,8.2,51.64,-1.06,null,0,-2.69,-13.71,-50.46,0.2,0.47,0,0,0,1,null,null],["PEP","PepsiCo",3,112,170.8,125.15,1.15,0.49,927993,-1.41,-8.65,-12.62,0.99,8.82,0,0,0,0,"2026-10-08",null],["PFE","Pfizer",4,98,157,27.54,-1.64,-0.54,69411,-3.18,-1.7,10.25,0.31,9.6,0,1,0,0,null,null],["PCG","PG&E Corporation",9,84,27.8,12.65,-1.13,0.16,10268,3.73,-11.33,-21.9,0.31,11.69,0,0,0,0,null,null],["PM","Philip Morris International",3,121,311.4,199.81,3.7,0.54,2318,3.46,10.39,24.68,0.37,1.47,1,1,0,0,null,null],["PSX","Phillips 66",7,89,111.7,280.06,3.11,1.58,8411,10.59,7.72,117.1,0.32,0.78,1,1,1,0,null,null],["PNW","Pinnacle West Capital",9,84,11.8,97.33,-0.22,0.37,2050,5.22,-0.06,9.72,0.12,0.2,1,0,0,0,null,null],["PNC","PNC Financial Services",5,33,86.1,215.7,-0.93,-0.73,337,-1.98,-11.98,3.34,0.17,0.35,0,0,0,0,null,"2026-10-15"],["PPG","PPG Industries",8,114,23.2,104.3,-0.74,null,0,0.84,-6.51,1.23,0.23,0.38,0,0,0,0,null,null],["PPL","PPL Corporation",9,35,25.4,33.74,-0.62,-0.15,2987,3.12,-3.82,-3.6,0.21,1.68,0,0,0,0,null,null],["PFG","Principal Financial Group",5,77,23.2,108.46,-0.25,null,0,-3.02,-6.35,22.82,0.19,0.24,0,1,0,0,null,null],["PG","Procter & Gamble",3,97,345.8,148.89,0.72,-0.21,9749,3,2.26,4.04,0.16,1.31,1,1,0,0,null,null],["PGR","Progressive Corporation",5,99,125.9,216.66,1.19,-0.08,263,4.22,0.02,1.08,0.15,0.46,1,1,0,0,null,"2026-10-08"],["PLD","Prologis",10,68,123.4,127.29,-0.01,-0.16,3048,-0.56,-7.05,-0.36,0.33,1.24,0,0,0,0,null,"2026-10-15"],["PRU","Prudential Financial",5,77,38.7,112.31,-0.04,null,0,-0.74,-7.22,-0.5,0.21,0.33,0,1,0,0,null,null],["PEG","Public Service Enterprise Group",9,35,35.5,71.31,-0.6,null,0,6.39,-3.24,-11.73,0.23,1.1,0,0,0,0,null,null],["PTC","PTC Inc.",0,7,21,193.62,0.01,0.17,200,35,38.46,11.06,0.58,3.07,1,1,0,0,null,null],["PSA","Public Storage",10,108,52.5,280.79,-0.43,null,0,-0.36,-6.92,8.37,0.22,0.2,0,0,0,0,null,null],["PHM","PulteGroup",2,57,20.9,111.58,-0.67,-0.73,1834,-2.74,-9.41,-5.8,0.29,0.49,0,0,0,0,null,null],["PWR","Quanta Services",6,22,103.9,690.97,-1.44,-1.15,1089,7.58,9.37,62.6,0.26,0.24,1,1,0,0,null,null],["QCOM","Qualcomm",0,110,185.1,173.3,-2.16,-1.59,65281,-6.41,-3.94,-0.29,0.26,2.86,1,1,0,0,null,null],["DGX","Quest Diagnostics",4,52,25.1,227.24,0.08,-0.27,1363,-2.36,-2.73,31.12,0.19,0.21,0,1,0,0,null,null],["Q","Qnity Electronics",0,109,27.3,130.39,0.52,0.03,300,4.29,6.86,59.62,0.25,0.31,1,1,0,0,null,null],["RL","Ralph Lauren Corporation",2,6,21.6,363.18,0.56,null,0,2.48,2.49,2.3,0.21,0.12,1,0,0,0,null,null],["RJF","Raymond James Financial",5,75,30.2,156.93,-0.21,null,0,0.07,-11.43,-2.06,0.16,0.18,0,0,0,0,null,null],["RDDT","Reddit",1,73,30,155.92,2.1,0.17,24519,8.17,0.59,-32.85,0.34,1.33,1,0,0,0,null,null],["RTX","RTX Corporation",6,1,245.4,182.1,1.02,-0.01,12074,-1.57,-8.83,-0.76,0.33,1.26,0,0,0,0,null,null],["O","Realty Income",10,107,50.4,53.29,-0.12,-0.13,53077,-1.78,-12.86,-5.44,0.23,2.1,0,0,0,1,null,null],["REG","Regency Centers",10,107,12.9,70.69,-0.16,null,0,-1.3,-5.95,2.94,0.3,0.36,0,0,0,0,null,null],["REGN","Regeneron Pharmaceuticals",4,12,74.8,726.49,-2.11,0,200,-5.22,-10.79,-6.17,0.2,0.15,0,0,0,0,null,null],["RF","Regions Financial Corporation",5,103,22.6,26.49,-0.81,-0.56,2965,-1.18,-12.45,-2.23,0.32,3.43,0,0,0,0,null,"2026-10-16"],["RSG","Republic Services",6,40,66.1,215.83,-0.16,0.06,846,2.56,-2.4,2.51,0.21,0.24,0,1,0,0,null,null],["RMD","ResMed|",4,49,31.6,224.43,-0.69,null,0,1.67,-0.79,-7.16,0.16,0.15,0,0,0,0,null,null],["RVTY","Revvity",4,49,16.5,148.26,-3.48,null,0,-4.64,15.38,52.53,0.24,0.54,1,1,0,0,null,null],["HOOD","Robinhood Markets",5,75,97,107.85,-1.52,-1.94,392702,-3.77,-13.77,-6.61,0.55,10.82,1,1,0,0,null,null],["ROK","Rockwell Automation",6,36,48.1,433.28,-1.95,null,0,-0.31,-0.2,10.53,0.4,0.25,0,1,0,0,null,null],["ROL","Rollins, Inc.",6,40,15.5,32.19,4.26,0.29,2344,6.22,-9.62,-46.13,0.42,4,0,0,0,0,null,null],["ROP","Roper Technologies",0,38,35.3,356.65,-0.54,1.45,313,1.03,-11.26,-19.81,0.15,0.11,0,0,0,0,null,null],["ROST","Ross Stores",2,5,72.2,225.93,0.18,null,0,-3.6,-1.22,25.11,0.19,0.38,0,1,0,0,null,null],["RCL","Royal Caribbean Group",2,60,74.9,280.02,-0.82,-1.53,55153,5.22,6.47,0.54,0.2,0.7,1,0,0,0,null,null],["SPGI","S&P Global",5,42,116.6,395.57,0.1,0.58,5980,-0.78,-10.11,-19.85,0.24,0.51,0,0,0,0,null,null],["CRM","Salesforce",0,7,182.8,222.17,-1.06,-0.07,29284,-5.57,-12.43,-16.16,0.25,2.3,0,1,0,0,null,null],["SNDK","Sandisk",0,118,239.3,1634.27,-3.44,-1.31,120443,-5.82,-7.64,568.82,0.47,3.45,1,1,0,0,null,null],["SBAC","SBA Communications",10,119,17.8,167.93,-1.44,-0.52,233,4.96,-10.55,-12.62,0.17,0.16,0,0,0,0,null,null],["SLB","Schlumberger",7,87,72.5,48.87,1.89,1.65,12521,1.02,-15.47,27.22,0.3,3.97,0,0,0,0,null,null],["STX","Seagate Technology",0,118,179.3,788.34,-2.38,-1.68,24379,-13.48,-10.48,179.58,0.39,1.89,0,1,0,0,null,null],["SRE","Sempra",9,84,52,79.5,-0.24,-0.11,895,2.67,-5.54,-10.39,0.12,0.41,0,0,0,0,null,null],["NOW","ServiceNow",0,116,141.1,136.48,-1.01,0.96,137611,-1.85,-0.18,-10.84,0.5,4.64,1,1,0,0,null,null],["SHW","Sherwin-Williams",8,114,76.7,315.92,0.29,-1.59,6200,-1.47,-4.34,-2.27,0.24,0.41,0,0,0,0,null,null],["SPG","Simon Property Group",10,107,63.9,197.37,-0.11,null,0,-1.18,-5.07,6.99,0.19,0.22,0,0,0,0,null,null],["SWKS","Skyworks Solutions",0,110,18.8,80.11,-3.98,-2.66,318,-7.08,6.81,24.84,0.31,2.7,1,1,0,0,null,null],["SJM","J.M. Smucker Company (The)",3,93,12.6,117.69,1.52,null,0,-0.52,-6.31,20.14,0.2,0.21,0,1,0,0,null,null],["SW","Smurfit Westrock",8,94,21.3,40.75,-1.31,-1.43,100,-6.69,-11.26,4.92,0.26,1.1,0,0,0,0,null,null],["SNA","Snap-on",6,67,18.5,357.94,-0.54,null,0,-1.5,-6.05,3.89,0.37,0.09,0,0,0,0,null,"2026-10-15"],["SOLV","Solventum",4,54,14.6,85.69,-0.22,null,0,-2.43,-5.57,8.14,0.16,0.13,0,1,0,0,null,null],["SO","Southern Company",9,35,97.9,85.13,-0.37,0.01,1266,3.01,-3.44,-2.34,0.14,0.95,0,0,0,0,null,null],["LUV","Southwest Airlines",6,95,20.1,41.01,-1.7,-1.49,21888,-1.35,4.86,-1.2,0.25,1.34,0,0,0,0,null,null],["SWK","Stanley Black & Decker",6,67,13.2,87.21,-1.25,-3.79,6625,-0.9,-9.46,16.58,0.66,1.05,0,1,0,0,null,null],["SBUX","Starbucks",2,106,102.6,89.97,-3.86,-0.62,10040,-4.33,-14.06,6.82,2.02,14.28,0,0,0,0,null,null],["STT","State Street Corporation",5,8,47.7,173.49,-0.4,null,0,0.52,-10.15,34.92,0.2,0.4,0,1,0,0,null,"2026-10-14"],["STLD","Steel Dynamics",8,115,33.7,235.03,0.4,null,0,5.87,-2.61,36.94,0.24,0.21,0,1,0,0,null,null],["STE","Steris",4,49,20.3,208.43,-0.6,0.37,100,-0.77,-6.09,-17.76,0.18,0.11,0,0,0,0,null,null],["SYK","Stryker Corporation",4,49,104.6,272.81,-0.94,0.4,293,-1.01,-9.37,-22.34,0.29,0.72,0,0,0,0,null,null],["SMCI","Supermicro",0,118,28.1,42.75,-4.88,-1.96,504614,4.54,7.77,42.67,0.52,17.2,1,1,0,0,null,null],["SYF","Synchrony Financial",5,26,23.5,72.21,0.39,null,0,2.6,-8.84,-13.74,0.26,0.67,0,0,0,0,null,null],["SNPS","Synopsys",0,7,97.5,508.75,1.21,-0.35,4630,8.74,28.21,6.22,0.22,0.64,1,1,0,0,null,null],["SYY","Sysco",3,43,38.5,78.24,1.89,0.03,500,0.2,-1.57,7.28,0.17,0.74,0,0,0,0,null,null],["TMUS","T-Mobile US",1,125,182,169.71,1.23,0.43,5621,3.87,-6.36,-16.09,0.2,0.84,0,0,0,0,null,null],["TROW","T. Rowe Price",5,8,22.1,103.64,-0.41,-0.45,731,-0.39,-5.38,1.14,0.48,0.74,0,0,0,0,null,null],["TTWO","Take-Two Interactive",1,72,39.3,210.26,3.06,0.3,3406,1.33,-1.67,-18.41,0.45,0.97,0,0,0,0,null,null],["TPR","Tapestry, Inc.",2,6,22.6,113.22,-0.18,-0.62,300,-1.91,-7.19,-12.38,0.2,0.55,0,0,0,0,null,null],["TRGP","Targa Resources",7,90,62.3,290.69,2.37,1.03,195,8.11,-0.62,58.13,0.28,0.33,1,1,0,0,null,null],["TGT","Target Corporation",3,27,70.2,154.48,2.36,-0.38,8498,-1.35,-5.85,57.78,0.28,1.14,0,1,0,0,null,null],["TEL","TE Connectivity",0,39,61.8,213.3,-1.17,null,0,2.25,2.3,-7.42,0.27,0.42,1,0,0,0,null,null],["TDY","Teledyne Technologies",0,38,28,603.77,-0.06,-0.52,487,-0.43,-0.96,17.69,0.47,0.12,0,0,0,0,null,null],["TER","Teradyne",0,109,63,403.01,-2.13,-1.79,11277,0.03,10.4,102.22,0.39,0.8,1,1,0,0,null,null],["TSLA","Tesla, Inc.",2,9,1468.6,371.84,-1.58,-0.98,418277,4.21,4.13,-18.78,0.3,11.04,1,0,0,0,null,null],["TXN","Texas Instruments",0,110,263.3,288.26,-0.25,-1.82,5328,2.39,10.47,64.75,0.29,1.19,1,1,0,0,null,null],["TPL","Texas Pacific Land Corporation",7,88,24.9,360.8,4.34,1.15,266,10.67,-2.35,26.15,0.31,0.09,0,0,0,0,null,null],["TXT","Textron",6,1,12.5,72.89,-0.19,-0.84,424,-4.09,-7.76,-16.71,0.18,0.33,0,0,0,1,null,null],["TMO","Thermo Fisher Scientific",4,78,236.5,639.55,-3.4,null,0,-4.88,6.2,10.36,0.59,1.24,1,1,0,0,null,null],["TJX","TJX Companies",2,5,151.5,137.7,-0.79,0.04,15058,3.77,4.85,-10.19,0.25,2.06,0,0,0,0,null,null],["TKO","TKO Group Holdings",1,81,34,179.53,0.5,0.2,263,-0.16,-2.67,-14.48,0.2,0.21,0,0,0,0,null,null],["TSCO","Tractor Supply",2,92,17.1,32.74,0.66,0,1200,4.42,-6.44,-34.49,0.17,1.8,0,0,0,0,null,null],["TT","Trane Technologies",6,15,104.2,473.47,1.33,-0.91,40,4.62,5.61,21.13,0.23,0.31,1,1,0,0,null,null],["TDG","TransDigm Group",6,1,60.4,1093.55,-0.24,null,0,0.95,-5.76,-17.72,0.2,0.07,0,0,0,0,null,null],["TRV","Travelers Companies (The)",5,99,76.1,365.09,1.24,-0.83,768,2.55,-0.08,26.5,0.24,0.24,0,1,0,0,null,"2026-10-16"],["TRMB","Trimble Inc.",0,7,13.8,59.05,-1.69,-1.2,2073,1.94,-0.44,-25.13,0.14,0.33,1,0,0,0,null,null],["TFC","Truist Financial",5,33,55.3,45.29,-0.65,null,0,-1.43,-11.9,-8.06,0.29,2.33,0,0,0,0,null,"2026-10-16"],["TWLO","Twilio",0,116,42.9,279.16,2.26,0.52,1288,-5.13,21.89,95.42,0.07,0.47,1,1,0,0,null,null],["TYL","Tyler Technologies",0,7,13.4,326.24,-1.84,-1.61,2302,0.2,-9.13,-27.6,0.28,0.16,0,0,0,0,null,null],["TSN","Tyson Foods",3,93,17.9,52.05,0.68,null,0,3.63,1.17,-11.13,0.22,0.67,0,0,0,0,null,null],["USB","U.S. Bancorp",5,33,87,55.87,-0.53,-0.66,996,-2.51,-11.33,4.76,0.29,2.27,0,0,0,0,null,"2026-10-15"],["UBER","Uber",6,96,140.4,68.72,0.4,-0.51,71735,0.27,-9.11,-16.23,0.28,4.21,0,0,0,0,null,null],["UDR","UDR, Inc.",10,82,10.7,33.32,0,0,229,-0.6,-8.08,-8.89,0.24,0.89,0,0,0,0,null,null],["ULTA","Ulta Beauty",2,92,23.9,558.38,2.36,null,0,2.26,-0.82,-7.88,0.33,0.12,1,1,0,0,null,null],["UNP","Union Pacific Corporation",6,101,163.3,274.86,0.06,null,0,1.46,-4.27,18.8,0.15,0.35,0,1,0,0,null,null],["UAL","United Airlines Holdings",6,95,34.5,106.21,-3.6,-2.21,92660,-4.28,-3.36,-5.68,0.47,1.99,0,0,0,0,null,null],["UPS","United Parcel Service",6,4,79.2,93.12,0.9,0.04,8833,-0.8,-8.73,-6.23,0.23,1.14,0,0,0,0,null,null],["URI","United Rentals",6,122,65.3,1049.91,1.2,null,0,4.58,3.73,29.52,0.22,0.12,0,1,0,0,null,null],["UNH","UnitedHealth Group",4,79,333.5,371.5,-1.19,-0.22,6017,0.95,-5.33,12.27,0.31,1.42,0,1,0,0,null,"2026-10-13"],["UHS","Universal Health Services",4,50,10.3,175.22,0.34,null,0,0.61,4.17,-19.56,0.14,0.09,1,0,0,0,null,null],["VLO","Valero Energy",7,89,127.5,442.81,4.41,1.11,11720,14.35,16.78,171.25,0.39,1.08,1,1,1,0,null,null],["VEEV","Veeva Systems",4,54,45.8,282.65,0.05,0.35,468,-3,4.06,26.52,0.22,0.29,1,1,0,0,null,null],["VTR","Ventas",10,51,42.4,80.92,1.09,-0.05,227,-4.47,-10.17,4.58,0.37,1.28,0,0,0,0,null,null],["VLTO","Veralto",6,40,23.2,94.97,-0.8,-0.16,359,0.34,-0.64,-4.29,0.29,0.51,0,1,0,0,null,null],["VRSN","Verisign",0,74,26.7,295.65,0.49,null,0,3.96,2.24,21.63,0.19,0.17,1,1,0,0,null,null],["VRSK","Verisk Analytics",6,105,22.4,172.06,2,null,0,0.8,-6.76,-22.47,0.3,0.36,0,0,0,0,null,null],["VZ","Verizon",1,71,190.7,45.9,0.28,0.5,142362,0.09,-8.16,12.58,0.29,5.5,0,0,0,0,null,null],["VRTX","Vertex Pharmaceuticals",4,12,126.6,499.58,-1.2,0.03,100,-4.37,-5.68,9.96,0.43,0.38,0,1,0,0,null,null],["VRT","Vertiv",6,36,96.3,250.03,1.43,-1.5,50465,2.92,-12.27,47.54,0.5,2.05,0,0,0,0,null,null],["VTRS","Viatris",4,98,19.6,17.05,-2.54,-1.32,29150,-3.26,2.5,36.36,0.44,4.32,1,1,0,0,null,null],["VICI","Vici Properties",10,59,24.8,22.56,-0.38,0.09,13439,-1.68,-11.31,-19.9,0.34,3.33,0,0,0,0,null,null],["V","Visa Inc.",5,123,701.5,375.72,0.97,-0.42,5756,4.85,1.11,7.39,0.26,1.33,1,1,0,0,null,null],["VST","Vistra Corp.",9,35,53.7,160,-4.03,-0.43,112440,14.98,5.96,-2.37,0.54,4.51,1,1,0,0,null,null],["VMRK","Vivmark Residential",10,82,46,59.46,0.29,null,0,-1.67,-9.56,-4.59,0.15,0.73,0,0,0,0,null,null],["VMC","Vulcan Materials Company",8,24,31.4,242.11,-0.83,null,0,-0.58,-6.78,-15.07,0.18,0.24,0,0,0,0,null,null],["VYLR","Vylor",3,3,49.3,73.92,1.27,1.38,1500,12,12,12,null,2.94,null,null,0,0,null,null],["WRB","W. R. Berkley Corporation",5,99,26.3,70.76,1.48,0.39,132,5.08,2.95,1.42,0.23,0.54,1,1,0,0,null,null],["GWW","W. W. Grainger",6,67,59.9,1272.26,0.69,0.04,10,2.6,-3.59,26.31,0.18,0.05,0,1,0,0,null,null],["WAB","Wabtec",6,23,47.1,278.9,-1.26,null,0,-2.14,-1.09,30.56,0.28,0.22,0,1,0,0,null,null],["WMT","Walmart",3,27,874.4,110.22,1.9,0.55,39749,5.59,3.22,-1.09,0.26,5.84,1,0,0,0,null,null],["DIS","Walt Disney Company (The)",1,81,182.8,105.87,1.07,-0.48,6192,1.31,1.14,-6.67,0.19,1.59,1,1,0,0,null,null],["WM","Waste Management",6,40,83.4,208.68,-0.12,0.03,5334,2.17,-4.13,-4.86,0.37,0.81,0,0,0,0,null,null],["WAT","Waters Corporation",4,78,41.7,424.4,-2.66,-0.46,111,-2.93,4.7,11.93,0.49,0.4,1,1,0,0,null,null],["WEC","WEC Energy Group",9,35,33.4,102.62,-0.54,null,0,1.83,-2.92,-2.89,0.1,0.3,0,0,0,0,null,null],["WFC","Wells Fargo",5,33,241.8,79.96,-0.37,-0.32,24666,0.77,-10.79,-14.3,0.29,3.82,0,0,0,0,null,"2026-10-13"],["WELL","Welltower",10,51,160.1,222.09,0.44,-0.05,132,-2.99,-5.2,19.65,0.17,0.43,0,1,0,0,null,null],["WST","West Pharmaceutical Services",4,53,25.4,360.49,-1.63,null,0,-1.91,7.45,30.97,0.29,0.15,1,1,0,0,null,null],["WDC","Western Digital",0,118,144.2,399.88,-1.37,-1.64,121218,-11.49,-16.69,125.67,0.36,3.5,0,0,0,0,null,null],["WY","Weyerhaeuser",10,120,13.6,18.84,1.45,-0.38,2848,-0.84,-17.58,-20.61,0.48,4.52,0,0,0,0,null,null],["WSM","Williams-Sonoma, Inc.",2,58,28,237.59,-1.19,null,0,3.51,3.64,30.06,0.31,0.31,1,1,0,0,null,null],["WMB","Williams Companies",7,90,88.9,72.71,1.75,0.91,1035,7.16,-2.72,20.96,0.29,1.89,1,1,0,0,null,null],["WTW","Willis Towers Watson",5,69,27.1,291.51,0.29,null,0,0.27,-11.44,-10.98,0.18,0.1,0,0,0,0,null,null],["WDAY","Workday, Inc.",0,7,44.6,184.96,0.38,-0.64,2190,-5.29,-3.65,-14.05,0.29,0.52,0,1,0,0,null,null],["WYNN","Wynn Resorts",2,18,7.7,74.37,-0.8,-0.76,4689,-5.97,-18.61,-38.07,0.2,0.52,0,0,0,1,null,null],["XEL","Xcel Energy",9,84,45.4,72.69,0.37,1.19,1758,3.18,-3.98,-1.53,0.21,1.22,0,0,0,0,null,null],["XYL","Xylem Inc.",6,67,23.7,101.55,-0.27,0.17,685,0.29,-4.65,-25.49,0.22,0.6,0,0,0,0,null,null],["YUM","Yum! Brands",2,106,38.7,141.81,1.04,null,0,3.59,-5.47,-6.42,0.2,0.44,0,0,0,0,null,null],["ZBRA","Zebra Technologies",0,38,18,380.64,-1.4,-0.79,1190,0.77,5.86,54.53,0.2,0.1,1,1,0,0,null,null],["ZBH","Zimmer Biomet",4,49,16.7,87.8,-0.78,null,0,-0.99,-9.53,-2.41,0.23,0.46,0,0,0,0,null,null],["ZTS","Zoetis",4,98,29.9,72.29,1.03,-0.21,4033,3.27,-3.36,-42.81,0.27,1.1,0,0,0,0,null,null]],"sectors":[{"k":"XLK","g":"Information Technology","n":"信息技术","c":-0.73,"pm":-0.79,"w":1.55,"m":5.98,"ytd":37.28,"px":199.92,"cnt":75,"cap":27368.4,"adv":23,"dec":52,"a50":70.7,"a200":73.3},{"k":"XLC","g":"Communication Services","n":"通信服务","c":0.27,"pm":-0.59,"w":-0.16,"m":-0.03,"ytd":-5.59,"px":111.56,"cnt":22,"cap":11830.2,"adv":14,"dec":8,"a50":27.3,"a200":36.4},{"k":"XLY","g":"Consumer Discretionary","n":"可选消费","c":-0.24,"pm":-0.46,"w":1.73,"m":-2.95,"ytd":-7.48,"px":111.1,"cnt":47,"cap":6641,"adv":26,"dec":21,"a50":19.1,"a200":31.9},{"k":"XLP","g":"Consumer Staples","n":"必需消费","c":1.4,"pm":0.54,"w":2.82,"m":-1.7,"ytd":6.61,"px":82.85,"cnt":34,"cap":3512.1,"adv":29,"dec":5,"a50":20.6,"a200":38.2},{"k":"XLV","g":"Health Care","n":"医疗保健","c":-1.93,"pm":-0.52,"w":-1.54,"m":-1.63,"ytd":6.9,"px":165.55,"cnt":60,"cap":6245.2,"adv":12,"dec":48,"a50":35,"a200":63.3},{"k":"XLF","g":"Financials","n":"金融","c":-0.21,"pm":-0.39,"w":0.72,"m":-7.05,"ytd":-2.18,"px":53.64,"cnt":76,"cap":8159.3,"adv":33,"dec":43,"a50":11.8,"a200":38.2},{"k":"XLI","g":"Industrials","n":"工业","c":-0.08,"pm":-0.56,"w":0.34,"m":-4.24,"ytd":7.77,"px":167.71,"cnt":83,"cap":5474.9,"adv":42,"dec":41,"a50":19.3,"a200":39.8},{"k":"XLE","g":"Energy","n":"能源","c":2.96,"pm":1.83,"w":6.66,"m":0.62,"ytd":45.87,"px":65.24,"cnt":21,"cap":2417.8,"adv":21,"dec":0,"a50":66.7,"a200":71.4},{"k":"XLB","g":"Materials","n":"原材料","c":-0.19,"pm":0,"w":1.13,"m":-6.64,"ytd":7.39,"px":48.89,"cnt":24,"cap":1094.5,"adv":9,"dec":15,"a50":8.3,"a200":33.3},{"k":"XLU","g":"Utilities","n":"公用事业","c":-0.74,"pm":0.07,"w":3.56,"m":-5.12,"ytd":-4.77,"px":40.85,"cnt":31,"cap":1296.2,"adv":2,"dec":29,"a50":12.9,"a200":9.7},{"k":"XLRE","g":"Real Estate","n":"房地产","c":-0.36,"pm":-0.32,"w":-0.87,"m":-7.42,"ytd":0.21,"px":40.42,"cnt":30,"cap":1127.9,"adv":9,"dec":19,"a50":0,"a200":13.3}],"themes":[{"k":"SMH","n":"半导体","c":-1.38,"pm":-1.45,"w":0.91,"m":6.52,"ytd":67.07,"px":616.41},{"k":"IGV","n":"软件","c":-0.14,"pm":-0.33,"w":1.42,"m":5.73,"ytd":3,"px":109.69},{"k":"KRE","n":"地区银行","c":-0.39,"pm":-0.36,"w":-0.64,"m":-8.51,"ytd":5.72,"px":68.62},{"k":"XBI","n":"生物科技","c":-2.7,"pm":-0.81,"w":-6.89,"m":-9.08,"ytd":19.55,"px":146.17},{"k":"ITA","n":"航空国防","c":-0.17,"pm":-0.45,"w":-1.85,"m":-9.82,"ytd":-5.69,"px":203.25},{"k":"XHB","n":"住宅建筑","c":-0.57,"pm":-0.93,"w":-1.26,"m":-8.34,"ytd":-8.81,"px":94.35},{"k":"IYT","n":"交通运输","c":0.08,"pm":0,"w":0.64,"m":-5.73,"ytd":5.52,"px":78.98},{"k":"XOP","n":"油气开采","c":2.69,"pm":1.81,"w":8.01,"m":-0.28,"ytd":52.94,"px":193.3},{"k":"GDX","n":"金矿","c":0.16,"pm":-0.07,"w":-2.38,"m":-13.44,"ytd":-1.74,"px":85.6},{"k":"URA","n":"铀与核电","c":-3.54,"pm":-1.53,"w":-2.86,"m":-17.88,"ytd":-11.4,"px":38.52},{"k":"TAN","n":"太阳能","c":-0.99,"pm":-0.64,"w":-0.21,"m":-10.97,"ytd":-14.4,"px":43.1},{"k":"KWEB","n":"中概互联","c":-1.75,"pm":-1.32,"w":-2.47,"m":-6.4,"ytd":-32.28,"px":23.91},{"k":"ARKK","n":"创新成长","c":-1.03,"pm":0.17,"w":-2.18,"m":1.44,"ytd":11.84,"px":87.39},{"k":"IWM","n":"小盘股","c":-0.94,"pm":-0.5,"w":-0.82,"m":-6.86,"ytd":11.09,"px":275.08}],"macro":[{"grp":"idx","k":"SPX","n":"标普 500","v":7771.31,"c":-0.39,"bp":null,"pm":null,"w":1.37,"m":0.69,"ytd":12.99},{"grp":"idx","k":"NDX","n":"纳指 100","v":30947.72,"c":-0.68,"bp":null,"pm":null,"w":1.36,"m":4.39,"ytd":21.25},{"grp":"idx","k":"DJI","n":"道指","v":51010.78,"c":-0.33,"bp":null,"pm":null,"w":0,"m":-3.95,"ytd":6.04},{"grp":"idx","k":"RUT","n":"罗素 2000","v":2783.1,"c":-0.36,"bp":null,"pm":null,"w":-0.41,"m":-6.28,"ytd":11.69},{"grp":"idx","k":"IXIC","n":"纳斯达克综指","v":27355.66,"c":-0.66,"bp":null,"pm":null,"w":1.35,"m":3.12,"ytd":16.5},{"grp":"idx","k":"RSP","n":"标普 500 等权 ETF","v":210.33,"c":-0.13,"bp":null,"pm":-0.28,"w":1.02,"m":-3.57,"ytd":9.43},{"grp":"fut","k":"ES1!","n":"标普期货","v":7822.25,"c":-0.39,"bp":null,"pm":null,"w":1.33,"m":1.38,"ytd":13.33},{"grp":"fut","k":"NQ1!","n":"纳指期货","v":31179.75,"c":-0.71,"bp":null,"pm":null,"w":1.54,"m":5.57,"ytd":22.38},{"grp":"fut","k":"YM1!","n":"道指期货","v":51272,"c":-0.34,"bp":null,"pm":null,"w":-0.12,"m":-3.73,"ytd":5.99},{"grp":"fut","k":"RTY1!","n":"罗素期货","v":2784.9,"c":-0.97,"bp":null,"pm":null,"w":-1.23,"m":-6.38,"ytd":11.33},{"grp":"rate","k":"US02Y","n":"2 年美债","v":4.781,"c":0.23,"bp":1.1,"pm":null,"w":-2.25,"m":9.28,"ytd":36.91},{"grp":"rate","k":"US10Y","n":"10 年美债","v":5.261,"c":-0.47,"bp":-2.5,"pm":null,"w":-0.66,"m":9.79,"ytd":25.53},{"grp":"rate","k":"US30Y","n":"30 年美债","v":5.62,"c":-0.93,"bp":-5.3,"pm":null,"w":-0.3,"m":7.05,"ytd":15.21},{"grp":"vol","k":"VIX","n":"VIX 恐慌指数","v":15.48,"c":2.65,"bp":null,"pm":null,"w":-5.21,"m":-0.51,"ytd":4.24},{"grp":"fx","k":"DXY","n":"美元指数","v":102.22,"c":-0.03,"bp":null,"pm":null,"w":0.75,"m":3.41,"ytd":4.06},{"grp":"fx","k":"EURUSD","n":"欧元/美元","v":1.1198,"c":0.01,"bp":null,"pm":null,"w":-1.16,"m":-3.66,"ytd":-4.61},{"grp":"fx","k":"USDJPY","n":"美元/日元","v":158.15,"c":0.04,"bp":null,"pm":null,"w":0.48,"m":2.47,"ytd":0.83},{"grp":"fx","k":"USDCNH","n":"美元/离岸人民币","v":6.7037,"c":0.01,"bp":null,"pm":null,"w":-0.08,"m":-0.08,"ytd":-3.9},{"grp":"cmd","k":"CL1!","n":"WTI 原油","v":92.49,"c":4.77,"bp":null,"pm":null,"w":2.31,"m":0.25,"ytd":61.1},{"grp":"cmd","k":"BRN1!","n":"布伦特原油","v":105.43,"c":5.22,"bp":null,"pm":null,"w":7.96,"m":8.44,"ytd":73.23},{"grp":"cmd","k":"NG1!","n":"天然气","v":3.126,"c":-2.4,"bp":null,"pm":null,"w":3.65,"m":6.65,"ytd":-15.03},{"grp":"cmd","k":"GC1!","n":"黄金","v":4129.8,"c":-0.26,"bp":null,"pm":null,"w":-1.44,"m":-7.54,"ytd":-4.84},{"grp":"cmd","k":"SILVER","n":"白银","v":59.07,"c":-1.21,"bp":null,"pm":null,"w":-2.26,"m":-10.79,"ytd":-18.41},{"grp":"cmd","k":"HG1!","n":"铜","v":6.5735,"c":-1.14,"bp":null,"pm":null,"w":-0.97,"m":-1.43,"ytd":15.39},{"grp":"crypto","k":"BTCUSD","n":"比特币","v":81222.33,"c":-2.46,"bp":null,"pm":null,"w":-2.79,"m":2.7,"ytd":-7.17},{"grp":"crypto","k":"ETHUSD","n":"以太坊","v":2433.26,"c":-5.45,"bp":null,"pm":null,"w":-9.35,"m":-2.25,"ytd":-17.98}],"breadth":{"n":503,"adv":220,"dec":281,"unch":2,"a50":28,"a200":43.9,"hi":5,"lo":13,"pmAdv":null,"pmDec":null},"movers":{"up":["CMG","MPC","APA","SKYD","GDDY","VLO","TPL","ROL"],"down":["COHR","BE","SMCI","LLY","VST","ECHO","GRMN","SWKS"],"pmUp":[],"pmDown":[],"vol":["CMG","SBUX","PLTR","MDT","TECH","PEP","EW","GNRC"]},"earnings":{"results":[],"upcoming":[{"d":"2026-10-08","s":"PEP","n":"Pepsico, Inc.","t":"bmo","mc":168.9,"eF":2.29,"eA":null,"sp":null,"ests":7,"q":"Sep/2026","spx":true},{"d":"2026-10-09","s":"DAL","n":"Delta Air Lines, Inc.","t":"bmo","mc":54.6,"eF":1.93,"eA":null,"sp":null,"ests":7,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"JPM","n":"J P Morgan Chase & Co","t":"bmo","mc":876.1,"eF":5.94,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"JNJ","n":"Johnson & Johnson","t":"bmo","mc":622.8,"eF":2.82,"eA":null,"sp":null,"ests":7,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"UNH","n":"UnitedHealth Group Incorporated","t":"bmo","mc":337.5,"eF":4.12,"eA":null,"sp":null,"ests":8,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"GS","n":"The Goldman Sachs Group, Inc.","t":"bmo","mc":258.3,"eF":12.9,"eA":null,"sp":null,"ests":7,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"WFC","n":"Wells Fargo & Company","t":"bmo","mc":242.7,"eF":1.85,"eA":null,"sp":null,"ests":8,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"C","n":"Citigroup Inc.","t":"bmo","mc":213.6,"eF":2.66,"eA":null,"sp":null,"ests":7,"q":"Sep/2026","spx":true},{"d":"2026-10-13","s":"DPZ","n":"Domino's Pizza Inc","t":"bmo","mc":10,"eF":4.33,"eA":null,"sp":null,"ests":9,"q":"Sep/2026","spx":true},{"d":"2026-10-14","s":"ASML","n":"ASML Holding N.V.","t":"bmo","mc":695.7,"eF":12.47,"eA":null,"sp":null,"ests":3,"q":"Sep/2026","spx":false},{"d":"2026-10-14","s":"BAC","n":"Bank of America Corporation","t":"bmo","mc":374.3,"eF":1.12,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-14","s":"MS","n":"Morgan Stanley","t":"bmo","mc":298,"eF":2.88,"eA":null,"sp":null,"ests":5,"q":"Sep/2026","spx":true},{"d":"2026-10-14","s":"BLK","n":"BlackRock, Inc.","t":"bmo","mc":165.7,"eF":14.04,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-14","s":"FAST","n":"Fastenal Company","t":"bmo","mc":57.2,"eF":0.34,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-14","s":"STT","n":"State Street Corporation","t":"bmo","mc":47.9,"eF":3.63,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"TSM","n":"Taiwan Semiconductor Manufacturing Company Ltd.","t":"bmo","mc":2449.1,"eF":4.45,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":false},{"d":"2026-10-15","s":"SCHW","n":"The Charles Schwab Corporation","t":"bmo","mc":165.3,"eF":1.66,"eA":null,"sp":null,"ests":10,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"PLD","n":"Prologis, Inc.","t":"bmo","mc":120.7,"eF":1.58,"eA":null,"sp":null,"ests":2,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"BNY","n":"The Bank Of New York Mellon Corporation ","t":"bmo","mc":96.8,"eF":2.27,"eA":null,"sp":null,"ests":6,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"USB","n":"U.S. Bancorp","t":"bmo","mc":87.5,"eF":1.33,"eA":null,"sp":null,"ests":9,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"PNC","n":"PNC Financial Services Group, Inc. (The)","t":"bmo","mc":86.9,"eF":4.97,"eA":null,"sp":null,"ests":8,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"MRSH","n":"Marsh","t":"bmo","mc":82.9,"eF":1.96,"eA":null,"sp":null,"ests":10,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"INFY","n":"Infosys Limited","t":"","mc":42.8,"eF":0.21,"eA":null,"sp":null,"ests":3,"q":"Sep/2026","spx":false},{"d":"2026-10-15","s":"IBKR","n":"Interactive Brokers Group, Inc.","t":"amc","mc":39.8,"eF":0.66,"eA":null,"sp":null,"ests":2,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"ERIC","n":"Ericsson","t":"bmo","mc":31.9,"eF":0.14,"eA":null,"sp":null,"ests":3,"q":"Sep/2026","spx":false},{"d":"2026-10-15","s":"JBHT","n":"J.B. Hunt Transport Services, Inc.","t":"amc","mc":20.9,"eF":1.95,"eA":null,"sp":null,"ests":9,"q":"Sep/2026","spx":true},{"d":"2026-10-15","s":"SNA","n":"Snap-On Incorporated","t":"","mc":18.6,"eF":4.91,"eA":null,"sp":null,"ests":5,"q":"Sep/2026","spx":true}]},"econ":[{"t":"2026-10-07T11:00:00.000Z","n":"MBA 30-Year Mortgage Rate","per":"Oct/02","a":7.49,"f":null,"p":7.3,"u":"%","imp":0,"src":"Mortgage Bankers Association of America"},{"t":"2026-10-07T14:30:00.000Z","n":"EIA Crude Oil Stocks Change","per":"Oct/02","a":-3.186,"f":1.7,"p":0.922,"u":"M","imp":0,"src":"U.S. Energy Information Administration"},{"t":"2026-10-07T14:30:00.000Z","n":"EIA Gasoline Stocks Change","per":"Oct/02","a":0.382,"f":-1.7,"p":-1.684,"u":"M","imp":0,"src":"U.S. Energy Information Administration"},{"t":"2026-10-07T18:00:00.000Z","n":"FOMC Minutes","per":"","a":null,"f":null,"p":null,"u":"","imp":1,"src":"Federal Reserve"},{"t":"2026-10-08T08:30:00.000Z","n":"Fed Waller Speech","per":"","a":null,"f":null,"p":null,"u":"","imp":0,"src":"Federal Reserve"},{"t":"2026-10-08T12:30:00.000Z","n":"Initial Jobless Claims","per":"Oct/03","a":197,"f":200,"p":199,"u":"K","imp":0,"src":"Department of Labour"},{"t":"2026-10-08T15:15:00.000Z","n":"Atlanta Fed GDPNow","per":"Q3","a":3.6,"f":3.7,"p":3.7,"u":"%","imp":0,"src":"Federal Reserve Bank of Atlanta"},{"t":"2026-10-08T17:40:00.000Z","n":"Fed Musalem Speech","per":"","a":null,"f":null,"p":null,"u":"","imp":0,"src":"Federal Reserve"},{"t":"2026-10-09T14:00:00.000Z","n":"Michigan Consumer Sentiment Prel","per":"Oct","a":null,"f":47.6,"p":48.1,"u":"","imp":1,"src":"University of Michigan"},{"t":"2026-10-09T20:00:00.000Z","n":"Fed Collins Speech","per":"","a":null,"f":null,"p":null,"u":"","imp":0,"src":"Federal Reserve"},{"t":"2026-10-13T12:15:00.000Z","n":"ADP Employment Change Weekly","per":"","a":null,"f":null,"p":23.75,"u":"K","imp":0,"src":"Automatic Data Processing, Inc."},{"t":"2026-10-13T14:00:00.000Z","n":"Existing Home Sales MoM","per":"Sep","a":null,"f":null,"p":-2,"u":"%","imp":0,"src":"National Association of Realtors"},{"t":"2026-10-13T14:00:00.000Z","n":"Existing Home Sales","per":"Sep","a":null,"f":null,"p":3.98,"u":"M","imp":1,"src":"National Association of Realtors"},{"t":"2026-10-13T18:00:00.000Z","n":"Monthly Budget Statement","per":"Sep","a":null,"f":null,"p":-167,"u":"$B","imp":0,"src":"Financial Management Service"},{"t":"2026-10-14T11:00:00.000Z","n":"MBA 30-Year Mortgage Rate","per":"Oct/09","a":null,"f":null,"p":7.49,"u":"","imp":0,"src":"Mortgage Bankers Association of America"},{"t":"2026-10-14T12:30:00.000Z","n":"CPI s.a","per":"Sep","a":null,"f":null,"p":334.131,"u":"","imp":0,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T12:30:00.000Z","n":"CPI","per":"Sep","a":null,"f":null,"p":334.98,"u":"","imp":0,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T12:30:00.000Z","n":"Core Inflation Rate MoM","per":"Sep","a":null,"f":null,"p":0.3,"u":"%","imp":1,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T12:30:00.000Z","n":"Core Inflation Rate YoY","per":"Sep","a":null,"f":null,"p":2.4,"u":"%","imp":1,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T12:30:00.000Z","n":"Inflation Rate MoM","per":"Sep","a":null,"f":null,"p":0.4,"u":"","imp":1,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T12:30:00.000Z","n":"Inflation Rate YoY","per":"Sep","a":null,"f":null,"p":3.4,"u":"%","imp":1,"src":"Bureau of Labour Statistics"},{"t":"2026-10-14T20:30:00.000Z","n":"API Crude Oil Stock Change","per":"Oct/09","a":null,"f":null,"p":-2.09,"u":"","imp":0,"src":"American Petroleum Institute (API)"},{"t":"2026-10-15T12:30:00.000Z","n":"Initial Jobless Claims","per":"Oct/10","a":null,"f":null,"p":197,"u":"K","imp":0,"src":"Department of Labour"},{"t":"2026-10-15T12:30:00.000Z","n":"Retail Sales Control Group MoM","per":"Sep","a":null,"f":null,"p":1.4,"u":"%","imp":0,"src":"Census Bureau"},{"t":"2026-10-15T12:30:00.000Z","n":"Philadelphia Fed Manufacturing Index","per":"Oct","a":null,"f":null,"p":37.8,"u":"","imp":0,"src":"Federal Reserve Bank of Philadelphia"},{"t":"2026-10-15T12:30:00.000Z","n":"Core PPI MoM","per":"Sep","a":null,"f":null,"p":0.2,"u":"%","imp":0,"src":"Department of Labour"},{"t":"2026-10-15T12:30:00.000Z","n":"NY Empire State Manufacturing Index","per":"Oct","a":null,"f":null,"p":7.6,"u":"","imp":0,"src":"Federal Reserve Bank of New York"},{"t":"2026-10-15T12:30:00.000Z","n":"PPI MoM","per":"Sep","a":null,"f":null,"p":0.4,"u":"","imp":1,"src":"Bureau of Labour Statistics"},{"t":"2026-10-15T13:30:00.000Z","n":"Retail Sales Ex Autos MoM","per":"Sep","a":null,"f":null,"p":1.4,"u":"","imp":0,"src":"Census Bureau"},{"t":"2026-10-15T13:30:00.000Z","n":"Retail Sales MoM","per":"Sep","a":null,"f":null,"p":1.2,"u":"","imp":1,"src":"Census Bureau"},{"t":"2026-10-15T14:00:00.000Z","n":"Business Inventories MoM","per":"Aug","a":null,"f":null,"p":0.8,"u":"%","imp":0,"src":"Census Bureau"},{"t":"2026-10-15T15:00:00.000Z","n":"Atlanta Fed GDPNow","per":"Q3","a":null,"f":null,"p":3.6,"u":"%","imp":0,"src":"Federal Reserve Bank of Atlanta"},{"t":"2026-10-15T16:00:00.000Z","n":"EIA Crude Oil Stocks Change","per":"Oct/09","a":null,"f":null,"p":-3.186,"u":"","imp":0,"src":"U.S. Energy Information Administration"},{"t":"2026-10-15T16:00:00.000Z","n":"EIA Gasoline Stocks Change","per":"Oct/09","a":null,"f":null,"p":0.382,"u":"","imp":0,"src":"U.S. Energy Information Administration"}],"src":{"quotes":["TradingView 行情筛选器（延迟 15 分钟）","https://www.tradingview.com/screener/"],"list":["Wikipedia：标普 500 成分股与 GICS 行业","https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"],"session":["Nasdaq 市场状态","https://www.nasdaq.com/market-activity"],"earnings":["Nasdaq 财报日历","https://www.nasdaq.com/market-activity/earnings"],"econ":["TradingView 经济日历","https://www.tradingview.com/economic-calendar/"]},"warn":[]},"edit":{"no":1,"edited":"2026-10-08 09:30 PT","cover":{"title":"布伦特单日涨 5% 至 105 美元，标普 500 连跌第二天，11 个板块只有能源、必需消费、通信服务上涨","dek":"Yahoo Finance 引述的报道称特朗普可能在中期选举前考虑打击伊朗，原油大涨，10 年期美债收益率停在 5.26% 附近。截至美西 09:18，标普 500 跌 0.39%，纳指 100 跌 0.68%；能源板块涨 2.96%，医疗保健跌 1.93% 垫底。本期为盘中版，收盘数字以明早一期为准。","points":["能源 21 只成分股全部上涨，XLE +2.96%：炼油股马拉松原油 +5.4%、瓦莱罗 +4.4%；EIA 10/7 公布原油库存减少 319 万桶，市场预期增加 170 万桶。","并购传闻：《金融时报》称星巴克曾与顾问研究收购 Chipotle，CMG +6.3%、成交量约为 10 日均量的 2 倍，星巴克 −3.9%。","高位 AI 硬件股回吐：Coherent −5.4%、超微电脑 −4.9%，半导体 ETF SMH −1.4%，但它年初至今仍 +67%。","宽度偏弱：标普 500 成分股 220 涨 281 跌，只有 28% 站上 50 日均线；等权 ETF RSP（−0.13%）跑赢市值加权指数 0.26 个百分点。","数据与日程：首申 19.7 万人，低于预期的 20 万；下周二（10/13）摩根大通、高盛、富国、花旗等 7 家标普公司发布三季报。"]},"sectors":{"XLK":{"t":"光模块与 AI 硬件回吐：Coherent −5.4%、Lumentum −3.8%、康宁 −3.6%、英特尔 −3.6%；英伟达 −0.9%，微软、苹果小幅上涨。75 只中 23 涨 52 跌，年初至今仍 +37%。","src":[["24/7 Wall St. 10/8：光模块股获利了结","https://247wallst.com/investing/2026/10/08/optics-stocks-tumble-as-profit-taking-cuts-into-big-yearly-gains-applied-optoelectronics-drops-9-coherent-falls-5-lumentum-slides-4"]]},"XLC":{"t":"Skydance 完成华纳兄弟探索并购、改在纽交所上市后连跌两日，今天反弹 4.8%；奈飞 +2.0%、迪士尼 +1.1%、T-Mobile +1.2%。","src":[["24/7 Wall St. 10/8：Skydance 上市后首次反弹","https://247wallst.com/investing/2026/10/08/skydance-climbs-5-as-buyers-return-after-its-debut-selloff-netflix-and-walt-disney-edge-higher/"]]},"XLY":{"t":"Chipotle +6.3% 与星巴克 −3.9% 来自同一则收购传闻；特斯拉 −1.6%、亚马逊 −0.7% 拖累板块，47 只中 26 涨 21 跌。","src":[["Bloomberg 10/8：Chipotle 因星巴克收购传闻大涨","https://ca.finance.yahoo.com/news/chipotle-jumps-report-starbucks-explored-141555921.html"]]},"XLP":{"t":"板块涨 1.4%，34 只中 29 只上涨：沃尔玛 +1.9%、可口可乐 +1.4%、百事 +1.2%。百事三季度调整后 EPS 2.34 美元高于预期 2.29 美元，但下调全年核心 EPS 增速指引至 2.5%–3%。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"XLV":{"t":"跌幅最大的板块，60 只中 48 只下跌：礼来 −4.3%、赛默飞 −3.4%、默沙东 −2.6%、强生 −2.1%；生物科技 ETF XBI −2.7%。礼来没有明确的利空消息。","src":[]},"XLF":{"t":"美国银行 −2.2%、摩根大通 −0.9%、高盛 −0.7%；地区银行 ETF KRE −0.4%。下周二大行密集发布三季报。","src":[]},"XLI":{"t":"基本持平（−0.08%），42 涨 41 跌：GE Vernova +1.2%、雷神 +1.0%；卡特彼勒 −0.7%、波音 −1.4%。","src":[]},"XLE":{"t":"21 只全部上涨：康菲 +3.3%、雪佛龙 +3.1%、埃克森美孚 +2.8%，炼油股涨幅更大。布伦特单日涨约 5% 至 105 美元，WTI 约 92 美元。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"XLB":{"t":"铜价 −1.1%，自由港 −1.5%；黄金基本持平，纽蒙特 +0.5%。24 只中 9 涨 15 跌。","src":[]},"XLU":{"t":"31 只中只有 2 只上涨。核电运营商回吐：Vistra −4.0%、星座能源 −2.7%，两者近一周仍分别 +15% 和 +11%。","src":[]},"XLRE":{"t":"10 年期美债收益率 5.26%、30 年期 5.62%，均处高位；Equinix −1.7%、美国铁塔 −0.8%，Welltower +0.4%。","src":[]}},"movers":{"CMG":{"why":"《金融时报》报道星巴克近几个月与顾问研究收购 Chipotle，交易未必成行，双方未置评；盘中一度涨 8.6%，成交量约为 10 日均量的 2 倍。星巴克 CEO 尼科尔此前正是 Chipotle 的 CEO。","src":[["Bloomberg 10/8：Chipotle 因星巴克收购传闻大涨","https://ca.finance.yahoo.com/news/chipotle-jumps-report-starbucks-explored-141555921.html"],["Axios 10/8","https://www.axios.com/2026/10/08/chipotle-starbucks-stock-brian-niccol"]]},"MPC":{"why":"布伦特单日涨约 5% 至 105 美元（报道称特朗普可能在中期选举前考虑打击伊朗），炼油股领涨能源板块；近一周累计 +18.5%。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"APA":{"why":"油价大涨带动上游油气股，APA 年初至今 +87%。公司本身没有新消息。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"SKYD":{"why":"华纳兄弟探索并购完成后改在纽交所交易，前两个交易日连跌（10/7 跌约 8%），今天首次反弹。并购资金靠借款，债务负担是市场的主要担忧。","src":[["24/7 Wall St. 10/8：Skydance 上市后首次反弹","https://247wallst.com/investing/2026/10/08/skydance-climbs-5-as-buyers-return-after-its-debut-selloff-netflix-and-walt-disney-edge-higher/"]]},"GDDY":{"why":"无明确消息。年初至今仍跌 17.7%，今天相对成交量仅 0.2 倍。","src":[]},"VLO":{"why":"与马拉松原油同因：原油单日涨约 5%，炼油股走强；近一周累计 +14.4%。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"TPL":{"why":"油价上涨带动二叠纪盆地资源股；公司没有新消息，近一周 +10.7%。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},"ROL":{"why":"无明确消息。年初至今仍跌 46%，今天相对成交量 0.4 倍。","src":[]},"COHR":{"why":"光模块股集体获利了结：Applied Optoelectronics −9%、Lumentum −4%、Roundhill 光子 ETF −6%；公司没有新披露。","src":[["24/7 Wall St. 10/8：光模块股获利了结","https://247wallst.com/investing/2026/10/08/optics-stocks-tumble-as-profit-taking-cuts-into-big-yearly-gains-applied-optoelectronics-drops-9-coherent-falls-5-lumentum-slides-4"]]},"BE":{"why":"Bernstein 10/7 维持「与大市持平」评级、目标价 282 美元，略低于前收；同日 UBS 把目标价从 325 上调到 350 美元。年初至今已涨超 195%。","src":[["StockTwits/Yahoo 10/8：Bernstein 维持 Bloom Energy 评级","https://finance.yahoo.com/markets/stocks/articles/stock-falls-premarket-bernstein-says-080247327.html"]]},"SMCI":{"why":"无明确消息。AI 硬件股普遍走弱，半导体 ETF SMH 同日 −1.4%。","src":[]},"LLY":{"why":"无明确消息。Cantor Fitzgerald 当天早盘还把目标价从 1,410 上调到 1,440 美元；医疗保健板块整体 −1.9%，60 只成分股 48 只下跌。","src":[["Investing.com 10/8：Cantor 上调礼来目标价","https://www.investing.com/news/analyst-ratings/cantor-fitzgerald-raises-eli-lilly-stock-price-target-on-demand-trends-93CH-4938750"]]},"VST":{"why":"无明确消息。10/6 因能源部计划向其核电业务贷款约 42 亿美元单日大涨，近一周仍 +15%；星座能源今天也跌 2.7%。","src":[["TheStreet：能源部拟向 Vistra 贷款 42 亿美元","https://www.thestreet.com/investing/stocks/us-department-energy-loan-4-billion-vistra-vst-crashing-stock"]]},"ECHO":{"why":"无明确消息。近一周仍 +4.9%，年初至今 −13.7%。","src":[]},"GRMN":{"why":"无明确消息。近一周累计 −7.5%。","src":[]},"SWKS":{"why":"无明确消息。半导体股普遍走弱，SMH 同日 −1.4%。","src":[]}},"news":[{"tag":"原油","date":"10/8","title":"布伦特涨 5% 至 105 美元，10 年期美债收益率在 5.3% 附近","body":"报道称特朗普可能在中期选举前考虑打击伊朗，海湾与霍尔木兹海峡的航运袭击增加，墨西哥湾产油商又因热带风暴减产。WTI 涨至约 92 美元。10 年期、30 年期美债收益率分别在 5.29% 和 5.67% 附近（Yahoo 早盘口径）。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},{"tag":"美联储","date":"10/7","title":"9 月会议纪要：全员支持加息，多数认为年内再加一次合适","body":"9 月 16 日美联储加息 25 个基点至 3.75%–4.00%，为 2023 年以来首次加息。纪要显示官员对加息理由有分歧：一部分视为风险管理，另一部分认为是压通胀所必需。下次议息为 10 月 28 日。","src":[["Reuters/Investing.com 10/7：9 月议息会议纪要","https://www.investing.com/news/economy-news/fed-policymakers-divided-over-ratehike-logic-in-september-minutes-show-4937320"],["Investing.com 10/7：多数官员认为年内再加息一次合适","https://www.investing.com/news/economy-news/fed-minutes-show-most-policymakers-see-another-rate-hike-by-year-end-4937310"]]},{"tag":"并购","date":"10/8","title":"传星巴克研究收购 Chipotle","body":"《金融时报》称星巴克近几个月与顾问研究收购方案，交易可能不会发生。Chipotle 盘中一度涨 8.6%，星巴克一度跌 6.7%，为一年多来最大盘中跌幅。","src":[["Bloomberg 10/8：Chipotle 因星巴克收购传闻大涨","https://ca.finance.yahoo.com/news/chipotle-jumps-report-starbucks-explored-141555921.html"],["Axios 10/8","https://www.axios.com/2026/10/08/chipotle-starbucks-stock-brian-niccol"]]},{"tag":"财报","date":"10/8","title":"百事三季度收入 252.7 亿美元，下调全年利润增速指引","body":"收入同比增 5.6%，略高于约 250 亿美元的预期；调整后 EPS 2.34 美元，预期 2.29 美元。公司把核心 EPS 增速指引从 5%–7% 的下沿下调至 2.5%–3%，并暗示可能裁员。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},{"tag":"就业","date":"10/8","title":"首申 19.7 万人，持续申领升至 171 万","body":"截至 10 月 3 日当周首次申领失业救济减少 2,000 人至 19.7 万；截至 9 月 26 日当周持续申领增加 1.7 万人至 171 万。亚马逊确认裁减不到 1,000 个岗位，以零售为主。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]},{"tag":"评级","date":"10/8","title":"高盛把 Palantir 上调至「买入」，目标价 230 美元","body":"评级由「中性」上调，Palantir 盘中涨约 3%，放量至 10 日均量的 1.5 倍。","src":[["Yahoo Finance 10/8 美股直播","https://finance.yahoo.com/markets/live/stock-market-today-thursday-october-8-dow-sp-500-nasdaq-080537884.html"]]}]}}]</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>(()=>{'use strict';
+// Renders one issue of 美股晨报 from the embedded archive (newest first). The only external load is d3 for the heat map.
+const ISSUES = JSON.parse(document.getElementById('issues-data').textContent);
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const href = u => (/^https:\/\//.test(u) ? u : '#');
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage blocked */ } },
+};
+
+const WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const STATUS = { pre: '盘前', open: '盘中', post: '盘后', closed: '休市' };
+const SCALE = { c: 3, pm: 3, w: 6, m: 10, ytd: 40 };
+const MODE_NAME = { pm: '盘前涨跌', w: '近一周涨跌', m: '近一月涨跌', ytd: '年初至今涨跌' };
+
+// Chinese names for the names readers know best; everything else shows the English name.
+const CN = {
+  NVDA: '英伟达', AAPL: '苹果', MSFT: '微软', GOOGL: '谷歌 A', GOOG: '谷歌 C', AMZN: '亚马逊', META: 'Meta', AVGO: '博通', TSLA: '特斯拉',
+  'BRK.B': '伯克希尔', LLY: '礼来', JPM: '摩根大通', V: 'Visa', MA: '万事达', WMT: '沃尔玛', ORCL: '甲骨文', XOM: '埃克森美孚',
+  NFLX: '奈飞', COST: '好市多', JNJ: '强生', HD: '家得宝', PG: '宝洁', BAC: '美国银行', ABBV: '艾伯维', UNH: '联合健康', KO: '可口可乐',
+  CSCO: '思科', AMD: 'AMD', CVX: '雪佛龙', CRM: '赛富时', IBM: 'IBM', WFC: '富国银行', MRK: '默沙东', MCD: '麦当劳', PEP: '百事',
+  QCOM: '高通', INTC: '英特尔', BA: '波音', CAT: '卡特彼勒', GS: '高盛', MS: '摩根士丹利', DIS: '迪士尼', MU: '美光', AMAT: '应用材料',
+  LRCX: '泛林', KLAC: '科磊', TXN: '德州仪器', ADBE: 'Adobe', INTU: '财捷', ISRG: '直觉外科', PFE: '辉瑞', AMGN: '安进', GILD: '吉利德',
+  NKE: '耐克', SBUX: '星巴克', UBER: '优步', PLTR: 'Palantir', SMCI: '超微电脑', DELL: '戴尔', HPQ: '惠普', HPE: '慧与', GE: '通用电气航空',
+  GEV: 'GE Vernova', HON: '霍尼韦尔', LMT: '洛克希德·马丁', RTX: '雷神', NOC: '诺斯罗普', GD: '通用动力', GM: '通用汽车', F: '福特',
+  UPS: 'UPS', FDX: '联邦快递', AXP: '美国运通', BLK: '贝莱德', BX: '黑石', SCHW: '嘉信理财', C: '花旗', COP: '康菲石油', NEE: '新纪元能源',
+  CEG: '星座能源', VST: 'Vistra', OXY: '西方石油', SLB: '斯伦贝谢', CMG: 'Chipotle', TGT: '塔吉特', LOW: '劳氏', ABNB: '爱彼迎',
+  BKNG: 'Booking', PYPL: 'PayPal', ANET: 'Arista', MRVL: '迈威尔', ADI: '亚德诺', NOW: 'ServiceNow', PANW: '派拓网络', CRWD: 'CrowdStrike',
+  SNPS: '新思科技', CDNS: '楷登电子', TMO: '赛默飞', ABT: '雅培', DHR: '丹纳赫', BMY: '百时美施贵宝', CVS: 'CVS 健康', CI: '信诺',
+  HUM: 'Humana', ELV: 'Elevance', VRTX: '福泰制药', REGN: '再生元', MDT: '美敦力', SYK: '史赛克', T: 'AT&T', VZ: '威瑞森', TMUS: 'T-Mobile',
+  CMCSA: '康卡斯特', CHTR: '特许通讯', WBD: '华纳兄弟探索', EA: '艺电', TTWO: 'Take-Two', MO: '奥驰亚', PM: '菲利普莫里斯', MDLZ: '亿滋',
+  CL: '高露洁', KHC: '卡夫亨氏', KMB: '金佰利', DE: '迪尔', MMM: '3M', UNP: '联合太平洋', LIN: '林德', SHW: '宣伟', FCX: '自由港',
+  NEM: '纽蒙特', DOW: '陶氏', DD: '杜邦', DUK: '杜克能源', SO: '南方电力', AMT: '美国铁塔', PLD: '安博', EQIX: 'Equinix', SPG: '西蒙地产',
+  O: 'Realty Income', MPC: '马拉松原油', VLO: '瓦莱罗', PSX: 'Phillips 66', EOG: 'EOG 资源', APA: 'APA', HAL: '哈里伯顿', COIN: 'Coinbase',
+  HOOD: 'Robinhood', MSTR: 'Strategy', APP: 'AppLovin', DDOG: 'Datadog', WDAY: 'Workday', ADSK: '欧特克', FTNT: '飞塔', ON: '安森美',
+  NXPI: '恩智浦', MCHP: '微芯', SWKS: '思佳讯', WDC: '西部数据', STX: '希捷', COHR: 'Coherent', GLW: '康宁', JBL: '捷普', TER: '泰瑞达',
+  LULU: 'Lululemon', ROST: 'Ross', TJX: 'TJX', ORLY: "O'Reilly", AZO: 'AutoZone', YUM: '百胜', DPZ: '达美乐', MAR: '万豪', HLT: '希尔顿',
+  CCL: '嘉年华', RCL: '皇家加勒比', DAL: '达美航空', UAL: '美联航', LUV: '西南航空', LVS: '金沙', WYNN: '永利', MGM: '美高梅',
+};
+
+const pct = v => (typeof v === 'number' ? (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2) + '%' : '—');
+const cls = v => (typeof v === 'number' ? (v > 0 ? 'up' : v < 0 ? 'dn' : 'flat') : 'flat');
+const pc = v => `<span class="${cls(v)}">${pct(v)}</span>`;
+const bp = v => (typeof v === 'number' ? `<span class="${cls(v)}">${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(v).toFixed(1)}bp</span>` : '—');
+const px = v => (typeof v !== 'number' ? '—' : Math.abs(v) >= 1000 ? v.toLocaleString('en-US', { maximumFractionDigits: 2 }) : Math.abs(v) < 20 ? String(v) : v.toFixed(2));
+const capUsd = v => (typeof v !== 'number' ? '—' : v >= 1000 ? `$${(v / 1000).toFixed(2)}T` : `$${v.toFixed(v >= 100 ? 0 : 1)}B`);
+const md = d => `${Number(d.slice(5, 7))}/${Number(d.slice(8, 10))}`;
+const wd = d => WEEK[new Date(d + 'T12:00:00Z').getUTCDay()];
+const ptTime = iso => new Date(iso).toLocaleTimeString('en-GB', { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit' });
+const etDate = iso => new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+const sources = src => (src && src.length ? `<div class="src">${src.map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>` : '');
+
+const ECON = [
+  [/^Fed (.+?) Speech$/, '美联储 $1 讲话'], [/^Fed (.+?) Testimony$/, '美联储 $1 国会证词'], [/^FOMC Minutes/, 'FOMC 会议纪要'],
+  [/^Fed Interest Rate Decision/, '美联储利率决议'], [/^FOMC Press Conference/, '美联储新闻发布会'], [/^FOMC Economic Projections/, 'FOMC 经济预测'],
+  [/^Initial Jobless Claims/, '首次申领失业救济'], [/^Continuing Jobless Claims/, '持续申领失业救济'], [/^Jobless Claims 4-week Average/, '首申四周均值'],
+  [/^Non Farm Payrolls/, '非农就业'], [/^Unemployment Rate/, '失业率'], [/^Average Hourly Earnings (MoM|YoY)/, '平均时薪 $1'],
+  [/^ADP Employment Change/, 'ADP 就业'], [/^JOLTs Job Openings/, 'JOLTS 职位空缺'], [/^Challenger Job Cuts/, '挑战者裁员'],
+  [/^Core Inflation Rate (MoM|YoY)/, '核心 CPI $1'], [/^Inflation Rate (MoM|YoY)/, 'CPI $1'], [/^CPI$/, 'CPI 指数'],
+  [/^Core PCE Price Index (MoM|YoY)/, '核心 PCE $1'], [/^PCE Price Index (MoM|YoY)/, 'PCE $1'], [/^Core PPI (MoM|YoY)/, '核心 PPI $1'], [/^PPI (MoM|YoY)/, 'PPI $1'],
+  [/^Retail Sales Ex Autos (MoM)/, '零售销售（除汽车）$1'], [/^Retail Sales (MoM|YoY)/, '零售销售 $1'], [/^GDP Growth Rate QoQ/, 'GDP 季环比年化'],
+  [/^GDP Price Index/, 'GDP 价格指数'], [/^ISM Manufacturing PMI/, 'ISM 制造业 PMI'], [/^ISM Services PMI/, 'ISM 服务业 PMI'],
+  [/^S&P Global Manufacturing PMI/, '标普全球制造业 PMI'], [/^S&P Global Services PMI/, '标普全球服务业 PMI'], [/^S&P Global Composite PMI/, '标普全球综合 PMI'],
+  [/^Michigan Consumer Sentiment/, '密歇根消费者信心'], [/^Michigan (\d+)-Year Inflation Expectations/, '密歇根 $1 年通胀预期'],
+  [/^CB Consumer Confidence/, '世企研消费者信心'], [/^EIA Crude Oil Stocks Change/, 'EIA 原油库存'], [/^EIA Gasoline Stocks Change/, 'EIA 汽油库存'],
+  [/^EIA Natural Gas Stocks Change/, 'EIA 天然气库存'], [/^EIA Distillate Stocks Change/, 'EIA 馏分油库存'], [/^EIA Refinery Crude Runs Change/, 'EIA 炼厂开工'],
+  [/^EIA Crude Oil Imports Change/, 'EIA 原油进口'], [/^EIA Cushing Crude Oil Stocks Change/, 'EIA 库欣原油库存'], [/^EIA Heating Oil Stocks Change/, 'EIA 取暖油库存'],
+  [/^EIA Gasoline Production Change/, 'EIA 汽油产量'], [/^EIA Distillate Fuel Production Change/, 'EIA 馏分油产量'],
+  [/^API Crude Oil Stock Change/, 'API 原油库存'], [/^(\d+)-Year Note Auction/, '$1 年期国债拍卖'], [/^(\d+)-Year Bond Auction/, '$1 年期国债拍卖'],
+  [/^(\d+)-Year TIPS Auction/, '$1 年期 TIPS 拍卖'], [/^(\d+)-Week Bill Auction/, '$1 周国库券拍卖'], [/^(\d+)-Month Bill Auction/, '$1 个月国库券拍卖'],
+  [/^MBA 30-Year Mortgage Rate/, 'MBA 30 年房贷利率'], [/^MBA Mortgage Applications/, 'MBA 房贷申请'], [/^MBA Purchase Index/, 'MBA 购房指数'],
+  [/^MBA Mortgage Refinance Index/, 'MBA 再融资指数'], [/^MBA Mortgage Market Index/, 'MBA 房贷市场指数'],
+  [/^Wholesale Inventories/, '批发库存'], [/^Consumer Credit/, '消费信贷'], [/^Building Permits/, '营建许可'], [/^Housing Starts/, '新屋开工'],
+  [/^Existing Home Sales/, '成屋销售'], [/^New Home Sales/, '新屋销售'], [/^Pending Home Sales/, '成屋签约'], [/^Durable Goods Orders/, '耐用品订单'],
+  [/^Industrial Production/, '工业产出'], [/^Balance of Trade/, '贸易差额'], [/^Baker Hughes (Oil |Total )?Rig Count/, '贝克休斯钻井数'],
+  [/^Monthly Budget Statement/, '月度财政预算'], [/^Fed Balance Sheet/, '美联储资产负债表'], [/^NY Empire State Manufacturing/, '纽约州制造业指数'],
+  [/^Philadelphia Fed Manufacturing/, '费城联储制造业指数'], [/^Import Prices/, '进口价格'], [/^Export Prices/, '出口价格'], [/^Factory Orders/, '工厂订单'],
+  [/^Business Inventories/, '企业库存'], [/^Personal Income/, '个人收入'], [/^Personal Spending/, '个人支出'], [/^NFIB Business Optimism/, 'NFIB 小企业信心'],
+  [/^Total Vehicle Sales/, '汽车销量'], [/^Retail Inventories Ex Autos/, '零售库存（除汽车）'], [/^Goods Trade Balance/, '商品贸易差额'],
+  [/^Chicago PMI/, '芝加哥 PMI'], [/^Dallas Fed/, '达拉斯联储制造业指数'], [/^Richmond Fed/, '里士满联储制造业指数'], [/^Kansas Fed/, '堪萨斯联储制造业指数'],
+  [/^Fed (.+)$/, '美联储 $1'],
+];
+const econName = n => { for (const [re, zh] of ECON) if (re.test(n)) return n.replace(re, zh); return null; };
+
+// ---------- state ----------
+let issue = ISSUES[0];
+let D, E, COL, BY;
+let mode = 'c';
+let sector = null;
+let selected = null;
+let tab = 'sum';
+
+function load(i) {
+  issue = ISSUES[i];
+  D = issue.data;
+  E = issue.edit;
+  COL = Object.fromEntries(D.cols.map((c, j) => [c, j]));
+  BY = {};
+  for (const r of D.stocks) BY[r[COL.s]] = r;
+  if (mode === 'pm' && D.status !== 'pre') mode = 'c';
+  if (D.kind === 'weekly' && mode === 'c') mode = 'w';
+  sector = null;
+  selected = null;
+}
+const v = (row, k) => row[COL[k]];
+const cMetric = () => (D.kind === 'weekly' ? 'w' : 'c');
+const closeLabel = () => (D.session === issue.date ? (D.status === 'open' ? '盘中' : '今日收盘') : `前收 ${md(D.session)}`);
+const modeName = m => (m === 'c' ? (D.session === issue.date && D.status === 'open' ? '盘中涨跌' : `${md(D.session)} 收盘涨跌`) : MODE_NAME[m]);
+const nameOf = s => CN[s] || (BY[s] ? v(BY[s], 'n') : s);
+const enName = s => (BY[s] ? v(BY[s], 'n') : '');
+
+// ---------- heat map ----------
+let cssVars = {};
+function readVars() {
+  const cs = getComputedStyle(document.body);
+  for (const k of ['--tile-mid', '--pos-1', '--pos-2', '--pos-3', '--neg-1', '--neg-2', '--neg-3', '--ink', '--bg']) cssVars[k] = cs.getPropertyValue(k).trim();
+}
+function colorScale(m) {
+  const s = SCALE[m];
+  return d3.scaleLinear()
+    .domain([-s, -s * 0.5, -s * 0.12, 0, s * 0.12, s * 0.5, s])
+    .range([cssVars['--neg-3'], cssVars['--neg-2'], cssVars['--neg-1'], cssVars['--tile-mid'], cssVars['--pos-1'], cssVars['--pos-2'], cssVars['--pos-3']])
+    .interpolate(d3.interpolateLab).clamp(true);
+}
+
+function drawMap() {
+  const host = $('#map');
+  const W = host.clientWidth, H = host.clientHeight;
+  if (!W || !H || typeof d3 === 'undefined') return;
+  const color = colorScale(mode);
+  const zoom = sector !== null;
+  const groups = zoom
+    ? d3.groups(D.stocks.filter(r => v(r, 'g') === sector), r => D.inds[v(r, 'i')])
+    : D.sectors.map((s, gi) => [gi, D.stocks.filter(r => v(r, 'g') === gi)]);
+  const root = d3.hierarchy({ children: groups.map(([key, rows]) => ({ key, children: rows.map(r => ({ r })) })) })
+    .sum(d => (d.r ? Math.max(v(d.r, 'mc') || 0, 0.5) : 0))
+    .sort((a, b) => b.value - a.value);
+  d3.treemap().size([W, H]).tile(d3.treemapSquarify.ratio(1.2)).paddingOuter(2).paddingTop(d => (d.depth === 1 ? 17 : 0)).paddingInner(1).round(true)(root);
+
+  const svg = d3.create('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H);
+  for (const g of root.children || []) {
+    const gw = g.x1 - g.x0;
+    svg.append('rect').attr('class', 'sec-box').attr('x', g.x0 + 0.5).attr('y', g.y0 + 0.5).attr('width', Math.max(gw - 1, 0)).attr('height', Math.max(g.y1 - g.y0 - 1, 0)).attr('rx', 4);
+    if (gw > 46) {
+      const label = zoom ? g.data.key : D.sectors[g.data.key].n;
+      const sv = zoom ? null : D.sectors[g.data.key][mode === 'c' ? 'c' : mode];
+      const t = svg.append('text').attr('class', 'sec-h').attr('x', g.x0 + 5).attr('y', g.y0 + 12.5);
+      const maxChars = Math.floor((gw - 10) / 11.5);
+      t.append('tspan').text(label.length > maxChars ? label.slice(0, Math.max(maxChars - 1, 1)) + '…' : label);
+      if (sv != null && gw > 110) t.append('tspan').attr('class', `v`).attr('dx', 6).attr('fill', 'currentColor').text(pct(sv));
+    }
+  }
+  const leaves = root.leaves();
+  for (const lf of leaves) {
+    const r = lf.data.r;
+    const val = v(r, mode);
+    const w = lf.x1 - lf.x0, h = lf.y1 - lf.y0;
+    const fill = typeof val === 'number' ? color(val) : cssVars['--tile-mid'];
+    svg.append('rect').attr('class', 'cell' + (selected === v(r, 's') ? ' sel' : '')).attr('data-s', v(r, 's'))
+      .attr('x', lf.x0).attr('y', lf.y0).attr('width', Math.max(w, 0)).attr('height', Math.max(h, 0)).attr('fill', fill);
+    if (w < 20 || h < 13) continue;
+    const s = v(r, 's');
+    const fs = Math.min(w / (s.length * 0.66 + 0.5), h * 0.4, 26);
+    if (fs < 7.5) continue;
+    const ink = d3.lab(fill).l < 58 ? '#FFFFFF' : '#0B1520';
+    const showPct = h > fs * 2.25 && fs >= 9 && typeof val === 'number';
+    const cy = lf.y0 + h / 2 + (showPct ? -fs * 0.18 : fs * 0.35);
+    svg.append('text').attr('class', 'tk').attr('x', lf.x0 + w / 2).attr('y', cy).attr('font-size', fs.toFixed(1)).attr('fill', ink).text(s);
+    if (showPct) {
+      const label = pct(val);
+      const pfs = Math.min(fs * 0.62, (w - 4) / (label.length * 0.6));
+      if (pfs >= 7.5) svg.append('text').attr('class', 'pc').attr('x', lf.x0 + w / 2).attr('y', cy + fs * 0.95).attr('font-size', pfs.toFixed(1)).attr('fill', ink).text(label);
+    }
+  }
+  host.replaceChildren(svg.node());
+  drawLegend();
+}
+
+function drawLegend() {
+  const s = SCALE[mode];
+  const color = colorScale(mode);
+  const steps = d3.range(-s, s + 0.001, s / 5);
+  const n = D.stocks.filter(r => typeof v(r, mode) === 'number').length;
+  const legend = $('#legend');
+  legend.title = `面积为市值，${n} 只标普 500 成分股，${sector !== null ? '按 GICS 子行业分组' : '按 GICS 板块分组'}`;
+  legend.innerHTML = `<b>${esc(modeName(mode))}${sector !== null ? ` · ${esc(D.sectors[sector].n)}` : ''}<small>面积 = 市值</small></b>
+    <div class="ramp">${steps.map(x => `<i style="background:${color(x)}"></i>`).join('')}</div>
+    <div class="lab num"><span>≤ −${s}%</span><span>0</span><span>≥ +${s}%</span></div>`;
+}
+
+function drawChips() {
+  const k = mode === 'c' ? 'c' : mode;
+  const chips = [`<span class="lbl">板块</span><button class="chip" type="button" data-g="" aria-pressed="${sector === null}">全部</button>`]
+    .concat(D.sectors.map((s, gi) => `<button class="chip" type="button" data-g="${gi}" aria-pressed="${sector === gi}">${esc(s.n)}<b class="${cls(s[k])}">${pct(s[k])}</b></button>`));
+  $('#secs').innerHTML = chips.join('');
+}
+
+// tooltip
+const tip = $('#tip');
+function tipHtml(s) {
+  const r = BY[s];
+  if (!r) return '';
+  const mv = E.movers && E.movers[s];
+  const row = (k, val) => `<div class="r"><span>${k}</span>${val}</div>`;
+  return `<div class="h"><b>${esc(s)}</b><span>$${px(v(r, 'p'))}</span></div>
+    <div class="nm">${esc(nameOf(s))}${CN[s] ? ' · ' + esc(enName(s)) : ''} · ${esc(D.inds[v(r, 'i')])}</div>
+    ${row(D.kind === 'weekly' ? `${md(D.session)} 收盘` : closeLabel(), pc(v(r, 'c')))}
+    ${D.status === 'pre' ? row('盘前', pc(v(r, 'pm'))) : ''}
+    ${row('近一周', pc(v(r, 'w')))}${row('近一月', pc(v(r, 'm')))}${row('年初至今', pc(v(r, 'ytd')))}
+    ${row('相对成交量', `<span>${typeof v(r, 'rv') === 'number' ? v(r, 'rv').toFixed(2) + '×' : '—'}</span>`)}
+    ${row('市值', `<span>${capUsd(v(r, 'mc'))}</span>`)}
+    ${mv && mv.why && mv.why !== 'TODO' ? `<div class="why">${esc(mv.why)}</div>` : ''}`;
+}
+function placeTip(x, y) {
+  const st = $('#stage').getBoundingClientRect();
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = x - st.left + 14, top = y - st.top + 14;
+  if (left + tw > st.width - 8) left = x - st.left - tw - 14;
+  if (top + th > st.height - 8) top = Math.max(8, st.height - th - 8);
+  tip.style.left = Math.max(8, left) + 'px';
+  tip.style.top = Math.max(8, top) + 'px';
+}
+$('#map').addEventListener('pointermove', e => {
+  const el = e.target.closest('rect.cell');
+  if (!el) { if (!selected) tip.hidden = true; return; }
+  tip.innerHTML = tipHtml(el.dataset.s);
+  tip.hidden = false;
+  placeTip(e.clientX, e.clientY);
+});
+$('#map').addEventListener('pointerleave', () => { if (!selected) tip.hidden = true; });
+$('#map').addEventListener('click', e => {
+  const el = e.target.closest('rect.cell');
+  if (!el) { selected = null; tip.hidden = true; drawMap(); return; }
+  focusStock(el.dataset.s, false);
+});
+
+function focusStock(s, fromPanel) {
+  if (!BY[s]) return;
+  selected = s;
+  if (fromPanel && sector !== null && sector !== v(BY[s], 'g')) sector = null;
+  drawMap();
+  drawChips();
+  const el = document.querySelector(`#map rect.cell[data-s="${CSS.escape(s)}"]`);
+  if (!el) return;
+  const b = el.getBoundingClientRect();
+  tip.innerHTML = tipHtml(s);
+  tip.hidden = false;
+  placeTip(b.left + b.width / 2, b.top + b.height / 2);
+  if (fromPanel && window.matchMedia('(max-width:1080px)').matches) $('#stage').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ---------- panel ----------
+const sec = (title, small, body) => `<section class="sec"><h3>${esc(title)}${small ? `<small>${small}</small>` : ''}</h3>${body}</section>`;
+const isTodo = x => x == null || x === 'TODO' || (typeof x === 'string' && /TODO/.test(x));
+
+function renderSum() {
+  const idx = k => D.macro.find(m => m.k === k) || {};
+  const tiles = ['SPX', 'NDX', 'DJI', 'RUT'].map(k => {
+    const m = idx(k);
+    return `<div class="tile"><span class="k"><span>${esc(m.n)}</span><span>${esc(D.kind === 'weekly' ? '本周' : closeLabel())}</span></span>
+      <span class="v">${px(m.v)}</span><span class="d"><span class="${cls(D.kind === 'weekly' ? m.w : m.c)}">${pct(D.kind === 'weekly' ? m.w : m.c)}</span><em>${D.kind === 'weekly' ? `当日 ${pct(m.c)}` : `近一周 ${pct(m.w)}`}</em></span></div>`;
+  }).join('');
+  const fut = D.macro.filter(m => m.grp === 'fut');
+  const macroRows = D.macro.filter(m => ['rate', 'vol', 'fx', 'cmd', 'crypto'].includes(m.grp));
+  const futStamp = `${ptTime(D.fetched)} PT`;
+  const cover = E.cover || {};
+  $('#p-sum').innerHTML = `
+    <div class="stamp"><span class="eyebrow">${issue.date.replace(/-/g, '.')} ${wd(issue.date)}</span>
+      <span class="pill solid">${D.kind === 'weekly' ? '周报' : STATUS[D.status] + '版'}</span>
+      <span>No.${String(E.no).padStart(3, '0')} · 数据截至 <span class="num">${ptTime(D.fetched)}</span> PT</span></div>
+    <div class="thesis"><span class="eyebrow" style="color:var(--accent)">今日结论</span><h2>${esc(cover.title)}</h2><p>${esc(cover.dek)}</p></div>
+    ${(cover.points || []).length ? `<ul class="points">${cover.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
+    ${sec('主要指数', esc(D.kind === 'weekly' ? `截至 ${md(D.session)} 收盘` : closeLabel()), `<div class="tiles">${tiles}</div>`)}
+    ${fut.length && D.kind !== 'weekly' ? sec('股指期货', `相对前结算 · ${esc(futStamp)}`, `<div class="kv">${fut.map(m => `<div><span>${esc(m.n)}</span><b class="${cls(m.c)}">${pct(m.c)}</b></div>`).join('')}</div>`) : ''}
+    ${sec('宏观看板', `利率涨跌以基点计 · ${esc(futStamp)}`, `<div class="tbl"><table>
+      <thead><tr><th>品种</th><th class="n">最新</th><th class="n">${D.kind === 'weekly' ? '当日' : '涨跌'}</th><th class="n">近一周</th><th class="n">年初至今</th></tr></thead>
+      <tbody>${macroRows.map(m => `<tr><td class="nm">${esc(m.n)}<small>${esc(m.k)}</small></td><td class="n">${px(m.v)}${m.grp === 'rate' ? '%' : ''}</td>
+        <td class="n">${m.grp === 'rate' ? bp(m.bp) : pc(m.c)}</td><td class="n">${pc(m.w)}</td><td class="n">${pc(m.ytd)}</td></tr>`).join('')}</tbody></table></div>`)}
+    ${(E.news || []).length ? sec('要闻', `${E.news.length} 条 · 每条附来源`, `<div class="news">${E.news.map(n => `<article>
+      <div class="tg"><span class="pill a">${esc(n.tag)}</span><span class="num">${esc(n.date)}</span></div>
+      <h4>${esc(n.title)}</h4><p>${esc(n.body)}</p>${sources(n.src)}</article>`).join('')}</div>`) : ''}`;
+}
+
+function renderSec() {
+  const k = cMetric();
+  const pre = D.status === 'pre';
+  const rows = D.sectors.map((s, gi) => ({ ...s, gi })).sort((a, b) => (b[k] ?? -99) - (a[k] ?? -99));
+  const stack = s => {
+    const t = s.adv + s.dec || 1;
+    return `<div class="stack" title="上涨 ${s.adv} · 下跌 ${s.dec}"><i class="p" style="flex:${s.adv / t}"></i><i class="q" style="flex:${s.dec / t}"></i></div>`;
+  };
+  const cm = s => (E.sectors && E.sectors[s.k] && !isTodo(E.sectors[s.k].t) ? E.sectors[s.k] : null);
+  const head = `<tr><th>板块</th><th class="n">${D.kind === 'weekly' ? '近一周' : esc(closeLabel())}</th>${pre ? '<th class="n">盘前</th>' : ''}${D.kind === 'weekly' ? '' : '<th class="n">近一周</th>'}<th class="n">近一月</th><th class="n">年初至今</th><th>涨 / 跌</th></tr>`;
+  const body = rows.map(s => {
+    const c = cm(s);
+    const cols = 4 + (pre ? 1 : 0) + (D.kind === 'weekly' ? 0 : 1) + 1;
+    return `<tr class="click${c ? ' has-cm' : ''}" tabindex="0" data-g="${s.gi}"><td class="nm">${esc(s.n)}<small>${esc(s.k)} · ${s.cnt} 只</small></td>
+      <td class="n">${pc(s[k])}</td>${pre ? `<td class="n">${pc(s.pm)}</td>` : ''}${D.kind === 'weekly' ? '' : `<td class="n">${pc(s.w)}</td>`}<td class="n">${pc(s.m)}</td><td class="n">${pc(s.ytd)}</td>
+      <td style="min-width:80px">${stack(s)}<small class="num" style="color:var(--faint);font-size:10.5px">${s.adv} / ${s.dec}</small></td></tr>
+      ${c ? `<tr class="cm"><td colspan="${cols}">${esc(c.t)}${sources(c.src)}</td></tr>` : ''}`;
+  }).join('');
+  const th = D.themes.filter(t => t.c != null).sort((a, b) => (b[k] ?? -99) - (a[k] ?? -99));
+  $('#p-sec').innerHTML = `
+    ${sec('GICS 11 个板块', `SPDR 板块 ETF · 按${D.kind === 'weekly' ? '近一周' : '当日'}涨跌排序 · 点击在热力图展开`, `<div class="tbl"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`)}
+    ${sec('主题 ETF', '细分赛道', `<div class="tbl"><table><thead><tr><th>主题</th><th class="n">${D.kind === 'weekly' ? '近一周' : '当日'}</th>${pre ? '<th class="n">盘前</th>' : ''}<th class="n">近一月</th><th class="n">年初至今</th></tr></thead>
+      <tbody>${th.map(t => `<tr><td class="nm">${esc(t.n)}<small>${esc(t.k)} · $${px(t.px)}</small></td><td class="n">${pc(t[k])}</td>${pre ? `<td class="n">${pc(t.pm)}</td>` : ''}<td class="n">${pc(t.m)}</td><td class="n">${pc(t.ytd)}</td></tr>`).join('')}</tbody></table></div>`)}
+    <p class="note">板块涨跌取 SPDR 板块 ETF；「涨 / 跌」是该板块标普 500 成分股中上涨与下跌的家数。</p>`;
+}
+
+function moverList(list, key) {
+  if (!list.length) return '<p class="empty">没有符合条件的股票</p>';
+  return `<div class="mv">${list.map(s => {
+    const r = BY[s];
+    if (!r) return '';
+    const e = (E.movers || {})[s] || {};
+    return `<article tabindex="0" data-s="${esc(s)}"><div class="t"><b>${esc(s)}</b><span>${esc(nameOf(s))}</span></div><div class="c ${cls(v(r, key))}">${pct(v(r, key))}</div>
+      <div class="meta"><span>$${px(v(r, 'p'))}</span>${key !== 'c' && D.kind !== 'weekly' ? `<span>当日 ${pct(v(r, 'c'))}</span>` : ''}<span>相对量 ${typeof v(r, 'rv') === 'number' ? v(r, 'rv').toFixed(1) + '×' : '—'}</span><span>${capUsd(v(r, 'mc'))}</span><span>${esc(D.inds[v(r, 'i')])}</span>${v(r, 'er') ? `<span>财报 ${md(v(r, 'er'))}</span>` : ''}</div>
+      ${!isTodo(e.why) ? `<p class="why">${esc(e.why)}</p>` : ''}${sources(e.src)}</article>`;
+  }).join('')}</div>`;
+}
+function renderMov() {
+  const k = cMetric();
+  const lab = D.kind === 'weekly' ? '近一周' : closeLabel();
+  const pre = D.movers.pmUp.length || D.movers.pmDown.length;
+  $('#p-mov').innerHTML = `
+    ${pre ? sec('盘前异动', `盘前成交 ≥ 1 万股且涨跌 ≥ 1% · ${esc(ptTime(D.fetched))} PT`, `<div class="duo"><div>${moverList(D.movers.pmUp, 'pm')}</div><div>${moverList(D.movers.pmDown, 'pm')}</div></div>`) : ''}
+    ${sec('涨幅榜', `标普 500 · ${esc(lab)}`, moverList(D.movers.up, k))}
+    ${sec('跌幅榜', `标普 500 · ${esc(lab)}`, moverList(D.movers.down, k))}
+    ${sec('放量', '相对 10 日均量', `<div class="tbl"><table><thead><tr><th>代码</th><th>名称</th><th class="n">相对量</th><th class="n">成交量</th><th class="n">当日</th></tr></thead>
+      <tbody>${D.movers.vol.map(s => { const r = BY[s]; return `<tr class="click" tabindex="0" data-s="${esc(s)}"><td class="code">${esc(s)}</td><td>${esc(nameOf(s))}</td><td class="n">${v(r, 'rv').toFixed(2)}×</td><td class="n">${v(r, 'v').toFixed(1)}M</td><td class="n">${pc(v(r, 'c'))}</td></tr>`; }).join('')}</tbody></table></div>`)}
+    <p class="note">点击任意一行可在热力图上定位。异动原因由编辑检索新闻后撰写，查不到明确消息的会写明。</p>`;
+}
+
+function renderCal() {
+  const today = issue.date;
+  const byDay = d3.groups(D.econ, e => etDate(e.t));
+  const dayTag = d => (d === today ? ' · 今天' : d < today ? ' · 已公布' : '');
+  const unit = (x, u) => (x == null ? '—' : x + (u || ''));
+  const econHtml = byDay.length ? byDay.map(([d, evs]) => `<div class="day"><h4>${md(d)} ${wd(d)}<small>${dayTag(d)}</small></h4>
+    ${evs.map(e => {
+      const zh = econName(e.n);
+      return `<div class="ev${e.a != null ? ' done' : ''}"><span class="tm">${ptTime(e.t)}</span>
+        <span class="ti"><span class="imp" title="重要性">${[0, 1, 2].map(i => `<i class="${i <= e.imp + 1 ? 'on' : ''}"></i>`).join('')}</span>${esc(zh || e.n)}${zh ? `<small>${esc(e.n)}</small>` : ''}${e.per ? `<small>${esc(e.per)}</small>` : ''}</span><span></span>
+        <span class="vals"><span>实际 <b>${esc(unit(e.a, e.u))}</b></span><span>预期 ${esc(unit(e.f, e.u))}</span><span>前值 ${esc(unit(e.p, e.u))}</span></span></div>`;
+    }).join('')}</div>`).join('') : '<p class="empty">经济日历暂无数据</p>';
+
+  const res = D.earnings.results;
+  const up = d3.groups(D.earnings.upcoming, e => e.d);
+  const tm = t => (t === 'bmo' ? '盘前' : t === 'amc' ? '盘后' : '—');
+  const eps = x => (x == null ? '—' : (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(2));
+  $('#p-cal').innerHTML = `
+    ${res.length ? sec('财报 · 已公布', '标普 500 或市值 ≥ 200 亿美元', `<div class="tbl"><table><thead><tr><th>代码</th><th>名称</th><th class="n">EPS 实际</th><th class="n">预期</th><th class="n">超预期</th></tr></thead>
+      <tbody>${res.map(e => `<tr class="click" tabindex="0" data-s="${esc(e.s)}"><td class="code">${esc(e.s)}</td><td>${esc(CN[e.s] || e.n)}</td><td class="n">${eps(e.eA)}</td><td class="n">${eps(e.eF)}</td><td class="n">${pc(e.sp)}</td></tr>`).join('')}</tbody></table></div>`) : ''}
+    ${sec('财报 · 未来一周', 'EPS 为市场一致预期 · 标普 500 或市值 ≥ 200 亿美元', up.length ? up.map(([d, rows]) => `<div class="day"><h4>${md(d)} ${wd(d)}<small>${d === today ? ' · 今天' : ''} · ${rows.length} 家</small></h4>
+      <div class="tbl"><table><tbody>${rows.sort((a, b) => (b.mc || 0) - (a.mc || 0)).map(e => `<tr><td class="code">${esc(e.s)}</td><td>${esc(CN[e.s] || e.n)}</td><td>${tm(e.t)}</td><td class="n">EPS ${eps(e.eF)}</td><td class="n">${capUsd(e.mc)}</td></tr>`).join('')}</tbody></table></div></div>`).join('') : '<p class="empty">未来一周没有大型公司发布财报</p>')}
+    ${sec('经济数据', '美国 · 时间为美西 PT · 圆点为重要性', econHtml)}`;
+}
+
+function renderBr() {
+  const b = D.breadth;
+  const k = cMetric();
+  const rsp = D.macro.find(m => m.k === 'RSP') || {}, spx = D.macro.find(m => m.k === 'SPX') || {};
+  const gap = typeof rsp[k] === 'number' && typeof spx[k] === 'number' ? rsp[k] - spx[k] : null;
+  const t = b.adv + b.dec + b.unch || 1;
+  const bar = (x, cls2 = '') => `<div class="bar"><i class="${cls2}" style="width:${Math.max(0, Math.min(100, x))}%"></i></div>`;
+  $('#p-br').innerHTML = `
+    ${sec('标普 500 宽度', esc(D.kind === 'weekly' ? '近一周' : closeLabel()), `<div class="tiles">
+      <div class="tile"><span class="k">上涨 / 下跌</span><span class="v"><span class="up">${b.adv}</span><small>/</small><span class="dn">${b.dec}</span></span>
+        <div class="stack" style="margin-top:5px"><i class="p" style="flex:${b.adv / t}"></i><i class="z" style="flex:${b.unch / t}"></i><i class="q" style="flex:${b.dec / t}"></i></div></div>
+      <div class="tile"><span class="k">等权 − 市值加权</span><span class="v ${cls(gap)}">${gap == null ? '—' : (gap > 0 ? '+' : gap < 0 ? '−' : '') + Math.abs(gap).toFixed(2)}<small>个百分点</small></span><span class="d" style="color:var(--faint);font-weight:500">RSP ${pct(rsp[k])} · 标普 ${pct(spx[k])}</span></div>
+      <div class="tile"><span class="k">站上 50 日均线</span><span class="v">${b.a50}<small>%</small></span>${bar(b.a50)}</div>
+      <div class="tile"><span class="k">站上 200 日均线</span><span class="v">${b.a200}<small>%</small></span>${bar(b.a200)}</div>
+      <div class="tile"><span class="k">52 周新高</span><span class="v">${b.hi}<small>只</small></span><span class="d" style="color:var(--faint);font-weight:500">当日最高价触及 52 周高点</span></div>
+      <div class="tile"><span class="k">52 周新低</span><span class="v">${b.lo}<small>只</small></span><span class="d" style="color:var(--faint);font-weight:500">当日最低价触及 52 周低点</span></div>
+      ${b.pmAdv != null ? `<div class="tile" style="grid-column:1/-1"><span class="k">盘前上涨 / 下跌（有盘前成交的成分股）</span><span class="v"><span class="up">${b.pmAdv}</span><small>/</small><span class="dn">${b.pmDec}</span></span></div>` : ''}
+    </div>`)}
+    ${sec('各板块站上均线比例', '实心 50 日 · 空心 200 日', `<div class="tbl"><table><thead><tr><th>板块</th><th class="n">50 日</th><th style="width:40%"></th><th class="n">200 日</th></tr></thead>
+      <tbody>${D.sectors.slice().sort((a, b2) => b2.a50 - a.a50).map(s => `<tr><td class="nm">${esc(s.n)}</td><td class="n">${s.a50}%</td>
+        <td style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:3px">${bar(s.a50)}${bar(s.a200, 'b2')}</div></td><td class="n">${s.a200}%</td></tr>`).join('')}</tbody></table></div>`)}
+    <p class="note">宽度只统计标普 500 成分股。站上均线用最新收盘价对比 50 日、200 日简单均线；等权减市值加权为正，说明多数股票跑赢了权重股。</p>`;
+}
+
+function renderHow() {
+  const s = D.src;
+  $('#p-how').innerHTML = `
+    ${sec('这份晨报怎么做', '', `<p class="note">每个交易日美西 05:00 前出刊（美东 08:00，盘前时段），周六出一期周报，周日和美股休市日不出刊。数据由脚本抓取后，编辑（Claude）检索新闻写结论、板块点评和每只异动股的原因，每条附来源。本期编辑于 <b class="num">${esc(E.edited)}</b>。</p>`)}
+    ${sec('口径', '', `<ul class="points">
+      <li><b>${esc(closeLabel())}</b>：本期收盘数据属于 ${md(D.session)} ${wd(D.session)} 的交易时段${D.session === issue.date && D.status === 'open' ? '（抓取时市场仍在交易，为盘中数据）' : ''}。</li>
+      <li><b>盘前</b>：美东 04:00–09:30 的成交价相对前收；只在盘前时段出刊时显示。</li>
+      <li><b>期货、利率、汇率、商品、加密</b>：抓取时的最新报价，期货相对前结算价。</li>
+      <li><b>板块</b>：SPDR 板块 ETF 的涨跌；成分股按 Wikipedia 上的 GICS 分类归入 11 个板块。</li>
+      <li><b>异动</b>：标普 500 成分股按涨跌幅排序；盘前榜要求盘前成交 ≥ 1 万股且涨跌 ≥ 1%。</li>
+      <li><b>相对量</b>：当日成交量 ÷ 过去 10 日平均成交量。</li>
+      <li>行情延迟约 15 分钟。本页不构成投资建议。</li></ul>`)}
+    ${sec('数据来源', '', `<div class="src" style="flex-direction:column;gap:6px">${Object.values(s).map(([n, u]) => `<a href="${esc(href(u))}" target="_blank" rel="noopener">${esc(n)}</a>`).join('')}</div>`)}
+    ${D.warn && D.warn.length ? sec('本期数据提示', '', `<ul class="points">${D.warn.map(w => `<li>${esc(w)}</li>`).join('')}</ul>`) : ''}
+    <p class="note">数据抓取于 <span class="num">${esc(new Date(D.fetched).toLocaleString('zh-CN', { timeZone: 'America/Los_Angeles', hour12: false }))}</span> PT。</p>`;
+}
+
+function renderPanel() {
+  renderSum(); renderSec(); renderMov(); renderCal(); renderBr(); renderHow();
+}
+
+function setTab(t) {
+  tab = t;
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t)));
+  document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'p-' + t; });
+}
+document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('button[data-t]'); if (b) setTab(b.dataset.t); });
+
+$('#panel').addEventListener('click', e => {
+  const st = e.target.closest('[data-s]');
+  if (st && !e.target.closest('a')) { focusStock(st.dataset.s, true); return; }
+  const sg = e.target.closest('tr[data-g]');
+  if (sg) { sector = Number(sg.dataset.g); selected = null; tip.hidden = true; drawMap(); drawChips(); if (window.matchMedia('(max-width:1080px)').matches) $('#stage').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+});
+$('#panel').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-s],tr[data-g]')) { e.preventDefault(); e.target.click(); } });
+
+$('#secs').addEventListener('click', e => {
+  const b = e.target.closest('button[data-g]');
+  if (!b) return;
+  sector = b.dataset.g === '' ? null : Number(b.dataset.g);
+  selected = null; tip.hidden = true;
+  drawMap(); drawChips();
+});
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === m)));
+  drawMap(); drawChips();
+  if (selected) focusStock(selected, false);
+}
+$('#mode').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (b && !b.disabled) setMode(b.dataset.m); });
+
+function setUpDown(m) {
+  document.body.dataset.updown = m;
+  $('#ud-cn').setAttribute('aria-pressed', String(m === 'cn'));
+  $('#ud-us').setAttribute('aria-pressed', String(m === 'us'));
+  store.set('usmb-updown', m);
+  readVars();
+  drawMap();
+}
+$('#ud-cn').addEventListener('click', () => setUpDown('cn'));
+$('#ud-us').addEventListener('click', () => setUpDown('us'));
+
+function show(i) {
+  load(i);
+  $('#brand-sub').textContent = `US Market Brief · ${issue.date.replace(/-/g, '.')} · No.${String(E.no).padStart(3, '0')}`;
+  const pmBtn = document.querySelector('#mode button[data-m="pm"]');
+  pmBtn.disabled = D.status !== 'pre';
+  pmBtn.title = D.status !== 'pre' ? '本期不在盘前时段出刊，没有盘前数据' : '';
+  document.querySelector('#mode button[data-m="c"]').textContent = D.session === issue.date && D.status === 'open' ? '盘中' : '前收';
+  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === mode)));
+  tip.hidden = true;
+  renderPanel();
+  drawChips();
+  drawMap();
+}
+
+const pick = $('#issue-pick');
+pick.innerHTML = ISSUES.map((it, i) => `<option value="${i}">${esc(md(it.date))} ${wd(it.date)} · No.${String(it.edit.no).padStart(3, '0')}${it.data.kind === 'weekly' ? ' 周报' : ''}</option>`).join('');
+pick.addEventListener('change', () => show(Number(pick.value)));
+
+document.body.dataset.updown = store.get('usmb-updown') === 'us' ? 'us' : 'cn';
+$('#ud-cn').setAttribute('aria-pressed', String(document.body.dataset.updown === 'cn'));
+$('#ud-us').setAttribute('aria-pressed', String(document.body.dataset.updown === 'us'));
+readVars();
+const tabFromHash = location.hash.slice(1);
+if (['sum', 'sec', 'mov', 'cal', 'br', 'how'].includes(tabFromHash)) setTab(tabFromHash);
+show(0);
+new ResizeObserver(() => drawMap()).observe($('#map'));
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { readVars(); drawMap(); });
+new MutationObserver(() => { readVars(); drawMap(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+})();</script>

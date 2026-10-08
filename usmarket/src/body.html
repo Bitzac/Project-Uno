@@ -1,0 +1,46 @@
+<div class="app" id="app">
+  <header class="top glass">
+    <div class="brand"><b>美股晨报 OS</b><span class="num" id="brand-sub">US Market Brief</span></div>
+    <div class="ctrls">
+      <label for="issue-pick" hidden>往期</label>
+      <select id="issue-pick" aria-label="选择日期"></select>
+      <div class="seg" role="group" aria-label="热力图口径" id="mode">
+        <button type="button" data-m="c" aria-pressed="true">前收</button>
+        <button type="button" data-m="pm">盘前</button>
+        <button type="button" data-m="w">近一周</button>
+        <button type="button" data-m="m">近一月</button>
+        <button type="button" data-m="ytd">年初至今</button>
+      </div>
+      <div class="seg" role="group" aria-label="涨跌配色">
+        <button type="button" id="ud-cn" aria-pressed="true" title="红涨绿跌"><i class="sw" style="background:var(--red-2)"></i>红涨</button>
+        <button type="button" id="ud-us" aria-pressed="false" title="绿涨红跌"><i class="sw" style="background:var(--green-2)"></i>绿涨</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="stage" id="stage" aria-label="标普 500 热力图">
+    <div id="map" role="img" aria-label="标普 500 成分股热力图，面积为市值，颜色为涨跌幅"></div>
+    <div class="tip glass" id="tip" hidden></div>
+    <div class="dock glass">
+      <div class="legend" id="legend"></div>
+      <div class="secs" id="secs" role="group" aria-label="板块"></div>
+    </div>
+  </section>
+
+  <aside class="panel glass" id="panel">
+    <nav class="tabs" role="tablist" aria-label="面板">
+      <button role="tab" data-t="sum" aria-selected="true" id="t-sum">总览</button>
+      <button role="tab" data-t="sec" id="t-sec">板块</button>
+      <button role="tab" data-t="mov" id="t-mov">异动</button>
+      <button role="tab" data-t="cal" id="t-cal">日历</button>
+      <button role="tab" data-t="br" id="t-br">宽度</button>
+      <button role="tab" data-t="how" id="t-how">方法</button>
+    </nav>
+    <div class="pane" id="p-sum" role="tabpanel" aria-labelledby="t-sum"></div>
+    <div class="pane" id="p-sec" role="tabpanel" aria-labelledby="t-sec" hidden></div>
+    <div class="pane" id="p-mov" role="tabpanel" aria-labelledby="t-mov" hidden></div>
+    <div class="pane" id="p-cal" role="tabpanel" aria-labelledby="t-cal" hidden></div>
+    <div class="pane" id="p-br" role="tabpanel" aria-labelledby="t-br" hidden></div>
+    <div class="pane" id="p-how" role="tabpanel" aria-labelledby="t-how" hidden></div>
+  </aside>
+</div>
