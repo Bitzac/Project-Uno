@@ -1,0 +1,41 @@
+<div class="app" id="app">
+  <header class="top glass">
+    <div class="brand"><b>机会猎手 OS</b><span class="num">Opportunity Hunter · 2026.10</span></div>
+    <div class="ctrls">
+      <label class="find" for="q">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4 14 14"/></svg>
+        <input id="q" type="search" list="qlist" placeholder="搜索国家/地区" autocomplete="off" aria-label="搜索国家或地区">
+        <datalist id="qlist"></datalist>
+      </label>
+      <div class="seg" role="group" aria-label="地图着色" id="mode">
+        <button data-m="score" aria-pressed="true">机会评分</button>
+        <button data-m="stage">发展阶段</button>
+        <button data-m="growth">2026 增速</button>
+        <button data-m="theme">热门赛道</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="stage" id="stage">
+    <svg id="map" role="img" aria-label="世界机会地图"></svg>
+    <div class="legend glass" id="legend"></div>
+    <div class="tip glass" id="tip" hidden></div>
+    <div class="themes glass" id="themes" role="group" aria-label="赛道"></div>
+    <div class="zoom glass" role="group" aria-label="缩放">
+      <button id="zin" aria-label="放大">+</button><button id="zout" aria-label="缩小">−</button><button id="zreset" aria-label="复位">⟲</button>
+    </div>
+  </section>
+
+  <aside class="panel glass" id="panel">
+    <nav class="tabs" role="tablist" aria-label="面板">
+      <button role="tab" data-t="sum" aria-selected="true" id="t-sum">总览</button>
+      <button role="tab" data-t="cty" id="t-cty">国家</button>
+      <button role="tab" data-t="rank" id="t-rank">评分</button>
+      <button role="tab" data-t="how" id="t-how">方法</button>
+    </nav>
+    <div class="pane" id="p-sum" role="tabpanel"></div>
+    <div class="pane" id="p-cty" role="tabpanel" hidden></div>
+    <div class="pane" id="p-rank" role="tabpanel" hidden></div>
+    <div class="pane" id="p-how" role="tabpanel" hidden></div>
+  </aside>
+</div>
