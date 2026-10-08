@@ -2,7 +2,9 @@
 // and the hand-written industry profiles in pipeline/profiles.mjs. Input: opportunity-os/.cache (see fetch.sh).
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { THEMES, PROFILES, ASSET_CLASSES, SOURCES, GLOBAL, TILES } from './profiles.mjs';
+import { THEMES, PROFILES, ASSET_CLASSES, SOURCES as PROFILE_SOURCES, GLOBAL, TILES } from './profiles.mjs';
+import { FLOW_TYPES, FLOW_SOURCES, FLOW_LINKS, FLOW_NODES, FLOW_ASSETS, FLOW_TILES, FLOW_LEAD } from './flows.mjs';
+const SOURCES = { ...PROFILE_SOURCES, ...FLOW_SOURCES };
 const require = createRequire(import.meta.url);
 const iso = require('i18n-iso-countries');
 iso.registerLocale(require('i18n-iso-countries/langs/zh.json'));
@@ -17,7 +19,7 @@ const Y0 = 2015, Y1 = 2031, NOW = 2026, YEARS = Array.from({ length: Y1 - Y0 + 1
 const IMF_ALIAS = { UVK: 'XKX', KOS: 'XKX', WBG: 'PSE' };
 const imfC = json('imf_countries.json').countries;
 const imf = {};
-for (const ind of ['NGDP_RPCH', 'NGDPD', 'NGDPDPC', 'PPPPC', 'PPPSH', 'PCPIPCH', 'LP', 'BCA_NGDPD', 'LUR', 'GGXWDG_NGDP']) {
+for (const ind of ['NGDP_RPCH', 'NGDPD', 'NGDPDPC', 'PPPPC', 'PPPSH', 'PCPIPCH', 'LP', 'BCA', 'BCA_NGDPD', 'LUR', 'GGXWDG_NGDP']) {
   const vals = json(`imf_${ind}.json`).values[ind];
   for (const [code, series] of Object.entries(vals)) {
     if (!imfC[code] || code.length !== 3) continue;  // skip groups and regions
@@ -49,12 +51,17 @@ const regionOf = k => {
 const INCOME = { HIC: 4, UMC: 3, LMC: 2, LIC: 1 };
 const incomeOf = k => k === 'TWN' ? 4 : INCOME[wbMeta[k]?.incomeLevel?.id] ?? null;
 const WB_IND = { agr: 'NV.AGR.TOTL.ZS', ind: 'NV.IND.TOTL.ZS', mfg: 'NV.IND.MANF.ZS', srv: 'NV.SRV.TOTL.ZS', tech: 'TX.VAL.TECH.MF.ZS',
-  fdi: 'BX.KLT.DINV.WD.GD.ZS', exp: 'NE.EXP.GNFS.ZS', wap: 'SP.POP.1564.TO.ZS', urb: 'SP.URB.TOTL.IN.ZS', net: 'IT.NET.USER.ZS', rl: 'GOV_WGI_RL.EST' };
+  fdi: 'BX.KLT.DINV.WD.GD.ZS', exp: 'NE.EXP.GNFS.ZS', wap: 'SP.POP.1564.TO.ZS', urb: 'SP.URB.TOTL.IN.ZS', net: 'IT.NET.USER.ZS', rl: 'GOV_WGI_RL.EST',
+  // flows in current USD, stored in USD bn; ignore readings older than 2021
+  fdiIn: 'BX.KLT.DINV.CD.WD', fdiOut: 'BM.KLT.DINV.CD.WD', pef: 'BX.PEF.TOTL.CD.WD' };
+const WB_USD = new Set(['fdiIn', 'fdiOut', 'pef']);
 const wb = {};
 for (const [key, ind] of Object.entries(WB_IND)) {
   for (const row of json(`wb_${ind}.json`)[1] || []) {
     if (row.value == null || !row.countryiso3code) continue;
-    (wb[row.countryiso3code] ??= {})[key] = [key === 'rl' ? r2(row.value) : r1(row.value), +row.date];
+    if (WB_USD.has(key) && +row.date < 2021) continue;
+    const v = WB_USD.has(key) ? r1(row.value / 1e9) : key === 'rl' ? r2(row.value) : r1(row.value);
+    (wb[row.countryiso3code] ??= {})[key] = [v, +row.date];
   }
 }
 
@@ -114,7 +121,7 @@ for (const k of Object.keys(imf).sort()) {
     gJul: JULY[k] ?? null,
     gdp: r1(gdp), gdpY: gdpY === NOW ? undefined : gdpY, pc: Math.round(upTo(k, 'NGDPDPC', NOW)[0] ?? NaN) || null, ppc: Math.round(at(k, 'PPPPC', NOW) ?? NaN) || null,
     pppsh: r2(at(k, 'PPPSH', NOW)), pop: r1(lp0), infl: r1(at(k, 'PCPIPCH', NOW)), debt: r1(at(k, 'GGXWDG_NGDP', NOW)),
-    ca: r1(at(k, 'BCA_NGDPD', NOW)), ur: r1(at(k, 'LUR', NOW)),
+    ca: r1(at(k, 'BCA_NGDPD', NOW)), cab: r1(at(k, 'BCA', NOW)), ur: r1(at(k, 'LUR', NOW)),
     g5: r2(mean([NOW, NOW + 1, NOW + 2, NOW + 3, NOW + 4].map(y => at(k, 'NGDP_RPCH', y)))),
     popg: lp0 && lp1 ? r2((Math.pow(lp1 / lp0, 1 / 5) - 1) * 100) : null,
     gdp31: r1(at(k, 'NGDPD', Y1)),
@@ -141,11 +148,23 @@ for (const [k, p] of Object.entries(PROFILES)) {
 
 const wg = json('imf_NGDP_RPCH.json').values.NGDP_RPCH.WEOWORLD;
 for (const g of GLOBAL) for (const s of g[3]) if (!SOURCES[s]) throw new Error(`GLOBAL: unknown source ${s}`);
+// capital-flow content: every country code must exist, every source must resolve
+const known = new Set(countries.map(c => c.k));
+for (const [a, b, amt, t, , , src] of FLOW_LINKS) {
+  if (!known.has(a) || !known.has(b) || !isFinite(amt) || !FLOW_TYPES[t]) throw new Error(`FLOW_LINKS: bad row ${a}->${b}`);
+  for (const s of src) if (!SOURCES[s]) throw new Error(`FLOW_LINKS: unknown source ${s}`);
+}
+for (const [k, amt, , , src] of FLOW_NODES) {
+  if (!known.has(k) || !isFinite(amt)) throw new Error(`FLOW_NODES: bad row ${k}`);
+  for (const s of src) if (!SOURCES[s]) throw new Error(`FLOW_NODES: unknown source ${s}`);
+}
+for (const row of FLOW_ASSETS) for (const s of row[3]) if (!SOURCES[s]) throw new Error(`FLOW_ASSETS: unknown source ${s}`);
+const flows = { types: FLOW_TYPES, links: FLOW_LINKS, nodes: FLOW_NODES, assets: FLOW_ASSETS, tiles: FLOW_TILES, lead: FLOW_LEAD };
 const world = { gdp: r1(countries.reduce((s, c) => s + c.gdp, 0)), g: YEARS.map(y => r1(+wg[y])), gJul: 3.0 };
 const DATA = {
   meta: { weo: 'IMF《世界经济展望》2026 年 4 月', jul: 'IMF《世界经济展望》2026 年 7 月更新', built: new Date().toISOString().slice(0, 10),
     years: YEARS, now: NOW, profileAsOf: '2026-10-08', hs: HS },
-  world, themes: THEMES, classes: ASSET_CLASSES, sources: SOURCES, global: GLOBAL, tiles: TILES, countries,
+  world, themes: THEMES, classes: ASSET_CLASSES, sources: SOURCES, global: GLOBAL, tiles: TILES, flows, countries,
 };
 const out = '// Generated by pipeline/build_data.mjs. GDP in USD bn, population in millions, rates in %.\nconst DATA = ' + JSON.stringify(DATA) + ';\n';
 writeFileSync(new URL('../src/data.js', import.meta.url), out);

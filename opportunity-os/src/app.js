@@ -21,6 +21,11 @@ const fmtGDP = bn => bn == null ? '—' : bn >= 1000 ? (bn / 1000).toFixed(bn >=
 const fmtUSD = v => v == null ? '—' : '$' + Math.round(v).toLocaleString();
 const fmtPop = m => m == null ? '—' : m >= 100 ? (m / 100).toFixed(2) + ' 亿' : Math.round(m * 100).toLocaleString() + ' 万';
 const g26 = c => c.g[iNOW];
+const fmtBn = (bn, signed = false) => {  // USD bn -> 亿美元 / 万亿美元
+  if (bn == null || !isFinite(bn)) return '—';
+  const s = signed ? (bn > 0 ? '+' : bn < 0 ? '−' : '') : bn < 0 ? '−' : '', a = Math.abs(bn);
+  return s + (a >= 1000 ? (a / 1000).toFixed(2) + ' 万亿美元' : Math.round(a * 10).toLocaleString() + ' 亿美元');
+};
 
 // ---------------------------------------------------------------- opportunity score
 // Each component is a percentile rank (0–100) across all economies with data; the score is their weighted mean.
@@ -55,7 +60,7 @@ const PCT = Object.fromEntries(COMP.map(m => {
 
 const validW = w => w && COMP.every(m => Number.isFinite(w[m.k]) && w[m.k] >= 0 && w[m.k] <= 50) ? w : null;
 const S = {
-  mode: ['score', 'stage', 'growth', 'theme'].includes(store.get('mode')) ? store.get('mode') : 'score',
+  mode: ['score', 'stage', 'growth', 'theme', 'flow'].includes(store.get('mode')) ? store.get('mode') : 'score',
   theme: TH[store.get('theme')] ? store.get('theme') : 'ai',
   w: validW(store.get('w')) || { ...PRESETS.balanced.w },
   rf: ['big', 'prof', 'all'].includes(store.get('rf')) ? store.get('rf') : 'big',
@@ -110,11 +115,12 @@ const mainPoly = k => {  // largest polygon, so France means metropolitan France
   return best;
 };
 const svg = d3.select('#map'), root = svg.append('g'), gGrat = root.append('path').attr('class', 'grat'),
-  gC = root.append('g').attr('class', 'ctry'), gDots = root.append('g').attr('class', 'dots');
+  gC = root.append('g').attr('class', 'ctry'), gDots = root.append('g').attr('class', 'dots'), gFlow = root.append('g').attr('class', 'flows');
 let projection, path, W = 0, H = 0;
 const zoom = d3.zoom().scaleExtent([1, 14]).on('zoom', e => {
   root.attr('transform', e.transform);
   gDots.selectAll('circle').attr('r', 2.4 / e.transform.k);
+  scaleFlowMarks(e.transform.k);
 });
 svg.call(zoom).on('dblclick.zoom', null);
 
@@ -134,7 +140,48 @@ function layout() {
   const k = d3.zoomTransform(svg.node()).k;
   gDots.selectAll('circle').data(PROF.filter(c => featsBy.get(c.k))).join('circle')
     .attr('cx', c => projection(d3.geoCentroid(mainPoly(c.k)))[0]).attr('cy', c => projection(d3.geoCentroid(mainPoly(c.k)))[1]).attr('r', 2.4 / k);
+  drawFlows();
   paint();
+}
+
+// ---------------------------------------------------------------- capital flows layer
+// Arcs follow great circles (so Tokyo→US crosses the Pacific); circles are net foreign flows into one market.
+const FL = DATA.flows, FTYPE_DASH = { state: '9 4', port: '2 5', fdi: '1 3' };
+const LABEL_LEFT = new Set(['KOR', 'IND']);  // keep neighbouring labels apart
+const geoC = k => d3.geoCentroid(mainPoly(k));
+const maxLink = d3.max(FL.links, l => l[2]), maxNode = d3.max(FL.nodes, n => Math.abs(n[1]));
+const linkW = a => 1.2 + Math.sqrt(a / maxLink) * 7, nodeR = a => 4 + Math.sqrt(Math.abs(a) / maxNode) * 18;
+function drawFlows() {
+  const k = d3.zoomTransform(svg.node()).k;
+  gFlow.selectAll('path').data(FL.links).join('path')
+    .attr('d', l => path({ type: 'LineString', coordinates: [geoC(l[0]), geoC(l[1])] }))
+    .attr('class', l => 't-' + l[3]).attr('stroke-width', l => linkW(l[2])).attr('stroke-dasharray', l => FTYPE_DASH[l[3]])
+    .on('pointermove', (e, l) => showTip(e, linkTip(l))).on('pointerleave', hideTip)
+    .on('click', (e, l) => select(l[1]));
+  gFlow.selectAll('circle.end').data(FL.links).join('circle').attr('class', 'end')
+    .attr('cx', l => projection(geoC(l[1]))[0]).attr('cy', l => projection(geoC(l[1]))[1]);
+  const nodes = gFlow.selectAll('g.node').data(FL.nodes, n => n[0]).join(enter => {
+    const g = enter.append('g').attr('class', 'node');
+    g.append('circle'); g.append('text');
+    return g;
+  }).classed('out', n => n[1] < 0)
+    .attr('transform', n => `translate(${projection(geoC(n[0]))})`)
+    .on('pointermove', (e, n) => showTip(e, nodeTip(n))).on('pointerleave', hideTip)
+    .on('click', (e, n) => select(n[0]));
+  nodes.select('text').text(n => `${BY[n[0]].zh} ${fmtBn(n[1], true).replace('美元', '')}`);
+  scaleFlowMarks(k);
+}
+function scaleFlowMarks(k) {
+  gFlow.selectAll('circle.end').attr('r', 3 / k);
+  gFlow.selectAll('g.node circle').attr('r', n => nodeR(n[1]) / k);
+  gFlow.selectAll('g.node text').attr('text-anchor', n => LABEL_LEFT.has(n[0]) ? 'end' : 'start')
+    .attr('x', n => (LABEL_LEFT.has(n[0]) ? -1 : 1) * (nodeR(n[1]) + 4) / k).attr('y', 4 / k).style('font-size', `${11.5 / k}px`).style('stroke-width', `${3 / k}px`);
+}
+function linkTip(l) {
+  return `<b>${esc(BY[l[0]].zh)} → ${esc(BY[l[1]].zh)}</b>${row('类型', FL.types[l[3]])}${row('规模', fmtBn(l[2]))}${row('时段', esc(l[5]))}<div class="note" style="margin-top:4px">${esc(l[4])}</div>`;
+}
+function nodeTip(n) {
+  return `<b>${esc(BY[n[0]].zh)} · 外资${n[1] >= 0 ? '净流入' : '净流出'}</b>${row('规模', fmtBn(n[1], true))}${row('时段', esc(n[3]))}<div class="note" style="margin-top:4px">${esc(n[2])}</div>`;
 }
 function zoomTo(k) {
   const poly = mainPoly(k); if (!poly) return;
@@ -151,11 +198,13 @@ const binOf = (v, th) => { const i = th.findIndex(t => v < t); return i < 0 ? th
 const seq = t => d3.interpolateLab(css('--seq-lo'), css('--seq-hi'))(t);
 const STAGE_T = { 1: 0.14, 2: 0.42, 3: 0.7, 4: 0.97 };
 const ROLE_VAR = { 3: '--th-hot', 2: '--th-grow', 1: '--th-mat', 0: '--th-base', '-1': '--nodata' };
+const CA_TH = [-6, -3, -1, 1, 3, 6];
 function fillFor(c) {
   if (!c) return css('--nodata');
   if (S.mode === 'score') return SC[c.k] == null ? css('--nodata') : seq(binOf(SC[c.k], SEQ_TH) / 6);
   if (S.mode === 'stage') return c.inc ? seq(STAGE_T[c.inc]) : css('--nodata');
   if (S.mode === 'growth') return g26(c) == null ? css('--nodata') : css(DIV[binOf(g26(c), GROW_TH)]);
+  if (S.mode === 'flow') return c.ca == null ? css('--nodata') : css(DIV[binOf(c.ca, CA_TH)]);
   return css(ROLE_VAR[roleOf(c, S.theme)]);
 }
 function paint() {
@@ -170,6 +219,12 @@ function paint() {
   } else if (S.mode === 'growth') {
     lg.innerHTML = `<b>2026 年实际 GDP 增速（IMF 预测）</b><div class="ramp">${DIV.map(v => `<i style="background:${css(v)}"></i>`).join('')}</div>
       <div class="lab num"><span>&lt;0</span><span>2.5–3.5%</span><span>&gt;7%</span></div><div class="note">中性色 ≈ 世界平均 ${pc(DATA.world.g[iNOW])}</div>`;
+  } else if (S.mode === 'flow') {
+    lg.innerHTML = `<b>资本流向 · 2026</b><div class="ramp">${DIV.map(v => `<i style="background:${css(v)}"></i>`).join('')}</div>
+      <div class="lab num"><span>净输入 −6%</span><span>0</span><span>+6% 净输出</span></div>
+      <div class="note">底色：2026E 经常账户 / GDP（IMF）</div>
+      <div class="keys" style="margin-top:6px">${Object.entries(FL.types).map(([t, n]) => `<span><svg width="22" height="8" aria-hidden="true"><path class="lk t-${t}" d="M1 4H21" stroke-dasharray="${FTYPE_DASH[t]}"/></svg>${n}</span>`).join('')}
+      <span><svg width="22" height="12" aria-hidden="true"><circle class="nk" cx="6" cy="6" r="4.5"/><circle class="nk out" cx="16" cy="6" r="4.5"/></svg>外资净流入 / 净流出</span></div>`;
   } else {
     const st = THEME_STATS.find(s => s.t === S.theme);
     lg.innerHTML = `<b>赛道 · ${TH[S.theme]}</b><div class="keys">
@@ -179,6 +234,8 @@ function paint() {
       <span><i style="background:${css('--th-base')}"></i>有画像、未涉及</span>
       <span><i style="background:${css('--nodata')}"></i>无产业画像</span></div>`;
   }
+  gFlow.attr('display', S.mode === 'flow' ? null : 'none');
+  $('#toFlowMap')?.setAttribute('aria-pressed', S.mode === 'flow');
   document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.m === S.mode));
   document.querySelectorAll('#themes .tchip').forEach(b => b.setAttribute('aria-pressed', S.mode === 'theme' && b.dataset.t === S.theme));
 }
@@ -201,6 +258,7 @@ function tipHtml(c) {
   return `<b>${esc(c.zh)}</b>${row('机会评分', SC[c.k] == null ? '—' : `${fmtScore(c.k)} · 第 ${RANK[c.k]}/${NRANK}`)}
     ${row('2026 年增速', pc(g26(c)))}${row('人均 GDP（PPP）', fmtUSD(c.ppc))}${row('发展阶段', INC[c.inc] || '—')}
     ${roleTxt ? row(TH[S.theme], roleTxt) : ''}
+    ${S.mode === 'flow' ? row('经常账户 2026E', `${fmtBn(c.cab, true)}（${pc(c.ca)}）`) : ''}
     <div class="tags">${c.p ? hotThemes(c).map(tpill).join('') : '<span class="pill">仅宏观数据</span>'}</div>`;
 }
 
@@ -216,7 +274,7 @@ function setTab(t) {
   S.tab = t;
   document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === t));
   document.querySelectorAll('.pane').forEach(p => { p.hidden = p.id !== 'p-' + t; });
-  ({ sum: renderSum, cty: renderCty, rank: renderRank, how: renderHow })[t]();
+  ({ sum: renderSum, cty: renderCty, flow: renderFlow, rank: renderRank, how: renderHow })[t]();
   $('#p-' + t).scrollTop = 0;
 }
 function setMode(m) { S.mode = m; store.set('mode', m); paint(); }
@@ -293,6 +351,9 @@ function renderSum() {
       <div class="tile"><span class="k">全球实际增速 2026E</span><span class="v">${pc(DATA.world.gJul)}</span><span class="d">7 月更新；4 月为 ${pc(gw)}</span></div>
       ${DATA.tiles.map(([k, v, u, d]) => `<div class="tile"><span class="k">${k}</span><span class="v">${v}<small>${u}</small></span><span class="d">${d}</span></div>`).join('')}
     </div>
+    <div class="sec"><h3>钱在往哪里走</h3>
+      <p class="note" style="margin:0">外资今年净买入美国证券约 ${fmtBn(686)}、日股约 ${fmtBn(60)}，净卖出韩股约 ${fmtBn(96.7)}、印度股约 ${fmtBn(29)}；国家资本主要流向美国。</p>
+      <div><button class="tchip" id="goFlow">查看资本流向</button></div></div>
     <div class="sec"><h3>机会评分前十<small>GDP ≥ 1,000 亿美元 · ${presetName()}权重</small></h3>
       ${table(['#', '国家/地区', { t: '评分', n: 1 }, { t: '26–30 均速', n: 1 }, '热门赛道'], top.map((c, i) => `<tr class="click" data-k="${c.k}">
         <td class="num">${i + 1}</td><td><b>${esc(c.zh)}</b></td><td class="n"><b>${fmtScore(c.k)}</b></td><td class="n">${pc(c.g5)}</td>
@@ -305,11 +366,12 @@ function renderSum() {
     <div class="sec"><h3>全球环境<small>2026 年 10 月</small></h3>
       ${table(['变量', '现状', '对机会的影响'], DATA.global.map(([k, now, eff]) => `<tr><td class="ind">${k}</td><td class="ev">${esc(now)}</td><td class="ev">${esc(eff)}</td></tr>`))}</div>
     <div class="sec"><h3>2026 年增速两端<small>GDP ≥ 1,000 亿美元 · IMF 4 月</small></h3>
-      <div class="kv">
+      <div class="duo">
         <div>${table(['最快', { t: '增速', n: 1 }], byG.slice(0, 6).map(gRow))}</div>
         <div>${table(['最慢', { t: '增速', n: 1 }], byG.slice(-6).reverse().map(gRow))}</div>
       </div></div>
     <p class="note">产业画像覆盖 50 个经济体，合计约占 2026 年世界 GDP 的 ${profGdp.toFixed(0)}%；其余 ${C.length - PROF.length} 个经济体只有数据部分。内容为研究信息，不构成投资建议。</p>`;
+  $('#goFlow').onclick = () => { setMode('flow'); setTab('flow'); };
   wireRows($('#p-sum'));
 }
 
@@ -372,12 +434,62 @@ function renderCty() {
       <div class="legend-row"><span><i style="background:var(--c1)"></i>${esc(c.zh)}</span><span><i class="ln"></i>世界</span><span>浅色 = 预测</span></div>
       <div class="chart" id="gChart"></div></div>
     <div class="sec"><h3>评分拆解<small>各项为全部经济体中的百分位（0–100）</small></h3><div class="comp">${comps}</div></div>
+    ${flowSec(c)}
     ${sector}
     ${exportsSec}
     ${p ? `<div class="sec"><h3>来源</h3><ul class="plain src">${srcLinks([...(p.src || []), 'imf4', ...(c.wb ? ['wb'] : []), ...(tr ? ['wits'] : [])])}</ul></div>` : ''}`;
   growthChart($('#gChart'), c);
 }
 
+function flowRows(k) {  // 2026 flow items that start or end in k
+  return [...FL.links.filter(l => l[0] === k || l[1] === k).map(l => ({ k: l[1] === k ? l[0] : l[1], name: `${BY[l[0]].zh} → ${BY[l[1]].zh}`, amt: l[2], sign: false, txt: l[4], per: l[5], t: FL.types[l[3]] })),
+    ...FL.nodes.filter(n => n[0] === k).map(n => ({ k, name: n[1] >= 0 ? `外资 → ${BY[k].zh}` : `${BY[k].zh} → 外资撤出`, amt: n[1], sign: true, txt: n[2], per: n[3], t: '证券投资' }))];
+}
+function flowSec(c) {
+  const wb = c.wb || {}, rows = flowRows(c.k);
+  const kv = (k, v, sm = '') => `<div><span>${k}</span><b>${v}${sm ? `<small>${sm}</small>` : ''}</b></div>`;
+  return `<div class="sec"><h3>资本流向<small>经常账户为 IMF 2026E；FDI 与证券为世界银行最新年份</small></h3>
+    <div class="kv">
+      ${kv(c.cab == null ? '经常账户 2026E' : c.cab >= 0 ? '资本净输出（经常账户顺差）' : '资本净输入（经常账户逆差）', fmtBn(c.cab == null ? null : Math.abs(c.cab)), c.ca != null ? `占 GDP ${pc(Math.abs(c.ca))}` : '')}
+      ${kv(`FDI 流入 ${wb.fdiIn ? wb.fdiIn[1] : ''}`, fmtBn(wb.fdiIn?.[0]), wb.fdi ? `占 GDP ${pc(wb.fdi[0])}` : '')}
+      ${kv(`对外直接投资 ${wb.fdiOut ? wb.fdiOut[1] : ''}`, fmtBn(wb.fdiOut?.[0]))}
+      ${kv(`外资股票净流入 ${wb.pef ? wb.pef[1] : ''}`, fmtBn(wb.pef?.[0], true))}
+    </div>
+    ${rows.length ? table(['2026 年资金通道', { t: '规模', n: 1 }], rows.map(r => `<tr><td><b>${esc(r.name)}</b> <span class="pill">${r.t}</span><div class="ev note">${esc(r.txt)} · ${esc(r.per)}</div></td><td class="n">${fmtBn(r.amt, r.sign)}</td></tr>`)) : ''}</div>`;
+}
+function renderFlow() {
+  const el = $('#p-flow');
+  const withCab = C.filter(c => c.cab != null).sort((a, b) => b.cab - a.cab);
+  const fdiIn = C.filter(c => c.wb?.fdiIn).sort((a, b) => b.wb.fdiIn[0] - a.wb.fdiIn[0]).slice(0, 10);
+  const fdiOut = C.filter(c => c.wb?.fdiOut).sort((a, b) => b.wb.fdiOut[0] - a.wb.fdiOut[0]).slice(0, 10);
+  const chan = [...FL.links.map(l => ({ k: l[1], name: `${BY[l[0]].zh} → ${BY[l[1]].zh}`, amt: l[2], sign: false, txt: l[4], per: l[5], t: FL.types[l[3]] })),
+    ...FL.nodes.map(n => ({ k: n[0], name: n[1] >= 0 ? `外资 → ${BY[n[0]].zh}` : `${BY[n[0]].zh} → 外资撤出`, amt: n[1], sign: true, txt: n[2], per: n[3], t: '证券投资' }))]
+    .sort((a, b) => Math.abs(b.amt) - Math.abs(a.amt));
+  const cabRow = c => `<tr class="click" data-k="${c.k}"><td>${esc(c.zh)}</td><td class="n">${fmtBn(Math.abs(c.cab))}</td><td class="n">${pc(Math.abs(c.ca))}</td></tr>`;
+  const fdiRow = key => c => `<tr class="click" data-k="${c.k}"><td>${esc(c.zh)}</td><td class="n">${fmtBn(c.wb[key][0])}</td><td class="n">${c.wb[key][1]}</td></tr>`;
+  const flowSrc = ['tic', 'ticapr', 'iif', 'ssga', 'bofa', 'fundseu', 'jpflow', 'krh1', 'krflow', 'twflow', 'infpi', 'brflow', 'idfx', 'jpus', 'korus', 'korus2', 'gccswf', 'mgx',
+    'southbound', 'cnfdi', 'cnodi', 'bri', 'briaf', 'wgcetf', 'wgccb', 'unctad', 'unctaddc', 'imf4', 'wb'];
+  el.innerHTML = `
+    <div><div class="eyebrow">结论 · 截至 ${DATA.meta.profileAsOf}</div><p class="lead">${FL.lead}</p></div>
+    <div class="tiles">${FL.tiles.map(([k, v, u, d]) => `<div class="tile"><span class="k">${k}</span><span class="v">${v}<small>${u}</small></span><span class="d">${d}</span></div>`).join('')}</div>
+    <div><button class="tchip" id="toFlowMap" aria-pressed="${S.mode === 'flow'}">在地图上看资金通道</button></div>
+    <div class="sec"><h3>2026 年主要资金通道<small>按规模排序 · 点击查看国家</small></h3>
+      ${table(['通道', { t: '规模', n: 1 }], chan.map(r => `<tr class="click" data-k="${r.k}"><td><b>${esc(r.name)}</b> <span class="pill">${r.t}</span><div class="ev note">${esc(r.txt)} · ${esc(r.per)}</div></td><td class="n"><b>${fmtBn(r.amt, r.sign)}</b></td></tr>`))}
+      <p class="note">承诺不等于到位：日本 5,500 亿、韩国 3,500 亿美元对美投资只按已确定的项目或注资计规模。不同通道口径不同（TIC 含债券与银行头寸，印度、韩国、台湾为股票），只能比较量级。</p></div>
+    <div class="sec"><h3>谁在输出资本、谁在吸收资本<small>IMF 2026E 经常账户</small></h3>
+      ${table(['资本净输出（顺差）', { t: '金额', n: 1 }, { t: '占 GDP', n: 1 }], withCab.slice(0, 8).map(cabRow))}
+      ${table(['资本净输入（逆差）', { t: '金额', n: 1 }, { t: '占 GDP', n: 1 }], withCab.slice(-8).reverse().map(cabRow))}
+      <p class="note">经常账户顺差的国家把多余储蓄借给或投资到海外（资本净输出），逆差国家靠外资弥补（资本净输入）。美国一国逆差约 ${fmtBn(-BY.USA.cab)}，吸收了全球大部分过剩储蓄；中国顺差约 ${fmtBn(BY.CHN.cab)}，是最大的输出方。</p></div>
+    <div class="sec"><h3>直接投资<small>世界银行 · 最新年份</small></h3>
+      ${table(['FDI 流入前十', { t: '金额', n: 1 }, { t: '年份', n: 1 }], fdiIn.map(fdiRow('fdiIn')))}
+      ${table(['对外直接投资前十', { t: '金额', n: 1 }, { t: '年份', n: 1 }], fdiOut.map(fdiRow('fdiOut')))}
+      <p class="note">卢森堡、荷兰等通道型金融中心的 FDI 常为负值或大幅波动，反映的是控股公司的资金进出，不是实体投资。</p></div>
+    <div class="sec"><h3>按资产类别<small>2026 年</small></h3>
+      ${table(['资产 / 渠道', '方向', '规模与时段'], FL.assets.map(([a, dir, txt]) => `<tr><td class="ind">${esc(a)}</td><td><span class="pill${/流入|买入|增加|回流/.test(dir) ? ' a' : ''}">${esc(dir)}</span></td><td class="ev">${esc(txt)}</td></tr>`))}</div>
+    <div class="sec"><h3>来源</h3><ul class="plain src">${srcLinks(flowSrc)}</ul></div>`;
+  $('#toFlowMap').onclick = () => setMode(S.mode === 'flow' ? 'score' : 'flow');
+  wireRows(el);
+}
 function renderRank() {
   const el = $('#p-rank');
   const regions = [...new Set(C.map(c => c.reg).filter(Boolean))];
@@ -437,6 +549,9 @@ function renderHow() {
       ['收入分组、地区、三次产业、制造业、高技术出口、FDI', '世界银行 WDI', '各国最新可得年份'],
       ['法治指数', '世界银行全球治理指标 WGI', '2025'],
       ['按 HS 大类的出口结构与 RCA', '世界银行 WITS', '2021–2023 最新可得'],
+      ['资本净输出 / 输入（经常账户）', 'IMF《世界经济展望》BCA', '2026 年预测'],
+      ['FDI 流入与流出、外资股票净流入', '世界银行 WDI（国际收支口径）', '多为 2025 年'],
+      ['2026 年资金通道与资产类别流向', '美国财政部 TIC、IIF、道富、美银、世界黄金协会、UNCTAD 及各国报道（见“资金”页）', '截至 2026-10-08'],
       ['边界', 'Natural Earth 1:50m；中国外轮廓为 DataV', '—'],
       ['产业画像、标的、风险', '公开报道与机构数据（见各国来源）', `截至 ${DATA.meta.profileAsOf}`],
     ].map(r => `<tr><td class="ind">${r[0]}</td><td class="ev">${r[1]}</td><td class="ev">${r[2]}</td></tr>`))}</div>

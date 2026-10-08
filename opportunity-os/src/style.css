@@ -11,7 +11,7 @@
   --div-neg3:#a8302f;--div-neg2:#e34948;--div-neg1:#f3a9a5;--div-mid:#e9e8e4;--div-pos1:#9ec5f4;--div-pos2:#2a78d6;--div-pos3:#104281;
   --th-hot:#c2410c;--th-grow:#ef8a4e;--th-mat:#f7c8a7;--th-base:#fbefe6;
   --c1:#2a78d6;--c2:#eb6834;--c3:#1baf7a;
-  --dot:#0B1520;--nodata:#E2E6EA;
+  --dot:#0B1520;--nodata:#E2E6EA;--flow:#0B1520;--flow-fill:rgba(11,21,32,.14);
   --hair:1px;
   --f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;
   --f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
@@ -26,7 +26,7 @@
   --div-neg3:#ff8a85;--div-neg2:#e66767;--div-neg1:#7a3434;--div-mid:#383835;--div-pos1:#1f4f8a;--div-pos2:#3987e5;--div-pos3:#9ec5f4;
   --th-hot:#ff8f52;--th-grow:#c2581f;--th-mat:#5e3420;--th-base:#2b231e;
   --c1:#3987e5;--c2:#d95926;--c3:#199e70;
-  --dot:#F2F7FA;--nodata:#1C2730;color-scheme:dark}}
+  --dot:#F2F7FA;--nodata:#1C2730;--flow:#F2F7FA;--flow-fill:rgba(242,247,250,.16);color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#070F16;--sea:#0A151E;--land:#16212B;--land-edge:rgba(255,255,255,.12);
   --ink:#E8EFF5;--muted:#A2B0BC;--faint:#6E7D89;
@@ -37,7 +37,7 @@
   --div-neg3:#ff8a85;--div-neg2:#e66767;--div-neg1:#7a3434;--div-mid:#383835;--div-pos1:#1f4f8a;--div-pos2:#3987e5;--div-pos3:#9ec5f4;
   --th-hot:#ff8f52;--th-grow:#c2581f;--th-mat:#5e3420;--th-base:#2b231e;
   --c1:#3987e5;--c2:#d95926;--c3:#199e70;
-  --dot:#F2F7FA;--nodata:#1C2730;color-scheme:dark}
+  --dot:#F2F7FA;--nodata:#1C2730;--flow:#F2F7FA;--flow-fill:rgba(242,247,250,.16);color-scheme:dark}
 @media (min-resolution:2dppx){:root{--hair:.5px}}
 
 *{box-sizing:border-box}
@@ -76,6 +76,18 @@ a:hover{text-decoration:underline}
 .ctry path.nd{cursor:default}
 .ctry path:hover{stroke:var(--ink);stroke-width:1px}
 .ctry path.sel{stroke:var(--ink);stroke-width:1.8px}
+.flows path{fill:none;stroke:var(--flow);stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.82;cursor:pointer;pointer-events:visibleStroke;animation:flow 1.2s linear infinite}
+.flows path:hover{opacity:1}
+.flows circle.end{fill:var(--flow);pointer-events:none}
+.flows g.node{cursor:pointer}
+.flows g.node circle{fill:var(--flow-fill);stroke:var(--flow);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.flows g.node.out circle{fill:none;stroke-dasharray:3 2}
+.flows g.node text{font:700 11.5px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--sea);stroke-linejoin:round;pointer-events:none}
+.legend svg .lk{fill:none;stroke:var(--flow);stroke-width:2}
+.legend svg .nk{fill:var(--flow-fill);stroke:var(--flow);stroke-width:1.2}
+.legend svg .nk.out{fill:none;stroke-dasharray:2 1.5}
+@keyframes flow{to{stroke-dashoffset:-26}}
+@media (prefers-reduced-motion:reduce){.flows path{animation:none}}
 .dots circle{fill:var(--dot);stroke:var(--sea);stroke-width:1px;vector-effect:non-scaling-stroke;pointer-events:none;opacity:.85}
 @media (prefers-reduced-motion:reduce){.ctry path{transition:none}}
 
@@ -154,6 +166,8 @@ tr.click:focus-visible{outline:none}
 .score{text-align:right;flex:none}
 .score b{display:block;font:800 40px/1 var(--f-display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .score span{font-size:11.5px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.duo>*{min-width:0}
 .kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .kv div{border:var(--hair) solid var(--line);border-radius:14px;padding:8px 10px;background:var(--field);min-width:0}
 .kv span{display:block;font-size:11.5px;color:var(--muted)}
