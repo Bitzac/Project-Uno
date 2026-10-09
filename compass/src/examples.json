@@ -1,0 +1,3194 @@
+{
+ "students": [
+  {
+   "id": "ex-cn",
+   "name": "林小满",
+   "sex": "F",
+   "birth": "2012-12",
+   "system": "cn",
+   "cohort": 2018,
+   "school": "星河实验中学",
+   "cls": "初二（3）班",
+   "allergy": "尘螨过敏",
+   "order": 1,
+   "example": true
+  },
+  {
+   "id": "ex-us",
+   "name": "Ethan Zhou",
+   "sex": "M",
+   "birth": "2013-05",
+   "system": "us",
+   "cohort": 2019,
+   "school": "Lakeview Middle School",
+   "cls": "Homeroom 7B",
+   "allergy": "",
+   "order": 2,
+   "example": true
+  },
+  {
+   "id": "ex-uk",
+   "name": "Chloe Lin",
+   "sex": "F",
+   "birth": "2011-02",
+   "system": "uk",
+   "cohort": 2016,
+   "school": "Riverside Academy",
+   "cls": "Form 10H",
+   "allergy": "",
+   "order": 3,
+   "example": true
+  }
+ ],
+ "records": {
+  "ex-cn": {
+   "scores": [
+    {
+     "id": "ex-cn-scores-1",
+     "date": "2025-10-15",
+     "subject": "语文",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 103,
+     "full": 120,
+     "avg": 96,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-2",
+     "date": "2025-11-12",
+     "subject": "语文",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 101,
+     "full": 120,
+     "avg": 95,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-3",
+     "date": "2026-01-14",
+     "subject": "语文",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 105.5,
+     "full": 120,
+     "avg": 97,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-4",
+     "date": "2026-03-18",
+     "subject": "语文",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 104.5,
+     "full": 120,
+     "avg": 96,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-5",
+     "date": "2026-04-22",
+     "subject": "语文",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 107,
+     "full": 120,
+     "avg": 98.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-6",
+     "date": "2026-07-01",
+     "subject": "语文",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 108,
+     "full": 120,
+     "avg": 97,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-7",
+     "date": "2026-09-28",
+     "subject": "语文",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 105.5,
+     "full": 120,
+     "avg": 96,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-8",
+     "date": "2025-10-15",
+     "subject": "数学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 111.5,
+     "full": 120,
+     "avg": 93.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-9",
+     "date": "2025-11-12",
+     "subject": "数学",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 109,
+     "full": 120,
+     "avg": 92.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-10",
+     "date": "2026-01-14",
+     "subject": "数学",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 108,
+     "full": 120,
+     "avg": 95,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-11",
+     "date": "2026-03-18",
+     "subject": "数学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 105.5,
+     "full": 120,
+     "avg": 93.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-12",
+     "date": "2026-04-22",
+     "subject": "数学",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 102,
+     "full": 120,
+     "avg": 92.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-13",
+     "date": "2026-07-01",
+     "subject": "数学",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 99.5,
+     "full": 120,
+     "avg": 93.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-14",
+     "date": "2026-09-28",
+     "subject": "数学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 95,
+     "full": 120,
+     "avg": 91,
+     "lvl": "",
+     "note": "函数单元失分较多",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-15",
+     "date": "2025-10-15",
+     "subject": "英语",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 113,
+     "full": 120,
+     "avg": 98.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-16",
+     "date": "2025-11-12",
+     "subject": "英语",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 114,
+     "full": 120,
+     "avg": 97,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-17",
+     "date": "2026-01-14",
+     "subject": "英语",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 115,
+     "full": 120,
+     "avg": 99.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-18",
+     "date": "2026-03-18",
+     "subject": "英语",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 114,
+     "full": 120,
+     "avg": 98.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-19",
+     "date": "2026-04-22",
+     "subject": "英语",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 116.5,
+     "full": 120,
+     "avg": 101,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-20",
+     "date": "2026-07-01",
+     "subject": "英语",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 115,
+     "full": 120,
+     "avg": 99.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-21",
+     "date": "2026-09-28",
+     "subject": "英语",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 116.5,
+     "full": 120,
+     "avg": 98.5,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-22",
+     "date": "2026-09-28",
+     "subject": "物理",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 84,
+     "full": 100,
+     "avg": 75,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-23",
+     "date": "2025-10-15",
+     "subject": "生物学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 88,
+     "full": 100,
+     "avg": 79,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-24",
+     "date": "2025-11-12",
+     "subject": "生物学",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 90,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-25",
+     "date": "2026-01-14",
+     "subject": "生物学",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 86,
+     "full": 100,
+     "avg": 78,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-26",
+     "date": "2026-03-18",
+     "subject": "生物学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 89,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-27",
+     "date": "2026-04-22",
+     "subject": "生物学",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 91,
+     "full": 100,
+     "avg": 81,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-28",
+     "date": "2026-07-01",
+     "subject": "生物学",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 92,
+     "full": 100,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-29",
+     "date": "2026-09-28",
+     "subject": "生物学",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 90,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-30",
+     "date": "2025-10-15",
+     "subject": "历史",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 82,
+     "full": 100,
+     "avg": 78,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-31",
+     "date": "2025-11-12",
+     "subject": "历史",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 85,
+     "full": 100,
+     "avg": 79,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-32",
+     "date": "2026-01-14",
+     "subject": "历史",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 84,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-33",
+     "date": "2026-03-18",
+     "subject": "历史",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 86,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-34",
+     "date": "2026-04-22",
+     "subject": "历史",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 83,
+     "full": 100,
+     "avg": 79,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-35",
+     "date": "2026-07-01",
+     "subject": "历史",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 87,
+     "full": 100,
+     "avg": 81,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-36",
+     "date": "2026-09-28",
+     "subject": "历史",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 85,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-37",
+     "date": "2025-10-15",
+     "subject": "地理",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 80,
+     "full": 100,
+     "avg": 77,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-38",
+     "date": "2025-11-12",
+     "subject": "地理",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 78,
+     "full": 100,
+     "avg": 76,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-39",
+     "date": "2026-01-14",
+     "subject": "地理",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 83,
+     "full": 100,
+     "avg": 78,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-40",
+     "date": "2026-03-18",
+     "subject": "地理",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 85,
+     "full": 100,
+     "avg": 79,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-41",
+     "date": "2026-04-22",
+     "subject": "地理",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 86,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-42",
+     "date": "2026-07-01",
+     "subject": "地理",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 88,
+     "full": 100,
+     "avg": 81,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-43",
+     "date": "2026-09-28",
+     "subject": "地理",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 87,
+     "full": 100,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-44",
+     "date": "2025-10-15",
+     "subject": "道德与法治",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 88,
+     "full": 100,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-45",
+     "date": "2025-11-12",
+     "subject": "道德与法治",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 87,
+     "full": 100,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-46",
+     "date": "2026-01-14",
+     "subject": "道德与法治",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 90,
+     "full": 100,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-47",
+     "date": "2026-03-18",
+     "subject": "道德与法治",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 89,
+     "full": 100,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-48",
+     "date": "2026-04-22",
+     "subject": "道德与法治",
+     "kind": "期中考试",
+     "scale": "pts",
+     "value": 91,
+     "full": 100,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-49",
+     "date": "2026-07-01",
+     "subject": "道德与法治",
+     "kind": "期末考试",
+     "scale": "pts",
+     "value": 90,
+     "full": 100,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-scores-50",
+     "date": "2026-09-28",
+     "subject": "道德与法治",
+     "kind": "月考",
+     "scale": "pts",
+     "value": 92,
+     "full": 100,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    }
+   ],
+   "fitness": [
+    {
+     "id": "ex-cn-fitness-1",
+     "date": "2025-10-20",
+     "items": {
+      "vc": 2650,
+      "r50": 9.1,
+      "sr": 12.5,
+      "jump": 168,
+      "situp": 42,
+      "run": 238
+     },
+     "marks": {},
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-fitness-2",
+     "date": "2026-09-22",
+     "items": {
+      "vc": 2800,
+      "r50": 8.9,
+      "sr": 2.5,
+      "jump": 172,
+      "situp": 44,
+      "run": 232
+     },
+     "marks": {},
+     "note": "",
+     "example": true
+    }
+   ],
+   "health": [
+    {
+     "id": "ex-cn-health-1",
+     "date": "2025-09-05",
+     "type": "height",
+     "value": 156.2,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-2",
+     "date": "2025-09-05",
+     "type": "weight",
+     "value": 44,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-3",
+     "date": "2026-03-10",
+     "type": "height",
+     "value": 158.9,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-4",
+     "date": "2026-03-10",
+     "type": "weight",
+     "value": 46.1,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-5",
+     "date": "2026-09-08",
+     "type": "height",
+     "value": 160.8,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-6",
+     "date": "2026-09-08",
+     "type": "weight",
+     "value": 47.8,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-7",
+     "date": "2025-09-05",
+     "type": "vision",
+     "value": 1,
+     "value2": 0.794,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-8",
+     "date": "2026-03-10",
+     "type": "vision",
+     "value": 0.794,
+     "value2": 0.631,
+     "example": true
+    },
+    {
+     "id": "ex-cn-health-9",
+     "date": "2026-09-08",
+     "type": "vision",
+     "value": 0.631,
+     "value2": 0.501,
+     "example": true
+    }
+   ],
+   "ratings": [
+    {
+     "id": "ex-cn-ratings-1",
+     "term": "2025-1",
+     "dim": "moral",
+     "mark": "A",
+     "by": "学校综评",
+     "example": true
+    },
+    {
+     "id": "ex-cn-ratings-2",
+     "term": "2025-1",
+     "dim": "arts",
+     "mark": "B",
+     "by": "学校综评",
+     "example": true
+    },
+    {
+     "id": "ex-cn-ratings-3",
+     "term": "2025-1",
+     "dim": "practice",
+     "mark": "B",
+     "by": "学校综评",
+     "example": true
+    },
+    {
+     "id": "ex-cn-ratings-4",
+     "term": "2025-2",
+     "dim": "moral",
+     "mark": "A",
+     "by": "学校综评",
+     "example": true
+    },
+    {
+     "id": "ex-cn-ratings-5",
+     "term": "2025-2",
+     "dim": "arts",
+     "mark": "A",
+     "by": "学校综评",
+     "example": true
+    },
+    {
+     "id": "ex-cn-ratings-6",
+     "term": "2025-2",
+     "dim": "practice",
+     "mark": "B",
+     "by": "学校综评",
+     "example": true
+    }
+   ],
+   "merits": [
+    {
+     "id": "ex-cn-merits-1",
+     "date": "2025-11-20",
+     "dim": "academic",
+     "title": "校英语演讲比赛一等奖",
+     "level": "校级",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-cn-merits-2",
+     "date": "2025-12-15",
+     "dim": "practice",
+     "title": "社区图书馆志愿服务",
+     "level": "区县级",
+     "hours": 12,
+     "example": true
+    },
+    {
+     "id": "ex-cn-merits-3",
+     "date": "2026-04-18",
+     "dim": "arts",
+     "title": "校合唱团春季音乐会领唱",
+     "level": "校级",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-cn-merits-4",
+     "date": "2026-05-30",
+     "dim": "moral",
+     "title": "优秀班干部（学习委员）",
+     "level": "校级",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-cn-merits-5",
+     "date": "2026-07-10",
+     "dim": "practice",
+     "title": "暑期博物馆小讲解员",
+     "level": "市级",
+     "hours": 20,
+     "example": true
+    },
+    {
+     "id": "ex-cn-merits-6",
+     "date": "2026-09-20",
+     "dim": "health",
+     "title": "校运会女子 800 米第三名",
+     "level": "校级",
+     "hours": null,
+     "example": true
+    }
+   ],
+   "moods": [
+    {
+     "id": "ex-cn-moods-1",
+     "date": "2026-09-05",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 8,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-2",
+     "date": "2026-09-06",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-3",
+     "date": "2026-09-07",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 7.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-4",
+     "date": "2026-09-08",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-5",
+     "date": "2026-09-09",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 8,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-6",
+     "date": "2026-09-10",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 40,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-7",
+     "date": "2026-09-11",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 7,
+     "active": 35,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-8",
+     "date": "2026-09-12",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-9",
+     "date": "2026-09-13",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 7.5,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-10",
+     "date": "2026-09-14",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7,
+     "active": 40,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-11",
+     "date": "2026-09-15",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 30,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-12",
+     "date": "2026-09-16",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 7.5,
+     "active": 35,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-13",
+     "date": "2026-09-17",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-14",
+     "date": "2026-09-18",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-15",
+     "date": "2026-09-19",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8,
+     "active": 35,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-16",
+     "date": "2026-09-20",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 7.5,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-17",
+     "date": "2026-09-21",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7,
+     "active": 40,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-18",
+     "date": "2026-09-22",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7,
+     "active": 50,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-19",
+     "date": "2026-09-23",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-20",
+     "date": "2026-09-24",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-21",
+     "date": "2026-09-25",
+     "mood": 1,
+     "stress": 3,
+     "sleep": 6.5,
+     "active": 20,
+     "note": "月考数学没考好",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-22",
+     "date": "2026-09-26",
+     "mood": 2,
+     "stress": 4,
+     "sleep": 7,
+     "active": 55,
+     "note": "月考数学没考好",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-23",
+     "date": "2026-09-27",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-24",
+     "date": "2026-09-29",
+     "mood": 1,
+     "stress": 5,
+     "sleep": 7.5,
+     "active": 65,
+     "note": "月考数学没考好",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-25",
+     "date": "2026-10-01",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-26",
+     "date": "2026-10-02",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 7.5,
+     "active": 25,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-27",
+     "date": "2026-10-03",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 20,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-28",
+     "date": "2026-10-05",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 8,
+     "active": 20,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-29",
+     "date": "2026-10-06",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-30",
+     "date": "2026-10-07",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 8,
+     "active": 40,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-cn-moods-31",
+     "date": "2026-10-08",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 40,
+     "note": "",
+     "example": true
+    }
+   ],
+   "who5": [
+    {
+     "id": "ex-cn-who5-1",
+     "date": "2026-03-20",
+     "items": [
+      4,
+      3,
+      4,
+      3,
+      4
+     ],
+     "example": true
+    },
+    {
+     "id": "ex-cn-who5-2",
+     "date": "2026-09-25",
+     "items": [
+      3,
+      3,
+      2,
+      2,
+      3
+     ],
+     "example": true
+    }
+   ]
+  },
+  "ex-us": {
+   "scores": [
+    {
+     "id": "ex-us-scores-1",
+     "date": "2025-10-24",
+     "subject": "ELA",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 88,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-2",
+     "date": "2025-12-19",
+     "subject": "ELA",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 90,
+     "full": null,
+     "avg": 85,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-3",
+     "date": "2026-03-20",
+     "subject": "ELA",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 91,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-4",
+     "date": "2026-06-05",
+     "subject": "ELA",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 92,
+     "full": null,
+     "avg": 85,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-5",
+     "date": "2026-09-25",
+     "subject": "ELA",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 93,
+     "full": null,
+     "avg": 86,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-6",
+     "date": "2025-10-24",
+     "subject": "Math",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 95,
+     "full": null,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-7",
+     "date": "2025-12-19",
+     "subject": "Math",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 96,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-8",
+     "date": "2026-03-20",
+     "subject": "Math",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 94,
+     "full": null,
+     "avg": 81,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-9",
+     "date": "2026-06-05",
+     "subject": "Math",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 97,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-10",
+     "date": "2026-09-25",
+     "subject": "Math",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 96,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-11",
+     "date": "2025-10-24",
+     "subject": "Science",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 90,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-12",
+     "date": "2025-12-19",
+     "subject": "Science",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 88,
+     "full": null,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-13",
+     "date": "2026-03-20",
+     "subject": "Science",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 91,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-14",
+     "date": "2026-06-05",
+     "subject": "Science",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 93,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-15",
+     "date": "2026-09-25",
+     "subject": "Science",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 92,
+     "full": null,
+     "avg": 85,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-16",
+     "date": "2025-10-24",
+     "subject": "Social Studies",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 84,
+     "full": null,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-17",
+     "date": "2025-12-19",
+     "subject": "Social Studies",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 86,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-18",
+     "date": "2026-03-20",
+     "subject": "Social Studies",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 85,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-19",
+     "date": "2026-06-05",
+     "subject": "Social Studies",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 88,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-20",
+     "date": "2026-09-25",
+     "subject": "Social Studies",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 87,
+     "full": null,
+     "avg": 84,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-21",
+     "date": "2025-10-24",
+     "subject": "World Language",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 79,
+     "full": null,
+     "avg": 80,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-22",
+     "date": "2025-12-19",
+     "subject": "World Language",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 81,
+     "full": null,
+     "avg": 81,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-23",
+     "date": "2026-03-20",
+     "subject": "World Language",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 83,
+     "full": null,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-24",
+     "date": "2026-06-05",
+     "subject": "World Language",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 82,
+     "full": null,
+     "avg": 82,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-25",
+     "date": "2026-09-25",
+     "subject": "World Language",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 84,
+     "full": null,
+     "avg": 83,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-26",
+     "date": "2025-10-24",
+     "subject": "PE",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 98,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-27",
+     "date": "2025-12-19",
+     "subject": "PE",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 97,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-28",
+     "date": "2026-03-20",
+     "subject": "PE",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 98,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-29",
+     "date": "2026-06-05",
+     "subject": "PE",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 99,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-30",
+     "date": "2026-09-25",
+     "subject": "PE",
+     "kind": "Unit Test",
+     "scale": "pct",
+     "value": 97,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-31",
+     "date": "2025-10-24",
+     "subject": "Art",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 92,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-32",
+     "date": "2025-12-19",
+     "subject": "Art",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 93,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-33",
+     "date": "2026-03-20",
+     "subject": "Art",
+     "kind": "Quarter Grade",
+     "scale": "pct",
+     "value": 91,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-scores-34",
+     "date": "2026-06-05",
+     "subject": "Art",
+     "kind": "Semester Grade",
+     "scale": "pct",
+     "value": 94,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    }
+   ],
+   "fitness": [
+    {
+     "id": "ex-us-fitness-1",
+     "date": "2026-03-12",
+     "items": {
+      "pacer": 38,
+      "curl": 30,
+      "push": 9,
+      "trunk": 10,
+      "sitreach": 8,
+      "body": 19.4
+     },
+     "marks": {
+      "pacer": "HFZ",
+      "curl": "HFZ",
+      "push": "NI",
+      "trunk": "HFZ",
+      "sitreach": "HFZ",
+      "body": "HFZ"
+     },
+     "note": "",
+     "example": true
+    }
+   ],
+   "health": [
+    {
+     "id": "ex-us-health-1",
+     "date": "2025-09-02",
+     "type": "height",
+     "value": 152,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-2",
+     "date": "2025-09-02",
+     "type": "weight",
+     "value": 41.5,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-3",
+     "date": "2026-02-10",
+     "type": "height",
+     "value": 155.3,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-4",
+     "date": "2026-02-10",
+     "type": "weight",
+     "value": 44,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-5",
+     "date": "2026-08-28",
+     "type": "height",
+     "value": 159,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-6",
+     "date": "2026-08-28",
+     "type": "weight",
+     "value": 47.2,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-7",
+     "date": "2025-09-02",
+     "type": "vision",
+     "value": 1,
+     "value2": 1,
+     "example": true
+    },
+    {
+     "id": "ex-us-health-8",
+     "date": "2026-08-28",
+     "type": "vision",
+     "value": 1,
+     "value2": 0.8,
+     "example": true
+    }
+   ],
+   "ratings": [
+    {
+     "id": "ex-us-ratings-1",
+     "term": "2025-1",
+     "dim": "moral",
+     "mark": "A",
+     "by": "Homeroom teacher",
+     "example": true
+    },
+    {
+     "id": "ex-us-ratings-2",
+     "term": "2025-1",
+     "dim": "arts",
+     "mark": "B",
+     "by": "Homeroom teacher",
+     "example": true
+    },
+    {
+     "id": "ex-us-ratings-3",
+     "term": "2025-1",
+     "dim": "practice",
+     "mark": "B",
+     "by": "Homeroom teacher",
+     "example": true
+    },
+    {
+     "id": "ex-us-ratings-4",
+     "term": "2025-2",
+     "dim": "moral",
+     "mark": "A",
+     "by": "Homeroom teacher",
+     "example": true
+    },
+    {
+     "id": "ex-us-ratings-5",
+     "term": "2025-2",
+     "dim": "arts",
+     "mark": "B",
+     "by": "Homeroom teacher",
+     "example": true
+    },
+    {
+     "id": "ex-us-ratings-6",
+     "term": "2025-2",
+     "dim": "practice",
+     "mark": "A",
+     "by": "Homeroom teacher",
+     "example": true
+    }
+   ],
+   "merits": [
+    {
+     "id": "ex-us-merits-1",
+     "date": "2025-11-08",
+     "dim": "academic",
+     "title": "Science Fair 2nd Place",
+     "level": "District",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-us-merits-2",
+     "date": "2026-02-14",
+     "dim": "practice",
+     "title": "Food bank volunteering",
+     "level": "School",
+     "hours": 8,
+     "example": true
+    },
+    {
+     "id": "ex-us-merits-3",
+     "date": "2026-04-30",
+     "dim": "arts",
+     "title": "School band – trumpet, spring concert",
+     "level": "School",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-us-merits-4",
+     "date": "2026-05-20",
+     "dim": "moral",
+     "title": "Student Council homeroom rep",
+     "level": "School",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-us-merits-5",
+     "date": "2026-09-12",
+     "dim": "practice",
+     "title": "Park cleanup day",
+     "level": "School",
+     "hours": 4,
+     "example": true
+    }
+   ],
+   "moods": [
+    {
+     "id": "ex-us-moods-1",
+     "date": "2026-09-04",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-2",
+     "date": "2026-09-05",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 8,
+     "active": 75,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-3",
+     "date": "2026-09-06",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 50,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-4",
+     "date": "2026-09-07",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 8,
+     "active": 70,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-5",
+     "date": "2026-09-08",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 70,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-6",
+     "date": "2026-09-09",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 7,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-7",
+     "date": "2026-09-11",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-8",
+     "date": "2026-09-12",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 6.5,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-9",
+     "date": "2026-09-13",
+     "mood": 4,
+     "stress": 4,
+     "sleep": 7.5,
+     "active": 95,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-10",
+     "date": "2026-09-15",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 8,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-11",
+     "date": "2026-09-16",
+     "mood": 2,
+     "stress": 3,
+     "sleep": 6.5,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-12",
+     "date": "2026-09-17",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 6.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-13",
+     "date": "2026-09-18",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 8,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-14",
+     "date": "2026-09-19",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 7,
+     "active": 50,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-15",
+     "date": "2026-09-20",
+     "mood": 4,
+     "stress": 4,
+     "sleep": 6.5,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-16",
+     "date": "2026-09-21",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 7.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-17",
+     "date": "2026-09-23",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 7,
+     "active": 95,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-18",
+     "date": "2026-09-25",
+     "mood": 3,
+     "stress": 3,
+     "sleep": 6.5,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-19",
+     "date": "2026-09-27",
+     "mood": 4,
+     "stress": 4,
+     "sleep": 7.5,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-20",
+     "date": "2026-09-28",
+     "mood": 4,
+     "stress": 4,
+     "sleep": 7.5,
+     "active": 75,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-21",
+     "date": "2026-09-29",
+     "mood": 1,
+     "stress": 5,
+     "sleep": 6.5,
+     "active": 75,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-22",
+     "date": "2026-09-30",
+     "mood": 2,
+     "stress": 5,
+     "sleep": 7,
+     "active": 90,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-23",
+     "date": "2026-10-01",
+     "mood": 2,
+     "stress": 4,
+     "sleep": 6.5,
+     "active": 95,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-24",
+     "date": "2026-10-02",
+     "mood": 1,
+     "stress": 4,
+     "sleep": 6.5,
+     "active": 90,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-25",
+     "date": "2026-10-03",
+     "mood": 2,
+     "stress": 5,
+     "sleep": 7,
+     "active": 55,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-26",
+     "date": "2026-10-04",
+     "mood": 2,
+     "stress": 4,
+     "sleep": 7.5,
+     "active": 85,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-27",
+     "date": "2026-10-05",
+     "mood": 2,
+     "stress": 5,
+     "sleep": 6.5,
+     "active": 90,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-28",
+     "date": "2026-10-06",
+     "mood": 2,
+     "stress": 4,
+     "sleep": 7,
+     "active": 65,
+     "note": "Too much homework",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-29",
+     "date": "2026-10-07",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 7,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-us-moods-30",
+     "date": "2026-10-08",
+     "mood": 3,
+     "stress": 4,
+     "sleep": 7.5,
+     "active": 50,
+     "note": "",
+     "example": true
+    }
+   ],
+   "who5": [
+    {
+     "id": "ex-us-who5-1",
+     "date": "2026-04-10",
+     "items": [
+      3,
+      3,
+      3,
+      3,
+      4
+     ],
+     "example": true
+    },
+    {
+     "id": "ex-us-who5-2",
+     "date": "2026-09-30",
+     "items": [
+      2,
+      2,
+      3,
+      2,
+      3
+     ],
+     "example": true
+    }
+   ]
+  },
+  "ex-uk": {
+   "scores": [
+    {
+     "id": "ex-uk-scores-1",
+     "date": "2025-12-12",
+     "subject": "English",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 78,
+     "full": null,
+     "avg": 72,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-2",
+     "date": "2026-03-27",
+     "subject": "English",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 80,
+     "full": null,
+     "avg": 73,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-3",
+     "date": "2026-07-10",
+     "subject": "English",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 83,
+     "full": null,
+     "avg": 74,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-4",
+     "date": "2025-12-12",
+     "subject": "Maths",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 85,
+     "full": null,
+     "avg": 70,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-5",
+     "date": "2026-03-27",
+     "subject": "Maths",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 84,
+     "full": null,
+     "avg": 71,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-6",
+     "date": "2026-07-10",
+     "subject": "Maths",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 88,
+     "full": null,
+     "avg": 72,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-7",
+     "date": "2025-12-12",
+     "subject": "Science",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 80,
+     "full": null,
+     "avg": 71,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-8",
+     "date": "2026-03-27",
+     "subject": "Science",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 83,
+     "full": null,
+     "avg": 72,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-9",
+     "date": "2026-07-10",
+     "subject": "Science",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 85,
+     "full": null,
+     "avg": 73,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-10",
+     "date": "2025-12-12",
+     "subject": "History",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 74,
+     "full": null,
+     "avg": 70,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-11",
+     "date": "2026-03-27",
+     "subject": "History",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 79,
+     "full": null,
+     "avg": 71,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-12",
+     "date": "2026-07-10",
+     "subject": "History",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 81,
+     "full": null,
+     "avg": 71,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-13",
+     "date": "2025-12-12",
+     "subject": "French",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 70,
+     "full": null,
+     "avg": 68,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-14",
+     "date": "2026-03-27",
+     "subject": "French",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 72,
+     "full": null,
+     "avg": 69,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-15",
+     "date": "2026-07-10",
+     "subject": "French",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 76,
+     "full": null,
+     "avg": 70,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-16",
+     "date": "2025-12-12",
+     "subject": "Art and Design",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 88,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-17",
+     "date": "2026-03-27",
+     "subject": "Art and Design",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 90,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-18",
+     "date": "2026-07-10",
+     "subject": "Art and Design",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 92,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-19",
+     "date": "2025-12-12",
+     "subject": "Computing",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 82,
+     "full": null,
+     "avg": 73,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-20",
+     "date": "2026-03-27",
+     "subject": "Computing",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 85,
+     "full": null,
+     "avg": 74,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-21",
+     "date": "2026-07-10",
+     "subject": "Computing",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 84,
+     "full": null,
+     "avg": 74,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-22",
+     "date": "2025-12-12",
+     "subject": "Music",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 75,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-23",
+     "date": "2026-03-27",
+     "subject": "Music",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 77,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-24",
+     "date": "2026-07-10",
+     "subject": "Music",
+     "kind": "End of Term",
+     "scale": "pct",
+     "value": 78,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-25",
+     "date": "2026-10-02",
+     "subject": "English Language",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 7,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-26",
+     "date": "2026-10-02",
+     "subject": "English Literature",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 7,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-27",
+     "date": "2026-10-02",
+     "subject": "Maths",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 8,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-28",
+     "date": "2026-10-02",
+     "subject": "Biology",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 7,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-29",
+     "date": "2026-10-02",
+     "subject": "Chemistry",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 6,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-30",
+     "date": "2026-10-02",
+     "subject": "Physics",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 7,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-31",
+     "date": "2026-10-02",
+     "subject": "History",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 6,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-32",
+     "date": "2026-10-02",
+     "subject": "French",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 5,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-scores-33",
+     "date": "2026-10-02",
+     "subject": "Art and Design",
+     "kind": "Predicted",
+     "scale": "gcse",
+     "value": 8,
+     "full": null,
+     "avg": null,
+     "lvl": "",
+     "note": "",
+     "example": true
+    }
+   ],
+   "fitness": [
+    {
+     "id": "ex-uk-fitness-1",
+     "date": "2026-06-15",
+     "items": {
+      "grip": 27.5,
+      "sbj": 172,
+      "situp": 22,
+      "bah": 12,
+      "shuttle": 19.8,
+      "plate": 11.2,
+      "sr": 30,
+      "flamingo": 4,
+      "srt": 6.5
+     },
+     "marks": {
+      "grip": 58,
+      "sbj": 62,
+      "situp": 55,
+      "bah": 48,
+      "shuttle": 60,
+      "plate": 66,
+      "sr": 78,
+      "flamingo": 70,
+      "srt": 45
+     },
+     "note": "",
+     "example": true
+    }
+   ],
+   "health": [
+    {
+     "id": "ex-uk-health-1",
+     "date": "2025-09-10",
+     "type": "height",
+     "value": 160.5,
+     "example": true
+    },
+    {
+     "id": "ex-uk-health-2",
+     "date": "2025-09-10",
+     "type": "weight",
+     "value": 49,
+     "example": true
+    },
+    {
+     "id": "ex-uk-health-3",
+     "date": "2026-06-15",
+     "type": "height",
+     "value": 162.4,
+     "example": true
+    },
+    {
+     "id": "ex-uk-health-4",
+     "date": "2026-06-15",
+     "type": "weight",
+     "value": 51.2,
+     "example": true
+    },
+    {
+     "id": "ex-uk-health-5",
+     "date": "2025-09-10",
+     "type": "vision",
+     "value": 1,
+     "value2": 1,
+     "example": true
+    },
+    {
+     "id": "ex-uk-health-6",
+     "date": "2026-06-15",
+     "type": "vision",
+     "value": 1,
+     "value2": 0.8,
+     "example": true
+    }
+   ],
+   "ratings": [
+    {
+     "id": "ex-uk-ratings-1",
+     "term": "2025-1",
+     "dim": "moral",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-2",
+     "term": "2025-1",
+     "dim": "arts",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-3",
+     "term": "2025-1",
+     "dim": "practice",
+     "mark": "B",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-4",
+     "term": "2025-2",
+     "dim": "moral",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-5",
+     "term": "2025-2",
+     "dim": "arts",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-6",
+     "term": "2025-2",
+     "dim": "practice",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-7",
+     "term": "2025-3",
+     "dim": "moral",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-8",
+     "term": "2025-3",
+     "dim": "arts",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    },
+    {
+     "id": "ex-uk-ratings-9",
+     "term": "2025-3",
+     "dim": "practice",
+     "mark": "A",
+     "by": "Form tutor",
+     "example": true
+    }
+   ],
+   "merits": [
+    {
+     "id": "ex-uk-merits-1",
+     "date": "2025-10-18",
+     "dim": "practice",
+     "title": "Duke of Edinburgh Bronze – care home volunteering",
+     "level": "National",
+     "hours": 24,
+     "example": true
+    },
+    {
+     "id": "ex-uk-merits-2",
+     "date": "2026-02-08",
+     "dim": "arts",
+     "title": "ABRSM Grade 6 Piano – Merit",
+     "level": "National",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-uk-merits-3",
+     "date": "2026-03-15",
+     "dim": "academic",
+     "title": "UKMT Junior Maths Challenge – Silver",
+     "level": "National",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-uk-merits-4",
+     "date": "2026-05-22",
+     "dim": "moral",
+     "title": "Form prefect",
+     "level": "School",
+     "hours": null,
+     "example": true
+    },
+    {
+     "id": "ex-uk-merits-5",
+     "date": "2026-07-03",
+     "dim": "health",
+     "title": "Sports day 1500 m – 1st",
+     "level": "School",
+     "hours": null,
+     "example": true
+    }
+   ],
+   "moods": [
+    {
+     "id": "ex-uk-moods-1",
+     "date": "2026-09-04",
+     "mood": 5,
+     "stress": 2,
+     "sleep": 8,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-2",
+     "date": "2026-09-06",
+     "mood": 5,
+     "stress": 2,
+     "sleep": 8,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-3",
+     "date": "2026-09-07",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 9,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-4",
+     "date": "2026-09-08",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-5",
+     "date": "2026-09-09",
+     "mood": 5,
+     "stress": 2,
+     "sleep": 8.5,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-6",
+     "date": "2026-09-10",
+     "mood": 5,
+     "stress": 3,
+     "sleep": 8,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-7",
+     "date": "2026-09-11",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8.5,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-8",
+     "date": "2026-09-12",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-9",
+     "date": "2026-09-14",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 9,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-10",
+     "date": "2026-09-16",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8.5,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-11",
+     "date": "2026-09-17",
+     "mood": 5,
+     "stress": 3,
+     "sleep": 9,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-12",
+     "date": "2026-09-18",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 9,
+     "active": 95,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-13",
+     "date": "2026-09-21",
+     "mood": 5,
+     "stress": 3,
+     "sleep": 9,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-14",
+     "date": "2026-09-22",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 8.5,
+     "active": 50,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-15",
+     "date": "2026-09-23",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8,
+     "active": 45,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-16",
+     "date": "2026-09-25",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 9,
+     "active": 70,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-17",
+     "date": "2026-09-26",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 9.5,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-18",
+     "date": "2026-09-27",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 9,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-19",
+     "date": "2026-09-29",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8.5,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-20",
+     "date": "2026-09-30",
+     "mood": 3,
+     "stress": 2,
+     "sleep": 8,
+     "active": 65,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-21",
+     "date": "2026-10-01",
+     "mood": 4,
+     "stress": 3,
+     "sleep": 8,
+     "active": 50,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-22",
+     "date": "2026-10-03",
+     "mood": 5,
+     "stress": 2,
+     "sleep": 9,
+     "active": 60,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-23",
+     "date": "2026-10-04",
+     "mood": 5,
+     "stress": 3,
+     "sleep": 8,
+     "active": 95,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-24",
+     "date": "2026-10-05",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8,
+     "active": 55,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-25",
+     "date": "2026-10-06",
+     "mood": 5,
+     "stress": 2,
+     "sleep": 9,
+     "active": 85,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-26",
+     "date": "2026-10-07",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 8.5,
+     "active": 90,
+     "note": "",
+     "example": true
+    },
+    {
+     "id": "ex-uk-moods-27",
+     "date": "2026-10-08",
+     "mood": 4,
+     "stress": 2,
+     "sleep": 9,
+     "active": 85,
+     "note": "",
+     "example": true
+    }
+   ],
+   "who5": [
+    {
+     "id": "ex-uk-who5-1",
+     "date": "2026-06-20",
+     "items": [
+      4,
+      4,
+      4,
+      3,
+      4
+     ],
+     "example": true
+    }
+   ]
+  }
+ },
+ "private": {
+  "screens": [
+   {
+    "id": "ex-cn-screens-1",
+    "sid": "ex-cn",
+    "date": "2025-10-10",
+    "scale": "PHQ-A",
+    "informant": "self",
+    "score": 4,
+    "by": "学校心理普查",
+    "label": "",
+    "note": "",
+    "example": true
+   },
+   {
+    "id": "ex-cn-screens-2",
+    "sid": "ex-cn",
+    "date": "2026-09-15",
+    "scale": "MHT",
+    "informant": "self",
+    "score": 48,
+    "by": "学校心理普查",
+    "label": "",
+    "note": "学习焦虑分量表略高",
+    "example": true
+   },
+   {
+    "id": "ex-us-screens-1",
+    "sid": "ex-us",
+    "date": "2026-09-30",
+    "scale": "GAD-7",
+    "informant": "self",
+    "score": 11,
+    "by": "School counselor",
+    "label": "",
+    "note": "",
+    "example": true
+   },
+   {
+    "id": "ex-us-screens-2",
+    "sid": "ex-us",
+    "date": "2026-09-30",
+    "scale": "PHQ-A",
+    "informant": "self",
+    "score": 6,
+    "by": "School counselor",
+    "label": "",
+    "note": "",
+    "example": true
+   },
+   {
+    "id": "ex-uk-screens-1",
+    "sid": "ex-uk",
+    "date": "2026-05-12",
+    "scale": "SDQ",
+    "informant": "self",
+    "score": 12,
+    "by": "School wellbeing survey",
+    "label": "",
+    "note": "",
+    "example": true
+   }
+  ],
+  "notes": [
+   {
+    "id": "ex-cn-notes-1",
+    "sid": "ex-cn",
+    "date": "2026-09-29",
+    "text": "和数学老师沟通：函数部分薄弱，建议每周两次错题整理，周末做一套综合练习。",
+    "example": true
+   },
+   {
+    "id": "ex-us-notes-1",
+    "sid": "ex-us",
+    "date": "2026-10-02",
+    "text": "学校辅导员建议每周沟通一次；晚上 9 点后减少屏幕时间，作业量大时先列计划。",
+    "example": true
+   }
+  ]
+ }
+}

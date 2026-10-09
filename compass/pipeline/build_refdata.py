@@ -1,0 +1,121 @@
+"""Turn the official tables in compass/.cache into src/refdata.js.
+
+Sources (run pipeline/fetch.sh first):
+- WHO Growth Reference 2007, 5-19 years: BMI-for-age and height-for-age LMS, monthly 61-228 months.
+- 《国家学生体质健康标准（2014年修订）》 single-item scoring tables 1-1 ... 1-16 (grades 1-12 only).
+Usage: python3 pipeline/build_refdata.py
+"""
+import json, os, re
+import openpyxl
+
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+CACHE = os.path.join(ROOT, '.cache')
+GR = ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级', '初一', '初二', '初三', '高一', '高二', '高三']
+SCORES = [100, 95, 90, 85, 80, 78, 76, 74, 72, 70, 68, 66, 64, 62, 60, 50, 40, 30, 20, 10]
+
+
+def who():
+    out = {}
+    for kind in ('bmi', 'hfa'):
+        out[kind] = {}
+        for sex, key in (('boys', 'M'), ('girls', 'F')):
+            ws = openpyxl.load_workbook(os.path.join(CACHE, f'{kind}-{sex}-z-who-2007-exp.xlsx'), read_only=True, data_only=True).worksheets[0]
+            rows = list(ws.iter_rows(values_only=True))
+            ix = {h: i for i, h in enumerate(rows[0])}
+            body = [r for r in rows[1:] if r[0] is not None]
+            months = [r[ix['Month']] for r in body]
+            assert months == list(range(61, 229)), (kind, sex)
+            out[kind][key] = [[r[ix['L']] for r in body], [r[ix['M']] for r in body], [r[ix['S']] for r in body]]
+    return out
+
+
+def tval(s):
+    m = re.fullmatch(r"(\d+)'(\d+)\"", s)
+    return int(m[1]) * 60 + int(m[2]) if m else float(s)
+
+
+def gb_tables():
+    lines = open(os.path.join(CACHE, 'gb2014.txt'), encoding='utf-8').read().split('\n')
+    heads = [(i, l) for i, l in enumerate(lines) if re.search(r'表 1-(\d+)\s', l)]
+    tok = re.compile(r"\d+'\d+\"|-?\d+(?:\.\d+)?")
+    tables = {}
+    for k, (hi, hl) in enumerate(heads):
+        n = int(re.search(r'表 1-(\d+)', hl)[1])
+        end = heads[k + 1][0] if k + 1 < len(heads) else hi + 40
+        block = lines[hi:end]
+        hdr = next(l for l in block if '年级' in l or '初一' in l)
+        cols = [GR.index(g) + 1 for g in GR if g in hdr]
+        if n <= 2:
+            tables[n] = (cols, block)
+            continue
+        rows = []
+        for l in block:
+            s = re.sub(r'^[\s优秀良好及格不]+', '', l)
+            m = re.match(r'(\d+)\s', s)
+            if not m or int(m[1]) not in SCORES or (rows and int(m[1]) >= rows[-1][0]):
+                continue
+            pad = len(l) - len(s) + m.end()
+            rows.append([int(m[1]), [(mm.start() + pad, mm.group()) for mm in tok.finditer(s[m.end():])]])
+        assert [r[0] for r in rows] == SCORES, n
+        anchors = [p for p, _ in rows[0][1]]
+        table = []
+        for score, offs in rows:
+            vals = [None] * len(anchors)
+            for p, t in offs:
+                j = min(range(len(anchors)), key=lambda a: abs(anchors[a] - p))
+                assert vals[j] is None, (n, score)
+                vals[j] = tval(t)
+            table.append([score] + vals[:len(cols)])
+        tables[n] = (cols, table)
+    return tables
+
+
+def split(cols, table, grades):
+    idx = [cols.index(g) for g in grades]
+    return {'g': grades, 't': [[r[0]] + [r[1 + i] for i in idx] for r in table]}
+
+
+def check(item, lower_better):
+    for j in range(len(item['g'])):
+        seq = [r[1 + j] for r in item['t'] if r[1 + j] is not None]
+        assert all((b > a) if lower_better else (b < a) for a, b in zip(seq, seq[1:])), item['g'][j]
+
+
+def gb():
+    T = gb_tables()
+    every = list(range(1, 13))
+    items = {
+        'vc': {'M': split(*T[3], every), 'F': split(*T[4], every)},
+        'r50': {'M': split(*T[5], every), 'F': split(*T[6], every)},
+        'sr': {'M': split(*T[7], every), 'F': split(*T[8], every)},
+        'rope': {'M': split(*T[9], list(range(1, 7))), 'F': split(*T[10], list(range(1, 7)))},
+        'jump': {'M': split(*T[11], list(range(7, 13))), 'F': split(*T[12], list(range(7, 13)))},
+        'situp': {'M': split(*T[13], [3, 4, 5, 6]), 'F': split(*T[14], list(range(3, 13)))},
+        'pullup': {'M': split(*T[13], list(range(7, 13)))},
+        'shuttle': {'M': split(*T[15], [5, 6]), 'F': split(*T[16], [5, 6])},
+        'run': {'M': split(*T[15], list(range(7, 13))), 'F': split(*T[16], list(range(7, 13)))},
+    }
+    for key, by_sex in items.items():
+        for it in by_sex.values():
+            check(it, key in ('r50', 'shuttle', 'run'))
+    # BMI tables 1-1 / 1-2: normal 100, low weight or overweight 80, obese 60
+    bmi = {}
+    for n, sex in ((1, 'M'), (2, 'F')):
+        cols, block = T[n]
+        text = '\n'.join(block)
+        normal = re.findall(r'(\d+\.\d)~(\d+\.\d)', re.search(r'正常.*', text)[0])
+        obese = re.findall(r'≥(\d+\.\d)', re.search(r'肥胖.*', text)[0])
+        bmi[sex] = [[float(a), float(b), float(c)] for (a, b), c in list(zip(normal, obese))[:12]]
+        assert len(bmi[sex]) == 12
+    items['bmi'] = bmi
+    return items
+
+
+data = {'WHO': who(), 'GB': gb()}
+js = '/* Generated by pipeline/build_refdata.py from the official tables. Do not edit by hand.\n' \
+     ' * WHO: WHO Growth Reference 2007 (5-19 y) LMS, index 0 = 61 months.\n' \
+     ' * GB: 《国家学生体质健康标准（2014年修订）》 single-item tables, g = grades 1-12, t = [score, threshold per grade].\n' \
+     ' *     bmi = [normal low, normal high, obese from] per grade (100 / 80 / 60 points). */\n' \
+     f"const REF = {json.dumps(data, ensure_ascii=False, separators=(',', ':'))};\n"
+open(os.path.join(ROOT, 'src', 'refdata.js'), 'w', encoding='utf-8').write(js)
+print('src/refdata.js', round(len(js.encode()) / 1024, 1), 'KB')

@@ -1,0 +1,31 @@
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="window glass" id="win">
+  <header class="top">
+    <div class="brand"><b>成长罗盘</b><span>Compass · K-12</span></div>
+    <div class="kids" id="kids" role="tablist" aria-label="学生"></div>
+    <div class="who">
+      <div class="seg" id="role" role="group" aria-label="视角" hidden>
+        <button type="button" data-role="parent" aria-pressed="true">家长</button>
+        <button type="button" data-role="student" aria-pressed="false">学生</button>
+      </div>
+      <span class="sync" id="sync"><i></i><span>连接中</span></span>
+    </div>
+  </header>
+  <nav class="tabs seg" id="nav" role="tablist" aria-label="视图" hidden>
+    <button type="button" role="tab" data-v="home">总览</button>
+    <button type="button" role="tab" data-v="acad">学业</button>
+    <button type="button" role="tab" data-v="holi">综合素质</button>
+    <button type="button" role="tab" data-v="body">身体</button>
+    <button type="button" role="tab" data-v="mind">心理</button>
+  </nav>
+  <main class="main" id="main">
+    <section class="view" id="view" aria-live="polite"></section>
+    <p class="foot" id="foot"></p>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet glass" id="sheet" aria-hidden="true" aria-label="表单"></aside>
+<div class="tip" id="tip" role="tooltip"></div>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
