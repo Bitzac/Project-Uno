@@ -19,7 +19,7 @@
 | 5 检索 | 只为「待写 edit.notes」里的股票查催化剂：近几天的财报、评级、并购、公告。用 WebSearch（`extended`，并行发出），关键数字用 WebFetch 打开原文核对 | 每条有能打开、日期对得上的来源，或写明「无明确消息」 |
 | 6 写稿 | 编辑 `usmarket/issues/YYYY-MM-DD.json` 的 `edit`：`no` = 上一期 + 1；`edited` 写实际编辑时间；`cover`；`notes` | `node usmarket/build.mjs` 通过 |
 | 7 发布 | Artifact `read` 上面的链接，再 `publish`，`url` 填上面的链接，`file_path` 填 `usmarket/index.html` | 链接打开是今天这一期 |
-| 8 存档 | `git add usmarket`（含 `data/ledger.json`），提交信息 `美股晨报 No.NNN · YYYY-MM-DD`，`git push -u origin claude/ecstatic-keller-vh23uz`（网络错误按 2s/4s/8s/16s 重试；返回 403 时按第 1 步加载并调用 `add_repo` 再推一次） | 推送成功。仍失败也不影响下一期：状态已随页面发布，下一次运行第 1b 步会恢复；在汇报里写明错误信息 |
+| 8 存档 | `git add usmarket`，提交信息 `美股晨报 No.NNN · YYYY-MM-DD`，`git push -u origin claude/ecstatic-keller-vh23uz`。网络错误按 2s/4s/8s/16s 重试；**返回 403 不要重试**：定时任务的会话没有这个仓库的推送权限，这是已知情况，状态已经随页面发布保存，下一次运行第 1b 步会恢复 | 推送成功，或汇报「推送跳过（无权限，状态已存页面）」 |
 
 - **05:00 是硬截止。** 04:52 时还没查完的催化剂先写「无明确消息。」，完成第 6–8 步，再补查、重新构建发布、追加一次提交。
 - `build.mjs` 校验不过就修数据，不要绕过校验发布；`--draft` 只用于本地预览。
