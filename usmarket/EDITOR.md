@@ -11,14 +11,15 @@
 
 | 步骤 | 做什么 | 完成标准 |
 |---|---|---|
-| 1 准备 | **先调用 `add_repo`（owner: Bitzac, repo: Project-Uno, access: push）**，即使 `git clone` 不用它也能成功：仓库是公开的，读不需要授权，但推送需要它挂载的凭据，否则第 8 步会被拒（403）。然后 `git fetch origin claude/ecstatic-keller-vh23uz && git checkout claude/ecstatic-keller-vh23uz && git pull origin claude/ecstatic-keller-vh23uz` | 拿到最新的 `usmarket/data/ledger.json` |
+| 1 准备 | 仓库没挂载时，先用 ToolSearch 查询 `select:mcp__claude-code-remote__add_repo` 加载工具，再调用 `add_repo`（owner: Bitzac, repo: Project-Uno, access: push）：它是延迟加载的，不先加载就会以为没有这个工具。读仓库不需要授权，推送需要。然后 `git fetch origin claude/ecstatic-keller-vh23uz && git checkout claude/ecstatic-keller-vh23uz && git pull origin claude/ecstatic-keller-vh23uz` | 仓库在 `claude/ecstatic-keller-vh23uz` 最新提交 |
+| 1b 恢复 | Artifact `read` 上面的链接，把它保存的 HTML 路径交给 `node usmarket/pipeline/restore.mjs <路径>`。上一次运行如果发布了但没推送成功，这一步会从页面恢复期刊、账本和回测结果 | 打印「仓库已是最新」或恢复了哪些文件 |
 | 2 抓数 | `node usmarket/pipeline/fetch.mjs`。退出码 3：汇报「今日休市不出刊」后结束，不提交。其他报错等 2 分钟重试一次，仍失败就汇报原因并结束 | 打印 503 只成分股和交易日 |
 | 3 信号 | `node usmarket/pipeline/signals.mjs`（约 30 秒，会拉 ETF 历史）。它按昨天的待执行指令在开盘价记账，检查止损，再生成下一个开盘的指令 | 打印仓位上限、成交、指令、候选和「待写 edit.notes」 |
 | 4 月度回测 | **只在每月第一个周六**：`node usmarket/pipeline/history.mjs --stocks && node usmarket/pipeline/backtest.mjs`（约 4 分钟），再重跑第 3 步。若打印的「上线」结果变了，在封面写明 | `usmarket/data/backtest.json` 更新 |
 | 5 检索 | 只为「待写 edit.notes」里的股票查催化剂：近几天的财报、评级、并购、公告。用 WebSearch（`extended`，并行发出），关键数字用 WebFetch 打开原文核对 | 每条有能打开、日期对得上的来源，或写明「无明确消息」 |
 | 6 写稿 | 编辑 `usmarket/issues/YYYY-MM-DD.json` 的 `edit`：`no` = 上一期 + 1；`edited` 写实际编辑时间；`cover`；`notes` | `node usmarket/build.mjs` 通过 |
 | 7 发布 | Artifact `read` 上面的链接，再 `publish`，`url` 填上面的链接，`file_path` 填 `usmarket/index.html` | 链接打开是今天这一期 |
-| 8 存档 | `git add usmarket`（含 `data/ledger.json`），提交信息 `美股晨报 No.NNN · YYYY-MM-DD`，`git push -u origin claude/ecstatic-keller-vh23uz`（网络错误按 2s/4s/8s/16s 重试；返回 403 时调用一次 `add_repo(access: push)` 再推一次） | 推送成功。账本推不上去，第二天会从旧账本重算 |
+| 8 存档 | `git add usmarket`（含 `data/ledger.json`），提交信息 `美股晨报 No.NNN · YYYY-MM-DD`，`git push -u origin claude/ecstatic-keller-vh23uz`（网络错误按 2s/4s/8s/16s 重试；返回 403 时按第 1 步加载并调用 `add_repo` 再推一次） | 推送成功。仍失败也不影响下一期：状态已随页面发布，下一次运行第 1b 步会恢复；在汇报里写明错误信息 |
 
 - **05:00 是硬截止。** 04:52 时还没查完的催化剂先写「无明确消息。」，完成第 6–8 步，再补查、重新构建发布、追加一次提交。
 - `build.mjs` 校验不过就修数据，不要绕过校验发布；`--draft` 只用于本地预览。

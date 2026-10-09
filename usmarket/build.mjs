@@ -63,6 +63,7 @@ for (let i = 1; i < issues.length; i++) {
   if (issues[i - 1].edit.no !== issues[i].edit.no + 1) console.warn(`warning: 期号不连续 ${issues[i].date} No.${issues[i].edit.no} → ${issues[i - 1].date} No.${issues[i - 1].edit.no}`);
 }
 const bt = JSON.parse(readFileSync(at('./data/backtest.json'), 'utf8'));
+const ledger = JSON.parse(readFileSync(at('./data/ledger.json'), 'utf8')); // embedded so restore.mjs can recover state from the page
 
 const app = src('app.js');
 const json = v => JSON.stringify(v).replace(/</g, '\\u003c');
@@ -76,6 +77,7 @@ ${src('body.html')}
 <script type="application/json" id="issues-data">${json(issues.slice(0, KEEP))}</script>
 <script type="application/json" id="bt-data">${json(bt)}</script>
 <script type="application/json" id="cfg-data">${json(CFG)}</script>
+<script type="application/json" id="ledger-data">${json(ledger)}</script>
 <script>(()=>{'use strict';
 ${app}
 })();</script>
