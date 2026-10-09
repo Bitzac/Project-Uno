@@ -122,7 +122,8 @@ async function econ(from, to) {
 // ---------- main ----------
 const info = (await get('https://api.nasdaq.com/api/market-info')).data;
 const prevTrade = nasdaqDate(info.previousTradeDate);
-const nextTrade = nasdaqDate(info.nextTradeDate);
+// Before today's open Nasdaq already reports the day after today as nextTradeDate; on a weekday trading day the next open is today.
+const nextTrade = WEEKDAY !== 6 && info.isBusinessDay !== false && !/open|after/i.test(info.mrktStatus) && nasdaqDate(info.previousTradeDate) < DATE ? DATE : nasdaqDate(info.nextTradeDate);
 const status = /pre/i.test(info.mrktStatus) ? 'pre' : /open/i.test(info.mrktStatus) ? 'open' : /after/i.test(info.mrktStatus) ? 'post' : 'closed';
 if (!FORCE && (WEEKDAY === 0 || (WEEKDAY !== 6 && info.isBusinessDay === false))) {
   console.log(`SKIP ${DATE}: 非交易日（${WEEKDAY === 0 ? '周日' : '休市'}），不出刊。上一交易日 ${prevTrade}，下一交易日 ${nextTrade}。`);
