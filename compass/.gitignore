@@ -1,0 +1,6 @@
+web/global/config.js
+web/cn/config.js
+web/global/.firebaserc
+dist/
+test/.tmp/
+*-debug.log

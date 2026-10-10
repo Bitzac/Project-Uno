@@ -1,0 +1,8 @@
+{
+  "_comment": "云开发数据库安全规则：每个集合只允许读写 owner 等于当前登录用户的文档。由 apply-rules.mjs 写入，也可以在控制台「数据库 → 集合 → 权限设置 → 安全规则」手动粘贴 rule。",
+  "collections": ["students", "scores", "fitness", "health", "ratings", "merits", "moods", "who5", "screens", "notes", "settings"],
+  "rule": {
+    "read": "auth.uid != null && doc.owner == auth.uid",
+    "write": "auth.uid != null && doc.owner == auth.uid"
+  }
+}

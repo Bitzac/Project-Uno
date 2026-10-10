@@ -52,12 +52,14 @@ function renderTop() {
   role.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.role === ST.role)));
   document.body.classList.toggle('student', !isParent());
   $('nav').hidden = !D.st;
+  if (TARGET !== 'artifact') { renderAcct(); $('sync').hidden = !['app', 'demo'].includes(WEB.screen); }
   $('nav').querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.v === ST.view)));
 }
 
 function renderAll() {
   renderTop();
   const v = $('view');
+  if (TARGET !== 'artifact' && WEB.screen !== 'app' && WEB.screen !== 'demo') { renderGate(); renderFoot(); return; }
   if (mode === 'init') { v.innerHTML = `<div class="empty"><div class="spin" aria-hidden="true"></div>正在读取档案…</div>`; return; }
   if (!D.st) { renderEmpty(); renderFoot(); return; }
   M = derive();
@@ -80,11 +82,15 @@ function renderEmpty() {
 
 function renderFoot() {
   const parts = [];
+  if (TARGET !== 'artifact' && WEB.screen !== 'app' && WEB.screen !== 'demo') { $('foot').innerHTML = ''; return; }
   if (hasExamples() && W()) parts.push(`含虚构示例学生 <button class="linkbtn" data-act="clear-ex">清除全部示例</button>`);
-  parts.push(mode === 'db' ? (CAN_EDIT ? '数据存在这个 Artifact 的云端数据库；心理筛查和家长备忘只有编辑者可见' : '只读视图：心理筛查和家长备忘对你不可见') : '本地模式：数据只保存在此浏览器');
+  if (TARGET === 'artifact') parts.push(mode === 'db' ? (CAN_EDIT ? '数据存在这个 Artifact 的云端数据库；心理筛查和家长备忘只有编辑者可见' : '只读视图：心理筛查和家长备忘对你不可见') : '本地模式：数据只保存在此浏览器');
+  else if (WEB.screen === 'demo') parts.push(`演示模式：数据只保存在这台设备的浏览器里 <button class="linkbtn" data-act="web-go" data-s="${TARGET === 'cn' ? 'login' : 'signup'}">注册后保存自己的数据</button>`);
+  else parts.push(`数据存放在${esc(AUTH.where)}，只有你的账号能访问`);
   if (isParent() && W() && pinSupported()) parts.push(`<button class="linkbtn" data-act="pin">${D.pin ? '修改家长 PIN' : '设置家长 PIN'}</button>`);
+  if (TARGET !== 'artifact') parts.push(LEGAL.map(legalLink).join(' · '));
   parts.push('标准：国家学生体质健康标准 2014 · WHO 生长参考 2007 · AASM 2016 · WHO-5');
-  $('foot').innerHTML = parts.join(' · ');
+  $('foot').innerHTML = parts.join(' · ') + (TARGET !== 'artifact' ? icpLine() : '');
 }
 
 /* ---------- 总览 ---------- */
@@ -146,7 +152,7 @@ function vHome() {
       <div class="panel">
         <h3>智能评估<small>规则引擎 · 每条都有数据依据</small></h3>
         ${insList(INS.filter(x => x.k !== 'alert'))}
-        ${P && W() ? aiBlock() : ''}
+        ${FEATURES.ai && P && W() ? aiBlock() : ''}
       </div>
     </div>
     ${kpis(m)}`;

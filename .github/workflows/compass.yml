@@ -1,0 +1,107 @@
+# Compass (成长罗盘): test on every change, deploy the overseas site (Firebase) and the China site (CloudBase) from main.
+# A deploy job skips itself when its secrets are not configured. Settings → Secrets and variables → Actions:
+#   overseas  secrets FIREBASE_SERVICE_ACCOUNT (JSON key)   variables FIREBASE_PROJECT_ID, FIREBASE_WEB_CONFIG (JSON)
+#   China     secrets TCB_SECRET_ID, TCB_SECRET_KEY          variables TCB_ENV_ID, TCB_PUBLISHABLE_KEY, ICP_NUMBER, POLICE_NUMBER
+name: compass
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['compass/**', '.github/workflows/compass.yml']
+  pull_request:
+    paths: ['compass/**', '.github/workflows/compass.yml']
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: compass
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: compass/package-lock.json }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+
+  deploy-global:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production-global
+    env:
+      CONFIGURED: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
+    steps:
+      - if: env.CONFIGURED != 'true'
+        run: echo "FIREBASE_SERVICE_ACCOUNT is not set; skipping the overseas deploy."
+      - if: env.CONFIGURED == 'true'
+        uses: actions/checkout@v4
+      - if: env.CONFIGURED == 'true'
+        uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: compass/package-lock.json }
+      - if: env.CONFIGURED == 'true'
+        run: npm ci
+      - name: Write config.js
+        if: env.CONFIGURED == 'true'
+        env:
+          WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}
+        run: node -e "const c=JSON.parse(process.env.WEB_CONFIG); require('fs').writeFileSync('web/global/config.js','window.COMPASS_CONFIG = '+JSON.stringify({firebase:c})+';\n')"
+      - if: env.CONFIGURED == 'true'
+        run: node build.mjs global
+      - name: Deploy hosting and Firestore rules
+        if: env.CONFIGURED == 'true'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+        run: |
+          printf '%s' "$SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json"
+          GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json" npx firebase deploy --config web/global/firebase.json \
+            --project "$PROJECT_ID" --only hosting,firestore:rules --non-interactive
+          rm -f "$RUNNER_TEMP/sa.json"
+
+  deploy-cn:
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production-cn
+    env:
+      CONFIGURED: ${{ secrets.TCB_SECRET_ID != '' && secrets.TCB_SECRET_KEY != '' }}
+    steps:
+      - if: env.CONFIGURED != 'true'
+        run: echo "TCB_SECRET_ID / TCB_SECRET_KEY are not set; skipping the China deploy."
+      - if: env.CONFIGURED == 'true'
+        uses: actions/checkout@v4
+      - if: env.CONFIGURED == 'true'
+        uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: compass/package-lock.json }
+      - if: env.CONFIGURED == 'true'
+        run: npm ci && npm install --no-save @cloudbase/cli@3.8.6 @cloudbase/manager-node@5.9.0
+      - name: Write config.js
+        if: env.CONFIGURED == 'true'
+        env:
+          TCB_ENV_ID: ${{ vars.TCB_ENV_ID }}
+          TCB_PUBLISHABLE_KEY: ${{ vars.TCB_PUBLISHABLE_KEY }}
+          ICP_NUMBER: ${{ vars.ICP_NUMBER }}
+          POLICE_NUMBER: ${{ vars.POLICE_NUMBER }}
+        run: |
+          node -e "const e=process.env; require('fs').writeFileSync('web/cn/config.js','window.COMPASS_CONFIG = '+JSON.stringify({cloudbase:{env:e.TCB_ENV_ID,region:'ap-shanghai',accessKey:e.TCB_PUBLISHABLE_KEY||''},icp:e.ICP_NUMBER||'',police:e.POLICE_NUMBER||''})+';\n')"
+      - if: env.CONFIGURED == 'true'
+        run: node build.mjs cn
+      - name: Deploy hosting and database rules
+        if: env.CONFIGURED == 'true'
+        env:
+          TCB_SECRET_ID: ${{ secrets.TCB_SECRET_ID }}
+          TCB_SECRET_KEY: ${{ secrets.TCB_SECRET_KEY }}
+          TCB_ENV_ID: ${{ vars.TCB_ENV_ID }}
+        run: |
+          npx tcb login --apiKeyId "$TCB_SECRET_ID" --apiKey "$TCB_SECRET_KEY"
+          node web/cn/apply-rules.mjs
+          npx tcb hosting deploy ./dist/cn -e "$TCB_ENV_ID"

@@ -348,8 +348,40 @@ svg.radar{max-width:440px;margin:0 auto}
 .exs b{color:var(--ink);font-weight:800;font-size:14px}
 .panel svg:not(.radar):not(.chart):not(.spark):not(.face){width:16px;height:16px}
 
+/* web: sign-in gate + account */
+.gate{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center;max-width:1040px;margin:4vh auto 0;width:100%}
+.gate-hero h1{font:900 40px/1.18 var(--f-body);margin:6px 0 12px}
+.gate-hero>p{margin:0;color:var(--muted);font-size:15.5px;max-width:46ch}
+.gate-points{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:0}
+.gate-points li{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:12px;padding:10px 0;border-top:var(--hair) solid var(--line);font-size:14px}
+.gate-points b{font-weight:800}
+.gate-points span{color:var(--muted)}
+.gate-card{border-radius:24px;padding:22px 22px 18px;display:grid;gap:12px}
+.gate-form{display:grid;gap:12px}
+.gate-form h2{font:900 22px/1.25 var(--f-body)}
+.gate-form p{margin:0}
+.gate-acts{display:flex;gap:8px;flex-wrap:wrap}
+.consent{border:var(--hair) solid var(--line);border-radius:14px;padding:10px 12px 12px;margin:0;display:grid;gap:8px}
+.consent legend{font-size:12.5px;color:var(--muted);padding:0 4px}
+.consent label,.check{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:13.5px;line-height:1.55;align-items:start;cursor:pointer}
+.consent input,.check input{margin:3px 0 0;width:15px;height:15px;accent-color:var(--accent)}
+.consent a,.foot a,.acct-rows a,.sheet .sm a{color:var(--accent);text-underline-offset:2px;text-decoration-thickness:var(--hair)}
+.otp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+.acct-rows{display:grid;gap:0}
+.acct-rows div{display:grid;grid-template-columns:6em minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:var(--hair) solid var(--line-soft);font-size:13.5px}
+.acct-rows span{color:var(--muted)}
+.acct-rows b{font-weight:700;word-break:break-all}
+.acct-acts{display:flex;gap:8px;flex-wrap:wrap}
+.danger-zone{display:grid;gap:10px;padding:14px;border-radius:16px;border:var(--hair) solid var(--bad);background:var(--bad-soft)}
+.danger-zone h3{font:800 15px var(--f-body);color:var(--bad)}
+.danger-zone p{margin:0}
+.danger-zone .btn.danger{margin-left:0;justify-self:start}
+.icp{display:flex;gap:4px 14px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--faint);margin:14px 0 0}
+.icp a{color:var(--faint);text-decoration:none}
+#acct{max-width:190px;overflow:hidden;text-overflow:ellipsis}
+
 @media (max-width:1080px){.mgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:980px){.cols,.cols.even{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:980px){.gate{grid-template-columns:minmax(0,1fr);margin-top:1vh}.gate-hero h1{font-size:32px}.cols,.cols.even{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){
   body{padding-block:10px;font-size:14.5px}
   .window{border-radius:22px}
@@ -400,6 +432,7 @@ svg.radar{max-width:440px;margin:0 auto}
         <button type="button" data-role="student" aria-pressed="false">学生</button>
       </div>
       <span class="sync" id="sync"><i></i><span>连接中</span></span>
+      <button type="button" class="btn ghost sm" id="acct" hidden>账户</button>
     </div>
   </header>
   <nav class="tabs seg" id="nav" role="tablist" aria-label="视图" hidden>
@@ -422,6 +455,7 @@ svg.radar{max-width:440px;margin:0 auto}
 
 <script type="application/json" id="examples">{"students":[{"id":"ex-cn","name":"林小满","sex":"F","birth":"2012-12","system":"cn","cohort":2018,"school":"星河实验中学","cls":"初二（3）班","allergy":"尘螨过敏","order":1,"example":true},{"id":"ex-us","name":"Ethan Zhou","sex":"M","birth":"2013-05","system":"us","cohort":2019,"school":"Lakeview Middle School","cls":"Homeroom 7B","allergy":"","order":2,"example":true},{"id":"ex-uk","name":"Chloe Lin","sex":"F","birth":"2011-02","system":"uk","cohort":2016,"school":"Riverside Academy","cls":"Form 10H","allergy":"","order":3,"example":true}],"records":{"ex-cn":{"scores":[{"id":"ex-cn-scores-1","date":"2025-10-15","subject":"语文","kind":"月考","scale":"pts","value":103,"full":120,"avg":96,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-2","date":"2025-11-12","subject":"语文","kind":"期中考试","scale":"pts","value":101,"full":120,"avg":95,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-3","date":"2026-01-14","subject":"语文","kind":"期末考试","scale":"pts","value":105.5,"full":120,"avg":97,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-4","date":"2026-03-18","subject":"语文","kind":"月考","scale":"pts","value":104.5,"full":120,"avg":96,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-5","date":"2026-04-22","subject":"语文","kind":"期中考试","scale":"pts","value":107,"full":120,"avg":98.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-6","date":"2026-07-01","subject":"语文","kind":"期末考试","scale":"pts","value":108,"full":120,"avg":97,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-7","date":"2026-09-28","subject":"语文","kind":"月考","scale":"pts","value":105.5,"full":120,"avg":96,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-8","date":"2025-10-15","subject":"数学","kind":"月考","scale":"pts","value":111.5,"full":120,"avg":93.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-9","date":"2025-11-12","subject":"数学","kind":"期中考试","scale":"pts","value":109,"full":120,"avg":92.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-10","date":"2026-01-14","subject":"数学","kind":"期末考试","scale":"pts","value":108,"full":120,"avg":95,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-11","date":"2026-03-18","subject":"数学","kind":"月考","scale":"pts","value":105.5,"full":120,"avg":93.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-12","date":"2026-04-22","subject":"数学","kind":"期中考试","scale":"pts","value":102,"full":120,"avg":92.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-13","date":"2026-07-01","subject":"数学","kind":"期末考试","scale":"pts","value":99.5,"full":120,"avg":93.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-14","date":"2026-09-28","subject":"数学","kind":"月考","scale":"pts","value":95,"full":120,"avg":91,"lvl":"","note":"函数单元失分较多","example":true},{"id":"ex-cn-scores-15","date":"2025-10-15","subject":"英语","kind":"月考","scale":"pts","value":113,"full":120,"avg":98.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-16","date":"2025-11-12","subject":"英语","kind":"期中考试","scale":"pts","value":114,"full":120,"avg":97,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-17","date":"2026-01-14","subject":"英语","kind":"期末考试","scale":"pts","value":115,"full":120,"avg":99.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-18","date":"2026-03-18","subject":"英语","kind":"月考","scale":"pts","value":114,"full":120,"avg":98.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-19","date":"2026-04-22","subject":"英语","kind":"期中考试","scale":"pts","value":116.5,"full":120,"avg":101,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-20","date":"2026-07-01","subject":"英语","kind":"期末考试","scale":"pts","value":115,"full":120,"avg":99.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-21","date":"2026-09-28","subject":"英语","kind":"月考","scale":"pts","value":116.5,"full":120,"avg":98.5,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-22","date":"2026-09-28","subject":"物理","kind":"月考","scale":"pts","value":84,"full":100,"avg":75,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-23","date":"2025-10-15","subject":"生物学","kind":"月考","scale":"pts","value":88,"full":100,"avg":79,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-24","date":"2025-11-12","subject":"生物学","kind":"期中考试","scale":"pts","value":90,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-25","date":"2026-01-14","subject":"生物学","kind":"期末考试","scale":"pts","value":86,"full":100,"avg":78,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-26","date":"2026-03-18","subject":"生物学","kind":"月考","scale":"pts","value":89,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-27","date":"2026-04-22","subject":"生物学","kind":"期中考试","scale":"pts","value":91,"full":100,"avg":81,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-28","date":"2026-07-01","subject":"生物学","kind":"期末考试","scale":"pts","value":92,"full":100,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-29","date":"2026-09-28","subject":"生物学","kind":"月考","scale":"pts","value":90,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-30","date":"2025-10-15","subject":"历史","kind":"月考","scale":"pts","value":82,"full":100,"avg":78,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-31","date":"2025-11-12","subject":"历史","kind":"期中考试","scale":"pts","value":85,"full":100,"avg":79,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-32","date":"2026-01-14","subject":"历史","kind":"期末考试","scale":"pts","value":84,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-33","date":"2026-03-18","subject":"历史","kind":"月考","scale":"pts","value":86,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-34","date":"2026-04-22","subject":"历史","kind":"期中考试","scale":"pts","value":83,"full":100,"avg":79,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-35","date":"2026-07-01","subject":"历史","kind":"期末考试","scale":"pts","value":87,"full":100,"avg":81,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-36","date":"2026-09-28","subject":"历史","kind":"月考","scale":"pts","value":85,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-37","date":"2025-10-15","subject":"地理","kind":"月考","scale":"pts","value":80,"full":100,"avg":77,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-38","date":"2025-11-12","subject":"地理","kind":"期中考试","scale":"pts","value":78,"full":100,"avg":76,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-39","date":"2026-01-14","subject":"地理","kind":"期末考试","scale":"pts","value":83,"full":100,"avg":78,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-40","date":"2026-03-18","subject":"地理","kind":"月考","scale":"pts","value":85,"full":100,"avg":79,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-41","date":"2026-04-22","subject":"地理","kind":"期中考试","scale":"pts","value":86,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-42","date":"2026-07-01","subject":"地理","kind":"期末考试","scale":"pts","value":88,"full":100,"avg":81,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-43","date":"2026-09-28","subject":"地理","kind":"月考","scale":"pts","value":87,"full":100,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-44","date":"2025-10-15","subject":"道德与法治","kind":"月考","scale":"pts","value":88,"full":100,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-45","date":"2025-11-12","subject":"道德与法治","kind":"期中考试","scale":"pts","value":87,"full":100,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-46","date":"2026-01-14","subject":"道德与法治","kind":"期末考试","scale":"pts","value":90,"full":100,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-47","date":"2026-03-18","subject":"道德与法治","kind":"月考","scale":"pts","value":89,"full":100,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-48","date":"2026-04-22","subject":"道德与法治","kind":"期中考试","scale":"pts","value":91,"full":100,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-49","date":"2026-07-01","subject":"道德与法治","kind":"期末考试","scale":"pts","value":90,"full":100,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-cn-scores-50","date":"2026-09-28","subject":"道德与法治","kind":"月考","scale":"pts","value":92,"full":100,"avg":84,"lvl":"","note":"","example":true}],"fitness":[{"id":"ex-cn-fitness-1","date":"2025-10-20","items":{"vc":2650,"r50":9.1,"sr":12.5,"jump":168,"situp":42,"run":238},"marks":{},"note":"","example":true},{"id":"ex-cn-fitness-2","date":"2026-09-22","items":{"vc":2800,"r50":8.9,"sr":2.5,"jump":172,"situp":44,"run":232},"marks":{},"note":"","example":true}],"health":[{"id":"ex-cn-health-1","date":"2025-09-05","type":"height","value":156.2,"example":true},{"id":"ex-cn-health-2","date":"2025-09-05","type":"weight","value":44,"example":true},{"id":"ex-cn-health-3","date":"2026-03-10","type":"height","value":158.9,"example":true},{"id":"ex-cn-health-4","date":"2026-03-10","type":"weight","value":46.1,"example":true},{"id":"ex-cn-health-5","date":"2026-09-08","type":"height","value":160.8,"example":true},{"id":"ex-cn-health-6","date":"2026-09-08","type":"weight","value":47.8,"example":true},{"id":"ex-cn-health-7","date":"2025-09-05","type":"vision","value":1,"value2":0.794,"example":true},{"id":"ex-cn-health-8","date":"2026-03-10","type":"vision","value":0.794,"value2":0.631,"example":true},{"id":"ex-cn-health-9","date":"2026-09-08","type":"vision","value":0.631,"value2":0.501,"example":true}],"ratings":[{"id":"ex-cn-ratings-1","term":"2025-1","dim":"moral","mark":"A","by":"学校综评","example":true},{"id":"ex-cn-ratings-2","term":"2025-1","dim":"arts","mark":"B","by":"学校综评","example":true},{"id":"ex-cn-ratings-3","term":"2025-1","dim":"practice","mark":"B","by":"学校综评","example":true},{"id":"ex-cn-ratings-4","term":"2025-2","dim":"moral","mark":"A","by":"学校综评","example":true},{"id":"ex-cn-ratings-5","term":"2025-2","dim":"arts","mark":"A","by":"学校综评","example":true},{"id":"ex-cn-ratings-6","term":"2025-2","dim":"practice","mark":"B","by":"学校综评","example":true}],"merits":[{"id":"ex-cn-merits-1","date":"2025-11-20","dim":"academic","title":"校英语演讲比赛一等奖","level":"校级","hours":null,"example":true},{"id":"ex-cn-merits-2","date":"2025-12-15","dim":"practice","title":"社区图书馆志愿服务","level":"区县级","hours":12,"example":true},{"id":"ex-cn-merits-3","date":"2026-04-18","dim":"arts","title":"校合唱团春季音乐会领唱","level":"校级","hours":null,"example":true},{"id":"ex-cn-merits-4","date":"2026-05-30","dim":"moral","title":"优秀班干部（学习委员）","level":"校级","hours":null,"example":true},{"id":"ex-cn-merits-5","date":"2026-07-10","dim":"practice","title":"暑期博物馆小讲解员","level":"市级","hours":20,"example":true},{"id":"ex-cn-merits-6","date":"2026-09-20","dim":"health","title":"校运会女子 800 米第三名","level":"校级","hours":null,"example":true}],"moods":[{"id":"ex-cn-moods-1","date":"2026-09-05","mood":3,"stress":2,"sleep":8,"active":45,"note":"","example":true},{"id":"ex-cn-moods-2","date":"2026-09-06","mood":4,"stress":3,"sleep":7.5,"active":55,"note":"","example":true},{"id":"ex-cn-moods-3","date":"2026-09-07","mood":4,"stress":2,"sleep":7.5,"active":55,"note":"","example":true},{"id":"ex-cn-moods-4","date":"2026-09-08","mood":3,"stress":3,"sleep":7.5,"active":65,"note":"","example":true},{"id":"ex-cn-moods-5","date":"2026-09-09","mood":3,"stress":3,"sleep":8,"active":55,"note":"","example":true},{"id":"ex-cn-moods-6","date":"2026-09-10","mood":4,"stress":3,"sleep":8,"active":40,"note":"","example":true},{"id":"ex-cn-moods-7","date":"2026-09-11","mood":4,"stress":2,"sleep":7,"active":35,"note":"","example":true},{"id":"ex-cn-moods-8","date":"2026-09-12","mood":3,"stress":3,"sleep":7.5,"active":55,"note":"","example":true},{"id":"ex-cn-moods-9","date":"2026-09-13","mood":3,"stress":2,"sleep":7.5,"active":45,"note":"","example":true},{"id":"ex-cn-moods-10","date":"2026-09-14","mood":3,"stress":3,"sleep":7,"active":40,"note":"","example":true},{"id":"ex-cn-moods-11","date":"2026-09-15","mood":4,"stress":3,"sleep":7.5,"active":30,"note":"","example":true},{"id":"ex-cn-moods-12","date":"2026-09-16","mood":3,"stress":2,"sleep":7.5,"active":35,"note":"","example":true},{"id":"ex-cn-moods-13","date":"2026-09-17","mood":4,"stress":2,"sleep":8,"active":45,"note":"","example":true},{"id":"ex-cn-moods-14","date":"2026-09-18","mood":4,"stress":3,"sleep":7.5,"active":45,"note":"","example":true},{"id":"ex-cn-moods-15","date":"2026-09-19","mood":4,"stress":2,"sleep":8,"active":35,"note":"","example":true},{"id":"ex-cn-moods-16","date":"2026-09-20","mood":3,"stress":2,"sleep":7.5,"active":60,"note":"","example":true},{"id":"ex-cn-moods-17","date":"2026-09-21","mood":3,"stress":3,"sleep":7,"active":40,"note":"","example":true},{"id":"ex-cn-moods-18","date":"2026-09-22","mood":3,"stress":3,"sleep":7,"active":50,"note":"","example":true},{"id":"ex-cn-moods-19","date":"2026-09-23","mood":4,"stress":3,"sleep":7,"active":65,"note":"","example":true},{"id":"ex-cn-moods-20","date":"2026-09-24","mood":4,"stress":3,"sleep":8,"active":60,"note":"","example":true},{"id":"ex-cn-moods-21","date":"2026-09-25","mood":1,"stress":3,"sleep":6.5,"active":20,"note":"月考数学没考好","example":true},{"id":"ex-cn-moods-22","date":"2026-09-26","mood":2,"stress":4,"sleep":7,"active":55,"note":"月考数学没考好","example":true},{"id":"ex-cn-moods-23","date":"2026-09-27","mood":3,"stress":3,"sleep":7,"active":65,"note":"","example":true},{"id":"ex-cn-moods-24","date":"2026-09-29","mood":1,"stress":5,"sleep":7.5,"active":65,"note":"月考数学没考好","example":true},{"id":"ex-cn-moods-25","date":"2026-10-01","mood":3,"stress":3,"sleep":7.5,"active":55,"note":"","example":true},{"id":"ex-cn-moods-26","date":"2026-10-02","mood":3,"stress":2,"sleep":7.5,"active":25,"note":"","example":true},{"id":"ex-cn-moods-27","date":"2026-10-03","mood":4,"stress":3,"sleep":7.5,"active":20,"note":"","example":true},{"id":"ex-cn-moods-28","date":"2026-10-05","mood":3,"stress":3,"sleep":8,"active":20,"note":"","example":true},{"id":"ex-cn-moods-29","date":"2026-10-06","mood":4,"stress":3,"sleep":8,"active":60,"note":"","example":true},{"id":"ex-cn-moods-30","date":"2026-10-07","mood":3,"stress":3,"sleep":8,"active":40,"note":"","example":true},{"id":"ex-cn-moods-31","date":"2026-10-08","mood":4,"stress":3,"sleep":7.5,"active":40,"note":"","example":true}],"who5":[{"id":"ex-cn-who5-1","date":"2026-03-20","items":[4,3,4,3,4],"example":true},{"id":"ex-cn-who5-2","date":"2026-09-25","items":[3,3,2,2,3],"example":true}]},"ex-us":{"scores":[{"id":"ex-us-scores-1","date":"2025-10-24","subject":"ELA","kind":"Quarter Grade","scale":"pct","value":88,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-2","date":"2025-12-19","subject":"ELA","kind":"Semester Grade","scale":"pct","value":90,"full":null,"avg":85,"lvl":"","note":"","example":true},{"id":"ex-us-scores-3","date":"2026-03-20","subject":"ELA","kind":"Quarter Grade","scale":"pct","value":91,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-4","date":"2026-06-05","subject":"ELA","kind":"Semester Grade","scale":"pct","value":92,"full":null,"avg":85,"lvl":"","note":"","example":true},{"id":"ex-us-scores-5","date":"2026-09-25","subject":"ELA","kind":"Unit Test","scale":"pct","value":93,"full":null,"avg":86,"lvl":"","note":"","example":true},{"id":"ex-us-scores-6","date":"2025-10-24","subject":"Math","kind":"Quarter Grade","scale":"pct","value":95,"full":null,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-us-scores-7","date":"2025-12-19","subject":"Math","kind":"Semester Grade","scale":"pct","value":96,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-8","date":"2026-03-20","subject":"Math","kind":"Quarter Grade","scale":"pct","value":94,"full":null,"avg":81,"lvl":"","note":"","example":true},{"id":"ex-us-scores-9","date":"2026-06-05","subject":"Math","kind":"Semester Grade","scale":"pct","value":97,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-10","date":"2026-09-25","subject":"Math","kind":"Unit Test","scale":"pct","value":96,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-11","date":"2025-10-24","subject":"Science","kind":"Quarter Grade","scale":"pct","value":90,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-12","date":"2025-12-19","subject":"Science","kind":"Semester Grade","scale":"pct","value":88,"full":null,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-us-scores-13","date":"2026-03-20","subject":"Science","kind":"Quarter Grade","scale":"pct","value":91,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-14","date":"2026-06-05","subject":"Science","kind":"Semester Grade","scale":"pct","value":93,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-15","date":"2026-09-25","subject":"Science","kind":"Unit Test","scale":"pct","value":92,"full":null,"avg":85,"lvl":"","note":"","example":true},{"id":"ex-us-scores-16","date":"2025-10-24","subject":"Social Studies","kind":"Quarter Grade","scale":"pct","value":84,"full":null,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-us-scores-17","date":"2025-12-19","subject":"Social Studies","kind":"Semester Grade","scale":"pct","value":86,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-18","date":"2026-03-20","subject":"Social Studies","kind":"Quarter Grade","scale":"pct","value":85,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-19","date":"2026-06-05","subject":"Social Studies","kind":"Semester Grade","scale":"pct","value":88,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-20","date":"2026-09-25","subject":"Social Studies","kind":"Unit Test","scale":"pct","value":87,"full":null,"avg":84,"lvl":"","note":"","example":true},{"id":"ex-us-scores-21","date":"2025-10-24","subject":"World Language","kind":"Quarter Grade","scale":"pct","value":79,"full":null,"avg":80,"lvl":"","note":"","example":true},{"id":"ex-us-scores-22","date":"2025-12-19","subject":"World Language","kind":"Semester Grade","scale":"pct","value":81,"full":null,"avg":81,"lvl":"","note":"","example":true},{"id":"ex-us-scores-23","date":"2026-03-20","subject":"World Language","kind":"Quarter Grade","scale":"pct","value":83,"full":null,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-us-scores-24","date":"2026-06-05","subject":"World Language","kind":"Semester Grade","scale":"pct","value":82,"full":null,"avg":82,"lvl":"","note":"","example":true},{"id":"ex-us-scores-25","date":"2026-09-25","subject":"World Language","kind":"Unit Test","scale":"pct","value":84,"full":null,"avg":83,"lvl":"","note":"","example":true},{"id":"ex-us-scores-26","date":"2025-10-24","subject":"PE","kind":"Quarter Grade","scale":"pct","value":98,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-27","date":"2025-12-19","subject":"PE","kind":"Semester Grade","scale":"pct","value":97,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-28","date":"2026-03-20","subject":"PE","kind":"Quarter Grade","scale":"pct","value":98,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-29","date":"2026-06-05","subject":"PE","kind":"Semester Grade","scale":"pct","value":99,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-30","date":"2026-09-25","subject":"PE","kind":"Unit Test","scale":"pct","value":97,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-31","date":"2025-10-24","subject":"Art","kind":"Quarter Grade","scale":"pct","value":92,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-32","date":"2025-12-19","subject":"Art","kind":"Semester Grade","scale":"pct","value":93,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-33","date":"2026-03-20","subject":"Art","kind":"Quarter Grade","scale":"pct","value":91,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-us-scores-34","date":"2026-06-05","subject":"Art","kind":"Semester Grade","scale":"pct","value":94,"full":null,"avg":null,"lvl":"","note":"","example":true}],"fitness":[{"id":"ex-us-fitness-1","date":"2026-03-12","items":{"pacer":38,"curl":30,"push":9,"trunk":10,"sitreach":8,"body":19.4},"marks":{"pacer":"HFZ","curl":"HFZ","push":"NI","trunk":"HFZ","sitreach":"HFZ","body":"HFZ"},"note":"","example":true}],"health":[{"id":"ex-us-health-1","date":"2025-09-02","type":"height","value":152,"example":true},{"id":"ex-us-health-2","date":"2025-09-02","type":"weight","value":41.5,"example":true},{"id":"ex-us-health-3","date":"2026-02-10","type":"height","value":155.3,"example":true},{"id":"ex-us-health-4","date":"2026-02-10","type":"weight","value":44,"example":true},{"id":"ex-us-health-5","date":"2026-08-28","type":"height","value":159,"example":true},{"id":"ex-us-health-6","date":"2026-08-28","type":"weight","value":47.2,"example":true},{"id":"ex-us-health-7","date":"2025-09-02","type":"vision","value":1,"value2":1,"example":true},{"id":"ex-us-health-8","date":"2026-08-28","type":"vision","value":1,"value2":0.8,"example":true}],"ratings":[{"id":"ex-us-ratings-1","term":"2025-1","dim":"moral","mark":"A","by":"Homeroom teacher","example":true},{"id":"ex-us-ratings-2","term":"2025-1","dim":"arts","mark":"B","by":"Homeroom teacher","example":true},{"id":"ex-us-ratings-3","term":"2025-1","dim":"practice","mark":"B","by":"Homeroom teacher","example":true},{"id":"ex-us-ratings-4","term":"2025-2","dim":"moral","mark":"A","by":"Homeroom teacher","example":true},{"id":"ex-us-ratings-5","term":"2025-2","dim":"arts","mark":"B","by":"Homeroom teacher","example":true},{"id":"ex-us-ratings-6","term":"2025-2","dim":"practice","mark":"A","by":"Homeroom teacher","example":true}],"merits":[{"id":"ex-us-merits-1","date":"2025-11-08","dim":"academic","title":"Science Fair 2nd Place","level":"District","hours":null,"example":true},{"id":"ex-us-merits-2","date":"2026-02-14","dim":"practice","title":"Food bank volunteering","level":"School","hours":8,"example":true},{"id":"ex-us-merits-3","date":"2026-04-30","dim":"arts","title":"School band – trumpet, spring concert","level":"School","hours":null,"example":true},{"id":"ex-us-merits-4","date":"2026-05-20","dim":"moral","title":"Student Council homeroom rep","level":"School","hours":null,"example":true},{"id":"ex-us-merits-5","date":"2026-09-12","dim":"practice","title":"Park cleanup day","level":"School","hours":4,"example":true}],"moods":[{"id":"ex-us-moods-1","date":"2026-09-04","mood":4,"stress":3,"sleep":7.5,"active":65,"note":"","example":true},{"id":"ex-us-moods-2","date":"2026-09-05","mood":3,"stress":4,"sleep":8,"active":75,"note":"","example":true},{"id":"ex-us-moods-3","date":"2026-09-06","mood":4,"stress":3,"sleep":7.5,"active":50,"note":"","example":true},{"id":"ex-us-moods-4","date":"2026-09-07","mood":3,"stress":4,"sleep":8,"active":70,"note":"","example":true},{"id":"ex-us-moods-5","date":"2026-09-08","mood":3,"stress":3,"sleep":7.5,"active":70,"note":"","example":true},{"id":"ex-us-moods-6","date":"2026-09-09","mood":3,"stress":4,"sleep":7,"active":85,"note":"","example":true},{"id":"ex-us-moods-7","date":"2026-09-11","mood":3,"stress":3,"sleep":7.5,"active":60,"note":"","example":true},{"id":"ex-us-moods-8","date":"2026-09-12","mood":3,"stress":3,"sleep":6.5,"active":85,"note":"","example":true},{"id":"ex-us-moods-9","date":"2026-09-13","mood":4,"stress":4,"sleep":7.5,"active":95,"note":"","example":true},{"id":"ex-us-moods-10","date":"2026-09-15","mood":3,"stress":4,"sleep":8,"active":45,"note":"","example":true},{"id":"ex-us-moods-11","date":"2026-09-16","mood":2,"stress":3,"sleep":6.5,"active":45,"note":"","example":true},{"id":"ex-us-moods-12","date":"2026-09-17","mood":4,"stress":3,"sleep":6.5,"active":55,"note":"","example":true},{"id":"ex-us-moods-13","date":"2026-09-18","mood":3,"stress":3,"sleep":8,"active":65,"note":"","example":true},{"id":"ex-us-moods-14","date":"2026-09-19","mood":4,"stress":3,"sleep":7,"active":50,"note":"","example":true},{"id":"ex-us-moods-15","date":"2026-09-20","mood":4,"stress":4,"sleep":6.5,"active":90,"note":"","example":true},{"id":"ex-us-moods-16","date":"2026-09-21","mood":3,"stress":3,"sleep":7.5,"active":55,"note":"","example":true},{"id":"ex-us-moods-17","date":"2026-09-23","mood":3,"stress":4,"sleep":7,"active":95,"note":"","example":true},{"id":"ex-us-moods-18","date":"2026-09-25","mood":3,"stress":3,"sleep":6.5,"active":65,"note":"","example":true},{"id":"ex-us-moods-19","date":"2026-09-27","mood":4,"stress":4,"sleep":7.5,"active":65,"note":"","example":true},{"id":"ex-us-moods-20","date":"2026-09-28","mood":4,"stress":4,"sleep":7.5,"active":75,"note":"","example":true},{"id":"ex-us-moods-21","date":"2026-09-29","mood":1,"stress":5,"sleep":6.5,"active":75,"note":"Too much homework","example":true},{"id":"ex-us-moods-22","date":"2026-09-30","mood":2,"stress":5,"sleep":7,"active":90,"note":"Too much homework","example":true},{"id":"ex-us-moods-23","date":"2026-10-01","mood":2,"stress":4,"sleep":6.5,"active":95,"note":"Too much homework","example":true},{"id":"ex-us-moods-24","date":"2026-10-02","mood":1,"stress":4,"sleep":6.5,"active":90,"note":"Too much homework","example":true},{"id":"ex-us-moods-25","date":"2026-10-03","mood":2,"stress":5,"sleep":7,"active":55,"note":"Too much homework","example":true},{"id":"ex-us-moods-26","date":"2026-10-04","mood":2,"stress":4,"sleep":7.5,"active":85,"note":"Too much homework","example":true},{"id":"ex-us-moods-27","date":"2026-10-05","mood":2,"stress":5,"sleep":6.5,"active":90,"note":"Too much homework","example":true},{"id":"ex-us-moods-28","date":"2026-10-06","mood":2,"stress":4,"sleep":7,"active":65,"note":"Too much homework","example":true},{"id":"ex-us-moods-29","date":"2026-10-07","mood":3,"stress":4,"sleep":7,"active":90,"note":"","example":true},{"id":"ex-us-moods-30","date":"2026-10-08","mood":3,"stress":4,"sleep":7.5,"active":50,"note":"","example":true}],"who5":[{"id":"ex-us-who5-1","date":"2026-04-10","items":[3,3,3,3,4],"example":true},{"id":"ex-us-who5-2","date":"2026-09-30","items":[2,2,3,2,3],"example":true}]},"ex-uk":{"scores":[{"id":"ex-uk-scores-1","date":"2025-12-12","subject":"English","kind":"End of Term","scale":"pct","value":78,"full":null,"avg":72,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-2","date":"2026-03-27","subject":"English","kind":"End of Term","scale":"pct","value":80,"full":null,"avg":73,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-3","date":"2026-07-10","subject":"English","kind":"End of Term","scale":"pct","value":83,"full":null,"avg":74,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-4","date":"2025-12-12","subject":"Maths","kind":"End of Term","scale":"pct","value":85,"full":null,"avg":70,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-5","date":"2026-03-27","subject":"Maths","kind":"End of Term","scale":"pct","value":84,"full":null,"avg":71,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-6","date":"2026-07-10","subject":"Maths","kind":"End of Term","scale":"pct","value":88,"full":null,"avg":72,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-7","date":"2025-12-12","subject":"Science","kind":"End of Term","scale":"pct","value":80,"full":null,"avg":71,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-8","date":"2026-03-27","subject":"Science","kind":"End of Term","scale":"pct","value":83,"full":null,"avg":72,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-9","date":"2026-07-10","subject":"Science","kind":"End of Term","scale":"pct","value":85,"full":null,"avg":73,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-10","date":"2025-12-12","subject":"History","kind":"End of Term","scale":"pct","value":74,"full":null,"avg":70,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-11","date":"2026-03-27","subject":"History","kind":"End of Term","scale":"pct","value":79,"full":null,"avg":71,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-12","date":"2026-07-10","subject":"History","kind":"End of Term","scale":"pct","value":81,"full":null,"avg":71,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-13","date":"2025-12-12","subject":"French","kind":"End of Term","scale":"pct","value":70,"full":null,"avg":68,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-14","date":"2026-03-27","subject":"French","kind":"End of Term","scale":"pct","value":72,"full":null,"avg":69,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-15","date":"2026-07-10","subject":"French","kind":"End of Term","scale":"pct","value":76,"full":null,"avg":70,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-16","date":"2025-12-12","subject":"Art and Design","kind":"End of Term","scale":"pct","value":88,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-17","date":"2026-03-27","subject":"Art and Design","kind":"End of Term","scale":"pct","value":90,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-18","date":"2026-07-10","subject":"Art and Design","kind":"End of Term","scale":"pct","value":92,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-19","date":"2025-12-12","subject":"Computing","kind":"End of Term","scale":"pct","value":82,"full":null,"avg":73,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-20","date":"2026-03-27","subject":"Computing","kind":"End of Term","scale":"pct","value":85,"full":null,"avg":74,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-21","date":"2026-07-10","subject":"Computing","kind":"End of Term","scale":"pct","value":84,"full":null,"avg":74,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-22","date":"2025-12-12","subject":"Music","kind":"End of Term","scale":"pct","value":75,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-23","date":"2026-03-27","subject":"Music","kind":"End of Term","scale":"pct","value":77,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-24","date":"2026-07-10","subject":"Music","kind":"End of Term","scale":"pct","value":78,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-25","date":"2026-10-02","subject":"English Language","kind":"Predicted","scale":"gcse","value":7,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-26","date":"2026-10-02","subject":"English Literature","kind":"Predicted","scale":"gcse","value":7,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-27","date":"2026-10-02","subject":"Maths","kind":"Predicted","scale":"gcse","value":8,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-28","date":"2026-10-02","subject":"Biology","kind":"Predicted","scale":"gcse","value":7,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-29","date":"2026-10-02","subject":"Chemistry","kind":"Predicted","scale":"gcse","value":6,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-30","date":"2026-10-02","subject":"Physics","kind":"Predicted","scale":"gcse","value":7,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-31","date":"2026-10-02","subject":"History","kind":"Predicted","scale":"gcse","value":6,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-32","date":"2026-10-02","subject":"French","kind":"Predicted","scale":"gcse","value":5,"full":null,"avg":null,"lvl":"","note":"","example":true},{"id":"ex-uk-scores-33","date":"2026-10-02","subject":"Art and Design","kind":"Predicted","scale":"gcse","value":8,"full":null,"avg":null,"lvl":"","note":"","example":true}],"fitness":[{"id":"ex-uk-fitness-1","date":"2026-06-15","items":{"grip":27.5,"sbj":172,"situp":22,"bah":12,"shuttle":19.8,"plate":11.2,"sr":30,"flamingo":4,"srt":6.5},"marks":{"grip":58,"sbj":62,"situp":55,"bah":48,"shuttle":60,"plate":66,"sr":78,"flamingo":70,"srt":45},"note":"","example":true}],"health":[{"id":"ex-uk-health-1","date":"2025-09-10","type":"height","value":160.5,"example":true},{"id":"ex-uk-health-2","date":"2025-09-10","type":"weight","value":49,"example":true},{"id":"ex-uk-health-3","date":"2026-06-15","type":"height","value":162.4,"example":true},{"id":"ex-uk-health-4","date":"2026-06-15","type":"weight","value":51.2,"example":true},{"id":"ex-uk-health-5","date":"2025-09-10","type":"vision","value":1,"value2":1,"example":true},{"id":"ex-uk-health-6","date":"2026-06-15","type":"vision","value":1,"value2":0.8,"example":true}],"ratings":[{"id":"ex-uk-ratings-1","term":"2025-1","dim":"moral","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-2","term":"2025-1","dim":"arts","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-3","term":"2025-1","dim":"practice","mark":"B","by":"Form tutor","example":true},{"id":"ex-uk-ratings-4","term":"2025-2","dim":"moral","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-5","term":"2025-2","dim":"arts","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-6","term":"2025-2","dim":"practice","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-7","term":"2025-3","dim":"moral","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-8","term":"2025-3","dim":"arts","mark":"A","by":"Form tutor","example":true},{"id":"ex-uk-ratings-9","term":"2025-3","dim":"practice","mark":"A","by":"Form tutor","example":true}],"merits":[{"id":"ex-uk-merits-1","date":"2025-10-18","dim":"practice","title":"Duke of Edinburgh Bronze – care home volunteering","level":"National","hours":24,"example":true},{"id":"ex-uk-merits-2","date":"2026-02-08","dim":"arts","title":"ABRSM Grade 6 Piano – Merit","level":"National","hours":null,"example":true},{"id":"ex-uk-merits-3","date":"2026-03-15","dim":"academic","title":"UKMT Junior Maths Challenge – Silver","level":"National","hours":null,"example":true},{"id":"ex-uk-merits-4","date":"2026-05-22","dim":"moral","title":"Form prefect","level":"School","hours":null,"example":true},{"id":"ex-uk-merits-5","date":"2026-07-03","dim":"health","title":"Sports day 1500 m – 1st","level":"School","hours":null,"example":true}],"moods":[{"id":"ex-uk-moods-1","date":"2026-09-04","mood":5,"stress":2,"sleep":8,"active":65,"note":"","example":true},{"id":"ex-uk-moods-2","date":"2026-09-06","mood":5,"stress":2,"sleep":8,"active":90,"note":"","example":true},{"id":"ex-uk-moods-3","date":"2026-09-07","mood":4,"stress":2,"sleep":9,"active":45,"note":"","example":true},{"id":"ex-uk-moods-4","date":"2026-09-08","mood":4,"stress":3,"sleep":8,"active":60,"note":"","example":true},{"id":"ex-uk-moods-5","date":"2026-09-09","mood":5,"stress":2,"sleep":8.5,"active":85,"note":"","example":true},{"id":"ex-uk-moods-6","date":"2026-09-10","mood":5,"stress":3,"sleep":8,"active":45,"note":"","example":true},{"id":"ex-uk-moods-7","date":"2026-09-11","mood":4,"stress":3,"sleep":8.5,"active":55,"note":"","example":true},{"id":"ex-uk-moods-8","date":"2026-09-12","mood":4,"stress":3,"sleep":8,"active":90,"note":"","example":true},{"id":"ex-uk-moods-9","date":"2026-09-14","mood":4,"stress":3,"sleep":9,"active":85,"note":"","example":true},{"id":"ex-uk-moods-10","date":"2026-09-16","mood":4,"stress":3,"sleep":8.5,"active":90,"note":"","example":true},{"id":"ex-uk-moods-11","date":"2026-09-17","mood":5,"stress":3,"sleep":9,"active":55,"note":"","example":true},{"id":"ex-uk-moods-12","date":"2026-09-18","mood":3,"stress":2,"sleep":9,"active":95,"note":"","example":true},{"id":"ex-uk-moods-13","date":"2026-09-21","mood":5,"stress":3,"sleep":9,"active":60,"note":"","example":true},{"id":"ex-uk-moods-14","date":"2026-09-22","mood":3,"stress":2,"sleep":8.5,"active":50,"note":"","example":true},{"id":"ex-uk-moods-15","date":"2026-09-23","mood":4,"stress":2,"sleep":8,"active":45,"note":"","example":true},{"id":"ex-uk-moods-16","date":"2026-09-25","mood":4,"stress":3,"sleep":9,"active":70,"note":"","example":true},{"id":"ex-uk-moods-17","date":"2026-09-26","mood":4,"stress":3,"sleep":9.5,"active":85,"note":"","example":true},{"id":"ex-uk-moods-18","date":"2026-09-27","mood":4,"stress":3,"sleep":9,"active":55,"note":"","example":true},{"id":"ex-uk-moods-19","date":"2026-09-29","mood":4,"stress":2,"sleep":8.5,"active":65,"note":"","example":true},{"id":"ex-uk-moods-20","date":"2026-09-30","mood":3,"stress":2,"sleep":8,"active":65,"note":"","example":true},{"id":"ex-uk-moods-21","date":"2026-10-01","mood":4,"stress":3,"sleep":8,"active":50,"note":"","example":true},{"id":"ex-uk-moods-22","date":"2026-10-03","mood":5,"stress":2,"sleep":9,"active":60,"note":"","example":true},{"id":"ex-uk-moods-23","date":"2026-10-04","mood":5,"stress":3,"sleep":8,"active":95,"note":"","example":true},{"id":"ex-uk-moods-24","date":"2026-10-05","mood":4,"stress":2,"sleep":8,"active":55,"note":"","example":true},{"id":"ex-uk-moods-25","date":"2026-10-06","mood":5,"stress":2,"sleep":9,"active":85,"note":"","example":true},{"id":"ex-uk-moods-26","date":"2026-10-07","mood":4,"stress":2,"sleep":8.5,"active":90,"note":"","example":true},{"id":"ex-uk-moods-27","date":"2026-10-08","mood":4,"stress":2,"sleep":9,"active":85,"note":"","example":true}],"who5":[{"id":"ex-uk-who5-1","date":"2026-06-20","items":[4,4,4,3,4],"example":true}]}},"private":{"screens":[{"id":"ex-cn-screens-1","sid":"ex-cn","date":"2025-10-10","scale":"PHQ-A","informant":"self","score":4,"by":"学校心理普查","label":"","note":"","example":true},{"id":"ex-cn-screens-2","sid":"ex-cn","date":"2026-09-15","scale":"MHT","informant":"self","score":48,"by":"学校心理普查","label":"","note":"学习焦虑分量表略高","example":true},{"id":"ex-us-screens-1","sid":"ex-us","date":"2026-09-30","scale":"GAD-7","informant":"self","score":11,"by":"School counselor","label":"","note":"","example":true},{"id":"ex-us-screens-2","sid":"ex-us","date":"2026-09-30","scale":"PHQ-A","informant":"self","score":6,"by":"School counselor","label":"","note":"","example":true},{"id":"ex-uk-screens-1","sid":"ex-uk","date":"2026-05-12","scale":"SDQ","informant":"self","score":12,"by":"School wellbeing survey","label":"","note":"","example":true}],"notes":[{"id":"ex-cn-notes-1","sid":"ex-cn","date":"2026-09-29","text":"和数学老师沟通：函数部分薄弱，建议每周两次错题整理，周末做一套综合练习。","example":true},{"id":"ex-us-notes-1","sid":"ex-us","date":"2026-10-02","text":"学校辅导员建议每周沟通一次；晚上 9 点后减少屏幕时间，作业量大时先列计划。","example":true}]}}</script>
 <script>(()=>{'use strict';
+const TARGET = 'artifact', FEATURES = { ai: true };
 /* Generated by pipeline/build_refdata.py from the official tables. Do not edit by hand.
  * WHO: WHO Growth Reference 2007 (5-19 y) LMS, index 0 = 61 months.
  * GB: 《国家学生体质健康标准（2014年修订）》 single-item tables, g = grades 1-12, t = [score, threshold per grade].
@@ -764,7 +798,7 @@ const lsRec = (sid, c) => `k12-s-${sid}-${c}`;
 const lsPriv = c => `k12-p-${c}`;
 const EX = JSON.parse($('examples').textContent);
 const D = { students: [], st: null, pin: null, ...Object.fromEntries(COLS.map(c => [c, []])) };
-let mode = 'init', DB = null, CAN_EDIT = true, CUR = null, UNSUB = [], PENDING = null;
+let mode = 'init', CAN_EDIT = true, CUR = null, UNSUB = [], PENDING = null;
 
 function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
@@ -864,38 +898,39 @@ function saveLocal(c) {
 
 function setSync(t, warn) { const el = $('sync'); el.classList.toggle('local', !!warn); el.querySelector('span').textContent = t; }
 
-async function connect() {
-  let db = null, user = null;
-  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
-  if (!db) { loadLocal(); mode = 'local'; setSync('本地模式 · 只存在此浏览器', true); renderAll(); return; }
-  try { user = await window.claude.use('user'); } catch { user = null; }
-  if (user) { try { CAN_EDIT = await user.canEdit(); } catch { CAN_EDIT = true; } }
-  DB = db; mode = 'db'; setSync(CAN_EDIT ? '已同步到云端' : '只读 · 云端数据');
+/* cloud data goes through STORE (src/store/*.js, one backend per build target); local mode stays in this file */
+let UNSUB_TOP = [];
+function connectStore() {
+  mode = 'db'; CAN_EDIT = STORE.canEdit; setSync(STORE.syncLabel);
   for (const c of COLS) D[c] = [];
   D.students = []; D.st = null; CUR = null;
+  UNSUB_TOP.forEach(u => u());
   let subscribed;
-  DB.collection('students').onSnapshot(s => {
-    D.students = s.docs.map(d => cleanStudent({ id: d.id, ...d.data() })).filter(Boolean).sort(byOrder);
-    pickCur();
-    if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); }
-    renderAll();
-  }, () => setSync('同步中断，显示最后一次数据', true));
-  DB.doc('data/private/config/pin').onSnapshot(d => { D.pin = d.exists ? d.data() : null; }, () => { });
+  UNSUB_TOP = [
+    STORE.watchStudents(docs => {
+      D.students = docs.map(cleanStudent).filter(Boolean).sort(byOrder);
+      pickCur();
+      if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); }
+      renderAll();
+    }, () => setSync('同步中断，显示最后一次数据', true)),
+    STORE.watchPin(v => { D.pin = v; })
+  ];
   renderAll();
+}
+function disconnectStore() {
+  UNSUB_TOP.forEach(u => u()); UNSUB.forEach(u => u()); UNSUB_TOP = []; UNSUB = [];
+  for (const c of COLS) D[c] = [];
+  D.students = []; D.st = null; D.pin = null; CUR = null; mode = 'init';
 }
 function subscribeRecords() {
   UNSUB.forEach(u => u()); UNSUB = [];
   for (const c of COLS) D[c] = [];
   if (!CUR || mode !== 'db') return;
-  const sid = CUR, fail = () => setSync('同步中断，显示最后一次数据', true);
-  for (const c of SCOLS) UNSUB.push(DB.collection(`students/${sid}/${c}`).onSnapshot(s => {
+  const sid = CUR;
+  for (const c of COLS) UNSUB.push(STORE.watchRecords(c, sid, docs => {
     if (sid !== CUR) return;
-    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
-  }, fail));
-  for (const c of PCOLS) UNSUB.push(DB.collection(`data/private/${c}`).where('sid', '==', sid).onSnapshot(s => {
-    if (sid !== CUR) return;
-    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
-  }, () => { }));
+    D[c] = clean(c, docs); renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true)));
 }
 function switchStudent(sid) {
   if (!sid || sid === CUR) return;
@@ -911,48 +946,43 @@ function guardWrite(noStudent) {
   if (!CUR && !noStudent) { toast('请先新建一个学生档案'); return false; }
   return true;
 }
-const recPath = c => PCOLS.includes(c) ? `data/private/${c}` : `students/${CUR}/${c}`;
 const body = (c, obj) => PCOLS.includes(c) ? { ...obj, sid: CUR } : obj;
 async function add(c, obj) {
-  if (mode === 'db') { const r = DB.collection(recPath(c)).doc(); await r.set(body(c, obj)); return r.id; }
+  if (mode === 'db') return STORE.add(c, CUR, obj);
   const id = c[0] + rid('');
   D[c] = clean(c, [...D[c], { id, ...body(c, obj) }]); saveLocal(c); renderAll(); return id;
 }
 async function put(c, id, obj) {
-  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).set(body(c, obj));
+  if (mode === 'db') return STORE.put(c, CUR, id, obj);
   D[c] = clean(c, [...D[c].filter(x => x.id !== id), { id, ...body(c, obj) }]); saveLocal(c); renderAll();
 }
 async function del(c, id) {
-  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).delete();
+  if (mode === 'db') return STORE.del(c, CUR, id);
   D[c] = D[c].filter(x => x.id !== id); saveLocal(c); renderAll();
 }
 async function saveStudent(obj, isNew) {
   if (isNew) {
     const bodyS = { ...obj, order: Math.max(0, ...D.students.filter(p => !p.example).map(p => p.order)) + 1, example: false };
     let id;
-    if (mode === 'db') { const r = DB.collection('students').doc(); id = r.id; PENDING = id; await r.set(bodyS); }
+    if (mode === 'db') { id = STORE.newId('students'); PENDING = id; await STORE.put('students', id, id, bodyS); }
     else { id = rid('s'); D.students = [...D.students, cleanStudent({ id, ...bodyS })].sort(byOrder); saveLocal('students'); }
     switchStudent(id);
     return id;
   }
   const bodyS = { ...obj, order: D.st.order, example: D.st.example };
-  if (mode === 'db') return DB.doc('students/' + CUR).set(bodyS);
+  if (mode === 'db') return STORE.put('students', CUR, CUR, bodyS);
   D.students = D.students.map(p => p.id === CUR ? cleanStudent({ id: CUR, ...bodyS }) : p).sort(byOrder);
   saveLocal('students'); pickCur(); renderAll();
 }
 async function runJobs(jobs) { for (let i = 0; i < jobs.length; i += 8) await Promise.all(jobs.slice(i, i + 8).map(f => f())); }
+function dropLocalStudent(sid) {
+  for (const c of SCOLS) lsDel(lsRec(sid, c));
+  for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && r.sid !== sid));
+  D.students = D.students.filter(p => p.id !== sid); saveLocal('students');
+}
 async function deleteStudent() {
   const sid = CUR;
-  if (mode === 'db') {
-    const jobs = [];
-    for (const c of COLS) for (const x of D[c]) jobs.push(() => DB.doc(`${recPath(c)}/${x.id}`).delete());
-    await runJobs(jobs);
-    await DB.doc('students/' + sid).delete();
-  } else {
-    for (const c of SCOLS) lsDel(lsRec(sid, c));
-    for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && r.sid !== sid));
-    D.students = D.students.filter(p => p.id !== sid); saveLocal('students');
-  }
+  if (mode === 'db') await STORE.deleteStudent(sid); else dropLocalStudent(sid);
   ST.cur = null; pickCur();
   if (mode === 'db') subscribeRecords(); else loadLocalRecords();
   renderAll();
@@ -961,47 +991,25 @@ async function deleteStudent() {
 /* examples: fictional, marked example:true, removable in one step */
 const hasExamples = () => D.students.some(s => s.example);
 async function loadExamples() {
-  if (mode === 'db') {
-    const jobs = [];
-    for (const s of EX.students) {
-      const { id, ...b } = s;
-      jobs.push(() => DB.doc('students/' + id).set(b));
-      for (const c of SCOLS) for (const r of EX.records[id][c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`students/${id}/${c}/${rid2}`).set(rb)); }
-    }
-    for (const c of PCOLS) for (const r of EX.private[c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`data/private/${c}/${rid2}`).set(rb)); }
-    await runJobs(jobs);
-  } else {
-    lsDel(LSK.students); loadLocal();
-  }
+  if (mode === 'db') await STORE.writeExamples(EX);
+  else { lsDel(LSK.students); loadLocal(); }
   renderAll();
 }
 async function clearExamples() {
   const ids = D.students.filter(s => s.example).map(s => s.id);
-  if (mode === 'db') {
-    const jobs = [];
-    for (const sid of ids) for (const c of SCOLS) {
-      const snap = await DB.collection(`students/${sid}/${c}`).get();
-      for (const d of snap.docs) jobs.push(() => DB.doc(`students/${sid}/${c}/${d.id}`).delete());
-    }
-    for (const c of PCOLS) {
-      const snap = await DB.collection(`data/private/${c}`).get();
-      for (const d of snap.docs) if (ids.includes((d.data() || {}).sid)) jobs.push(() => DB.doc(`data/private/${c}/${d.id}`).delete());
-    }
-    await runJobs(jobs);
-    await runJobs(ids.map(sid => () => DB.doc('students/' + sid).delete()));
-  } else {
-    for (const sid of ids) for (const c of SCOLS) lsDel(lsRec(sid, c));
-    for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && !ids.includes(r.sid)));
-    D.students = D.students.filter(s => !s.example); saveLocal('students');
-    ST.cur = null; pickCur(); loadLocalRecords();
-  }
+  if (mode === 'db') { for (const sid of ids) await STORE.deleteStudent(sid); }
+  else { ids.forEach(dropLocalStudent); ST.cur = null; pickCur(); loadLocalRecords(); }
   renderAll();
   return ids.length;
 }
 
 function fail(e) {
-  if (e && e.code === 'invalid_argument') { CAN_EDIT = false; setSync('只读 · 云端数据'); closeSheet(); renderAll(); toast('你只有查看权限，无法修改'); }
-  else if (e && e.code === 'quota_exceeded') toast('存储已满，请先删除一些旧记录');
+  const code = e && e.code;
+  if (code === 'invalid_argument' || code === 'permission-denied' || code === 'DATABASE_PERMISSION_DENIED') {
+    if (TARGET === 'artifact') { CAN_EDIT = false; setSync('只读 · 云端数据'); closeSheet(); renderAll(); toast('你只有查看权限，无法修改'); }
+    else toast('没有权限保存，请重新登录后再试');
+  }
+  else if (code === 'quota_exceeded' || code === 'resource-exhausted') toast('存储已满，请先删除一些旧记录');
   else toast('保存失败，请检查网络后再试');
 }
 
@@ -1014,7 +1022,7 @@ const pinSupported = () => !!(window.crypto && crypto.subtle);
 async function setPin(pin) {
   const salt = Math.random().toString(36).slice(2, 10);
   const v = pin ? { hash: await hashPin(pin, salt), salt } : null;
-  if (mode === 'db') { if (v) await DB.doc('data/private/config/pin').set(v); else await DB.doc('data/private/config/pin').delete(); }
+  if (mode === 'db') await STORE.setPin(v);
   else { if (v) lsSet(LSK.pin, v); else lsDel(LSK.pin); }
   D.pin = v;
 }
@@ -1232,6 +1240,56 @@ function insights(m) {
 }
 const hasAlert = list => list.some(x => x.k === 'alert');
 
+/* ---------- store: claude.ai Artifact db capability ----------
+ * students/{sid}/{col} for records, data/private/{col} (admin-only rule) for screening results and parent notes. */
+let DB = null;
+const apath = (c, sid) => c === 'students' ? 'students' : PCOLS.includes(c) ? `data/private/${c}` : `students/${sid}/${c}`;
+const abody = (c, sid, obj) => PCOLS.includes(c) ? { ...obj, sid } : obj;
+const asnap = s => s.docs.map(d => ({ id: d.id, ...d.data() }));
+const STORE = {
+  canEdit: true, syncLabel: '已同步到云端',
+  newId: c => DB.collection(apath(c, 'x')).doc().id,
+  watchStudents: (cb, err) => DB.collection('students').onSnapshot(s => cb(asnap(s)), err),
+  watchPin: cb => DB.doc('data/private/config/pin').onSnapshot(d => cb(d.exists ? d.data() : null), () => { }),
+  watchRecords(c, sid, cb, err) {
+    if (PCOLS.includes(c)) return DB.collection(apath(c)).where('sid', '==', sid).onSnapshot(s => cb(asnap(s)), () => { }); // hidden from viewers
+    return DB.collection(apath(c, sid)).onSnapshot(s => cb(asnap(s)), err);
+  },
+  async add(c, sid, obj) { const r = DB.collection(apath(c, sid)).doc(); await r.set(abody(c, sid, obj)); return r.id; },
+  put: (c, sid, id, obj) => DB.doc(`${apath(c, sid)}/${id}`).set(abody(c, sid, obj)),
+  del: (c, sid, id) => DB.doc(`${apath(c, sid)}/${id}`).delete(),
+  setPin: v => v ? DB.doc('data/private/config/pin').set(v) : DB.doc('data/private/config/pin').delete(),
+  async deleteStudent(sid) {
+    const jobs = [];
+    for (const c of SCOLS) for (const d of (await DB.collection(apath(c, sid)).get()).docs) jobs.push(() => DB.doc(`${apath(c, sid)}/${d.id}`).delete());
+    for (const c of PCOLS) for (const d of (await DB.collection(apath(c)).where('sid', '==', sid).get()).docs) jobs.push(() => DB.doc(`${apath(c)}/${d.id}`).delete());
+    await runJobs(jobs);
+    await DB.doc('students/' + sid).delete();
+  },
+  async writeExamples(ex) {
+    const jobs = [];
+    for (const s of ex.students) {
+      const { id, ...b } = s;
+      jobs.push(() => DB.doc('students/' + id).set(b));
+      for (const c of SCOLS) for (const r of ex.records[id][c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`students/${id}/${c}/${rid2}`).set(rb)); }
+    }
+    for (const c of PCOLS) for (const r of ex.private[c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`data/private/${c}/${rid2}`).set(rb)); }
+    await runJobs(jobs);
+  }
+};
+
+// claude.use resolves asynchronously, or null outside claude.ai: fall back to the browser's local storage
+async function connect() {
+  let db = null, user = null;
+  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
+  if (!db) { loadLocal(); mode = 'local'; setSync('本地模式 · 只存在此浏览器', true); renderAll(); return; }
+  try { user = await window.claude.use('user'); } catch { user = null; }
+  if (user) { try { STORE.canEdit = await user.canEdit(); } catch { STORE.canEdit = true; } }
+  STORE.syncLabel = STORE.canEdit ? '已同步到云端' : '只读 · 云端数据';
+  DB = db;
+  connectStore();
+}
+
 /* ---------- SVG charts: hairline grid, 2px lines, ringed markers, data-tip hover ---------- */
 const f1 = v => Math.round(v * 10) / 10;
 const tipAttr = t => t ? ` data-tip="${esc(t)}"` : '';
@@ -1391,12 +1449,14 @@ function renderTop() {
   role.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.role === ST.role)));
   document.body.classList.toggle('student', !isParent());
   $('nav').hidden = !D.st;
+  if (TARGET !== 'artifact') { renderAcct(); $('sync').hidden = !['app', 'demo'].includes(WEB.screen); }
   $('nav').querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.v === ST.view)));
 }
 
 function renderAll() {
   renderTop();
   const v = $('view');
+  if (TARGET !== 'artifact' && WEB.screen !== 'app' && WEB.screen !== 'demo') { renderGate(); renderFoot(); return; }
   if (mode === 'init') { v.innerHTML = `<div class="empty"><div class="spin" aria-hidden="true"></div>正在读取档案…</div>`; return; }
   if (!D.st) { renderEmpty(); renderFoot(); return; }
   M = derive();
@@ -1419,11 +1479,15 @@ function renderEmpty() {
 
 function renderFoot() {
   const parts = [];
+  if (TARGET !== 'artifact' && WEB.screen !== 'app' && WEB.screen !== 'demo') { $('foot').innerHTML = ''; return; }
   if (hasExamples() && W()) parts.push(`含虚构示例学生 <button class="linkbtn" data-act="clear-ex">清除全部示例</button>`);
-  parts.push(mode === 'db' ? (CAN_EDIT ? '数据存在这个 Artifact 的云端数据库；心理筛查和家长备忘只有编辑者可见' : '只读视图：心理筛查和家长备忘对你不可见') : '本地模式：数据只保存在此浏览器');
+  if (TARGET === 'artifact') parts.push(mode === 'db' ? (CAN_EDIT ? '数据存在这个 Artifact 的云端数据库；心理筛查和家长备忘只有编辑者可见' : '只读视图：心理筛查和家长备忘对你不可见') : '本地模式：数据只保存在此浏览器');
+  else if (WEB.screen === 'demo') parts.push(`演示模式：数据只保存在这台设备的浏览器里 <button class="linkbtn" data-act="web-go" data-s="${TARGET === 'cn' ? 'login' : 'signup'}">注册后保存自己的数据</button>`);
+  else parts.push(`数据存放在${esc(AUTH.where)}，只有你的账号能访问`);
   if (isParent() && W() && pinSupported()) parts.push(`<button class="linkbtn" data-act="pin">${D.pin ? '修改家长 PIN' : '设置家长 PIN'}</button>`);
+  if (TARGET !== 'artifact') parts.push(LEGAL.map(legalLink).join(' · '));
   parts.push('标准：国家学生体质健康标准 2014 · WHO 生长参考 2007 · AASM 2016 · WHO-5');
-  $('foot').innerHTML = parts.join(' · ');
+  $('foot').innerHTML = parts.join(' · ') + (TARGET !== 'artifact' ? icpLine() : '');
 }
 
 /* ---------- 总览 ---------- */
@@ -1485,7 +1549,7 @@ function vHome() {
       <div class="panel">
         <h3>智能评估<small>规则引擎 · 每条都有数据依据</small></h3>
         ${insList(INS.filter(x => x.k !== 'alert'))}
-        ${P && W() ? aiBlock() : ''}
+        ${FEATURES.ai && P && W() ? aiBlock() : ''}
       </div>
     </div>
     ${kpis(m)}`;
@@ -1781,7 +1845,7 @@ function openSheet(title, inner, o = {}) {
   FORM = o;
   sh.classList.add('on'); sh.setAttribute('aria-hidden', 'false'); $('scrim').classList.add('on');
   const first = sh.querySelector('input:not([type=hidden]),select,textarea');
-  if (first) setTimeout(() => first.focus({ preventScroll: true }), 60);
+  if (first) setTimeout(() => { if (!sh.contains(document.activeElement)) first.focus({ preventScroll: true }); }, 60); // never steal focus from a field already in use
 }
 function closeSheet() {
   const sh = $('sheet'); sh.classList.remove('on'); sh.setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('on');
@@ -2163,6 +2227,7 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if (!b) { if (!e.target.closest('[data-tip]')) hideTip(); return; }
   const a = b.dataset.act;
+  if (a.startsWith('web-')) return; // account.js
   if (a === 'close') return closeSheet();
   if (a === 'go') { ST.view = b.dataset.v; saveUI(); renderAll(); $('main').scrollTop = 0; return; }
   if (a === 'kid') return switchStudent(b.dataset.id);
@@ -2251,8 +2316,8 @@ addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout((
 /* ---------- start ---------- */
 if (ST.role === 'student' && !lsGet(LSK.ui)) ST.role = 'parent';
 renderAll();
-// claude.use resolves asynchronously (or null after a timeout outside claude.ai); fall back to local storage meanwhile
-if (window.claude && window.claude.use) connect();
+if (TARGET !== 'artifact') { $('acct').addEventListener('click', () => openAccount()); startWeb(); }
+else if (window.claude && window.claude.use) connect(); // claude.use resolves asynchronously, or null outside claude.ai
 else { loadLocal(); mode = 'local'; setSync('本地模式 · 只存在此浏览器', true); renderAll(); }
 
 })();</script>

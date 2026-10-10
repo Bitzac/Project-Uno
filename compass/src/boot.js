@@ -76,6 +76,7 @@ document.addEventListener('click', async e => {
   const b = e.target.closest('[data-act]');
   if (!b) { if (!e.target.closest('[data-tip]')) hideTip(); return; }
   const a = b.dataset.act;
+  if (a.startsWith('web-')) return; // account.js
   if (a === 'close') return closeSheet();
   if (a === 'go') { ST.view = b.dataset.v; saveUI(); renderAll(); $('main').scrollTop = 0; return; }
   if (a === 'kid') return switchStudent(b.dataset.id);
@@ -164,6 +165,6 @@ addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout((
 /* ---------- start ---------- */
 if (ST.role === 'student' && !lsGet(LSK.ui)) ST.role = 'parent';
 renderAll();
-// claude.use resolves asynchronously (or null after a timeout outside claude.ai); fall back to local storage meanwhile
-if (window.claude && window.claude.use) connect();
+if (TARGET !== 'artifact') { $('acct').addEventListener('click', () => openAccount()); startWeb(); }
+else if (window.claude && window.claude.use) connect(); // claude.use resolves asynchronously, or null outside claude.ai
 else { loadLocal(); mode = 'local'; setSync('本地模式 · 只存在此浏览器', true); renderAll(); }

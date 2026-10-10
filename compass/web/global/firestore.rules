@@ -1,0 +1,29 @@
+rules_version = '2';
+// Compass overseas site. Every document carries owner (Firebase uid) and, for records, sid (student id).
+// A signed-in user with a verified email may read and write only documents whose owner is their own uid.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function own(data) { return data.owner == request.auth.uid; }
+    function dataCol(c) {
+      return c in ['students', 'scores', 'fitness', 'health', 'ratings', 'merits', 'moods', 'who5', 'screens', 'notes'];
+    }
+    function smallEnough() { return request.resource.data.size() <= 40; }
+
+    // one settings document per account: consent record and parent PIN hash; readable before email verification
+    match /settings/{uid} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid && request.resource.data.owner == uid
+        && request.resource.data.keys().hasOnly(['owner', 'consent', 'pin']);
+    }
+
+    match /{col}/{id} {
+      allow read, delete: if dataCol(col) && verified() && own(resource.data);
+      allow create: if dataCol(col) && verified() && own(request.resource.data) && smallEnough()
+        && request.resource.data.sid is string;
+      allow update: if dataCol(col) && verified() && own(resource.data) && own(request.resource.data) && smallEnough()
+        && request.resource.data.sid == resource.data.sid;
+    }
+  }
+}

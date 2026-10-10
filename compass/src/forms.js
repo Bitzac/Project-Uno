@@ -11,7 +11,7 @@ function openSheet(title, inner, o = {}) {
   FORM = o;
   sh.classList.add('on'); sh.setAttribute('aria-hidden', 'false'); $('scrim').classList.add('on');
   const first = sh.querySelector('input:not([type=hidden]),select,textarea');
-  if (first) setTimeout(() => first.focus({ preventScroll: true }), 60);
+  if (first) setTimeout(() => { if (!sh.contains(document.activeElement)) first.focus({ preventScroll: true }); }, 60); // never steal focus from a field already in use
 }
 function closeSheet() {
   const sh = $('sheet'); sh.classList.remove('on'); sh.setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('on');

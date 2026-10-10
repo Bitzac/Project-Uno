@@ -42,7 +42,7 @@ const lsRec = (sid, c) => `k12-s-${sid}-${c}`;
 const lsPriv = c => `k12-p-${c}`;
 const EX = JSON.parse($('examples').textContent);
 const D = { students: [], st: null, pin: null, ...Object.fromEntries(COLS.map(c => [c, []])) };
-let mode = 'init', DB = null, CAN_EDIT = true, CUR = null, UNSUB = [], PENDING = null;
+let mode = 'init', CAN_EDIT = true, CUR = null, UNSUB = [], PENDING = null;
 
 function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch { return null; } }
 function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
@@ -142,38 +142,39 @@ function saveLocal(c) {
 
 function setSync(t, warn) { const el = $('sync'); el.classList.toggle('local', !!warn); el.querySelector('span').textContent = t; }
 
-async function connect() {
-  let db = null, user = null;
-  try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
-  if (!db) { loadLocal(); mode = 'local'; setSync('本地模式 · 只存在此浏览器', true); renderAll(); return; }
-  try { user = await window.claude.use('user'); } catch { user = null; }
-  if (user) { try { CAN_EDIT = await user.canEdit(); } catch { CAN_EDIT = true; } }
-  DB = db; mode = 'db'; setSync(CAN_EDIT ? '已同步到云端' : '只读 · 云端数据');
+/* cloud data goes through STORE (src/store/*.js, one backend per build target); local mode stays in this file */
+let UNSUB_TOP = [];
+function connectStore() {
+  mode = 'db'; CAN_EDIT = STORE.canEdit; setSync(STORE.syncLabel);
   for (const c of COLS) D[c] = [];
   D.students = []; D.st = null; CUR = null;
+  UNSUB_TOP.forEach(u => u());
   let subscribed;
-  DB.collection('students').onSnapshot(s => {
-    D.students = s.docs.map(d => cleanStudent({ id: d.id, ...d.data() })).filter(Boolean).sort(byOrder);
-    pickCur();
-    if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); }
-    renderAll();
-  }, () => setSync('同步中断，显示最后一次数据', true));
-  DB.doc('data/private/config/pin').onSnapshot(d => { D.pin = d.exists ? d.data() : null; }, () => { });
+  UNSUB_TOP = [
+    STORE.watchStudents(docs => {
+      D.students = docs.map(cleanStudent).filter(Boolean).sort(byOrder);
+      pickCur();
+      if (CUR !== subscribed) { subscribed = CUR; subscribeRecords(); }
+      renderAll();
+    }, () => setSync('同步中断，显示最后一次数据', true)),
+    STORE.watchPin(v => { D.pin = v; })
+  ];
   renderAll();
+}
+function disconnectStore() {
+  UNSUB_TOP.forEach(u => u()); UNSUB.forEach(u => u()); UNSUB_TOP = []; UNSUB = [];
+  for (const c of COLS) D[c] = [];
+  D.students = []; D.st = null; D.pin = null; CUR = null; mode = 'init';
 }
 function subscribeRecords() {
   UNSUB.forEach(u => u()); UNSUB = [];
   for (const c of COLS) D[c] = [];
   if (!CUR || mode !== 'db') return;
-  const sid = CUR, fail = () => setSync('同步中断，显示最后一次数据', true);
-  for (const c of SCOLS) UNSUB.push(DB.collection(`students/${sid}/${c}`).onSnapshot(s => {
+  const sid = CUR;
+  for (const c of COLS) UNSUB.push(STORE.watchRecords(c, sid, docs => {
     if (sid !== CUR) return;
-    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
-  }, fail));
-  for (const c of PCOLS) UNSUB.push(DB.collection(`data/private/${c}`).where('sid', '==', sid).onSnapshot(s => {
-    if (sid !== CUR) return;
-    D[c] = clean(c, s.docs.map(d => ({ id: d.id, ...d.data() }))); renderAll();
-  }, () => { }));
+    D[c] = clean(c, docs); renderAll();
+  }, () => setSync('同步中断，显示最后一次数据', true)));
 }
 function switchStudent(sid) {
   if (!sid || sid === CUR) return;
@@ -189,48 +190,43 @@ function guardWrite(noStudent) {
   if (!CUR && !noStudent) { toast('请先新建一个学生档案'); return false; }
   return true;
 }
-const recPath = c => PCOLS.includes(c) ? `data/private/${c}` : `students/${CUR}/${c}`;
 const body = (c, obj) => PCOLS.includes(c) ? { ...obj, sid: CUR } : obj;
 async function add(c, obj) {
-  if (mode === 'db') { const r = DB.collection(recPath(c)).doc(); await r.set(body(c, obj)); return r.id; }
+  if (mode === 'db') return STORE.add(c, CUR, obj);
   const id = c[0] + rid('');
   D[c] = clean(c, [...D[c], { id, ...body(c, obj) }]); saveLocal(c); renderAll(); return id;
 }
 async function put(c, id, obj) {
-  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).set(body(c, obj));
+  if (mode === 'db') return STORE.put(c, CUR, id, obj);
   D[c] = clean(c, [...D[c].filter(x => x.id !== id), { id, ...body(c, obj) }]); saveLocal(c); renderAll();
 }
 async function del(c, id) {
-  if (mode === 'db') return DB.doc(recPath(c) + '/' + id).delete();
+  if (mode === 'db') return STORE.del(c, CUR, id);
   D[c] = D[c].filter(x => x.id !== id); saveLocal(c); renderAll();
 }
 async function saveStudent(obj, isNew) {
   if (isNew) {
     const bodyS = { ...obj, order: Math.max(0, ...D.students.filter(p => !p.example).map(p => p.order)) + 1, example: false };
     let id;
-    if (mode === 'db') { const r = DB.collection('students').doc(); id = r.id; PENDING = id; await r.set(bodyS); }
+    if (mode === 'db') { id = STORE.newId('students'); PENDING = id; await STORE.put('students', id, id, bodyS); }
     else { id = rid('s'); D.students = [...D.students, cleanStudent({ id, ...bodyS })].sort(byOrder); saveLocal('students'); }
     switchStudent(id);
     return id;
   }
   const bodyS = { ...obj, order: D.st.order, example: D.st.example };
-  if (mode === 'db') return DB.doc('students/' + CUR).set(bodyS);
+  if (mode === 'db') return STORE.put('students', CUR, CUR, bodyS);
   D.students = D.students.map(p => p.id === CUR ? cleanStudent({ id: CUR, ...bodyS }) : p).sort(byOrder);
   saveLocal('students'); pickCur(); renderAll();
 }
 async function runJobs(jobs) { for (let i = 0; i < jobs.length; i += 8) await Promise.all(jobs.slice(i, i + 8).map(f => f())); }
+function dropLocalStudent(sid) {
+  for (const c of SCOLS) lsDel(lsRec(sid, c));
+  for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && r.sid !== sid));
+  D.students = D.students.filter(p => p.id !== sid); saveLocal('students');
+}
 async function deleteStudent() {
   const sid = CUR;
-  if (mode === 'db') {
-    const jobs = [];
-    for (const c of COLS) for (const x of D[c]) jobs.push(() => DB.doc(`${recPath(c)}/${x.id}`).delete());
-    await runJobs(jobs);
-    await DB.doc('students/' + sid).delete();
-  } else {
-    for (const c of SCOLS) lsDel(lsRec(sid, c));
-    for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && r.sid !== sid));
-    D.students = D.students.filter(p => p.id !== sid); saveLocal('students');
-  }
+  if (mode === 'db') await STORE.deleteStudent(sid); else dropLocalStudent(sid);
   ST.cur = null; pickCur();
   if (mode === 'db') subscribeRecords(); else loadLocalRecords();
   renderAll();
@@ -239,47 +235,25 @@ async function deleteStudent() {
 /* examples: fictional, marked example:true, removable in one step */
 const hasExamples = () => D.students.some(s => s.example);
 async function loadExamples() {
-  if (mode === 'db') {
-    const jobs = [];
-    for (const s of EX.students) {
-      const { id, ...b } = s;
-      jobs.push(() => DB.doc('students/' + id).set(b));
-      for (const c of SCOLS) for (const r of EX.records[id][c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`students/${id}/${c}/${rid2}`).set(rb)); }
-    }
-    for (const c of PCOLS) for (const r of EX.private[c] || []) { const { id: rid2, ...rb } = r; jobs.push(() => DB.doc(`data/private/${c}/${rid2}`).set(rb)); }
-    await runJobs(jobs);
-  } else {
-    lsDel(LSK.students); loadLocal();
-  }
+  if (mode === 'db') await STORE.writeExamples(EX);
+  else { lsDel(LSK.students); loadLocal(); }
   renderAll();
 }
 async function clearExamples() {
   const ids = D.students.filter(s => s.example).map(s => s.id);
-  if (mode === 'db') {
-    const jobs = [];
-    for (const sid of ids) for (const c of SCOLS) {
-      const snap = await DB.collection(`students/${sid}/${c}`).get();
-      for (const d of snap.docs) jobs.push(() => DB.doc(`students/${sid}/${c}/${d.id}`).delete());
-    }
-    for (const c of PCOLS) {
-      const snap = await DB.collection(`data/private/${c}`).get();
-      for (const d of snap.docs) if (ids.includes((d.data() || {}).sid)) jobs.push(() => DB.doc(`data/private/${c}/${d.id}`).delete());
-    }
-    await runJobs(jobs);
-    await runJobs(ids.map(sid => () => DB.doc('students/' + sid).delete()));
-  } else {
-    for (const sid of ids) for (const c of SCOLS) lsDel(lsRec(sid, c));
-    for (const c of PCOLS) lsSet(lsPriv(c), (lsGet(lsPriv(c)) || []).filter(r => r && !ids.includes(r.sid)));
-    D.students = D.students.filter(s => !s.example); saveLocal('students');
-    ST.cur = null; pickCur(); loadLocalRecords();
-  }
+  if (mode === 'db') { for (const sid of ids) await STORE.deleteStudent(sid); }
+  else { ids.forEach(dropLocalStudent); ST.cur = null; pickCur(); loadLocalRecords(); }
   renderAll();
   return ids.length;
 }
 
 function fail(e) {
-  if (e && e.code === 'invalid_argument') { CAN_EDIT = false; setSync('只读 · 云端数据'); closeSheet(); renderAll(); toast('你只有查看权限，无法修改'); }
-  else if (e && e.code === 'quota_exceeded') toast('存储已满，请先删除一些旧记录');
+  const code = e && e.code;
+  if (code === 'invalid_argument' || code === 'permission-denied' || code === 'DATABASE_PERMISSION_DENIED') {
+    if (TARGET === 'artifact') { CAN_EDIT = false; setSync('只读 · 云端数据'); closeSheet(); renderAll(); toast('你只有查看权限，无法修改'); }
+    else toast('没有权限保存，请重新登录后再试');
+  }
+  else if (code === 'quota_exceeded' || code === 'resource-exhausted') toast('存储已满，请先删除一些旧记录');
   else toast('保存失败，请检查网络后再试');
 }
 
@@ -292,7 +266,7 @@ const pinSupported = () => !!(window.crypto && crypto.subtle);
 async function setPin(pin) {
   const salt = Math.random().toString(36).slice(2, 10);
   const v = pin ? { hash: await hashPin(pin, salt), salt } : null;
-  if (mode === 'db') { if (v) await DB.doc('data/private/config/pin').set(v); else await DB.doc('data/private/config/pin').delete(); }
+  if (mode === 'db') await STORE.setPin(v);
   else { if (v) lsSet(LSK.pin, v); else lsDel(LSK.pin); }
   D.pin = v;
 }

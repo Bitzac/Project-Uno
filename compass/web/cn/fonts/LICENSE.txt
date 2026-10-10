@@ -1,0 +1,2 @@
+Outfit (https://github.com/Outfitio/Outfit-Fonts), SIL Open Font License 1.1.
+outfit-latin.woff2 is the latin subset served by Google Fonts, self-hosted for the China site.
