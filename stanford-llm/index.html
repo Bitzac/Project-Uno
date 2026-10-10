@@ -1,0 +1,649 @@
+<title>斯坦福 LLM 课精要</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: one reading column of liquid-glass sheets over a cool aurora and a faint attention-matrix grid. Summary first (verdict, four answers), then the map, the two lectures in detail, the fact check, a quiz, and the closing chain. Hairline rules, heavy expanded type. */
+:root{
+  --bg:#E8EDF3;--blob1:#A8D2FF;--blob2:#B9EBDD;--blob3:#D6CCFF;--blob4:#FFE2C6;
+  --ink:#0B0F16;--muted:#465063;--faint:#6A7386;
+  --glass-a:rgba(255,255,255,.68);--glass-b:rgba(255,255,255,.34);--glass-edge:rgba(255,255,255,.96);--glass-inner:rgba(255,255,255,.98);--shadow:rgba(22,36,70,.16);
+  --line:rgba(11,15,22,.2);--line-soft:rgba(11,15,22,.09);--field:rgba(255,255,255,.5);--track:rgba(11,15,22,.07);--grid:rgba(11,15,22,.045);
+  --a:#2a78d6;--a-soft:rgba(42,120,214,.13);--b:#1baf7a;--b-soft:rgba(27,175,122,.15);
+  --good:#0ca30c;--warn:#fab219;--crit:#d03b3b;--hyp:#6250d6;
+  --hair:1px;
+  --f-disp:"Archivo","Noto Sans SC",system-ui,sans-serif;
+  --f-body:"Archivo","Noto Sans SC",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --f-math:"STIX Two Text","Times New Roman",serif;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070A10;--blob1:#11305C;--blob2:#0A4034;--blob3:#2B215C;--blob4:#4A3214;
+  --ink:#EDF1F6;--muted:#A5AEBC;--faint:#7E8798;
+  --glass-a:rgba(28,33,44,.64);--glass-b:rgba(12,15,21,.44);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.17);--shadow:rgba(0,0,0,.55);
+  --line:rgba(255,255,255,.18);--line-soft:rgba(255,255,255,.075);--field:rgba(255,255,255,.05);--track:rgba(255,255,255,.08);--grid:rgba(255,255,255,.035);
+  --a:#3987e5;--a-soft:rgba(57,135,229,.2);--b:#199e70;--b-soft:rgba(25,158,112,.22);--hyp:#9085e9;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070A10;--blob1:#11305C;--blob2:#0A4034;--blob3:#2B215C;--blob4:#4A3214;
+  --ink:#EDF1F6;--muted:#A5AEBC;--faint:#7E8798;
+  --glass-a:rgba(28,33,44,.64);--glass-b:rgba(12,15,21,.44);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.17);--shadow:rgba(0,0,0,.55);
+  --line:rgba(255,255,255,.18);--line-soft:rgba(255,255,255,.075);--field:rgba(255,255,255,.05);--track:rgba(255,255,255,.08);--grid:rgba(255,255,255,.035);
+  --a:#3987e5;--a-soft:rgba(57,135,229,.2);--b:#199e70;--b-soft:rgba(25,158,112,.22);--hyp:#9085e9;color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;padding-inline:16px;padding-block:0 56px;overflow-x:hidden}
+a{color:inherit;text-decoration-thickness:var(--hair);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px;border-radius:6px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+b,strong{font-weight:800}
+.num{font-variant-numeric:tabular-nums}
+
+/* aurora + grid + glass */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.78}
+.aurora i:nth-child(1){width:48vw;height:48vw;left:-16vw;top:-18vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:40vw;height:40vw;right:-12vw;top:10vh;background:var(--blob2)}
+.aurora i:nth-child(3){width:42vw;height:42vw;left:20vw;bottom:-28vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:30vw;height:30vw;right:-6vw;bottom:-14vw;background:var(--blob4)}
+.aurora::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;-webkit-mask-image:linear-gradient(135deg,#000 0 30%,transparent 70%);mask-image:linear-gradient(135deg,#000 0 30%,transparent 70%)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -28px var(--shadow)}
+.wrap{position:relative;z-index:1;max-width:1120px;margin-inline:auto;display:grid;gap:18px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-top:12px;border-radius:18px;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 16px;min-width:0}
+.brand{font:900 14px/1 var(--f-disp);font-stretch:118%;letter-spacing:.02em;white-space:nowrap;text-decoration:none}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:10px;white-space:nowrap}
+.nav a:hover{color:var(--ink);background:var(--field)}
+
+/* sheets */
+.sheet{border-radius:26px;padding-block:28px;padding-inline:clamp(18px,3.2vw,36px);min-width:0;display:grid;gap:20px;scroll-margin-top:76px}
+.eyebrow{font:600 11.5px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+h1{font:900 clamp(34px,6.4vw,66px)/1.02 var(--f-disp);font-stretch:114%;letter-spacing:-.02em}
+h2{font:900 clamp(22px,3.2vw,31px)/1.15 var(--f-disp);font-stretch:112%;letter-spacing:-.01em}
+h3{font:800 16.5px/1.35 var(--f-disp)}
+.lede{font-size:clamp(15.5px,1.6vw,18px);color:var(--muted);max-width:62ch}
+.head{display:grid;gap:8px}
+.head p{color:var(--muted);max-width:68ch}
+.rule{height:0;border-top:var(--hair) solid var(--line)}
+
+/* hero */
+.hero{padding-block:36px 30px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;font:500 12.5px/1.4 var(--f-mono);color:var(--muted)}
+.meta b{color:var(--ink);font-weight:700}
+.parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.part{display:grid;gap:4px;padding:14px 16px;border-radius:16px;border:var(--hair) solid var(--line);background:var(--field)}
+.part .k{display:flex;align-items:center;gap:8px;font:800 15px var(--f-disp)}
+.part .k i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+.part .t{font:600 12px var(--f-mono);color:var(--muted)}
+.part p{font-size:13.5px;color:var(--muted)}
+.tip{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--field);font-size:14px}
+.tip b{white-space:nowrap}
+
+/* verdicts */
+.verdicts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vcard{display:grid;gap:8px;align-content:start;padding:18px;border-radius:18px;border:var(--hair) solid var(--line);background:var(--field);min-width:0}
+.vcard .lab{font:700 11.5px var(--f-mono);letter-spacing:.12em;color:var(--faint)}
+.vcard h3{font-size:18px;font-stretch:108%}
+.vcard p{font-size:14px;color:var(--muted)}
+.vcard .eq{display:block;padding:8px 10px;border-radius:10px;background:var(--field);border:var(--hair) solid var(--line-soft);overflow-x:auto;white-space:nowrap}
+
+/* math */
+.eq{font-family:var(--f-math);font-size:1.06em;letter-spacing:.01em}
+.eq i{font-style:italic}
+.eq sub,.eq sup{font-size:.72em}
+.mono{font-family:var(--f-mono);font-size:.92em}
+
+/* tables */
+.tbl{overflow-x:auto;min-width:0;border-radius:16px;border:var(--hair) solid var(--line);background:var(--field)}
+table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.55}
+.tbl table{min-width:720px}
+.tbl.narrow table{min-width:560px}
+.w .tbl table{min-width:420px}
+th{font:700 11px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:11px 12px;border-bottom:var(--hair) solid var(--line);white-space:nowrap}
+td{padding:11px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.t{font:600 12px/1.6 var(--f-mono);color:var(--muted);white-space:nowrap}
+td.k{font-weight:800;white-space:nowrap}
+td.f{color:var(--muted);font-size:13.5px}
+tr.flash td{animation:flash 1.6s ease-out}
+@keyframes flash{0%{background:var(--a-soft)}100%{background:transparent}}
+tr[id]{scroll-margin-top:90px}
+.qa td:first-child{font-weight:800}
+.qn{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:var(--hair) solid var(--line);font:800 11px var(--f-mono);margin-right:8px;vertical-align:-1px;background:var(--glass-a)}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 var(--f-body);padding:5px 9px;border-radius:999px;border:var(--hair) solid var(--line);background:var(--field);white-space:nowrap;color:var(--ink)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c,var(--faint));flex:none}
+.c-ok{--c:var(--good)}.c-mid{--c:var(--warn)}.c-bad{--c:var(--crit)}.c-hyp{--c:var(--hyp)}.c-a{--c:var(--a)}.c-b{--c:var(--b)}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+
+/* timeline */
+.tl{display:grid;gap:8px}
+.tl-bar{display:flex;gap:2px;height:46px;border-radius:12px;overflow:hidden}
+.tl-bar button{all:unset;cursor:pointer;min-width:2px;background:var(--c);opacity:.86;transition:opacity .15s}
+.tl-bar button:hover,.tl-bar button:focus-visible{opacity:1;outline:2px solid var(--ink);outline-offset:-2px}
+.tl-axis{position:relative;height:18px;font:600 11px var(--f-mono);color:var(--faint)}
+.tl-axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.tl-axis span:first-child{transform:none}
+.tl-axis span:last-child{transform:translateX(-100%)}
+.tl-read{min-height:22px;font-size:13.5px;color:var(--muted)}
+.tl-read b{color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stat{padding:12px 14px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--field);display:grid;gap:2px}
+.stat .v{font:900 24px/1.1 var(--f-disp);font-stretch:110%;font-variant-numeric:tabular-nums}
+.stat .l{font-size:12.5px;color:var(--muted)}
+
+/* pipeline svg */
+.scroll-x{overflow-x:auto;min-width:0}
+.pipe{display:block;width:100%;min-width:860px;height:auto}
+.pipe .node{fill:var(--glass-a);stroke:var(--line);stroke-width:1}
+.pipe .node-a{fill:var(--a-soft);stroke:var(--a);stroke-width:1}
+.pipe .node-plain{fill:var(--field);stroke:var(--line-soft);stroke-width:1}
+.pipe .tt{fill:var(--ink);font:800 13.5px var(--f-disp)}
+.pipe .ts{fill:var(--muted);font:500 11px var(--f-mono)}
+.pipe .tm{fill:var(--muted);font:italic 13px var(--f-math)}
+.pipe .lab{fill:var(--muted);font:600 11.5px var(--f-body)}
+.pipe .fw{stroke:var(--faint);stroke-width:1.25;fill:none}
+.pipe .lp{stroke:var(--a);stroke-width:1.25;fill:none}
+.pipe .tr{stroke:var(--b);stroke-width:1.25;fill:none}
+.pipe .q circle{fill:var(--ink)}
+.pipe .q text{fill:var(--bg);font:800 10px var(--f-mono)}
+
+/* widgets */
+.widgets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.w{display:grid;gap:14px;align-content:start;padding:18px;border-radius:18px;border:var(--hair) solid var(--line);background:var(--field);min-width:0}
+.w.wide{grid-column:1/-1}
+.w .sub{font-size:13.5px;color:var(--muted)}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.ctrl label{font:700 12px var(--f-mono);color:var(--muted)}
+input[type=range]{flex:1;min-width:140px;accent-color:var(--a)}
+.seg{display:inline-flex;border:var(--hair) solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;font:700 12px var(--f-mono);padding:6px 10px;color:var(--muted)}
+.seg button+button{border-left:var(--hair) solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn{all:unset;cursor:pointer;font:700 12.5px var(--f-body);padding:7px 12px;border-radius:10px;border:var(--hair) solid var(--line);background:var(--glass-a);color:var(--ink)}
+.btn:hover{border-color:var(--ink)}
+.bars{display:grid;gap:10px}
+.brow{display:grid;grid-template-columns:76px minmax(0,1fr) 62px;align-items:center;gap:10px}
+.brow .tok{font:600 13px var(--f-mono);white-space:nowrap}
+.brow .tok small{display:block;font-size:11px;color:var(--faint)}
+.track{height:22px;border-radius:0 6px 6px 0;background:var(--track);position:relative}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--a);transition:width .25s}
+.brow .val{font:800 14px var(--f-disp);text-align:right;font-variant-numeric:tabular-nums}
+.readout{font:500 12.5px/1.6 var(--f-mono);color:var(--muted)}
+.mask{display:grid;grid-template-columns:64px repeat(5,minmax(0,1fr));gap:2px;font:600 12px var(--f-mono)}
+.mask .h{color:var(--faint);text-align:center;padding:4px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mask .rh{all:unset;cursor:pointer;color:var(--muted);padding:8px 4px;white-space:nowrap;border-radius:6px}
+.mask .rh:hover,.mask .rh[aria-pressed="true"]{color:var(--ink);background:var(--a-soft)}
+.mask .c{display:grid;place-items:center;height:38px;border-radius:4px;background:var(--track);color:var(--muted);font-variant-numeric:tabular-nums}
+.mask .c.vis{background:color-mix(in srgb,var(--a) calc(var(--p)*100%),var(--track));color:var(--ink)}
+.mask .c.dead{background:transparent;border:var(--hair) solid var(--line-soft);color:var(--faint)}
+.mask .c.leak{background:color-mix(in srgb,var(--crit) calc(var(--p)*100% + 12%),var(--track));color:var(--ink)}
+.mask .c.on{outline:1.5px solid var(--ink);outline-offset:-1.5px}
+.cost .lt{width:110px;height:10px;border-radius:0 4px 4px 0;background:var(--track)}
+.cost .lb{height:10px;border-radius:0 4px 4px 0;background:var(--a)}
+.acts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.act{display:grid;gap:6px;padding:10px;border-radius:14px;border:var(--hair) solid var(--line);background:var(--field);min-width:0}
+.act svg{display:block;width:100%;height:auto}
+.act .n{font:800 13.5px var(--f-disp)}
+.act .d{font-size:12px;color:var(--muted)}
+.act .ax{stroke:var(--line);stroke-width:1}
+.act .cv{stroke:var(--b);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+/* quiz */
+.quiz{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qz{display:grid;gap:10px;align-content:start;padding:16px;border-radius:18px;border:var(--hair) solid var(--line);background:var(--field);min-width:0}
+.qz h3{font-size:15px;font-weight:800}
+.qz .opts{display:grid;gap:6px}
+.qz button.o{all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:10px;border:var(--hair) solid var(--line);font-size:14px;background:var(--glass-a)}
+.qz button.o:hover{border-color:var(--ink)}
+.qz button.o .l{font:800 12px/1.7 var(--f-mono);color:var(--faint)}
+.qz button.o.right{border-color:var(--good);box-shadow:inset 0 0 0 1px var(--good)}
+.qz button.o.wrong{border-color:var(--crit);box-shadow:inset 0 0 0 1px var(--crit)}
+.qz .exp{font-size:13px;color:var(--muted)}
+.score{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.score .v{font:900 26px var(--f-disp);font-variant-numeric:tabular-nums}
+
+/* closing chain */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px;font:800 14px var(--f-disp)}
+.chain span{padding:7px 11px;border-radius:10px;border:var(--hair) solid var(--line);background:var(--field)}
+.chain em{font-style:normal;color:var(--faint);font-weight:400}
+.src{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 24px;font-size:13px;color:var(--muted);padding:0;margin:0;list-style:none}
+.src li{min-width:0;overflow-wrap:anywhere}
+.foot{font-size:12.5px;color:var(--faint)}
+
+@media (max-width:880px){
+  .verdicts,.widgets,.quiz,.pair,.src{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .acts{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:600px){
+  .stack table{min-width:0}
+  .stack thead{display:none}
+  .stack tr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;padding:12px;border-bottom:var(--hair) solid var(--line-soft)}
+  .stack tr:last-child{border-bottom:0}
+  .stack td{padding:0;border:0}
+  .stack td:nth-child(n+3),.stack .qa td{grid-column:1/-1}
+  .stack td.k{white-space:normal}
+}
+@media (max-width:560px){
+  .parts{grid-template-columns:minmax(0,1fr)}
+  .acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .brand span{display:none}
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+
+<header class="bar glass">
+  <a class="brand" href="#top">LLM<span> 课精要</span></a>
+  <nav class="nav" aria-label="章节">
+    <a href="#verdict">结论</a><a href="#map">结构</a><a href="#pipe">全景图</a><a href="#llm">LLM 主线</a><a href="#nn">神经网络地基</a><a href="#check">事实核查</a><a href="#quiz">自测</a><a href="#wrap">总结</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="sheet glass hero" id="top">
+  <div class="eyebrow">Stanford · 两讲合辑 · 2:34:51 · 中英双语字幕</div>
+  <h1>从「下一个 token」<br>到 Transformer</h1>
+  <p class="lede">这段视频是两节斯坦福课的拼接：前半讲 LLM 怎样算出下一个 token，后半讲神经网络和训练的基础。下面把 2 小时 35 分钟压缩成一条链、四个问题、两张知识表。</p>
+  <div class="meta">
+    <span>原帖 <b>@uudonX</b> · 2026-10-09</span>
+    <span><b class="num">10.4 万</b> 浏览</span>
+    <span><b class="num">2,213</b> 收藏 &gt; <b class="num">1,928</b> 点赞</span>
+    <span>依据：视频完整英文字幕 <b class="num">24,842</b> 词</span>
+  </div>
+  <div class="parts">
+    <div class="part" style="--c:var(--a)"><div class="k"><i></i>上半 · LLM 主线</div><div class="t">0:00:00 – 1:16:27 · 76 分钟</div><p>分词、链式法则、Embedding、采样与温度、注意力、因果掩码、多头、T² 成本</p></div>
+    <div class="part" style="--c:var(--b)"><div class="k"><i></i>下半 · 神经网络地基</div><div class="t">1:16:27 – 2:34:51 · 78 分钟</div><p>损失函数、SGD、ReLU、多层网络、残差、LayerNorm / RMSNorm、卷积</p></div>
+  </div>
+  <div class="tip"><b>观看顺序建议</b><span>先看后半（1:16:27 起），再回到开头。视频把两讲倒序拼接了：上半讲 RMSNorm 和残差时说的「前面讲过」，指的就是后半这一讲。</span></div>
+</section>
+
+<!-- VERDICT -->
+<section class="sheet glass" id="verdict">
+  <div class="head"><div class="eyebrow">结论先行</div><h2>三句话讲完这门课</h2></div>
+  <div class="verdicts">
+    <article class="vcard">
+      <div class="lab">本质</div>
+      <h3>LLM 是一台条件概率机器</h3>
+      <span class="eq"><i>p</i>(<i>x</i><sub>1</sub>…<i>x<sub>T</sub></i>) = ∏<sub><i>t</i></sub> <i>p</i>(<i>x<sub>t</sub></i> | <i>x</i><sub>&lt;<i>t</i></sub>)</span>
+      <p>整段文本有 |V|<sup>T</sup> 种可能，无法直接建模。链式法则把它拆成 T 道「从十几万到 25 万个 token 里选 1 个」的分类题。</p>
+    </article>
+    <article class="vcard">
+      <div class="lab">结构</div>
+      <h3>只有 Attention 让位置之间交流</h3>
+      <span class="eq">softmax(<i>QK</i><sup>⊤</sup>/<i>c</i> + <i>M</i>) · <i>V</i></span>
+      <p>MLP 对每个位置独立计算；注意力用 query·key 打分、对 value 加权求和。因果掩码 M 只允许看过去，代价是随长度 T² 增长。</p>
+    </article>
+    <article class="vcard">
+      <div class="lab">训练</div>
+      <h3>训练就是降低交叉熵</h3>
+      <span class="eq"><i>L</i>(<i>θ</i>) = −∑<sub><i>t</i></sub> log <i>p<sub>θ</sub></i>(<i>x<sub>t</sub></i> | <i>x</i><sub>&lt;<i>t</i></sub>)</span>
+      <p>和图像分类是同一个损失，只是类别数等于词表大小。用 mini-batch SGD / Adam 更新所有权重；词表在训练前就定好，不参与更新。</p>
+    </article>
+  </div>
+  <div class="tbl stack">
+    <table class="qa">
+      <thead><tr><th>原帖的四个问题</th><th>一句话答案</th><th>视频位置</th></tr></thead>
+      <tbody>
+        <tr><td><span class="qn">Q1</span>文字怎么变成数字？</td><td>分词器把文本切成子词，每个子词对应一个整数 ID；再用 ID 去 Embedding 矩阵 <span class="eq"><i>E</i> ∈ ℝ<sup>|V|×<i>d</i></sup></span> 里取一行，得到 d 维向量。</td><td class="t">0:01 – 0:17</td></tr>
+        <tr><td><span class="qn">Q2</span>为什么一个单词还要拆开？</td><td>整词做单位，罕见词和新词见得太少学不会，也无法复用相近词的知识；字符做单位，序列又太长。子词是两者的折中：没见过的长词也能由见过的片段组合理解。</td><td class="t">0:01 – 0:10</td></tr>
+        <tr><td><span class="qn">Q3</span>Attention 到底在算什么？</td><td>位置 t 用自己的 query 与每个可见位置的 key 做内积，softmax 成权重，再对这些位置的 value 加权求和。权重大意味着「这一步要参考那个位置的信息」。</td><td class="t">0:41 – 1:04</td></tr>
+        <tr><td><span class="qn">Q4</span>模型训练时在改什么？</td><td>改的是参数 θ：Embedding 矩阵、每层的 <span class="eq"><i>W<sub>Q</sub></i>, <i>W<sub>K</sub></i>, <i>W<sub>V</sub></i>, <i>W<sub>O</sub></i></span>、MLP 权重和 Norm 的缩放 γ。目标是让训练文本中真实下一个 token 的概率尽量高。</td><td class="t">0:35 – 0:37<br>1:34 – 1:49</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="sheet glass" id="map">
+  <div class="head"><div class="eyebrow">视频结构</div><h2>154 分钟花在哪</h2><p>按字幕时间戳切成 25 段。点任一段跳到对应知识点。</p></div>
+  <div class="tl">
+    <div class="tl-bar" id="tlBar" role="group" aria-label="视频时间轴"></div>
+    <div class="tl-axis" id="tlAxis" aria-hidden="true"></div>
+    <div class="tl-read" id="tlRead">悬停或点击色块查看段落。</div>
+  </div>
+  <div class="legend"><span class="chip c-a"><i></i>LLM 主线</span><span class="chip c-b"><i></i>神经网络地基</span></div>
+  <div class="stats">
+    <div class="stat"><span class="v">49%</span><span class="l">LLM 主线（76 分钟）</span></div>
+    <div class="stat"><span class="v">25%</span><span class="l">Transformer 与注意力（38 分钟），全片最大单块</span></div>
+    <div class="stat"><span class="v">9 分钟</span><span class="l">分词与 BPE</span></div>
+    <div class="stat"><span class="v">17 分钟</span><span class="l">SGD 与优化（含局部极小讨论）</span></div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="sheet glass" id="pipe">
+  <div class="head"><div class="eyebrow">全景图</div><h2>一个 token 是怎么被算出来的</h2><p>蓝线是生成时的自回归回路，绿线是训练时的梯度回路。Q1–Q4 对应原帖的四个问题。</p></div>
+  <div class="scroll-x">
+  <svg class="pipe" viewBox="0 0 1040 320" role="img" aria-label="LLM 计算流程：文本经分词得到 token ID，查 Embedding，经过 L 层注意力与 MLP，输出 logits，softmax 后采样下一个 token 并回到输入；训练时用负对数似然反向传播更新参数">
+    <defs>
+      <marker id="mF" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" style="fill:var(--faint)"/></marker>
+      <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" style="fill:var(--a)"/></marker>
+      <marker id="mB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" style="fill:var(--b)"/></marker>
+    </defs>
+    <!-- training path -->
+    <path class="tr" d="M979 111 V36 H476 V109" marker-end="url(#mB)"/>
+    <path class="tr" d="M660 36 V54" marker-end="url(#mB)"/>
+    <text class="lab" x="730" y="26" text-anchor="middle">训练：L = −Σ log p(xₜ | x&lt;ₜ) → 反向传播，更新 Embedding 与各层权重</text>
+    <!-- nodes -->
+    <rect class="node" x="8" y="111" width="104" height="70" rx="14"/>
+    <text class="tt" x="60" y="140" text-anchor="middle">文本</text><text class="ts" x="60" y="161" text-anchor="middle">"A dog runs,"</text>
+    <rect class="node" x="140" y="111" width="112" height="70" rx="14"/>
+    <text class="tt" x="196" y="140" text-anchor="middle">分词 · BPE</text><text class="ts" x="196" y="161" text-anchor="middle">A│ dog│ runs│,</text>
+    <rect class="node" x="280" y="111" width="112" height="70" rx="14"/>
+    <text class="tt" x="336" y="140" text-anchor="middle">Token ID</text><text class="ts" x="336" y="161" text-anchor="middle">1·356·2768·11</text>
+    <rect class="node" x="420" y="111" width="112" height="70" rx="14"/>
+    <text class="tt" x="476" y="140" text-anchor="middle">Embedding</text><text class="ts" x="476" y="161" text-anchor="middle">查表 E[id] ∈ ℝᵈ</text>
+    <rect class="node" x="560" y="56" width="200" height="180" rx="16"/>
+    <text class="tt" x="660" y="80" text-anchor="middle">× L 层 Transformer</text>
+    <rect class="node-a" x="574" y="92" width="172" height="30" rx="8"/><text class="lab" x="660" y="112" text-anchor="middle" style="fill:var(--ink);font-weight:800">Attention · 跨位置</text>
+    <rect class="node-plain" x="574" y="128" width="172" height="30" rx="8"/><text class="lab" x="660" y="148" text-anchor="middle">+ 残差 · RMSNorm</text>
+    <rect class="node-plain" x="574" y="164" width="172" height="30" rx="8"/><text class="lab" x="660" y="184" text-anchor="middle">MLP · 逐位置独立</text>
+    <rect class="node-plain" x="574" y="200" width="172" height="30" rx="8"/><text class="lab" x="660" y="220" text-anchor="middle">+ 残差 · RMSNorm</text>
+    <rect class="node" x="788" y="111" width="110" height="70" rx="14"/>
+    <text class="tt" x="843" y="140" text-anchor="middle">Logits uₜ</text><text class="ts" x="843" y="161" text-anchor="middle">ℝ^|V| ≈ 25 万维</text>
+    <rect class="node" x="926" y="111" width="106" height="70" rx="14"/>
+    <text class="tt" x="979" y="140" text-anchor="middle">softmax(u/τ)</text><text class="ts" x="979" y="161" text-anchor="middle">采样 xₜ₊₁</text>
+    <!-- forward arrows -->
+    <path class="fw" d="M112 146 H138" marker-end="url(#mF)"/>
+    <path class="fw" d="M252 146 H278" marker-end="url(#mF)"/>
+    <path class="fw" d="M392 146 H418" marker-end="url(#mF)"/>
+    <path class="fw" d="M532 146 H558" marker-end="url(#mF)"/>
+    <path class="fw" d="M760 146 H786" marker-end="url(#mF)"/>
+    <path class="fw" d="M898 146 H924" marker-end="url(#mF)"/>
+    <!-- autoregressive loop -->
+    <path class="lp" d="M979 181 V272 H336 V183" marker-end="url(#mA)"/>
+    <text class="lab" x="660" y="296" text-anchor="middle">自回归：把采样到的 token 追加到序列末尾，再算下一个</text>
+    <!-- question markers -->
+    <g class="q"><circle cx="252" cy="111" r="12"/><text x="252" y="114.5" text-anchor="middle">Q2</text></g>
+    <g class="q"><circle cx="406" cy="122" r="12"/><text x="406" y="125.5" text-anchor="middle">Q1</text></g>
+    <g class="q"><circle cx="746" cy="92" r="12"/><text x="746" y="95.5" text-anchor="middle">Q3</text></g>
+    <g class="q"><circle cx="476" cy="74" r="12"/><text x="476" y="77.5" text-anchor="middle">Q4</text></g>
+  </svg>
+  </div>
+  <p class="foot">Token ID 为示意值。真实切分随模型而变：同一句话在不同 tokenizer 下的 token 数不同，按 token 计费的价格也就不同。</p>
+</section>
+
+<!-- PART A -->
+<section class="sheet glass" id="llm">
+  <div class="head"><div class="eyebrow">分 · 上半 0:00 – 1:16</div><h2>LLM 主线：14 个知识点</h2><p>讲者在这一讲刻意用行向量（<span class="eq"><i>hW</i></span>，权重乘在右边），因为代码里的张量就是这么排的；论文多用列向量。</p></div>
+  <div class="tbl stack">
+    <table>
+      <thead><tr><th>时间</th><th>知识点</th><th>核心结论</th><th>公式 / 数字</th></tr></thead>
+      <tbody>
+        <tr id="a-tok"><td class="t">0:01:01</td><td class="k">分词</td><td>输入的最小单位是子词。字符级序列太长；整词级遇到 internationalization 这类罕见长词学不到，也无法借用 internationalized 的知识。</td><td class="f">开源模型词表约 10<sup>5</sup>；Qwen3.5 为 248,320</td></tr>
+        <tr id="a-bpe"><td class="t">0:08:26</td><td class="k">BPE</td><td>贪心算法：从字符开始，反复把最高频的相邻片段合并进词表。每家模型的 tokenizer 不同。</td><td class="f">「空格+dog」本身就是一个 token</td></tr>
+        <tr id="a-chain"><td class="t">0:10:00</td><td class="k">链式法则</td><td>长度 T 的序列有 |V|<sup>T</sup> 种组合，不能逐一给概率。分解成条件概率后，每一步只是 |V| 选 1。</td><td class="f"><span class="eq"><i>p</i>(<i>x</i><sub>1:<i>T</i></sub>) = ∏ <i>p</i>(<i>x<sub>t</sub></i> | <i>x</i><sub>&lt;<i>t</i></sub>)</span></td></tr>
+        <tr id="a-emb"><td class="t">0:13:42</td><td class="k">Embedding</td><td>按 ID 读取矩阵的一行，得到 d 维向量；矩阵本身是训练出来的。序列前加固定的 BOS token；词表通常预留几千个特殊 token。</td><td class="f"><span class="eq"><i>E</i> ∈ ℝ<sup>|V|×<i>d</i></sup></span></td></tr>
+        <tr id="a-logit"><td class="t">0:16:49</td><td class="k">Logits → 概率</td><td>位置 t 输出一个 |V| 维向量，softmax 后变成下一个 token 的分布。它只能依赖 <span class="eq"><i>x</i><sub>0</sub>…<i>x</i><sub><i>t</i>−1</sub></span>。</td><td class="f"><span class="eq"><i>p</i>(<i>x<sub>t</sub></i>|·) = softmax(<i>u<sub>t</sub></i>)</span></td></tr>
+        <tr id="a-gen"><td class="t">0:25:30</td><td class="k">生成与采样</td><td>从 BOS 或 prompt 出发，采样一个 token 后追加回输入，循环。训练时整句已知；生成时只能一个个来。</td><td class="f">温度 τ、Top-k 见下方演示</td></tr>
+        <tr id="a-loss"><td class="t">0:35:07</td><td class="k">训练目标</td><td>负对数似然：把每个位置上真实 token 的 −log 概率加起来，交给 SGD 或 Adam 当黑盒优化。</td><td class="f"><span class="eq">−∑<sub><i>t</i></sub> log softmax(<i>u<sub>t</sub></i>)<sub><i>x<sub>t</sub></i></sub></span></td></tr>
+        <tr id="a-arch"><td class="t">0:38:19</td><td class="k">Transformer 骨架</td><td>Attention 与 MLP 交替堆叠。MLP 对每个位置单独计算、共享参数，可完全并行；位置之间唯一的信息通道是 Attention。</td><td class="f">整体端到端自动微分</td></tr>
+        <tr id="a-attn"><td class="t">0:41:26</td><td class="k">单头注意力</td><td>每个输入投影成 query、key、value。q 与各 k 的内积经 softmax 成为权重，输出是 v 的加权和。<span class="eq"><i>W</i></span> 都是训练出来的，机制只是模板。</td><td class="f"><span class="eq"><i>q<sub>t</sub></i>=<i>h<sub>t</sub>W<sub>Q</sub></i>, <i>k<sub>i</sub></i>=<i>h<sub>i</sub>W<sub>K</sub></i>, <i>v<sub>i</sub></i>=<i>h<sub>i</sub>W<sub>V</sub></i></span></td></tr>
+        <tr id="a-mlp"><td class="t">0:53:00</td><td class="k">为何不用巨型 MLP</td><td>把所有 token 拼起来喂一个 MLP：参数随 T 增长（T 可达百万），换个长度就得换参数。注意力的参数量与 T 无关，在「预设结构」和「留给模型的自由度」之间取了平衡。</td><td class="f">卷积也能用，效果不如注意力</td></tr>
+        <tr id="a-mask"><td class="t">0:57:09</td><td class="k">矩阵形式 + 因果掩码</td><td>写成矩阵后输出依赖全部位置，会偷看未来。在 <span class="eq"><i>QK</i><sup>⊤</sup></span> 上三角加 −∞，softmax 后权重变 0，位置 t 只看 ≤ t。</td><td class="f"><span class="eq">softmax<sub>row</sub>(<i>QK</i><sup>⊤</sup>/<i>c</i> + <i>M</i>)<i>V</i></span></td></tr>
+        <tr id="a-mh"><td class="t">1:04:46</td><td class="k">多头注意力</td><td>多组独立的 <span class="eq"><i>W<sub>Q</sub></i>, <i>W<sub>K</sub></i>, <i>W<sub>V</sub></i></span> 并行，各自关注一类关系（如实体、情感），拼接后乘 <span class="eq"><i>W<sub>O</sub></i></span>。</td><td class="f">真实模型 32 – 128 个头，见下表</td></tr>
+        <tr id="a-norm"><td class="t">1:11:13</td><td class="k">残差 + Norm</td><td>每个子层外包残差连接和 RMSNorm。Pre-norm 与 Post-norm 的区别是 Norm 放在子层之前还是之后。</td><td class="f">原理见下半「残差」「RMSNorm」</td></tr>
+        <tr id="a-cost"><td class="t">1:12:17</td><td class="k">T² 成本</td><td>分数矩阵是 T×T，计算量 ∝ T²·d<sub>h</sub>。FlashAttention 分块计算，不必存整张矩阵；降低 T 依赖的架构通常会损失表达力。</td><td class="f">长对话需要「压缩上下文」的原因之一</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="widgets">
+    <div class="w">
+      <div class="head"><h3>温度与 Top-k 演示</h3><p class="sub">讲者原例：三个候选 token 的 logits = [2, 1, −1]。除以 τ 不改排序，只改分布的尖锐程度。</p></div>
+      <div class="ctrl"><label for="tau">τ</label><input type="range" id="tau" min="0.05" max="3" step="0.05" value="1"><span class="mono num" id="tauV">1.00</span></div>
+      <div class="ctrl"><label>Top-k</label><div class="seg" id="topk"><button type="button" data-k="3" aria-pressed="true">全部</button><button type="button" data-k="2" aria-pressed="false">k=2</button><button type="button" data-k="1" aria-pressed="false">k=1</button></div>
+        <div class="seg" id="tauPre"><button type="button" data-t="0.1" aria-pressed="false">τ=0.1</button><button type="button" data-t="1" aria-pressed="true">τ=1</button><button type="button" data-t="2" aria-pressed="false">τ=2</button></div></div>
+      <div class="bars" id="bars"></div>
+      <div class="readout" id="tauRead"></div>
+    </div>
+    <div class="w">
+      <div class="head"><h3>因果掩码演示</h3><p class="sub">行 = 当前位置的 query，列 = 被看的 key。格内是注意力权重（示意打分）。点左侧行名看它能看见谁。</p></div>
+      <div class="ctrl"><button type="button" class="btn" id="maskBtn" aria-pressed="true">因果掩码：开</button><span class="readout" id="maskRead"></span></div>
+      <div class="mask" id="mask"></div>
+    </div>
+    <div class="w">
+      <div class="head"><h3>注意力分数的数量（每头每层）</h3><p class="sub">每个位置都要和 T 个位置做内积，共 T² 次。条形为对数刻度。</p></div>
+      <div class="tbl narrow" style="background:transparent">
+        <table class="cost">
+          <thead><tr><th>上下文 T</th><th>T²</th><th>相对 1K</th><th>对数刻度</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1,000</td><td class="num">1.0×10⁶</td><td class="num">1×</td><td class="bar"><div class="lt"><div class="lb" style="width:14%"></div></div></td></tr>
+            <tr><td class="num">8,000</td><td class="num">6.4×10⁷</td><td class="num">64×</td><td class="bar"><div class="lt"><div class="lb" style="width:40%"></div></div></td></tr>
+            <tr><td class="num">128,000</td><td class="num">1.6×10¹⁰</td><td class="num">16,384×</td><td class="bar"><div class="lt"><div class="lb" style="width:74%"></div></div></td></tr>
+            <tr><td class="num">262,144</td><td class="num">6.9×10¹⁰</td><td class="num">68,719×</td><td class="bar"><div class="lt"><div class="lb" style="width:83%"></div></div></td></tr>
+            <tr><td class="num">1,000,000</td><td class="num">1.0×10¹²</td><td class="num">10⁶×</td><td class="bar"><div class="lt"><div class="lb" style="width:100%"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub">262,144 是 Qwen3.5 的原生上下文长度。为压低这项成本，Qwen3.5-397B 的 60 层里有 45 层换成了线性注意力。</p>
+    </div>
+    <div class="w">
+      <div class="head"><h3>真实模型的词表与头数</h3><p class="sub">讲者说「千亿参数约 100 个头」。按各模型官方 config：</p></div>
+      <div class="tbl narrow" style="background:transparent">
+        <table>
+          <thead><tr><th>模型</th><th>参数</th><th>词表</th><th>Q 头</th><th>层</th></tr></thead>
+          <tbody>
+            <tr><td class="k">GPT-3 · 2020</td><td class="num">175B</td><td class="num">50,257</td><td class="num">96</td><td class="num">96</td></tr>
+            <tr><td class="k">Llama 3.1 405B</td><td class="num">405B</td><td class="num">128,256</td><td class="num">128</td><td class="num">126</td></tr>
+            <tr><td class="k">DeepSeek-V3</td><td class="num">671B / 37B</td><td class="num">129,280</td><td class="num">128</td><td class="num">61</td></tr>
+            <tr><td class="k">Kimi K2</td><td class="num">1T / 32B</td><td class="num">163,840</td><td class="num">64</td><td class="num">61</td></tr>
+            <tr><td class="k">gpt-oss-120b</td><td class="num">117B / 5.1B</td><td class="num">201,088</td><td class="num">64</td><td class="num">36</td></tr>
+            <tr><td class="k">Qwen3.5-397B</td><td class="num">397B / 17B</td><td class="num">248,320</td><td class="num">32</td><td class="num">60</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sub">参数列「总量 / 每 token 激活量」（MoE）。六年里词表从 5 万涨到 25 万（约 5 倍）；头数在 32–128 之间，不随参数量同比增长。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PART B -->
+<section class="sheet glass" id="nn">
+  <div class="head"><div class="eyebrow">分 · 下半 1:16 – 2:35</div><h2>神经网络地基：15 个知识点</h2><p>这一讲用列向量（<span class="eq"><i>Wx</i></span>），上标表示第几个样本，下标表示第几个坐标。</p></div>
+  <div class="tbl stack">
+    <table>
+      <thead><tr><th>时间</th><th>知识点</th><th>核心结论</th><th>公式 / 数字</th></tr></thead>
+      <tbody>
+        <tr id="b-nl"><td class="t">1:16:27</td><td class="k">真正的非线性</td><td>只对输入非线性（如 x²）不算：令 z = x² 就还原成线性模型。这里说的非线性是对参数 θ 非线性。</td><td class="f"><span class="eq"><i>θ</i><sub>1</sub><sup>2</sup><i>x</i><sub>1</sub></span> 才算</td></tr>
+        <tr id="b-sl"><td class="t">1:19:31</td><td class="k">监督学习四件套</td><td>数据对、模型 <span class="eq"><i>h<sub>θ</sub></i></span>、损失、优化器。框架与线性模型完全相同，只换了模型。</td><td class="f"><span class="eq">{(<i>x</i><sup>(<i>i</i>)</sup>, <i>y</i><sup>(<i>i</i>)</sup>)}<sub><i>i</i>=1..<i>n</i></sub></span></td></tr>
+        <tr id="b-mse"><td class="t">1:22:50</td><td class="k">回归：MSE</td><td>平方误差的平均。它等价于假设「标签 = 预测 + 高斯噪声」时的负对数似然。</td><td class="f"><span class="eq"><i>y</i> = <i>h<sub>θ</sub></i>(<i>x</i>) + <i>ε</i>, <i>ε</i> ~ 𝒩(0, <i>σ</i>²)</span></td></tr>
+        <tr id="b-ce"><td class="t">1:24:58</td><td class="k">多分类：交叉熵</td><td>模型输出 k 个 logits，softmax 成概率，取真实类的 −log 概率。PyTorch 的 CrossEntropyLoss 直接接收 logits。</td><td class="f">LLM 的损失就是 k = |V| 的这个</td></tr>
+        <tr id="b-sgd"><td class="t">1:34:53</td><td class="k">GD vs SGD</td><td>GD 用全部样本的平均梯度。SGD 每步随机抽一个样本，它的梯度期望正好等于全量梯度，单步有噪声，平均方向一致。</td><td class="f"><span class="eq">𝔼<sub><i>j</i></sub>[∇<i>J<sub>j</sub></i>(<i>θ</i>)] = ∇<i>J</i>(<i>θ</i>)</span></td></tr>
+        <tr id="b-why"><td class="t">1:40:04</td><td class="k">为什么用 SGD</td><td>① 全量梯度太贵；② 各样本梯度高度相关，全算是浪费；③ 单步偏差会被后续步数抵消。</td><td class="f">2015 年约百万样本，如今以万亿 token 计</td></tr>
+        <tr id="b-min"><td class="t">1:42:12</td><td class="k">非凸与局部极小</td><td>主流观点不认为 SGD 靠噪声「跳出局部极小」。高维中要求所有方向 Hessian 半正定很难满足，坏的局部极小可能很少。这是假说。</td><td class="f">可用 Kac–Rice 公式计数</td></tr>
+        <tr id="b-mb"><td class="t">1:47:24</td><td class="k">Mini-batch</td><td>每步取 B 个样本，在噪声与成本间折中。只算一个样本会让上万张 GPU 大多闲置。</td><td class="f"><span class="eq"><i>θ</i> ← <i>θ</i> − <i>η</i>·(1/<i>B</i>)∑∇<i>J<sub>j</sub></i></span></td></tr>
+        <tr id="b-relu"><td class="t">1:51:34</td><td class="k">ReLU 神经元</td><td>房价「先平后升」可用 max(wx+b, 0)+c 拟合。「激活」一词来自神经元超过阈值才放电的类比。</td><td class="f"><span class="eq">ReLU(<i>t</i>) = max(<i>t</i>, 0)</span></td></tr>
+        <tr id="b-2l"><td class="t">1:56:49</td><td class="k">两层网络</td><td>中间层像「步行便利度」「学区质量」这类原始数据里没有的隐特征，由输入非线性组合而来。写成矩阵后无需逐个展开。</td><td class="f"><span class="eq"><i>a</i> = ReLU(<i>W</i><sub>1</sub><i>x</i>+<i>b</i><sub>1</sub>)</span>，参数 <span class="eq"><i>md</i>+<i>m</i></span></td></tr>
+        <tr id="b-act"><td class="t">2:09:33</td><td class="k">激活函数族</td><td>Sigmoid、tanh、Leaky ReLU、GELU 等，多为近似单调递增。选哪个主要靠试；较平滑的通常更好。</td><td class="f">形状见下方小图</td></tr>
+        <tr id="b-deep"><td class="t">2:12:40</td><td class="k">堆叠与维度匹配</td><td>层数约等于矩阵乘法次数。上一层输出维度必须等于下一层输入维度。输入维度很大时先压缩，之后长期保持不变。</td><td class="f">语言：约 25 万维 → 约 2K 隐维</td></tr>
+        <tr id="b-res"><td class="t">2:19:00</td><td class="k">残差网络</td><td>块的输出 = 输入 + 两层变换，输入输出同维。直觉：接近目标时只需学「差值」，任务更简单；另一种解释是优化更稳定。</td><td class="f"><span class="eq"><i>z</i> + <i>σ</i>(<i>W</i>′<i>σ</i>(<i>Wz</i>))</span>，2015 年提出</td></tr>
+        <tr id="b-ln"><td class="t">2:26:24</td><td class="k">LayerNorm → RMSNorm</td><td>归一化后再给可学习的缩放。好处是尺度不变：输入整体放大，输出不变，深层不会数值爆炸，初始化也更省心。但梯度并不尺度不变。</td><td class="f"><span class="eq">LN(<i>αz</i>) = LN(<i>z</i>)</span>，<span class="eq"><i>α</i> &gt; 0</span></td></tr>
+        <tr id="b-cnn"><td class="t">2:33:46</td><td class="k">卷积</td><td>卷积层等价于一个带状矩阵：同一个滤波器沿对角线平移、共享参数。讲者认为如今视觉也大量改用 Transformer。</td><td class="f">Toeplitz 结构矩阵</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="w wide">
+    <div class="head"><h3>激活函数长什么样</h3><p class="sub">横轴 −4 到 4。Leaky ReLU 斜率取 0.1 以便看清（常用 0.01）。</p></div>
+    <div class="acts" id="acts"></div>
+  </div>
+
+  <div class="pair">
+    <div class="tbl narrow">
+      <table>
+        <thead><tr><th>优化方式</th><th>每步样本</th><th>每步成本</th><th>梯度噪声</th></tr></thead>
+        <tbody>
+          <tr><td class="k">GD</td><td>全部 N</td><td>最高</td><td>无</td></tr>
+          <tr><td class="k">SGD</td><td class="num">1</td><td>最低，GPU 利用率低</td><td>最大</td></tr>
+          <tr><td class="k">Mini-batch SGD</td><td>B</td><td>中，GPU 可并行</td><td>中 · 实际用法</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl narrow">
+      <table>
+        <thead><tr><th>对比</th><th>LayerNorm</th><th>RMSNorm</th></tr></thead>
+        <tbody>
+          <tr><td class="k">减均值</td><td>是，减 μ̂</td><td>否</td></tr>
+          <tr><td class="k">除以</td><td>标准差 σ̂</td><td>均方根 <span class="eq">√(1/<i>m</i>·∑<i>z<sub>i</sub></i>²)</span></td></tr>
+          <tr><td class="k">可学参数</td><td>β, γ</td><td>γ</td></tr>
+          <tr><td class="k">用在哪</td><td>早期 Transformer</td><td>当代 LLM（上半 1:12 提到）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FACT CHECK -->
+<section class="sheet glass" id="check">
+  <div class="head"><div class="eyebrow">事实核查</div><h2>课上的 11 个具体说法，对照数据</h2><p>讲者多处自己说了「没核实」「大概」。下面逐条对照官方配置文件、论文和公开测量。</p></div>
+  <div class="legend"><span class="chip c-ok"><i></i>✓ 属实</span><span class="chip c-mid"><i></i>≈ 部分属实</span><span class="chip c-bad"><i></i>✗ 不准确</span><span class="chip c-hyp"><i></i>? 假说</span></div>
+  <div class="tbl stack">
+    <table>
+      <thead><tr><th>时间</th><th>讲者说法</th><th>核查结果</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr><td class="t">0:05:10</td><td>Qwen 3.5 词表约 25 万</td><td>官方 config：<b class="num">248,320</b>（Qwen3 为 151,936）</td><td><span class="chip c-ok"><i></i>✓ 属实</span></td></tr>
+        <tr><td class="t">0:05:18</td><td>选 25 万「大概因为能用约 8 字节表示」</td><td>2<sup>18</sup> = 262,144 ≥ 248,320，18 bit 就够存一个 ID，和 8 字节对不上</td><td><span class="chip c-bad"><i></i>✗ 推测不成立</span></td></tr>
+        <tr><td class="t">0:07:23</td><td>Claude 换了 tokenizer，同样文本 1,000 → 1,500 token（讲者未核实）</td><td>Anthropic 披露 Opus 4.7 为同文本 <b>1.0–1.35×</b>；OpenRouter 实测成本 <b>+12% 至 +27%</b></td><td><span class="chip c-mid"><i></i>≈ 方向对，幅度偏高</span></td></tr>
+        <tr><td class="t">0:32:58</td><td>温度设 0，每次生成都确定</td><td>数学上等于贪心取最大值；但生产推理中，批大小变化会改变浮点计算顺序，温度 0 也可能出不同结果</td><td><span class="chip c-mid"><i></i>≈ 理论对，工程不保证</span></td></tr>
+        <tr><td class="t">1:09:08</td><td>千亿参数模型约 100 个头</td><td>GPT-3 96、Llama 3.1 405B 128、DeepSeek-V3 128、Kimi K2 64、Qwen3.5-397B 32</td><td><span class="chip c-mid"><i></i>≈ 量级对，非比例关系</span></td></tr>
+        <tr><td class="t">1:14:22</td><td>生产中注意力成本可能接近线性</td><td>Qwen3.5-397B：45 层线性注意力 + 15 层全注意力（3:1）；全注意力层仍是 T²</td><td><span class="chip c-mid"><i></i>≈ 混合架构下部分成立</span></td></tr>
+        <tr><td class="t">1:15:25</td><td>FlashAttention 降低显存占用</td><td>精确计算，不是近似；显存从 O(T²) 降到 O(T)，计算量仍为 O(T²)（Dao 等，2022）</td><td><span class="chip c-ok"><i></i>✓ 属实</span></td></tr>
+        <tr><td class="t">1:40:04</td><td>如今训练数据约「一万亿 token」</td><td>Llama 3 预训练约 15T token（2024）；Qwen3 约 36T token（2025）</td><td><span class="chip c-bad"><i></i>✗ 低估 15–36 倍</span></td></tr>
+        <tr><td class="t">1:43:15</td><td>高维非凸问题里坏的局部极小很少</td><td>矩阵补全、线性网络等特定模型有证明；对一般深度网络仍未证明，讲者也称其为假说</td><td><span class="chip c-hyp"><i></i>? 假说</span></td></tr>
+        <tr><td class="t">2:31:42</td><td>LN(αz) = LN(z)，与缩放无关</td><td>只对 α &gt; 0 成立；α &lt; 0 时输出变号</td><td><span class="chip c-ok"><i></i>✓ 需加条件</span></td></tr>
+        <tr><td class="t">2:33:46</td><td>卷积网络如今用得少，视觉也多用 Transformer</td><td>多模态大模型的视觉编码器以 ViT 为主；实时检测（YOLO 系）和端侧仍大量使用 CNN</td><td><span class="chip c-mid"><i></i>≈ 视场景而定</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="sheet glass" id="quiz">
+  <div class="head"><div class="eyebrow">自测</div><h2>8 道选择题，检查是不是真懂了</h2><p>原帖说「几个问题一连起来，就能发现自己哪里还没弄懂」。点选项即时判分。</p></div>
+  <div class="score"><span class="v" id="scoreV">0 / 8</span><span class="readout" id="scoreR">已答 0 题</span><button type="button" class="btn" id="quizReset">重做</button></div>
+  <div class="quiz" id="quizBox"></div>
+</section>
+
+<!-- WRAP -->
+<section class="sheet glass" id="wrap">
+  <div class="head"><div class="eyebrow">总结</div><h2>整门课就是这一条链</h2></div>
+  <div class="chain" aria-label="LLM 计算链">
+    <span>文本</span><em>→</em><span>BPE 子词</span><em>→</em><span>ID</span><em>→</em><span>Embedding</span><em>→</em><span>(Attention + MLP + 残差 + RMSNorm) × L</span><em>→</em><span>logits</span><em>→</em><span>softmax / τ</span><em>→</em><span>采样</span><em>↺</em>
+  </div>
+  <p class="lede">训练时同一条链反着走：交叉熵损失经反向传播，用 mini-batch SGD / Adam 更新链上所有矩阵。下表把模型发布时常见的改动对应到链上的环节。</p>
+  <div class="tbl stack">
+    <table>
+      <thead><tr><th>发布说明里的改动</th><th>改的是哪一环</th><th>实例（官方 config / 公告）</th></tr></thead>
+      <tbody>
+        <tr><td class="k">新 tokenizer、词表扩大</td><td>分词</td><td>Qwen3 → Qwen3.5：151,936 → 248,320；Claude Opus 4.7 换新 tokenizer</td></tr>
+        <tr><td class="k">线性 / 混合注意力</td><td>注意力的 T² 成本</td><td>Qwen3.5-397B：每 4 层中 3 层线性注意力</td></tr>
+        <tr><td class="k">GQA、更少的 KV 头</td><td>多头注意力（推理显存）</td><td>Qwen3.5-397B：32 个 query 头共用 2 个 KV 头</td></tr>
+        <tr><td class="k">MoE 混合专家</td><td>MLP 层</td><td>DeepSeek-V3：总参数 671B，每 token 只激活 37B</td></tr>
+        <tr><td class="k">更长上下文</td><td>序列长度 T</td><td>Qwen3.5 原生 262,144 token</td></tr>
+        <tr><td class="k">temperature / top-k / top-p</td><td>生成采样</td><td>API 参数，只改采样方式，不动权重</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">上表为延伸内容，视频未涉及 GQA、MoE、线性注意力的细节；讲者提到下一讲会讲降低 T 依赖的方法。</p>
+  <div class="rule"></div>
+  <div class="head"><div class="eyebrow">来源</div></div>
+  <ul class="src">
+    <li><a href="https://x.com/uudonX/status/2108669330539835776" target="_blank" rel="noopener">原帖 · @uudonX · 2026-10-09</a></li>
+    <li>视频完整英文字幕（X 自动生成，4,015 条，覆盖 0:00–2:34:51）</li>
+    <li><a href="https://huggingface.co/Qwen/Qwen3.5-397B-A17B/blob/main/config.json" target="_blank" rel="noopener">Qwen3.5-397B-A17B config.json</a></li>
+    <li><a href="https://huggingface.co/Qwen/Qwen3-8B/blob/main/config.json" target="_blank" rel="noopener">Qwen3-8B config.json</a></li>
+    <li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/main/config.json" target="_blank" rel="noopener">DeepSeek-V3 config.json</a></li>
+    <li><a href="https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json" target="_blank" rel="noopener">Kimi-K2-Instruct config.json</a></li>
+    <li><a href="https://huggingface.co/openai/gpt-oss-120b/blob/main/config.json" target="_blank" rel="noopener">gpt-oss-120b config.json</a></li>
+    <li><a href="https://openrouter.ai/blog/opus-47-tokenizer-analysis" target="_blank" rel="noopener">OpenRouter · Opus 4.7 tokenizer 成本分析</a></li>
+    <li><a href="https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/" target="_blank" rel="noopener">Thinking Machines · LLM 推理的非确定性（2025）</a></li>
+    <li><a href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener">FlashAttention · Dao 等 2022</a></li>
+    <li><a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">GPT-3 · Brown 等 2020</a></li>
+    <li><a href="https://arxiv.org/abs/2407.21783" target="_blank" rel="noopener">The Llama 3 Herd of Models · 2024</a></li>
+    <li><a href="https://arxiv.org/abs/2505.09388" target="_blank" rel="noopener">Qwen3 Technical Report · 2025</a></li>
+    <li><a href="https://arxiv.org/abs/1512.03385" target="_blank" rel="noopener">ResNet · He 等 2015</a></li>
+    <li><a href="https://arxiv.org/abs/1910.07467" target="_blank" rel="noopener">RMSNorm · Zhang &amp; Sennrich 2019</a></li>
+    <li><a href="https://arxiv.org/abs/1607.06450" target="_blank" rel="noopener">Layer Normalization · Ba 等 2016</a></li>
+  </ul>
+  <p class="foot">课程归属依据画面水印与讲稿内容推断（讲者提到 Chris 讲过线性模型、「下周三」讲长上下文），与斯坦福 CS229 的课程结构吻合，未在官方课程页核实。</p>
+</section>
+
+</div>
+
+<script>
+(()=>{'use strict';
+const $=s=>document.querySelector(s);
+const fmt=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h+':'+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0')};
+const flash=id=>{const r=document.getElementById(id);if(!r)return;r.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});r.classList.remove('flash');void r.offsetWidth;r.classList.add('flash')};
+
+/* timeline */
+const SEG=[[0,600,'A','开场 · 分词 · BPE','a-tok'],[600,820,'A','链式法则分解','a-chain'],[820,1530,'A','Embedding · Logits · Softmax','a-emb'],[1530,2100,'A','生成 · 温度 · Top-k','a-gen'],[2100,2280,'A','训练目标 NLL','a-loss'],[2280,2490,'A','Transformer 骨架','a-arch'],[2490,3180,'A','单头注意力 QKV','a-attn'],[3180,3420,'A','为何不用巨型 MLP','a-mlp'],[3420,3886,'A','矩阵形式 · 因果掩码','a-mask'],[3886,4273,'A','多头注意力','a-mh'],[4273,4337,'A','残差 · RMSNorm','a-norm'],[4337,4587,'A','T² 成本 · FlashAttention','a-cost'],[4587,4905,'B','非线性模型','b-nl'],[4905,5098,'B','监督学习框架 · MSE','b-sl'],[5098,5693,'B','Softmax · 交叉熵 · 高斯⇒MSE','b-ce'],[5693,6132,'B','GD vs SGD','b-sgd'],[6132,6444,'B','非凸 · 局部极小','b-min'],[6444,6694,'B','Mini-batch · 两个待解问题','b-mb'],[6694,7009,'B','ReLU 神经元','b-relu'],[7009,7773,'B','两层网络 · 矩阵写法','b-2l'],[7773,7960,'B','激活函数族','b-act'],[7960,8340,'B','堆叠 · 维度匹配 · MLP','b-deep'],[8340,8784,'B','残差网络 ResNet','b-res'],[8784,9226,'B','LayerNorm → RMSNorm','b-ln'],[9226,9291,'B','卷积 CNN','b-cnn']];
+const TOTAL=9291,bar=$('#tlBar'),read=$('#tlRead');
+const show=s=>{read.innerHTML='<b>'+s[3]+'</b> · '+fmt(s[0])+' – '+fmt(s[1])+' · '+Math.round((s[1]-s[0])/60)+' 分钟 · '+(s[2]==='A'?'LLM 主线':'神经网络地基')};
+SEG.forEach(s=>{const b=document.createElement('button');b.type='button';b.style.flex=(s[1]-s[0])+' 1 0';b.style.setProperty('--c',s[2]==='A'?'var(--a)':'var(--b)');b.setAttribute('aria-label',s[3]+' '+fmt(s[0]));b.addEventListener('mouseenter',()=>show(s));b.addEventListener('focus',()=>show(s));b.addEventListener('click',()=>{show(s);flash(s[4])});bar.appendChild(b)});
+const ax=$('#tlAxis');[0,1800,3600,5400,7200,9291].forEach(t=>{const sp=document.createElement('span');sp.style.left=(t/TOTAL*100)+'%';sp.textContent=t===9291?'2:34:51':fmt(t).replace(/:00$/,'');ax.appendChild(sp)});
+
+/* temperature */
+const LOG=[2,1,-1],TOK=[['tok A','logit 2'],['tok B','logit 1'],['tok C','logit −1']];let K=3;
+const bars=$('#bars');const rows=TOK.map(t=>{const r=document.createElement('div');r.className='brow';r.innerHTML='<div class="tok">'+t[0]+'<small>'+t[1]+'</small></div><div class="track"><div class="fill"></div></div><div class="val"></div>';bars.appendChild(r);return r});
+const tau=$('#tau');
+function renderT(){const t=+tau.value;$('#tauV').textContent=t.toFixed(2);const z=LOG.map(l=>l/t),keep=[0,1,2].slice(0,K),m=Math.max(...z);const e=z.map((v,i)=>keep.includes(i)?Math.exp(v-m):0),s=e.reduce((a,b)=>a+b,0),p=e.map(v=>v/s);
+  rows.forEach((r,i)=>{r.querySelector('.fill').style.width=(p[i]*100)+'%';r.querySelector('.val').textContent=(p[i]*100).toFixed(1)+'%'});
+  const H=-p.reduce((a,v)=>a+(v>0?v*Math.log2(v):0),0);
+  $('#tauRead').textContent='logits/τ = ['+z.map(v=>v.toFixed(1)).join(', ')+'] · 熵 '+H.toFixed(2)+' bit · '+(t<0.3?'接近贪心：几乎总选最大者':t>1.5?'更平坦：长尾 token 更常被采到':'原始分布附近');
+  document.querySelectorAll('#tauPre button').forEach(b=>b.setAttribute('aria-pressed',String(Math.abs(+b.dataset.t-t)<1e-9)))}
+tau.addEventListener('input',renderT);
+document.querySelectorAll('#tauPre button').forEach(b=>b.addEventListener('click',()=>{tau.value=b.dataset.t;renderT()}));
+document.querySelectorAll('#topk button').forEach(b=>b.addEventListener('click',()=>{K=+b.dataset.k;document.querySelectorAll('#topk button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderT()}));
+renderT();
+
+/* causal mask */
+const NAMES=['⟨BOS⟩','A','␣dog','␣runs',','];
+const S=[[0,1.2,.3,-.5,.8],[.4,1.5,.9,.2,-.3],[.1,2,1.1,.7,0],[.2,.6,1.8,1,.5],[0,.3,.9,1.6,.4]];
+let ON=true,SEL=-1;const mk=$('#mask');
+function renderM(){mk.innerHTML='';const c=document.createElement('div');c.className='h';c.textContent='q \\ k';mk.appendChild(c);
+  NAMES.forEach(n=>{const h=document.createElement('div');h.className='h';h.textContent=n;mk.appendChild(h)});
+  S.forEach((row,i)=>{const rh=document.createElement('button');rh.type='button';rh.className='rh';rh.textContent=NAMES[i];rh.setAttribute('aria-pressed',String(SEL===i));rh.addEventListener('click',()=>{SEL=SEL===i?-1:i;renderM()});mk.appendChild(rh);
+    const vis=row.map((_,j)=>!ON||j<=i),m=Math.max(...row.filter((_,j)=>vis[j])),e=row.map((v,j)=>vis[j]?Math.exp(v-m):0),s=e.reduce((a,b)=>a+b,0);
+    row.forEach((_,j)=>{const d=document.createElement('div'),p=e[j]/s;d.className='c '+(vis[j]?(j>i?'leak':'vis'):'dead')+(SEL===i&&vis[j]?' on':'');d.style.setProperty('--p',(0.15+p*0.7).toFixed(3));d.textContent=vis[j]?p.toFixed(2):'−∞';d.title=NAMES[i]+' → '+NAMES[j]+(vis[j]?' 权重 '+p.toFixed(2):' 被掩码');mk.appendChild(d)})});
+  const btn=$('#maskBtn');btn.textContent='因果掩码：'+(ON?'开':'关');btn.setAttribute('aria-pressed',String(ON));
+  $('#maskRead').textContent=SEL>=0?(NAMES[SEL]+' 能看到：'+NAMES.filter((_,j)=>!ON||j<=SEL).join(' ')+(ON?'':'（含未来，训练会作弊）')):(ON?'上三角为 −∞，softmax 后为 0':'红色格 = 偷看了未来 token')}
+$('#maskBtn').addEventListener('click',()=>{ON=!ON;renderM()});renderM();
+
+/* activation plots */
+const ACT=[['ReLU','max(t, 0)',t=>Math.max(t,0)],['Sigmoid','1 / (1 + e⁻ᵗ)',t=>1/(1+Math.exp(-t))],['tanh','值域 (−1, 1)',t=>Math.tanh(t)],['Leaky ReLU','max(t, 0.1t)',t=>t>0?t:.1*t],['GELU','t·Φ(t)，负半轴略下探',t=>.5*t*(1+Math.tanh(Math.sqrt(2/Math.PI)*(t+.044715*t*t*t)))]];
+const W=160,Hh=110,X=v=>(v+4)/8*W,Y=v=>Hh-(v+1.4)/5.4*Hh;
+const acts=$('#acts');ACT.forEach(a=>{let d='';for(let i=0;i<=160;i++){const x=-4+i*0.05,y=Math.max(-1.35,Math.min(3.95,a[2](x)));d+=(i?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1)}
+  const el=document.createElement('div');el.className='act';el.innerHTML='<svg viewBox="0 0 '+W+' '+Hh+'" role="img" aria-label="'+a[0]+' 曲线"><line class="ax" x1="0" x2="'+W+'" y1="'+Y(0)+'" y2="'+Y(0)+'"/><line class="ax" x1="'+X(0)+'" x2="'+X(0)+'" y1="0" y2="'+Hh+'"/><path class="cv" d="'+d+'"/></svg><div class="n">'+a[0]+'</div><div class="d">'+a[1]+'</div>';acts.appendChild(el)});
+
+/* quiz */
+const QZ=[
+['为什么 LLM 不直接用「整词」做 token？',['GPU 不支持整词','罕见词、新词见得太少学不会，也无法复用相近词的知识','整词会让序列变得太长','整词无法转成数字'],1,'整词词表遇到 internationalization 这类长尾词就学不好；子词可以复用已学片段。字符级才会让序列太长。'],
+['给每个长度为 T 的序列直接分配一个概率，需要多少个取值？',['|V| × T','T²','|V|ᵀ','|V|²'],2,'每个位置 |V| 种选择，T 个位置相乘得 |V|ᵀ，所以要用链式法则拆成 T 个 |V| 选 1。'],
+['Transformer 里哪个模块让不同位置交换信息？',['MLP','Attention','RMSNorm','Embedding'],1,'MLP 对每个位置独立计算；只有 Attention 会读取其他位置。'],
+['因果掩码在 softmax 之前给 QKᵀ 的上三角加什么？',['0','1','−∞','+∞'],2,'加 −∞ 后 e^(−∞)=0，未来位置的权重变成 0，剩余权重仍归一化为 1。'],
+['温度 τ 趋近 0 时，采样会变成？',['均匀随机','总选概率最大的 token','排序反转','与 τ 无关'],1,'logits 除以很小的 τ 后差距被放大，softmax 几乎把全部概率给最大者，即贪心。'],
+['注意力的计算量随上下文长度 T 怎样增长？',['与 T 无关','∝ log T','∝ T','∝ T²'],3,'每个位置都要与 T 个位置做内积，共 T² 次。'],
+['SGD 只用一个样本的梯度，为什么仍然可行？',['单样本梯度更准确','它的期望等于全量梯度','它能保证找到全局最优','它不需要学习率'],1,'随机抽样的梯度是全量梯度的无偏估计：单步有噪声，平均方向正确。'],
+['RMSNorm 比 LayerNorm 少了哪一步？',['可学习的缩放 γ','减去均值（以及偏移 β）','除以一个尺度','残差连接'],1,'RMSNorm 只除以均方根并保留 γ，不再中心化。']];
+const box=$('#quizBox'),ans=new Map();
+function renderQ(){box.innerHTML='';QZ.forEach((q,qi)=>{const el=document.createElement('div');el.className='qz';el.innerHTML='<h3>'+(qi+1)+'. '+q[0]+'</h3><div class="opts"></div><div class="exp" hidden></div>';const opts=el.querySelector('.opts'),exp=el.querySelector('.exp');
+  q[1].forEach((o,oi)=>{const b=document.createElement('button');b.type='button';b.className='o';b.innerHTML='<span class="l">'+'ABCD'[oi]+'</span><span>'+o+'</span>';
+    const mark=()=>{const a=ans.get(qi);if(a===undefined)return;if(oi===q[2])b.classList.add('right');else if(oi===a)b.classList.add('wrong');exp.hidden=false;exp.textContent=(a===q[2]?'✓ 正确。':'✗ 正确答案 '+'ABCD'[q[2]]+'。')+q[3]};
+    b.addEventListener('click',()=>{if(ans.has(qi))return;ans.set(qi,oi);opts.querySelectorAll('button').forEach(x=>x._m());score()});b._m=mark;opts.appendChild(b);mark()});
+  box.appendChild(el)})}
+function score(){let r=0;ans.forEach((a,qi)=>{if(a===QZ[qi][2])r++});$('#scoreV').textContent=r+' / '+QZ.length;$('#scoreR').textContent='已答 '+ans.size+' 题'+(ans.size===QZ.length?(r===QZ.length?' · 全对':' · 回到对应章节再看一遍'):'')}
+$('#quizReset').addEventListener('click',()=>{ans.clear();renderQ();score()});
+renderQ();score();
+})();
+</script>
