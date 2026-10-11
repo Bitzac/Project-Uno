@@ -1,0 +1,188 @@
+<title>Claude Code 建站发布方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;800&family=Noto+Sans+SC:wght@300;400;700;900&display=swap">
+<style>
+/* Layout: 总-分-总 — 结论 → 平台对比表 → 发布流水线 → 一次性配置 → 选择 */
+:root{
+  --bg:#eef1f6; --blob-a:#b9d4ff; --blob-b:#ffd3e6; --blob-c:#c9f2e4;
+  --glass:rgba(255,255,255,.52); --glass-strong:rgba(255,255,255,.76);
+  --line:rgba(30,40,70,.16); --line-strong:rgba(30,40,70,.34);
+  --fg:#121826; --muted:#5a6478; --accent:#3a5bff; --accent-soft:rgba(58,91,255,.12);
+  --good:#0f9d6b; --warn:#c98a00; --bad:#d6334a;
+  --good-bg:rgba(15,157,107,.12); --warn-bg:rgba(201,138,0,.13); --bad-bg:rgba(214,51,74,.12);
+  --shadow:0 10px 40px rgba(30,40,80,.08);
+  --f-display:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-num:"Manrope","Noto Sans SC",system-ui,sans-serif;
+  --f-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b0e16; --blob-a:#1d3a8a; --blob-b:#6a1f4c; --blob-c:#0f5a48;
+  --glass:rgba(28,34,52,.48); --glass-strong:rgba(34,41,62,.74);
+  --line:rgba(220,230,255,.14); --line-strong:rgba(220,230,255,.32);
+  --fg:#eef2fb; --muted:#9aa4ba; --accent:#8ea2ff; --accent-soft:rgba(142,162,255,.16);
+  --good:#3fd29b; --warn:#f2bf45; --bad:#ff6d82;
+  --good-bg:rgba(63,210,155,.14); --warn-bg:rgba(242,191,69,.14); --bad-bg:rgba(255,109,130,.14);
+  --shadow:0 10px 40px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0e16; --blob-a:#1d3a8a; --blob-b:#6a1f4c; --blob-c:#0f5a48;
+  --glass:rgba(28,34,52,.48); --glass-strong:rgba(34,41,62,.74);
+  --line:rgba(220,230,255,.14); --line-strong:rgba(220,230,255,.32);
+  --fg:#eef2fb; --muted:#9aa4ba; --accent:#8ea2ff; --accent-soft:rgba(142,162,255,.16);
+  --good:#3fd29b; --warn:#f2bf45; --bad:#ff6d82;
+  --good-bg:rgba(63,210,155,.14); --warn-bg:rgba(242,191,69,.14); --bad-bg:rgba(255,109,130,.14);
+  --shadow:0 10px 40px rgba(0,0,0,.35); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-display);line-height:1.6;position:relative;overflow-x:hidden}
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blobs i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.75}
+.blobs i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-8vw;background:var(--blob-a)}
+.blobs i:nth-child(2){width:40vw;height:40vw;right:-8vw;top:24vh;background:var(--blob-b)}
+.blobs i:nth-child(3){width:50vw;height:50vw;left:20vw;bottom:-20vw;background:var(--blob-c)}
+.wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:36px 64px;display:flex;flex-direction:column;gap:28px}
+.glass{background:var(--glass);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:.5px solid var(--line-strong);border-radius:22px;box-shadow:var(--shadow)}
+.pad{padding:24px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.4vw,44px);font-weight:900;line-height:1.15}
+h2{font-size:clamp(20px,2.4vw,26px);font-weight:900}
+h3{font-size:16px;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;font-family:var(--f-num)}
+.muted{color:var(--muted)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+code{font-family:var(--f-mono);font-size:.9em;padding:1px 6px;border-radius:6px;background:var(--accent-soft)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-head .muted{font-size:13px;font-weight:300}
+
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:center}
+.hero .lede{font-size:16px;font-weight:300;color:var(--muted);margin-top:12px;max-width:50ch}
+.verdict .row{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:12px 0;border-top:.5px solid var(--line)}
+.verdict .row:first-child{border-top:0}
+.verdict .k{font-size:12px;color:var(--muted);font-weight:500;padding-top:2px}
+.verdict .v{font-weight:700;font-size:15px}
+.verdict .v small{display:block;font-weight:300;color:var(--muted);font-size:13px}
+
+.tbl-wrap{overflow-x:auto;border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:880px}
+th,td{padding:12px 14px;text-align:left;border-bottom:.5px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tr.pick td{background:var(--accent-soft)}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.g{color:var(--good);background:var(--good-bg)} .w{color:var(--warn);background:var(--warn-bg)} .r{color:var(--bad);background:var(--bad-bg)}
+.group td{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;padding-top:18px;background:transparent!important}
+
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;position:relative}
+.step{padding:18px 14px;display:flex;flex-direction:column;gap:6px;border-left:.5px solid var(--line)}
+.step:first-child{border-left:0}
+.step .n{font-family:var(--f-num);font-weight:800;font-size:13px;color:var(--accent)}
+.step .who{font-size:11px;font-weight:700;padding:1px 8px;border-radius:99px;align-self:flex-start;border:.5px solid var(--line-strong)}
+.step .who.you{color:var(--accent);border-color:var(--accent)}
+.step p{font-size:13px;color:var(--muted)}
+.step .t{font-family:var(--f-num);font-size:12px;font-weight:800;margin-top:auto}
+
+.setup{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.setup ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.setup li b{font-weight:700}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:8px 14px;font-size:14px}
+.kv dt{color:var(--muted);font-size:12px;padding-top:2px}
+.kv dd{margin:0;font-weight:500}
+
+.choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.choice{padding:16px;border-radius:16px;border:.5px solid var(--line-strong);background:var(--glass-strong);display:flex;flex-direction:column;gap:6px}
+.choice .l{font-family:var(--f-num);font-weight:800;font-size:22px;color:var(--accent);line-height:1}
+.choice p{font-size:13px;color:var(--muted)}
+.src{font-size:12px;color:var(--muted);font-weight:300;margin-top:12px}
+
+@media (max-width:900px){.hero,.setup{grid-template-columns:1fr}.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}.step:nth-child(odd){border-left:0}.step{border-top:.5px solid var(--line)}.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.pipe,.choices{grid-template-columns:1fr}.step{border-left:0}.pad{padding:18px}}
+</style>
+
+<div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+<main class="wrap">
+
+  <section class="hero glass pad">
+    <div>
+      <div class="eyebrow">Claude Code → Live Website</div>
+      <h1>Claude Code 建站发布方案</h1>
+      <p class="lede">Claude Code 改的是<b>文件</b>。只有「网站 = Git 仓库里的代码」的平台，它才能改完直接上线。Wix 和 Squarespace 的页面存在它们自己的数据库里，Claude Code 碰不到页面布局。</p>
+    </div>
+    <div class="verdict">
+      <div class="row"><div class="k">推荐方案</div><div class="v">GitHub 仓库 + Cloudflare Pages<small>推送代码 → 自动构建 → 1 分钟内上线</small></div></div>
+      <div class="row"><div class="k">成本</div><div class="v num">¥0 托管 + 域名约 ¥70/年<small>免费档允许商用，带宽不限</small></div></div>
+      <div class="row"><div class="k">你的操作</div><div class="v">一次性配置约 10 分钟<small>之后只需对 Claude Code 说要改什么</small></div></div>
+      <div class="row"><div class="k">收款</div><div class="v">Stripe Payment Link 嵌入按钮<small>不需要后端，静态页面即可收款</small></div></div>
+    </div>
+  </section>
+
+  <section class="glass pad">
+    <div class="sec-head"><h2>平台对比</h2><span class="muted">核心问题：Claude Code 能不能改完直接发布</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>平台</th><th>Claude Code 能改什么</th><th>发布方式</th><th>免费档可商用</th><th>预览链接</th><th>页面设计自由度</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr class="group"><td colspan="7">代码托管类 · 网站就是仓库里的文件</td></tr>
+          <tr class="pick"><td><b>Cloudflare Pages</b></td><td>全部：页面、样式、脚本</td><td>push 到 GitHub 自动部署</td><td><span class="pill g">可以</span> 带宽不限</td><td><span class="pill g">每个分支一个</span></td><td>完全自由</td><td><span class="pill g">首选</span></td></tr>
+          <tr><td><b>Vercel</b></td><td>全部</td><td>push 自动部署</td><td><span class="pill r">不可</span> Hobby 限非商用，Pro $20/人/月</td><td><span class="pill g">每个分支一个</span></td><td>完全自由，Next.js 最佳</td><td><span class="pill g">有预算时选</span></td></tr>
+          <tr><td><b>Netlify</b></td><td>全部</td><td>push 自动部署</td><td><span class="pill w">有额度限制</span></td><td><span class="pill g">每个分支一个</span></td><td>完全自由，自带表单</td><td><span class="pill w">备选</span></td></tr>
+          <tr><td><b>GitHub Pages</b></td><td>全部</td><td>push 自动部署</td><td><span class="pill r">不适合</span> 条款不面向商业网站</td><td><span class="pill r">无</span></td><td>仅静态</td><td><span class="pill w">只做个人页</span></td></tr>
+          <tr class="group"><td colspan="7">可视化建站类 · 页面存在平台数据库</td></tr>
+          <tr><td><b>Webflow</b></td><td>CMS 内容、部分页面元素（官方 MCP / API）</td><td>API 调用发布</td><td><span class="pill w">需付费站点套餐</span></td><td><span class="pill w">staging 域名</span></td><td>设计器内自由，API 改布局受限</td><td><span class="pill w">要可视化编辑时选</span></td></tr>
+          <tr><td><b>Wix</b></td><td>Velo 代码、CMS 数据（Wix CLI / MCP）</td><td>CLI 发布</td><td><span class="pill r">免费站带广告、无自定义域名</span></td><td><span class="pill w">有</span></td><td>布局只能在编辑器里拖</td><td><span class="pill r">不推荐</span></td></tr>
+          <tr><td><b>Squarespace</b></td><td>几乎不能，只有代码注入（Business 套餐以上）</td><td>只能手动点发布</td><td><span class="pill r">无免费档</span></td><td><span class="pill r">无</span></td><td>模板内自由</td><td><span class="pill r">不推荐</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src">按各平台公开政策整理，套餐和条款可能已调整，以官网为准。</p>
+  </section>
+
+  <section class="glass pad">
+    <div class="sec-head"><h2>配置后的发布流程</h2><span class="muted">每次改版，你只做第 1 步和第 5 步</span></div>
+    <div class="pipe">
+      <div class="step"><div class="n">01</div><span class="who you">你</span><h3>说需求</h3><p>「首页加一个定价区，3 档价格」</p><div class="t">10 秒</div></div>
+      <div class="step"><div class="n">02</div><span class="who">Claude Code</span><h3>改代码</h3><p>编辑 HTML / CSS，本地截图自查</p><div class="t">2–10 分钟</div></div>
+      <div class="step"><div class="n">03</div><span class="who">Claude Code</span><h3>推送分支</h3><p>commit 并 push 到开发分支</p><div class="t">10 秒</div></div>
+      <div class="step"><div class="n">04</div><span class="who">Cloudflare</span><h3>生成预览</h3><p>分支自动构建出独立的预览网址</p><div class="t">约 1 分钟</div></div>
+      <div class="step"><div class="n">05</div><span class="who you">你</span><h3>确认</h3><p>手机上打开预览，回复「上线」</p><div class="t">1 分钟</div></div>
+      <div class="step"><div class="n">06</div><span class="who">Claude Code</span><h3>合并上线</h3><p>合并到 main，正式域名自动更新</p><div class="t">约 1 分钟</div></div>
+    </div>
+  </section>
+
+  <section class="glass pad">
+    <div class="sec-head"><h2>一次性配置</h2><span class="muted">左边你做，右边我做</span></div>
+    <div class="setup">
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">你 · 约 10 分钟</div>
+        <ol>
+          <li>注册 <b>Cloudflare</b> 账号（免费）</li>
+          <li>进入 <b>Workers &amp; Pages → 创建 → Pages → 连接到 Git</b>，授权并选择仓库 <code>bitzac/project-uno</code></li>
+          <li>构建设置：框架选 <b>None</b>，构建命令留空，输出目录填 <code>site</code>，生产分支选 <code>main</code></li>
+          <li>（可选）在 <b>自定义域</b> 绑定你的域名，Cloudflare 自动配置 HTTPS</li>
+          <li>（可选）在 Stripe 后台创建 <b>Payment Link</b>，把链接发给我</li>
+        </ol>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Claude Code · 一次完成</div>
+        <dl class="kv">
+          <dt>网站目录</dt><dd>新建 <code>site/</code>：首页、定价页、关于页</dd>
+          <dt>设计</dt><dd>沿用液态玻璃风格，手机端适配</dd>
+          <dt>收款</dt><dd>定价卡片的按钮接 Stripe Payment Link</dd>
+          <dt>基础 SEO</dt><dd>标题、描述、社交分享图、sitemap</dd>
+          <dt>安全</dt><dd>仓库里不放任何密钥；部署由 Cloudflare 拉取，本会话无需令牌</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="glass pad">
+    <div class="sec-head"><h2>请选择</h2><span class="muted">回复字母即可</span></div>
+    <div class="choices">
+      <div class="choice"><div class="l">A</div><h3>Cloudflare Pages</h3><p>推荐。我现在就搭 <code>site/</code>，你按左边步骤连仓库</p></div>
+      <div class="choice"><div class="l">B</div><h3>Vercel Pro</h3><p>以后要做带登录、数据库的 Next.js 应用时选</p></div>
+      <div class="choice"><div class="l">C</div><h3>Webflow</h3><p>你想保留拖拽编辑器，接受 Claude 只能改内容</p></div>
+      <div class="choice"><div class="l">D</div><h3>坚持用 Wix / Squarespace</h3><p>我只能生成代码片段，由你手动粘贴发布</p></div>
+    </div>
+  </section>
+
+</main>
