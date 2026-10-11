@@ -1,0 +1,438 @@
+<title>AI 产品商业闭环</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;800&family=Noto+Sans+SC:wght@300;400;700;900&display=swap">
+<style>
+/* Layout: 总-分-总 — 结论条 → 闭环环形图(可点) → 交付×付费矩阵 → 单位经济计算器 → 路径选择 → 结论 */
+:root{
+  --bg:#eef1f6; --bg-blob-a:#b9d4ff; --bg-blob-b:#ffd3e6; --bg-blob-c:#c9f2e4;
+  --glass:rgba(255,255,255,.52); --glass-strong:rgba(255,255,255,.74);
+  --line:rgba(30,40,70,.16); --line-strong:rgba(30,40,70,.34);
+  --fg:#121826; --muted:#5a6478; --accent:#3a5bff; --accent-soft:rgba(58,91,255,.12);
+  --good:#0f9d6b; --warn:#c98a00; --bad:#d6334a;
+  --good-bg:rgba(15,157,107,.12); --warn-bg:rgba(201,138,0,.13); --bad-bg:rgba(214,51,74,.12);
+  --shadow:0 10px 40px rgba(30,40,80,.08);
+  --f-display:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-num:"Manrope","Noto Sans SC",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b0e16; --bg-blob-a:#1d3a8a; --bg-blob-b:#6a1f4c; --bg-blob-c:#0f5a48;
+  --glass:rgba(28,34,52,.48); --glass-strong:rgba(34,41,62,.72);
+  --line:rgba(220,230,255,.14); --line-strong:rgba(220,230,255,.32);
+  --fg:#eef2fb; --muted:#9aa4ba; --accent:#8ea2ff; --accent-soft:rgba(142,162,255,.16);
+  --good:#3fd29b; --warn:#f2bf45; --bad:#ff6d82;
+  --good-bg:rgba(63,210,155,.14); --warn-bg:rgba(242,191,69,.14); --bad-bg:rgba(255,109,130,.14);
+  --shadow:0 10px 40px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0e16; --bg-blob-a:#1d3a8a; --bg-blob-b:#6a1f4c; --bg-blob-c:#0f5a48;
+  --glass:rgba(28,34,52,.48); --glass-strong:rgba(34,41,62,.72);
+  --line:rgba(220,230,255,.14); --line-strong:rgba(220,230,255,.32);
+  --fg:#eef2fb; --muted:#9aa4ba; --accent:#8ea2ff; --accent-soft:rgba(142,162,255,.16);
+  --good:#3fd29b; --warn:#f2bf45; --bad:#ff6d82;
+  --good-bg:rgba(63,210,155,.14); --warn-bg:rgba(242,191,69,.14); --bad-bg:rgba(255,109,130,.14);
+  --shadow:0 10px 40px rgba(0,0,0,.35); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-display);font-weight:400;line-height:1.6;min-height:100%;position:relative;overflow-x:hidden}
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blobs i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.75}
+.blobs i:nth-child(1){width:46vw;height:46vw;left:-10vw;top:-8vw;background:var(--bg-blob-a)}
+.blobs i:nth-child(2){width:40vw;height:40vw;right:-8vw;top:20vh;background:var(--bg-blob-b)}
+.blobs i:nth-child(3){width:50vw;height:50vw;left:20vw;bottom:-20vw;background:var(--bg-blob-c)}
+.wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding-inline:20px;padding-block:36px 64px;display:flex;flex-direction:column;gap:28px}
+.glass{background:var(--glass);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border:.5px solid var(--line-strong);border-radius:22px;box-shadow:var(--shadow)}
+.pad{padding:24px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.4vw,46px);font-weight:900;line-height:1.15}
+h2{font-size:clamp(20px,2.4vw,26px);font-weight:900}
+h3{font-size:16px;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;font-family:var(--f-num)}
+.muted{color:var(--muted)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-head .muted{font-size:13px;font-weight:300}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+.hero .lede{font-size:16px;font-weight:300;color:var(--muted);margin-top:12px;max-width:52ch}
+.verdict{display:flex;flex-direction:column;gap:10px}
+.verdict .row{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:12px 0;border-top:.5px solid var(--line)}
+.verdict .row:first-child{border-top:0}
+.verdict .k{font-size:12px;color:var(--muted);font-weight:500;padding-top:2px}
+.verdict .v{font-weight:700;font-size:15px}
+.verdict .v small{display:block;font-weight:300;color:var(--muted);font-size:13px}
+
+/* loop */
+.loop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center}
+.loop svg{width:100%;max-width:480px;height:auto;display:block;margin:0 auto}
+.node{cursor:pointer}
+.node circle.dot{fill:var(--glass-strong);stroke:var(--line-strong);stroke-width:.75;transition:stroke .2s,fill .2s}
+.node text{fill:var(--fg);font-family:var(--f-display)}
+.node .n{font-family:var(--f-num);font-weight:800;font-size:13px;fill:var(--muted)}
+.node .t{font-weight:900;font-size:15px}
+.node:hover circle.dot,.node:focus circle.dot{stroke:var(--accent)}
+.node.on circle.dot{fill:var(--accent);stroke:var(--accent)}
+.node.on text{fill:#fff}
+.node:focus{outline:none}
+.ring{fill:none;stroke:var(--line-strong);stroke-width:.75}
+.arrow{fill:var(--muted)}
+.center-t{fill:var(--fg);font-weight:900;font-size:22px;font-family:var(--f-display)}
+.center-s{fill:var(--muted);font-size:12px;font-family:var(--f-display);font-weight:300}
+.stage-detail{display:flex;flex-direction:column;gap:14px}
+.stage-detail .big{font-size:24px;font-weight:900}
+.kv{display:grid;grid-template-columns:72px 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted);font-size:12px;padding-top:2px}
+.kv dd{margin:0;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:3px 10px;border-radius:99px;border:.5px solid var(--line-strong);background:var(--glass-strong);font-weight:500}
+.chip.kpi{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+th,td{padding:12px 14px;text-align:left;border-bottom:.5px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.04em;white-space:nowrap}
+td b{font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.g{color:var(--good);background:var(--good-bg)} .w{color:var(--warn);background:var(--warn-bg)} .r{color:var(--bad);background:var(--bad-bg)}
+
+/* matrix */
+.matrix td,.matrix th{text-align:center}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.cell{display:inline-grid;place-items:center;width:34px;height:26px;border-radius:8px;font-weight:800;font-family:var(--f-num);font-size:12px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.seg button,.opt button{font:inherit;font-size:13px;font-weight:700;padding:8px 14px;border-radius:99px;border:.5px solid var(--line-strong);background:var(--glass-strong);color:var(--fg);cursor:pointer}
+.seg button[aria-pressed="true"],.opt button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.seg button:focus-visible,.opt button:focus-visible,.node:focus-visible circle.dot{outline:2px solid var(--accent);outline-offset:2px}
+.field{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-top:.5px solid var(--line)}
+.field label{font-size:13px;color:var(--muted)}
+.field output{font-family:var(--f-num);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.field input{grid-column:1/-1;width:100%;accent-color:var(--accent)}
+.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{padding:16px;border-radius:16px;border:.5px solid var(--line);background:var(--glass-strong);display:flex;flex-direction:column;gap:6px}
+.metric .l{font-size:12px;color:var(--muted)}
+.metric .v{font-family:var(--f-num);font-weight:800;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+.metric .b{font-size:12px;color:var(--muted)}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;display:flex;margin-top:4px}
+.bar span{display:block;height:100%}
+.split{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.split i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.diag{margin-top:14px;font-size:14px;font-weight:500;padding:12px 14px;border-radius:12px;border:.5px solid var(--line)}
+
+/* chooser */
+.chooser{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.q{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-top:.5px solid var(--line)}
+.q:first-child{border-top:0;padding-top:0}
+.q .ql{font-size:13px;font-weight:700}
+.opt{display:flex;flex-wrap:wrap;gap:8px}
+.rec{display:flex;flex-direction:column;gap:12px}
+.rec .line{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:10px 0;border-top:.5px solid var(--line)}
+.rec .line:first-of-type{border-top:0}
+.rec .line .k{font-size:12px;color:var(--muted);padding-top:2px}
+.rec .line .v{font-weight:700}
+.rec .line .v small{display:block;font-weight:300;color:var(--muted);font-size:13px}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.road .stage{padding:20px;display:flex;flex-direction:column;gap:10px}
+.road .stage .gate{font-size:13px;border-top:.5px solid var(--line);padding-top:10px}
+.road ul{margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+
+/* close */
+.close{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.close .rule{padding:20px;display:flex;flex-direction:column;gap:8px}
+.close .rule .idx{font-family:var(--f-num);font-weight:800;font-size:32px;color:var(--accent);line-height:1}
+.src{font-size:12px;color:var(--muted);font-weight:300}
+
+@media (max-width:860px){
+  .hero,.loop,.calc,.chooser{grid-template-columns:1fr}
+  .road,.close{grid-template-columns:1fr}
+}
+@media (max-width:420px){.metrics{grid-template-columns:1fr}.pad{padding:18px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+<main class="wrap">
+
+  <!-- 总：结论先行 -->
+  <section class="hero glass pad">
+    <div>
+      <div class="eyebrow">AI Product → Paying Customer</div>
+      <h1>AI 产品商业闭环</h1>
+      <p class="lede">从「做出来」到「有人持续付钱」共 6 步。闭环能否跑通，取决于一个数字：<b>扣掉推理成本后的毛利</b>。毛利撑得住，获客和留存才有意义。</p>
+    </div>
+    <div class="verdict">
+      <div class="row"><div class="k">核心结论</div><div class="v">卖「结果」而不是卖「模型」<small>做垂直场景的工作流 / Agent，不做通用聊天壳</small></div></div>
+      <div class="row"><div class="k">首选交付</div><div class="v">Web SaaS + 嵌入客户现有工具<small>上线最快，客户迁移成本最低</small></div></div>
+      <div class="row"><div class="k">首选定价</div><div class="v">混合计费：基础订阅 + 用量 / 结果<small>订阅保底现金流，用量部分覆盖推理成本</small></div></div>
+      <div class="row"><div class="k">及格线</div><div class="v num">毛利 ≥ 60% · LTV/CAC ≥ 3 · 回本 ≤ 12 个月</div></div>
+    </div>
+  </section>
+
+  <!-- 分 1：闭环 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>闭环 6 步</h2><span class="muted">点击环上节点查看每一步的决策、产出和指标</span></div>
+    <div class="loop">
+      <svg id="loopSvg" viewBox="0 0 480 480" role="group" aria-label="商业闭环六步环形图"></svg>
+      <div class="stage-detail" id="stageDetail" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- 分 2：交付形式 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>交付形式</h2><span class="muted">按「上线速度 × 毛利 × 销售周期」比较</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>形式</th><th>目标客户</th><th>上线周期</th><th>毛利水平</th><th>销售周期</th><th>适配计费</th><th>代表</th></tr></thead>
+        <tbody>
+          <tr><td><b>Web SaaS</b></td><td>个人 / 中小团队</td><td class="num">2–6 周</td><td><span class="pill w">中</span></td><td>自助，天级</td><td>订阅 · 混合</td><td>Jasper、Gamma</td></tr>
+          <tr><td><b>插件 / 集成</b><br><span class="muted">Slack、飞书、Chrome、IDE</span></td><td>已有工具的团队</td><td class="num">2–4 周</td><td><span class="pill w">中</span></td><td>自助，天级</td><td>订阅 · 席位</td><td>Cursor、Copilot</td></tr>
+          <tr><td><b>API / SDK</b></td><td>开发者 / 产品团队</td><td class="num">4–8 周</td><td><span class="pill r">低–中</span></td><td>自助 + 销售</td><td>用量</td><td>ElevenLabs API</td></tr>
+          <tr><td><b>托管 Agent</b><br><span class="muted">替代某个岗位的一段工作</span></td><td>中大企业业务部门</td><td class="num">6–12 周</td><td><span class="pill g">高</span></td><td>销售，1–3 月</td><td>结果 · 混合</td><td>Intercom Fin、Sierra</td></tr>
+          <tr><td><b>私有化部署</b></td><td>金融 / 政企 / 医疗</td><td class="num">3–6 月</td><td><span class="pill g">高</span>（含实施）</td><td>招投标，3–12 月</td><td>授权 + 年维保</td><td>行业大模型厂商</td></tr>
+          <tr><td><b>AI + 人工服务</b><br><span class="muted">Done-for-you</span></td><td>不想自己操作的客户</td><td class="num">1–2 周</td><td><span class="pill r">低</span></td><td>销售，周级</td><td>项目 · 月度服务费</td><td>AI 代运营、AI 外包</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 分 3：付费模式 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>付费模式</h2><span class="muted">计费单位决定谁承担推理成本的波动</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>模式</th><th>计费单位</th><th>公开定价示例</th><th>收入可预测</th><th>成本风险</th><th>适用条件</th></tr></thead>
+        <tbody>
+          <tr><td><b>席位订阅</b></td><td>人 / 月</td><td class="num">Copilot Business $19/人/月<br>ChatGPT Plus $20/月</td><td><span class="pill g">高</span></td><td><span class="pill r">高</span> 重度用户吃掉毛利</td><td>用量稳定、人均差异小</td></tr>
+          <tr><td><b>用量计费</b></td><td>Token / 次 / 分钟</td><td class="num">Claude Sonnet API $3 / $15 每百万 token（入/出）</td><td><span class="pill r">低</span></td><td><span class="pill g">低</span></td><td>开发者、用量波动大</td></tr>
+          <tr><td><b>点数 Credits</b></td><td>预付点数包</td><td class="num">Cursor、Midjourney 按套餐含额度</td><td><span class="pill w">中</span></td><td><span class="pill w">中</span></td><td>C 端、想隐藏 token 概念</td></tr>
+          <tr><td><b>结果计费</b></td><td>每个解决的工单 / 线索 / 交付物</td><td class="num">Intercom Fin $0.99 / 次解决</td><td><span class="pill w">中</span></td><td><span class="pill w">中</span></td><td>结果可计数、可归因</td></tr>
+          <tr><td><b>混合</b></td><td>平台费 + 超额用量</td><td class="num">基础月费含 N 次，超出按次计</td><td><span class="pill g">高</span></td><td><span class="pill g">低</span></td><td>大多数 B 端产品的默认选择</td></tr>
+          <tr><td><b>授权 + 维保</b></td><td>一次性 + 年费</td><td class="num">首年授权 + 每年 15–22% 维保</td><td><span class="pill w">中</span></td><td><span class="pill g">低</span> 客户自付算力</td><td>私有化、数据不出域</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="src" style="margin-top:12px">定价示例取自各厂商公开价目，可能已调整，以官网为准。</p>
+  </section>
+
+  <!-- 分 4：交付 × 付费匹配 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>交付 × 付费 匹配度</h2><span class="muted">3 = 首选，2 = 可行，1 = 不建议</span></div>
+    <div class="tbl-wrap">
+      <table class="matrix" id="matrix"></table>
+    </div>
+    <div class="legend"><span><span class="cell g">3</span> 首选</span><span><span class="cell w">2</span> 可行</span><span><span class="cell r">1</span> 不建议</span></div>
+  </section>
+
+  <!-- 分 5：单位经济 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>单位经济计算器</h2><span class="muted">选一个场景，再拖动参数，看闭环是否成立</span></div>
+    <div class="calc">
+      <div>
+        <div class="seg" id="presets" role="group" aria-label="场景预设"></div>
+        <div id="fields"></div>
+      </div>
+      <div>
+        <div class="metrics" id="metrics"></div>
+        <div style="margin-top:16px">
+          <div class="eyebrow">每 ¥100 收入去向</div>
+          <div class="bar" id="splitBar"></div>
+          <div class="split" id="splitLegend"></div>
+        </div>
+        <div class="diag" id="diag"></div>
+      </div>
+    </div>
+    <p class="src" style="margin-top:14px">公式：毛利率 = (客单价 − 推理成本 − 其他交付成本) ÷ 客单价；LTV = 客单价 × 毛利率 ÷ 月流失率；回本月数 = CAC ÷ 月毛利。基准：AI 应用毛利普遍低于传统 SaaS 的 75–80%，Bessemer《State of AI 2025》中高速增长 AI 公司平均毛利约 25%–60%。</p>
+  </section>
+
+  <!-- 分 6：路径选择 -->
+  <section class="glass pad">
+    <div class="sec-head"><h2>你的路径</h2><span class="muted">回答 3 个选择题，得到交付 + 定价组合</span></div>
+    <div class="chooser">
+      <div id="questions"></div>
+      <div class="rec" id="rec"></div>
+    </div>
+  </section>
+
+  <!-- 分 7：阶段路线 -->
+  <section>
+    <div class="sec-head"><h2>0 → 1 → 10 路线</h2><span class="muted">每个阶段只盯一个门槛</span></div>
+    <div class="road">
+      <div class="stage glass"><div class="eyebrow">阶段 1 · 0–3 月</div><h3>验证：有人付钱</h3>
+        <ul><li>手动 + AI 交付 5 个客户</li><li>先收钱再写代码，预售或付费试点</li><li>记录每单推理成本</li></ul>
+        <div class="gate"><b>门槛</b> <span class="num">10 个付费客户</span></div></div>
+      <div class="stage glass"><div class="eyebrow">阶段 2 · 3–9 月</div><h3>跑通：毛利与留存</h3>
+        <ul><li>产品化高频流程，砍掉人工</li><li>模型路由：简单任务用小模型</li><li>上线混合计费</li></ul>
+        <div class="gate"><b>门槛</b> <span class="num">毛利 ≥ 60% · 月流失 ≤ 3%</span></div></div>
+      <div class="stage glass"><div class="eyebrow">阶段 3 · 9–24 月</div><h3>规模化：可复制获客</h3>
+        <ul><li>找到 1 个可放量渠道</li><li>用使用数据做增购和涨价</li><li>大客户走年付 + 私有化选项</li></ul>
+        <div class="gate"><b>门槛</b> <span class="num">LTV/CAC ≥ 3 · NRR ≥ 100%</span></div></div>
+    </div>
+  </section>
+
+  <!-- 总：收束 -->
+  <section>
+    <div class="sec-head"><h2>三条硬规则</h2></div>
+    <div class="close">
+      <div class="rule glass"><div class="idx num">01</div><h3>计费单位跟着成本走</h3><p class="muted">推理成本随用量变化，就不能只收固定席位费。至少给重度用户设上限或超额计费。</p></div>
+      <div class="rule glass"><div class="idx num">02</div><h3>交付嵌进客户的工作流</h3><p class="muted">客户为省掉的步骤付钱。产品要放在他们已经在用的系统里，而不是让他们多开一个窗口。</p></div>
+      <div class="rule glass"><div class="idx num">03</div><h3>数据回流是护城河</h3><p class="muted">模型谁都能调用。客户反馈、修正记录和行业数据沉淀下来，才能让第二年的产品比竞品好。</p></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  /* ---------- 闭环 6 步 ---------- */
+  const stages=[
+    {t:"定位",s:"选场景 & 客户",q:"谁为什么付钱？",
+     d:["垂直行业 × 高频重复任务","客户已在为此付人力成本","能量化节省的时间或金额"],
+     out:"ICP 画像、1 句价值主张、10 个访谈记录",kpi:["付费意愿 ≥ 30%","任务频次 ≥ 每周"]},
+    {t:"构建",s:"模型 + 数据 + 工作流",q:"最小可交付的能力是什么？",
+     d:["优先调用 API，不自训模型","RAG 接入客户私有知识","Agent 编排多步任务 + 人工兜底"],
+     out:"MVP：1 个核心工作流端到端可用",kpi:["任务成功率 ≥ 85%","单次推理成本可测"]},
+    {t:"交付",s:"产品形态",q:"客户在哪里用？",
+     d:["SaaS / 插件 / API / 托管 Agent / 私有化","嵌入现有工具优先","上线、权限、SLA 方案"],
+     out:"可开通账号、上手文档、客户成功流程",kpi:["首次价值时间 ≤ 1 天","激活率 ≥ 40%"]},
+    {t:"定价",s:"计费单位 & 套餐",q:"按什么收、收多少？",
+     d:["计费单位贴近客户感知的价值","价格锚定替代的人力成本 10–30%","3 档套餐 + 年付折扣"],
+     out:"价目表、超额规则、合同模板",kpi:["毛利 ≥ 60%","年付占比 ≥ 30%"]},
+    {t:"收款",s:"获客 & 成交",q:"钱怎么进来？",
+     d:["自助：Stripe / 微信 / 支付宝订阅","销售：试点 → 年度合同","发票、对公、退款流程"],
+     out:"可复制的获客渠道 + 自动扣费",kpi:["CAC 回本 ≤ 12 月","试点转付费 ≥ 50%"]},
+    {t:"留存",s:"续费 & 数据回流",q:"客户为什么继续付？",
+     d:["使用数据 → 找到高价值功能","客户修正 → 评测集与提示词迭代","用量增长 → 增购与涨价"],
+     out:"健康度看板、续费预警、迭代队列",kpi:["月流失 ≤ 3%","NRR ≥ 100%"]}
+  ];
+  const svg=document.getElementById("loopSvg"),NS="http://www.w3.org/2000/svg";
+  const cx=240,cy=240,R=172,nr=46;
+  const el=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
+  el("circle",{cx,cy,r:R,class:"ring"});
+  const pos=i=>{const a=-Math.PI/2+i*2*Math.PI/6;return[cx+R*Math.cos(a),cy+R*Math.sin(a),a]};
+  // arrowheads at segment midpoints (clockwise)
+  for(let i=0;i<6;i++){
+    const a=-Math.PI/2+(i+.5)*2*Math.PI/6,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a),deg=a*180/Math.PI+90;
+    el("path",{d:"M-5,-5 L5,0 L-5,5 Z",class:"arrow",transform:`translate(${x},${y}) rotate(${deg})`});
+  }
+  el("text",{x:cx,y:cy-4,"text-anchor":"middle",class:"center-t"}).textContent="持续付费";
+  el("text",{x:cx,y:cy+20,"text-anchor":"middle",class:"center-s"}).textContent="数据回流 → 下一轮迭代";
+  const nodes=stages.map((s,i)=>{
+    const[x,y]=pos(i);const g=el("g",{class:"node",tabindex:"0",role:"button","aria-label":`第${i+1}步 ${s.t}`});
+    el("circle",{cx:x,cy:y,r:nr,class:"dot"},g);
+    el("text",{x,y:y-8,"text-anchor":"middle",class:"n"},g).textContent=String(i+1).padStart(2,"0");
+    el("text",{x,y:y+14,"text-anchor":"middle",class:"t"},g).textContent=s.t;
+    g.addEventListener("click",()=>show(i));
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(i)}});
+    return g;
+  });
+  const det=document.getElementById("stageDetail");
+  function show(i){
+    nodes.forEach((n,j)=>n.classList.toggle("on",i===j));
+    const s=stages[i];
+    det.innerHTML=`<div class="eyebrow">第 ${i+1} 步 · ${s.s}</div>
+      <div class="big">${s.q}</div>
+      <dl class="kv"><dt>关键决策</dt><dd>${s.d.join("<br>")}</dd><dt>产出物</dt><dd>${s.out}</dd><dt>验收指标</dt><dd><div class="chips">${s.kpi.map(k=>`<span class="chip kpi num">${k}</span>`).join("")}</div></dd></dl>`;
+  }
+  show(0);
+
+  /* ---------- 匹配矩阵 ---------- */
+  const cols=["席位","用量","点数","结果","混合","授权"];
+  const rows=[["Web SaaS",[3,1,3,1,3,1]],["插件 / 集成",[3,1,2,1,3,1]],["API / SDK",[1,3,2,1,2,1]],["托管 Agent",[1,2,1,3,3,1]],["私有化部署",[1,1,1,1,2,3]],["AI + 人工服务",[1,1,1,3,2,1]]];
+  const cls={3:"g",2:"w",1:"r"};
+  document.getElementById("matrix").innerHTML=`<thead><tr><th>交付 \\ 付费</th>${cols.map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.map(([n,v])=>`<tr><td><b>${n}</b></td>${v.map(x=>`<td><span class="cell ${cls[x]}">${x}</span></td>`).join("")}</tr>`).join("")}</tbody>`;
+
+  /* ---------- 单位经济 ---------- */
+  const presets={
+    "C 端订阅":{price:69,tok:0.8,cpm:40,other:8,cac:150,churn:8,n:3000},
+    "SMB SaaS":{price:1999,tok:20,cpm:40,other:8,cac:8000,churn:3,n:200},
+    "企业 Agent":{price:30000,tok:300,cpm:25,other:8,cac:120000,churn:1,n:20}
+  };
+  const spec=[
+    {k:"price",l:"客单价 ¥/月",min:20,max:50000,step:1,f:v=>"¥"+fmt(v)},
+    {k:"tok",l:"每客户月用量（百万 token）",min:0.1,max:500,step:0.1,f:v=>v.toFixed(1)+"M"},
+    {k:"cpm",l:"推理成本 ¥/百万 token",min:2,max:120,step:1,f:v=>"¥"+v},
+    {k:"other",l:"其他交付成本（云、客服）% 收入",min:0,max:30,step:1,f:v=>v+"%"},
+    {k:"cac",l:"获客成本 CAC ¥",min:0,max:300000,step:50,f:v=>"¥"+fmt(v)},
+    {k:"churn",l:"月流失率 %",min:0.5,max:20,step:0.5,f:v=>v+"%"},
+    {k:"n",l:"付费客户数",min:1,max:10000,step:1,f:v=>fmt(v)}
+  ];
+  let st={...presets["SMB SaaS"]},cur="SMB SaaS";
+  const pre=document.getElementById("presets"),fields=document.getElementById("fields");
+  Object.keys(presets).forEach(name=>{
+    const b=document.createElement("button");b.type="button";b.textContent=name;b.id="preset-"+name.replace(/\s/g,"");
+    b.addEventListener("click",()=>{cur=name;st={...presets[name]};sync();calc()});pre.appendChild(b);
+  });
+  spec.forEach(s=>{
+    const d=document.createElement("div");d.className="field";
+    d.innerHTML=`<label for="in-${s.k}">${s.l}</label><output id="out-${s.k}"></output><input type="range" id="in-${s.k}" min="${s.min}" max="${s.max}" step="${s.step}">`;
+    fields.appendChild(d);
+    d.querySelector("input").addEventListener("input",e=>{st[s.k]=+e.target.value;cur=null;sync(true);calc()});
+  });
+  function fmt(v){return v>=10000?(v/10000).toFixed(v>=100000?0:1)+"万":Math.round(v).toLocaleString("zh-CN")}
+  function sync(skipInputs){
+    [...pre.children].forEach(b=>b.setAttribute("aria-pressed",String(b.textContent===cur)));
+    spec.forEach(s=>{if(!skipInputs)document.getElementById("in-"+s.k).value=st[s.k];document.getElementById("out-"+s.k).textContent=s.f(st[s.k])});
+  }
+  const lvl=(v,g,w,hi)=>hi?(v>=g?"g":v>=w?"w":"r"):(v<=g?"g":v<=w?"w":"r");
+  const lbl={g:"达标",w:"边缘",r:"不成立"};
+  function calc(){
+    const inf=st.tok*st.cpm,oth=st.price*st.other/100,gp=st.price-inf-oth,gm=gp/st.price;
+    const ltv=gp>0?gp/(st.churn/100):0,ratio=st.cac>0?ltv/st.cac:Infinity,pay=gp>0?st.cac/gp:Infinity;
+    const mrr=st.price*st.n;
+    const m=[
+      {l:"毛利率",v:(gm*100).toFixed(0)+"%",c:lvl(gm*100,60,40,true),b:"目标 ≥ 60%"},
+      {l:"LTV / CAC",v:isFinite(ratio)?ratio.toFixed(1)+"×":"∞",c:lvl(ratio,3,1,true),b:"目标 ≥ 3×"},
+      {l:"CAC 回本",v:isFinite(pay)?pay.toFixed(1)+" 月":"无法回本",c:lvl(pay,12,24,false),b:"目标 ≤ 12 月"},
+      {l:"月经常性收入 MRR",v:"¥"+fmt(mrr),c:null,b:"年化 ¥"+fmt(mrr*12)+" · 月毛利 ¥"+fmt(Math.max(gp,0)*st.n)}
+    ];
+    document.getElementById("metrics").innerHTML=m.map(x=>`<div class="metric"><div class="l">${x.l}</div><div class="v">${x.v}</div><div class="b">${x.c?`<span class="pill ${x.c}">${lbl[x.c]}</span> `:""}${x.b}</div></div>`).join("");
+    const pInf=Math.min(100,inf/st.price*100),pOth=Math.min(100-pInf,st.other),pGp=Math.max(0,100-pInf-pOth);
+    document.getElementById("splitBar").innerHTML=`<span style="width:${pInf}%;background:var(--bad)"></span><span style="width:${pOth}%;background:var(--warn)"></span><span style="width:${pGp}%;background:var(--good)"></span>`;
+    document.getElementById("splitLegend").innerHTML=`<span><i style="background:var(--bad)"></i>推理 ¥${pInf.toFixed(0)}</span><span><i style="background:var(--warn)"></i>其他交付 ¥${pOth.toFixed(0)}</span><span><i style="background:var(--good)"></i>毛利 ¥${pGp.toFixed(0)}</span>`;
+    let msg,c;
+    if(gm<0.4){c="r";msg="推理成本过高：提价、设用量上限、改用量计费，或把简单任务路由到小模型。"}
+    else if(ratio<1){c="r";msg="每获得一个客户都在亏钱：降低 CAC 或降低流失，先别加大投放。"}
+    else if(ratio<3||pay>12||gm<0.6){c="w";msg="闭环能转但很薄：优先改善最差的那个红/黄指标，再考虑放量。"}
+    else{c="g";msg="闭环成立：可以加大获客投入，同时监控重度用户的推理成本。"}
+    const d=document.getElementById("diag");d.className="diag "+c;d.textContent=msg;
+  }
+  sync();calc();
+
+  /* ---------- 路径选择 ---------- */
+  const qs=[
+    {k:"who",q:"1. 主要客户是谁？",o:["个人用户","中小团队","大企业 / 政企"]},
+    {k:"val",q:"2. 价值能否按单次结果计数？",o:["能（工单、线索、报告）","不能（效率提升类）"]},
+    {k:"use",q:"3. 每个客户的用量差异？",o:["较平均","差 10 倍以上"]}
+  ];
+  const ans={who:1,val:0,use:1};
+  const qBox=document.getElementById("questions");
+  qs.forEach(q=>{
+    const d=document.createElement("div");d.className="q";
+    d.innerHTML=`<div class="ql">${q.q}</div><div class="opt" role="group" aria-label="${q.q}">${q.o.map((o,i)=>`<button type="button" id="q-${q.k}-${i}" data-k="${q.k}" data-i="${i}">${o}</button>`).join("")}</div>`;
+    qBox.appendChild(d);
+  });
+  qBox.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;ans[b.dataset.k]=+b.dataset.i;renderRec()});
+  function renderRec(){
+    qBox.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(ans[b.dataset.k]===+b.dataset.i)));
+    const {who,use}=ans,val=ans.val===0;let dlv,price,anchor,ex,risk;
+    if(who===0){dlv="Web App / 浏览器插件，自助注册";price=use?"点数包 + 月订阅（含额度）":"月订阅，3 档";anchor="¥29–99 / 月，年付 8 折";ex="Midjourney、Gamma";risk="获客靠内容和裂变，月流失常在 5–10%"}
+    else if(who===1){dlv=val?"托管 Agent，嵌入其工单 / CRM":"SaaS + 飞书 / Slack 集成";price=val?"平台费 + 按结果计费":(use?"席位订阅 + 超额用量":"席位订阅");anchor=val?"按替代人力的 10–30% 定价":"¥99–499 / 人 / 月";ex=val?"Intercom Fin":"Notion AI、Cursor";risk="需要 7 天内看到价值，否则试用不转化"}
+    else{dlv=val?"托管 Agent + 专属实施":"私有化部署或专属云";price=val?"年度合同：保底 + 结果计费":"授权费 + 年维保 15–22%";anchor="年合同 ¥30 万起";ex=val?"Sierra、Decagon":"行业大模型厂商";risk="销售周期 3–12 月，需要先有标杆客户"}
+    document.getElementById("rec").innerHTML=`<div class="eyebrow">推荐组合</div>
+      <div class="line"><div class="k">交付形式</div><div class="v">${dlv}</div></div>
+      <div class="line"><div class="k">付费模式</div><div class="v">${price}</div></div>
+      <div class="line"><div class="k">价格锚点</div><div class="v num">${anchor}</div></div>
+      <div class="line"><div class="k">参考产品</div><div class="v">${ex}</div></div>
+      <div class="line"><div class="k">主要风险</div><div class="v"><span class="pill w">注意</span> ${risk}</div></div>`;
+  }
+  renderRec();
+})();
+</script>
