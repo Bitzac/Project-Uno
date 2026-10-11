@@ -15,7 +15,7 @@
   --bg:#06080c; --bg-2:#0b0f16;
   --fg:#eef2f7; --muted:#8b95a6; --faint:#4a5260;
   --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.22);
-  --glass:rgba(255,255,255,.045); --panel-solid:rgba(10,13,19,.86); --glass-2:rgba(255,255,255,.08); --sheen:rgba(255,255,255,.16);
+  --glass:rgba(255,255,255,.045); --panel-solid:rgba(10,13,19,.86); --sev-hi:#ff8a7a; --sev-mid:#ffc070; --sev-lo:#8ccfff; --sev-ok:#5fe0a8; --sb-bg:rgba(9,12,18,.74); --glass-2:rgba(255,255,255,.08); --sheen:rgba(255,255,255,.16);
   --accent:#8ccfff; --warm:#ffb878;
   --aura-1:rgba(64,140,255,.42); --aura-2:rgba(255,150,90,.30); --aura-3:rgba(80,220,200,.26);
   --shadow:0 30px 80px -30px rgba(0,0,0,.7);
@@ -31,7 +31,7 @@
     --bg:#eef1f5; --bg-2:#e4e8ee;
     --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
     --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
-    --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+    --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
     --accent:#0a66b0; --warm:#c2621a;
     --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
     --shadow:0 30px 70px -35px rgba(30,40,60,.35);
@@ -42,7 +42,7 @@
   --bg:#eef1f5; --bg-2:#e4e8ee;
   --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
   --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
-  --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+  --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
   --accent:#0a66b0; --warm:#c2621a;
   --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
   --shadow:0 30px 70px -35px rgba(30,40,60,.35);
@@ -118,7 +118,8 @@ html[data-lang="zh"] .h2{font-family:var(--f-body);font-weight:900;letter-spacin
 .pulse{width:8px;height:8px;border-radius:50%;background:#3ddc97;position:relative}
 .pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid #3ddc97;animation:ping 2.2s ease-out infinite}
 @keyframes ping{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(1.6)}}
-.name{margin:28px 0 0;font:800 clamp(64px,13vw,184px)/.88 var(--f-display);letter-spacing:-.045em;
+.hero{container-type:inline-size}
+.name{margin:28px 0 0;font:800 clamp(56px,13cqi,184px)/.88 var(--f-display);letter-spacing:-.045em;
   transform:translateY(calc(var(--sy,0) * -.18px));opacity:calc(1 - var(--sy,0) / 900)}
 .name .row{display:block;overflow:hidden;padding-bottom:.06em}
 .name .zh-name{font-family:var(--f-body);font-weight:900;letter-spacing:.02em;font-size:.62em;display:block;margin-bottom:.12em}
@@ -228,6 +229,80 @@ html[data-lang="zh"] .cta{font-family:var(--f-body);font-weight:900;letter-spaci
 .copy:hover{background:var(--sheen)}
 footer{padding-block:40px 60px;border-top:var(--hair) solid var(--line);margin-top:clamp(80px,10vw,140px);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font:400 12px/1.4 var(--f-mono);color:var(--muted)}
 
+/* ---------- review sidebar ---------- */
+.rv-btn{border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:6px 12px 6px 10px;cursor:pointer;font-size:12.5px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.rv-btn i{width:6px;height:6px;border-radius:50%;background:var(--sev-hi);box-shadow:0 0 10px var(--sev-hi)}
+html.sb-open .rv-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.sb{position:fixed;z-index:55;left:0;top:0;bottom:0;width:min(400px,calc(100vw - 32px));
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 0 calc(env(safe-area-inset-bottom,0px) + 14px) 14px;
+  transform:translateX(calc(-100% - 20px));transition:transform .6s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+html.sb-open .sb{transform:none;pointer-events:auto}
+.sb-in{height:100%;overflow-y:auto;overscroll-behavior:contain;padding:26px 22px 30px;background:var(--sb-bg);scrollbar-width:thin}
+.sb-scrim{position:fixed;inset:0;z-index:54;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .4s}
+.sb-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sb-x{flex:none;width:32px;height:32px;border-radius:50%;border:var(--hair) solid var(--line-strong);background:var(--glass-2);cursor:pointer;font:300 18px/1 var(--f-mono)}
+.sb h2{margin:14px 0 0;font:900 25px/1.25 var(--f-body);letter-spacing:-.01em;text-wrap:balance}
+html[data-lang="en"] .sb h2{font-family:var(--f-display);font-weight:800}
+.sb .sum{margin:12px 0 0;color:var(--muted);font-size:13.5px;line-height:1.75}
+.sb-stats{margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:var(--hair) solid var(--line-strong);border-radius:16px;overflow:hidden}
+.sb-stats div{padding:14px 14px 12px;min-width:0}
+.sb-stats div:nth-child(even){border-left:var(--hair) solid var(--line)}
+.sb-stats div:nth-child(n+3){border-top:var(--hair) solid var(--line)}
+.sb-stats b{display:block;font:800 26px/1 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sb-stats span{display:block;margin-top:6px;font-size:11.5px;color:var(--muted);line-height:1.45}
+.sb-sec{margin-top:34px}
+.sb-sec>.eyebrow{margin-bottom:14px}
+.gap{display:block;width:100%;text-align:left;padding:14px 14px 14px 16px;border-radius:14px;border:var(--hair) solid var(--line);background:transparent;cursor:pointer;transition:background .3s,border-color .3s;position:relative}
+.gap+.gap{margin-top:8px}
+.gap:hover{background:var(--glass-2)}
+.gap.hot{border-color:var(--accent);background:var(--glass-2)}
+.gap.hot::after{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:1.5px;border-radius:2px;background:var(--accent)}
+.gap .t{display:flex;align-items:center;gap:8px;font:700 14.5px/1.35 var(--f-body)}
+.sev{flex:none;font:500 10px/1 var(--f-mono);letter-spacing:.06em;padding:4px 7px;border-radius:999px;border:var(--hair) solid currentColor}
+.sev.hi{color:var(--sev-hi)}.sev.mid{color:var(--sev-mid)}.sev.lo{color:var(--sev-lo)}
+.gap p{margin:7px 0 0;font-size:12.8px;line-height:1.7;color:var(--muted)}
+.gap p.fix{color:var(--fg)}
+.gap p.fix::before{content:"→ ";color:var(--accent)}
+.dir{padding:18px 16px;border-radius:16px;border:var(--hair) solid var(--accent)}
+.dir h3{margin:0;font:900 17px/1.4 var(--f-body)}
+html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
+.dir p{margin:8px 0 0;font-size:12.8px;color:var(--muted);line-height:1.7}
+.dir ul{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.dir li{font-size:12.8px;padding-left:14px;position:relative;line-height:1.6}
+.dir li::before{content:"";position:absolute;left:0;top:.75em;width:7px;height:var(--hair);background:var(--fg)}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:999px;border:var(--hair) solid var(--line-strong)}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:8px 0;cursor:pointer;font-size:12.5px;color:var(--muted);transition:background .3s,color .3s}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);font-weight:700}
+.prog{margin-top:10px;padding:16px;border-radius:14px;border:var(--hair) solid var(--line)}
+.prog header{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.prog h4{margin:0;font:700 14.5px/1.35 var(--f-body)}
+.fit{flex:none;font:500 10px/1 var(--f-mono);letter-spacing:.06em;padding:4px 7px;border-radius:999px;background:var(--glass-2);border:var(--hair) solid var(--line-strong)}
+.fit.h{color:var(--sev-ok);border-color:currentColor}
+.fit.l{color:var(--faint)}
+.prog dl{margin:10px 0 0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:12px}
+.prog dt{font-family:var(--f-mono);color:var(--faint);letter-spacing:.04em}
+.prog dd{margin:0;font-variant-numeric:tabular-nums}
+.prog p{margin:10px 0 0;font-size:12.6px;line-height:1.7;color:var(--muted)}
+.res{display:flex;flex-direction:column;gap:12px}
+.res div{font-size:12.8px;line-height:1.7;color:var(--muted)}
+.res b{display:block;color:var(--fg);font-size:13.5px}
+.plan{position:relative;padding-left:22px;display:flex;flex-direction:column;gap:16px}
+.plan::before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:var(--hair);background:var(--line-strong)}
+.plan div{position:relative;font-size:12.8px;line-height:1.7;color:var(--muted)}
+.plan div::before{content:"";position:absolute;left:-22px;top:5px;width:9px;height:9px;border-radius:50%;border:1px solid var(--accent);background:var(--bg)}
+.plan b{display:block;color:var(--fg);font:500 11px/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.src{margin-top:34px;padding-top:16px;border-top:var(--hair) solid var(--line);font-size:11.5px;color:var(--faint);line-height:1.7}
+.src ol{margin:8px 0 0;padding-left:18px}
+.src a{color:var(--muted);text-decoration:none;border-bottom:var(--hair) solid var(--line-strong);overflow-wrap:anywhere}
+@media (min-width:1200px){
+  html.sb-open{--sb-off:414px}
+  .nav-wrap{left:var(--sb-off,0px);transition:left .6s cubic-bezier(.2,.8,.2,1)}
+  main{margin-left:var(--sb-off,0px);transition:margin-left .6s cubic-bezier(.2,.8,.2,1)}
+}
+@media (max-width:1199.98px){
+  html.sb-open .sb-scrim{opacity:1;pointer-events:auto}
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   .nav-links{display:none}
@@ -275,9 +350,182 @@ footer{padding-block:40px 60px;border-top:var(--hair) solid var(--line);margin-t
       <a href="#edu"><span class="zh">教育</span><span class="en">Education</span></a>
       <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
     </div>
+    <button class="rv-btn" id="sbBtn" type="button" aria-controls="sb" aria-expanded="false"><i></i><span class="zh">履历诊断</span><span class="en">Review</span></button>
     <button class="lang" id="lang" type="button" aria-label="Switch language / 切换语言"><span class="l-zh">中</span>/<span class="l-en">EN</span></button>
   </nav>
 </div>
+
+<div class="sb-scrim" id="sbScrim" aria-hidden="true"></div>
+<aside class="sb" id="sb" aria-label="履历诊断 Resume review">
+  <div class="sb-in glass">
+    <div class="sb-head">
+      <div class="eyebrow"><span class="zh">履历诊断 · 2026.10</span><span class="en">Resume review · Oct 2026</span></div>
+      <button class="sb-x" id="sbClose" type="button" aria-label="关闭 Close">×</button>
+    </div>
+    <h2><span class="zh">结论：数字够硬，主线不清。</span><span class="en">Verdict: strong numbers, no clear through-line.</span></h2>
+    <p class="sum"><span class="zh">5 年里交付了可量化的增长结果，短板集中在任期、叙事主线、管理跨度和硬技能。建议收拢到「中国品牌出海增长」一条线，再用学位或海外项目补国际化与管理背书。</span><span class="en">Five years of measurable growth results. The gaps are tenure, narrative, management scope and hard skills. Narrow to one line, growth for Chinese brands going global, then add international and leadership credentials through a degree or overseas programme.</span></p>
+    <div class="sb-stats">
+      <div><b>26</b><span class="zh">个月，最长一段任期（京东科技）</span><span class="en">months, longest tenure (JD Tech)</span></div>
+      <div><b>8</b><span class="zh">个月，阿里国际任期</span><span class="en">months at Alibaba International</span></div>
+      <div><b>6</b><span class="zh">个业务领域，跨度过大</span><span class="en">business domains, too spread</span></div>
+      <div><b>0</b><span class="zh">处提到团队规模或下属</span><span class="en">mentions of team size or reports</span></div>
+    </div>
+
+    <section class="sb-sec" aria-labelledby="sbGaps">
+      <div class="eyebrow" id="sbGaps"><span class="zh">不足与缺失 · 点击跳转</span><span class="en">Gaps · click to jump</span></div>
+      <div id="gapList">
+        <button class="gap" type="button" data-ref="work">
+          <span class="t"><span class="sev hi"><span class="zh">高</span><span class="en">HIGH</span></span><span class="zh">任期偏短</span><span class="en">Short tenures</span></span>
+          <p><span class="zh">阿里国际 8 个月；全职经历最长一段 26 个月。不满 1 年的离职在面试中几乎一定会被追问。</span><span class="en">8 months at Alibaba; the longest full-time stint is 26 months. A sub-one-year exit will be asked about in almost every interview.</span></p>
+          <p class="fix"><span class="zh">给每次离开写一句可验证的原因（如创业）；下一份工作按 2–3 年规划。</span><span class="en">Give each exit a one-line, checkable reason (e.g. founding a company); plan the next role for 2–3 years.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="work">
+          <span class="t"><span class="sev hi"><span class="zh">高</span><span class="en">HIGH</span></span><span class="zh">主线分散</span><span class="en">No single through-line</span></span>
+          <p><span class="zh">6 个领域：联盟营销、工业品采销、AI 数据服务、知识产权服务、跨境零售、教育咨询。读者 10 秒内看不出你是谁。</span><span class="en">Six domains: affiliate marketing, industrial procurement, AI data services, IP services, cross-border retail, education advisory. A reader can’t tell who you are in 10 seconds.</span></p>
+          <p class="fix"><span class="zh">以「出海增长」重写：AliExpress 欧洲联盟、京东国际、巴西资源放最前；知产和数据标注各压成一行。</span><span class="en">Rewrite around global growth: AliExpress EU affiliates, JD International and Brazil first; cut IP and data labelling to one line each.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="work">
+          <span class="t"><span class="sev hi"><span class="zh">高</span><span class="en">HIGH</span></span><span class="zh">创业现状没交代</span><span class="en">Startup status unclear</span></span>
+          <p><span class="zh">云想亿创写「至今」，页眉写「随时到岗」；17 个月累计 GMV 10 万+，没有用户数、复购或获客成本。</span><span class="en">The startup says “present” while the header says “available now”; ¥100K+ GMV over 17 months, with no users, repeat rate or acquisition cost.</span></p>
+          <p class="fix"><span class="zh">写明公司状态（继续 / 交接 / 收尾），补付费用户数、客单价、获客成本三项。</span><span class="en">State the company’s status (continuing / handed over / winding down) and add paying users, order value and CAC.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="work">
+          <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">管理跨度缺失</span><span class="en">No management scope</span></span>
+          <p><span class="zh">全文没有团队人数或下属；「两次晋升」没写晋升前后的职级。</span><span class="en">No team size or reports anywhere; “promoted twice” gives no levels.</span></p>
+          <p class="fix"><span class="zh">补「带 X 人 / 协调 X 个团队」、职级路径和预算规模。</span><span class="en">Add people led or teams coordinated, the level path and budget owned.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="figures">
+          <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">个人与团队口径混写</span><span class="en">Team vs. personal numbers</span></span>
+          <p><span class="zh">「收入 / 毛利 1200 万 / 200 万」「季度目标 180%」没有说明是个人负责、牵头还是参与。</span><span class="en">“¥12M / ¥2M revenue / GP” and “180% of quarterly target” don’t say whether you owned, led or contributed.</span></p>
+          <p class="fix"><span class="zh">每条标清口径，并给基线：从多少到多少。</span><span class="en">Label ownership on every figure and give a baseline: from what, to what.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="skills">
+          <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">硬技能偏弱</span><span class="en">Thin hard skills</span></span>
+          <p><span class="zh">只列 SQL、MS Office、ERP；没有 Python、BI 工具、A/B 测试或广告平台认证。AI 工具只写了名字，没有产出。</span><span class="en">Only SQL, MS Office and ERP; no Python, BI, A/B testing or ad-platform certificates. AI tools are named, not shown.</span></p>
+          <p class="fix"><span class="zh">考 Google Ads / GA4 认证；用 Claude Code 做一个公开的渠道 ROI 分析项目，挂到这个主页。</span><span class="en">Earn Google Ads / GA4 certificates; build a public channel-ROI analysis with Claude Code and link it here.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="edu">
+          <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">排名表述经不起核查</span><span class="en">Ranking claims don’t check out</span></span>
+          <p><span class="zh">简历写「美国公立大学 Top5」；US News 2026 版是公立并列第 9，WSJ 2026 榜单是公立第 2。「QS 美国 Top25」我没找到出处。</span><span class="en">The resume says “top 5 US public”; U.S. News 2026 has UC Davis tied 9th among publics, WSJ 2026 has it 2nd. I found no source for “QS US top 25”.</span></p>
+          <p class="fix"><span class="zh">写来源和年份：「US News 2026 美国公立大学第 9」。</span><span class="en">Name the source and year: “No. 9 US public, U.S. News 2026”.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="edu">
+          <span class="t"><span class="sev lo"><span class="zh">低</span><span class="en">LOW</span></span><span class="zh">学历与语言</span><span class="en">Degree &amp; languages</span></span>
+          <p><span class="zh">只有本科、没写 GPA；做过巴西业务但没有葡语或西语，德语为基础。</span><span class="en">Bachelor’s only, no GPA; Brazil work but no Portuguese or Spanish; German is basic.</span></p>
+          <p class="fix"><span class="zh">见下方学位与海外项目；拉美方向先把葡语学到 B1。</span><span class="en">See degrees below; for Latin America, get Portuguese to B1 first.</span></p>
+        </button>
+        <button class="gap" type="button" data-ref="top">
+          <span class="t"><span class="sev lo"><span class="zh">低</span><span class="en">LOW</span></span><span class="zh">版式</span><span class="en">Format</span></span>
+          <p><span class="zh">简历 3 页；教育背景排在工作前面，高中经历还占 3 行。</span><span class="en">Three pages; education sits above work; high school still takes three lines.</span></p>
+          <p class="fix"><span class="zh">压到 1–2 页，工作经历放第一，删掉高中。</span><span class="en">Cut to 1–2 pages, lead with work, drop high school.</span></p>
+        </button>
+      </div>
+    </section>
+
+    <section class="sb-sec" aria-labelledby="sbTrack">
+      <div class="eyebrow" id="sbTrack"><span class="zh">发展方向</span><span class="en">Direction</span></div>
+      <div class="dir">
+        <h3><span class="zh">中国品牌出海增长 / 渠道 BD（欧洲 + 拉美）</span><span class="en">Growth &amp; channel BD for Chinese brands abroad (Europe + LatAm)</span></h3>
+        <p><span class="zh">你手上最硬的三块资产都在这条线上：AliExpress 荷法德联盟 ROI 10.7、京东国际海外大促 GMV 9800 万+、巴西使馆与 3M / Bosch / Delta 的关系。</span><span class="en">Your three strongest assets sit on this line: ROI 10.7 on AliExpress NL/FR/DE affiliates, ¥98M+ GMV at JD International, and ties to the Brazilian embassy, 3M, Bosch and Delta.</span></p>
+        <ul>
+          <li><span class="zh">跨境平台的国家 / 区域增长岗：TikTok Shop、Temu、SHEIN、AliExpress</span><span class="en">Country or regional growth at cross-border platforms: TikTok Shop, Temu, SHEIN, AliExpress</span></li>
+          <li><span class="zh">出海品牌的海外渠道负责人：消费电子、新能源车</span><span class="en">Overseas channel lead at Chinese brands in consumer electronics or EVs</span></li>
+          <li><span class="zh">AI 公司的国际商务拓展</span><span class="en">International BD at AI companies</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sb-sec" aria-labelledby="sbProg">
+      <div class="eyebrow" id="sbProg"><span class="zh">学位与海外项目</span><span class="en">Degrees &amp; programmes abroad</span></div>
+      <div class="tabs" role="tablist" aria-label="Continent">
+        <button role="tab" type="button" id="t-asia" aria-controls="p-asia" aria-selected="true"><span class="zh">亚洲</span><span class="en">Asia</span></button>
+        <button role="tab" type="button" id="t-eu" aria-controls="p-eu" aria-selected="false" tabindex="-1"><span class="zh">欧洲</span><span class="en">Europe</span></button>
+        <button role="tab" type="button" id="t-la" aria-controls="p-la" aria-selected="false" tabindex="-1"><span class="zh">拉美</span><span class="en">LatAm</span></button>
+        <button role="tab" type="button" id="t-af" aria-controls="p-af" aria-selected="false" tabindex="-1"><span class="zh">非洲</span><span class="en">Africa</span></button>
+      </div>
+      <div role="tabpanel" id="p-asia" aria-labelledby="t-asia">
+        <div class="prog"><header><h4><span class="zh">苏世民学者 · 清华</span><span class="en">Schwarzman Scholars · Tsinghua</span></h4><span class="fit h"><span class="zh">匹配高</span><span class="en">HIGH FIT</span></span></header>
+          <dl><dt><span class="zh">类型</span><span class="en">TYPE</span></dt><dd><span class="zh">全球事务硕士，1 年，全额奖学金</span><span class="en">Master’s in Global Affairs, 1 yr, fully funded</span></dd>
+          <dt><span class="zh">条件</span><span class="en">ELIGIBLE</span></dt><dd><span class="zh">入学当年 8 月 1 日未满 29 岁</span><span class="en">Under 29 on Aug 1 of entry year</span></dd>
+          <dt><span class="zh">截止</span><span class="en">DEADLINE</span></dt><dd><span class="zh">大陆护照单独一轮，往年 5 月；下一轮约 2027 年 5 月</span><span class="en">Separate mainland round, usually May; next ≈ May 2027</span></dd></dl>
+          <p><span class="zh">按 2018 年高中毕业推算，2028 年入学时你仍在年龄线内；这是这份清单里性价比最高的一项。</span><span class="en">Going by your 2018 high-school graduation you are still under the age line for 2028 entry; the best value on this list.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">中欧 CEIBS MBA · 上海</span><span class="en">CEIBS MBA · Shanghai</span></h4><span class="fit"><span class="zh">匹配中</span><span class="en">MED FIT</span></span></header>
+          <dl><dt><span class="zh">学费</span><span class="en">FEE</span></dt><dd>RMB 488,000</dd>
+          <dt><span class="zh">交换</span><span class="en">EXCHANGE</span></dt><dd>INSEAD · LBS · Wharton</dd></dl>
+          <p><span class="zh">留在国内人脉圈，同时用一个学期海外交换补国际化。</span><span class="en">Keeps your China network and adds a term abroad.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">燕京学堂 · 北大</span><span class="en">Yenching Academy · PKU</span></h4><span class="fit l"><span class="zh">匹配低</span><span class="en">LOW FIT</span></span></header>
+          <dl><dt><span class="zh">截止</span><span class="en">DEADLINE</span></dt><dd>2026-11-30</dd>
+          <dt><span class="zh">年龄</span><span class="en">AGE</span></dt><dd><span class="zh">偏好 2027-08-31 时 ≤25 岁</span><span class="en">Prefers ≤25 on 2027-08-31</span></dd></dl>
+          <p><span class="zh">全额奖学金，但按推算你已超出年龄偏好，且方向偏学术。</span><span class="en">Fully funded, but you are likely past the age preference and it is academic in focus.</span></p></div>
+      </div>
+      <div role="tabpanel" id="p-eu" aria-labelledby="t-eu" hidden>
+        <div class="prog"><header><h4>INSEAD MBA</h4><span class="fit h"><span class="zh">匹配高</span><span class="en">HIGH FIT</span></span></header>
+          <dl><dt><span class="zh">校区</span><span class="en">CAMPUS</span></dt><dd><span class="zh">法国 · 新加坡 · 阿布扎比</span><span class="en">France · Singapore · Abu Dhabi</span></dd>
+          <dt><span class="zh">时长</span><span class="en">LENGTH</span></dt><dd><span class="zh">10 个月</span><span class="en">10 months</span></dd>
+          <dt><span class="zh">学费</span><span class="en">FEE</span></dt><dd><span class="zh">€109,860（2026 年 8 月入学）</span><span class="en">€109,860 (Aug 2026 intake)</span></dd></dl>
+          <p><span class="zh">校区可轮换，本身就是跨洲交换；最适合转国际管理岗。</span><span class="en">Campus rotation is a cross-continent exchange in itself; the best route into international management.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">Erasmus Mundus 联合硕士</span><span class="en">Erasmus Mundus Joint Master</span></h4><span class="fit"><span class="zh">匹配中</span><span class="en">MED FIT</span></span></header>
+          <dl><dt><span class="zh">资助</span><span class="en">FUNDING</span></dt><dd><span class="zh">约 €1,400/月 + 学费</span><span class="en">≈ €1,400/month + tuition</span></dd>
+          <dt><span class="zh">时长</span><span class="en">LENGTH</span></dt><dd><span class="zh">最长 24 个月，至少 2 国</span><span class="en">Up to 24 months, 2+ countries</span></dd></dl>
+          <p><span class="zh">免费读书加多国生活；代价是离开职场两年。</span><span class="en">Free study across several countries; the cost is two years out of work.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">Chevening · 英国</span><span class="en">Chevening · UK</span></h4><span class="fit"><span class="zh">匹配中</span><span class="en">MED FIT</span></span></header>
+          <dl><dt><span class="zh">类型</span><span class="en">TYPE</span></dt><dd><span class="zh">1 年硕士，全额</span><span class="en">1-yr master’s, fully funded</span></dd>
+          <dt><span class="zh">截止</span><span class="en">DEADLINE</span></dt><dd><span class="zh">2027/28 已于 2026-10-06 截止</span><span class="en">2027/28 closed 2026-10-06</span></dd></dl>
+          <p><span class="zh">需 2,800 小时工作经验，毕业后须回国 2 年。按往年节奏，下一轮在 2027 年秋季截止。</span><span class="en">Needs 2,800 hours of work experience and a 2-year return home. On past timing the next round closes in autumn 2027.</span></p></div>
+      </div>
+      <div role="tabpanel" id="p-la" aria-labelledby="t-la" hidden>
+        <div class="prog"><header><h4><span class="zh">INCAE Global MBA · 哥斯达黎加</span><span class="en">INCAE Global MBA · Costa Rica</span></h4><span class="fit"><span class="zh">匹配中</span><span class="en">MED FIT</span></span></header>
+          <dl><dt><span class="zh">时长</span><span class="en">LENGTH</span></dt><dd><span class="zh">约 15 个月，全英文</span><span class="en">≈ 15 months, in English</span></dd>
+          <dt><span class="zh">学费</span><span class="en">FEE</span></dt><dd><span class="zh">各来源 US$32k–60k 不等，以官网为准</span><span class="en">Sources range US$32k–60k; check official site</span></dd></dl>
+          <p><span class="zh">拉美认可度最高的商学院之一，能把巴西资源扩成区域网络。</span><span class="en">One of the best-known business schools in Latin America; turns Brazil contacts into a regional network.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">葡语 + 拉美岗位路线</span><span class="en">Portuguese + LatAm job route</span></h4><span class="fit h"><span class="zh">匹配高</span><span class="en">HIGH FIT</span></span></header>
+          <p><span class="zh">先把葡语学到 B1，再投中国平台和品牌在巴西、墨西哥的增长岗。比读学位更快把「巴西资源」变成履历主线。</span><span class="en">Get Portuguese to B1, then target growth roles at Chinese platforms and brands in Brazil and Mexico. Faster than a degree at turning Brazil ties into your main story.</span></p></div>
+      </div>
+      <div role="tabpanel" id="p-af" aria-labelledby="t-af" hidden>
+        <div class="prog"><header><h4><span class="zh">开普敦大学商学院 MBA</span><span class="en">UCT GSB MBA · Cape Town</span></h4><span class="fit l"><span class="zh">匹配中低</span><span class="en">LOW–MED</span></span></header>
+          <dl><dt><span class="zh">时长</span><span class="en">LENGTH</span></dt><dd><span class="zh">1 年（8 月至次年 8 月）</span><span class="en">1 year, Aug to Aug</span></dd>
+          <dt><span class="zh">学费</span><span class="en">FEE</span></dt><dd><span class="zh">非洲以外国际生 R639,000（2024 年价）</span><span class="en">R639,000 for non-African students (2024)</span></dd></dl>
+          <p><span class="zh">有 MBA 国际交换；只适合已经认定非洲市场的人。</span><span class="en">Has an MBA exchange; only worth it if you are committed to Africa.</span></p></div>
+        <div class="prog"><header><h4><span class="zh">非洲消费电子 / 电商岗位</span><span class="en">African consumer-tech / e-commerce roles</span></h4><span class="fit"><span class="zh">匹配中</span><span class="en">MED FIT</span></span></header>
+          <p><span class="zh">传音、Jumia 等公司的非洲业务；你在 Tweakers、比价渠道上的消费电子经验可以直接迁移。</span><span class="en">Africa teams at Transsion, Jumia and similar; your consumer-electronics channel work (Tweakers, price comparison) transfers directly.</span></p></div>
+      </div>
+    </section>
+
+    <section class="sb-sec" aria-labelledby="sbRes">
+      <div class="eyebrow" id="sbRes"><span class="zh">资源渠道</span><span class="en">Where to find resources</span></div>
+      <div class="res">
+        <div><b>Global Shapers · <span class="zh">北京 Hub</span><span class="en">Beijing hub</span></b><span class="zh">你已代表京东主持过社区活动；加入年龄 18–27 岁，窗口在收窄。</span><span class="en">You already hosted a Shapers event for JD; the joining age is 18–27, so the window is closing.</span></div>
+        <div><b><span class="zh">UC Davis 校友网络 + LinkedIn</span><span class="en">UC Davis alumni + LinkedIn</span></b><span class="zh">筛出在出海平台做区域增长的校友，约 10 次信息访谈。</span><span class="en">Filter for alumni in regional growth at cross-border platforms; book ten informational calls.</span></div>
+        <div><b>Google Skillshop · Coursera</b><span class="zh">Google Ads、GA4 认证免费；Google 数据分析证书补 SQL 之外的分析能力。</span><span class="en">Google Ads and GA4 certificates are free; the Google Data Analytics certificate adds analysis skills beyond SQL.</span></div>
+        <div><b>YC Startup School · <span class="zh">奇绩创坛</span><span class="en">MiraclePlus</span></b><span class="zh">如果继续云想亿创：前者免费线上课程，后者是国内早期加速器。</span><span class="en">If the startup continues: the first is a free online course, the second an early-stage accelerator in China.</span></div>
+      </div>
+    </section>
+
+    <section class="sb-sec" aria-labelledby="sbPlan">
+      <div class="eyebrow" id="sbPlan"><span class="zh">90 天行动</span><span class="en">Next 90 days</span></div>
+      <div class="plan">
+        <div><b><span class="zh">第 1 个月</span><span class="en">Month 1</span></b><span class="zh">重写 1 页中英简历：统一主线，修正排名表述，补团队规模和个人口径。</span><span class="en">Rewrite a one-page resume in both languages: one through-line, fixed ranking claims, team size and ownership added.</span></div>
+        <div><b><span class="zh">第 2 个月</span><span class="en">Month 2</span></b><span class="zh">拿下 GA4 和 Google Ads 认证；做一个公开的出海渠道 ROI 分析项目。</span><span class="en">Earn GA4 and Google Ads certificates; publish a channel-ROI analysis project.</span></div>
+        <div><b><span class="zh">第 3 个月</span><span class="en">Month 3</span></b><span class="zh">投递出海平台区域增长岗；同时备考 GMAT / GRE，瞄准 2027 年 5 月苏世民或 INSEAD 2028 年入学。</span><span class="en">Apply to regional growth roles; start GMAT / GRE prep for Schwarzman (May 2027) or INSEAD 2028 entry.</span></div>
+      </div>
+    </section>
+
+    <div class="src">
+      <span class="zh">数据核对于 2026-10-11；费用、年龄和截止日期每年变动，申请前以官网为准。</span><span class="en">Checked 2026-10-11. Fees, age limits and deadlines change yearly; confirm on official sites before applying.</span>
+      <ol>
+        <li><a href="https://www.schwarzmanscholars.org/admissions/" target="_blank" rel="noopener">Schwarzman Scholars · Admissions</a></li>
+        <li><a href="https://scholarships.berkeley.edu/yenching-scholars/" target="_blank" rel="noopener">Yenching Scholars · UC Berkeley</a></li>
+        <li><a href="https://www.insead.edu/master-programmes/mba/financing" target="_blank" rel="noopener">INSEAD MBA · Financing</a></li>
+        <li><a href="https://www.ceibs.edu/faq/29007" target="_blank" rel="noopener">CEIBS · MBA FAQ</a></li>
+        <li><a href="https://www.gla.ac.uk/postgraduate/erasmusmundus/edumah/scholarships" target="_blank" rel="noopener">Erasmus Mundus scholarship · Glasgow</a></li>
+        <li><a href="https://www.gsb.uct.ac.za/mba-fees" target="_blank" rel="noopener">UCT GSB · MBA fees</a></li>
+        <li><a href="https://poetsandquants.com/school-profile/incae-business-school/" target="_blank" rel="noopener">INCAE · Poets&amp;Quants</a></li>
+        <li><a href="https://www.ucdavis.edu/news/uc-davis-top-10-nations-public-universities-5th-year" target="_blank" rel="noopener">UC Davis · U.S. News 2026</a></li>
+        <li><a href="https://theaggie.org/2025/10/16/uc-davis-among-top-10-best-universities-in-new-rankings/" target="_blank" rel="noopener">The Aggie · WSJ 2026</a></li>
+      </ol>
+    </div>
+  </div>
+</aside>
 
 <main id="top">
 <!-- ===== HERO ===== -->
@@ -673,7 +921,56 @@ footer{padding-block:40px 60px;border-top:var(--hair) solid var(--line);margin-t
     });
   });
 
-  syncLang(); frame();
+  /* ---- review sidebar ---- */
+  var sb=document.getElementById('sb'), sbIn=sb.querySelector('.sb-in'), sbBtn=document.getElementById('sbBtn');
+  var wide=matchMedia('(min-width:1200px)'), sbTouched=0;
+  function setSb(open,save){
+    root.classList.toggle('sb-open',open); sbBtn.setAttribute('aria-expanded',String(open));
+    sb.setAttribute('aria-hidden',String(!open)); sb.inert=!open;
+    if(save){try{localStorage.setItem('zc-sb',open?'1':'0')}catch(e){}}
+    setTimeout(frame,650);
+  }
+  var sbPref=null; try{sbPref=localStorage.getItem('zc-sb')}catch(e){}
+  setSb(wide.matches&&sbPref!=='0',false);
+  sbBtn.addEventListener('click',function(){setSb(!root.classList.contains('sb-open'),true)});
+  document.getElementById('sbClose').addEventListener('click',function(){setSb(false,true);sbBtn.focus()});
+  document.getElementById('sbScrim').addEventListener('click',function(){setSb(false,false)});
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&root.classList.contains('sb-open')&&!wide.matches)setSb(false,false)});
+  wide.addEventListener('change',function(e){if(!e.matches)setSb(false,false)});
+  sbIn.addEventListener('wheel',function(){sbTouched=performance.now()},{passive:true});
+  sbIn.addEventListener('touchmove',function(){sbTouched=performance.now()},{passive:true});
+
+  // continent tabs
+  var tabs=Array.from(document.querySelectorAll('.tabs [role="tab"]'));
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(o){var on=o===t;o.setAttribute('aria-selected',String(on));o.tabIndex=on?0:-1;document.getElementById(o.getAttribute('aria-controls')).hidden=!on});
+  })});
+  document.querySelector('.tabs').addEventListener('keydown',function(e){
+    var i=tabs.indexOf(document.activeElement); if(i<0)return;
+    var j=e.key==='ArrowRight'?(i+1)%tabs.length:e.key==='ArrowLeft'?(i-1+tabs.length)%tabs.length:-1;
+    if(j>=0){e.preventDefault();tabs[j].click();tabs[j].focus()}
+  });
+
+  // gaps: click jumps to the section; scrolling the page lights the gaps about that section
+  var gaps=Array.from(document.querySelectorAll('.gap')), refIds=['figures','work','skills','edu','contact'], curRef='';
+  gaps.forEach(function(g){g.addEventListener('click',function(){
+    var el=g.dataset.ref==='top'?document.body:document.getElementById(g.dataset.ref);
+    if(!wide.matches)setSb(false,false);
+    el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  })});
+  function lightGaps(){
+    var cur='top'; refIds.forEach(function(id){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<innerHeight*.45)cur=id});
+    if(cur===curRef)return; var initial=curRef===''; curRef=cur;
+    var first=null;
+    gaps.forEach(function(g){var on=g.dataset.ref===cur;g.classList.toggle('hot',on);if(on&&!first)first=g});
+    if(!initial&&cur!=='top'&&first&&root.classList.contains('sb-open')&&performance.now()-sbTouched>4000){
+      var r=first.getBoundingClientRect(), box=sbIn.getBoundingClientRect();
+      if(r.top<box.top||r.bottom>box.bottom) sbIn.scrollTo({top:sbIn.scrollTop+r.top-box.top-90,behavior:reduce?'auto':'smooth'});
+    }
+  }
+  addEventListener('scroll',function(){requestAnimationFrame(lightGaps)},{passive:true});
+
+  syncLang(); frame(); lightGaps();
 })();
 </script>
 </body>
