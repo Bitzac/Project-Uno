@@ -1,8 +1,20 @@
 # Zackery Chen · Personal Site
 
-Single-file personal homepage built from 陈晨 Zackery Chen's resume.
+Single-file bilingual (中 / EN) personal homepage built from 陈晨 Zackery Chen's resume, with a resume-review sidebar.
 
-- `index.html`: self-contained page (inline CSS/JS, portrait embedded as data URI). Open it directly or host it on any static server.
-- Liquid-glass visual language: aurora light behind frosted panes, 0.5px hairlines, heavy display type.
-- Scroll interactions: reading-progress bar, hero parallax, scroll-in reveals, count-up figures, a sticky career panel that tracks the role in view along a route line, and a partner marquee pushed by scroll.
-- 中 / EN toggle in the nav (remembered per browser). Follows the system light/dark setting. Honours `prefers-reduced-motion`.
+`index.html` is self-contained: inline CSS and JS, with the portrait embedded as a data URI. Open it directly or host it on any static server.
+
+## Main column (kept short on purpose)
+- Hero: name, one-line positioning, portrait.
+- Four core figures, counted up on scroll. Only results the resume attributes to him are used.
+- Timeline: one line per role plus education. The line draws and the dots light as you scroll.
+- Capability radar: 7 axes scored 0–5 from resume evidence. Each score is the median of three independent reviews (growth hiring manager, MBA admissions, career coach). It is drawn with a 12-month target and comes with a score table. Hover, focus or tap an axis or row to see the evidence.
+- Improvement directions: the four axes with the largest gap to target, each with one concrete action.
+- Contact, with copy buttons.
+
+## Review sidebar
+Gap analysis (11 items, ranked by severity), recommended direction, degrees, visas and job routes by continent (Asia, Europe, Latin America, Africa), resources, a timeline and sources. Facts were checked on 2026-10-11.
+
+## Notes
+- The radar series colours pass the dataviz palette validator in both themes: dark `#4a95ee` / `#e0702f`, light `#0a66b0` / `#c2621a`.
+- Follows the system light/dark setting, honours `prefers-reduced-motion`, and has print styles.
