@@ -8,7 +8,7 @@ Single-file bilingual (中 / EN) personal homepage built from 陈晨 Zackery Che
 - Hero: name, one-line positioning, portrait.
 - Four core figures, counted up on scroll. Only results the resume attributes to him are used.
 - Timeline: one line per role plus education. The line draws and the dots light as you scroll.
-- Capability radar: 7 axes scored 0–5 from resume evidence. Each score is the median of three independent reviews (growth hiring manager, MBA admissions, career coach). It is drawn with a 12-month target and comes with a score table. Hover, focus or tap an axis or row to see the evidence.
+- Capability radar: 7 axes scored 0–5 from resume evidence. Each score is the median of three independent reviews. It is drawn with a 12-month target and comes with a score table. You can overlay one founder (Jensen Huang, Elon Musk, Wang Xingxing, Jack Ma or Zhang Yiming), around age 26 or at their peak. Founder scores come from public records: each profile was fact-checked by a second reviewer, and all scores were then calibrated together on the same scale. Hover, focus or tap an axis or row to see the reason for each score.
 - Improvement directions: the four axes with the largest gap to target, each with one concrete action.
 - Contact, with copy buttons.
 
