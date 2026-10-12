@@ -15,7 +15,7 @@
   --bg:#06080c; --bg-2:#0b0f16;
   --fg:#eef2f7; --muted:#8b95a6; --faint:#4a5260;
   --line:rgba(255,255,255,.12); --line-strong:rgba(255,255,255,.22);
-  --glass:rgba(255,255,255,.045); --panel-solid:rgba(10,13,19,.86); --sev-hi:#ff8a7a; --sev-mid:#ffc070; --sev-lo:#8ccfff; --sev-ok:#5fe0a8; --sb-bg:rgba(9,12,18,.74); --glass-2:rgba(255,255,255,.08); --sheen:rgba(255,255,255,.16);
+  --glass:rgba(255,255,255,.045); --panel-solid:rgba(10,13,19,.86); --sev-hi:#ff8a7a; --sev-mid:#ffc070; --sev-lo:#8ccfff; --sev-ok:#5fe0a8; --sb-bg:rgba(9,12,18,.74); --s-cur:#4a95ee; --s-tgt:#e0702f; --glass-2:rgba(255,255,255,.08); --sheen:rgba(255,255,255,.16);
   --accent:#8ccfff; --warm:#ffb878;
   --aura-1:rgba(64,140,255,.42); --aura-2:rgba(255,150,90,.30); --aura-3:rgba(80,220,200,.26);
   --shadow:0 30px 80px -30px rgba(0,0,0,.7);
@@ -31,7 +31,7 @@
     --bg:#eef1f5; --bg-2:#e4e8ee;
     --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
     --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
-    --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+    --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --s-cur:#0a66b0; --s-tgt:#c2621a; --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
     --accent:#0a66b0; --warm:#c2621a;
     --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
     --shadow:0 30px 70px -35px rgba(30,40,60,.35);
@@ -42,7 +42,7 @@
   --bg:#eef1f5; --bg-2:#e4e8ee;
   --fg:#0c1118; --muted:#5a6475; --faint:#9aa3b2;
   --line:rgba(12,17,24,.12); --line-strong:rgba(12,17,24,.24);
-  --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
+  --glass:rgba(255,255,255,.5); --panel-solid:rgba(244,246,249,.9); --sev-hi:#c4362a; --sev-mid:#a55a00; --sev-lo:#0a66b0; --sev-ok:#0f8a57; --sb-bg:rgba(246,248,251,.82); --s-cur:#0a66b0; --s-tgt:#c2621a; --glass-2:rgba(255,255,255,.7); --sheen:rgba(255,255,255,.9);
   --accent:#0a66b0; --warm:#c2621a;
   --aura-1:rgba(90,150,255,.35); --aura-2:rgba(255,170,110,.32); --aura-3:rgba(70,200,190,.24);
   --shadow:0 30px 70px -35px rgba(30,40,60,.35);
@@ -112,7 +112,7 @@ html[data-lang="zh"] .h2{font-family:var(--f-body);font-weight:900;letter-spacin
 .rv.pre{opacity:0;transform:translateY(40px);filter:blur(6px)}
 
 /* ---------- hero ---------- */
-.hero{padding-top:clamp(120px,18vh,170px);padding-bottom:clamp(60px,10vw,110px)}
+.hero{padding-top:clamp(110px,16vh,150px);padding-bottom:clamp(24px,4vw,48px)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,64px);align-items:end}
 .status{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;font-size:13px;color:var(--fg)}
 .pulse{width:8px;height:8px;border-radius:50%;background:#3ddc97;position:relative}
@@ -132,102 +132,92 @@ html[data-lang="zh"] .h2{font-family:var(--f-body);font-weight:900;letter-spacin
   transform:perspective(900px) rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg)) translateY(calc(var(--sy,0) * .08px));transition:transform .4s ease-out}
 .portrait img{width:100%;height:100%;object-fit:cover;border-radius:112px 112px 22px 22px;filter:saturate(.92) contrast(1.02)}
 .portrait figcaption{background:var(--panel-solid);position:absolute;left:-14px;bottom:24px;font:500 11px/1 var(--f-mono);letter-spacing:.12em;padding:8px 12px;border-radius:999px;white-space:nowrap}
-.hero-meta{margin-top:56px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:var(--hair) solid var(--line-strong)}
-.hero-meta div{padding:18px 18px 0 0;font-size:13px;color:var(--muted)}
-.hero-meta div+div{padding-left:18px;border-left:var(--hair) solid var(--line)}
-.hero-meta b{display:block;color:var(--fg);font:700 15px/1.4 var(--f-display);margin-bottom:4px}
-.cue{margin-top:56px;display:flex;align-items:center;gap:14px;font:500 11px/1 var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
-.cue span{width:1px;height:46px;background:linear-gradient(var(--fg),transparent);animation:cue 2.4s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
+/* ---------- sections ---------- */
+.sec{padding-block:clamp(56px,8vw,96px)}
+.sec .eyebrow{margin-bottom:22px}
+.sec-note{margin:-6px 0 22px;color:var(--muted);font-size:13.5px;max-width:62em}
+
 /* ---------- figures ---------- */
-.figs{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.fig{padding:26px 24px 22px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.fig .v{font:800 clamp(40px,5vw,62px)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.fig .v small{font-size:.42em;font-weight:500;letter-spacing:0;color:var(--muted);margin-left:2px}
-.fig .k{font-size:14.5px;font-weight:700}
-.fig .s{font:400 12px/1.5 var(--f-mono);color:var(--muted);margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.fig{padding:22px 20px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.fig .v{font:800 clamp(34px,4vw,52px)/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fig .k{font-size:14px;font-weight:700}
+.fig .s{font:400 11.5px/1.5 var(--f-mono);color:var(--muted);margin-top:auto;padding-top:12px;border-top:var(--hair) solid var(--line)}
 
-/* ---------- career ---------- */
-.career{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,5vw,72px);margin-top:64px;align-items:start}
-.panel{position:sticky;top:110px;padding:28px;overflow:hidden}
-.panel .yr{font:800 clamp(56px,7vw,96px)/.9 var(--f-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:block}
-.panel .yr small{display:block;font:300 14px/1.4 var(--f-mono);letter-spacing:.04em;color:var(--muted);margin-top:14px}
-.panel .city{margin-top:26px;font:700 22px/1.2 var(--f-display)}
-.panel .org{color:var(--muted);font-size:14px;margin-top:4px}
-.swap{transition:opacity .35s,transform .35s,filter .35s}
-.swap.out{opacity:0;transform:translateY(10px);filter:blur(4px)}
-.route{margin-top:30px;position:relative;height:56px}
-.route svg{width:100%;height:100%;overflow:visible}
-.route .track{stroke:var(--line-strong);stroke-width:1;fill:none;stroke-dasharray:2 4}
-.route .lit{stroke:url(#rg);stroke-width:1.5;fill:none}
-.route circle{fill:var(--bg);stroke:var(--line-strong);stroke-width:1;transition:all .4s}
-.route circle.on{fill:var(--accent);stroke:var(--accent)}
-.route-labels{display:flex;justify-content:space-between;margin-top:8px;font:500 10px/1 var(--f-mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
-.route-labels span.on{color:var(--fg)}
-.jobs{display:flex;flex-direction:column;gap:22px;min-width:0}
-.job{padding:30px clamp(20px,3vw,34px);min-width:0;transition:border-color .4s,transform .5s}
-.job.active{border-color:var(--accent)}
-.job header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline}
-.job h3{margin:0;font:800 clamp(22px,2.6vw,28px)/1.2 var(--f-display);letter-spacing:-.01em}
-html[data-lang="zh"] .job h3{font-family:var(--f-body);font-weight:900}
-.job .when{font:400 12px/1 var(--f-mono);color:var(--muted);letter-spacing:.04em;white-space:nowrap}
-.job .role{margin:6px 0 0;color:var(--accent);font-size:14.5px;font-weight:700}
-.job h4{margin:26px 0 10px;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center}
-.job h4::after{content:"";flex:1;height:var(--hair);background:var(--line)}
-.job ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
-.job li{position:relative;padding-left:18px;color:var(--muted);font-size:15px;line-height:1.75}
-.job li::before{content:"";position:absolute;left:0;top:.82em;width:8px;height:var(--hair);background:var(--fg)}
-.job li b{color:var(--fg);font-weight:700}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
-.chip{font:400 11.5px/1 var(--f-mono);padding:7px 10px;border-radius:999px;border:var(--hair) solid var(--line-strong);color:var(--muted)}
+/* ---------- timeline ---------- */
+.tl{list-style:none;margin:0;padding:0 0 0 22px;position:relative;--tl:0}
+.tl::before,.tl::after{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--line-strong)}
+.tl::after{background:linear-gradient(var(--accent),var(--warm));transform-origin:top;transform:scaleY(var(--tl))}
+.tl-row{position:relative;display:grid;grid-template-columns:150px minmax(0,1.1fr) minmax(0,1.4fr);gap:6px 24px;padding:16px 0;border-bottom:var(--hair) solid var(--line);align-items:baseline}
+.tl-row::before{content:"";position:absolute;left:-22px;top:22px;width:9px;height:9px;border-radius:50%;border:1px solid var(--line-strong);background:var(--bg);z-index:1;transition:background .4s,border-color .4s}
+.tl-row.on::before{background:var(--accent);border-color:var(--accent)}
+.tl-when{font:400 12px/1.5 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-who b{display:block;font:800 17px/1.3 var(--f-display)}
+html[data-lang="zh"] .tl-who b{font-family:var(--f-body);font-weight:900}
+.tl-who>span{display:block;font-size:13px;color:var(--accent);margin-top:2px}
+.tl-row p{margin:0;font-size:14px;color:var(--muted);line-height:1.65}
+.tl-edu .tl-who>span{color:var(--muted)}
 
-/* ---------- marquee ---------- */
-.marquee{padding-block:46px;border-block:var(--hair) solid var(--line);overflow:hidden;margin-top:clamp(70px,10vw,120px)}
-.mq-label{font:500 11px/1 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:26px}
-.mq{display:flex;width:max-content;gap:56px;transform:translateX(var(--mq,0px));will-change:transform}
-.mq span{font:800 clamp(28px,4vw,48px)/1 var(--f-display);letter-spacing:-.02em;white-space:nowrap;color:transparent;-webkit-text-stroke:.8px var(--muted);transition:color .3s}
-.mq span:hover{color:var(--fg);-webkit-text-stroke-color:var(--fg)}
-.mq span.f{color:var(--fg);-webkit-text-stroke:0}
+/* ---------- radar ---------- */
+.radar-wrap{padding:22px clamp(16px,3vw,30px) 26px}
+.legend{display:flex;gap:18px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend>span::before{content:"";width:18px;height:0;border-top:2px solid var(--s-cur)}
+.legend .lg-tgt::before{border-top:1.5px dashed var(--s-tgt)}
+.radar-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(16px,3vw,36px);align-items:center;margin-top:6px}
+.radar-fig{position:relative;min-width:0}
+.radar{width:100%;height:auto;display:block;overflow:visible}
+.r-grid polygon,.r-grid line{fill:none;stroke:var(--line-strong);stroke-width:.6}
+.r-grid polygon:last-child{stroke:var(--line-strong)}
+.r-ticks text{font:400 11px var(--f-mono);fill:var(--faint)}
+.r-cur{fill:var(--s-cur);fill-opacity:.18;stroke:var(--s-cur);stroke-width:2;stroke-linejoin:round}
+.r-tgt{fill:none;stroke:var(--s-tgt);stroke-width:1.5;stroke-dasharray:5 4;stroke-linejoin:round}
+.r-cur,.r-tgt,.r-pts{transform-box:view-box;transform-origin:350px 258px;transition:transform 1.3s cubic-bezier(.2,.8,.2,1),opacity 1s}
+.r-tgt{transition-delay:.25s}
+.rv.pre .r-cur,.rv.pre .r-tgt,.rv.pre .r-pts{transform:scale(0);opacity:0}
+.p-cur{fill:var(--s-cur);stroke:var(--bg);stroke-width:2}
+.p-tgt{fill:var(--s-tgt);stroke:var(--bg);stroke-width:2}
+.r-lab{font:700 16px var(--f-body);fill:var(--fg)}
+.r-val{font:500 13px var(--f-mono);fill:var(--muted)}
+.ax{cursor:pointer;outline:none}
+.ax .hit{fill:transparent}
+.ax:focus-visible .r-lab,.ax.hl .r-lab{fill:var(--accent)}
+.tip{position:absolute;z-index:3;width:min(280px,80%);padding:12px 14px;border-radius:14px;background:var(--panel-solid);border:var(--hair) solid var(--line-strong);box-shadow:var(--shadow);pointer-events:none;font-size:12.5px;line-height:1.6}
+.tip b{display:block;font-size:13.5px}
+.tip-n{display:block;font:500 11px var(--f-mono);color:var(--muted);margin-top:2px}
+.tip p{margin:6px 0 0;color:var(--muted)}
+.ax-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.ax-list li{display:grid;grid-template-columns:minmax(0,1fr) 92px auto;gap:12px;align-items:center;padding:9px 6px;border-bottom:var(--hair) solid var(--line);border-radius:6px;cursor:default;transition:background .25s}
+.ax-list li.hl{background:var(--glass-2)}
+.ax-n{font-size:13.5px;font-weight:700}
+.ax-bar{position:relative;height:4px;border-radius:4px;background:var(--line)}
+.ax-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--s-cur)}
+.ax-bar b{position:absolute;top:-4px;width:2px;height:12px;margin-left:-1px;border-radius:2px;background:var(--s-tgt)}
+.ax-v{font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ax-v em{font-style:normal;color:var(--muted);margin-left:6px;font-size:11.5px}
 
-/* ---------- skills ---------- */
-.skills{margin-top:64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.skill{padding:30px;min-width:0;display:flex;flex-direction:column;gap:12px}
-.skill .ix{font:300 12px/1 var(--f-mono);color:var(--muted);letter-spacing:.1em}
-.skill h3{margin:0;font:800 24px/1.25 var(--f-display)}
-html[data-lang="zh"] .skill h3{font-family:var(--f-body);font-weight:900}
-.skill p{margin:0;color:var(--muted);font-size:14.5px}
-.tools{margin-top:14px;padding:22px 26px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
-.tools .eyebrow{flex-basis:100%}
-.tools span{font:700 16px/1.4 var(--f-display)}
-
-/* ---------- education / life ---------- */
-.edu{margin-top:64px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
-.edu article{padding:30px;min-width:0}
-.edu .when{font:400 12px/1 var(--f-mono);color:var(--muted)}
-.edu h3{margin:14px 0 4px;font:800 24px/1.2 var(--f-display)}
-html[data-lang="zh"] .edu h3{font-family:var(--f-body);font-weight:900}
-.edu p{margin:0;color:var(--muted);font-size:14.5px}
-.edu .tag{display:inline-block;margin-top:16px;font:400 11.5px/1 var(--f-mono);padding:7px 10px;border-radius:999px;border:var(--hair) solid var(--line-strong);color:var(--fg);margin-right:6px}
-.life{margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:var(--hair) solid var(--line-strong);border-radius:var(--r);overflow:hidden}
-.life div{padding:24px 26px;min-width:0}
-.life div+div{border-left:var(--hair) solid var(--line)}
-.life b{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.life p{margin:0;font-size:15px}
+/* ---------- improve ---------- */
+.imps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.imp{padding:20px 22px;min-width:0}
+.imp header{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.imp-ax{font:900 17px/1.3 var(--f-body)}
+html[data-lang="en"] .imp-ax{font-family:var(--f-display);font-weight:800}
+.imp-d{font:500 12px var(--f-mono);color:var(--warm);white-space:nowrap}
+.imp p{margin:10px 0 0;font-size:13.5px;color:var(--muted);line-height:1.7}
+.open-sb{margin-top:18px;border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:10px 18px;cursor:pointer;font-size:13.5px;transition:background .25s}
+.open-sb:hover{background:var(--sheen)}
 
 /* ---------- contact ---------- */
-.contact{text-align:left}
-.cta{font:800 clamp(44px,9vw,128px)/.95 var(--f-display);letter-spacing:-.04em;margin:22px 0 0;text-wrap:balance}
-html[data-lang="zh"] .cta{font-family:var(--f-body);font-weight:900;letter-spacing:-.01em}
-.cta .grad{background:linear-gradient(100deg,var(--accent),var(--warm));-webkit-background-clip:text;background-clip:text;color:transparent}
-.cards{margin-top:48px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.cc{padding:22px 22px 22px 26px;display:flex;align-items:center;gap:16px;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cc{padding:20px 20px 20px 24px;display:flex;align-items:center;gap:16px;min-width:0}
 .cc div{min-width:0;flex:1}
 .cc small{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
-.cc a,.cc .txt{font:700 clamp(17px,2vw,22px)/1.2 var(--f-display);text-decoration:none;user-select:all;overflow-wrap:anywhere}
+.cc a,.cc .txt{font:700 clamp(16px,1.8vw,20px)/1.2 var(--f-display);text-decoration:none;user-select:all;overflow-wrap:anywhere}
 .copy{flex:none;border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:9px 14px;cursor:pointer;font:500 12px/1 var(--f-mono);transition:background .2s}
 .copy:hover{background:var(--sheen)}
-footer{padding-block:40px 60px;border-top:var(--hair) solid var(--line);margin-top:clamp(80px,10vw,140px);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font:400 12px/1.4 var(--f-mono);color:var(--muted)}
+footer{padding-block:40px 50px;margin-top:40px;border-top:var(--hair) solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font:400 12px/1.4 var(--f-mono);color:var(--muted)}
 
 /* ---------- review sidebar ---------- */
 .rv-btn{border:var(--hair) solid var(--line-strong);background:var(--glass-2);border-radius:999px;padding:6px 12px 6px 10px;cursor:pointer;font-size:12.5px;display:flex;align-items:center;gap:8px;white-space:nowrap}
@@ -306,30 +296,24 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   .nav-links{display:none}
-  .career{grid-template-columns:minmax(0,1fr)}
-  .panel{background:var(--panel-solid);top:76px;z-index:5;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 18px;align-items:center}
-  .panel .yr{font-size:40px;grid-row:span 2}
-  .panel .yr small{display:none}
-  .panel .city{margin-top:0;font-size:17px}
-  .panel .org{margin-top:0;font-size:12.5px}
-  .route,.route-labels{display:none}
   .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .skills,.edu,.cards{grid-template-columns:minmax(0,1fr)}
+  .radar-grid{grid-template-columns:minmax(0,1fr)}
+  .imps,.cards{grid-template-columns:minmax(0,1fr)}
+  .tl-row{grid-template-columns:minmax(0,1fr);gap:2px}
 }
 @media (max-width:640px){
   .hero-grid{grid-template-columns:minmax(0,1fr)}
   .portrait{order:-1;width:132px}
-  .hero-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hero-meta div:nth-child(3){padding-left:0;border-left:0}
-  .figs{grid-template-columns:minmax(0,1fr)}
-  .life{grid-template-columns:minmax(0,1fr)}
-  .life div+div{border-left:0;border-top:var(--hair) solid var(--line)}
   .cc{flex-wrap:wrap}
+  .r-lab{font-size:22px}
+  .r-val{font-size:18px}
+  .r-ticks text{font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
   .rv.pre{opacity:1;transform:none;filter:none}
+  .rv.pre .r-cur,.rv.pre .r-tgt,.rv.pre .r-pts{transform:none;opacity:1}
   .name,.portrait{transform:none!important;opacity:1!important}
 }
 </style>
@@ -345,9 +329,9 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
     <a class="mark" href="#top"><i></i>Zackery Chen</a>
     <div class="nav-links">
       <a href="#figures"><span class="zh">数据</span><span class="en">Figures</span></a>
-      <a href="#work"><span class="zh">经历</span><span class="en">Work</span></a>
+      <a href="#work"><span class="zh">履历</span><span class="en">Work</span></a>
       <a href="#skills"><span class="zh">能力</span><span class="en">Skills</span></a>
-      <a href="#edu"><span class="zh">教育</span><span class="en">Education</span></a>
+      <a href="#improve"><span class="zh">改进</span><span class="en">Improve</span></a>
       <a href="#contact"><span class="zh">联系</span><span class="en">Contact</span></a>
     </div>
     <button class="rv-btn" id="sbBtn" type="button" aria-controls="sb" aria-expanded="false"><i></i><span class="zh">履历诊断</span><span class="en">Review</span></button>
@@ -399,7 +383,7 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
           <p><span class="zh">全文没有下属、团队人数或预算；动词多是「协助」「承接」「配合」；「两次晋升」没写职级和时间。</span><span class="en">No reports, team size or budget; verbs are mostly “assisted”, “took on”, “supported”; “promoted twice” gives no titles or dates.</span></p>
           <p class="fix"><span class="zh">写出晋升路径和时间；补管理过的外包 / 标注团队人数、联盟佣金预算、负责的合作伙伴数。</span><span class="en">Show the promotion path with dates; add vendor or labelling headcount, affiliate commission budget and partners owned.</span></p>
         </button>
-        <button class="gap" type="button" data-ref="edu">
+        <button class="gap" type="button" data-ref="work">
           <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">排名表述经不起核查</span><span class="en">Ranking claims don’t check out</span></span>
           <p><span class="zh">「美国公立大学 Top5」只有 WSJ/College Pulse 2026（公立第 2）支持；US News 2027 是公立并列第 8。「QS 美国 Top25」不成立：QS 2027 世界第 137。</span><span class="en">“Top 5 US public” holds only for WSJ/College Pulse 2026 (No. 2); U.S. News 2027 has UC Davis tied 8th. “QS US top 25” is false: QS 2027 ranks it 137th worldwide.</span></p>
           <p class="fix"><span class="zh">写来源和年份：「US News 2027 美国公立大学第 8」；专业写官方名称 B.S. Managerial Economics。</span><span class="en">Cite source and year (“No. 8 US public, U.S. News 2027”); use the official degree name, B.S. Managerial Economics.</span></p>
@@ -409,22 +393,22 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
           <p><span class="zh">技能栏只有 SQL、MS、ERP，SQL 没在任何一条经历里出现；正文用过的 TradeTracker、Google CSS、OSS 数据源没写进技能。</span><span class="en">The skills line is just SQL, MS and ERP; SQL appears in no bullet; TradeTracker, Google CSS and the OSS feed you used are missing.</span></p>
           <p class="fix"><span class="zh">按职能重写：渠道（Affiliate、CSS、比价）、数据（SQL 用在哪、BI 工具）、运营系统；考 GA4 和 Google Ads 认证（免费）。</span><span class="en">Group by function: channels (affiliate, CSS, price comparison), data (where you used SQL, which BI tool), ops systems; add free GA4 and Google Ads certificates.</span></p>
         </button>
-        <button class="gap" type="button" data-ref="edu">
+        <button class="gap" type="button" data-ref="skills">
           <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">语言一栏低估了自己</span><span class="en">Languages undersold</span></span>
           <p><span class="zh">只写「英语、德语（基本）」：没写母语中文，英语没写水平（在美国读书 8 年），德语没有 CEFR 等级；做过巴西业务但没有葡语。</span><span class="en">Lists only “English, German (basic)”: no native Mandarin, no English level despite 8 years in US schools, no CEFR level for German, no Portuguese despite Brazil work.</span></p>
-          <p class="fix"><span class="zh">写成「中文（母语）；英语（工作语言，美国求学 8 年）；德语 A2」；拉美方向把葡语学到 B1。</span><span class="en">Write “Mandarin (native); English (working language, 8 years US education); German A2”; for LatAm, get Portuguese to B1.</span></p>
+          <p class="fix"><span class="zh">写成「中文（母语）；英语（工作语言，美国求学 8 年）；德语（注明 CEFR 等级）」；拉美方向把葡语学到 B1。</span><span class="en">Write “Mandarin (native); English (working language, 8 years US education); German (with its CEFR level)”; for LatAm, get Portuguese to B1.</span></p>
         </button>
         <button class="gap" type="button" data-ref="top">
           <span class="t"><span class="sev mid"><span class="zh">中</span><span class="en">MED</span></span><span class="zh">版式与笔误</span><span class="en">Format and typos</span></span>
           <p><span class="zh">3 页、无个人摘要、无英文版；有错别字「加里福尼亚州」「维护商品房属性」；口语化写法如「15w 欧」「1w+」；附照片、驾照和爱好。</span><span class="en">Three pages, no summary, no English version; typos (“加里福尼亚州”, “商品房属性”); shorthand like “15w欧” and “1w+”; photo, driving licences and hobbies included.</span></p>
           <p class="fix"><span class="zh">压到 1–2 页并做 1 页英文版；改错字，金额写全（€150K）；投海外时删照片、驾照、高中。</span><span class="en">Cut to 1–2 pages plus a one-page English version; fix typos, write amounts in full (€150K); drop photo, licences and high school for overseas roles.</span></p>
         </button>
-        <button class="gap" type="button" data-ref="edu">
+        <button class="gap" type="button" data-ref="skills">
           <span class="t"><span class="sev lo"><span class="zh">低</span><span class="en">LOW</span></span><span class="zh">缺少持续的社区领导力</span><span class="en">No sustained community leadership</span></span>
           <p><span class="zh">大学 4 年没有社团或职务；工作后只有一次 Global Shapers 活动。MBA 和苏世民都看重这一项。</span><span class="en">Nothing from four years at UC Davis; after graduation, a single Global Shapers event. MBA programmes and Schwarzman weigh this.</span></p>
           <p class="fix"><span class="zh">选 1–2 项长期投入：加入 Global Shapers 北京 Hub、给学生做职业导师、校友面试官。</span><span class="en">Pick one or two lasting commitments: join a Global Shapers Beijing hub, mentor students, interview for alumni admissions.</span></p>
         </button>
-        <button class="gap" type="button" data-ref="edu">
+        <button class="gap" type="button" data-ref="work">
           <span class="t"><span class="sev lo"><span class="zh">低</span><span class="en">LOW</span></span><span class="zh">学历与时间线</span><span class="en">Degree and timeline</span></span>
           <p><span class="zh">只有本科、没写 GPA；在读期间的北京实习（2021.08–2022.01）没说明是远程上课，读者会追问。</span><span class="en">Bachelor’s only, no GPA; the Beijing internship during the final year (Aug 2021–Jan 2022) doesn’t say classes were remote.</span></p>
           <p class="fix"><span class="zh">GPA ≥ 3.3 就写上；实习标注「疫情期间远程上课」。学位见下方项目。</span><span class="en">Add GPA if 3.3 or higher; note remote classes during the pandemic. See degrees below.</span></p>
@@ -527,7 +511,6 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
 </aside>
 
 <main id="top">
-<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
@@ -538,251 +521,58 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
           <span class="row" data-split>Zackery</span>
           <span class="row outline" data-split>Chen</span>
         </h1>
-        <p class="lead">
-          <span class="zh">跨境电商增长 × 生态商务拓展 × AI 原生创业。在<b>京东</b>、<b>阿里国际</b>和自己的公司里，先把 0 到 1 的合作谈下来，再把它跑成能复盘、能放量的商业闭环。</span>
-          <span class="en">Cross-border growth × ecosystem BD × AI-native founder. At <b>JD.com</b>, <b>Alibaba International</b> and my own company, I land the zero-to-one partnership first, then turn it into a closed business loop that can be measured and scaled.</span>
-        </p>
+        <p class="lead"><span class="zh">跨境电商增长与渠道 BD。在<b>京东</b>、<b>阿里国际</b>和自己的公司里，把 0 到 1 的合作谈下来，再跑成可复盘的增长。</span><span class="en">Cross-border growth and channel BD. At <b>JD.com</b>, <b>Alibaba International</b> and my own company, I land zero-to-one partnerships and turn them into measurable growth.</span></p>
       </div>
       <figure class="portrait glass" id="portrait">
         <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wgARCAFtATADASIAAhEBAxEB/8QAHAAAAQUBAQEAAAAAAAAAAAAAAAEDBAUGAgcI/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAECAwQF/9oADAMBAAIQAxAAAAH1AAAAAAAAAAAAAABscOeRziFXl05l4ptEymrBUBQBBUFQUQAAUAAAAAAAAAAAaHTMZOJ9Nh+Nwj0mBg5Rf6rJ9S9JXM6tGctYlRE70rLKYUAAAAAAQUAAAAAAFEFA4684ibbznPMmhYr+kcQpT8oPT3JKts3LNbf+dcG4rad2J3Gy8Yupj1h7M3JNRQEUEABUUAAAAABUCLX+ZRO68u5o62sq7l+1GJ3bUp0eu4OmkBeuAmzKmwGmbBkj3NVHNpp/N7I9xfy+nFAAAAAFBBQQAUTNROcxbbdLwIcxm+bLvcuXHTkgqocyGIqPDfLzQrzTpMcYaJEdEGXmuje+qfO3pB6Yc9AAAAoAAAAQvNNx5hW2ZZVxDT3ZMSq7t2Xa9QBpt1s5lxZMHIcuOOvQ5Uuu30I3ExkfrewJkFo970nlPqooAACgAAABmfGvWPFaXJTPU1mxbSvkxKr3piWrjUGYE2ONOdXUWpWbevg90km1W5lY7JhOGQ657OU6eNN7h82+4GkFQABQAAAGzy/zb1DzOl0a75tWfAEQPNdEqbAl1snc7TY70OquLOmuPyXqlJE+acarObYRelibc78G0rBF6bl1Kh9HXtvivs5sgAAFAAAEVDzjyz03zPPRjo7vny+xNI6SWUv3sPWcvXE2ua2FNHHee75swp7FNM/ld1R0v59FuK7t4Y8Z5q+aCojl5t2XXunjXucTaqEwACgAALyoZvxH6O8epfD98pavD/M2s9MT4UW0unqLHl7J2k4kTAipavLUjiJg1d5T56ecRJXPRz0bV5V6YxunO70amcOQ0Pteb08gCYABQAAAAKe4In52gb/z+tnrkn47VdTd1+lLX0nzK3z09L6xmirecrK1s8kasmLbFJQWrJpZ71qdw35tNMfFuqPo5XPS/P8A6GtWSBMAAACqgAAABm7/AM35+yJifQctVfS5C46s9RaW0axMZB1x3/UC2w6bN+LPVqqqfBrfiVRY/fD07nFW1bWUZ92ts3kN5kOjmv8A2HyrQRb0NA6OYAQACgACiADOH3uP5e+vy2zoMtbKwg2dIq3LLqUNuyNKwZE1qlubCDOmtK2/PresqNI1pSoqdSzW1dMlR6TS0N7A1ynzFm06NyB3+SATAAdCAAAAFfYFbYmpvabi9Ry2o7iM5z7MmY567L0YivQM9ZsyHN0pTyYnWelm26t84/L7NbRq+fU1tUDb2lbXR0m4vn0B1cIAAAoAAAAABXZHfZHm7KOzrpOO15Ir5hI44S1YqR6CumtmYq4tR4ydxTTRPw5Ns0YdjJh01hUQamQ9DZordDr88FS1QAABQAAAAAAAM1ndzh+Xrs51TPw6Jax+7Q3TXqSoWdJxLPyLhYO9tJBYjsOtq+vlt6Z6LSu99XEqBegAAAACgAAAAAAIBhN5RZ6UUyqseLuer7aIQna2Lpe86grN5PdTGit5KqbimZCm1cWiXNJ6D0cs4Dp5QAAAAAAUABFAAAAACPIaifNbPOzeLv0zsCVSzcGz4Wr+pXF5iSpHdYEWNENVT9Zauo2EGf28KAWoAAAAAACgAAAAAAADTsWJ8wjzjh7+7/H2Fbad6ulQmLG6vDjXDFZ6rikkkZqVrl632HVxioTAAAAAAAKAIogoAAAJ5ueg52kZ5epH+ZXN01US6hyjTICzFqta6mTG5ZGYUqLfPudFW9PYl859F6+NQAAAAAABDoABFATNmix2Gprxqcdy1LfWXm/pPnd/UtmThs1Gntypo1vBtXh9t+J4YnRytZlGmbbE2BMVs9vO9PN7Br/mzW7Y+zlJdVlQABBUA6BgfqsnhLRoMskW8DSoKioJZVqUn1qV5d6Twd0vnpMto8SxZK9ZBMMsS20wOu0tSPDmMzWJnNVjujCP1ydPNM1OOSXtun+b7qJ95PP9lWZwEMbiWKTWq8NAvKoAAgCERUSSY6Vn0XQeN3nL0+lcNSOXqjcPsnMd9mUfiRDmvHA3atXlZMbt4gVNKdKigHR1NgpMb7deEuxP/8QALBAAAgICAgECBgMAAwEBAAAAAQIAAwQRBRIhEBMGFCIwMUAgIzIzQUI0UP/aAAgBAQABBQL9UtqCwGdv/wADtszsN5OR7M6Zlk69mf5nHXjubXKH7r3JWLcyrHru5O3LN2HkmvHzcjGanmG2K67kQNUc3DqVuMyvfr/Zexa5l85Vjm74rtMs5/MNl/M5WSx5a91o5BGevkaXNGN/bgZny9jN2F+QiNVyFGJlY3IUZX67MEHIfEmNjLfzmTkstpyJZT4fqvp1nUrKmDxL3rTIykz6cPlrPks/JWoccUa/LtPt1fMELYjH9T4j5IMLSzMdqVv6jtZbGAi0bVl9uO3aB4lvhSRPdIanIJtuyy1tK0u+LyeVi5NOVjWTsa2/RuyqccZXO44pvcWs5SM3lTqLcrRRUJa0du036AxD2nt+PxN7ilxKsp3HtBsfjOV+aWh/cp+/yeWcanksYUtm5L2J7jeiKhnyyEPjdZsid/4jxKtmGuu2HrXCwE7tMbNNbZVNQt4TklzMbf3+f5FPepUs9zefxNGL4i29Yb7DH6ka9deniIzVlWDejFDGIE/EouNNnB5mLWagh+9yPKDHoyWVjW4WW6ZvETZngRdNNrLSd79EG4w8wCK3U61CzIQ8K7nUiKvlW8cDzYrrDBh9u+72jyiY/wAqs7aC+YEg60oWLlKY5pUNo+tJ0z19YYjBoUBi7EP1w1bCPOotT8Fx5w8s413Gugp+3yB3TylacfWW8V1bXXRU0Ix7FP6x77asPY68a9EbQYmfmai7SDViMCZQ4Zr00VtILjzY24J8N8h4+3zGwnIWtdf+Yh1LoFPVfET6ya+xCBjbqMdnUVYwgMQB52dD/wCUtUrcvtsbdgzf0/8AU4OytcgEfb+I8hasf82H6yw6tbrrc2l3FsOl0qux6sugU1OkoxiZfSQddYK+06dlDaOtRmL+on/Sr1ldnV+CyDfg/a+J7T7zNuL9A8mPaOrNv0UwfU3hYo2VoLmnB7SjC6jJwRrIw4avahcq1yxLPpyU0T+YDqGa2i/n4bWoYP2XBM+Ia/dYjbsdnfma9BKz1gBslVXZsfCEpxgIElqbluMJkYkvr6yvyv8Amb9zFP8AAGKk4LBX2vtfET+3D9Pr+Sie4zLoCVruY9Hjj03lVVwL6NHWX1zLp2B4Nv8ApX1X6D0V9RSzNwf08cDsfYM+I8QgMNejCA6mOZaPExK+0x6fHEjdqD1MaWJLq5kp7dti7/gfQVypBMLGAx/tczjNkU5A6vPyIm4y+G/OEI59nH4rH9rHUephjLLlnJtvItX26mg9NRRuAaHFYJzshEFafaYbX4g40Y1ut+nXzWollZFa6dsZAj1qc+5U0B/DUYTLcVV1VNkXXD3LL8fQakrFXyRBpZWGyH4bixg1fc5PBXOoyKTjW9ZWNmuiZWSvVPpeiz5i3Fer2wZubm5ubjtoc3d/VXaK6ezGxV7rbTL16zfpwPBkr974lxvav/Jx8bxZQSrYDBFx23XjukqttrlHJHaZCuNzcL6l2aKpfyLPMhntiVsY2OREDq1i7mXX4mLSci7GqFNH3czkJyN11tNdf9lNPWdZ17CuipAMnErhuxLD7CxF6mtvBlrR6w8XFSDHp18vXGrWOqwpMuv+sjz8P204eRi5lOYv3LTquwMW/wBVJWFzgIV8Pd0VBblW8nimm72rbche+LZKPMdfFpllgqrtF92MbG9rEbJGNi8g1s32PXxlL9FdXe5KkqTj7PZyfuXeanSCv+v29chXOoIbHUmrHVZbircFxKKi1CWz29JT4j/5ZdvfiC4ogVX4muHGC1fJdXpoIjL4vHjDT63r0lKa+6RsXVlH1/XbV/dV+BOk9ue2Z7cCARpWPL/5/wDa+Q1c6kQqZ7U66DnxcZggq1o2uNX2t+7l0h0PkXGVnxXNQCamo0Jlcs/yf9IZrc1OsIjS3wLpUOsPkcdR9/LoKWP5iHxVBB62NNmVx/8AN3iVPB6kxzLmlu9UDqcao3WqvVfvZtXeuxdxfEqaKYJuEx/LN4FTbljjTkEvoCptiGNLWlpg/wBIPPH4/RPvkbGVjPSxHmoxDAZv0yG6HLysmYWZZHy/pOdb7wvZkp/xuExjLjHMUbOHQbrPx+jqctSAqGVtAfW6sWL8n1JxTGx3eDHaVYXV18TcJlhlhjTF4oWVUUJQv6WbV7uOPyniAzc7Tc1CnhUmoBNwmEywxpVX7tqL0X9TJq9jJEWN4l2UtUTOrYfOifNtDmanzc+bQwZSswef9WGPOGp73fq8pj+5VW0rMPmPjJZLOOrQ/KKSnHHQwLDHwws+Q9yUcZXXBXqP4Dny22bCx/lqP1cgbpFn1VvFabjwrPc6z3QZrcQQQmWvHacTid3/AFrf+MnpZXdKX3NzW4U3DQDBjiCoCa9HaWPHsmEvXF/Ws/42G28qaMjRR+0EE8TxD6MZbZqW2RPrsQaT9bJcJSB5dIV1KMjrEtBgedp2naM8su1Lbu03uYa9sr9b5irtyWT2KCFY6QpEtZIuTPm583Pmo2QTHcmMYJg//X+oTqc1zDWTjMSvFx7iSahNRljrCIIFnQTpCI81NRWZG4z4kPugg/ou61rlfEaI2Zzl96PaWPE5IvptXxUJqERljpNQerCMIBNQ+Jl1e6OO53Kxa8L4joyCCGH3c7ncbEmbzN+XY124zemNe2PbVcmVSggmoRHWFdQCLNSyNAsMf0vHS7uZxfP3Ykw+WxswfazeSx8FeQ5vIzI3iE/xwsxsWyi1L6/QxhGWampuMIRBHhgEzP8Amgi3Mhw/iHJx5h/EONkRbFsH8bbkoXkviHwzl2ezcLb/AJ4Oc+HZjZdWWnqRNTU1CIYfEbzGWGXN2s/gHKzF5S6iYfxLMfNoyh6ZnxAomXn2vGfZL7m/s0ZD474XL15E/PoRD6vNR4o3LJmXe3Uf5hiJXkvWcP4mvqmJzGJlxj7aWMWP3cPk76DRZ7iQwww+lx1KzLToX2ta/wBncWwif//EACURAAICAgEEAgIDAAAAAAAAAAABAhEDECESIDAxBEETUCJAQv/aAAgBAwEBPwH9bf8AR9ft360+xRGvJLsUbMeM4R0pk8deOXZjifWojVolHnxLlVqKOnkjwhvSYmNfZKLK8LIx4JJkWyiihstsXJNU/B8XD+TlmWFMrgfB+TkjTH7KJZEiMkyjLHkfx/433/CnVoyRtWLVIRL2M6UxRWquR6j3xl0uy7iRHqKJe9rUD5GSl0+D4+T/ACxDK042IYiRF0rJS6nfhwy431Fl7mObfHixypi1GNnSiUd5peNEXq6OtjlemyTt+Neyt1puiT8mLF9vVarTJevJhydSrsT2zJH7L7r7FKjHl6ux7zet2X4Lox5/pie2MnK322f/xAAiEQACAQMFAQEBAQAAAAAAAAAAAQIDEBESICEwMUFQBBP/2gAIAQIBAT8B/e9/X+2WxsT7FsbJzMtmrBCeeuOypI+2kJ4IvjqftmzPBLliVmhoTFLqRJ8iwO+RI4PCHnRWnghMb5Fyf58DyhcoyRpslFoyU3wKrzv/AKEReBiZqZIj4I1McnbxC93yWUeMYrMXl2JDKUc89FaH1DEN2zgYhkR8vBFYXTVWzGyIoJdVSOVZbHalHrZJbooisLrfhkatkYkLsq1fisnbNkL3qUbV6Wl52YshFKXwxuUdko59KlHTuRS9vpMWxjc0VKH1DWxIhHC24R//xAA1EAABAwIDBgQGAgICAwAAAAABAAIRAyEQEjEgIjBAQVEEE2FxIzJCUmKBkbEUoTNQcpLB/9oACAEBAAY/AuV7K3/QwMI6qLlx0aFvFrf9lZKrWg6SZRq0g7I37Tmn9IB7cjtOe3nALO42/tENr0fC0+7nbxWZni2Pdruj/wCr4xqTMSH3H6KyPgg/XEH+EOvZZYsvNptykHNb/ac0/Mw81dZYJKIp02j3WcPE+ymq7PHQ6INIZA/FSZov6OYhT8a0aR5jdUaQfNN96ZTqFUw4IORzm39IuzyC3ot0kE6A8vLjAThRPm1NLaBEuqGOgCvhA1xlQVk7JjxbxTbGOoTWVN55s3ujSa3ejed1Tvgkn6QVTbTaxry8ZAHXU1PL9mrLO8OnK/47HGOsdVdQVuq9h3WVn8q+uEjC6kJuU3CBeU1wc5uX7bJ72veXj5SbJ1Krld7sWatSFF56pt5Y7kpq1Gs9yn+TUzO9lmldMYdh099nVSrY+U8n0TYNTzmu+T7k7wdQQ+LehTH9xPIBrHQ99moGrXNSq69zKawvJDBbC6utVI4EtvHRZh+wourThvjM3+kyt4SvmDr31amh0B4tyDWMu+kZTqta5N5UbMRK7HbzBSbHut4StIxDtfQo061NozGQeylmnGlhbnO7ronPc/NVJ3gi30X6XdWbKuFYBfMJWmwcfRR9JUSr4XwLUKHiPkFg/wC33UgyOIJMSn1mmamfonSj64Zeq9cLtK+W6tjfGDZeqyH9KCLhW1WUr1GIP0mzh0IQfS+Q9J04j2/VMBeVfzH3N7KFJXqv7wzK+mHpt7yj6hog6EQ5SFKzDEeEI/fEZUaYc0yi57g53XAe6nsr4aLect3TbibqNVnZqF7qyvhGLGVLEuEHiZJ3yrrdXeE31CjCFLluiAvyKjrhBCPbCWlQdcLK+zJUppcZPDaOg64T1wtjZD6ipfco1DgLKIwgDC6zBD0WcddnXBpaRm634ZjRqtt2wy9lpt5TwJKZ4h3bd4eVsRwqo7bemBRbtszHRTwvMm5V9goIY13flHBnbuqea8D9cPd6BRszi5+lk2fmdvcDKENvIIyjUoNHS3DI7ovaN06bM4MLuy6+Qw/+yttuceidWOmqyK2xKyNBJTXH/kLb8UtOoFkWOCnCTovLYpQzuIYEGMgAcAMnUqAsw2qXjC+DMgcfzL72MKYWi0KtKgrXZMSriVotEMJwZTb1KZTAiBxvLpGPVZau+0aJo2Lwoc9ihr2K21ddNk4GtWzToAAs1J364rj6JyyvWXY3icqZlbZNmm1h/FBhu07OYp9W4AFgF8r833yjUbUdYqKmuJUIWTHDrY8V3snYa9MdMIfDgszW7yvOyJNm9EWTZQC6OyFNrYAUhXxeY64N4sJwKCFTlHHucGD1HGzdQizsoQ5MJrV5p/XHIGvRHNrydlL0PVADj5hq1SeJPAkrzDq7kIRMSzblRRAIXxGwcIp059St6xQ2w2LdeTY9ojptQrEqZwhZnGdtry8iekLKzk3DtfkQwdUGjpypGxeynMrYWV1qonZNQ6N5bzBq3Y3hKloj2Xzu/lbtY/tb1VXquXzu/lZvq77EBNb168s/2Vtu2357xYacu72R41MenLu9keK0eqA9OXeT22IPCpD8uXjzGz7rIDbjUv8Ay5WSnUaD4b3HVCu45677z2U8aW69F/j+NsdM6kcjmcQAslBub8joi0ugemGQnebyGYfMEKeeQ3o5BlYeW7v0UgyOMWtPmVOwW86GfaNgPb0Qe3kDgKbjnZ2Ks/K7seH8R+90aNVlHwqXYKdqfp6hB9MyDxzjIKALsw7FRU+G5S1wI2sz3ABFnh938lne6SeDIu3qFmpn9cZx2t2oQgPENn8gppVAccnhW5j9xXxHlzuJmYYKy1Nx/wDfEPc8HM1xafRBtYeY3/atUyu7OUjXjhs5m9igY4MqTxP/xAApEAEAAgICAgEEAgMBAQEAAAABABEhMUFREGFxMECBkSChscHR4VDw/9oACAEBAAE/IftQFqfKbdfEA41/8DJHW2Wm41LFpQOjnLAbQvAf2TkEILL83AqILVL8mY+9H4OOJd6+9unTXMPJ72viGD3Y/TqcK3UP/UT7Bvj3b/qU1Y9Ce8r+RmlrGQ3+mY0HCGAOB4f/AJn9y7RgJ6+6MtxsD+Klsr3lEoq54QiWjAYfiWxtYUxPciHm+SMA1QWXtjVdnAF4+JYkzI8/++Dg+0Yx+0vgEsN3r/2UnGBpft1pA2sqrnBm+efxCpL3wYo537YJhVypv5Mdy2K5h/ypQrKGcaJNjsMUBpgMg7r29zKQARtPNS8E8oAf3DGa7C0QWy22T8xwDyWyfaXHIRfkQcLfEFA1GqFRdXykE7O1zDYqRZB4l71SgO49hRW+sRbIpctRVcWLYWozSkXh7zv4j8ZtVD+oLgRuJ+4BmwoXv7DXggGfRGigMZB+5eTbzbLvbuXYNy1ePG2Y/wASwsV6YnKggTxmmjQ+WBuKv1FztT3LaZiuLgDK9uZiCzjkEXmq+nUsjZ/YCYPuZ/xt8Upj8C3Uuxc25swcFiIYosUlulZbJ3GGrjL6jtKWLmjA4LyZJ7RBL/fLG9nuZrc2afhPzJffuKwbYvdQDz9dv6wVw4danMsVNyr4yxuzbDbiW8M0oH1FUmofFaI0mPA4mp+lTDo6aZhiGIJcBcKb0MGx+0uo9RjpHD9V1iUonpeyJUsdAPzPzwYg1sFxDqLFWY1WBHonthRxOIZWEiH142t1CwdwLinxNuXDfTMUVhEXS42d1F1Cpody9WPcuddB/T09wAJMifUDARoemIyouVtXUvXVOYzAQuV3Katll9RO0qU7+ogD+5KG/siXrKrwYaXzK/fJBUzFfhgWcaYgblM+0q8SWZ+SUYRlsH+yDh6lKe8whPI/wmMBmybHw+pfpaof4gk27NR9cM1eb57gm3MPmJYfWVM+64CVwKeJbgA8wLgZZ0r/ACntjwN9Fwhl4MSr0wa1phKtJtBvXqG7Vf3Gjq4XJmGGw0wntbmF8TfMNDbU7eoaPpOocM6cj8xD5ciZreAm31oQORoYn9kgMuWUxWrvU60OCYYobWcJx+3wFgtiJ6letRLwQrAe8bTh0wCi1wy5VjYnSs4YlUbYg1Qm03qHwOdYU8xGvp00acHMRu+TEUHdEKi4YopYYVtjgfExDBLTD8woyeu2U8bMBLVR4wdyvD9IchBNWzZL8B09zHrUXo+KmM2PI3KukM154j0dmoUsyrv6TMaJxtXOARf00bS57ERHbDPwRzU+YaWjiAq1/wCiLnLxLhHYjL+E4XFRR0IyII6QMa3cB7FDIcZQUJXgLMsLRlCLI9of6fSBoxBMzgmNrUFU1C14xrMVUTxLfZ2xyNSIxFinagBqVmUWiXXiOsxX9WJeXczL2R2k25mycRtTPpCEJBRU4Pf0klS7ZZzbHZrafrwYYYTiIlHuZf3B+olnlnVyy3jAIYGJQVAxBbUOoValpWUON6h/N4Icy4qv34A6lqj4W0F6hENP0VRLBSjF90DMpliV39TE+lmBBKw1Ot6g0u/6JQQfIXLib7IfpSYQ5iBcM3N4gqBcRTJUxlVN24ocPx9JLlLFqsu1HH5l52cxhxLeyoQUIAqlLnVCHVzF+ZRK8CDxFAuchxL28QYvuYeMiWpVB/cCYRm4JqGIPp+uFRSG2LwYxOCCK5YhMoTuVwYeWECtg9oQAqDEXxVx8Dgi3CQ2/KMXGGIPAXZQjFUeoA0gha4ITP8AS3x9Xa2n5xYIi7gLeBOOmqo9pZhb3HR0lR4kGYuBogcRlgjGN4LXAfaXxEhGeooh6letXMmpewQc3tiQcSc/WcENeLdxU5YGpVCyhNpc5Mpn+iUbUEWLyEKgtGkIZmETMoFBEcnSUQuAYUpoalPUpcJTBUtIhKgRR9Zlbc3LR9xJkl25bmYnVQI3KKVDRQcrMFX5lmZfcd4GNj1G8DVUZyXOgCE2kssBmlRDaCXSqNlSO3QZVMpFbWE+rXnaMF5vcHE37nCRdkHRHLRmrc52moqE0KvSylMaoNRJ72uJrPgonNHWMlqbZADtuWv1BWMGdMwNhyTjxhaPqPV4m9DDxE/IH6po+0Ou0s95jOUZM3MQXaa4pgAwd8StkHMsjfzGgbrHidxipbsZqcs318IkottbpqCA4Uo2C5uEEjMmGWcJwMsQa+oCLmEV6mDEU/EgKTM8Cfd45yZ+IaMXaAzQ2DsMbO7CLMllxiQqUiVd/WEFP9pBRbUsDkMogrIW8snGBN4sJj4eCMtvCaigruAAGZ7FuPfDr6xBKdMRGhldkODGbh6ixD41GVCxbNYggwllMlMdkSOPNY2Kx2g5buoiVXTohEqA+v8AKlLHJNh5lTTxOglbYdIicLgCMJKNj44SkZbMjKd8mDMWPR9gCLTPXAJxKnUxS/ztxg4xXsi5SjGq5ftEDFReP4hdjLmMCR49i9QDA19ihKSyBhyVUrlxLoPhA8jHOqTRQFQ1K+VPcoEv3DSPh0EzzNlZ52woZ8vL9nyM4IciXUaoZ+GU1lF4HUrKJj5DDHbG3xVAGYFfaJZXcZPS2R8zODaZ1xQQfiDaV8wN2J1GdALhTOUqaD1Md7lh4cUwGUiw4+ftqge74l5TM8AYc1/KLEeinFLAd91lNInGCK5L8yuRMkAXsYQrwrYojtWBS9/n9tQ/eC27ZllMsPDKHd1DlI7BuZ7cz01BRKJgrwv/ALAX7f8At4q6xeZm3AMYIDwgGoDicDCsceCu8wzMd7db+3/u5+SxLRKoYJxFAQiorHHiAblsyzkFT1UD7fsaSxvuWlxHZLwkBsfGS+0feGcwxuOsRTnQiPt0fS62hJjNy+YPDUzEDFNwpPlHwzeyxgxLXekPtAKlBEKLxZtKEUsv6kRp5mDwt8NT4Ez1RJKPDNhhCL0dvcx6XU/6gIgjpPsUA3lVjcNdxHFXg1cuFzSt67O5lzBDx75RCjMYRLPPXsxI7QqeuY5jhGsF/iW0LtlDAk5PqqBa0T+mWT5Zq0a0TixGMXela7Ipe9nTKCaRtK5bLngAyspxBnxmiZwJUTUC5n+LJIYC7eWOvpWYrdpS2X2WX5Z2MviH+FeNv80LLBUIL8N8xhSWqIzPBjwPhw8SpgV5DaX9sJP8gQq5cj/J6ZdxOSctxYjMVbWWI6/k4lk7Pzwjk88jylyuPjbyohtxBSLwMSfNvjmGSpqPWMTPxbLykR+PjvPm0/Qz8RBXXeiLcsSH+J8sPP8A8kGK/ZqB2G/Ia8MyhlNJamEog8ZFfghHzrWGRnlVKku7UCAXwUVtzmKLj9NIKTIPNdEV2lxhg8oRoVl1tUdv8HXk/mImTGf/2gAMAwEAAgADAAAAEHYdeRTTQTTUZXbQdWfeUbfffbfUnkmKdxQQQQcRXfecWrL/ABii0fkFFH2lX33W7qJjDRSDyRX0EEHHH0opNzgwBiwiTA2mEkEH30NMSyzdkDTBSC0mUE0mJPixq8juPCCCjWV030kLSNL8s0mY/PQynkVXn0xOeQsFthrmSICBXH312xZe+HaS6Fiqzs73X333phemu2qLoNQnJnl223kI7YntCv8AmDqajc9995tXl/XIOF/SIWree99N99bZtJrqwVao6qL99Rd9RdPkoJebWfoLYHxtJR1t9lHlUSMjUC2vd9VVFNpBdlZvIeXFUj9t9RRlJpVBlAVXKHkR499t5BRF5xR9NK/ifws2t51RVllBFbODe5UMycx1BBBFJJbZiYIQlCfRimGPBFVFbxRBzhE5aqnnhtCm0FhB1oFVSB4UMhe73galw//EAB8RAQEBAAIDAQEBAQAAAAAAAAEAERAhIDAxQUBRYf/aAAgBAwEBPxD1Z/Bl1bynXsDbc8Q2z6g2U6T/AABtoS7/AAnRb/kmeBPkeXwi+uQ2RZST1j5bPbw817k+FlvyWeB5fJnBBdex1id2WRRgiTnMPJQyVZRixhdeRBBmtsv+oTMCfIU7sfllqS7AO413yuGE4Lo74BfM0/hGGRSD2bD/ABMdLriSHc5gXX5wRIXYH3zBcBOxOXfs9cPkzM8Bl2wPlnV1pxH/AJP3yYBZ1P2XWTt3qwL4X0txzgvUddugfvoLFJAuQjHcdm2jbH5HuMsIt8yL06YvsmQjq0xnq+sGTw2P09euFfeETibBL1Ymev6L8HgXxdmzfVlkTo+saI6EOdMnALBdCz99aUHUzu1I8RH76Nltj1/SeHgWTXjmYib4vgZaQjH7bPccmXQ5IDh52OBLS6I0+cLdCRngW32MX//EAB8RAQEBAAIDAQEBAQAAAAAAAAEAERAhIDAxQUBRYf/aAAgBAgEBPxD+rf4Vy+weOetcNje1n8C4XceO+x7bId8GPYfU3xwWwkLEeB5Pg6mMseiPotvhDvq+neVu3J7hC2WofAe/IZq2zguoul+82ku4WGH+RsNsGeT2cNcTBhEfktsQV1jGz26lsDzfIfsyO8IL6k/qK4zdISzDVuz3j2m+KPJXG2R7kPkIZfHccUe4DqVfsM7RHzyHJk6GPexgy7vUY9NmkLsnhlu1+ehNodS4P3CMstSwyUO4oiHI9ObtsO2cEnq3Y63ceuEyWQD+2NhL8gtHX1/DaPURa5K8KsOHreKe7adkPFbbMewj56g2DaXvg2xafnFw79GLB+2GZNj+McEwL4n3aOpL8kT74Bt/pAHIHIz0+cscKOpsvv2Q/JZwDyA9MJOERF2ccc/8lL//xAAoEAEAAgIBBAICAgMBAQAAAAABABEhMUEQUWFxIIGRoTCxwdHw4fH/2gAIAQEAAT8Qro9K6Hwr+LNXKsQ5m61FwxqJCtPfmMqPwetdWBNfA6V1105jDqRVicrR48soCj1BJIcDi4A1xVw/g/yzuYXkOzYr6irJyUwDJs1sheujnHLhDWxxuWC3hcllfSsjKAVY6Yw61HrXTjqSoEf4NyulgXH7VKCyviJHVC7CMY2X8e42w0B1+AWH3fmWKdb+a52voM3bFIlxg7dYV5wa3Lq2AK7mFPZHiNxXdl3lHfncBiwoWtAamOMxNm6Ubpw8I1UPyM0EYPps+pxf8WtzT8D+HmFQl8G4DqOxT5WVZ7A+kpGNQDTsXqYx2X3k4XE5TCLDi6g8SAUhQN8nMAmNv63g2lzJjYvJAeTwReETWveuBz3I1PS1edt1/TAfhRtkVb9fljdzc6m2jm2OYWpl8XuDxz01/N6h8d0H3Qfcf1eCnkK/yRESuCfl/uLDSN2K92PrBbXFxNqbN/8ARMF7/EsslOziIWMiekQpBwjqAMtXaXY/SQhNcxt2rlqxvOoBmAYs9ZceZadyCrVI1d19QnbTsVLUWc34gUzfZeUrFVhbrUt6thsMORT+prfxzZ5OumX0vodaIw+REG+JUBffo4fTFZCwE5b7xCsvSQun0ysFgLtaAlsVulX08R0h5C8TmyrPJKjANH6j8Ac94ly1mMs4QXmymV6t+QZselau1NZhFG2YNYTIVHLdUQlLWSm3CC5SlQJqkFKcuuYdqESiusf8zJ9HrpFhf1X3N6+NfE+KgV4lm7K7x+JUJW9Wy9uYrF1sVjcSXV3S95nSmF8oavkXmYVRM3VwovpKtMMFqlP4eYIbjWU+yJttO8YGmVX3kjatHLEGlwFFkcyachPzKYARFN+5aVL1YwRXB4jGllQBt2YlKvAT8iF4e8pQzdXFeLQrz7jD6XHlMyv4K+JHOIgHgFp3Q5f9w6QlcTuqbE4xLfLJj8u2pUyX3gF+YR2yvK1AvewNzkJWCmK0BEVxk+47ze5sXGIlxBBUJlpfMpcIy5silBKHI9S9iPaOQswqoQ4EJ2VEXEbVw1E7hsYg2V/vmYTvr7V1xNEH0/MPmnmmLGZYjTSv1B8sbrampYVFYPuP7khC5H7j2V9mpgrUMUXK8bULI3VlxajMwR9RmVOZcqFXI3EGQy94sMHxEt1kwn3MGz5C2J7iKpHHZljzm4u1O+0uL/AsXhO0b+XPptW2HEajqpRRzjMwdCPUlzcqZ6JEi2sEM0rlec2Ge/EbSOi2Tk5EWRS7XmXwMlO7n/MIQqMSl8BdH3NV7CBf9x4fC5+iESFZghcakry3f7l0h6RB1FSDDaG5cEJZx2lmjLEBS+QwUARyJeIVeAEOz4/MDNHBjXiW0JbaqLIA7JLnl5iov3kNTvr3JjGgCqzjyP8Am2FkGwsTv1u/hXxBiebrvMHLfGx2F4rD9xK1oGc23qXuK7NdpU5Db/BCVTW3caXClq18ENkcukWkO7/wmInvzZU7EJsXbDENLFVXRfeUFqUwaq+ZYssIEistNPuCmgZOQneZZXWcDxAoGNfch5wGPaJgg0+YgjHgf0i5uch+5VDQCLouSW2l+CXmaLD3NtzWZVFzfTfROjDricMGHJp+Y5aigOGrb2dpXdBknlDql0zxGdKHavj/AOQKLhWdr2jMmONipkxVwDL58Rt8lWLX1KkY8JLjIvyoqloO0vOIyaaQAGFBa3XMUj54qetS2UhXg/6ZZHQzF9n1BLTApihB2s4ez3uYZepyc+ZWisPmFqgOJwyiDVA8xAMDywtS87439rP3NbsdOel9KlTiVHSpqMZCdLBqnaL+cjwsyDAYxxAaqBPcxLgqDTi3n9zKKqLn+4BdtOZUZAdsPMY/1wERA+CKj36OH7HtMNVBCoMOo8USn5jUcAQF0WbiDFf1GgVbK/xKZc58eSpjArl4ZkWjIINC3v3gLPKPjiXG2SDah9R18RdkfZGpQDsSxNTXUlzj4MWg1OcREqCqraHME5lA9w/xtQYui/KRmYEBeWiUIueUKHg0ASZcH6JbBnF/L6j2M5c8Ec6W9+IXuw0eZr4beI1PwLixeN57TvCoxZMDIf8AqQLEtL58+IBkLytIw3mCWijmbSCtN1FdxdS8zsQDfsgUC1mcYB89KldK+Ko73iBoYW3Ls9y22C/ljMGnpqEINrlNsba5i3o8fqA0tOO0FQXyROjPcQWFZbwWAEBrh7HiXu8X/RGNW/PMy8qmajpwgUf33jnZrgBuB8BlTXqV9i2r7+I3BDs0n+IJN637l8DjJ4mCFC+5bvyRZZLN4uZtYFuKKzVLHSul7zWib62cqaH0TiMuX8rHpG1Np2jdFWBg7/eIFPQ5rsRGcGiPewGoG04WWQduWUBbKWyi1oMFTAXMnJUqdNGJcugFiDO+oPTsCXJBeoNwsZfaFy4lNFgyYjoPGJwHtZ9/+kUjoWPuBQL23/3iMvsFzZ4RLPEWxGCFrtL71q65YLwh9NW6bWVRXwPh6lxuombSgK7CbXUFGrS37lwMauXpeCzBYZ9CGSMtL71CKrZ0cx3Ip+pitqLuZRSRrUwYmMFHeOAV+4FiXhVxCYdNwFLN+IaFkX4UgacK5jyxjfyigfEucgVLqMG9mkqAdyy/+YrMm7QBxMqoWX26Mv4HSwQzCqkniytBNctF+pYe2CVb7krcbwxgyCUPzBLt/sXGtS6i5hmWloGtxEYMXuYYmQ/Upwkv/mAW3tM2E2LlFLDMD4AiHtyf3APAWSg8cwiHFy8vKYSNkMZY/ZEOkJQzqu8b2EEVh2aX5YBrj+DiGi+G6iyoWVl/4ibEYo8QVXnT1M9shX4hXHTFPduUycAA97i8ZRKrtEmAgQ0UtUveBOtheHKCAqVDi4qtV0Mb5lt3A4SxxcLWjnsh/wCzlGgiF4hlFZ7sy13iEbd9oWB/URFRtcAJjlR5o7CWD5o7BXwPmNXlLPkqF4AUGBrJLBQ+ok+8yAMwVSV+FG5c1Fi/cwygdohLKwhQL/V/1KEAMUSmq5mwrEsGNFXDwJLxxiE2NpHmphTkLNr/AO/EMDmlnaYp3CRpQWpqJXZaiVTfpXcP4K1ZmKSfA5+qnjfKcD+FHTc1041/AA2ht4f+S9I4DJ2lgOC/uLeJvMMtC2w7AqkHMHZqtO85XCzk7Qwo4IHAQwKx0+9K4XB5S2hZ3gxAFi5pxA6EfhCog7PaMgR2QrqKfEO+qat7jbyQz3omhq/DkgNFox6M/ucdKlfFKJDFgVubT+uMQ8DC1UuDLDiL3VwBxGaFVDWVgWKTQ1zKRTlSO9gjvANq2sf7lhKxu+gQK1HVStVEsiVhwQO1GyWkHIPgqb6ktxUUAjZ4gK7VeYpg4iWZjdVHF88+INCbpKOJx1ZUYdOPgtZWiNYQhb9EZuxyz98kr3La4lKwWBLGCLzbGPDKQLlBv3FKd6ThWgBbDY86SbtOREAWJC5ZD+4YuZ3mFQmhIyFn6l5xbHEKGFBKFXiDlWEqBgji4lFl1EXNtm9rGFrrftnx++lfJN8KPxFHgwEwhsVF9cE8RCcBUcA8x0GOCCgpo2ojKy5G1kYubIrDnxK4ug5X/wBQWiKix8wL/EEd5bmNcwHKuiPZgxT9yp3vPumouo0BqBTzH0pUMNFRTEjml2pXixN4h9Ra4mVJhmsDPq7l24j0YfPmB3D+iU+k2g1WWMLxFOquTCZMy7pxHjI7zJZqZftHL0YVBlVVfq5oSwA5IT9oAXbXMzmKlbziZh3gSTUC/Iy1hNBNjxGA9pV/8QsZVFSrLiMCyRUVoh0m6dxaxuQ1/wBcqLyJaxpS/wBkGJ4muuYTn5alAkUOUtnk4ZkqlK9JxL9hdvzDKOWCkJVbS5foqehAraW+YTYMTKhQSzwGWp7Rs2Myv9kYaKe5MsE8wumLtBuFq4glGGYwczGAK1xuVgsUIxsgV4sX9DMfDcJz8waarU+w/wAxKTmB3I6uIt4vEIoFJjMSlwTKEVXOIy2PCyXlxUzF1Hs7JNiONEsag1VVBCQEj3mWEkHVh3jQS9pBsaA2m12/4+FM5/hRGIUkYtiTkjOsBetxMmrVLyeJcE0q4VYqICjE8lmNip+OjwzN8Qk40gn6lkxRBlovEOoYQG+J3YbdIfZB0kwPyH8QMQwB1Zfwv5MsqzEe5yQ6YaNx27DcSyEhPwQ2XMEs1xzDrKO0aQiEClIhK0hb1DG2rOZfHJFWmPPeKisfOKlVLzCpAabzEc7WsGoBbUH4ej/MCNgiQJt3lU8kshQihbzHBbArLHyivpK/hqvaVYqWs7hwNrS8PqYAGNzNZu2fUWagENzFNNEbSg4uMXbLymXmZw07jAUpVwdn3UEAoFB2Jz05l30rpfwr4phJsS4CTKBXk/zGUIRaSVILvEHFcQ0yLbMaS7Kla4I3qJaA/cLQNWEqAzYLBKkrWIAeZZdMtG5eyVq8xqJRBg9zD6bXZ5nHWujOfhfyuXAqKFHkhkjotzUTWWBTDGurgGibjqDDGLVrI1OM3Et2gcGX5GV2ka8R1huWP9oNACMdj4L8b6VDq9L6kyLAiQ1kufFMMqHWhi2EDBjusGePq5WAdjFMv+RDi4ZZTrLPEAk7wYsL9tly/px3irnKhGY1hFaWgq5f+dfPSpXS+gfLXSpUJqJc35UZAquJXlMxJSDPAuCGrvAmGbIDPEQfQEXjnKVXL0DaQoTVEvOWYdDchYTGDzKIDrtLZXBxGpDADmYykXc33+NdM9Oel/A6XLl9H4HShO5+owwaDswsjMYm7iKgbV+I3AuXAYrm4BalE5peY4AVQqiFnLEGoxdTcB0H8n1P/v8AA9efi9WHQWe7/pYE7JA75hALIwzkuIp2gZVHtLmcBe0rM7vErP7Q7YjqhiJS3AyQSvJwHLCdC97JfzYfCv4K6um7f0sNQYXMiKvJLx1mFVEMouNRqBHFQAvmXOMRghl5xGcWFXHiXyGo9mCeUfiDoHw18anE4l/C5cvqrFFR5UhEG1cBAZmdgxqm8sAgYerIbi6g+BDgT/aMmscixEC3Ld5H8wKAjLl9L6D8uOl9HM30qKAqgHeAmycIy7TGhao7YWXeCsriZ2yJo+5mwnaLBaPuxw5R6abO1wBq2FtqJhBn3YxW1/ZFfR+eOp1MRlSpUKgC1WgO8bhZVR9naNTs3stryd2NKVymFHGqzCOrlN4ivRiITOYropgBVIAoENQjcFGvWOAzQ44Q3ACqDt6eYJN7RYnzP4KlagzhwYCd/wBAH0Ns3f8A8Q97qJU3NwzqpTxYgrjbmYr4lhBqncpOJnYioVifml0uonkiPGZiScLFaNTPzmQWj0ioSrEDy2EEu8DI/vj7gNAsSxPnZ1elRkANq6laQFXWkFlzLwz77ymaZ/ETRbgiVxLtjmGFPQ1zcwzDEPQ6Gt8TJxmXuJQmIRXaNVygqly1EqzDm1OJqXJBx1Nn3MQKCUA0Nf0YtibqN+HmALVnc63Lj8bj4Wm364PLLGWwY3CgbjyZfcNELt5iDVxyRmsm4JQ2rcDueYIjuHI9nzLENHmKLZtn4sHhUXM3EqO4zbKLYgnGXCszGveWqSoTgILHuFKzFFe7HmMAxP8ACdkvewDeV98TXjwSdKjLhDxttZfRBsupIv67R/8A1iR3VityEqFtRzHvBuJNtEyYwwchOVwf8MFo0zuXskceGKO5WriGGiDtJXZcPSHBYvYyxXMTtKOnBbOeBdeoECFZBa3CCxI9Jno+zUAQxHL9kIsOcQ9keiSTWBUfI2xvhZV9AcRS5zqLVdEdwa6VGVU0xLm2Csw4O3TgdkjrpKFZvDxCpQcVAsltqS1gn1BWaqKtEPaMFCVWVx5gYkHxHLLF3AxBbcxgzAhZqNihGBZYxEqg2OIe+Y/rcgr96ZkBHbiITtu4sx6JRfXbUQpe0u4N4nHQ0jXkmmJCq+jDCMaG4M1BqBfTp0sYVkhNLMR4FqdwUBodiGWOCadOJUIEuppFj44RwjP/2Q==" alt="陈晨 Zackery Chen" width="304" height="365">
         <figcaption class="glass">UC DAVIS ’22</figcaption>
       </figure>
     </div>
-
-    <div class="hero-meta">
-      <div><b><span class="zh">创始人</span><span class="en">Founder</span></b><span class="zh">云想亿创 · 2025 至今</span><span class="en">Yunxiang Yichuang · 2025–now</span></div>
-      <div><b>AliExpress</b><span class="zh">欧洲联盟运营 · 荷/法/德</span><span class="en">EU affiliates · NL / FR / DE</span></div>
-      <div><b><span class="zh">京东集团</span><span class="en">JD.com</span></b><span class="zh">两次晋升 · 三个事业部</span><span class="en">Promoted twice · 3 units</span></div>
-      <div><b>UC Davis</b><span class="zh">商业经济管理 · 本科</span><span class="en">B.S. Managerial Economics</span></div>
-    </div>
-
-    <div class="cue"><span></span><i class="zh" style="font-style:normal">向下滚动</i><i class="en" style="font-style:normal">Scroll</i></div>
   </div>
 </section>
 
-<!-- ===== FIGURES ===== -->
-<section class="sec" id="figures" style="padding-top:40px">
+<section class="sec" id="figures">
   <div class="wrap">
-    <div class="eyebrow rv"><span class="zh">关键数据</span><span class="en">Key figures</span></div>
-    <h2 class="h2 rv"><span class="zh">用数字说话。<em>每一项都来自真实业务。</em></span><span class="en">Numbers first. <em>Each one from live business.</em></span></h2>
-    <div class="figs">
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="10.7" data-pre=">">10.7</span></div>
-        <div class="k"><span class="zh">联盟渠道运营 ROI</span><span class="en">Affiliate channel ROI</span></div>
-        <div class="s"><span class="zh">同比 +65% · AliExpress 荷兰</span><span class="en">+65% YoY · AliExpress NL</span></div>
-      </div>
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="130" data-pre="+" data-suf="%">+130%</span></div>
-        <div class="k"><span class="zh">月度峰值 GMV 同比增长</span><span class="en">Peak monthly GMV growth</span></div>
-        <div class="s"><span class="zh">峰值 &gt; 15 万欧 · AliExpress</span><span class="en">Peak &gt; €150K · AliExpress</span></div>
-      </div>
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="9800" data-n-en="98" data-pre="¥" data-suf="万+" data-suf-en="M+">¥9800万+</span></div>
-        <div class="k"><span class="zh">类目 GMV 运营达成</span><span class="en">Category GMV delivered</span></div>
-        <div class="s"><span class="zh">手机 / 数码 / 汽车用品 · 京东国际</span><span class="en">Phones, digital, auto · JD International</span></div>
-      </div>
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="2600" data-n-en="26" data-suf="万+" data-suf-en="M+">2600万+</span></div>
-        <div class="k"><span class="zh">AI 模型训练数据处理量</span><span class="en">AI training data items processed</span></div>
-        <div class="s"><span class="zh">首年客户群 +50% · 京东科技</span><span class="en">Client base +50% in year one · JD Tech</span></div>
-      </div>
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="1200" data-n-en="12" data-pre="¥" data-suf="万" data-suf-en="M">¥1200万</span></div>
-        <div class="k"><span class="zh">B 端项目收入贡献</span><span class="en">B2B project revenue</span></div>
-        <div class="s"><span class="zh">毛利 ¥200 万 · 交付准确率 &gt; 96%</span><span class="en">¥2M gross profit · &gt; 96% accuracy</span></div>
-      </div>
-      <div class="fig glass rv">
-        <div class="v"><span class="num" data-n="180" data-suf="%+">180%+</span></div>
-        <div class="k"><span class="zh">生态 BD 季度目标达成</span><span class="en">Ecosystem BD quarterly target</span></div>
-        <div class="s"><span class="zh">贡献毛利 200 万+ · 京东科技</span><span class="en">¥2M+ gross profit · JD Tech</span></div>
-      </div>
-    </div>
+    <div class="eyebrow rv"><span class="zh">核心数据</span><span class="en">Key figures</span></div>
+    <div class="figs"><div class="fig glass rv"><div class="v"><span class="num" data-n="10.7" data-pre="&gt;">&gt;10.7</span></div><div class="k"><span class="zh">联盟渠道运营 ROI</span><span class="en">Affiliate channel ROI</span></div><div class="s"><span class="zh">AliExpress 荷兰 · 同比 +65%</span><span class="en">AliExpress NL · +65% YoY</span></div></div><div class="fig glass rv"><div class="v"><span class="num" data-n="120" data-pre="+" data-suf="%">+120%</span></div><div class="k"><span class="zh">大促用户同比增长</span><span class="en">Campaign users, YoY</span></div><div class="s"><span class="zh">GMV 目标达成 105%</span><span class="en">105% of GMV target</span></div></div><div class="fig glass rv"><div class="v"><span class="num" data-n="8">8</span></div><div class="k"><span class="zh">新接入荷兰头部渠道</span><span class="en">New Dutch partner channels</span></div><div class="s">Tweakers · Beslist · TradeTracker …</div></div><div class="fig glass rv"><div class="v"><span class="num" data-n="30" data-suf="+">30+</span></div><div class="k"><span class="zh">引入品牌与供应商</span><span class="en">Brands &amp; suppliers onboarded</span></div><div class="s"><span class="zh">京东工业品出海</span><span class="en">JD industrial, overseas</span></div></div></div>
   </div>
 </section>
 
-<!-- ===== WORK ===== -->
-<section class="sec" id="work" style="padding-top:40px">
+<section class="sec" id="work">
   <div class="wrap">
-    <div class="eyebrow rv"><span class="zh">工作经历 · 2019 — 至今</span><span class="en">Experience · 2019 — now</span></div>
-    <h2 class="h2 rv"><span class="zh">四座城市，<em>一条增长曲线。</em></span><span class="en">Four cities, <em>one growth curve.</em></span></h2>
-
-    <div class="career">
-      <aside class="panel glass" aria-live="polite">
-        <div class="swap" id="pSwap">
-          <span class="yr" id="pYear">2025<small id="pSpan">2025.05 — 至今</small></span>
-          <div class="city" id="pCity">全国</div>
-          <div class="org" id="pOrg">云想亿创</div>
-        </div>
-        <div class="route" aria-hidden="true">
-          <svg viewBox="0 0 300 56" preserveAspectRatio="none">
-            <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--warm)"/></linearGradient></defs>
-            <path class="track" d="M6 40 C 50 4, 90 4, 78 28 S 140 52, 150 28 S 210 0, 222 22 S 280 50, 294 16"/>
-            <path class="lit" id="routeLit" d="M6 40 C 50 4, 90 4, 78 28 S 140 52, 150 28 S 210 0, 222 22 S 280 50, 294 16"/>
-            <circle cx="6" cy="40" r="4"/><circle cx="78" cy="28" r="4"/><circle cx="150" cy="28" r="4"/><circle cx="222" cy="22" r="4"/><circle cx="294" cy="16" r="4"/>
-          </svg>
-        </div>
-        <div class="route-labels" aria-hidden="true"><span>SF/BJ</span><span>BJ</span><span>BJ</span><span>HZ</span><span>CN</span></div>
-      </aside>
-
-      <div class="jobs">
-        <!-- order: newest first; panel route maps index from oldest -->
-        <article class="job glass rv" data-step="4" data-year="2025" data-span-zh="2025.05 — 至今" data-span-en="May 2025 — now" data-city-zh="全国" data-city-en="Nationwide, China" data-org-zh="北京云想亿创科技有限公司" data-org-en="Beijing Yunxiang Yichuang Technology">
-          <header><h3><span class="zh">云想亿创</span><span class="en">Yunxiang Yichuang</span></h3><span class="when">2025.05 — <span class="zh">至今</span><span class="en">now</span></span></header>
-          <p class="role"><span class="zh">创始人 &amp; 产品经理</span><span class="en">Founder &amp; Product Manager</span></p>
-          <h4><span class="zh">项目定义与精准拓客</span><span class="en">Positioning &amp; targeting</span></h4>
-          <ul>
-            <li><span class="zh">创立 <b>AI 原生</b>青少年社会化赋能与高阶咨询平台，切中家长面对 AI 变革时代的教育与成长焦虑。</span><span class="en">Founded an <b>AI-native</b> platform for youth social development and premium advisory, addressing parents’ education anxiety in the AI era.</span></li>
-            <li><span class="zh">亲自跑通 B 端市场调研（关键机构合作、国际校区洽谈）、客群画像与竞品分析，定位高净值核心客群。</span><span class="en">Ran B2B market research myself (institution partnerships, international-school talks), customer personas and competitor analysis to target high-net-worth families.</span></li>
-          </ul>
-          <h4><span class="zh">获客与商业化</span><span class="en">Acquisition &amp; monetisation</span></h4>
-          <ul>
-            <li><span class="zh">设计“引流标品 → 高客单全案”的阶梯式盈利模式，推进与国际学校、素质教育机构的战略合作与联合招募。</span><span class="en">Designed a tiered model from entry product to high-ticket full programme; built partnerships and joint enrolment with international schools and enrichment providers.</span></li>
-            <li><span class="zh">作为唯一负责人，不依赖外部大额融资，独立跑通“研发 → 获客 → 交付 → 结算”闭环，累计 <b>GMV 10 万+</b>。</span><span class="en">As sole operator and without large outside funding, closed the full R&amp;D → acquisition → delivery → settlement loop; <b>¥100K+ cumulative GMV</b>.</span></li>
-          </ul>
-          <div class="chips"><span class="chip">0→1</span><span class="chip">B2B2C</span><span class="chip">AI-native</span><span class="chip">Pricing ladder</span></div>
-        </article>
-
-        <article class="job glass rv" data-step="3" data-year="2024" data-span-zh="2024.09 — 2025.04" data-span-en="Sep 2024 — Apr 2025" data-city-zh="杭州 · 面向欧洲" data-city-en="Hangzhou → Europe" data-org-zh="阿里巴巴 · AliExpress 速卖通" data-org-en="Alibaba · AliExpress">
-          <header><h3><span class="zh">阿里国际 · 阿里巴巴集团</span><span class="en">Alibaba International</span></h3><span class="when">2024.09 — 2025.04</span></header>
-          <p class="role"><span class="zh">国家联盟运营经理 · AliExpress 速卖通事业部</span><span class="en">Country Affiliate Operations Manager · AliExpress</span></p>
-          <h4><span class="zh">用户增长 &amp; 联盟 BD · 荷兰 / 法国 / 德国</span><span class="en">User growth &amp; affiliate BD · NL / FR / DE</span></h4>
-          <ul>
-            <li><span class="zh">负责荷兰联盟渠道整体用户数与 GMV，按月制定各渠道合作策略与 ROI 规划，同步集团大促节奏。</span><span class="en">Owned users and GMV for all Dutch affiliate channels; set monthly per-channel strategy and ROI plans aligned with group campaigns.</span></li>
-            <li><span class="zh">Black Friday、Cyber Monday、Anniversary 等核心大促 GMV 目标达成 <b>105%</b>，用户数同比 <b>+120%</b>。</span><span class="en">Hit <b>105%</b> of GMV target across Black Friday, Cyber Monday and Anniversary; users <b>+120% YoY</b>.</span></li>
-            <li><span class="zh">从 0 到 1 牵头达成与 Tweakers、Beslist、TradeTracker、Shoparize、Connexity、Salesoar、Twenga、Booncy 的官方合作，接入 CPS / Fixed / CPC 模式。</span><span class="en">Led zero-to-one partnerships with Tweakers, Beslist, TradeTracker, Shoparize, Connexity, Salesoar, Twenga and Booncy on CPS, fixed and CPC terms.</span></li>
-            <li><span class="zh">月度峰值 GMV <b>&gt; 15 万欧</b>（同比 +130%），运营 ROI <b>&gt; 10.7</b>（同比 +65%；比价 2–4.8、CSS 8–12、Coupon 2–6）。</span><span class="en">Peak monthly GMV <b>&gt; €150K</b> (+130% YoY); ROI <b>&gt; 10.7</b> (+65% YoY; price-comparison 2–4.8, CSS 8–12, coupon 2–6).</span></li>
-          </ul>
-          <h4><span class="zh">技术与协作</span><span class="en">Tech &amp; collaboration</span></h4>
-          <ul>
-            <li><span class="zh">原有数据路径无法同步链接，主动搭建 <b>OSS 云服务</b>直连渠道商，实现商品、库存、价格的稳定同步。</span><span class="en">When the existing feed couldn’t sync links, built a direct <b>OSS cloud</b> feed to partners for stable product, stock and price sync.</span></li>
-            <li><span class="zh">协助法、德团队推进 PriceComp 与 Google CSS 渠道；与荷兰、法国、西班牙、波兰、乌克兰同事跨时区协作。</span><span class="en">Supported FR and DE teams on PriceComp and Google CSS; worked across time zones with colleagues in NL, FR, ES, PL and UA.</span></li>
-          </ul>
-          <div class="chips"><span class="chip">Affiliate</span><span class="chip">CSS</span><span class="chip">CPS / CPC</span><span class="chip">ROI</span><span class="chip">OSS feed</span></div>
-        </article>
-
-        <article class="job glass rv" data-step="2" data-year="2022" data-span-zh="2022.05 — 2024.07" data-span-en="May 2022 — Jul 2024" data-city-zh="北京" data-city-en="Beijing" data-org-zh="京东科技控股 · 两次晋升" data-org-en="JD Technology · promoted twice">
-          <header><h3><span class="zh">京东集团 · 京东科技</span><span class="en">JD.com · JD Technology</span></h3><span class="when">2022.05 — 2024.07</span></header>
-          <p class="role"><span class="zh">产品运营 &amp; 商品经理（两次晋升）</span><span class="en">Product Ops &amp; Merchandise Manager (promoted twice)</span></p>
-          <h4><span class="zh">工业国际事业部 · 采销</span><span class="en">Industrial International · Procurement</span></h4>
-          <ul>
-            <li><span class="zh">负责工业 MRO 清洁用品类目，针对目标国与 KA 客户引入品牌及供应商 <b>30+</b> 家。</span><span class="en">Ran the industrial MRO cleaning category; brought in <b>30+</b> brands and suppliers for target markets and KA clients.</span></li>
-            <li><span class="zh">承接新能源企业全球工厂物料需求，结合 AI 需求识别模型流转 <b>2000+</b> 条有效商机；需求有效转化率 <b>85%+</b>。</span><span class="en">Served global factories of new-energy companies; routed <b>2,000+</b> qualified leads via an AI demand model; <b>85%+</b> demand conversion.</span></li>
-            <li><span class="zh">拉通巴西使馆与头部零售商，安排 VP 与 3M、Bosch、Delta 海外分部洽谈；代表京东主持 Global Shapers 活动，覆盖 <b>120+</b> 国青年领袖，会后收到简历 50+ 份。</span><span class="en">Connected the Brazilian embassy and top retailers; set up VP meetings with 3M, Bosch and Delta overseas; hosted a Global Shapers event for leaders from <b>120+</b> countries (50+ applications received).</span></li>
-          </ul>
-          <h4><span class="zh">技术服务事业部 · 内容安全风控</span><span class="en">Tech Services · Content safety</span></h4>
-          <ul>
-            <li><span class="zh">承接 ML 大模型数据训练需求，处理数据 <b>2600 万+</b>，首年客户群体 +50%；人机协同需求立项 <b>140+</b>。</span><span class="en">Delivered ML training data at <b>26M+</b> items, growing clients 50% in year one; scoped <b>140+</b> human-in-the-loop projects.</span></li>
-            <li><span class="zh">打通零售、工业、医药、物流全板块合作，季度目标 <b>180%+</b>；交付准确率 &gt; 96%，收入 / 毛利 <b>1200 万 / 200 万</b>。</span><span class="en">Won work across retail, industrial, health and logistics, <b>180%+</b> of quarterly target; &gt; 96% accuracy, revenue / GP <b>¥12M / ¥2M</b>.</span></li>
-            <li><span class="zh">参与搭建英伟达自动驾驶等项目的启动 → 培训 → 投产 → 交付 → 结算全生命周期，产出 SOP 知识库 40+ 页、培训文档 80+ 版。</span><span class="en">Helped stand up full lifecycles for projects incl. NVIDIA autonomous driving; wrote a 40+ page SOP base and 80+ training doc versions.</span></li>
-          </ul>
-          <h4><span class="zh">财税商事业务部 · 知识产权</span><span class="en">Finance &amp; Tax · IP services</span></h4>
-          <ul>
-            <li><span class="zh">商标专利服务覆盖 45 全类目，累计服务中小企业 <b>1 万+</b>，产品收入 <b>1000 万+</b>。</span><span class="en">Trademark and patent services across all 45 classes; <b>10K+</b> SME cases, <b>¥10M+</b> revenue.</span></li>
-            <li><span class="zh">组织知识产权主题活动 30+ 场，单次 ROI &gt; 10，单轮最高收入 / 毛利 290 万 / 100 万。</span><span class="en">Ran 30+ IP events, ROI &gt; 10 each; best single round ¥2.9M revenue / ¥1M GP.</span></li>
-          </ul>
-          <div class="chips"><span class="chip">MRO</span><span class="chip">KA</span><span class="chip">AI data</span><span class="chip">ERP / WMS</span><span class="chip">IP</span></div>
-        </article>
-
-        <article class="job glass rv" data-step="1" data-year="2021" data-span-zh="2021.08 — 2022.01" data-span-en="Aug 2021 — Jan 2022" data-city-zh="北京" data-city-en="Beijing" data-org-zh="京东国际 · 管培生留用 offer" data-org-en="JD International · MT return offer">
-          <header><h3><span class="zh">京东国际 · 京东零售</span><span class="en">JD International · JD Retail</span></h3><span class="when">2021.08 — 2022.01</span></header>
-          <p class="role"><span class="zh">行业经理实习（获事业部管培生留用 offer）</span><span class="en">Industry Manager Intern (management-trainee return offer)</span></p>
-          <ul>
-            <li><span class="zh">参与双 11、黑五、双 12、年货节，官方店海外用户增长 <b>4000+</b>，手机、数码、汽车用品类目 GMV <b>9800 万+</b>。</span><span class="en">Through Singles’ Day, Black Friday and New Year campaigns, grew overseas users by <b>4,000+</b>; phones, digital and auto GMV <b>¥98M+</b>.</span></li>
-            <li><span class="zh">协助打标出海商品 2000 万+ 件；客服平响缩短 20 秒（-50%），售后时效 -50%，海关报备时效 -57%。</span><span class="en">Tagged 20M+ SKUs for export; cut service response by 20s (-50%), after-sales time 50% and customs filing time 57%.</span></li>
-            <li><span class="zh">撰写系统优化 BRD，统筹跨境 WMS、17track 物流监控、海关税务报备与商家后台售后全流程。</span><span class="en">Wrote system BRDs; ran cross-border WMS, 17track monitoring, customs filing and merchant after-sales end to end.</span></li>
-          </ul>
-        </article>
-
-        <article class="job glass rv" data-step="0" data-year="2019" data-span-zh="2019.07 — 2020.11" data-span-en="Jul 2019 — Nov 2020" data-city-zh="北京 / 旧金山" data-city-en="Beijing / San Francisco" data-org-zh="引思知 InGenius Prep" data-org-en="InGenius Prep">
-          <header><h3>InGenius Prep</h3><span class="when">2019.07 — 2020.11</span></header>
-          <p class="role"><span class="zh">市场部实习</span><span class="en">Marketing Intern</span></p>
-          <ul>
-            <li><span class="zh">协助 BD 多地举办线下活动，吸引 <b>100+</b> 已签约家庭与 <b>2000+</b> 潜在客户；策划制作 4 分钟公司宣传片。</span><span class="en">Supported offline events reaching <b>100+</b> signed families and <b>2,000+</b> prospects; produced a 4-minute company film.</span></li>
-            <li><span class="zh">发表文章 5+ 篇，平均阅读 1000+，最高 5k+；与三家合作企业共同策划公众活动。</span><span class="en">Published 5+ articles, avg 1,000+ reads, peak 5K+; co-planned public events with three partner firms.</span></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </div>
-
-  <div class="marquee" aria-label="Partners and brands">
-    <div class="mq-label"><span class="zh">合作过的渠道与品牌</span><span class="en">Channels &amp; brands worked with</span></div>
-    <div class="mq" id="mq">
-      <span class="f">Tweakers</span><span>Beslist</span><span class="f">TradeTracker</span><span>Shoparize</span><span class="f">Connexity</span><span>Salesoar</span><span class="f">Twenga</span><span>Booncy</span><span class="f">Google CSS</span><span>3M</span><span class="f">Bosch</span><span>Delta</span><span class="f">NVIDIA</span><span>Global Shapers</span>
-      <span class="f" aria-hidden="true">Tweakers</span><span aria-hidden="true">Beslist</span><span class="f" aria-hidden="true">TradeTracker</span><span aria-hidden="true">Shoparize</span><span class="f" aria-hidden="true">Connexity</span><span aria-hidden="true">Salesoar</span><span class="f" aria-hidden="true">Twenga</span><span aria-hidden="true">Booncy</span><span class="f" aria-hidden="true">Google CSS</span><span aria-hidden="true">3M</span><span class="f" aria-hidden="true">Bosch</span><span aria-hidden="true">Delta</span><span class="f" aria-hidden="true">NVIDIA</span><span aria-hidden="true">Global Shapers</span>
-    </div>
+    <div class="eyebrow rv"><span class="zh">履历</span><span class="en">Experience</span></div>
+    <ol class="tl" id="tl"><li class="tl-row rv"><span class="tl-when">2025.05 —</span><div class="tl-who"><b><span class="zh">云想亿创</span><span class="en">Yunxiang Yichuang</span></b><span><span class="zh">创始人 &amp; 产品经理</span><span class="en">Founder &amp; PM</span></span></div><p><span class="zh">AI 原生青少年咨询平台，独立跑通获客到结算，累计 GMV 10 万+</span><span class="en">AI-native youth advisory; ran acquisition to settlement solo, ¥100K+ GMV</span></p></li><li class="tl-row rv"><span class="tl-when">2024.09 — 2025.04</span><div class="tl-who"><b><span class="zh">阿里国际 · AliExpress</span><span class="en">Alibaba · AliExpress</span></b><span><span class="zh">国家联盟运营经理 · 荷 / 法 / 德</span><span class="en">Country affiliate manager · NL / FR / DE</span></span></div><p><span class="zh">新接入 8 家荷兰头部渠道，运营 ROI > 10.7，大促用户同比 +120%</span><span class="en">8 new Dutch channels, ROI > 10.7, campaign users +120% YoY</span></p></li><li class="tl-row rv"><span class="tl-when">2022.05 — 2024.07</span><div class="tl-who"><b><span class="zh">京东科技</span><span class="en">JD Technology</span></b><span><span class="zh">产品运营 &amp; 商品经理 · 两次晋升</span><span class="en">Product ops &amp; merchandise manager · promoted twice</span></span></div><p><span class="zh">工业品出海采销，引入品牌与供应商 30+；AI 数据与知产业务的生态 BD</span><span class="en">Industrial goods for overseas buyers, 30+ brands and suppliers; ecosystem BD for AI data and IP services</span></p></li><li class="tl-row rv"><span class="tl-when">2021.08 — 2022.01</span><div class="tl-who"><b><span class="zh">京东国际</span><span class="en">JD International</span></b><span><span class="zh">行业经理实习 · 获管培生留用</span><span class="en">Industry manager intern · MT return offer</span></span></div><p><span class="zh">跨境售后时效 −50%，海关报备时效 −57%</span><span class="en">Cross-border after-sales time −50%, customs filing −57%</span></p></li><li class="tl-row rv"><span class="tl-when">2019.07 — 2020.11</span><div class="tl-who"><b>InGenius Prep</b><span><span class="zh">市场部实习</span><span class="en">Marketing intern</span></span></div><p><span class="zh">协助线下活动触达 2,000+ 潜在客户</span><span class="en">Helped offline events reach 2,000+ prospects</span></p></li><li class="tl-row tl-edu rv"><span class="tl-when">2018 — 2022</span><div class="tl-who"><b>UC Davis</b><span><span class="zh">经济管理学士</span><span class="en">B.S. Managerial Economics</span></span></div><p><span class="zh">US News 2027 美国公立大学第 8（并列）</span><span class="en">No. 8 US public university (tied), U.S. News 2027</span></p></li></ol>
   </div>
 </section>
 
-<!-- ===== SKILLS ===== -->
-<section class="sec" id="skills" style="padding-top:20px">
+<section class="sec" id="skills">
   <div class="wrap">
-    <div class="eyebrow rv"><span class="zh">核心能力</span><span class="en">Capabilities</span></div>
-    <h2 class="h2 rv"><span class="zh">谈得下来，<em>也跑得起来。</em></span><span class="en">Close the deal, <em>then run it.</em></span></h2>
-    <div class="skills">
-      <div class="skill glass rv">
-        <span class="ix">A · GROWTH</span>
-        <h3><span class="zh">用户增长与联盟渠道</span><span class="en">User growth &amp; affiliates</span></h3>
-        <p><span class="zh">比价、CSS、Coupon、内容渠道的 ROI 规划与放量；大促节奏、GMV 与用户双目标管理。</span><span class="en">ROI planning and scaling across price-comparison, CSS, coupon and content channels; campaign pacing with GMV and user targets.</span></p>
+    <div class="eyebrow rv"><span class="zh">能力雷达</span><span class="en">Capability radar</span></div>
+    <p class="sec-note rv"><span class="zh">三位评审按简历证据各自打分（0–5），取中位数；分差大于 1 分的维度由第四位评审裁定。悬停查看依据。</span><span class="en">Three reviewers scored the resume evidence independently (0–5); the median is shown, and a fourth settled any axis where they differed by more than a point. Hover for the evidence.</span></p>
+    <div class="radar-wrap glass rv" id="radarWrap">
+      <div class="legend" aria-hidden="true"><span class="lg-cur"><span class="zh">现状</span><span class="en">Now</span></span><span class="lg-tgt"><span class="zh">12 个月目标</span><span class="en">12-month target</span></span></div>
+      <div class="radar-grid">
+        <div class="radar-fig"><svg class="radar" viewBox="0 0 700 520" role="img" aria-labelledby="radarTitle radarDesc"><title id="radarTitle">能力雷达 Capability radar</title><desc id="radarDesc">Channel growth: 3 now, 4 target; Partnerships: 3 now, 4 target; Global fluency: 3.5 now, 4 target; Venture building: 2.5 now, 3 target; Leadership: 1.5 now, 2.5 target; Data &amp; tech: 2 now, 3 target; Supply chain: 2.5 now, 3 target</desc><g class="r-grid"><polygon points="350.0,224.0 376.6,236.8 383.1,265.6 364.8,288.6 335.2,288.6 316.9,265.6 323.4,236.8"/><polygon points="350.0,190.0 403.2,215.6 416.3,273.1 379.5,319.3 320.5,319.3 283.7,273.1 296.8,215.6"/><polygon points="350.0,156.0 429.7,194.4 449.4,280.7 394.3,349.9 305.7,349.9 250.6,280.7 270.3,194.4"/><polygon points="350.0,122.0 456.3,173.2 482.6,288.3 409.0,380.5 291.0,380.5 217.4,288.3 243.7,173.2"/><polygon points="350.0,88.0 482.9,152.0 515.7,295.8 423.8,411.2 276.2,411.2 184.3,295.8 217.1,152.0"/><line x1="350" y1="258" x2="350.0" y2="88.0"/><line x1="350" y1="258" x2="482.9" y2="152.0"/><line x1="350" y1="258" x2="515.7" y2="295.8"/><line x1="350" y1="258" x2="423.8" y2="411.2"/><line x1="350" y1="258" x2="276.2" y2="411.2"/><line x1="350" y1="258" x2="184.3" y2="295.8"/><line x1="350" y1="258" x2="217.1" y2="152.0"/></g><g class="r-ticks" aria-hidden="true"><text x="356.0" y="228.0">1</text><text x="356.0" y="194.0">2</text><text x="356.0" y="160.0">3</text><text x="356.0" y="126.0">4</text><text x="356.0" y="92.0">5</text></g><polygon class="r-tgt" points="350.0,122.0 456.3,173.2 482.6,288.3 394.3,349.9 313.1,334.6 250.6,280.7 270.3,194.4"/><polygon class="r-cur" points="350.0,156.0 429.7,194.4 466.0,284.5 386.9,334.6 327.9,303.9 283.7,273.1 283.5,205.0"/><g class="r-pts" aria-hidden="true"><circle class="p-tgt" cx="350.0" cy="122.0" r="4"/><circle class="p-cur" cx="350.0" cy="156.0" r="5"/><circle class="p-tgt" cx="456.3" cy="173.2" r="4"/><circle class="p-cur" cx="429.7" cy="194.4" r="5"/><circle class="p-tgt" cx="482.6" cy="288.3" r="4"/><circle class="p-cur" cx="466.0" cy="284.5" r="5"/><circle class="p-tgt" cx="394.3" cy="349.9" r="4"/><circle class="p-cur" cx="386.9" cy="334.6" r="5"/><circle class="p-tgt" cx="313.1" cy="334.6" r="4"/><circle class="p-cur" cx="327.9" cy="303.9" r="5"/><circle class="p-tgt" cx="250.6" cy="280.7" r="4"/><circle class="p-cur" cx="283.7" cy="273.1" r="5"/><circle class="p-tgt" cx="270.3" cy="194.4" r="4"/><circle class="p-cur" cx="283.5" cy="205.0" r="5"/></g><g class="ax" data-i="0" tabindex="0" aria-label="Channel growth: 3 → 4"><circle class="hit" cx="350.0" cy="156.0" r="20"/><text class="r-lab" x="350.0" y="42.0" text-anchor="middle"><tspan class="zh">渠道增长</tspan><tspan class="en">Channel growth</tspan><tspan class="r-val" x="350.0" dy="1.25em">3 → 4</tspan></text></g><g class="ax" data-i="1" tabindex="0" aria-label="Partnerships: 3 → 4"><circle class="hit" cx="429.7" cy="194.4" r="20"/><text class="r-lab" x="500.1" y="134.3" text-anchor="start"><tspan class="zh">商务拓展</tspan><tspan class="en">Partnerships</tspan><tspan class="r-val" x="500.1" dy="1.25em">3 → 4</tspan></text></g><g class="ax" data-i="2" tabindex="0" aria-label="Global fluency: 3.5 → 4"><circle class="hit" cx="466.0" cy="284.5" r="20"/><text class="r-lab" x="537.2" y="296.7" text-anchor="start"><tspan class="zh">国际化</tspan><tspan class="en">Global fluency</tspan><tspan class="r-val" x="537.2" dy="1.25em">3.5 → 4</tspan></text></g><g class="ax" data-i="3" tabindex="0" aria-label="Venture building: 2.5 → 3"><circle class="hit" cx="386.9" cy="334.6" r="20"/><text class="r-lab" x="433.3" y="447.0" text-anchor="start"><tspan class="zh">创业与商业化</tspan><tspan class="en">Venture building</tspan><tspan class="r-val" x="433.3" dy="1.25em">2.5 → 3</tspan></text></g><g class="ax" data-i="4" tabindex="0" aria-label="Leadership: 1.5 → 2.5"><circle class="hit" cx="327.9" cy="303.9" r="20"/><text class="r-lab" x="266.7" y="447.0" text-anchor="end"><tspan class="zh">团队管理</tspan><tspan class="en">Leadership</tspan><tspan class="r-val" x="266.7" dy="1.25em">1.5 → 2.5</tspan></text></g><g class="ax" data-i="5" tabindex="0" aria-label="Data &amp; tech: 2 → 3"><circle class="hit" cx="283.7" cy="273.1" r="20"/><text class="r-lab" x="162.8" y="296.7" text-anchor="end"><tspan class="zh">数据与技术</tspan><tspan class="en">Data &amp; tech</tspan><tspan class="r-val" x="162.8" dy="1.25em">2 → 3</tspan></text></g><g class="ax" data-i="6" tabindex="0" aria-label="Supply chain: 2.5 → 3"><circle class="hit" cx="283.5" cy="205.0" r="20"/><text class="r-lab" x="199.9" y="134.3" text-anchor="end"><tspan class="zh">跨境供应链</tspan><tspan class="en">Supply chain</tspan><tspan class="r-val" x="199.9" dy="1.25em">2.5 → 3</tspan></text></g></svg><div class="tip" id="radarTip" role="tooltip" hidden><div data-tip="0" hidden><b><span class="zh">渠道增长</span><span class="en">Channel growth</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 3 · <span class="zh">目标</span><span class="en">Target</span> 4</span><p><span class="zh">荷兰联盟渠道由你负责：运营 ROI > 10.7，大促 GMV 目标达成 105%。只覆盖 1 个市场、8 个月；实习期的 GMV 属团队结果，未计入。</span><span class="en">You owned Dutch affiliates: ROI > 10.7, 105% of campaign GMV target. One market for 8 months; intern-era GMV was a team result and isn’t counted.</span></p></div><div data-tip="1" hidden><b><span class="zh">商务拓展</span><span class="en">Partnerships</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 3 · <span class="zh">目标</span><span class="en">Target</span> 4</span><p><span class="zh">落地 8 家荷兰渠道的官方合作；京东引入 30+ 品牌与供应商。京东生态 BD 多为集团内部客户，巴西与 3M / Bosch 的会面属于协调，不计为成交。</span><span class="en">Landed 8 Dutch channel partnerships; onboarded 30+ brands and suppliers at JD. JD ecosystem BD sold mostly to internal units; the Brazil and 3M / Bosch meetings were coordination, not deals.</span></p></div><div data-tip="2" hidden><b><span class="zh">国际化</span><span class="en">Global fluency</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 3.5 · <span class="zh">目标</span><span class="en">Target</span> 4</span><p><span class="zh">美国求学 8 年，英语是工作语言；负责荷兰市场并与 5 国同事协作，有巴西资源。海外一线运营只有 1 个国家、8 个月。</span><span class="en">Eight years of US education, English as a working language; ran the Dutch market with colleagues in five countries and has Brazil contacts. Hands-on overseas operation: one country, 8 months.</span></p></div><div data-tip="3" hidden><b><span class="zh">创业与商业化</span><span class="en">Venture building</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 2.5 · <span class="zh">目标</span><span class="en">Target</span> 3</span><p><span class="zh">独立跑通获客到结算，累计 GMV 10 万+，没有外部融资。17 个月、月均不到 6,000 元，没有客户数、复购或获客成本。</span><span class="en">Ran acquisition to settlement alone, ¥100K+ GMV, no outside funding. Under ¥6,000 a month over 17 months, with no customer count, repeat rate or CAC.</span></p></div><div data-tip="4" hidden><b><span class="zh">团队管理</span><span class="en">Leadership</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 1.5 · <span class="zh">目标</span><span class="en">Target</span> 2.5</span><p><span class="zh">全文没有下属、招聘或预算归属；创业期是一人公司。两次晋升说明表现好，但不等于带人。</span><span class="en">No reports, hiring or budget ownership anywhere; the startup is a team of one. Two promotions show performance, not people leadership.</span></p></div><div data-tip="5" hidden><b><span class="zh">数据与技术</span><span class="en">Data &amp; tech</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 2 · <span class="zh">目标</span><span class="en">Target</span> 3</span><p><span class="zh">亲手搭建 OSS 数据源直连渠道，解决商品、库存、价格同步。SQL 只出现在技能栏；没有 Python、A/B 测试或 BI 看板。</span><span class="en">Built an OSS feed straight to partners to fix product, stock and price sync. SQL appears only in the skills line; no Python, A/B tests or BI dashboards.</span></p></div><div data-tip="6" hidden><b><span class="zh">跨境供应链</span><span class="en">Supply chain</span></b><span class="tip-n"><span class="zh">现状</span><span class="en">Now</span> 2.5 · <span class="zh">目标</span><span class="en">Target</span> 3</span><p><span class="zh">京东 MRO 采销：30+ 供应商、需求转化率 85%+。WMS、报关、定价等实操来自实习期；没有品类 GMV 或毛利数据。</span><span class="en">JD MRO buying: 30+ suppliers, 85%+ demand conversion. WMS, customs and pricing work came from the internship; no category GMV or margin.</span></p></div></div></div>
+        <ol class="ax-list" aria-label="能力评分表 Score table"><li data-i="0"><span class="ax-n"><span class="zh">渠道增长</span><span class="en">Channel growth</span></span><span class="ax-bar" aria-hidden="true"><i style="width:60%"></i><b style="left:80%"></b></span><span class="ax-v">3<em>→ 4</em></span></li><li data-i="1"><span class="ax-n"><span class="zh">商务拓展</span><span class="en">Partnerships</span></span><span class="ax-bar" aria-hidden="true"><i style="width:60%"></i><b style="left:80%"></b></span><span class="ax-v">3<em>→ 4</em></span></li><li data-i="2"><span class="ax-n"><span class="zh">国际化</span><span class="en">Global fluency</span></span><span class="ax-bar" aria-hidden="true"><i style="width:70%"></i><b style="left:80%"></b></span><span class="ax-v">3.5<em>→ 4</em></span></li><li data-i="3"><span class="ax-n"><span class="zh">创业与商业化</span><span class="en">Venture building</span></span><span class="ax-bar" aria-hidden="true"><i style="width:50%"></i><b style="left:60%"></b></span><span class="ax-v">2.5<em>→ 3</em></span></li><li data-i="4"><span class="ax-n"><span class="zh">团队管理</span><span class="en">Leadership</span></span><span class="ax-bar" aria-hidden="true"><i style="width:30%"></i><b style="left:50%"></b></span><span class="ax-v">1.5<em>→ 2.5</em></span></li><li data-i="5"><span class="ax-n"><span class="zh">数据与技术</span><span class="en">Data &amp; tech</span></span><span class="ax-bar" aria-hidden="true"><i style="width:40%"></i><b style="left:60%"></b></span><span class="ax-v">2<em>→ 3</em></span></li><li data-i="6"><span class="ax-n"><span class="zh">跨境供应链</span><span class="en">Supply chain</span></span><span class="ax-bar" aria-hidden="true"><i style="width:50%"></i><b style="left:60%"></b></span><span class="ax-v">2.5<em>→ 3</em></span></li></ol>
       </div>
-      <div class="skill glass rv">
-        <span class="ix">B · PARTNERSHIPS</span>
-        <h3><span class="zh">生态 BD 与大客户</span><span class="en">Ecosystem BD &amp; key accounts</span></h3>
-        <p><span class="zh">从 0 到 1 拿下海外头部渠道；对接使馆、国际品牌与国央企 KA，跨文化、跨时区推进。</span><span class="en">Zero-to-one deals with leading overseas channels; embassies, global brands and SOE key accounts across cultures and time zones.</span></p>
-      </div>
-      <div class="skill glass rv">
-        <span class="ix">C · SUPPLY</span>
-        <h3><span class="zh">采销、商品与跨境供应链</span><span class="en">Merchandising &amp; cross-border supply</span></h3>
-        <p><span class="zh">品牌与供应商引入、价格与毛利模型、WMS 与海关报备、一站式 MRO 采购方案。</span><span class="en">Brand and supplier sourcing, pricing and margin models, WMS and customs, one-stop MRO procurement plans.</span></p>
-      </div>
-      <div class="skill glass rv">
-        <span class="ix">D · AI &amp; OPS</span>
-        <h3><span class="zh">AI 数据与 B 端交付</span><span class="en">AI data &amp; B2B delivery</span></h3>
-        <p><span class="zh">模型训练数据项目从立项到结算的全生命周期，SOP 沉淀与成本收入模型；如今用 AI 工具独立构建产品。</span><span class="en">Full lifecycle of model-training data projects, SOPs and cost-revenue models; now builds products solo with AI tools.</span></p>
-      </div>
-    </div>
-    <div class="tools glass rv">
-      <div class="eyebrow"><span class="zh">工具</span><span class="en">Tools</span></div>
-      <span>Claude Code</span><span>Gemini</span><span>ChatGPT / Codex</span><span>SQL</span><span>MS Office</span><span>ERP · WMS</span>
     </div>
   </div>
 </section>
 
-<!-- ===== EDUCATION ===== -->
-<section class="sec" id="edu" style="padding-top:20px">
+<section class="sec" id="improve">
   <div class="wrap">
-    <div class="eyebrow rv"><span class="zh">教育背景</span><span class="en">Education</span></div>
-    <h2 class="h2 rv"><span class="zh">在美国读书，<em>在中国做事。</em></span><span class="en">Educated in the US, <em>building in China.</em></span></h2>
-    <div class="edu">
-      <article class="glass rv">
-        <span class="when">2018.08 — 2022.04 · California</span>
-        <h3>University of California, Davis</h3>
-        <p><span class="zh">加州大学戴维斯分校 · 本科 · 主修商业经济管理</span><span class="en">B.S. Managerial Economics, full-time</span></p>
-        <span class="tag"><span class="zh">美国公立大学 Top 5</span><span class="en">Top 5 US public university</span></span><span class="tag">QS US Top 25</span>
-      </article>
-      <article class="glass rv">
-        <span class="when">2014.08 — 2018.06 · New Jersey</span>
-        <h3>Pope John XXIII Regional High School</h3>
-        <p><span class="zh">约翰教皇二十三世高中 · NJSIAA 联盟</span><span class="en">NJSIAA member school</span></p>
-        <span class="tag"><span class="zh">机器人大赛州冠军</span><span class="en">State champion, robotics</span></span><span class="tag"><span class="zh">音乐剧团体州冠军</span><span class="en">State champion, musical theatre</span></span><span class="tag"><span class="zh">公立大学奖学金</span><span class="en">University scholarship</span></span>
-      </article>
-    </div>
-    <div class="life rv">
-      <div><b><span class="zh">语言</span><span class="en">Languages</span></b><p><span class="zh">英语 · 德语（基础）</span><span class="en">English · German (basic)</span></p></div>
-      <div><b><span class="zh">证照</span><span class="en">Licences</span></b><p><span class="zh">中、美两国机动车驾驶证</span><span class="en">Driving licences, China &amp; US</span></p></div>
-      <div><b><span class="zh">户外</span><span class="en">Outdoors</span></b><p><span class="zh">自驾 50+ 城市 · 重装/轻装徒步 · L2 冲浪 · 网球 · 滑雪</span><span class="en">Road trips to 50+ cities · trekking · L2 surfing · tennis · skiing</span></p></div>
-    </div>
+    <div class="eyebrow rv"><span class="zh">改进方向</span><span class="en">Where to improve</span></div>
+    <div class="imps"><article class="imp glass rv"><header><span class="imp-ax"><span class="zh">团队管理</span><span class="en">Leadership</span></span><span class="imp-d">1.5 → 2.5</span></header><p><span class="zh">下一份工作争取 1–3 名直接下属或明确的渠道预算；或在云想亿创招 2–3 名兼职顾问，并对他们的产出负责。</span><span class="en">Negotiate 1–3 direct reports or an explicit channel budget in the next role, or hire 2–3 part-time consultants at the startup and own their output.</span></p></article><article class="imp glass rv"><header><span class="imp-ax"><span class="zh">数据与技术</span><span class="en">Data &amp; tech</span></span><span class="imp-d">2 → 3</span></header><p><span class="zh">用 SQL + Python 做一个公开的渠道归因与 ROI 看板，附一次真实的 A/B 或对照测试，放到 GitHub 并链接到这个主页。</span><span class="en">Ship a public channel-attribution and ROI dashboard in SQL + Python with one real A/B or holdout test, on GitHub and linked here.</span></p></article><article class="imp glass rv"><header><span class="imp-ax"><span class="zh">渠道增长</span><span class="en">Channel growth</span></span><span class="imp-d">3 → 4</span></header><p><span class="zh">负责 2 个以上市场的渠道损益，联盟、CSS、券类在同一预算下统筹，用对照测试汇报增量 ROI，而不是末次点击。</span><span class="en">Own channel P&amp;L for 2+ markets with affiliate, CSS and coupons under one budget, and report incremental ROI from holdout tests rather than last click.</span></p></article><article class="imp glass rv"><header><span class="imp-ax"><span class="zh">商务拓展</span><span class="en">Partnerships</span></span><span class="imp-d">3 → 4</span></header><p><span class="zh">自己谈下并维护 20+ 外部伙伴的组合，亲自谈佣金阶梯和独家条款，按伙伴汇报 GMV 贡献。</span><span class="en">Build and run a book of 20+ external partners, negotiate commission tiers and exclusives yourself, and report GMV per partner.</span></p></article></div>
+    <button class="open-sb rv" id="openSb" type="button"><span class="zh">查看完整诊断与海外路线</span><span class="en">See the full review and overseas routes</span> <span aria-hidden="true">→</span></button>
   </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
-<section class="sec contact" id="contact" style="padding-top:20px">
+<section class="sec contact" id="contact">
   <div class="wrap">
     <div class="eyebrow rv"><span class="zh">联系</span><span class="en">Contact</span></div>
-    <p class="cta rv"><span class="zh">下一条增长曲线，<span class="grad">一起谈。</span></span><span class="en">Let’s talk about the <span class="grad">next growth curve.</span></span></p>
     <div class="cards">
       <div class="cc glass rv">
-        <div><small><span class="zh">邮箱</span><span class="en">Email</span></small><a href="mailto:zackerychen@outlook.com" id="email">zackerychen@outlook.com</a></div>
+        <div><small><span class="zh">邮箱</span><span class="en">Email</span></small><a href="mailto:zackerychen@outlook.com">zackerychen@outlook.com</a></div>
         <button class="copy" type="button" data-copy="zackerychen@outlook.com"><span class="zh">复制</span><span class="en">Copy</span></button>
       </div>
       <div class="cc glass rv">
@@ -790,9 +580,7 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
         <button class="copy" type="button" data-copy="+8615560995809"><span class="zh">复制</span><span class="en">Copy</span></button>
       </div>
     </div>
-  </div>
-  <div class="wrap">
-    <footer><span>© 2026 陈晨 Zackery Chen</span><span><span class="zh">北京 · 随时到岗</span><span class="en">Beijing · Available now</span></span></footer>
+    <footer><span>© 2026 陈晨 Zackery Chen</span><span>中文 · English · Deutsch</span></footer>
   </div>
 </section>
 </main>
@@ -806,7 +594,7 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
   /* ---- language ---- */
   function lang(){return root.dataset.lang}
   try{var saved=localStorage.getItem('zc-lang'); if(saved==='en'||saved==='zh') root.dataset.lang=saved;}catch(e){}
-  function syncLang(){root.lang=lang()==='zh'?'zh-CN':'en'; nums.forEach(function(n){if(n.done)n.el.textContent=fmt(n,1)}); updatePanel(true)}
+  function syncLang(){root.lang=lang()==='zh'?'zh-CN':'en'; nums.forEach(function(n){if(n.done)n.el.textContent=fmt(n,1)})}
   document.getElementById('lang').addEventListener('click',function(){
     root.dataset.lang=lang()==='zh'?'en':'zh';
     try{localStorage.setItem('zc-lang',lang())}catch(e){}
@@ -856,59 +644,54 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
     },{passive:true});
   }
 
-  /* ---- career panel ---- */
-  var jobs=Array.from(document.querySelectorAll('.job')), active=-1;
-  var pSwap=document.getElementById('pSwap'),pYear=document.getElementById('pYear'),pCity=document.getElementById('pCity'),pOrg=document.getElementById('pOrg');
-  var lit=document.getElementById('routeLit'), dots=Array.from(document.querySelectorAll('.route circle')), labs=Array.from(document.querySelectorAll('.route-labels span'));
-  var L=lit.getTotalLength(); lit.style.strokeDasharray=L; lit.style.strokeDashoffset=L;
-  var stops=[0,.27,.5,.74,1];
-  function fill(j){
-    var d=j.dataset,en=lang()==='en';
-    pYear.firstChild.nodeValue=d.year;
-    pYear.querySelector('small').textContent=en?d.spanEn:d.spanZh;
-    pCity.textContent=en?d.cityEn:d.cityZh; pOrg.textContent=en?d.orgEn:d.orgZh;
-  }
-  function updatePanel(force){
-    var mid=innerHeight*.5, idx=0;
-    jobs.forEach(function(j,i){if(j.getBoundingClientRect().top<mid) idx=i});
-    if(idx===active&&!force) return;
-    var changed=idx!==active; active=idx;
-    jobs.forEach(function(j,i){j.classList.toggle('active',i===idx)});
-    var step=+jobs[idx].dataset.step;
-    dots.forEach(function(c,i){c.classList.toggle('on',i<=step)}); labs.forEach(function(s,i){s.classList.toggle('on',i===step)});
-    if(changed&&!reduce){pSwap.classList.add('out');setTimeout(function(){fill(jobs[active]);pSwap.classList.remove('out')},220)} else fill(jobs[idx]);
+  /* ---- timeline: line draws with scroll, dots light as rows pass ---- */
+  var tl=document.getElementById('tl'), tlRows=Array.from(tl.querySelectorAll('.tl-row'));
+  function drawTl(){
+    var r=tl.getBoundingClientRect(), line=innerHeight*.62;
+    tl.style.setProperty('--tl',Math.max(0,Math.min(1,(line-r.top)/r.height)).toFixed(3));
+    tlRows.forEach(function(row){row.classList.toggle('on',row.getBoundingClientRect().top+20<line)});
   }
 
+  /* ---- radar: hover / focus an axis or table row for the evidence ---- */
+  var rWrap=document.getElementById('radarWrap'), rTip=document.getElementById('radarTip'), rFig=rWrap.querySelector('.radar-fig');
+  var axes=Array.from(rWrap.querySelectorAll('.ax')), axRows=Array.from(rWrap.querySelectorAll('.ax-list li'));
+  function showAx(i){
+    axes.forEach(function(a){a.classList.toggle('hl',+a.dataset.i===i)});
+    axRows.forEach(function(a){a.classList.toggle('hl',+a.dataset.i===i)});
+    if(i<0){rTip.hidden=true;return}
+    Array.from(rTip.children).forEach(function(c){c.hidden=+c.dataset.tip!==i});
+    rTip.hidden=false;
+    var hit=axes[i].querySelector('.hit').getBoundingClientRect(), box=rFig.getBoundingClientRect();
+    var x=hit.left+hit.width/2-box.left, y=hit.top+hit.height/2-box.top;
+    var w=rTip.offsetWidth, h=rTip.offsetHeight;
+    // sit beside the point, on the side away from the chart's centre, so the point and its label stay visible
+    var left=x<box.width/2?x+22:x-w-22; left=Math.max(0,Math.min(box.width-w,left));
+    var top=Math.max(0,Math.min(box.height-h,y-h/2));
+    rTip.style.left=left+'px'; rTip.style.top=top+'px';
+  }
+  axes.concat(axRows).forEach(function(el){
+    var i=+el.dataset.i;
+    el.addEventListener('pointerenter',function(){showAx(i)});
+    el.addEventListener('pointerleave',function(){showAx(-1)});
+    el.addEventListener('focus',function(){showAx(i)});
+    el.addEventListener('blur',function(){showAx(-1)});
+  });
+
   /* ---- scroll loop ---- */
-  var prog=document.getElementById('progress'), mq=document.getElementById('mq'), navLinks=Array.from(document.querySelectorAll('.nav-links a'));
+  var prog=document.getElementById('progress'), navLinks=Array.from(document.querySelectorAll('.nav-links a'));
   var secs=navLinks.map(function(a){return document.querySelector(a.getAttribute('href'))});
-  var ticking=false, t0=performance.now();
+  var ticking=false;
   function frame(){
     ticking=false;
     var sy=scrollY, max=document.documentElement.scrollHeight-innerHeight;
     prog.style.setProperty('--p',max>0?(sy/max).toFixed(4):0);
     if(!reduce) root.style.setProperty('--sy',Math.min(sy,1200).toFixed(0));
-    updatePanel(false);
-    // route progress across the work section
-    var w=document.getElementById('work').getBoundingClientRect();
-    var k=Math.max(0,Math.min(1,(innerHeight*.5-w.top)/(w.height-innerHeight*.4)));
-    var step=+jobs[active].dataset.step; var target=Math.max(stops[step],Math.min(1,k));
-    lit.style.strokeDashoffset=(L*(1-target)).toFixed(1);
+    drawTl();
     var on=-1; secs.forEach(function(s,i){if(s&&s.getBoundingClientRect().top<innerHeight*.4)on=i});
     navLinks.forEach(function(a,i){a.classList.toggle('on',i===on)});
   }
   addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(frame)}},{passive:true});
   addEventListener('resize',frame);
-
-  // marquee: time drift + scroll push
-  if(!reduce){
-    (function loop(t){
-      var half=mq.scrollWidth/2;
-      var x=-(((t-t0)*.03+scrollY*.35)%half);
-      mq.style.setProperty('--mq',x.toFixed(1)+'px');
-      requestAnimationFrame(loop);
-    })(t0);
-  }
 
   /* ---- copy ---- */
   document.querySelectorAll('.copy').forEach(function(b){
@@ -932,6 +715,7 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
   var sbPref=null; try{sbPref=localStorage.getItem('zc-sb')}catch(e){}
   setSb(wide.matches&&sbPref!=='0',false);
   sbBtn.addEventListener('click',function(){setSb(!root.classList.contains('sb-open'),true)});
+  document.getElementById('openSb').addEventListener('click',function(){setSb(true,true);sbIn.scrollTo({top:0});document.getElementById('sbClose').focus()});
   document.getElementById('sbClose').addEventListener('click',function(){setSb(false,true);sbBtn.focus()});
   document.getElementById('sbScrim').addEventListener('click',function(){setSb(false,false)});
   addEventListener('keydown',function(e){if(e.key==='Escape'&&root.classList.contains('sb-open')&&!wide.matches)setSb(false,false)});
@@ -951,7 +735,7 @@ html[data-lang="en"] .dir h3{font-family:var(--f-display);font-weight:800}
   });
 
   // gaps: click jumps to the section; scrolling the page lights the gaps about that section
-  var gaps=Array.from(document.querySelectorAll('.gap')), refIds=['figures','work','skills','edu','contact'], curRef='';
+  var gaps=Array.from(document.querySelectorAll('.gap')), refIds=['figures','work','skills','improve','contact'], curRef='';
   gaps.forEach(function(g){g.addEventListener('click',function(){
     var el=g.dataset.ref==='top'?document.body:document.getElementById(g.dataset.ref);
     if(!wide.matches)setSb(false,false);
