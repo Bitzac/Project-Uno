@@ -1,0 +1,30 @@
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="window glass">
+  <aside class="side" aria-label="导航">
+    <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="brand"><h1><b>AI</b> 能力 OS</h1><p>AI Fluency Index</p></div>
+    <div class="mobilelv" id="mobileLv"></div>
+    <div class="lvcard" id="lvCard"><div class="lvname">正在读取评估快照…</div></div>
+    <nav class="nav" id="nav">
+      <button data-v="overview" aria-current="page"><svg viewBox="0 0 20 20"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>总览</button>
+      <button data-v="ladder"><svg viewBox="0 0 20 20"><path d="M3 17h4v-4h4V9h4V5h2"/></svg>能力阶梯<em id="navLadder"></em></button>
+      <button data-v="fourd"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 3v14M3 10h14"/></svg>4D 素养</button>
+      <button data-v="evidence"><svg viewBox="0 0 20 20"><path d="M4 16V9M8 16V5M12 16v-5M16 16V3"/></svg>使用证据<em id="navEv"></em></button>
+      <button data-v="quiz"><svg viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="14" rx="2"/><path d="M7 8l2 2 4-4M7 14h6"/></svg>自评问卷<em id="navQuiz"></em></button>
+      <button data-v="history"><svg viewBox="0 0 20 20"><path d="M3 15l4-5 3 3 4-6 3 4"/></svg>历史趋势<em id="navHist"></em></button>
+      <button data-v="method"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 9v5M10 6.5v.01"/></svg>方法与口径</button>
+    </nav>
+    <div class="sidefoot" id="sideFoot">评估数据存放在本页面的私有数据库，不进公开仓库。</div>
+  </aside>
+  <main class="main" id="main">
+    <section class="view" id="v-overview" data-view="overview"></section>
+    <section class="view" id="v-ladder" data-view="ladder" hidden></section>
+    <section class="view" id="v-fourd" data-view="fourd" hidden></section>
+    <section class="view" id="v-evidence" data-view="evidence" hidden></section>
+    <section class="view" id="v-quiz" data-view="quiz" hidden></section>
+    <section class="view" id="v-history" data-view="history" hidden></section>
+    <section class="view" id="v-method" data-view="method" hidden></section>
+  </main>
+</div>
+<div id="tip" hidden></div>
+<div id="toast" class="glass" role="status" aria-live="polite" hidden></div>

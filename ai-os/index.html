@@ -1,0 +1,1033 @@
+<title>AI 能力 OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>/* Layout: one liquid-glass window — fixed left sidebar (brand, level, nav) beside a scrolling main pane; every view opens with its conclusion, detail tables follow; hairlines inside glass, heavy type for numbers and verdicts. */
+:root{--bg:#E8EDF5;--blob1:#9CC3FF;--blob2:#CBB9FF;--blob3:#A6E5D0;--blob4:#FFD2AE;--ink:#0B1220;--muted:#4A566A;--faint:#667287;--glass-a:rgba(255,255,255,.64);--glass-b:rgba(255,255,255,.3);--glass-edge:rgba(255,255,255,.92);--glass-inner:rgba(255,255,255,.98);--shadow:rgba(30,46,84,.18);--line:rgba(11,18,32,.18);--line-soft:rgba(11,18,32,.08);--field:rgba(255,255,255,.5);--track:rgba(11,18,32,.07);--sel-bg:#0B1220;--sel-fg:#FFFFFF;--s1:#2a78d6;--s1-soft:rgba(42,120,214,.14);--s2:#eb6834;--s2-soft:rgba(235,104,52,.12);--q0:rgba(11,18,32,.07);--q1:#cde2fb;--q2:#9ec5f4;--q3:#5598e7;--q4:#256abf;--q5:#104281;--good:#0ca30c;--warn:#fab219;--serious:#ec835a;--crit:#d03b3b;--tip:rgba(255,255,255,.94);--hair:1px;--f-num:"Outfit","Noto Sans SC",system-ui,sans-serif;--f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;--f-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070B14;--blob1:#17306B;--blob2:#34226A;--blob3:#0D4A3C;--blob4:#5A3412;--ink:#EEF2F8;--muted:#A7B1C2;--faint:#8792A5;--glass-a:rgba(28,34,50,.62);--glass-b:rgba(12,16,26,.42);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.16);--shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.17);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--track:rgba(255,255,255,.08);--sel-bg:#EEF2F8;--sel-fg:#0B1220;--s1:#3987e5;--s1-soft:rgba(57,135,229,.2);--s2:#d95926;--s2-soft:rgba(217,89,38,.18);--q0:rgba(255,255,255,.07);--q1:#173a6b;--q2:#1c5cab;--q3:#2a78d6;--q4:#5598e7;--q5:#9ec5f4;--tip:rgba(16,20,30,.94);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070B14;--blob1:#17306B;--blob2:#34226A;--blob3:#0D4A3C;--blob4:#5A3412;--ink:#EEF2F8;--muted:#A7B1C2;--faint:#8792A5;--glass-a:rgba(28,34,50,.62);--glass-b:rgba(12,16,26,.42);--glass-edge:rgba(255,255,255,.14);--glass-inner:rgba(255,255,255,.16);--shadow:rgba(0,0,0,.55);--line:rgba(255,255,255,.17);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--track:rgba(255,255,255,.08);--sel-bg:#EEF2F8;--sel-fg:#0B1220;--s1:#3987e5;--s1-soft:rgba(57,135,229,.2);--s2:#d95926;--s2-soft:rgba(217,89,38,.18);--q0:rgba(255,255,255,.07);--q1:#173a6b;--q2:#1c5cab;--q3:#2a78d6;--q4:#5598e7;--q5:#9ec5f4;--tip:rgba(16,20,30,.94);color-scheme:dark}
+@media (min-resolution:2dppx){:root{--hair:.5px}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:16px;overflow:hidden;position:relative}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--s1);outline-offset:2px;border-radius:6px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.78}
+.aurora i:nth-child(1){width:44vw;height:44vw;left:-12vw;top:-14vw;background:var(--blob1)}
+.aurora i:nth-child(2){width:36vw;height:36vw;right:-8vw;top:-6vw;background:var(--blob2)}
+.aurora i:nth-child(3){width:40vw;height:40vw;left:24vw;bottom:-24vw;background:var(--blob3)}
+.aurora i:nth-child(4){width:28vw;height:28vw;right:2vw;bottom:-12vw;background:var(--blob4)}
+.glass{background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(28px) saturate(175%);backdrop-filter:blur(28px) saturate(175%);border:var(--hair) solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-inner),0 24px 60px -26px var(--shadow)}
+
+/* window */
+.window{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:268px minmax(0,1fr);border-radius:28px;overflow:hidden}
+.side{display:flex;flex-direction:column;gap:18px;min-height:0;padding:18px 16px 16px;border-right:var(--hair) solid var(--line);overflow-y:auto;scrollbar-width:none}
+.side::-webkit-scrollbar{display:none}
+.lights{display:flex;gap:8px;padding:2px 6px}
+.lights span{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18)}
+.lights span:nth-child(1){background:#FF5F57}.lights span:nth-child(2){background:#FEBC2E}.lights span:nth-child(3){background:#28C840}
+.brand{padding:0 6px;display:grid;gap:2px}
+.brand h1{font:900 26px/1.1 var(--f-body);letter-spacing:.01em}
+.brand h1 b{font:800 26px/1.1 var(--f-num);letter-spacing:-.01em}
+.brand p{font:500 10.5px var(--f-num);letter-spacing:.28em;color:var(--faint);text-transform:uppercase}
+
+.lvcard{border-radius:20px;padding:14px 14px 12px;display:grid;gap:10px;background:var(--field);border:var(--hair) solid var(--line-soft)}
+.lvtop{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.lv{font:800 44px/.9 var(--f-num);letter-spacing:-.03em}
+.lvname{font:900 15px/1.3 var(--f-body)}
+.lvname small{display:block;font:400 11.5px/1.4 var(--f-body);color:var(--muted)}
+.score{text-align:right}
+.score b{display:block;font:800 30px/1 var(--f-num);font-variant-numeric:tabular-nums}
+.score span{font-size:11px;color:var(--faint)}
+.pips{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}
+.pips i{height:5px;border-radius:3px;background:var(--track)}
+.pips i.on{background:var(--q4)}
+.pips i.part{background:linear-gradient(90deg,var(--q4) var(--p),var(--track) var(--p))}
+.lvnext{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+.nav{display:grid;gap:2px}
+.nav button{display:flex;align-items:center;gap:11px;width:100%;border:0;background:none;padding:9px 10px;border-radius:12px;font-size:14.5px;font-weight:500;color:var(--muted);text-align:left}
+.nav button svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.nav button em{margin-left:auto;font:600 11.5px var(--f-num);font-style:normal;color:var(--faint);font-variant-numeric:tabular-nums}
+.nav button:hover{background:var(--field);color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--sel-bg);color:var(--sel-fg);box-shadow:0 8px 20px -10px var(--shadow)}
+.nav button[aria-current="page"] em{color:inherit;opacity:.7}
+.sidefoot{margin-top:auto;display:grid;gap:8px;padding:12px 6px 0;border-top:var(--hair) solid var(--line-soft);font-size:11.5px;color:var(--faint);line-height:1.5}
+.sidefoot b{color:var(--muted);font-weight:600}
+
+/* main */
+.main{min-width:0;min-height:0;overflow-y:auto;padding:30px 34px 48px;scroll-behavior:smooth}
+.view{display:grid;gap:22px;max-width:1160px;align-content:start}
+.vhead{display:grid;gap:10px;padding-bottom:6px}
+.eyebrow{font:600 11px var(--f-num);letter-spacing:.24em;text-transform:uppercase;color:var(--faint)}
+.eyebrow b{color:var(--ink);font-weight:800}
+.vhead h2{font:900 clamp(24px,2.7vw,36px)/1.25 var(--f-body);max-width:30ch}
+.vhead p{color:var(--muted);max-width:70ch}
+.vhead p b{color:var(--ink)}
+.panel{border-radius:22px;padding:18px 20px;min-width:0;display:grid;gap:12px;align-content:start}
+.ptitle{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ptitle h3{font:900 16px/1.35 var(--f-body)}
+.ptitle span{font-size:12px;color:var(--faint)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.grid2.wide{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+.note{font-size:12px;color:var(--faint);line-height:1.6}
+.note b{color:var(--muted)}
+
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-radius:22px;overflow:hidden}
+.kpi{padding:16px 18px 14px;display:grid;gap:4px;border-left:var(--hair) solid var(--line-soft);min-width:0;align-content:start}
+.kpi:first-child{border-left:0}
+.kpi b{font:800 clamp(26px,3vw,40px)/1 var(--f-num);letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi b small{font-size:.42em;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:3px}
+.kpi span{font-size:12px;color:var(--muted);line-height:1.4}
+.kpi.lead b{font-size:clamp(34px,4vw,54px)}
+
+/* legend & chips */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.chip{display:inline-flex;align-items:center;gap:5px;font:600 11.5px/1 var(--f-body);padding:5px 9px;border-radius:999px;border:var(--hair) solid var(--line);color:var(--muted);white-space:nowrap;background:var(--field)}
+.chip .st{width:14px;height:14px;border-radius:50%;display:inline-grid;place-items:center;font:800 9.5px/1 var(--f-num);color:#fff}
+.st.good{background:var(--good)}.st.warn{background:var(--warn);color:#3a2a00}.st.serious{background:var(--serious)}.st.crit{background:var(--crit)}.st.none{background:var(--track);color:var(--muted)}
+
+/* tables */
+.tbl{overflow-x:auto;min-width:0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:var(--hair) solid var(--line-soft);vertical-align:middle}
+thead th{font:700 10.5px var(--f-num);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);border-bottom:var(--hair) solid var(--line);white-space:nowrap}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+tbody th{font-weight:700}
+td.r,th.r{text-align:right}
+td.num,th.num{font-family:var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+td small,th small{display:block;font-weight:400;color:var(--faint);font-size:11.5px;line-height:1.45}
+tr.grp th{font:900 12.5px var(--f-body);color:var(--ink);padding-top:16px;background:none}
+tbody tr[data-tip]:hover,tbody tr:focus-visible{background:var(--s1-soft)}
+.minibar{display:flex;align-items:center;gap:8px;min-width:120px}
+.minibar i{display:block;height:8px;border-radius:0 4px 4px 0;background:var(--s1);min-width:2px}
+.minibar span{font:700 12.5px var(--f-num);font-variant-numeric:tabular-nums}
+.minibar.low i{background:var(--crit)}
+.trackbar{flex:1;height:8px;border-radius:4px;background:var(--track);position:relative;overflow:hidden;min-width:60px}
+.trackbar i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--s1)}
+.trackbar.self i{background:var(--s2)}
+.link{text-decoration:none;border-bottom:var(--hair) solid var(--line)}
+.link:hover{border-color:var(--ink)}
+
+/* charts */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.chart .ax{stroke:var(--line-soft);stroke-width:1;fill:none}
+.chart .ring{stroke:var(--line-soft);stroke-width:1;fill:none}
+.chart .lbl{fill:var(--ink);font-weight:700;font-size:12.5px}
+.chart .val{font-family:var(--f-num);font-weight:700;font-size:11px}
+.chart .hit{fill:transparent;cursor:default}
+.radarwrap{max-width:470px;margin-inline:auto;width:100%}
+.stack{display:grid;gap:16px;align-content:start;min-width:0}
+table.wide{min-width:560px}
+.acts td:first-child small{display:none}
+
+.dbars{display:grid;gap:14px}
+.dbar{display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:6px 14px;align-items:center}
+.dbar .dn{font:900 15px/1.2 var(--f-body)}
+.dbar .dn small{display:block;font:500 10.5px var(--f-num);letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.dbar .rows{display:grid;gap:4px}
+.dbar .row{display:flex;align-items:center;gap:8px}
+.dbar .row em{font:700 12.5px var(--f-num);font-style:normal;width:2.4em;text-align:right;font-variant-numeric:tabular-nums}
+.dbar .row em.na{color:var(--faint);font-weight:500}
+.axisrow{display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:14px;font:500 10.5px var(--f-num);color:var(--faint)}
+.axisrow div{display:flex;justify-content:space-between;padding-right:3.2em}
+
+/* lists */
+.facts{display:grid;gap:0}
+.fact{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;padding:10px 0;border-top:var(--hair) solid var(--line-soft);align-items:center}
+.fact:first-child{border-top:0}
+.fact b{font:700 14px/1.4 var(--f-body)}
+.fact small{grid-column:1/-1;color:var(--muted);font-size:12.5px;line-height:1.5}
+.fact .v{font:800 18px var(--f-num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.fact .v small{display:inline;font-size:11px;font-weight:600;color:var(--faint)}
+
+/* ladder */
+.ladder{display:grid;gap:10px}
+.step{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.25fr);gap:16px;border-radius:20px;padding:16px 18px;align-items:start;position:relative}
+.step .n{font:800 40px/.9 var(--f-num);letter-spacing:-.03em;color:var(--faint)}
+.step.done .n{color:var(--ink)}
+.step.cur{box-shadow:inset 0 0 0 1.5px var(--ink),0 24px 60px -26px var(--shadow)}
+.step h3{font:900 18px/1.3 var(--f-body)}
+.step p{font-size:13px;color:var(--muted);margin-top:4px}
+.step .mode{margin-top:8px}
+.checks{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.checks li{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:8px;font-size:13px;align-items:center}
+.checks li .st{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font:800 10px/1 var(--f-num);color:#fff}
+.checks li em{font:600 12px var(--f-num);font-style:normal;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.stepbar{height:4px;border-radius:2px;background:var(--track);overflow:hidden;margin-top:10px}
+.stepbar i{display:block;height:100%;background:var(--q4)}
+
+/* 4D cards */
+.dcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.dcard{border-radius:22px;padding:18px 20px;display:grid;gap:12px;align-content:start;min-width:0}
+.dcard header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dcard h3{font:900 22px/1.15 var(--f-body)}
+.dcard h3 small{display:block;font:600 11px var(--f-num);letter-spacing:.2em;color:var(--faint);text-transform:uppercase;margin-top:4px}
+.dcard .big{display:flex;gap:16px;text-align:right}
+.dcard .big div b{display:block;font:800 30px/1 var(--f-num);font-variant-numeric:tabular-nums}
+.dcard .big div span{font-size:11px;color:var(--faint)}
+.dcard .def{font-size:13.5px;color:var(--muted)}
+.subs{display:flex;flex-wrap:wrap;gap:6px}
+.subs .chip{white-space:normal;line-height:1.35}
+
+/* heatmap */
+.heatscroll{overflow-x:auto;min-width:0;padding-bottom:4px}
+.heatinner{width:max-content;display:grid;gap:4px}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,18px);grid-auto-columns:18px;gap:4px}
+.heat i{width:18px;height:18px;border-radius:5px;background:var(--q0);display:block}
+.heat i.l1{background:var(--q1)}.heat i.l2{background:var(--q2)}.heat i.l3{background:var(--q3)}.heat i.l4{background:var(--q4)}.heat i.l5{background:var(--q5)}
+.heat i.out{background:transparent}
+.heatwrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start}
+.heatdays{display:grid;grid-template-rows:repeat(7,18px);gap:4px;font:500 10px/18px var(--f-body);color:var(--faint)}
+.heatmonths{display:flex;font:500 10.5px var(--f-body);color:var(--faint);margin-left:22px;gap:0;white-space:nowrap}
+.scale{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--faint)}
+.scale i{width:12px;height:12px;border-radius:3px;display:block}
+
+/* quiz */
+.quizbar{position:sticky;top:-30px;z-index:3;border-radius:18px;padding:12px 14px 12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.quizbar .prog{flex:1;min-width:160px;display:grid;gap:5px}
+.quizbar .prog div{height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.quizbar .prog div i{display:block;height:100%;background:var(--s2);transition:width .3s}
+.quizbar .prog span{font-size:12px;color:var(--muted)}
+.btn{border:var(--hair) solid var(--line);background:var(--field);border-radius:12px;padding:8px 14px;font-weight:700;font-size:13.5px;white-space:nowrap}
+.btn:hover{background:var(--glass-a)}
+.btn.pri{background:var(--sel-bg);color:var(--sel-fg);border-color:var(--sel-bg)}
+.btn.pri:disabled{opacity:.4;cursor:not-allowed}
+.qgroup{display:grid;gap:10px}
+.qgroup>h3{font:900 18px/1.3 var(--f-body);display:flex;gap:10px;align-items:baseline;padding-top:8px}
+.qgroup>h3 small{font:600 11px var(--f-num);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.q{border-radius:18px;padding:14px 16px;display:grid;gap:10px}
+.q .qt{display:flex;gap:10px;align-items:baseline}
+.q .qt b{font:800 12px var(--f-num);color:var(--faint);flex:none;font-variant-numeric:tabular-nums}
+.q .qt span{font-weight:700;font-size:14.5px;line-height:1.5}
+.q .qt .chip{margin-left:auto;flex:none}
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.opts button{border:var(--hair) solid var(--line);background:var(--field);border-radius:12px;padding:8px 10px;font-size:13px;line-height:1.4;text-align:left;display:flex;gap:8px;align-items:flex-start;min-width:0}
+.opts button i{font:800 11px/1.6 var(--f-num);font-style:normal;color:var(--faint);flex:none}
+.opts button:hover{border-color:var(--ink)}
+.opts button[aria-checked="true"]{background:var(--sel-bg);color:var(--sel-fg);border-color:var(--sel-bg)}
+.opts button[aria-checked="true"] i{color:inherit;opacity:.7}
+
+/* empty & toast */
+.empty{border-radius:22px;padding:28px;display:grid;gap:10px;justify-items:start}
+.empty h3{font:900 20px/1.3 var(--f-body)}
+.empty p{color:var(--muted);max-width:60ch}
+.copy{justify-self:start;display:inline-flex;align-items:center;gap:10px;border-radius:12px;padding:6px 6px 6px 12px;background:var(--field);border:var(--hair) solid var(--line);font-weight:700}
+.copy code{font-family:var(--f-body);user-select:all}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:30;padding:10px 16px;border-radius:14px;font-size:13.5px;font-weight:600}
+#tip{position:fixed;z-index:40;pointer-events:none;max-width:300px;padding:9px 12px;border-radius:12px;background:var(--tip);border:var(--hair) solid var(--line);box-shadow:0 18px 40px -18px var(--shadow);font-size:12.5px;line-height:1.5;color:var(--ink);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+#tip b{display:block;font-weight:800;margin-bottom:2px}
+#tip span{color:var(--muted);display:block}
+
+@media (max-width:1180px){
+  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .kpi:nth-child(4){border-left:0}
+  .kpi:nth-child(n+4){border-top:var(--hair) solid var(--line-soft)}
+  .step{grid-template-columns:60px minmax(0,1fr)}
+  .step .checks{grid-column:2}
+}
+@media (max-width:980px){
+  .grid2,.grid2.wide,.dcards{grid-template-columns:minmax(0,1fr)}
+  .opts{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:820px){
+  body{overflow:auto;padding-block:0 16px}
+  .window{display:block;height:auto;border-radius:0 0 22px 22px;overflow:visible;margin-inline:-16px}
+  .side{position:sticky;top:0;z-index:5;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;border-right:0;border-bottom:var(--hair) solid var(--line);background:linear-gradient(145deg,var(--glass-a),var(--glass-b));-webkit-backdrop-filter:blur(28px) saturate(175%);backdrop-filter:blur(28px) saturate(175%);overflow:visible}
+  .lights,.lvcard,.sidefoot,.brand p{display:none}
+  .brand h1,.brand h1 b{font-size:19px}
+  .nav{display:flex;gap:2px;overflow-x:auto;flex:1 1 100%;scrollbar-width:none;order:3}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{flex:none;width:auto;padding:7px 11px;font-size:13.5px}
+  .nav button svg,.nav button em{display:none}
+  .mobilelv{display:flex!important}
+  .main{overflow:visible;padding:22px 16px 32px}
+  .quizbar{top:96px}
+}
+@media (max-width:560px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi{border-left:0!important;border-top:var(--hair) solid var(--line-soft)}
+  .kpi:nth-child(-n+2){border-top:0}
+  .kpi:nth-child(even){border-left:var(--hair) solid var(--line-soft)!important}
+  .kpi.lead{grid-column:1/-1;border-left:0!important}
+  .kpi.lead + .kpi{border-left:0!important;border-top:var(--hair) solid var(--line-soft)}
+  .opts{grid-template-columns:minmax(0,1fr)}
+  .step{grid-template-columns:minmax(0,1fr);gap:10px}
+  .step .checks{grid-column:auto}
+  .q .qt{flex-wrap:wrap}
+  .q .qt .chip{margin-left:0}
+  .acts th:nth-child(2),.acts td:nth-child(2){display:none}
+  .acts td:first-child small{display:block}
+}
+.mobilelv{display:none;margin-left:auto;align-items:baseline;gap:8px;font:800 15px var(--f-num)}
+.mobilelv small{font:600 12px var(--f-body);color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.main{scroll-behavior:auto}}
+</style>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="window glass">
+  <aside class="side" aria-label="导航">
+    <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="brand"><h1><b>AI</b> 能力 OS</h1><p>AI Fluency Index</p></div>
+    <div class="mobilelv" id="mobileLv"></div>
+    <div class="lvcard" id="lvCard"><div class="lvname">正在读取评估快照…</div></div>
+    <nav class="nav" id="nav">
+      <button data-v="overview" aria-current="page"><svg viewBox="0 0 20 20"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>总览</button>
+      <button data-v="ladder"><svg viewBox="0 0 20 20"><path d="M3 17h4v-4h4V9h4V5h2"/></svg>能力阶梯<em id="navLadder"></em></button>
+      <button data-v="fourd"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 3v14M3 10h14"/></svg>4D 素养</button>
+      <button data-v="evidence"><svg viewBox="0 0 20 20"><path d="M4 16V9M8 16V5M12 16v-5M16 16V3"/></svg>使用证据<em id="navEv"></em></button>
+      <button data-v="quiz"><svg viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="14" rx="2"/><path d="M7 8l2 2 4-4M7 14h6"/></svg>自评问卷<em id="navQuiz"></em></button>
+      <button data-v="history"><svg viewBox="0 0 20 20"><path d="M3 15l4-5 3 3 4-6 3 4"/></svg>历史趋势<em id="navHist"></em></button>
+      <button data-v="method"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 9v5M10 6.5v.01"/></svg>方法与口径</button>
+    </nav>
+    <div class="sidefoot" id="sideFoot">评估数据存放在本页面的私有数据库，不进公开仓库。</div>
+  </aside>
+  <main class="main" id="main">
+    <section class="view" id="v-overview" data-view="overview"></section>
+    <section class="view" id="v-ladder" data-view="ladder" hidden></section>
+    <section class="view" id="v-fourd" data-view="fourd" hidden></section>
+    <section class="view" id="v-evidence" data-view="evidence" hidden></section>
+    <section class="view" id="v-quiz" data-view="quiz" hidden></section>
+    <section class="view" id="v-history" data-view="history" hidden></section>
+    <section class="view" id="v-method" data-view="method" hidden></section>
+  </main>
+</div>
+<div id="tip" hidden></div>
+<div id="toast" class="glass" role="status" aria-live="polite" hidden></div>
+
+<script>(()=>{'use strict';
+// ---------- framework: dimensions, 4D, indicators, ladder, questions, benchmarks ----------
+const DIMS = [
+  { id: 'freq', name: '频率', desc: '多常用 AI 做实际任务' },
+  { id: 'breadth', name: '广度', desc: '覆盖多少领域和产出形态' },
+  { id: 'depth', name: '深度', desc: '单个任务的复杂度与规模' },
+  { id: 'integ', name: '集成', desc: 'AI 接入了多少工具和数据' },
+  { id: 'auto', name: '自动化', desc: '不需要你在场的产出' },
+  { id: 'orch', name: '编排', desc: '多会话、多模型的调度' },
+  { id: 'verify', name: '验证', desc: '对产出的核查与测试' },
+  { id: 'reuse', name: '沉淀', desc: '把做法固化成可复用资产' },
+];
+
+// Anthropic AI Fluency Framework (Dakan, Feller & Anthropic, 2025, CC BY-NC-SA 4.0)
+const FOURD = [
+  { id: 'delegation', name: '委派', en: 'Delegation', def: '设定目标，决定是否、何时、怎样让 AI 参与。', subs: ['问题认知', '平台认知', '任务分工'] },
+  { id: 'description', name: '描述', en: 'Description', def: '把目标讲清楚，引出有用的 AI 行为和产出。', subs: ['产出描述', '过程描述', '表现描述'] },
+  { id: 'discernment', name: '判断', en: 'Discernment', def: '准确评估 AI 的产出和行为是否有用。', subs: ['产出判断', '过程判断', '表现判断'] },
+  { id: 'diligence', name: '尽责', en: 'Diligence', def: '为用 AI 做的事、以及做事的方式负责。', subs: ['创作尽责', '透明尽责', '部署尽责'] },
+];
+
+// Evidence indicators. score = min(1, value / target) × 100. Targets are this system's
+// bar for a "system-level" user over 30 days, not an industry standard.
+const IND = [
+  { id: 'active_days', name: '活跃天数', unit: '天', target: 20, dim: 'freq', d: 'delegation', src: '会话创建、Git 提交、Artifact 更新的日期去重', fix: '每周固定 5 天用 AI 推进一件实际任务' },
+  { id: 'sessions', name: '代理会话', unit: '个', target: 30, dim: 'freq', d: 'delegation', src: 'Claude Code 会话（窗口内创建）', fix: '零散的小任务也开会话交给代理，不再手动处理' },
+  { id: 'domains', name: '领域覆盖', unit: '个', target: 10, dim: 'breadth', d: 'delegation', src: 'Artifact 与仓库项目按标题归入 12 个领域' },
+  { id: 'formats', name: '产出形态', unit: '种', target: 8, dim: 'breadth', d: 'delegation', src: '应用、报告、可视化、刊物、视频、文档等' },
+  { id: 'big_projects', name: '千行级项目', unit: '个', target: 6, dim: 'depth', d: 'description', src: '源码 ≥ 1,500 行的仓库项目（不含构建产物和数据文件）' },
+  { id: 'long_sessions', name: '长程会话', unit: '个', target: 10, dim: 'depth', d: 'description', src: '上下文用量 ≥ 40 万 token 的会话' },
+  { id: 'plan_share', name: '先计划后执行', unit: '%', target: 30, dim: 'depth', d: 'description', src: '以计划模式启动的会话占比', fix: '复杂任务用计划模式启动：先审方案，再让它动手' },
+  { id: 'connectors_used', name: '连接器使用', unit: '个', target: 'connectors_total', dim: 'integ', d: 'delegation', src: '已连接的连接器中有产出证据的个数', fix: s => `让 ${s.lists.connectors.filter(c => !c.used).map(c => c.name).join('、')} 进入工作流，例如日刊同步写入 Notion、每周复盘排进日历` },
+  { id: 'runtime_caps', name: '页面运行时能力', unit: '种', target: 4, dim: 'integ', d: 'delegation', src: '仓库代码里 claude.use() 调用的能力', fix: '给常用 OS 加 mcp 能力，页面直接读日历、Notion 的实时数据' },
+  { id: 'routines', name: '定时任务', unit: '个', target: 3, dim: 'auto', d: 'delegation', src: '运行中的周期性 Routine', fix: '再加一个周期任务，例如每月自动重测本系统' },
+  { id: 'auto_outputs', name: '每周自动产出', unit: '期', target: 7, dim: 'auto', d: 'delegation', src: '定时任务按排程每周运行的次数' },
+  { id: 'parallel_days', name: '并行日', unit: '天', target: 8, dim: 'orch', d: 'delegation', src: '同一天里有两个以上会话时间重叠', fix: '大任务拆给 2–3 个并行会话，各走各的分支' },
+  { id: 'cross_session', name: '跨会话调度', unit: '次', target: 3, dim: 'orch', d: 'diligence', src: '检查或唤醒其他会话的提醒，以及由会话派生的会话' },
+  { id: 'model_tiers', name: '模型档位', unit: '档', target: 3, dim: 'orch', d: 'delegation', src: '会话用过的模型家族（Fable、Opus、Sonnet、Haiku）', fix: '检索、批处理和子代理改用 Sonnet 或 Haiku，最难的推理交给 Fable' },
+  { id: 'verification', name: '校验环节', unit: '项', target: 12, dim: 'verify', d: 'discernment', src: '回测、质检脚本、构建校验、来源核实', fix: '给每个新项目的数据管道加一道构建期校验' },
+  { id: 'tests', name: '自动化测试', unit: '个', target: 5, dim: 'verify', d: 'discernment', src: '仓库里的测试文件', fix: '给美股晨报 signals.mjs 和成长罗盘的计分各写一组回归测试' },
+  { id: 'sop_assets', name: 'SOP 与提示资产', unit: '份', target: 6, dim: 'reuse', d: 'description', src: 'EDITOR.md 等流程文档、提示文档、长期指令', fix: '把「液态玻璃 OS」的建站流程写成一份 SOP' },
+  { id: 'rules_files', name: '规则与技能文件', unit: '个', target: 3, dim: 'reuse', d: 'description', src: 'CLAUDE.md、.claude/skills、agents、hooks', fix: '在仓库根目录写 CLAUDE.md，并把 OS 建站套路做成一个技能' },
+  { id: 'merged_ratio', name: '项目合入主干', unit: '%', target: 80, dim: 'reuse', d: 'diligence', src: '在默认分支上的项目占比', fix: s => `把只在功能分支上的 ${s.lists.projects.filter(p => !p.merged).length} 个项目合入默认分支` },
+  { id: 'privacy', name: '隐私与透明实践', unit: '项', target: 3, dim: null, d: 'diligence', src: '真实数据不进公开仓库、示例标注、提交注明 AI 参与' },
+];
+
+const MODES = { auto: '自动化', aug: '增强', agency: '代理' };
+const LADDER = [
+  { n: 1, name: '问答检索', mode: 'auto', desc: '向 AI 提问、查资料、解释概念。', checks: [
+    { t: '有 AI 使用记录', f: m => m.sessions + m.artifacts > 0, v: m => `${m.sessions} 个会话` }] },
+  { n: 2, name: '协作创作', mode: 'aug', desc: '和 AI 多轮来回，一起写文字、改代码。', checks: [
+    { t: '有 AI 参与的成品', f: m => m.artifacts >= 1, v: m => `${m.artifacts} 件 Artifact` }] },
+  { n: 3, name: '成品交付', mode: 'aug', desc: '一次交付可以直接使用的应用、报告或视频。', checks: [
+    { t: '产出 ≥ 10 件', f: m => m.artifacts + m.projects >= 10, v: m => `${m.artifacts + m.projects} 件` },
+    { t: '产出形态 ≥ 3 种', f: m => m.formats >= 3, v: m => `${m.formats} 种` }] },
+  { n: 4, name: '代理执行', mode: 'auto', desc: '把多步骤任务交给带工具的代理：读代码、写代码、跑脚本、提交。', checks: [
+    { t: '代理会话 ≥ 5 个', f: m => m.sessions >= 5, v: m => `${m.sessions} 个` },
+    { t: '代理写入仓库的提交 ≥ 10 次', f: m => m.commits >= 10, v: m => `${m.commits} 次` }] },
+  { n: 5, name: '无人值守', mode: 'agency', desc: 'AI 按时自动运行、自动发布，不需要你在场。', checks: [
+    { t: '运行中的定时任务 ≥ 1 个', f: m => m.routines >= 1, v: m => `${m.routines} 个` },
+    { t: '每周自动产出 ≥ 5 期', f: m => m.auto_outputs >= 5, v: m => `${m.auto_outputs} 期` }] },
+  { n: 6, name: '系统编排', mode: 'agency', need: 5, desc: 'AI 是一套被管理的系统：多会话调度、规则沉淀、自动测试，成果被别人使用。', checks: [
+    { t: '跨会话调度 ≥ 2 次', f: m => m.cross_session >= 2, v: m => `${m.cross_session} 次` },
+    { t: 'SOP 与提示资产 ≥ 3 份', f: m => m.sop_assets >= 3, v: m => `${m.sop_assets} 份` },
+    { t: '规则或技能文件 ≥ 1 个', f: m => m.rules_files >= 1, v: m => `${m.rules_files} 个` },
+    { t: '自动化测试 ≥ 1 个', f: m => m.tests >= 1, v: m => `${m.tests} 个` },
+    { t: '项目合入主干 ≥ 60%', f: m => m.merged_ratio >= 60, v: m => `${m.merged_ratio}%` },
+    { t: '用过 ≥ 2 档模型', f: m => m.model_tiers >= 2, v: m => `${m.model_tiers} 档` },
+    { t: '成果每月被他人使用（自评）', f: (m, a) => a && a.q19 != null ? a.q19 >= 2 : null, v: (m, a) => a && a.q19 != null ? Q_BY.q19.o[a.q19] : '待自评' }] },
+];
+
+// Self-assessment. Each option scores 0 / 33 / 67 / 100.
+const QUESTIONS = [
+  { id: 'q01', d: 'delegation', dim: 'freq', t: '一周里有几天用 AI 完成实际任务（不只是闲聊）？', o: ['0–1 天', '2–3 天', '4–5 天', '6–7 天'] },
+  { id: 'q02', d: 'delegation', dim: 'breadth', t: '你的工作和学习任务中，多大比例会交给 AI 做至少一部分？', o: ['不到 10%', '10%–30%', '30%–60%', '60% 以上'] },
+  { id: 'q03', d: 'delegation', dim: 'breadth', t: '除了 Claude，你经常用几类 AI 工具（对话、编程、图像、视频、语音、搜索）？', o: ['没有', '1–2 类', '3–4 类', '5 类以上'] },
+  { id: 'q04', d: 'delegation', dim: 'integ', t: 'AI 接入了你多少个数据源或工作工具（邮箱、日历、笔记、代码库、网盘）？', o: ['没有', '1 个', '2–3 个，偶尔用', '4 个以上，常用'] },
+  { id: 'q05', d: 'delegation', dim: 'auto', t: '你有几个不用你在场、按时自动运行的 AI 任务？', o: ['0 个', '试过 1 个', '1–2 个稳定运行', '3 个以上'] },
+  { id: 'q06', d: 'delegation', dim: 'orch', t: '你会同时开多个 AI 会话或代理，各自分工干活吗？', o: ['从不', '偶尔', '每周几次', '几乎每天'] },
+  { id: 'q07', d: 'delegation', dim: 'orch', t: '你会按任务难度切换模型或思考力度吗？', o: ['从不，用默认', '知道但很少切换', '有时会', '有明确的选择规则'] },
+  { id: 'q08', d: 'description', dim: 'depth', t: '下指令时通常写清几项：目标、背景、约束、输出格式、示例？', o: ['只写目标', '2 项', '3–4 项', '5 项都写'] },
+  { id: 'q09', d: 'description', dim: 'depth', t: '复杂任务会先让 AI 出计划、你确认后再执行吗？', o: ['从不', '偶尔', '多数时候', '固定流程'] },
+  { id: 'q10', d: 'description', dim: 'verify', t: '你会写明验收标准（什么算好、必须满足哪些条件）吗？', o: ['从不', '偶尔', '重要任务会', '每次都写'] },
+  { id: 'q11', d: 'description', dim: 'reuse', t: '你有长期生效的个人偏好或项目规则（自定义指令、CLAUDE.md 等）吗？', o: ['没有', '有，很少更新', '有，定期更新', '有，并按项目分别维护'] },
+  { id: 'q12', d: 'description', dim: 'reuse', t: '常用流程写成可复用的 SOP、提示模板或技能了吗？', o: ['没有', '1–2 个', '3–5 个', '5 个以上，反复在用'] },
+  { id: 'q13', d: 'description', dim: 'reuse', t: '结果不对时你通常怎么做？', o: ['整个重来', '补一句让它改', '先找出偏差原因再改指令', '改好后把经验写进模板或规则'] },
+  { id: 'q14', d: 'discernment', dim: 'verify', t: 'AI 给出的事实和数字，你核对原始来源的比例？', o: ['几乎不核对', '偶尔核对', '关键数字都核对', '要求附来源并抽查'] },
+  { id: 'q15', d: 'discernment', dim: 'verify', t: 'AI 写的代码、表格或公式，交付前你怎么验证？', o: ['不验证', '看一眼', '实际运行检查', '有测试或自动校验'] },
+  { id: 'q16', d: 'discernment', dim: 'verify', t: '你能说出 AI 在你的领域常犯的错误吗？', o: ['说不出', '1–2 种', '3–4 种', '能举例，并有对策'] },
+  { id: 'q17', d: 'discernment', dim: 'verify', t: '过去一个月，你推翻或大改过几次 AI 的结论？', o: ['0 次', '1–2 次', '3–5 次', '6 次以上'] },
+  { id: 'q18', d: 'discernment', dim: 'verify', t: '重要问题你会要求 AI 给出反方观点或不确定性吗？', o: ['从不', '偶尔', '重要问题会', '经常，并据此调整'] },
+  { id: 'q19', d: 'discernment', dim: 'depth', t: '你用 AI 做的成果，被别人实际使用（同事、客户、读者）的频率？', o: ['从未', '偶尔', '每月都有', '每周都有'] },
+  { id: 'q20', d: 'diligence', dim: null, t: '涉及身份证号、病历、财务、公司机密时你怎么处理？', o: ['直接输入', '偶尔注意', '先脱敏再输入', '有成文规则，只放私有空间'] },
+  { id: 'q21', d: 'diligence', dim: null, t: '对外发布 AI 参与的成果时，你会说明 AI 的参与吗？', o: ['从不', '被问才说', '通常会', '始终标注'] },
+  { id: 'q22', d: 'diligence', dim: 'auto', t: '自动运行的 AI 任务出错时，你多久能发现？', o: ['没有自动任务或不知道', '几天后', '当天', '有自动检查和通知'] },
+  { id: 'q23', d: 'diligence', dim: 'verify', t: '以你的名义交付前，你会逐条审 AI 的产出吗？', o: ['不审', '抽看', '重点部分审', '逐条审'] },
+  { id: 'q24', d: 'diligence', dim: null, t: '你了解所用 AI 服务的数据使用和保留政策吗？', o: ['不了解', '听说过', '读过主要条款', '读过，并据此调整了设置'] },
+];
+const Q_BY = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
+
+const BENCH = [
+  { k: '用过 ChatGPT 的美国成年人', pop: '34%', src: 'Pew Research Center，2025-02-24 至 03-02，5,123 人', url: 'https://www.pewresearch.org/short-reads/2025/06/25/34-of-us-adults-have-used-chatgpt-about-double-the-share-in-2023/', you: m => `近 30 天 ${m.active_days} 个活跃日` },
+  { k: '在工作中用 ChatGPT 的美国在职成年人', pop: '28%', src: '同上', url: 'https://www.pewresearch.org/short-reads/2025/06/25/34-of-us-adults-have-used-chatgpt-about-double-the-share-in-2023/', you: m => `${m.sessions} 个代理会话，${m.commits} 次代码提交` },
+  { k: 'Claude.ai 对话中「自动化」型占比', pop: '45%', popNote: '增强型 52%，其中直接下令型 32%', src: 'Anthropic Economic Index，2025-11-13 至 11-20，100 万条对话', url: 'https://www.anthropic.com/research/anthropic-economic-index-january-2026-report', you: m => `${m.routines} 个定时任务每周自动产出 ${m.auto_outputs} 期，属于第三种「代理」模式` },
+  { k: 'API 调用中「自动化」型占比', pop: '约 3/4', popNote: '直接下令型 64%', src: '同上，100 万条 API 记录', url: 'https://www.anthropic.com/research/anthropic-economic-index-january-2026-report', you: m => `${m.cross_session} 次跨会话调度，${m.verification} 个校验环节` },
+];
+
+// ---------- state & helpers ----------
+const S = { snaps: [], assess: [], view: 'overview', draft: {}, db: null, canWrite: null, status: 'loading', saving: false };
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+const r0 = v => v == null ? '—' : Math.round(v);
+const fmt = n => n == null ? '—' : Number(n).toLocaleString('zh-CN');
+const fmtTok = n => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n || 0);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem('aios.' + k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem('aios.' + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
+};
+
+// ---------- scoring ----------
+const targetOf = (ind, m) => typeof ind.target === 'string' ? m[ind.target] : ind.target;
+function scoreSnap(snap) {
+  const m = snap.metrics;
+  const ind = IND.map(i => {
+    const tgt = targetOf(i, m), value = m[i.id] ?? 0;
+    return { ...i, value, tgt, score: tgt ? Math.max(0, Math.min(100, value / tgt * 100)) : 0 };
+  });
+  const dimEv = id => mean(ind.filter(i => i.dim === id).map(i => i.score));
+  const dims = DIMS.map(d => ({ ...d, ev: dimEv(d.id) }));
+  const ds = FOURD.map(d => ({ ...d, ev: mean(ind.filter(i => i.d === d.id).map(i => i.score)) }));
+  return { m, ind, dims, ds, total: mean(dims.map(d => d.ev)) };
+}
+function scoreSelf(answers) {
+  if (!answers) return null;
+  const val = q => answers[q.id] == null ? null : answers[q.id] / 3 * 100;
+  const pick = f => mean(QUESTIONS.filter(f).map(val).filter(v => v != null));
+  const n = QUESTIONS.filter(q => answers[q.id] != null).length;
+  return {
+    n, complete: n === QUESTIONS.length,
+    total: pick(() => true),
+    dims: Object.fromEntries(DIMS.map(d => [d.id, pick(q => q.dim === d.id)])),
+    ds: Object.fromEntries(FOURD.map(d => [d.id, pick(q => q.d === d.id)])),
+  };
+}
+// Evidence total if one indicator reached its target.
+function gainOf(snap, id) {
+  const base = scoreSnap(snap).total;
+  const i = IND.find(x => x.id === id);
+  const m2 = { ...snap.metrics, [id]: targetOf(i, snap.metrics) };
+  return scoreSnap({ ...snap, metrics: m2 }).total - base;
+}
+function ladderOf(m, answers) {
+  let level = 0;
+  const steps = LADDER.map(st => {
+    const checks = st.checks.map(c => ({ t: c.t, ok: c.f(m, answers), v: c.v(m, answers) }));
+    const passed = checks.filter(c => c.ok === true).length;
+    const done = passed >= (st.need || checks.length);
+    return { ...st, checks, passed, done };
+  });
+  for (const st of steps) { if (st.done) level = st.n; else break; }
+  return { level, steps, next: steps.find(s => s.n === level + 1) || null };
+}
+
+// One evaluation of the current state: latest snapshot + latest assessment.
+function current() {
+  const snap = S.snaps.at(-1);
+  if (!snap) return null;
+  const ev = scoreSnap(snap);
+  const a = S.assess.at(-1) || null;
+  const self = scoreSelf(a && a.answers);
+  const lad = ladderOf(snap.metrics, a && a.answers);
+  const combined = self && self.total != null ? 0.6 * ev.total + 0.4 * self.total : ev.total;
+  return { snap, ev, a, self, lad, combined };
+}
+const statusOf = s => s >= 80 ? ['good', '✓', '强项'] : s >= 60 ? ['warn', '!', '合格'] : s >= 40 ? ['serious', '!', '偏弱'] : ['crit', '✕', '短板'];
+const chipStatus = s => { const [c, g, l] = statusOf(s); return `<span class="chip"><span class="st ${c}">${g}</span>${l}</span>`; };
+
+// ---------- data ----------
+async function connect() {
+  const C = window.claude;
+  if (!C || typeof C.use !== 'function') { S.status = 'offline'; renderAll(); return; }
+  const [db, user] = await Promise.all([C.use('db'), C.use('user')]);
+  if (!db) { S.status = 'offline'; renderAll(); return; }
+  S.db = db;
+  if (user) {
+    try { S.canWrite = await user.isOwner() || await user.can('data.write'); } catch { S.canWrite = null; }
+  }
+  const fail = e => { S.status = e && e.code === 'revoked' ? 'offline' : 'error'; renderAll(); };
+  db.collection('snapshots').orderBy('date', 'asc').onSnapshot(q => {
+    S.snaps = q.docs.map(d => d.data()).filter(d => d && d.metrics);
+    S.status = S.snaps.length ? 'ready' : 'empty';
+    renderAll();
+  }, fail);
+  db.collection('assessments').orderBy('at', 'asc').onSnapshot(q => {
+    S.assess = q.docs.map(d => ({ id: d.id, ...d.data() })).filter(d => d.answers);
+    if (!Object.keys(S.draft).length && S.assess.length) S.draft = { ...S.assess.at(-1).answers };
+    renderAll();
+  }, fail);
+}
+
+async function saveAssessment() {
+  if (!S.db || S.saving) return;
+  S.saving = true; renderQuiz();
+  const at = new Date().toISOString();
+  const id = at.replace(/[:.]/g, '-');
+  try {
+    await S.db.collection('assessments').doc(id).set({ at, answers: { ...S.draft }, v: 1 });
+    store.set('draft', null);
+    toast('已保存自评，总览和 4D 已更新');
+  } catch (e) {
+    S.canWrite = e && e.code === 'invalid_argument' ? false : S.canWrite;
+    toast(e && e.code === 'invalid_argument' ? '没有保存权限：只有页面所有者能保存自评' : '保存失败，请稍后再试');
+  } finally { S.saving = false; renderAll(); }
+}
+
+let toastT;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600);
+}
+
+// ---------- charts (hand-written SVG / CSS) ----------
+const tipAttr = (h, body) => `data-tip-h="${esc(h)}" data-tip="${esc(body)}"`;
+
+function radarSVG(dims, selfDims) {
+  const W = 440, H = 380, cx = 220, cy = 192, R = 132, n = dims.length;
+  const ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+  const pt = (i, v) => [cx + Math.cos(ang(i)) * R * v / 100, cy + Math.sin(ang(i)) * R * v / 100];
+  const poly = vals => vals.map((v, i) => pt(i, v ?? 0).map(x => x.toFixed(1)).join(',')).join(' ');
+  let g = '';
+  for (const r of [25, 50, 75, 100]) g += `<polygon class="ring" points="${poly(dims.map(() => r))}"/>`;
+  dims.forEach((d, i) => { const [x, y] = pt(i, 100); g += `<line class="ax" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; });
+  for (const r of [50]) g += `<text x="${cx + 4}" y="${(cy - R * r / 100 - 3).toFixed(1)}" style="font-size:9.5px;fill:var(--faint)" class="num">${r}</text>`;
+  const ev = dims.map(d => d.ev ?? 0);
+  g += `<polygon points="${poly(ev)}" style="fill:var(--s1-soft);stroke:var(--s1);stroke-width:2;stroke-linejoin:round"/>`;
+  const hasSelf = selfDims && dims.some(d => selfDims[d.id] != null);
+  if (hasSelf) g += `<polygon points="${poly(dims.map(d => selfDims[d.id]))}" style="fill:var(--s2-soft);stroke:var(--s2);stroke-width:2;stroke-linejoin:round"/>`;
+  dims.forEach((d, i) => {
+    const [x, y] = pt(i, ev[i]);
+    g += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" style="fill:var(--s1);stroke:var(--bg);stroke-width:2"/>`;
+    if (hasSelf && selfDims[d.id] != null) {
+      const [sx, sy] = pt(i, selfDims[d.id]);
+      g += `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="4" style="fill:var(--s2);stroke:var(--bg);stroke-width:2"/>`;
+    }
+  });
+  dims.forEach((d, i) => {
+    const a = ang(i), lx = cx + Math.cos(a) * (R + 26), ly = cy + Math.sin(a) * (R + 22);
+    const anchor = Math.abs(Math.cos(a)) < .2 ? 'middle' : Math.cos(a) > 0 ? 'start' : 'end';
+    const dy = Math.sin(a) < -.5 ? -10 : Math.sin(a) > .5 ? 6 : -4;
+    const sv = hasSelf ? selfDims[d.id] : null;
+    g += `<text x="${lx.toFixed(1)}" y="${(ly + dy).toFixed(1)}" text-anchor="${anchor}"><tspan class="lbl">${d.name}</tspan><tspan x="${lx.toFixed(1)}" dy="15" class="val" style="fill:var(--ink)">${r0(d.ev)}</tspan>${sv != null ? `<tspan class="val" style="fill:var(--faint)"> · ${r0(sv)}</tspan>` : ''}</text>`;
+    const [hx, hy] = pt(i, 100);
+    g += `<circle class="hit" cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="20" tabindex="0" ${tipAttr(d.name + ' · ' + d.desc, `证据 ${r0(d.ev)}${sv != null ? ` · 自评 ${r0(sv)}（差 ${sv - d.ev > 0 ? '+' : ''}${Math.round(sv - d.ev)}）` : ' · 自评未做'}`)}/>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="八维雷达：${dims.map(d => d.name + r0(d.ev)).join('，')}">${g}</svg>`;
+}
+
+function dBars(rows) {
+  // rows: [{name, en, ev, self}]
+  const bar = (v, cls) => `<div class="row"><div class="trackbar ${cls}"><i style="width:${(v ?? 0).toFixed(1)}%"></i></div><em class="${v == null ? 'na' : ''}">${v == null ? '—' : Math.round(v)}</em></div>`;
+  return `<div class="dbars">${rows.map(r => `<div class="dbar" tabindex="0" ${tipAttr(r.name + ' ' + r.en, `证据 ${r0(r.ev)} · 自评 ${r.self == null ? '未做' : r0(r.self)}`)}>
+    <div class="dn">${r.name}<small>${r.en}</small></div><div class="rows">${bar(r.ev, '')}${bar(r.self, 'self')}</div></div>`).join('')}
+    <div class="axisrow" aria-hidden="true"><span></span><div><span>0</span><span>50</span><span>100</span></div></div></div>`;
+}
+
+function heatmap(activity, from, to) {
+  const DAY = 864e5;
+  const start = new Date(from + 'T00:00:00Z');
+  start.setUTCDate(start.getUTCDate() - ((start.getUTCDay() + 6) % 7)); // back to Monday
+  const end = new Date(to + 'T00:00:00Z');
+  const endW = end.getTime() + (6 - (end.getUTCDay() + 6) % 7) * DAY; // through Sunday
+  const lvl = n => n === 0 ? '' : n <= 2 ? 'l1' : n <= 4 ? 'l2' : n <= 7 ? 'l3' : n <= 11 ? 'l4' : 'l5';
+  let cells = '', months = '', lastM = '', col = 0;
+  for (let t = start.getTime(); t <= endW; t += DAY) {
+    const d = new Date(t), iso = d.toISOString().slice(0, 10), dow = (d.getUTCDay() + 6) % 7;
+    if (dow === 0) {
+      // label each column by the month its Sunday falls in
+      const m = new Date(t + 6 * DAY).toISOString().slice(0, 7);
+      months += `<span style="width:22px;flex:none">${m !== lastM ? (+m.slice(5, 7)) + '月' : ''}</span>`;
+      lastM = m; col++;
+    }
+    if (t > end.getTime() || iso < from) { cells += `<i class="out"></i>`; continue; }
+    const a = activity[iso] || { s: 0, c: 0, a: 0 }, n = a.s + a.c + a.a;
+    cells += `<i class="${lvl(n)}" tabindex="${n ? 0 : -1}" ${tipAttr(iso, n ? `${a.s} 个会话 · ${a.c} 次提交 · ${a.a} 件 Artifact 更新` : '无记录')}></i>`;
+  }
+  const scale = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5'].map(q => `<i style="background:var(--${q})"></i>`).join('');
+  return `<div class="heatscroll"><div class="heatinner"><div class="heatmonths" aria-hidden="true">${months}</div>
+    <div class="heatwrap"><div class="heatdays" aria-hidden="true"><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span><span>日</span></div>
+    <div class="heat" role="img" aria-label="每日活动日历">${cells}</div></div></div></div>
+    <div class="scale">少 ${scale} 多<span style="margin-left:10px">每格 = 当天会话 + 提交 + Artifact 更新</span></div>`;
+}
+
+function hbars(rows, max) {
+  // rows: [{k, v, tip}]
+  return `<div class="facts">${rows.map(r => `<div class="fact" tabindex="0" ${tipAttr(r.k, r.tip || r.v)} style="grid-template-columns:7em minmax(0,1fr) 2.2em;padding:6px 0">
+    <b style="font-size:13px">${esc(r.k)}</b><div class="trackbar" style="height:10px;background:none"><i style="width:${(r.v / max * 100).toFixed(1)}%"></i></div><span class="num" style="font-weight:700;text-align:right">${r.v}</span></div>`).join('')}</div>`;
+}
+
+function trendSVG(points) {
+  // points: [{t: ms, ev?, self?, label}]
+  const W = 720, H = 240, L = 36, Rr = 16, T = 14, B = 30;
+  const ts = points.map(p => p.t);
+  let t0 = Math.min(...ts), t1 = Math.max(...ts);
+  if (t1 - t0 < 864e5 * 7) { t0 -= 864e5 * 7; t1 += 864e5 * 7; }
+  const x = t => L + (t - t0) / (t1 - t0) * (W - L - Rr);
+  const y = v => T + (100 - v) / 100 * (H - T - B);
+  let g = '';
+  for (const v of [0, 25, 50, 75, 100]) g += `<line class="ax" x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" class="num" style="font-size:10px">${v}</text>`;
+  const day = t => new Date(t).toISOString().slice(5, 10).replace('-', '/');
+  g += `<text x="${L}" y="${H - 8}" class="num" style="font-size:10px">${day(t0)}</text><text x="${W - Rr}" y="${H - 8}" text-anchor="end" class="num" style="font-size:10px">${day(t1)}</text>`;
+  for (const [key, color, name] of [['ev', '--s1', '证据分'], ['self', '--s2', '自评分']]) {
+    const ps = points.filter(p => p[key] != null);
+    if (ps.length > 1) g += `<polyline points="${ps.map(p => `${x(p.t).toFixed(1)},${y(p[key]).toFixed(1)}`).join(' ')}" style="fill:none;stroke:var(${color});stroke-width:2;stroke-linejoin:round;stroke-linecap:round"/>`;
+    ps.forEach((p, i) => {
+      g += `<circle cx="${x(p.t).toFixed(1)}" cy="${y(p[key]).toFixed(1)}" r="5" style="fill:var(${color});stroke:var(--bg);stroke-width:2"/>`;
+      if (i === ps.length - 1) g += `<text x="${(x(p.t) + 9).toFixed(1)}" y="${(y(p[key]) + (key === 'ev' ? -6 : 14)).toFixed(1)}" class="val" style="fill:var(--ink);font-size:12px">${name.slice(0, 2)} ${Math.round(p[key])}</text>`;
+      g += `<circle class="hit" cx="${x(p.t).toFixed(1)}" cy="${y(p[key]).toFixed(1)}" r="12" tabindex="0" ${tipAttr(`${name} ${Math.round(p[key])}`, p.label)}/>`;
+    });
+  }
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="分数趋势">${g}</svg>`;
+}
+
+// ---------- views ----------
+const RETEST = '重测 AI 能力';
+const copyBox = () => `<span class="copy"><code>${RETEST}</code><button class="btn" data-copy="${RETEST}">复制</button></span>`;
+const lvName = n => n ? LADDER[n - 1].name : '未起步';
+const fmtAt = iso => iso ? iso.slice(0, 16).replace('T', ' ') : '';
+// Calendar starts at the first recorded day, at most 60 days back.
+const heatFrom = snap => {
+  const first = Object.keys(snap.activity).sort()[0] || snap.window.from;
+  const floor = new Date(Date.parse(snap.date) - 60 * 864e5).toISOString().slice(0, 10);
+  return first > floor ? first : floor;
+};
+
+function emptyState() {
+  if (S.status === 'loading') return `<div class="empty glass"><h3>正在读取评估快照…</h3><p>快照来自你的会话、Artifact、定时任务和 Git 提交，存放在本页面的私有数据库里。</p></div>`;
+  if (S.status === 'offline') return `<div class="empty glass"><h3>在 claude.ai 中打开才能读取评估数据</h3><p>评估快照存放在页面的私有数据库里，只有登录后的页面所有者能看到。自评问卷可以先做，保存需要在 claude.ai 中进行。</p></div>`;
+  if (S.status === 'error') return `<div class="empty glass"><h3>暂时读不到评估数据</h3><p>数据库连接中断了。刷新页面重试；如果一直失败，对 Claude 说下面这句，它会重新采集。</p>${copyBox()}</div>`;
+  return `<div class="empty glass"><h3>还没有评估快照</h3><p>快照由 Claude 采集你的真实使用数据后写入。对 Claude 说下面这句，生成第一份：</p>${copyBox()}</div>`;
+}
+
+// Streak, busiest day and week-over-week change from the daily activity map.
+function rhythm(snap) {
+  const A = snap.activity, DAY = 864e5, tot = d => A[d] ? A[d].s + A[d].c + A[d].a : 0;
+  const days = Object.keys(A).sort();
+  let best = 0, run = 0, prev = null;
+  for (const d of days) { run = prev && Date.parse(d) - Date.parse(prev) === DAY ? run + 1 : 1; best = Math.max(best, run); prev = d; }
+  const busy = days.reduce((b, d) => tot(d) > tot(b) ? d : b, days[0]);
+  const sum = (a, b) => { let n = 0; for (let t = Date.parse(snap.date) - a * DAY; t > Date.parse(snap.date) - b * DAY; t -= DAY) n += tot(new Date(t).toISOString().slice(0, 10)); return n; };
+  const w1 = sum(0, 7), w0 = sum(7, 14);
+  return [
+    ['最长连续活跃', `${best} <small>天</small>`],
+    ['最忙的一天', `${esc(busy.slice(5))} <small>· ${tot(busy)} 次</small>`],
+    ['近 7 天 / 前 7 天', `${w1} <small>/ ${w0} 次</small>`],
+  ];
+}
+
+function renderSide(c) {
+  if (!c) { $('lvCard').innerHTML = `<div class="lvname">${S.status === 'loading' ? '正在读取评估快照…' : '暂无评估快照'}</div>`; $('mobileLv').innerHTML = ''; return; }
+  const { lad, combined, snap } = c, nx = lad.next;
+  const pips = LADDER.map(st => {
+    if (st.n <= lad.level) return '<i class="on"></i>';
+    if (nx && st.n === nx.n) return `<i class="part" style="--p:${Math.round(nx.passed / (nx.need || nx.checks.length) * 100)}%"></i>`;
+    return '<i></i>';
+  }).join('');
+  const miss = nx ? nx.checks.filter(k => k.ok === false).map(k => k.t.replace(/\s*[≥（].*$/, '')) : [];
+  $('lvCard').innerHTML = `<div class="lvtop"><div><div class="lv">L${lad.level}</div><div class="lvname">${lvName(lad.level)}<small>能力阶梯 · 共 6 级</small></div></div>
+    <div class="score"><b>${r0(combined)}</b><span>综合分</span></div></div>
+    <div class="pips" aria-label="阶梯进度 L${lad.level} / 6">${pips}</div>
+    <div class="lvnext">${nx ? `距 L${nx.n}「${nx.name}」：已满足 ${nx.passed} / ${nx.checks.length} 项，需要 ${nx.need || nx.checks.length} 项。缺：${esc(miss.slice(0, 3).join('、'))}${miss.length > 3 ? ' 等' : ''}` : '已到最高级'}</div>`;
+  $('mobileLv').innerHTML = `L${lad.level}<small>${lvName(lad.level)} · ${r0(combined)} 分</small>`;
+  $('navLadder').textContent = 'L' + lad.level;
+  $('navEv').textContent = IND.length;
+  $('sideFoot').innerHTML = `<span>快照 <b>${esc(snap.date)}</b> · 近 30 天（${esc(snap.window.from.slice(5))} 至 ${esc(snap.window.to.slice(5))}）</span><span>评估数据存放在本页面的私有数据库，不进公开仓库。</span><span>重测：对 Claude 说「${RETEST}」</span>`;
+}
+
+function vOverview(c) {
+  if (!c) return `<div class="vhead"><div class="eyebrow"><b>总览</b></div><h2>AI 能力评估</h2></div>${emptyState()}`;
+  const { ev, self, lad, snap, combined } = c, m = snap.metrics;
+  const sorted = [...ev.dims].sort((a, b) => b.ev - a.ev);
+  const top = sorted.slice(0, 2), low = sorted.slice(-2).reverse();
+  const nx = lad.next;
+  const bias = self ? ev.dims.filter(d => self.dims[d.id] != null && self.dims[d.id] - d.ev >= 20) : [];
+  const biasLow = self ? ev.dims.filter(d => self.dims[d.id] != null && d.ev - self.dims[d.id] >= 20) : [];
+  const byRatio = [...ev.ind].sort((a, b) => b.value / b.tgt - a.value / a.tgt);
+  const strengths = byRatio.slice(0, 3);
+  const gaps = [...ev.ind].sort((a, b) => a.score - b.score).slice(0, 3);
+  const actions = ev.ind.filter(i => i.fix && i.score < 100)
+    .map(i => ({ i, gain: gainOf(snap, i.id) })).sort((a, b) => b.gain - a.gain).slice(0, 4);
+  const val = i => `${fmt(i.value)}${i.unit === '%' ? '%' : ' ' + i.unit}`;
+  const tgt = i => `${fmt(i.tgt)}${i.unit === '%' ? '%' : ' ' + i.unit}`;
+  const fact = i => `<div class="fact" tabindex="0" ${tipAttr(i.name, i.src)}><b>${i.name}</b><span class="v">${val(i)} <small>/ ${tgt(i)}</small></span><small>${esc(i.src)}</small></div>`;
+  const ds = ev.ds.map(d => ({ ...d, self: self ? self.ds[d.id] : null }));
+
+  return `<div class="vhead">
+    <div class="eyebrow"><b>结论</b> · 快照 ${esc(snap.date)} · 近 30 天</div>
+    <h2>你在 L${lad.level}「${lvName(lad.level)}」：${top[0].name}和${top[1].name}领先，${low[0].name}和${low[1].name}是短板</h2>
+    <p>证据分 <b>${r0(ev.total)}</b>，来自 ${IND.length} 项客观指标${self ? `；自评分 <b>${r0(self.total)}</b>（${self.n} / ${QUESTIONS.length} 题）` : '；自评还没做'}。${nx ? `下一级 L${nx.n}「${nx.name}」已满足 <b>${nx.passed} / ${nx.checks.length}</b> 项，需要 ${nx.need || nx.checks.length} 项。` : ''}</p>
+  </div>
+  <div class="kpis glass">
+    <div class="kpi lead"><b>${r0(combined)}</b><span>综合分 · ${self ? '证据 60% + 自评 40%' : '暂按证据计'}</span></div>
+    <div class="kpi"><b>L${lad.level}<small>/ 6</small></b><span>能力阶梯 · ${lvName(lad.level)}</span></div>
+    <div class="kpi"><b>${r0(ev.total)}</b><span>证据分 · 会话、产出、自动化</span></div>
+    <div class="kpi">${self ? `<b>${r0(self.total)}</b><span>自评分 · ${self.n} / ${QUESTIONS.length} 题</span>` : `<b style="color:var(--faint)">未做</b><span><button class="btn" data-go="quiz" style="margin-top:4px">去做自评</button></span>`}</div>
+    <div class="kpi"><b>${m.auto_outputs}<small>期 / 周</small></b><span>无人值守的自动产出</span></div>
+  </div>
+  <div class="grid2 wide">
+    <div class="panel glass"><div class="ptitle"><h3>八维雷达</h3><div class="legend"><span><i style="background:var(--s1)"></i>证据</span><span><i style="background:var(--s2)"></i>自评</span></div></div>
+      <div class="radarwrap">${radarSVG(ev.dims, self && self.dims)}</div>
+      <p class="note">${self ? (bias.length ? `<b>自评比证据高 20 分以上：</b>${bias.map(d => d.name).join('、')}。` : '自评与证据没有超过 20 分的偏差。') + (biasLow.length ? ` <b>自评偏低：</b>${biasLow.map(d => d.name).join('、')}。` : '') : '做完自评后，橙色多边形会叠加在这里，偏差超过 20 分的维度会单独标出。'}</p></div>
+    <div class="stack">
+      <div class="panel glass"><div class="ptitle"><h3>4D 素养</h3><div class="legend"><span><i style="background:var(--s1)"></i>证据</span><span><i style="background:var(--s2)"></i>自评</span></div></div>
+        ${dBars(ds)}
+        <p class="note">4D 是 Anthropic 与 Dakan、Feller 提出的 AI 素养框架：委派、描述、判断、尽责。<button class="btn" data-go="fourd" style="padding:3px 9px;font-size:12px">看拆解</button></p></div>
+      ${nx ? `<div class="panel glass"><div class="ptitle"><h3>离 L${nx.n}「${nx.name}」还差</h3><span>${nx.passed} / ${nx.checks.length} 已满足，需要 ${nx.need || nx.checks.length}</span></div>
+        <ul class="checks">${nx.checks.filter(k => k.ok !== true).map(k => `<li><span class="st ${k.ok === false ? 'crit' : 'none'}">${k.ok === false ? '✕' : '?'}</span><span>${k.t}</span><em>现在 ${esc(k.v)}</em></li>`).join('')}</ul></div>` : ''}
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>强项</h3><span>超出基准最多的 3 项</span></div><div class="facts">${strengths.map(fact).join('')}</div></div>
+    <div class="panel glass"><div class="ptitle"><h3>短板</h3><span>得分最低的 3 项</span></div><div class="facts">${gaps.map(fact).join('')}</div></div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>下一步：按提分多少排序</h3><span>做到基准后证据分的变化</span></div>
+    <div class="tbl"><table class="acts"><thead><tr><th>动作</th><th>指标</th><th class="r">现在 → 基准</th><th class="r">证据分</th></tr></thead><tbody>
+    ${actions.map(({ i, gain }) => `<tr><td>${esc(typeof i.fix === 'function' ? i.fix(snap) : i.fix)}<small>${i.name}</small></td><td>${i.name}<small>${DIMS.find(d => d.id === i.dim)?.name || '—'} · ${FOURD.find(d => d.id === i.d).name}</small></td><td class="r num">${val(i)} → ${tgt(i)}</td><td class="r num"><b>+${gain.toFixed(1)}</b></td></tr>`).join('')}
+    </tbody></table></div></div>
+  <div class="panel glass"><div class="ptitle"><h3>放到人群里看</h3><span>公开调查数据，口径不同，仅作参照</span></div>
+    <div class="tbl"><table class="wide"><thead><tr><th>指标</th><th class="r">人群</th><th>你</th><th>来源</th></tr></thead><tbody>
+    ${BENCH.map(b => `<tr><td>${b.k}${b.popNote ? `<small>${b.popNote}</small>` : ''}</td><td class="r num"><b>${b.pop}</b></td><td>${esc(b.you(m))}</td><td><a class="link" href="${b.url}" target="_blank" rel="noopener">${b.src}</a></td></tr>`).join('')}
+    </tbody></table></div></div>`;
+}
+
+function vLadder(c) {
+  if (!c) return `<div class="vhead"><div class="eyebrow"><b>能力阶梯</b></div><h2>六级阶梯</h2></div>${emptyState()}`;
+  const { lad } = c, nx = lad.next;
+  const steps = [...lad.steps].reverse().map(st => {
+    const cls = st.done ? 'done' : '';
+    const cur = st.n === lad.level ? ' cur' : '';
+    const need = st.need || st.checks.length;
+    const pill = st.done ? '<span class="chip"><span class="st good">✓</span>已达成</span>' : nx && st.n === nx.n ? `<span class="chip"><span class="st warn">!</span>进行中 ${st.passed} / ${need}</span>` : '<span class="chip"><span class="st none">–</span>未开始</span>';
+    return `<article class="step glass ${cls}${cur}">
+      <div class="n">L${st.n}</div>
+      <div><h3>${st.name}</h3><p>${st.desc}</p><div class="mode subs">${pill}<span class="chip">主要模式 · ${MODES[st.mode]}</span></div>
+        ${nx && st.n === nx.n ? `<div class="stepbar"><i style="width:${Math.min(100, st.passed / need * 100)}%"></i></div>` : ''}</div>
+      <ul class="checks">${st.checks.map(k => `<li><span class="st ${k.ok === true ? 'good' : k.ok === false ? 'crit' : 'none'}">${k.ok === true ? '✓' : k.ok === false ? '✕' : '?'}</span><span>${k.t}</span><em>${esc(k.v)}</em></li>`).join('')}</ul>
+    </article>`;
+  }).join('');
+  return `<div class="vhead"><div class="eyebrow"><b>能力阶梯</b> · 6 级 · 门槛全部可核对</div>
+    <h2>已到 L${lad.level}「${lvName(lad.level)}」${nx ? `，L${nx.n} 已满足 ${nx.passed} / ${nx.checks.length} 项` : ''}</h2>
+    <p>每一级都要满足全部门槛才算达成，L6 需要满足 7 项中的 5 项。「主要模式」对应 4D 框架里的三种人机协作方式：<b>自动化</b>（AI 按指令执行）、<b>增强</b>（人和 AI 一起思考）、<b>代理</b>（人设定好，AI 之后自己运行）。</p></div>
+  <div class="ladder">${steps}</div>`;
+}
+
+function vFourD(c) {
+  if (!c) return `<div class="vhead"><div class="eyebrow"><b>4D 素养</b></div><h2>四项素养</h2></div>${emptyState()}`;
+  const { ev, self, a, snap } = c, m = snap.metrics;
+  const comb = d => self && self.ds[d.id] != null ? 0.6 * d.ev + 0.4 * self.ds[d.id] : d.ev;
+  const order = [...ev.ds].sort((x, y) => comb(y) - comb(x));
+  const cards = ev.ds.map(d => {
+    const inds = ev.ind.filter(i => i.d === d.id);
+    const qs = QUESTIONS.filter(q => q.d === d.id);
+    const sv = self ? self.ds[d.id] : null;
+    return `<article class="dcard glass">
+      <header><h3>${d.name}<small>${d.en}</small></h3><div class="big"><div><b style="color:var(--ink)">${r0(d.ev)}</b><span>证据</span></div><div><b style="color:${sv == null ? 'var(--faint)' : 'var(--ink)'}">${r0(sv)}</b><span>自评</span></div></div></header>
+      <p class="def">${d.def}</p>
+      <div class="subs">${d.subs.map(s => `<span class="chip">${s}</span>`).join('')}</div>
+      <div class="tbl"><table><thead><tr><th>证据指标</th><th class="r">值 / 基准</th><th>得分</th></tr></thead><tbody>
+      ${inds.map(i => `<tr tabindex="0" ${tipAttr(i.name, i.src)}><td>${i.name}</td><td class="r num">${fmt(i.value)} / ${fmt(i.tgt)}</td><td><div class="minibar ${i.score < 40 ? 'low' : ''}"><i style="width:${(i.score * .7).toFixed(0)}px"></i><span>${Math.round(i.score)}</span></div></td></tr>`).join('')}
+      </tbody></table></div>
+      ${a ? `<div class="tbl"><table><thead><tr><th>自评题</th><th>你的回答</th></tr></thead><tbody>
+        ${qs.map(q => `<tr><td>${q.t}</td><td>${a.answers[q.id] != null ? `<b>${esc(q.o[a.answers[q.id]])}</b>` : '<span class="note">未答</span>'}</td></tr>`).join('')}</tbody></table></div>`
+        : `<p class="note">自评还没做：这一项有 ${qs.length} 道题。<button class="btn" data-go="quiz" style="padding:3px 9px;font-size:12px">去做自评</button></p>`}
+    </article>`;
+  }).join('');
+  const modeRows = [
+    ['自动化', 'AI 按具体指令执行任务', `${m.sessions} 个代理会话写入 ${m.commits} 次提交`],
+    ['增强', '人和 AI 作为思考伙伴一起工作', `${m.artifacts} 件 Artifact，覆盖 ${m.domains} 个领域`],
+    ['代理', '人设定好，AI 之后代表人独立运行', `${m.routines} 个定时任务，每周 ${m.auto_outputs} 期自动产出`],
+  ];
+  return `<div class="vhead"><div class="eyebrow"><b>4D 素养</b> · AI Fluency Framework</div>
+    <h2>「${order[0].name}」最强，「${order.at(-1).name}」最弱</h2>
+    <p>4D 框架由 Rick Dakan、Joseph Feller 与 Anthropic 提出（2025，CC BY-NC-SA 4.0），把 AI 素养拆成四项能力、十二个子项。证据分取自本系统的客观指标，自评分取自对应的问卷题，两者分开显示。<a class="link" href="https://www.anthropic.com/ai-fluency" target="_blank" rel="noopener">Anthropic AI Fluency 课程</a></p></div>
+  <div class="dcards">${cards}</div>
+  <div class="panel glass"><div class="ptitle"><h3>三种协作模式</h3><span>同一框架的另一条轴</span></div>
+    <div class="tbl"><table><thead><tr><th>模式</th><th>含义</th><th>你的证据</th></tr></thead><tbody>${modeRows.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+function vEvidence(c) {
+  if (!c) return `<div class="vhead"><div class="eyebrow"><b>使用证据</b></div><h2>使用证据</h2></div>${emptyState()}`;
+  const { ev, snap } = c, m = snap.metrics, L = snap.lists;
+  const groups = [...DIMS, { id: null, name: '其他（只计入 4D）' }].map(d => {
+    const rows = ev.ind.filter(i => i.dim === d.id);
+    return `<tr class="grp"><th colspan="5">${d.name}</th></tr>` + rows.map(i => `<tr tabindex="0" ${tipAttr(i.name, i.src)}>
+      <td>${i.name}<small>${esc(i.src)}</small></td><td class="r num"><b>${fmt(i.value)}</b> ${i.unit}</td><td class="r num">${fmt(i.tgt)} ${i.unit}</td>
+      <td><div class="minibar ${i.score < 40 ? 'low' : ''}"><i style="width:${(i.score * .8).toFixed(0)}px"></i><span>${Math.round(i.score)}</span></div></td><td>${FOURD.find(x => x.id === i.d).name}</td></tr>`).join('');
+  }).join('');
+  const count = key => Object.entries([...L.artifacts, ...L.projects].reduce((o, x) => (o[x[key]] = (o[x[key]] || 0) + 1, o), {}))
+    .sort((a, b) => b[1] - a[1]).map(([k, v]) => ({ k, v }));
+  const doms = count('domain'), fmts = count('format');
+  const maxTok = Math.max(...L.sessions.map(s => s.tokens), 1);
+  const ORI = { desktop_app: '桌面 App', ios: 'iPhone', claude_code_cli: '命令行', claude_code_mcp_seed: '会话派生' };
+  const origins = Object.entries(L.origins).map(([k, v]) => `${ORI[k] || k} ${v}`).join(' · ');
+  return `<div class="vhead"><div class="eyebrow"><b>使用证据</b> · ${esc(snap.window.from)} 至 ${esc(snap.window.to)}</div>
+    <h2>近 30 天：${m.active_days} 个活跃日、${m.sessions} 个会话、${m.artifacts + m.projects} 件产出</h2>
+    <p>全部来自可核对的记录：Claude Code 会话列表、Artifact 列表、定时任务、仓库 ${m.branches} 个分支的 Git 历史。采集于 ${esc(fmtAt(snap.collectedAt))}（UTC）。会话入口：${esc(origins)}。</p></div>
+  <div class="panel glass"><div class="ptitle"><h3>${IND.length} 项指标</h3><span>得分 = 值 ÷ 基准，封顶 100</span></div>
+    <div class="tbl"><table><thead><tr><th>指标</th><th class="r">值</th><th class="r">基准</th><th>得分</th><th>4D</th></tr></thead><tbody>${groups}</tbody></table></div></div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>每日活动</h3><span>${Object.keys(snap.activity).length} 天有记录</span></div>${heatmap(snap.activity, heatFrom(snap), snap.date)}
+      <div class="facts">${rhythm(snap).map(f => `<div class="fact"><b style="font-weight:600">${f[0]}</b><span class="v">${f[1]}</span></div>`).join('')}</div></div>
+    <div class="panel glass"><div class="ptitle"><h3>使用方式</h3><span>全部 ${L.sessions.length} 个会话</span></div>
+      <div class="eyebrow">入口</div>${hbars(Object.entries(L.origins).sort((a, b) => b[1] - a[1]).map(([k, n]) => ({ k: ORI[k] || k, v: n })), L.sessions.length)}
+      <div class="eyebrow">思考力度</div>${hbars(Object.entries(L.efforts).sort((a, b) => b[1] - a[1]).map(([k, n]) => ({ k, v: n })), L.sessions.length)}
+      <p class="note">模型家族：${L.models.map(esc).join('、')}${L.models.length < 2 ? '，全部会话都在同一档模型上' : ''}。</p></div>
+  </div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>领域分布</h3><span>${doms.length} 个领域 · Artifact + 项目</span></div>${hbars(doms, doms[0].v)}</div>
+    <div class="panel glass"><div class="ptitle"><h3>产出形态</h3><span>${fmts.length} 种</span></div>${hbars(fmts, fmts[0].v)}</div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>Artifact · ${L.artifacts.length} 件</h3><span>按最近更新排序；领域按标题归类</span></div>
+    <div class="tbl" style="max-height:420px;overflow-y:auto"><table><thead><tr><th>标题</th><th>领域</th><th>形态</th><th class="r">最近更新</th></tr></thead><tbody>
+    ${L.artifacts.map(x => `<tr><td><a class="link" href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a></td><td>${esc(x.domain)}</td><td>${esc(x.format)}</td><td class="r num">${esc(x.updated)}</td></tr>`).join('')}
+    </tbody></table></div></div>
+  <div class="panel glass"><div class="ptitle"><h3>仓库项目 · ${L.projects.length} 个 · ${fmt(m.src_lines)} 行源码</h3><span>源码行不含构建产物、压缩库和数据文件</span></div>
+    <div class="tbl"><table><thead><tr><th>项目</th><th>领域</th><th class="r">源码行</th><th class="r">提交</th><th>默认分支</th><th class="r">周期</th></tr></thead><tbody>
+    ${L.projects.map(p => `<tr><td>${esc(p.title)}<small>${esc(p.dir)}</small></td><td>${esc(p.domain)}</td><td class="r num">${fmt(p.lines)}</td><td class="r num">${p.commits}</td><td>${p.merged ? '<span class="chip"><span class="st good">✓</span>已合入</span>' : `<span class="chip"><span class="st serious">!</span>仅在分支</span>`}</td><td class="r num">${esc(p.first.slice(5))}${p.last !== p.first ? ' → ' + esc(p.last.slice(5)) : ''}</td></tr>`).join('')}
+    </tbody></table></div></div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>定时任务与调度</h3><span>${L.routines.length} 个</span></div>
+      <div class="tbl"><table><thead><tr><th>名称</th><th>类型</th><th class="r">每周</th><th>上次</th></tr></thead><tbody>
+      ${L.routines.map(r => `<tr><td>${esc(r.name)}<small>${esc(r.cron.replace('CRON_TZ=America/Los_Angeles ', '美西 '))}</small></td><td>${esc(r.kind)}</td><td class="r num">${r.perWeek || '—'}</td><td>${r.last === 'SUCCEEDED' ? '<span class="chip"><span class="st good">✓</span>成功</span>' : esc(r.last || '—')}</td></tr>`).join('')}
+      </tbody></table></div></div>
+    <div class="panel glass"><div class="ptitle"><h3>连接器</h3><span>${m.connectors_used} / ${m.connectors_total} 有使用证据</span></div>
+      <div class="tbl"><table><thead><tr><th>连接器</th><th>证据</th></tr></thead><tbody>
+      ${L.connectors.map(x => `<tr><td>${x.used ? '<span class="st good" style="display:inline-grid;width:14px;height:14px;border-radius:50%;font-size:9px;color:#fff;place-items:center;margin-right:6px">✓</span>' : '<span class="st none" style="display:inline-grid;width:14px;height:14px;border-radius:50%;font-size:9px;place-items:center;margin-right:6px">–</span>'}${esc(x.name)}</td><td>${esc(x.evidence)}</td></tr>`).join('')}
+      </tbody></table></div>
+      <p class="note">页面运行时能力：${L.caps.map(esc).join('、') || '无'}</p></div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>会话 · ${L.sessions.length} 个</h3><span>上下文用量合计 ${fmtTok(m.tokens)} token（窗口内）</span></div>
+    <div class="tbl" style="max-height:420px;overflow-y:auto"><table><thead><tr><th>日期</th><th>标题</th><th>入口</th><th>力度</th><th>上下文</th></tr></thead><tbody>
+    ${[...L.sessions].reverse().map(s => `<tr><td class="num">${esc(s.d.slice(5))}</td><td>${esc(s.title)}${s.plan ? ' <span class="chip">计划模式</span>' : ''}</td><td>${esc(ORI[s.origin] || s.origin)}</td><td>${esc(s.effort || '—')}</td><td><div class="minibar"><i style="width:${(s.tokens / maxTok * 90).toFixed(0)}px"></i><span>${fmtTok(s.tokens)}</span></div></td></tr>`).join('')}
+    </tbody></table></div></div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>校验环节 · ${L.verification.length} 项</h3><span>测试文件 ${L.tests.length} 个</span></div>
+      <div class="facts">${L.verification.map(v => `<div class="fact"><b>${esc(v.project)}</b><span class="chip">${esc(v.kind)}</span><small>${esc(v.item)}</small></div>`).join('')}</div></div>
+    <div class="panel glass"><div class="ptitle"><h3>沉淀与尽责</h3><span>规则 / 技能文件 ${L.rules.length} 个</span></div>
+      <div class="facts">${L.sop.map(v => `<div class="fact"><b style="font-weight:600">${esc(v.name)}</b><span class="chip">${esc(v.kind)}</span></div>`).join('')}
+      ${L.privacy.map(v => `<div class="fact"><b style="font-weight:600">${esc(v.item)}</b><span class="chip">尽责</span></div>`).join('')}</div></div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>看不到的部分</h3><span>这些不进证据分，靠自评补</span></div>
+    <div class="subs">${L.blindSpots.map(b => `<span class="chip">${esc(b)}</span>`).join('')}</div></div>`;
+}
+
+function vQuiz(c) {
+  const n = QUESTIONS.filter(q => S.draft[q.id] != null).length;
+  const last = S.assess.at(-1);
+  const canSave = n === QUESTIONS.length && S.db && S.canWrite !== false && !S.saving;
+  const why = !S.db ? '在 claude.ai 中打开才能保存' : S.canWrite === false ? '只有页面所有者能保存' : n < QUESTIONS.length ? `还差 ${QUESTIONS.length - n} 题` : '';
+  const groups = FOURD.map(d => `<div class="qgroup"><h3>${d.name}<small>${d.en}</small></h3>
+    ${QUESTIONS.filter(q => q.d === d.id).map(q => `<div class="q glass" id="${q.id}">
+      <div class="qt"><b>${q.id.slice(1)}</b><span>${q.t}</span>${q.dim ? `<span class="chip">${DIMS.find(x => x.id === q.dim).name}</span>` : ''}</div>
+      <div class="opts" role="radiogroup" aria-label="${esc(q.t)}">${q.o.map((o, i) => `<button role="radio" aria-checked="${S.draft[q.id] === i}" data-q="${q.id}" data-a="${i}"><i>${'ABCD'[i]}</i><span>${o}</span></button>`).join('')}</div>
+    </div>`).join('')}</div>`).join('');
+  return `<div class="vhead"><div class="eyebrow"><b>自评问卷</b> · ${QUESTIONS.length} 题 · 约 4 分钟</div>
+    <h2>补上数据看不到的部分：其他工具、工作场景、核查习惯</h2>
+    <p>每题 4 档，依次计 0 / 33 / 67 / 100 分。自评只占综合分的 40%，和证据分开显示；某个维度自评比证据高 20 分以上，总览会单独标出。${last ? `上次保存：<b>${esc(fmtAt(last.at))}</b>（UTC），下面已带出上次的答案。` : ''}</p></div>
+  <div class="quizbar glass"><div class="prog"><div><i style="width:${n / QUESTIONS.length * 100}%"></i></div><span>已答 ${n} / ${QUESTIONS.length}${why ? ' · ' + why : ''}</span></div>
+    <button class="btn" data-act="clear">清空</button><button class="btn pri" data-act="save" ${canSave ? '' : 'disabled'}>${S.saving ? '保存中…' : '保存评估'}</button></div>
+  ${groups}`;
+}
+
+function vHistory(c) {
+  const pts = [
+    ...S.snaps.map(s => ({ t: Date.parse(s.date + 'T12:00:00Z'), ev: scoreSnap(s).total, label: `快照 ${s.date} · 阶梯 L${ladderOf(s.metrics, null).level}` })),
+    ...S.assess.map(a => { const sc = scoreSelf(a.answers); return { t: Date.parse(a.at), self: sc.total, label: `自评 ${fmtAt(a.at)} · ${sc.n} 题` }; }),
+  ].sort((a, b) => a.t - b.t);
+  if (!pts.length) return `<div class="vhead"><div class="eyebrow"><b>历史趋势</b></div><h2>历史趋势</h2></div>${emptyState()}`;
+  const evs = S.snaps.map(s => scoreSnap(s).total);
+  const head = evs.length > 1 ? `证据分 ${r0(evs[0])} → ${r0(evs.at(-1))}（${evs.at(-1) - evs[0] >= 0 ? '+' : ''}${Math.round(evs.at(-1) - evs[0])}）` : `目前有 ${S.snaps.length} 份快照、${S.assess.length} 次自评，重测后这里显示变化`;
+  return `<div class="vhead"><div class="eyebrow"><b>历史趋势</b> · ${S.snaps.length} 份快照 · ${S.assess.length} 次自评</div><h2>${head}</h2>
+    <p>每次重测，Claude 会重新采集近 30 天的数据，写入一份新快照；自评每保存一次记一条。旧记录不会被覆盖。</p></div>
+  <div class="panel glass"><div class="ptitle"><h3>分数走势</h3><div class="legend"><span><i style="background:var(--s1)"></i>证据分</span><span><i style="background:var(--s2)"></i>自评分</span></div></div>${trendSVG(pts)}</div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>快照</h3></div><div class="tbl"><table><thead><tr><th>日期</th><th class="r">证据分</th><th>阶梯</th><th class="r">会话</th><th class="r">产出</th></tr></thead><tbody>
+    ${[...S.snaps].reverse().map(s => { const e = scoreSnap(s); return `<tr><td class="num">${esc(s.date)}</td><td class="r num"><b>${r0(e.total)}</b></td><td>L${ladderOf(s.metrics, null).level}</td><td class="r num">${s.metrics.sessions}</td><td class="r num">${s.metrics.artifacts + s.metrics.projects}</td></tr>`; }).join('')}
+    </tbody></table></div></div>
+    <div class="panel glass"><div class="ptitle"><h3>自评</h3></div>${S.assess.length ? `<div class="tbl"><table><thead><tr><th>时间（UTC）</th><th class="r">总分</th>${FOURD.map(d => `<th class="r">${d.name}</th>`).join('')}</tr></thead><tbody>
+    ${[...S.assess].reverse().map(a => { const sc = scoreSelf(a.answers); return `<tr><td class="num">${esc(fmtAt(a.at))}</td><td class="r num"><b>${r0(sc.total)}</b></td>${FOURD.map(d => `<td class="r num">${r0(sc.ds[d.id])}</td>`).join('')}</tr>`; }).join('')}
+    </tbody></table></div>` : `<p class="note">还没有自评记录。<button class="btn" data-go="quiz" style="padding:3px 9px;font-size:12px">去做自评</button></p>`}</div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>重测</h3><span>建议每月一次</span></div><p class="note">对 Claude 说下面这句。它会按仓库里 <b>ai-os/RETEST.md</b> 的步骤重新采集会话、Artifact、定时任务和 Git 记录，生成新快照写进这个页面。</p>${copyBox()}</div>`;
+}
+
+function vMethod(c) {
+  const first = c ? Object.keys(c.snap.activity).sort()[0] : null;
+  const formula = [
+    ['指标得分', 'min(值 ÷ 基准, 1) × 100', '基准是本系统给「系统级用户」30 天设定的门槛，不是行业标准'],
+    ['维度证据分', '该维度下指标得分的平均', '8 个维度：频率、广度、深度、集成、自动化、编排、验证、沉淀'],
+    ['4D 证据分', '归入该项的指标得分的平均', '每个指标同时归入一个维度和一项 4D'],
+    ['证据分', '8 个维度证据分的平均', ''],
+    ['自评分', '答案 A/B/C/D 计 0/33/67/100，取平均', '维度和 4D 的自评分只算归入它的题'],
+    ['综合分', '证据分 × 60% + 自评分 × 40%', '没做自评时等于证据分'],
+    ['阶梯', '逐级检查门槛，全部满足才算达成', 'L6 需满足 7 项中的 5 项；最后一项来自自评第 19 题'],
+    ['偏差', '自评 − 证据，按维度', '≥ 20 标为「自评偏高」，≤ −20 标为「自评偏低」'],
+  ];
+  return `<div class="vhead"><div class="eyebrow"><b>方法与口径</b></div><h2>证据占六成，自评占四成；每个分数都能追到原始记录</h2>
+    <p>数据由 Claude 用你授权的工具读取，计分逻辑写在页面代码里，同一份快照无论何时打开，算出的分数都一样。</p></div>
+  <div class="panel glass"><div class="ptitle"><h3>计分公式</h3></div><div class="tbl"><table><thead><tr><th>项目</th><th>算法</th><th>说明</th></tr></thead><tbody>
+    ${formula.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td><td class="note">${r[2]}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="grid2">
+    <div class="panel glass"><div class="ptitle"><h3>框架来源</h3></div><div class="facts">
+      <div class="fact"><b>4D 素养</b><small>Rick Dakan、Joseph Feller 与 Anthropic，《AI Fluency Framework》，2025，CC BY-NC-SA 4.0。四项能力：委派、描述、判断、尽责；三种模式：自动化、增强、代理。</small></div>
+      <div class="fact"><b>六级阶梯、八个维度</b><small>本系统自定，用来衡量使用深度；每级门槛和每个指标的基准都写在「使用证据」和「能力阶梯」里。</small></div>
+      <div class="fact"><b>人群对标</b><small>Pew Research Center（2025-02-24 至 03-02，5,123 名美国成年人）；Anthropic Economic Index 2026 年 1 月报告（2025-11-13 至 11-20 抽样）。口径与本系统不同，只作参照，不参与计分。</small></div>
+    </div></div>
+    <div class="panel glass"><div class="ptitle"><h3>数据从哪来</h3></div><div class="facts">
+      <div class="fact"><b>会话</b><small>Claude Code 会话列表：标题、创建时间、入口、模型、思考力度、是否计划模式、上下文用量。</small></div>
+      <div class="fact"><b>Artifact</b><small>你名下的 Artifact 列表和最近更新日期；领域与形态由 Claude 按标题归类，可能有个别归错。</small></div>
+      <div class="fact"><b>定时任务</b><small>Routine 列表：排程、启用状态、上次运行结果。</small></div>
+      <div class="fact"><b>Git</b><small>Project-Uno 全部远程分支：项目、源码行、提交、是否在默认分支、测试与规则文件、页面运行时能力。</small></div>
+      <div class="fact"><b>人工核对项</b><small>连接器使用证据、校验环节、隐私实践，由 Claude 读代码和 README 后列出，每一项都写明出处。</small></div>
+    </div></div>
+  </div>
+  <div class="panel glass"><div class="ptitle"><h3>局限</h3></div><div class="facts">
+    <div class="fact"><b>只看得到 Claude Code</b><small>claude.ai 普通对话、Cowork、其他 AI 工具都不在证据里，所以「频率」「广度」可能被低估。自评第 1–4 题用来补这一块。</small></div>
+    <div class="fact"><b>数量不等于质量</b><small>会话数、源码行衡量投入和规模，不衡量价值。「成果被他人使用」目前只能靠自评第 19 题。</small></div>
+    <div class="fact"><b>基准是判断</b><small>每个基准都是本系统设定的门槛。改基准会让历史快照一起重算，便于前后对比。</small></div>
+    <div class="fact"><b>30 天窗口</b><small>${first ? `可观测的最早记录是 ${esc(first)}，` : ''}时间还短，长期是否稳定还看不出来。</small></div>
+  </div></div>
+  <div class="panel glass"><div class="ptitle"><h3>隐私</h3></div><p class="note">评估快照和自评答案只存在这个页面的数据库里，页面默认私有。仓库里只有框架、计分代码和采集脚本，不含你的会话标题、Artifact 列表或答案。</p></div>`;
+}
+
+// ---------- render & events ----------
+const VIEWS = { overview: vOverview, ladder: vLadder, fourd: vFourD, evidence: vEvidence, quiz: vQuiz, history: vHistory, method: vMethod };
+
+function renderAll() {
+  const c = current();
+  renderSide(c);
+  $('navQuiz').textContent = `${QUESTIONS.filter(q => S.draft[q.id] != null).length}/${QUESTIONS.length}`;
+  $('navHist').textContent = S.snaps.length + S.assess.length || '';
+  const y = $('main').scrollTop;
+  for (const [k, fn] of Object.entries(VIEWS)) {
+    const el = $('v-' + k);
+    // Only the visible view is rebuilt; hidden ones render when opened.
+    if (k === S.view) el.innerHTML = fn(c);
+    el.hidden = k !== S.view;
+  }
+  $('main').scrollTop = y;
+}
+function renderQuiz() { if (S.view === 'quiz') { const y = $('main').scrollTop; $('v-quiz').innerHTML = vQuiz(current()); $('main').scrollTop = y; } }
+
+function go(view, push = true) {
+  if (!VIEWS[view]) view = 'overview';
+  S.view = view;
+  document.querySelectorAll('#nav button').forEach(b => { if (b.dataset.v === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  renderAll();
+  $('main').scrollTop = 0;
+  if (window.innerWidth <= 820) window.scrollTo(0, 0);
+  if (push) { try { history.replaceState(null, '', '#' + view); } catch { /* sandboxed */ } }
+  store.set('view', view);
+}
+
+document.addEventListener('click', e => {
+  const nav = e.target.closest('#nav button');
+  if (nav) return go(nav.dataset.v);
+  const g = e.target.closest('[data-go]');
+  if (g) return go(g.dataset.go);
+  const opt = e.target.closest('.opts button');
+  if (opt) {
+    const q = opt.dataset.q, a = +opt.dataset.a;
+    if (S.draft[q] === a) delete S.draft[q]; else S.draft[q] = a;
+    store.set('draft', S.draft);
+    opt.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-checked', String(S.draft[q] === +b.dataset.a)));
+    $('navQuiz').textContent = `${QUESTIONS.filter(x => S.draft[x.id] != null).length}/${QUESTIONS.length}`;
+    const bar = document.querySelector('.quizbar');
+    if (bar) { const tmp = document.createElement('div'); tmp.innerHTML = vQuiz(current()); bar.replaceWith(tmp.querySelector('.quizbar')); }
+    return;
+  }
+  const act = e.target.closest('[data-act]');
+  if (act && act.dataset.act === 'save') return saveAssessment();
+  if (act && act.dataset.act === 'clear') { S.draft = {}; store.set('draft', null); renderQuiz(); $('navQuiz').textContent = `0/${QUESTIONS.length}`; return; }
+  const cp = e.target.closest('[data-copy]');
+  if (cp) {
+    const text = cp.dataset.copy;
+    const done = () => toast('已复制：' + text);
+    const fallback = () => { const code = cp.parentElement.querySelector('code'); const r = document.createRange(); r.selectNodeContents(code); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('已选中，按 ⌘C / Ctrl+C 复制'); };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch { fallback(); }
+  }
+});
+
+// keyboard: arrows move within a radio group
+document.addEventListener('keydown', e => {
+  const opt = e.target.closest && e.target.closest('.opts button');
+  if (!opt || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+  const all = [...opt.parentElement.children], i = all.indexOf(opt);
+  const n = all[(i + (e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? all.length - 1 : 1)) % all.length];
+  n.focus(); e.preventDefault();
+});
+
+// tooltip
+const tip = $('tip');
+function showTip(el, x, y) {
+  tip.innerHTML = `<b>${esc(el.getAttribute('data-tip-h'))}</b><span>${esc(el.getAttribute('data-tip'))}</span>`;
+  tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let left = Math.min(Math.max(8, x + 14), innerWidth - w - 8), top = y + 16;
+  if (top + h > innerHeight - 8) top = y - h - 12;
+  tip.style.left = left + 'px'; tip.style.top = Math.max(8, top) + 'px';
+}
+document.addEventListener('pointermove', e => {
+  const el = e.target.closest && e.target.closest('[data-tip]');
+  if (el) showTip(el, e.clientX, e.clientY); else tip.hidden = true;
+});
+document.addEventListener('focusin', e => {
+  const el = e.target.closest && e.target.closest('[data-tip]');
+  if (el) { const r = el.getBoundingClientRect(); showTip(el, r.left + Math.min(r.width, 200) * .5, r.bottom - 6); } else tip.hidden = true;
+});
+$('main').addEventListener('scroll', () => { tip.hidden = true; }, { passive: true });
+
+// boot
+S.draft = store.get('draft') || {};
+const start = (location.hash || '').slice(1) || store.get('view') || 'overview';
+go(VIEWS[start] ? start : 'overview', false);
+connect();
+
+})();</script>
