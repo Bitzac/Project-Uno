@@ -5,6 +5,10 @@
 :root{--bg:#EDF1F7;--blob1:#9CC3FF;--blob2:#A8E6D3;--blob3:#FFE1A6;--blob4:#C9C2FF;--ink:#0B1220;--muted:#4D5A6E;--faint:#7C8799;--glass-a:rgba(255,255,255,.62);--glass-b:rgba(255,255,255,.3);--glass-edge:rgba(255,255,255,.9);--glass-inner:rgba(255,255,255,.96);--shadow:rgba(24,44,90,.18);--line:rgba(11,18,32,.16);--line-soft:rgba(11,18,32,.08);--field:rgba(255,255,255,.5);--accent:#1F57D6;--accent-ink:#FFFFFF;--accent-soft:rgba(31,87,214,.1);--track:rgba(31,87,214,.14);--now:#A86B00;--now-soft:rgba(220,150,20,.16);--good:#0A7F4F;--good-soft:rgba(10,127,79,.12);--warn:#B86E00;--warn-soft:rgba(230,150,20,.16);--bad:#C93A30;--bad-soft:rgba(201,58,48,.1);--h1:#DCE7FB;--h2:#B7CEF6;--h3:#86AEEE;--h4:#4F86E2;--h5:#1F57D6;--h-ink:#0B1220;--h-ink4:#0B1220;--h-ink5:#FFFFFF;--scrim:rgba(18,28,50,.24);--sheet:rgba(246,248,252,.94);--hair:1px;--f-display:"Outfit","Noto Sans SC",system-ui,sans-serif;--f-body:"Noto Sans SC","Outfit",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070C16;--blob1:#173E86;--blob2:#0F5A4A;--blob3:#5A4313;--blob4:#33287A;--ink:#E9EEF7;--muted:#A3AEC2;--faint:#76829A;--glass-a:rgba(26,34,52,.62);--glass-b:rgba(12,18,30,.42);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#6E9DFF;--accent-ink:#06142F;--accent-soft:rgba(110,157,255,.14);--track:rgba(110,157,255,.18);--now:#F2B13D;--now-soft:rgba(242,177,61,.16);--good:#3FCB8E;--good-soft:rgba(63,203,142,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.14);--h1:#14233F;--h2:#1B3A73;--h3:#2853A6;--h4:#4A80E8;--h5:#7BA6FF;--h-ink:#E9EEF7;--h-ink4:#06142F;--h-ink5:#06142F;--scrim:rgba(0,0,0,.45);--sheet:rgba(12,18,30,.94);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#070C16;--blob1:#173E86;--blob2:#0F5A4A;--blob3:#5A4313;--blob4:#33287A;--ink:#E9EEF7;--muted:#A3AEC2;--faint:#76829A;--glass-a:rgba(26,34,52,.62);--glass-b:rgba(12,18,30,.42);--glass-edge:rgba(255,255,255,.16);--glass-inner:rgba(255,255,255,.2);--shadow:rgba(0,0,0,.5);--line:rgba(255,255,255,.15);--line-soft:rgba(255,255,255,.07);--field:rgba(255,255,255,.05);--accent:#6E9DFF;--accent-ink:#06142F;--accent-soft:rgba(110,157,255,.14);--track:rgba(110,157,255,.18);--now:#F2B13D;--now-soft:rgba(242,177,61,.16);--good:#3FCB8E;--good-soft:rgba(63,203,142,.14);--warn:#F2B13D;--warn-soft:rgba(242,177,61,.16);--bad:#FF7468;--bad-soft:rgba(255,116,104,.14);--h1:#14233F;--h2:#1B3A73;--h3:#2853A6;--h4:#4A80E8;--h5:#7BA6FF;--h-ink:#E9EEF7;--h-ink4:#06142F;--h-ink5:#06142F;--scrim:rgba(0,0,0,.45);--sheet:rgba(12,18,30,.94);color-scheme:dark}
+/* categorical series, fixed order (charts with more than one line) */
+:root{--c1:#2a78d6;--c2:#eb6834;--c3:#1baf7a;--c4:#eda100;--c5:#e87ba4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c1:#3987e5;--c2:#d95926;--c3:#199e70;--c4:#c98500;--c5:#d55181}}
+:root[data-theme="dark"]{--c1:#3987e5;--c2:#d95926;--c3:#199e70;--c4:#c98500;--c5:#d55181}
 @media (min-resolution:2dppx){:root{--hair:.5px}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -340,6 +344,90 @@ sup.ref a{text-decoration:none;color:inherit}
 .planned-v{display:grid;place-items:center;align-content:center;gap:10px;min-height:50vh;text-align:center;color:var(--muted)}
 .planned-v h1{font:900 28px var(--f-body);color:var(--ink)}
 
+/* product module */
+.chart .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.chart .pt{stroke:var(--bg);stroke-width:2}
+.chart .ln.s1{stroke:var(--c1)}.chart .ln.s2{stroke:var(--c2)}.chart .ln.s3{stroke:var(--c3)}.chart .ln.s4{stroke:var(--c4)}.chart .ln.s5{stroke:var(--c5)}
+.chart .pt.s1{fill:var(--c1)}.chart .pt.s2{fill:var(--c2)}.chart .pt.s3{fill:var(--c3)}.chart .pt.s4{fill:var(--c4)}.chart .pt.s5{fill:var(--c5)}
+.legend i.s1{background:var(--c1)}.legend i.s2{background:var(--c2)}.legend i.s3{background:var(--c3)}.legend i.s4{background:var(--c4)}.legend i.s5{background:var(--c5)}
+.chart .bench{stroke:var(--faint);stroke-width:1;stroke-dasharray:4 4}
+.chart .bench-t{fill:var(--muted);font:600 11px var(--f-body)}
+.legend i.bench{height:0;background:none;border-top:1.5px dashed var(--faint);vertical-align:4px}
+.lv,.as{display:inline-flex;align-items:center;font-size:12px;font-weight:700;border-radius:999px;padding:0 9px;white-space:nowrap;line-height:1.75;border:var(--hair) solid currentColor}
+.lv.must{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.lv.maybe{color:var(--warn);background:var(--warn-soft)}
+.lv.no{color:var(--faint);border-color:var(--line);font-weight:500}
+.as.ok{color:var(--good);background:var(--good-soft)}
+.as.part{color:var(--warn);background:var(--warn-soft)}
+.as.gap{color:var(--bad);background:var(--bad-soft)}
+.ring.pmf-none .fg{stroke:var(--faint)}
+.ring.pmf-not .fg{stroke:var(--warn)}
+.ring.pmf-near .fg{stroke:var(--accent)}
+.ring.pmf-yes .fg{stroke:var(--good)}
+.pmf-t{font-style:normal}
+.where h2 em.pmf-t.none,.pmf-t.none{color:var(--muted)}
+.where h2 em.pmf-t.not,.pmf-t.not{color:var(--warn)}
+.where h2 em.pmf-t.near,.pmf-t.near{color:var(--accent)}
+.where h2 em.pmf-t.yes,.pmf-t.yes{color:var(--good)}
+.kpi b.pmf-t{font:800 22px/1.3 var(--f-body)}
+.rules{display:grid;border-top:var(--hair) solid var(--line-soft)}
+.rule-row{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;padding:11px 0;border-bottom:var(--hair) solid var(--line-soft);align-items:start}
+.rule-row:last-child{border-bottom:0}
+.rule-row>i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:800 12px/1 var(--f-display);font-style:normal;border:1.5px solid currentColor;color:var(--faint);margin-top:1px}
+.rule-row.pass>i{color:var(--good);background:var(--good-soft)}
+.rule-row.fail>i{color:var(--bad);background:var(--bad-soft)}
+.rule-row>div{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);gap:2px 14px;align-items:baseline}
+.rule-row b{font-weight:800;font-size:14.5px}
+.rule-row span{font:600 13.5px var(--f-body);color:var(--ink);text-align:right}
+.rule-row.unk span{color:var(--faint);font-weight:500}
+.rule-row small{grid-column:1/-1;font-size:12.5px;color:var(--muted);line-height:1.6}
+.tgt{display:grid}
+.tgt>div{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:9px 0;border-bottom:var(--hair) solid var(--line-soft);font-size:14px}
+.tgt>div:last-child{border-bottom:0}
+.tgt i{font:800 13px var(--f-display);font-style:normal;color:var(--faint);text-align:center}
+.tgt .ok i{color:var(--good)}
+.tgt .ok span{color:var(--muted)}
+.tgt .no i{color:var(--warn)}
+.block-list{display:grid}
+.block-list>div{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:11px 0;border-bottom:var(--hair) solid var(--line-soft)}
+.block-list>div:last-child{border-bottom:0}
+.block-list b{font-weight:800;font-size:14.5px}
+.block-list>div>:nth-child(3){margin-left:auto}
+.block-list>div>span:last-child{flex-basis:100%;margin-left:0;font-size:13px;color:var(--muted);line-height:1.65}
+.linkbtn{border:0;background:none;padding:0;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.linkbtn.danger{color:var(--bad)}
+.tbl.compact table{min-width:0}
+.tbl.compact th,.tbl.compact td{padding-inline:8px}
+.lmx table{min-width:900px}
+.lmx th.c,.lmx td.c{text-align:center;white-space:nowrap;width:84px}
+.lmx th.c.on{color:var(--accent)}
+.lmx td.c.on{background:var(--accent-soft)}
+.lmx tr.hl td:first-child{box-shadow:inset 2px 0 0 var(--now)}
+.lmx td:first-child{min-width:150px}
+.lmx td.why{font-size:12.5px;color:var(--muted);min-width:300px}
+.lmx td .tag{margin-top:4px}
+.amx table{min-width:760px}
+.amx th{white-space:normal}
+.amx th small{font:500 11.5px var(--f-body);letter-spacing:0}
+.amx td{padding:6px;vertical-align:top}
+.amx td:first-child{padding:12px;min-width:128px}
+.acell{display:grid;gap:5px;justify-items:start;text-align:left;width:100%;border:var(--hair) solid var(--line-soft);background:var(--glass-b);border-radius:12px;padding:9px 11px;cursor:pointer;font-size:13px;line-height:1.55;color:var(--ink)}
+.acell:hover{border-color:var(--line);background:var(--glass-a)}
+.acell.ok{box-shadow:inset 2px 0 0 var(--good)}
+.acell.part{box-shadow:inset 2px 0 0 var(--warn)}
+.acell.gap{box-shadow:inset 2px 0 0 var(--bad)}
+.acell span{color:var(--muted)}
+code,.acell code{font:500 11.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--faint);overflow-wrap:anywhere}
+.meter.goal{position:relative;overflow:visible;height:8px;margin-top:22px}
+.meter.goal b{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;background:var(--ink);border-radius:1px}
+.meter.goal b::after{content:attr(data-l);position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);font:700 11px var(--f-body);color:var(--muted);white-space:nowrap}
+.form.grid3{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
+.form.grid3 .acts{grid-column:1/-1}
+.form.grid3 input{min-width:0;width:100%}
+label.inline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+label.inline select{border:var(--hair) solid var(--line);background:var(--field);border-radius:10px;padding:6px 8px;font-size:13.5px;color:var(--ink);max-width:100%;min-width:0}
+.sl em.live{color:var(--accent);font-weight:600;border-top-color:var(--accent)}
+
 @media (max-width:1100px){.cols3{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:980px){.cols,.cols3{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:860px){
@@ -373,6 +461,23 @@ sup.ref a{text-decoration:none;color:inherit}
   .sheet{top:10px;right:16px;bottom:10px;width:calc(100% - 32px);padding:18px 16px 26px}
   .inst{grid-template-columns:minmax(0,1fr)}
   .inst .act{grid-row:auto;grid-column:1}
+  .form.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rule-row>div{grid-template-columns:minmax(0,1fr)}
+  .rule-row span{text-align:left}
+  .lmx table,.lmx tbody,.amx table,.amx tbody,.amx tr,.amx td{display:block;min-width:0}
+  .lmx thead,.amx thead{display:none}
+  .lmx tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;padding:12px 14px;border-bottom:var(--hair) solid var(--line-soft)}
+  .lmx tr:last-child{border-bottom:0}
+  .lmx tr.hl{box-shadow:inset 2px 0 0 var(--now)}
+  .lmx tr.hl td:first-child{box-shadow:none}
+  .lmx td{border:0;padding:0;min-width:0!important}
+  .lmx td.c{display:none;width:auto;background:none!important}
+  .lmx td.c.on{display:block}
+  .lmx td.why,.lmx td:last-child{grid-column:1/-1}
+  .amx tr{padding:10px 12px;border-bottom:var(--hair) solid var(--line-soft);display:grid;gap:8px}
+  .amx tr:last-child{border-bottom:0}
+  .amx td,.amx td:first-child{padding:0;border:0}
+  .amx td[data-p]::before{content:attr(data-p);display:block;font:600 11.5px var(--f-display);letter-spacing:.06em;color:var(--faint);margin-bottom:4px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -835,6 +940,172 @@ const SRC = {
   'nmpa-ai': { t: '国家药监局：人工智能医用软件产品分类界定指导原则（2021 年第 47 号）', u: 'https://www.nmpa.gov.cn/ylqx/ylqxggtg/20210708111147171.html', d: '2021-07-08' }
 };
 
+// Product module content: idea → PMF, plus launching in mainland China.
+// Facts carry source keys into SRC (merged at the bottom); copy may cite inline by wrapping a source key in double square brackets.
+// Step ids start with "pd-" and must not collide with fundraising step ids (build.mjs checks it).
+
+const PD_PHASES = [
+  { id: 'pd-problem', n: '问题验证', short: '这个问题值得解决吗', d: '先证明有一群人反复遇到这个问题、现在的办法让他们不满意。访谈问过去发生过的事，不问「你会不会用」。' },
+  { id: 'pd-solution', n: '方案验证', short: '他们愿意为这个方案付出什么', d: '在写大量代码之前，用落地页、原型或预售看用户是否愿意留下联系方式、花时间或付钱。' },
+  { id: 'pd-mvp', n: 'MVP', short: '一条能走通的核心路径', d: '只做让用户完成一次核心价值的最短路径，同时把合规和埋点一起做进去，事后补的成本更高。' },
+  { id: 'pd-launch', n: '中国上线', short: '备案、许可与平台审核', d: '在中国大陆对公众提供服务，先完成备案；收费、处理健康数据、做支付各有额外要求。见「中国上线」页的矩阵。' },
+  { id: 'pd-retain', n: '早期留存', short: '用户会不会回来', d: '定义「激活」和「留存」到底指哪个行为，按注册周看队列，而不是只看总用户数。' },
+  { id: 'pd-pmf', n: 'PMF 判定', short: '有没有一群离不开你的用户', d: '用留存曲线和「非常失望」比例两类证据一起判断，单看一个数字容易自欺。见「指标与 PMF」页。' },
+  { id: 'pd-scale', n: '规模化前检查', short: '能不能放大', d: '有了 PMF 之后才值得花钱获客：先确认单位经济、一条可重复的获客渠道和系统容量。' }
+];
+
+// only: limit to sectors (health = 身体健康 OS 一类, platform = 破土 一类). links: related fundraising step ids.
+const PD_STEPS = [
+  // 问题验证
+  { id: 'pd-segment', ph: 'pd-problem', t: '写下最早的一批目标用户', d: '具体到能找到人的程度：他们是谁、在哪里、现在怎么解决这个问题。', out: '一段用户画像 + 去哪里找到 20 个这样的人。', tip: { 'health-os': '例如：家里有长辈慢病、自己每年体检、手上戴着智能手表的人。', 'groundbreak': '两边都要写：想被看见的早期创业者，以及在找项目的天使投资人。' } },
+  { id: 'pd-interview-guide', ph: 'pd-problem', t: '准备访谈提纲', d: '只问过去和现在的行为：上一次遇到这个问题是什么时候、怎么解决的、花了多少时间或钱。不要介绍你的产品，也不要问「你会不会用」。', out: '一页访谈提纲。' },
+  { id: 'pd-interviews', ph: 'pd-problem', t: '完成 10–20 个用户访谈', d: '每次访谈后当天写下原话。同一个痛点在不同人身上反复出现，才算信号。', out: '访谈记录表（人、日期、原话、痛点）。' },
+  { id: 'pd-problem-rank', ph: 'pd-problem', t: '给问题排序', d: '按出现频率和痛的程度排序，只留第一名。第二名以后先放进待办。', out: '问题排序表。' },
+  // 方案验证
+  { id: 'pd-landing', ph: 'pd-solution', t: '做一个落地页或假门测试', d: '用一句话讲清价值，放一个「申请试用」按钮，看访问的人里有多少留下联系方式。', out: '落地页 + 访问量和留资率。' },
+  { id: 'pd-prototype-test', ph: 'pd-solution', t: '拿原型给 5 个目标用户试', d: '让他们自己完成核心任务，你只看不教。记下卡住的地方。', out: '可用性问题清单。', tip: { 'health-os': '仓库里的原型已经能用：请用户录入一次体检单、添加一位家人，看是否卡住。', 'groundbreak': '原型能跑：请创业者走一遍「首发 → 众筹」，请投资人走一遍「认证 → 看项目」。' } },
+  { id: 'pd-commit', ph: 'pd-solution', t: '拿到付出代价的承诺', d: '预付款、试点合同、意向书或至少一次排期，比「我会用」可靠得多。', out: '承诺清单（谁、承诺了什么）。', tip: { 'groundbreak': '破土的众筹本身就是这一步：一个项目的达成率就是需求证据。' } },
+  // MVP
+  { id: 'pd-scope', ph: 'pd-mvp', t: '只保留一条核心路径', d: '写下用户从打开到获得一次价值的步骤，每一步都问「去掉它还能用吗」。', out: 'MVP 范围清单（做 / 不做）。' },
+  { id: 'pd-account', ph: 'pd-mvp', t: '账号与登录', d: '面向中国大陆用户，通常用手机号或微信登录。基本功能不依赖的个人信息不要强制收集：运动健身类、女性健康类 App 按规定无须个人信息即可使用基本功能[[nec-pi-scope]]。', out: '登录方案 + 字段清单（必要 / 可选）。', tip: { 'health-os': '现在依赖 claude.ai 账号和云端数据库，离开 claude.ai 就没有账号体系（health-os/src/core.js:140）。保留「不登录也能在本机使用」的模式。', 'groundbreak': '现在身份是演示切换（groundbreak/src/app.js:23）。创业者、支持者、投资人要三套权限。' } },
+  { id: 'pd-privacy', ph: 'pd-mvp', t: '隐私政策和首次运行提示', d: '处理个人信息前要以显著方式告知处理者、目的、方式、种类和保存期限[[pipl]]。App 首次运行要用弹窗等明显方式提示阅读隐私政策，进入主界面后 4 次点击以内要能找到，同意前不能开始收集或开权限[[app-pi-rules]]。', out: '隐私政策 + 首次运行弹窗 + 设置页入口。' },
+  { id: 'pd-sensitive', ph: 'pd-mvp', only: ['health'], t: '健康数据单独同意与家人授权', d: '医疗健康信息是敏感个人信息，要单独同意并告知必要性和影响；处理不满 14 周岁未成年人的信息要取得监护人同意[[pipl]]。家人档案是别人的信息，要设计授权方式。', out: '单独同意页面、家人授权流程、未成年人监护人同意流程。', tip: { 'health-os': '新建档案（health-os/src/core.js:195）直接写入，没有任何授权流程。' } },
+  { id: 'pd-instrument', ph: 'pd-mvp', t: '埋点：注册、激活、核心行为、回访', d: '至少记录四个事件，才能算出第 1 / 4 / 12 / 24 周留存。埋点本身也收集个人信息，要写进隐私政策。', out: '事件表（事件名、触发时机、字段）。' },
+  { id: 'pd-export', ph: 'pd-mvp', t: '数据导出与注销', d: '用户能把自己的数据带走、能删除账号。健康和交易数据尤其会被投资人和用户问到。', out: '导出功能 + 注销流程。', tip: { 'health-os': '已能删除档案（health-os/src/core.js:203），还不能导出。', 'groundbreak': '数据只存在本机浏览器（groundbreak/src/app.js:8），换设备就没了。' } },
+  { id: 'pd-boundary', ph: 'pd-mvp', only: ['health'], t: '写清「不是诊断」的产品边界', d: '面向健康人群、记录统计健康信息的软件一般不属于医疗器械；用于疾病管理、分析医疗数据的属于[[nmpa-sw]]。把这条边界写进界面文案和功能清单。', out: '一页功能边界说明 + 界面文案修改。', tip: { 'health-os': '按严重程度着色和参考区间标签（health-os/src/core.js:251）要明确写「参考，不是诊断」。' } },
+  { id: 'pd-qualify', ph: 'pd-mvp', only: ['platform'], t: '合格投资者认证流程', d: '投资人专区只对认证用户开放，认证要真实核验资产或收入，并保留记录。私募基金不得向合格投资者以外的人募集或宣传推介[[pf-reg]]。', out: '认证流程设计 + 律师意见。', tip: { 'groundbreak': '现在是一键演示认证（groundbreak/src/app.js:341）。' } },
+  // 中国上线
+  { id: 'pd-form', ph: 'pd-launch', t: '选交付形态', d: '网页、小程序、iOS、安卓的合规要求不同。网页只需要网站备案，是成本最低的起点；做 App 或小程序还要做 App 备案[[miit-app-filing]]。', out: '交付形态决定 + 时间表。', tip: { 'health-os': '现在是网页应用，先做网页 / H5 版最省事。', 'groundbreak': '同样先做网页；小程序适合后期做传播。' } },
+  { id: 'pd-icp', ph: 'pd-launch', t: 'ICP 备案', d: '非经营性互联网信息服务实行备案，未备案不得从事互联网信息服务[[icp-measures]]。通常通过服务器所在的云服务商提交。', out: 'ICP 备案号（放在网站底部）。' },
+  { id: 'pd-icp-license', ph: 'pd-launch', t: '收费前办 ICP 经营许可证', d: '通过互联网有偿提供信息服务属于经营性，实行许可制度[[icp-measures]]。会员订阅、付费功能上线前要办好。', out: '增值电信业务经营许可证（ICP 证）。', tip: { 'health-os': 'C 端订阅属于有偿服务。', 'groundbreak': '投资人订阅、创业者增值服务都属于有偿服务。' } },
+  { id: 'pd-app-filing', ph: 'pd-launch', t: 'App / 小程序备案', d: '在境内从事互联网信息服务的 App 要备案，未备案不得从事 App 互联网信息服务，新 App 先备案后开展业务；已有网站备案的只需补充 App 信息[[miit-app-filing]]。iOS 上架时 ICP 备案号要和工信部的备案信息一致[[apple-icp]]。', out: 'App 备案号。' },
+  { id: 'pd-copyright', ph: 'pd-launch', t: '软件著作权登记', d: '国内安卓商店上架常要求软著，具体以各商店审核指南为准[[soft-copyright]]。软著也是融资尽调里的知识产权材料。', out: '软著证书。', links: ['prep-ip'] },
+  { id: 'pd-mlps', ph: 'pd-launch', t: '网络安全等级保护', d: '国家实行网络安全等级保护制度，网络运营者要按等级履行安全保护义务[[csl-2025]]。先定级；第二级及以上要在定级后 30 日内到公安机关备案[[mlps-filing]]。处理健康、交易数据的系统要尽早定级。', out: '定级报告与整改计划。' },
+  { id: 'pd-payment', ph: 'pd-launch', only: ['platform'], t: '接入持牌支付机构', d: '未经依法批准，任何单位和个人不得从事或者变相从事支付业务[[payment-reg]]。众筹支持款只走持牌支付机构的存管和分账，平台账户不过钱。', out: '支付机构签约 + 资金流程图。', tip: { 'groundbreak': '现在支付是演示（groundbreak/src/app.js:336）。' } },
+  { id: 'pd-store', ph: 'pd-launch', t: '平台审核与上架', d: '按所选形态准备商店或微信平台的审核材料，预留被打回修改的时间。', out: '上架记录。' },
+  // 早期留存
+  { id: 'pd-activation', ph: 'pd-retain', t: '定义「激活」', d: '找到预示用户会留下来的那个行为，例如完成第一次记录或第一次投票。之后所有转化都以它为准。', out: '激活定义 + 当前激活率。', tip: { 'health-os': '候选：添加第一位家人并录入一条体征。', 'groundbreak': '候选：创业者完成首发；投资人第一次关注项目。' } },
+  { id: 'pd-cohorts', ph: 'pd-retain', t: '按注册周记录留存队列', d: '每周把新注册用户当作一个队列，记下第 1、4、12、24 周还活跃的人数。在「指标与 PMF」页录入。', out: '队列表（已在本系统录入）。' },
+  { id: 'pd-habit', ph: 'pd-retain', t: '设计回访理由', d: '给用户一个自然的回来时机：提醒、周报、新内容。提醒要用户主动开启，并能随时关闭。', out: '回访机制设计。', tip: { 'health-os': '已有计划模块，但没有提醒。', 'groundbreak': '每日首发榜本身是回访理由；开售提醒目前只存本机（groundbreak/src/app.js:331）。' } },
+  { id: 'pd-feedback', ph: 'pd-retain', t: '建反馈渠道', d: '在产品里放一个随手反馈入口，每周读一遍，按频率归类。', out: '反馈汇总表。' },
+  // PMF 判定
+  { id: 'pd-ellis', ph: 'pd-pmf', t: '做「非常失望」调研', d: '只问最近两周用过至少两次的用户：「如果不能再用这个产品，你会有多失望？」选项是非常失望、有点失望、不失望。约 40 份回答可以得到方向性结论[[superhuman-pmf]]。', out: '调研结果（在「指标与 PMF」页录入）。' },
+  { id: 'pd-segment-love', ph: 'pd-pmf', t: '找出最爱用的那群人', d: '把回答「非常失望」的人单独分组，看他们有什么共同点。Superhuman 只靠分群就把这个比例从 22% 提到 33%[[superhuman-pmf]]。', out: '核心用户画像 v2。' },
+  { id: 'pd-roadmap-love', ph: 'pd-pmf', t: '按调研结果排路线图', d: '一半做核心用户最喜欢的部分，一半解决「有点失望」用户提到的障碍，每季度重测一次[[superhuman-pmf]]。', out: '下季度路线图。' },
+  { id: 'pd-nps', ph: 'pd-pmf', t: '测一次 NPS', d: 'NPS = 打 9–10 分的推荐者占比 − 打 0–6 分的贬损者占比[[bain-nps]]。和「非常失望」调研一起看。', out: 'NPS 结果（在「指标与 PMF」页录入）。' },
+  // 规模化前检查
+  { id: 'pd-unit', ph: 'pd-scale', t: '算单位经济', d: '一个用户带来的收入和获取他的成本，按队列算，不按平均。', out: '单位经济表。' },
+  { id: 'pd-channel', ph: 'pd-scale', t: '跑通一条可重复的获客渠道', d: '同样的投入，连续几周带来稳定的新用户和相近的留存。', out: '渠道实验记录。' },
+  { id: 'pd-capacity', ph: 'pd-scale', t: '检查系统容量和稳定性', d: '用户量翻十倍时，哪里先坏：服务器、数据库、客服还是审核。', out: '容量与故障预案。' },
+  { id: 'pd-to-bp', ph: 'pd-scale', t: '把数据写进 BP', d: '把留存曲线、调研结果和单位经济放进 BP 的「数据与进展」页，融资模块的路演页会显示你在这里录入的最新数据。', out: 'BP 数据页更新。', links: ['pitch-bp'] }
+];
+const PD_STEP_BY_ID = Object.fromEntries(PD_STEPS.map(s => [s.id, s]));
+
+// Product sources were last opened and checked on this date (the fundraising module keeps its own ASOF).
+const PD_ASOF = '2026-10-12';
+
+// ----- China launch: delivery form × requirement -----
+// v: 'must' | 'maybe' | 'no' per form; why: the condition in plain words; for: highlight for these sectors.
+const LAUNCH_FORMS = [
+  { id: 'web', n: '网页 / H5' }, { id: 'mp', n: '微信小程序' }, { id: 'ios', n: 'iOS App' }, { id: 'android', n: '安卓 App' }
+];
+const LAUNCH = [
+  { id: 'icp', n: 'ICP 备案', v: { web: 'must', mp: 'must', ios: 'must', android: 'must' }, why: '非经营性互联网信息服务实行备案，未备案不得提供服务[[icp-measures]]；App 和小程序另有 App 备案，已做网站备案的只需补充 App 信息[[miit-app-filing]]。', src: ['icp-measures', 'miit-app-filing'], step: 'pd-icp' },
+  { id: 'icp-license', n: 'ICP 经营许可证', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '有偿提供信息服务（会员、订阅、付费功能）属于经营性，要取得许可[[icp-measures]]。', src: ['icp-measures'], step: 'pd-icp-license', for: ['health', 'platform'] },
+  { id: 'app-filing', n: 'App / 小程序备案', v: { web: 'no', mp: 'must', ios: 'must', android: 'must' }, why: '未履行备案手续的，不得从事 App 互联网信息服务；分发平台含小程序、快应用[[miit-app-filing]]。iOS 的 ICP 备案号要与工信部信息一致[[apple-icp]]；微信要求小程序先备案后上架[[wechat-mp]]。', src: ['miit-app-filing', 'apple-icp', 'wechat-mp'], step: 'pd-app-filing' },
+  { id: 'privacy', n: '隐私政策与首次提示', v: { web: 'must', mp: 'must', ios: 'must', android: 'must' }, why: '处理个人信息前要显著告知[[pipl]]；App 没有隐私政策、首次运行未提示、同意前就收集，都可认定违规[[app-pi-rules]]。', src: ['pipl', 'app-pi-rules'], step: 'pd-privacy' },
+  { id: 'necessary', n: '必要个人信息范围', v: { web: 'no', mp: 'must', ios: 'must', android: 'must' }, why: 'App（含小程序）不得因用户不同意提供非必要个人信息而拒绝基本功能[[nec-pi-scope]]。', src: ['nec-pi-scope'], step: 'pd-account' },
+  { id: 'sensitive', n: '敏感信息单独同意', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '处理医疗健康、未成年人等敏感个人信息时，要单独同意并告知必要性和影响[[pipl]]。', src: ['pipl'], step: 'pd-sensitive', for: ['health'] },
+  { id: 'mlps', n: '网络安全等级保护', v: { web: 'must', mp: 'must', ios: 'must', android: 'must' }, why: '国家实行网络安全等级保护制度，网络运营者按等级履行安全保护义务[[csl-2025]]；先定级，第二级及以上在定级后 30 日内到公安机关备案[[mlps-filing]]。', src: ['csl-2025', 'mlps-filing'], step: 'pd-mlps' },
+  { id: 'copyright', n: '软件著作权', v: { web: 'no', mp: 'no', ios: 'no', android: 'maybe' }, why: '国内安卓商店上架常要求软著，以各商店审核指南为准[[soft-copyright]]；其余形态不强制，但融资尽调有用。', src: ['soft-copyright'], step: 'pd-copyright' },
+  { id: 'genai', n: '生成式 AI 备案', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '只在向境内公众提供生成文本、图片等内容的服务时适用；具有舆论属性或社会动员能力的，要做安全评估和算法备案[[genai-measures]]。', src: ['genai-measures'] },
+  { id: 'payment', n: '支付牌照', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '自己代收代付属于支付业务，未经批准不得从事；接入持牌支付机构就不需要自己持牌[[payment-reg]]。', src: ['payment-reg'], step: 'pd-payment', for: ['platform'] },
+  { id: 'device', n: '医疗器械边界', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '只做健康人群的记录统计一般不属于医疗器械；做疾病管理、分析医疗数据的要按医疗器械注册[[nmpa-sw]]。', src: ['nmpa-sw'], step: 'pd-boundary', for: ['health'] },
+  { id: 'securities', n: '证券与集资边界', v: { web: 'maybe', mp: 'maybe', ios: 'maybe', android: 'maybe' }, why: '向不特定对象或累计超过 200 人发行属于公开发行[[sec-law]]；承诺回报向不特定对象吸收资金属于非法集资[[illegal-fund]]。', src: ['sec-law', 'illegal-fund'], step: 'pd-qualify', for: ['platform'] }
+];
+
+// ----- PMF benchmarks -----
+const RET_CATS = [
+  { id: 'consumer-social', n: '消费社交', good: 25, great: 45 },
+  { id: 'consumer-tx', n: '消费交易', good: 30, great: 50 },
+  { id: 'consumer-saas', n: '消费订阅 / 工具', good: 40, great: 70 },
+  { id: 'smb-saas', n: '中小企业 SaaS', good: 60, great: 80 },
+  { id: 'ent-saas', n: '企业 SaaS', good: 70, great: 90 }
+];
+// Default retention benchmark per sector (every key of SECTORS; build.mjs checks it). The viewer can override it per project.
+const DEFAULT_CAT = { health: 'consumer-saas', platform: 'consumer-tx', ai: 'consumer-saas', hardtech: 'ent-saas', saas: 'smb-saas', consumer: 'consumer-tx', content: 'consumer-social' };
+const PMF_RULES = [
+  { id: 'data', n: '数据够判断', how: '至少 3 个有第 4 周数据的队列，或一份不少于 40 人的「非常失望」调研。', src: ['superhuman-pmf'] },
+  { id: 'ellis', n: '「非常失望」≥ 40%', how: 'Sean Ellis 对比近百家初创公司，40% 是分界线：低于它的公司几乎都难以增长。', src: ['superhuman-pmf'] },
+  { id: 'flat', n: '留存曲线走平', how: '第 12 周留存不低于第 4 周的 80%。「走平」的说法来自公开资料，80% 这个阈值是本系统的规则。', src: ['lenny-retention'] },
+  { id: 'height', n: '第 24 周留存达到品类基准', how: '对照所选品类 6 个月留存的「好」线（美国从业者调查口径，没有中国同口径数据）。', src: ['lenny-retention'] }
+];
+
+// Next-round data targets, translated from the fundraising module's round gates.
+const FUND_TARGETS = {
+  seed: [{ t: '完成 10–20 个用户访谈', step: 'pd-interviews' }, { t: '一个能演示的原型，至少 5 个目标用户试过', step: 'pd-prototype-test' }, { t: '至少一条付出代价的承诺（预付款、试点、意向书）', step: 'pd-commit' }],
+  angel: [{ t: '产品已上线并完成 ICP 备案', step: 'pd-icp' }, { t: '有激活定义', step: 'pd-activation' }, { t: '至少 3 个有第 4 周数据的队列', rule: 'data' }],
+  preA: [{ t: '留存曲线开始走平', rule: 'flat' }, { t: '「非常失望」≥ 40%', rule: 'ellis' }, { t: '有连续的付费转化数据', metric: 'payers' }],
+  A: [{ t: '达到 PMF 判定的全部条件', rule: 'all' }, { t: '单位经济成立', step: 'pd-unit' }, { t: '一条可重复的获客渠道', step: 'pd-channel' }],
+  B: [{ t: '单位经济在放大后仍成立', step: 'pd-unit' }], C: [{ t: '系统容量能撑住下一个量级', step: 'pd-capacity' }], preIPO: [{ t: '对照目标板块的财务标准（见融资模块轮次地图）' }]
+};
+
+// ----- code audit of the built-in projects -----
+// st: 'ok' | 'part' | 'gap'; ev: repo path[:line] (build.mjs checks the file exists); step: the pd- step that closes the gap.
+const AUDIT_DIMS = [
+  { id: 'core', n: '核心价值' }, { id: 'account', n: '账号与身份' }, { id: 'privacy', n: '隐私政策与同意' },
+  { id: 'sensitive', n: '敏感信息与授权' }, { id: 'export', n: '数据导出与持久化' }, { id: 'metrics', n: '埋点与指标' },
+  { id: 'retain', n: '留存机制' }, { id: 'money', n: '支付与收费' }, { id: 'resilience', n: '错误降级' },
+  { id: 'boundary', n: '合规边界' }, { id: 'launch', n: '中国上线形态' }
+];
+const AUDIT = {
+  'health-os': {
+    core: { st: 'ok', d: '3D 人体 35 个部位定义（男 32 / 女 35），问题、体征、体检、计划四个模块，多人档案。', ev: 'health-os/src/anatomy.js:10' },
+    account: { st: 'part', d: '靠 claude.ai 账号和 Artifact 云端数据库，连不上时退回本机存储；离开 claude.ai 没有自己的账号体系。', ev: 'health-os/src/core.js:140', step: 'pd-account' },
+    privacy: { st: 'gap', d: '代码里没有隐私政策、首次运行提示或同意流程。', ev: 'health-os/src/body.html', step: 'pd-privacy' },
+    sensitive: { st: 'gap', d: '多人档案（含家人）没有任何授权流程，也没有未成年人的监护人同意。', ev: 'health-os/src/core.js:195', step: 'pd-sensitive' },
+    export: { st: 'part', d: '能删除档案和记录，不能导出。', ev: 'health-os/src/core.js:203', step: 'pd-export' },
+    metrics: { st: 'gap', d: '没有埋点，算不出激活率和留存。', ev: 'health-os/src/boot.js', step: 'pd-instrument' },
+    retain: { st: 'part', d: '有计划模块（带到期和重复），只在打开页面后显示逾期，不会主动提醒。', ev: 'health-os/README.md:45', step: 'pd-habit' },
+    money: { st: 'gap', d: '还没有收费设计；上线订阅前要先办 ICP 经营许可证。', ev: 'health-os/README.md', step: 'pd-icp-license' },
+    resilience: { st: 'ok', d: '3D 引擎或 WebGL 加载失败时有兜底提示，左侧数据照常可用；Worker 失败退回主线程。', ev: 'health-os/src/three3d.js:298' },
+    boundary: { st: 'part', d: '参考标准写在页面上；按严重程度着色和「偏瘦 / 超重」等标签要写清是参考，不是诊断。', ev: 'health-os/src/core.js:251', step: 'pd-boundary' },
+    launch: { st: 'gap', d: '目前只发布为 claude.ai Artifact（离开后退回本机模式），依赖 Google Fonts 和 cdnjs；没有面向中国大陆公众的部署和备案。', ev: 'health-os/README.md:24', step: 'pd-form' }
+  },
+  groundbreak: {
+    core: { st: 'ok', d: '首发榜、众筹、投资人专区、创业者后台四个视图可交互，用 14 个虚构项目演示。', ev: 'groundbreak/README.md:9' },
+    account: { st: 'gap', d: '身份是访客 / 认证投资人的演示切换，没有账号。', ev: 'groundbreak/src/app.js:23', step: 'pd-account' },
+    privacy: { st: 'gap', d: '代码里没有隐私政策或同意流程。', ev: 'groundbreak/src/body.html', step: 'pd-privacy' },
+    sensitive: { st: 'gap', d: '合格投资者认证是一键演示，没有真实核验资产或收入。', ev: 'groundbreak/src/app.js:341', step: 'pd-qualify' },
+    export: { st: 'part', d: '投票、关注、身份只存在本机浏览器，换设备就没了。', ev: 'groundbreak/src/app.js:8', step: 'pd-export' },
+    metrics: { st: 'gap', d: '没有埋点。', ev: 'groundbreak/src/app.js', step: 'pd-instrument' },
+    retain: { st: 'part', d: '每日首发榜是天然的回访理由；开售提醒只存本机，不会真正提醒。', ev: 'groundbreak/src/app.js:331', step: 'pd-habit' },
+    money: { st: 'gap', d: '支持款支付是演示，没有接入持牌支付机构。', ev: 'groundbreak/src/app.js:336', step: 'pd-payment' },
+    resilience: { st: 'part', d: '本机存储读写有异常保护；没有服务端，也就没有服务端的故障处理。', ev: 'groundbreak/src/app.js:8' },
+    boundary: { st: 'ok', d: '融资信息只对认证投资人可见，公开页不出现轮次和金额。', ev: 'groundbreak/src/app.js:247' },
+    launch: { st: 'gap', d: '纯静态页面，目前只发布为 claude.ai Artifact，依赖 Google Fonts；没有面向中国大陆公众的部署和备案。', ev: 'groundbreak/README.md:20', step: 'pd-form' }
+  }
+};
+
+// ----- sources added by this module -----
+Object.assign(SRC, {
+  'icp-measures': { t: '互联网信息服务管理办法（2011 年修订，第 3、4 条）', u: 'https://www.gov.cn/gongbao/content/2011/content_1860864.htm', d: '2011-01-08' },
+  'miit-app-filing': { t: '工业和信息化部关于开展移动互联网应用程序备案工作的通知（工信部信管〔2023〕105 号）', u: 'https://www.gov.cn/zhengce/zhengceku/202308/content_6897341.htm', d: '2023-07-21' },
+  'apple-icp': { t: 'Apple App Store Connect Help: App information（ICP Filing Number）', u: 'https://developer.apple.com/help/app-store-connect/reference/app-information/', d: '2026-10' },
+  'wechat-mp': { t: '安全内参转载：微信小程序备案通知（平台规则）', u: 'https://www.secrss.com/articles/57609', d: '2023-08' },
+  'csl-2025': { t: '中华人民共和国网络安全法（2025 年修正，第 23 条；中国网信网）', u: 'https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm', d: '2025-10-28' },
+  'genai-measures': { t: '生成式人工智能服务管理暂行办法（第 2、17 条；中国网信网）', u: 'https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm', d: '2023-08-15' },
+  'nec-pi-scope': { t: '常见类型移动互联网应用程序必要个人信息范围规定（IT之家全文转载）', u: 'https://www.ithome.com/0/541/410.htm', d: '2021-05-01' },
+  'app-pi-rules': { t: 'App 违法违规收集使用个人信息行为认定方法（国信办秘字〔2019〕191 号）', u: 'https://www.elawcn.com/rule/2019/1230/531.html', d: '2019-11-28' },
+  'payment-reg': { t: '非银行支付机构监督管理条例（国务院令第 768 号，第 6 条；人民日报全文）', u: 'https://paper.people.com.cn/rmrb/html/2023-12/18/nw.D110000renmrb_20231218_1-17.htm', d: '2024-05-01' },
+  'soft-copyright': { t: '阿里云开发者社区：App 上架需要准备什么（第三方经验，非商店官方规则）', u: 'https://developer.aliyun.com/article/1220761', d: '2023' },
+  'mlps-filing': { t: '信息安全等级保护备案实施细则（第 2、6、16 条；中国政府网刊载）', u: 'https://www.gov.cn/fuwu/2020-11/23/5563534/files/8d9365b6d0f54397bd341fefdfd572cf.docx', d: '2020-11-23' },
+  'superhuman-pmf': { t: 'First Round Review: How Superhuman built an engine to find product/market fit', u: 'https://review.firstround.com/how-superhuman-built-an-engine-to-find-product-market-fit', d: '2018-11-13' },
+  'lenny-retention': { t: "Lenny's Newsletter: What is good retention?（与 Casey Winters 的从业者调查）", u: 'https://www.lennysnewsletter.com/p/what-is-good-retention-issue-29', d: '2020-06-09' },
+  'bain-nps': { t: 'Bain & Company: Measuring your Net Promoter Score', u: 'https://nps.bain.com/about/measuring-your-net-promoter-score/', d: '2026-10' }
+});
+SRC['pipl'] = { t: '中华人民共和国个人信息保护法（第 17、28–31、55 条）', u: 'https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm', d: '2021-11-01' };
+
 // Built-in projects: the scalable projects already in this repository. Content here is page copy, not user records;
 // what the user does (ticks, notes, target investors, extra projects) lives in the db / browser storage.
 // Every `src` key must exist in SRC (fund-data.js); build.mjs checks it.
@@ -949,10 +1220,10 @@ const I = {
 };
 
 // ---------- capability modules ----------
-// Only `fund` is built in v1; the rest are placeholders so the system's shape is visible.
+// Live modules attach their api ({ render, steps, phases }) from their own file; the rest are placeholders.
 const MODULES = [
-  { id: 'fund', name: '融资能力', sub: '中国大陆 · v1', live: true },
-  { id: 'product', name: '产品能力', sub: '规划中' },
+  { id: 'fund', name: '融资能力', sub: '中国大陆', live: true },
+  { id: 'product', name: '产品能力', sub: '想法到 PMF · 中国上线', live: true },
   { id: 'growth', name: '增长获客', sub: '规划中' },
   { id: 'team', name: '团队与组织', sub: '规划中' },
   { id: 'legal', name: '法务合规', sub: '规划中' },
@@ -961,9 +1232,12 @@ const MODULES = [
 
 // ---------- state ----------
 const UI0 = lsGet('ui', {});
-const S = { mod: 'fund', tab: UI0.tab || 'overview', pid: UI0.pid || BUILTIN[0].id, gov: !!UI0.gov, usd: !!UI0.usd, open: {} };
-let mode = 'init', DB = null, RO = false, UNSUB = [], CUSTOM = [], PROG = { steps: {}, targets: {} }, pendingRender = false;
-const saveUI = () => lsSet('ui', { tab: S.tab, pid: S.pid, gov: S.gov, usd: S.usd });
+const S = { mod: MODULES.some(m => m.live && m.id === UI0.mod) ? UI0.mod : 'fund', tab: UI0.tab || 'overview', ptab: UI0.ptab || 'overview', pid: UI0.pid || BUILTIN[0].id, gov: !!UI0.gov, usd: !!UI0.usd, open: {} };
+// Per-project records. Every collection lives at projects/{pid}/{collection}/{docId}.
+const COLS = ['steps', 'targets', 'metrics', 'cohorts', 'surveys', 'meta'];
+const emptyProg = () => Object.fromEntries(COLS.map(c => [c, {}]));
+let mode = 'init', DB = null, RO = false, UNSUB = [], CUSTOM = [], PROG = emptyProg(), pendingRender = false;
+const saveUI = () => lsSet('ui', { mod: S.mod, tab: S.tab, ptab: S.ptab, pid: S.pid, gov: S.gov, usd: S.usd });
 const allProjects = () => [...BUILTIN, ...CUSTOM];
 const curProj = () => allProjects().find(p => p.id === S.pid) || BUILTIN[0];
 const byOrder = (a, b) => (a.order ?? 99) - (b.order ?? 99) || String(a.name).localeCompare(String(b.name), 'zh');
@@ -973,26 +1247,43 @@ function cleanProj(p) {
   return { id: String(p.id), name: String(p.name).slice(0, 16), sector: SECTORS[p.sector] ? p.sector : 'saas', stage: ROUND_IDS.includes(p.stage) ? p.stage : 'seed', note: String(p.note || '').slice(0, 200), order: Number.isFinite(p.order) ? p.order : 99, custom: true };
 }
 const TARGET_STATUS = ['target', 'contact', 'meet1', 'meet2', 'ts', 'dd', 'closed', 'pass'];
+const nn = v => v === '' || v == null || !Number.isFinite(+v) || +v < 0 ? null : +v;
+const txt = (v, n) => String(v || '').slice(0, n);
 function cleanRec(c, d) {
   if (!d || typeof d !== 'object') return null;
-  if (c === 'steps') return { done: !!d.done, note: String(d.note || '').slice(0, 1000), at: String(d.at || '') };
-  return TARGET_STATUS.includes(d.status) ? { status: d.status, note: String(d.note || '').slice(0, 1000), at: String(d.at || '') } : null;
+  const at = txt(d.at, 10);
+  if (c === 'steps') return { done: !!d.done, note: txt(d.note, 1000), at };
+  if (c === 'targets') return TARGET_STATUS.includes(d.status) ? { status: d.status, note: txt(d.note, 1000), at } : null;
+  if (c === 'metrics') return { wau: nn(d.wau), newUsers: nn(d.newUsers), payers: nn(d.payers), revenue: nn(d.revenue), note: txt(d.note, 200), at };
+  if (c === 'cohorts') { const size = nn(d.size); return size ? { size, w1: nn(d.w1), w4: nn(d.w4), w12: nn(d.w12), w24: nn(d.w24), at } : null; }
+  if (c === 'surveys') {
+    if (d.type === 'pmf') { const n = nn(d.n); return n ? { type: 'pmf', n, very: Math.min(nn(d.very) ?? 0, n), date: txt(d.date, 10), at } : null; }
+    if (d.type === 'nps') { const p = nn(d.promoters) ?? 0, q = nn(d.passives) ?? 0, r = nn(d.detractors) ?? 0; return p + q + r ? { type: 'nps', promoters: p, passives: q, detractors: r, date: txt(d.date, 10), at } : null; }
+    return null;
+  }
+  if (c === 'meta') return { category: txt(d.category, 20), at };
+  return null;
 }
 
 // ---------- progress helpers (used by every view) ----------
+// Each live module owns a list of phases and steps; step ids are unique across modules (build.mjs checks it).
+const modSteps = (mod = 'fund') => mod === 'product' ? PD_STEPS : STEPS;
+const modPhases = (mod = 'fund') => mod === 'product' ? PD_PHASES : PHASES;
+const stepMeta = sid => STEP_BY_ID[sid] || PD_STEP_BY_ID[sid];
 const stepRec = sid => PROG.steps[sid];
-const stepDone = sid => { const r = stepRec(sid); return r ? r.done : !!(STEP_BY_ID[sid] && STEP_BY_ID[sid].pre); };
+const stepDone = sid => { const r = stepRec(sid); return r ? r.done : !!(stepMeta(sid) && stepMeta(sid).pre); };
 const stepNote = sid => (stepRec(sid) || {}).note || '';
 const stepVisible = st => (!st.br || (st.br === 'gov' && S.gov) || (st.br === 'usd' && S.usd)) && (!st.only || st.only.includes(curProj().sector));
-const visibleSteps = () => STEPS.filter(stepVisible);
-function progressOf() {
-  const vs = visibleSteps(), done = vs.filter(s => stepDone(s.id)).length;
+const visibleSteps = (mod = 'fund') => modSteps(mod).filter(stepVisible);
+function progressOf(mod = 'fund') {
+  const vs = visibleSteps(mod), done = vs.filter(s => stepDone(s.id)).length;
   return { done, total: vs.length, pct: vs.length ? done / vs.length : 0 };
 }
-function currentPhase() {
-  const first = visibleSteps().find(s => !stepDone(s.id));
-  return first ? PHASES.find(p => p.id === first.ph) : PHASES[PHASES.length - 1];
+function currentPhase(mod = 'fund') {
+  const ph = modPhases(mod), first = visibleSteps(mod).find(s => !stepDone(s.id));
+  return first ? ph.find(p => p.id === first.ph) : ph[ph.length - 1];
 }
+const recs = c => Object.entries(PROG[c] || {}).map(([id, r]) => ({ id, ...r }));
 
 // ---------- data layer: cloud db when available, this browser otherwise ----------
 const lsProgKey = pid => 'prog.' + pid;
@@ -1003,8 +1294,8 @@ function loadLocal() {
 }
 function loadLocalProg() {
   const raw = lsGet(lsProgKey(S.pid), {}) || {};
-  PROG = { steps: {}, targets: {} };
-  for (const c of ['steps', 'targets']) for (const [k, v] of Object.entries(raw[c] || {})) { const r = cleanRec(c, v); if (r) PROG[c][k] = r; }
+  PROG = emptyProg();
+  for (const c of COLS) for (const [k, v] of Object.entries(raw[c] || {})) { const r = cleanRec(c, v); if (r) PROG[c][k] = r; }
 }
 const saveLocalProg = pid => lsSet(lsProgKey(pid), PROG);
 
@@ -1038,11 +1329,11 @@ async function connect() {
 }
 function subscribeProg() {
   UNSUB.forEach(u => u()); UNSUB = [];
-  PROG = { steps: {}, targets: {} };
+  PROG = emptyProg();
   if (mode === 'local') { loadLocalProg(); return; }
   if (mode !== 'db') return;
   const pid = S.pid;
-  for (const c of ['steps', 'targets']) UNSUB.push(DB.collection(`projects/${pid}/${c}`).onSnapshot(s => {
+  for (const c of COLS) UNSUB.push(DB.collection(`projects/${pid}/${c}`).onSnapshot(s => {
     if (pid !== S.pid) return;
     const o = {};
     for (const d of s.docs) { const r = cleanRec(c, d.data()); if (r) o[d.id] = r; }
@@ -1051,10 +1342,14 @@ function subscribeProg() {
 }
 
 // One write at a time per document; later writes wait for earlier ones.
+// A rejected write puts the record back the way it was, so the page never shows unsaved data.
 const chains = {};
-function queueWrite(path, fn) {
-  const p = (chains[path] || Promise.resolve()).then(fn, fn).catch(onDbError);
+function queueWrite(path, fn, revert) {
+  const p = (chains[path] || Promise.resolve()).then(fn, fn).catch(e => { onDbError(e); if (revert) { revert(); render(); } });
   chains[path] = p; return p;
+}
+function revertRec(pid, c, id, prev) {
+  return () => { if (pid !== S.pid) return; const t = { ...PROG[c] }; if (prev) t[id] = prev; else delete t[id]; PROG[c] = t; };
 }
 function canWrite() {
   if (RO) { toast('你只有查看权限'); return false; }
@@ -1063,22 +1358,47 @@ function canWrite() {
 }
 function setStep(sid, patch) {
   if (!canWrite()) return false;
-  const pid = S.pid, cur = stepRec(sid) || { done: stepDone(sid), note: '' };
+  const pid = S.pid, prev = stepRec(sid), cur = prev || { done: stepDone(sid), note: '' };
   const next = { done: !!cur.done, note: cur.note || '', ...patch, at: today() };
   PROG.steps = { ...PROG.steps, [sid]: next };
-  if (mode === 'db') queueWrite(`projects/${pid}/steps/${sid}`, () => DB.doc(`projects/${pid}/steps/${sid}`).set(next));
+  if (mode === 'db') queueWrite(`projects/${pid}/steps/${sid}`, () => DB.doc(`projects/${pid}/steps/${sid}`).set(next), revertRec(pid, 'steps', sid, prev));
   else saveLocalProg(pid);
   return true;
 }
 function setTarget(iid, patch) {
   if (!canWrite()) return false;
-  const pid = S.pid, path = `projects/${pid}/targets/${iid}`, t = { ...PROG.targets };
-  if (patch === null) { delete t[iid]; PROG.targets = t; if (mode === 'db') queueWrite(path, () => DB.doc(path).delete()); else saveLocalProg(pid); return true; }
+  const pid = S.pid, path = `projects/${pid}/targets/${iid}`, t = { ...PROG.targets }, undo = revertRec(pid, 'targets', iid, t[iid]);
+  if (patch === null) { delete t[iid]; PROG.targets = t; if (mode === 'db') queueWrite(path, () => DB.doc(path).delete(), undo); else saveLocalProg(pid); return true; }
   const next = { status: 'target', note: '', ...(t[iid] || {}), ...patch, at: today() };
   t[iid] = next; PROG.targets = t;
-  if (mode === 'db') queueWrite(path, () => DB.doc(path).set(next)); else saveLocalProg(pid);
+  if (mode === 'db') queueWrite(path, () => DB.doc(path).set(next), undo); else saveLocalProg(pid);
   return true;
 }
+// Generic record write for metrics / cohorts / surveys / meta; null deletes.
+function setRec(c, id, body) {
+  if (!canWrite()) return false;
+  const pid = S.pid, path = `projects/${pid}/${c}/${id}`, t = { ...PROG[c] }, undo = revertRec(pid, c, id, t[id]);
+  if (body === null) { delete t[id]; PROG[c] = t; if (mode === 'db') queueWrite(path, () => DB.doc(path).delete(), undo); else saveLocalProg(pid); return true; }
+  const next = cleanRec(c, { ...body, at: today() });
+  if (!next) { toast('数据不完整，没有保存'); return false; }
+  t[id] = next; PROG[c] = t;
+  if (mode === 'db') queueWrite(path, () => DB.doc(path).set(next), undo); else saveLocalProg(pid);
+  return true;
+}
+// Step notes save 700 ms after the last keystroke. Switching project saves pending notes first, so they never land in another project.
+const pendingNotes = {};
+function queueNote(sid, v) {
+  if (pendingNotes[sid]) clearTimeout(pendingNotes[sid].t);
+  pendingNotes[sid] = { v, t: setTimeout(() => saveNote(sid), 700) };
+}
+function saveNote(sid) {
+  const p = pendingNotes[sid]; if (!p) return;
+  clearTimeout(p.t); delete pendingNotes[sid];
+  if (p.v !== stepNote(sid)) setStep(sid, { note: p.v });
+}
+const flushNotes = () => Object.keys(pendingNotes).forEach(saveNote);
+const dropNotes = () => Object.keys(pendingNotes).forEach(k => { clearTimeout(pendingNotes[k].t); delete pendingNotes[k]; });
+
 async function addProject(o) {
   if (!canWrite()) return;
   const body = { name: o.name, sector: o.sector, stage: o.stage, note: o.note, order: 10 + CUSTOM.length };
@@ -1096,9 +1416,10 @@ async function addProject(o) {
 async function deleteProject(pid) {
   if (!canWrite()) return;
   const p = CUSTOM.find(x => x.id === pid); if (!p) return;
+  if (pid === S.pid) dropNotes();
   if (mode === 'db') {
     try {
-      for (const c of ['steps', 'targets']) { const s = await DB.collection(`projects/${pid}/${c}`).get(); for (const d of s.docs) await DB.doc(`projects/${pid}/${c}/${d.id}`).delete(); }
+      for (const c of COLS) { const s = await DB.collection(`projects/${pid}/${c}`).get(); for (const d of s.docs) await DB.doc(`projects/${pid}/${c}/${d.id}`).delete(); }
       await DB.doc('projects/' + pid).delete();
     } catch (e) { onDbError(e); return; }
   } else {
@@ -1109,18 +1430,19 @@ async function deleteProject(pid) {
 }
 function switchProject(pid) {
   if (pid === S.pid) { render(); return; }
-  S.pid = pid; S.open = {}; saveUI(); subscribeProg(); render();
+  flushNotes();
+  S.pid = pid; S.open = {}; S.armDel = null; saveUI(); subscribeProg(); render();
 }
 
 // ---------- render shell ----------
 function render() {
   // Don't rebuild the view under the viewer's cursor while they are typing a note.
   const a = document.activeElement;
-  if (a && $('main').contains(a) && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && a.type === 'text'))) { pendingRender = true; return; }
+  if (a && $('main').contains(a) && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && !['checkbox', 'radio', 'button', 'submit'].includes(a.type)))) { pendingRender = true; return; }
   pendingRender = false;
   renderProjs(); renderRail();
   const m = MODULES.find(x => x.id === S.mod);
-  if (m && m.live) Fund.render($('main'));
+  if (m && m.live && m.api) m.api.render($('main'));
   else $('main').innerHTML = `<section class="view planned-v"><h1>${esc(m ? m.name : '')}</h1><p>这个能力模块还在规划中。</p></section>`;
 }
 function renderProjs() {
@@ -1128,10 +1450,9 @@ function renderProjs() {
     + `<button class="add" data-act="newproj" data-w aria-label="新增项目">＋ 新增</button>`;
 }
 function renderRail() {
-  const pr = progressOf();
-  $('rail').innerHTML = `<h2>能力模块</h2>` + MODULES.map(m => m.live
+  $('rail').innerHTML = `<h2>能力模块</h2>` + MODULES.map(m => { const pr = m.live ? progressOf(m.id) : null; return m.live
     ? `<button class="mod" aria-current="${S.mod === m.id}" data-act="mod" data-id="${m.id}"><b>${esc(m.name)}</b><span class="pct num">${Math.round(pr.pct * 100)}%</span><small>${esc(m.sub)}</small><span class="bar"><i style="width:${(pr.pct * 100).toFixed(1)}%"></i></span></button>`
-    : `<div class="mod planned" aria-disabled="true"><b>${esc(m.name)}</b><small>${esc(m.sub)}</small></div>`).join('')
+    : `<div class="mod planned" aria-disabled="true"><b>${esc(m.name)}</b><small>${esc(m.sub)}</small></div>`; }).join('')
     + `<div class="sep"></div><p class="note">按能力分模块构建。每个模块对你的每个项目单独记录进度。</p>`;
 }
 
@@ -1162,7 +1483,7 @@ const hideTip = () => $('tip').classList.remove('on');
 // ---------- events ----------
 const ACT = {
   proj: el => switchProject(el.dataset.id),
-  mod: el => { S.mod = el.dataset.id; render(); },
+  mod: el => { S.mod = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
   newproj: () => Fund.projectForm(),
   close: () => closeSheet()
 };
@@ -1173,14 +1494,62 @@ function bind() {
   });
   document.addEventListener('change', e => { const el = e.target.closest('[data-chg]'); if (el && ACT[el.dataset.chg]) ACT[el.dataset.chg](el, e); });
   document.addEventListener('input', e => { const el = e.target.closest('[data-inp]'); if (el && ACT[el.dataset.inp]) ACT[el.dataset.inp](el, e); });
-  document.addEventListener('submit', e => { const el = e.target.closest('[data-sub]'); if (el && ACT[el.dataset.sub]) { e.preventDefault(); ACT[el.dataset.sub](el, e); } });
-  document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender) render(); }, 0));
+  // Submitting with Enter leaves focus in a field, which would hold the re-render; release it first.
+  document.addEventListener('submit', e => { const el = e.target.closest('[data-sub]'); if (el && ACT[el.dataset.sub]) { e.preventDefault(); if (el.contains(document.activeElement)) document.activeElement.blur(); ACT[el.dataset.sub](el, e); } });
+  // A render held while typing runs once focus leaves the field, but never between pointerdown and click, or it would swallow that click.
+  let ptrDown = false;
+  const ptrUp = () => { ptrDown = false; setTimeout(() => { if (pendingRender) render(); }, 0); };
+  document.addEventListener('pointerdown', () => { ptrDown = true; }, true);
+  document.addEventListener('pointerup', ptrUp, true);
+  document.addEventListener('pointercancel', ptrUp, true);
+  document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender && !ptrDown) render(); }, 0));
   $('scrim').addEventListener('click', closeSheet);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('sheet').classList.contains('on')) closeSheet(); });
   document.addEventListener('pointermove', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) showTip(el, e.clientX, e.clientY); else hideTip(); });
   document.addEventListener('focusin', e => { const el = e.target.closest && e.target.closest('[data-tip]'); if (el) { const r = el.getBoundingClientRect(); showTip(el, r.left + r.width / 2, r.bottom); } });
   document.addEventListener('focusout', e => { if (e.target.closest && e.target.closest('[data-tip]')) hideTip(); });
   $('main').addEventListener('scroll', hideTip, { passive: true });
+}
+
+// ---------- shared view helpers (every module) ----------
+// References: each rendered view numbers the sources it cites and lists them at its foot.
+let REFS = [];
+const resetRefs = () => { REFS = []; };
+function ref(...keys) {
+  return keys.filter(k => SRC[k]).map(k => {
+    let i = REFS.indexOf(k); if (i < 0) { REFS.push(k); i = REFS.length - 1; }
+    return `<sup class="ref"><a href="#ref-${i + 1}" title="${esc(SRC[k].t)}">[${i + 1}]</a></sup>`;
+  }).join('');
+}
+// Inline citations inside copy: "…[[src-key]]" renders as a numbered reference.
+const rich = s => String(s ?? '').replace(/\[\[([a-z0-9-]+)\]\]/g, (_, k) => ref(k));
+const plain = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '').replace(/<[^>]+>/g, '');
+const plainRich = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '');
+const refsHTML = (asof = ASOF) => REFS.length ? `<section class="panel"><h3>来源 <small>截至 ${esc(asof)} 的公开资料；点击打开原文</small></h3><ol class="refs">${REFS.map((k, i) => `<li id="ref-${i + 1}"><span><a href="${esc(SRC[k].u)}" target="_blank" rel="noopener">${esc(SRC[k].t)}</a> · ${esc(SRC[k].d)}</span></li>`).join('')}</ol></section>` : '';
+const FUND_FOOT = '本页数据来自公开报道与法规原文，口径与日期见各条来源；机构信息只列公开可查的投资案例，不代表其当前一定在投。内容不构成投资或法律意见，签约前请律师与财务顾问复核。';
+const foot = text => `<p class="foot">${esc(text)}</p>`;
+const phaseName = id => ([...PHASES, ...PD_PHASES].find(x => x.id === id) || {}).n || '';
+
+function stepRow(st, opts = {}) {
+  const done = stepDone(st.id), open = !!S.open[st.id], note = stepNote(st.id), p = curProj();
+  const tip = st.tip && (st.tip[p.id] || st.tip[p.sector]);
+  const br = st.br === 'gov' ? '<span class="tag acc">国资支线</span>' : st.br === 'usd' ? '<span class="tag acc">美元支线</span>' : '';
+  const ph = opts.phase ? `<span class="tag">${esc(phaseName(st.ph))}</span>` : '';
+  const rec = stepRec(st.id);
+  return `<div class="steprow${done ? ' done' : ''}" id="row-${st.id}">
+    <input type="checkbox" class="chk" id="chk-${st.id}" data-chg="step" data-id="${st.id}" data-w ${done ? 'checked' : ''} aria-label="${esc(st.t)}">
+    <div><label class="t" for="chk-${st.id}">${esc(st.t)}${note ? '<i class="notedot" title="有备注"></i>' : ''}${br}${ph}</label>
+      <div class="d">${rich(st.d)}${st.src ? ref(...st.src) : ''}</div>
+      ${open ? `<div class="more">
+        ${st.out ? `<div class="pn"><b>产出物</b><span>${rich(st.out)}</span></div>` : ''}
+        ${st.who ? `<div class="pn"><b>谁来做</b><span>${esc(st.who)}</span></div>` : ''}
+        ${tip ? `<div class="pn"><b>${esc(p.short || p.name)}</b><span>${rich(tip)}</span></div>` : ''}
+        <textarea id="note-${st.id}" data-inp="note" data-id="${st.id}" data-w placeholder="备注：约了谁、卡在哪、下一步…">${esc(note)}</textarea>
+        ${rec && rec.at ? `<span class="meta">最后更新 ${esc(rec.at)}</span>` : ''}
+      </div>` : ''}
+    </div>
+    <button class="tgl" data-act="open" data-id="${st.id}" aria-expanded="${open}" aria-label="${open ? '收起' : '展开'}详情">${I.chev}</button>
+  </div>`;
 }
 
 // ---------- fundraising module (China) ----------
@@ -1198,21 +1567,6 @@ const Fund = (() => {
   ];
   const FUNNEL = ['contact', 'meet1', 'meet2', 'ts', 'dd', 'closed'];
 
-  // ----- references: each view numbers the sources it cites, listed at its foot -----
-  let REFS = [];
-  function ref(...keys) {
-    return keys.filter(k => SRC[k]).map(k => {
-      let i = REFS.indexOf(k); if (i < 0) { REFS.push(k); i = REFS.length - 1; }
-      return `<sup class="ref"><a href="#ref-${i + 1}" title="${esc(SRC[k].t)}">[${i + 1}]</a></sup>`;
-    }).join('');
-  }
-  // Inline citations inside copy: "…[[src-key]]" renders as a numbered reference.
-  const rich = s => String(s ?? '').replace(/\[\[([a-z0-9-]+)\]\]/g, (_, k) => ref(k));
-  const plain = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '').replace(/<[^>]+>/g, '');
-  const plainRich = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '');
-  const refsHTML = () => REFS.length ? `<section class="panel"><h3>来源 <small>截至 ${esc(ASOF)} 的公开资料；点击打开原文</small></h3><ol class="refs">${REFS.map((k, i) => `<li id="ref-${i + 1}"><span><a href="${esc(SRC[k].u)}" target="_blank" rel="noopener">${esc(SRC[k].t)}</a> · ${esc(SRC[k].d)}</span></li>`).join('')}</ol></section>` : '';
-  const foot = () => `<p class="foot">本页数据来自公开报道与法规原文，口径与日期见各条来源；机构信息只列公开可查的投资案例，不代表其当前一定在投。内容不构成投资或法律意见，签约前请律师与财务顾问复核。</p>`;
-
   // ----- small pieces -----
   const proj = () => curProj();
   const sector = () => SECTORS[proj().sector];
@@ -1225,26 +1579,23 @@ const Fund = (() => {
   const wk = a => a[0] === a[1] ? `${a[0]} 周` : `${a[0]}–${a[1]} 周`;
   const yi = n => n >= 1e4 ? (n / 1e4 >= 10 ? Math.round(n / 1e4) : +(n / 1e4).toFixed(1)) + ' 亿' : Math.round(n) + ' 万';
 
-  function stepRow(st, opts = {}) {
-    const done = stepDone(st.id), open = !!S.open[st.id], note = stepNote(st.id), p = proj();
-    const tip = st.tip && (st.tip[p.id] || st.tip[p.sector]);
-    const br = st.br === 'gov' ? '<span class="tag acc">国资支线</span>' : st.br === 'usd' ? '<span class="tag acc">美元支线</span>' : '';
-    const ph = opts.phase ? `<span class="tag">${esc(PHASES.find(x => x.id === st.ph).n)}</span>` : '';
-    const rec = stepRec(st.id);
-    return `<div class="steprow${done ? ' done' : ''}">
-      <input type="checkbox" class="chk" id="chk-${st.id}" data-chg="step" data-id="${st.id}" data-w ${done ? 'checked' : ''} aria-label="${esc(st.t)}">
-      <div><label class="t" for="chk-${st.id}">${esc(st.t)}${note ? '<i class="notedot" title="有备注"></i>' : ''}${br}${ph}</label>
-        <div class="d">${rich(st.d)}${st.src ? ref(...st.src) : ''}</div>
-        ${open ? `<div class="more">
-          ${st.out ? `<div class="pn"><b>产出物</b><span>${rich(st.out)}</span></div>` : ''}
-          ${st.who ? `<div class="pn"><b>谁来做</b><span>${esc(st.who)}</span></div>` : ''}
-          ${tip ? `<div class="pn"><b>${esc(p.short || p.name)}</b><span>${rich(tip)}</span></div>` : ''}
-          <textarea id="note-${st.id}" data-inp="note" data-id="${st.id}" data-w placeholder="备注：约了谁、卡在哪、下一步…">${esc(note)}</textarea>
-          ${rec && rec.at ? `<span class="meta">最后更新 ${esc(rec.at)}</span>` : ''}
-        </div>` : ''}
-      </div>
-      <button class="tgl" data-act="open" data-id="${st.id}" aria-expanded="${open}" aria-label="${open ? '收起' : '展开'}详情">${I.chev}</button>
-    </div>`;
+  // ----- link to the product module -----
+  const pctS = v => v == null || !isFinite(v) ? '—' : (v * 100).toFixed(0) + '%';
+  function liveTraction() {
+    const lm = Product.latestMetrics(), ev = Product.pmfEval();
+    if (!lm.m && !lm.w4) return '';
+    const bits = [lm.m && lm.m.wau != null ? `周活 ${lm.m.wau.toLocaleString('zh-CN')}（${esc(lm.m.id)}）` : '', lm.w4 ? `第 4 周留存 ${pctS(lm.w4.v)}` : '', lm.w12 ? `第 12 周留存 ${pctS(lm.w12.v)}` : '', lm.conv != null ? `付费转化 ${(lm.conv * 100).toFixed(1)}%` : ''].filter(Boolean);
+    if (!bits.length) return '';
+    return `<em class="live">你录入的数据：${bits.join('、')}；PMF 判定「${esc(ev.status.n)}」。</em>`;
+  }
+  function productReady() {
+    const ev = Product.pmfEval(), lm = Product.latestMetrics(), pr = progressOf('product');
+    return `<section class="panel"><h3>产品准备度 <small>来自产品模块，投资人会先看这些数</small></h3><div class="kpis">
+      <div class="kpi"><b class="pmf-t ${ev.status.k}">${esc(ev.status.n)}</b><span>PMF 判定</span><em>${ev.passed} / ${ev.total} 条通过</em></div>
+      <div class="kpi"><b>${lm.w4 ? pctS(lm.w4.v) : '—'}</b><span>第 4 周留存</span><em>${lm.w4 ? lm.w4.n + ' 个队列合计' : '还没有队列数据'}</em></div>
+      <div class="kpi"><b>${lm.m && lm.m.wau != null ? lm.m.wau.toLocaleString('zh-CN') : '—'}</b><span>最近周活</span><em>${lm.m ? esc(lm.m.id) : '还没有录入'}</em></div>
+      <div class="kpi"><b>${pr.done}/${pr.total}</b><span>产品路线</span><em>当前在「${esc(currentPhase('product').n)}」</em></div></div>
+      <button class="btn ghost sm" data-act="gomod" data-id="product" style="justify-self:start">去产品模块 →</button></section>`;
   }
 
   // ----- charts -----
@@ -1337,6 +1688,7 @@ const Fund = (() => {
         <p class="lead">${rich(p.lead)}</p>
         <div class="chips"><button class="btn pri sm" data-act="tab" data-id="process">打开交割流程</button><button class="btn ghost sm" data-act="tab" data-id="sources">看对口资方</button><button class="btn ghost sm" data-act="tab" data-id="pitch">准备路演</button></div>
       </div></div></section>
+    ${productReady()}
     <section class="panel"><h3>市场现在什么样 <small>中国大陆股权投资</small></h3><div class="kpis">${[...KPI, ...(p.kpi ? [p.kpi] : [])].map(k => `<div class="kpi"><b>${esc(k.v)}<small>${esc(k.u || '')}</small></b><span>${esc(k.l)}${ref(k.src)}</span><em>${esc(k.d || '')}</em></div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>先做这 3 件事 <small>按流程顺序，勾掉一件补上一件</small></h3>
@@ -1408,7 +1760,7 @@ const Fund = (() => {
       <p>${rich(PITCH_LEAD)}</p></div></div>
     <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
     <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是 ${esc(p.short || p.name)} 的要点</small></h3>
-      <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
+      <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}${b.id === 'traction' ? liveTraction() : ''}</div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>
       <section class="panel"><h3>你的漏斗 <small>按「目标清单」里每家机构走到的最远一步</small></h3>
@@ -1494,7 +1846,7 @@ const Fund = (() => {
     tab: el => { S.tab = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
     open: el => { S.open[el.dataset.id] = !S.open[el.dataset.id]; render(); const t = $('note-' + el.dataset.id); if (t && S.open[el.dataset.id]) t.focus({ preventScroll: true }); },
     step: el => { if (!setStep(el.dataset.id, { done: el.checked })) el.checked = !el.checked; render(); },
-    note: el => { const id = el.dataset.id, v = el.value.slice(0, 1000); clearTimeout(ACT.note[id]); ACT.note[id] = setTimeout(() => { if (v !== stepNote(id)) setStep(id, { note: v }); }, 700); },
+    note: el => queueNote(el.dataset.id, el.value.slice(0, 1000)),
     br: el => { S[el.dataset.id] = !S[el.dataset.id]; saveUI(); render(); },
     type: el => typeSheet(el.dataset.id, el.dataset.pid || S.pid),
     target: el => { if (setTarget(el.dataset.id, { status: 'target' })) { toast('已加入目标清单'); render(); if ($('sheet').classList.contains('on')) { const b = $('sheet').querySelector(`[data-act="target"][data-id="${el.dataset.id}"]`); if (b) b.replaceWith(Object.assign(document.createElement('span'), { className: 'tag ok', textContent: '已加入' })); } } },
@@ -1517,17 +1869,328 @@ const Fund = (() => {
   const VIEWS = { overview: vOverview, rounds: vRounds, sources: vSources, pitch: vPitch, process: vProcess, progress: vProgress };
   function renderModule(main) {
     if (!VIEWS[S.tab]) S.tab = 'overview';
-    REFS = [];
+    resetRefs();
     const body = VIEWS[S.tab]();
     main.innerHTML = `<div class="subnav"><div class="seg" role="tablist" aria-label="融资能力">${TABS.map(t => `<button role="tab" aria-selected="${S.tab === t.id}" data-act="tab" data-id="${t.id}">${t.n}</button>`).join('')}</div></div>
-      <section class="view" role="tabpanel">${body}${refsHTML()}</section>${foot()}`;
+      <section class="view" role="tabpanel">${body}${refsHTML()}</section>${foot(FUND_FOOT)}`;
   }
   return { render: renderModule, projectForm };
 })();
+MODULES.find(m => m.id === 'fund').api = Fund;
+
+// ---------- product module: idea → PMF, launching in mainland China ----------
+const Product = (() => {
+  const TABS = [
+    { id: 'overview', n: '总览' }, { id: 'route', n: '路线' }, { id: 'launch', n: '中国上线' },
+    { id: 'metrics', n: '指标与 PMF' }, { id: 'audit', n: '产品体检' }
+  ];
+  const FOOT = '法规条文与基准都附来源和日期；留存基准来自美国从业者调查，没有中国同口径数据。PMF 判定是辅助判断，不替代对用户的直接了解。内容不构成法律意见，上线前请律师复核。';
+  const ST_N = { ok: '有', part: '部分', gap: '缺' };
+  const V_N = { must: '必须', maybe: '视情况', no: '不需要' };
+  const WEEKS = [1, 4, 12, 24];
+  const proj = () => curProj();
+  const pctS = (v, d = 0) => v == null || !isFinite(v) ? '—' : (v * 100).toFixed(d) + '%';
+  const n0 = v => v == null ? '—' : Number(v).toLocaleString('zh-CN');
+
+  // ISO week id, e.g. 2026-W41
+  function isoWeek(d = new Date()) {
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day);
+    const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+    return `${t.getUTCFullYear()}-W${String(Math.ceil(((t - y0) / 864e5 + 1) / 7)).padStart(2, '0')}`;
+  }
+  const weekOk = w => /^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(w);
+
+  // ----- data derived from the per-project records -----
+  const cohorts = () => recs('cohorts').sort((a, b) => a.id.localeCompare(b.id));
+  const metrics = () => recs('metrics').sort((a, b) => a.id.localeCompare(b.id));
+  const latestSurvey = type => recs('surveys').filter(s => s.type === type).sort((a, b) => (a.date || a.at).localeCompare(b.date || b.at)).pop();
+  const category = (p = proj()) => {
+    const m = PROG.meta.product, id = (m && RET_CATS.some(c => c.id === m.category)) ? m.category : (DEFAULT_CAT[p.sector] || 'consumer-saas');
+    return RET_CATS.find(c => c.id === id);
+  };
+  // Pooled retention across cohorts that have the week recorded.
+  function pooled(week, base = 'size') {
+    const cs = cohorts().filter(c => c['w' + week] != null && (base === 'size' || c[base] != null));
+    const den = cs.reduce((s, c) => s + (base === 'size' ? c.size : c[base]), 0);
+    return den ? { v: cs.reduce((s, c) => s + c['w' + week], 0) / den, n: cs.length } : null;
+  }
+  function pmfEval() {
+    const cs = cohorts(), w4n = cs.filter(c => c.w4 != null).length, pmf = latestSurvey('pmf'), cat = category();
+    const flat = pooled(12, 'w4'), h24 = pooled(24);
+    const r = {
+      data: { pass: w4n >= 3 || !!(pmf && pmf.n >= 40), known: true, val: `${w4n} 个队列有第 4 周数据${pmf ? `；调研 ${pmf.n} 份` : '；还没有调研'}` },
+      ellis: pmf ? { pass: pmf.very / pmf.n >= .4, known: true, val: `${pctS(pmf.very / pmf.n)}（${pmf.n} 份）` } : { pass: false, known: false, val: '还没有调研' },
+      flat: flat ? { pass: flat.v >= .8, known: true, val: `第 12 周是第 4 周的 ${pctS(flat.v)}（${flat.n} 个队列）` }
+        : cs.some(c => c.w4 != null && c.w12 != null) ? { pass: false, known: true, val: '第 4 周留存为 0，曲线没有可走平的部分' }
+          : { pass: false, known: false, val: '还没有同时有第 4、12 周数据的队列' },
+      height: h24 ? { pass: h24.v * 100 >= cat.good, known: true, val: `${pctS(h24.v)}，${cat.n}「好」线 ${cat.good}%` } : { pass: false, known: false, val: `还没有第 24 周数据（${cat.n}「好」线 ${cat.good}%）` }
+    };
+    const passed = PMF_RULES.filter(x => r[x.id].pass).length;
+    const status = !r.data.pass ? { k: 'none', n: '数据不够判断', d: '先按周记录留存队列，或做一次不少于 40 人的「非常失望」调研。' }
+      : passed === PMF_RULES.length ? { k: 'yes', n: '有 PMF 信号', d: '四条判定都通过。下一步是规模化前检查：单位经济、获客渠道、系统容量。' }
+        : passed >= 3 ? { k: 'near', n: '接近 PMF', d: '还差一条，看下面没通过的那项。' }
+          : { k: 'not', n: '还在验证', d: '把精力放在核心用户和留存上，先别花钱买量。' };
+    return { r, passed, total: PMF_RULES.length, status, cat };
+  }
+  function latestMetrics() {
+    const m = metrics().filter(x => ['wau', 'newUsers', 'payers', 'revenue'].some(k => x[k] != null)).pop(), w4 = pooled(4), w12 = pooled(12);
+    return { m, w4, w12, conv: m && m.wau && m.payers != null ? m.payers / m.wau : null };
+  }
+
+  // ----- small pieces -----
+  const chipV = v => `<span class="lv ${v}">${V_N[v]}</span>`;
+  const chipS = st => `<span class="as ${st}">${ST_N[st]}</span>`;
+  const ruleRow = (rule, res) => `<div class="rule-row ${res.pass ? 'pass' : res.known ? 'fail' : 'unk'}"><i aria-hidden="true">${res.pass ? '✓' : res.known ? '✕' : '–'}</i><div><b>${esc(rule.n)}</b><span>${esc(res.val)}</span><small>${esc(rule.how)}${ref(...rule.src)}</small></div></div>`;
+  function pmfRing(ev) {
+    const C = 2 * Math.PI * 56, off = C * (1 - ev.passed / ev.total);
+    return `<div class="ring pmf-${ev.status.k}"><svg viewBox="0 0 132 132" aria-hidden="true"><circle class="tr" cx="66" cy="66" r="56" fill="none" stroke-width="7"/><circle class="fg" cx="66" cy="66" r="56" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 66 66)"/></svg>
+      <div><b>${ev.passed}/${ev.total}</b><span>判定条件</span></div></div>`;
+  }
+  const targetDone = (t, ev) => t.step ? stepDone(t.step) : t.rule === 'all' ? ev.passed === ev.total : t.rule ? ev.r[t.rule].pass : t.metric ? metrics().filter(m => m[t.metric] != null).length >= 3 : null;
+
+  // ----- charts -----
+  function retentionChart() {
+    const cs = cohorts().slice(-5), cat = category(), W = 760, H = 300, L = 54, R = 92, T = 20, B = 40;
+    const x = w => L + w / 24 * (W - L - R), y = v => T + (1 - v) * (H - T - B);
+    let g = `<g class="grid">${[0, .25, .5, .75, 1].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/>`).join('')}</g>`;
+    g += [0, .25, .5, .75, 1].map(v => `<text x="${L - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${v * 100}%</text>`).join('');
+    // Week 1 sits 25px from week 0, so it gets a tick but no label (its points still carry tooltips).
+    g += `<g class="axis"><line x1="${x(1).toFixed(1)}" x2="${x(1).toFixed(1)}" y1="${H - B}" y2="${H - B + 5}"/></g>`;
+    g += [0, 4, 12, 24].map(w => `<text x="${x(w).toFixed(1)}" y="${H - B + 18}" text-anchor="${w === 0 ? 'start' : 'middle'}">${w === 0 ? '注册周' : '第 ' + w + ' 周'}</text>`).join('');
+    for (const [lv, k] of [[cat.good, '好'], [cat.great, '很好']]) g += `<line class="bench" x1="${L}" x2="${W - R}" y1="${y(lv / 100).toFixed(1)}" y2="${y(lv / 100).toFixed(1)}"/><text class="bench-t" x="${W - R + 6}" y="${(y(lv / 100) + 4).toFixed(1)}">${k} ${lv}%</text>`;
+    cs.forEach((c, i) => {
+      const pts = [[0, 1], ...WEEKS.filter(w => c['w' + w] != null).map(w => [w, c['w' + w] / c.size])];
+      g += `<polyline class="ln s${i + 1}" points="${pts.map(([w, v]) => `${x(w).toFixed(1)},${y(Math.min(1, v)).toFixed(1)}`).join(' ')}"/>`;
+      pts.slice(1).forEach(([w, v]) => { g += `<g class="h" tabindex="0" data-tip="${esc(`${pctS(v, 1)}\n${c.id} 队列 · 第 ${w} 周 · ${n0(c['w' + w])} / ${n0(c.size)} 人`)}"><circle class="hit" cx="${x(w).toFixed(1)}" cy="${y(Math.min(1, v)).toFixed(1)}" r="12"/><circle class="pt s${i + 1} mk" cx="${x(w).toFixed(1)}" cy="${y(Math.min(1, v)).toFixed(1)}" r="4.5"/></g>`; });
+    });
+    if (!cs.length) g += `<text class="lb" x="${(L + (W - R)) / 2}" y="${H / 2}" text-anchor="middle">录入第一个队列后，这里会画出留存曲线</text>`;
+    return `<figure class="fig"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="各注册周队列的留存曲线，对照${esc(cat.n)}的 6 个月留存基准">${g}</svg></div>
+      <div class="legend">${cs.map((c, i) => `<span><i class="s${i + 1}"></i>${esc(c.id)}（${n0(c.size)} 人）</span>`).join('')}<span><i class="bench"></i>${esc(cat.n)}第 24 周基准${ref('lenny-retention')}</span></div>
+      <figcaption>横轴按真实周数排布；曲线越早变平越好。最多显示最近 5 个队列。</figcaption></figure>`;
+  }
+  function weeklyChart() {
+    const ms = metrics().slice(-16), W = 760, H = 240, L = 54, R = 16, T = 16, B = 36;
+    if (!ms.length) return '<p class="empty">录入第一周数据后，这里会画出周活和新增。</p>';
+    // Four even, whole-number steps of 1, 1.5, 2, 2.5, 3 or 5 × 10ⁿ, so every tick is a round number.
+    const max = Math.max(1, ...ms.flatMap(m => [m.wau || 0, m.newUsers || 0]));
+    const raw = max / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = Math.max(1, [1, 1.5, 2, 2.5, 3, 5, 10].map(k => k * mag).filter(Number.isInteger).find(v => v >= raw));
+    const top = step * 4, ticks = [0, 1, 2, 3, 4].map(k => k * step);
+    const x = i => ms.length < 2 ? (L + W - R) / 2 : L + i / (ms.length - 1) * (W - L - R), y = v => T + (1 - v / top) * (H - T - B);
+    let g = `<g class="grid">${ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"/>`).join('')}</g>`;
+    g += ticks.map(v => `<text x="${L - 8}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${v.toLocaleString('zh-CN')}</text>`).join('');
+    ms.forEach((m, i) => { if (ms.length <= 8 || i % 2 === 0 || i === ms.length - 1) g += `<text x="${x(i).toFixed(1)}" y="${H - B + 18}" text-anchor="middle">${esc(m.id.slice(5))}</text>`; });
+    [['wau', 's1', '周活'], ['newUsers', 's2', '新增']].forEach(([k, cls, n]) => {
+      const pts = ms.map((m, i) => m[k] == null ? null : [i, m[k]]).filter(Boolean);
+      if (pts.length > 1) g += `<polyline class="ln ${cls}" points="${pts.map(([i, v]) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}"/>`;
+      pts.forEach(([i, v]) => { g += `<g class="h" tabindex="0" data-tip="${esc(`${n0(v)} 人\n${ms[i].id} · ${n}`)}"><circle class="hit" cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="12"/><circle class="pt ${cls} mk" cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4.5"/></g>`; });
+    });
+    return `<figure class="fig"><div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="每周活跃用户和新增用户">${g}</svg></div>
+      <div class="legend"><span><i class="s1"></i>周活</span><span><i class="s2"></i>新增</span></div></figure>`;
+  }
+
+  // ----- views -----
+  function vOverview() {
+    const p = proj(), ev = pmfEval(), cp = currentPhase('product'), pr = progressOf('product');
+    const todo = visibleSteps('product').filter(s => !stepDone(s.id)).slice(0, 3);
+    const au = AUDIT[p.id], gaps = au ? AUDIT_DIMS.filter(d => au[d.id] && au[d.id].st === 'gap') : [];
+    const blockers = LAUNCH.filter(r => r.v[S.pform] === 'must' || (r.for && r.for.includes(p.sector) && r.v[S.pform] !== 'no'));
+    const stage = (ROUNDS.find(r => r.id === p.stage) || ROUNDS[0]);
+    const targets = FUND_TARGETS[stage.id] || [];
+    const lm = latestMetrics();
+    return `<div class="vhead"><div><div class="eyebrow">产品能力 · 想法到 PMF</div><h1>${esc(p.name)} 的产品路线</h1>
+      <p>完成 ${pr.done} / ${pr.total} 步，当前在「${esc(cp.n)}」。${au ? `代码体检发现 ${gaps.length} 个缺口。` : ''}</p></div></div>
+    <section class="panel"><div class="hero">${pmfRing(ev)}
+      <div class="where"><h2>PMF 判定：<em class="pmf-t ${ev.status.k}">${esc(ev.status.n)}</em></h2>
+        <p class="lead">${esc(ev.status.d)}</p>
+        <div class="chips"><button class="btn pri sm" data-act="ptab" data-id="metrics">录入指标</button><button class="btn ghost sm" data-act="ptab" data-id="route">打开路线</button>${au ? '<button class="btn ghost sm" data-act="ptab" data-id="audit">看产品体检</button>' : ''}</div>
+      </div></div>
+      <div class="rules">${PMF_RULES.map(x => ruleRow(x, ev.r[x.id])).join('')}</div></section>
+    ${lm.m ? `<section class="panel"><h3>最近一周 <small>${esc(lm.m.id)}</small></h3><div class="kpis">
+      <div class="kpi"><b>${n0(lm.m.wau)}</b><span>周活</span><em>新增 ${n0(lm.m.newUsers)}</em></div>
+      <div class="kpi"><b>${pctS(lm.conv, 1)}</b><span>付费转化</span><em>付费 ${n0(lm.m.payers)} 人</em></div>
+      <div class="kpi"><b>${lm.w4 ? pctS(lm.w4.v) : '—'}</b><span>第 4 周留存</span><em>${lm.w4 ? lm.w4.n + ' 个队列合计' : '还没有队列数据'}</em></div>
+      <div class="kpi"><b>${lm.w12 ? pctS(lm.w12.v) : '—'}</b><span>第 12 周留存</span><em>${lm.w12 ? lm.w12.n + ' 个队列合计' : '—'}</em></div></div></section>` : ''}
+    <div class="cols">
+      <section class="panel"><h3>先做这 3 件事 <small>按路线顺序</small></h3>${todo.length ? todo.map(s => stepRow(s, { phase: true })).join('') : '<p class="empty">全部步骤都已完成。</p>'}</section>
+      <section class="panel"><h3>融资需要的数据 <small>下一轮：${esc(stage.n)}</small></h3>
+        <div class="tgt">${targets.map(t => { const d = targetDone(t, ev); return `<div class="${d ? 'ok' : d === false ? 'no' : ''}"><i aria-hidden="true">${d ? '✓' : d === false ? '○' : '·'}</i><span>${esc(t.t)}</span>${t.step ? `<button class="linkbtn" data-act="gostep" data-id="${t.step}">去做</button>` : ''}</div>`; }).join('')}</div>
+        <p class="small muted">由融资模块「${esc(stage.n)}」的门槛整理成产品目标；完成后，融资模块的路演页会引用这里的数据。</p>
+        <button class="btn ghost sm" data-act="gomod" data-id="fund" style="justify-self:start">去融资模块 →</button></section>
+    </div>
+    <section class="panel"><h3>上线前必须处理 <small>按「${esc(LAUNCH_FORMS.find(f => f.id === S.pform).n)}」形态，可在「中国上线」页切换</small></h3>
+      <div class="block-list">${blockers.map(r => `<div><b>${esc(r.n)}</b>${chipV(r.v[S.pform])}${r.step && visibleSteps('product').some(s => s.id === r.step) ? (stepDone(r.step) ? '<span class="tag ok"><i></i>已完成</span>' : `<button class="linkbtn" data-act="gostep" data-id="${r.step}">去做</button>`) : ''}<span>${rich(r.why)}</span></div>`).join('')}</div></section>`;
+  }
+
+  function vRoute() {
+    const cp = currentPhase('product');
+    return `<div class="vhead"><div><div class="eyebrow">路线</div><h1>从想法到 PMF 的 ${PD_PHASES.length} 段路</h1>
+      <p>每一步都可以勾选、写备注；带项目名的提示来自对仓库代码的体检。</p></div></div>
+    <section class="panel"><div class="phbars">${PD_PHASES.map(ph => { const ss = visibleSteps('product').filter(s => s.ph === ph.id); const d = ss.filter(s => stepDone(s.id)).length;
+      return `<div class="phb${ph.id === cp.id ? ' now' : ''}"><span>${esc(ph.n)}</span><span class="meter" role="img" aria-label="${esc(ph.n)} 完成 ${d} / ${ss.length}"><i style="width:${ss.length ? (d / ss.length * 100).toFixed(1) : 0}%"></i></span><b>${d}/${ss.length}</b></div>`; }).join('')}</div></section>
+    ${PD_PHASES.map(ph => { const ss = visibleSteps('product').filter(s => s.ph === ph.id); if (!ss.length) return ''; const d = ss.filter(s => stepDone(s.id)).length;
+      return `<section class="panel phase${ph.id === cp.id ? ' now' : ''}" id="ph-${ph.id}"><header><h3>${esc(ph.n)} <small>${esc(ph.short)}</small></h3><span class="cnt">${d} / ${ss.length}</span></header>
+        <p>${rich(ph.d)}</p>${ss.map(s => stepRow(s)).join('')}</section>`; }).join('')}`;
+  }
+
+  function vLaunch() {
+    const p = proj(), web = LAUNCH.filter(r => r.v.web === 'must').map(r => r.n).join('、');
+    const vis = new Set(visibleSteps('product').map(s => s.id));
+    // A row links to its step only when that step is on this project's route.
+    const stepCell = sid => !sid || !vis.has(sid) ? '—' : stepDone(sid) ? '<span class="tag ok"><i></i>已完成</span>' : `<button class="linkbtn" data-act="gostep" data-id="${sid}">去做</button>`;
+    return `<div class="vhead"><div><div class="eyebrow">中国上线</div><h1>先做网页，必须做的只有 ${LAUNCH.filter(r => r.v.web === 'must').length} 项</h1>
+      <p>网页 / H5 必须做：${esc(web)}。小程序和 App 还要多做 App 备案、遵守必要个人信息范围，安卓商店常要软著。收费、健康数据、支付、证券相关业务另有要求，标「视情况」的行对 ${esc(p.short || p.name)} 是否适用写在说明里。</p></div></div>
+    <section class="panel"><h3>交付形态 × 合规要求 <small>点上方形态切换高亮列；带项目标签的行与当前项目直接相关</small></h3>
+      <div class="branch"><span>我先做：</span>${LAUNCH_FORMS.map(f => `<button class="chip" aria-pressed="${S.pform === f.id}" data-act="pform" data-id="${f.id}">${esc(f.n)}</button>`).join('')}</div>
+      <div class="tbl lmx"><table><thead><tr><th>要求</th>${LAUNCH_FORMS.map(f => `<th class="c${S.pform === f.id ? ' on' : ''}">${esc(f.n)}</th>`).join('')}<th>说明</th><th>步骤</th></tr></thead><tbody>
+      ${LAUNCH.map(r => `<tr class="${r.for && r.for.includes(p.sector) ? 'hl' : ''}"><td><b>${esc(r.n)}</b>${r.for && r.for.includes(p.sector) ? `<br><span class="tag now">${esc(p.short || p.name)} 重点</span>` : ''}</td>
+        ${LAUNCH_FORMS.map(f => `<td class="c${S.pform === f.id ? ' on' : ''}">${chipV(r.v[f.id])}</td>`).join('')}
+        <td class="why">${rich(r.why)}</td><td>${stepCell(r.step)}</td></tr>`).join('')}
+      </tbody></table></div>
+      <div class="legend"><span>${chipV('must')} 这一形态一定要做</span><span>${chipV('maybe')} 取决于你是否收费、处理敏感信息、做支付等</span><span>${chipV('no')} 这一形态不涉及</span></div></section>`;
+  }
+
+  function vMetrics() {
+    const ev = pmfEval(), cat = ev.cat, pmf = latestSurvey('pmf'), nps = latestSurvey('nps'), wk = isoWeek();
+    const npsOf = x => (x.promoters - x.detractors) / (x.promoters + x.passives + x.detractors) * 100;
+    const npsV = nps ? npsOf(nps) : null;
+    const svList = (type, head, cell) => { const xs = recs('surveys').filter(x => x.type === type).sort((a, b) => b.date.localeCompare(a.date));
+      return xs.length ? `<div class="tbl compact"><table><thead><tr><th>日期</th>${head}<th></th></tr></thead><tbody>${xs.map(x => `<tr><td class="n">${esc(x.date)}</td>${cell(x)}<td>${del('surveys', x.id)}</td></tr>`).join('')}</tbody></table></div>` : ''; };
+    const del = (c, id) => `<button class="linkbtn danger" data-act="delrec" data-c="${c}" data-id="${esc(id)}" data-w>${S.armDel === c + '/' + id ? '确认删除' : '删除'}</button>`;
+    return `<div class="vhead"><div><div class="eyebrow">指标与 PMF</div><h1>判定：${esc(ev.status.n)}（${ev.passed}/${ev.total}）</h1>
+      <p>每周录入一次。留存按注册周算队列：「第 4 周留存」= 这周注册的人里，第 4 周还在用的人数。数据保存在${mode === 'db' ? '云端' : '这个浏览器'}。</p></div></div>
+    <section class="panel"><div class="rules">${PMF_RULES.map(x => ruleRow(x, ev.r[x.id])).join('')}</div>
+      <label class="inline" for="pm-cat">品类基准<select id="pm-cat" data-chg="pcat" data-w>${RET_CATS.map(c => `<option value="${c.id}" ${c.id === cat.id ? 'selected' : ''}>${esc(c.n)}（好 ${c.good}% · 很好 ${c.great}%）</option>`).join('')}</select></label></section>
+    <section class="panel"><h3>留存曲线 <small>按注册周的队列</small></h3>${retentionChart()}</section>
+    <div class="cols">
+      <section class="panel"><h3>录入留存队列</h3>
+        <form class="form grid3" data-sub="addcohort">
+          <label for="ch-wk">注册周<input id="ch-wk" name="wk" type="week" value="${wk}" placeholder="${wk}" pattern="\\d{4}-W\\d{2}" required></label>
+          <label for="ch-size">注册人数<input id="ch-size" name="size" type="number" min="1" required></label>
+          ${WEEKS.map(w => `<label for="ch-w${w}">第 ${w} 周还在<input id="ch-w${w}" name="w${w}" type="number" min="0" placeholder="未到可空"></label>`).join('')}
+          <div class="acts"><button class="btn pri sm" type="submit" data-w>保存队列</button></div>
+        </form>
+        ${cohorts().length ? `<div class="tbl compact"><table><thead><tr><th>队列</th><th>人数</th>${WEEKS.map(w => `<th>第 ${w} 周</th>`).join('')}<th></th></tr></thead><tbody>${cohorts().slice().reverse().map(c => `<tr><td class="n">${esc(c.id)}</td><td class="n">${n0(c.size)}</td>${WEEKS.map(w => `<td class="n">${c['w' + w] == null ? '—' : pctS(c['w' + w] / c.size)}</td>`).join('')}<td>${del('cohorts', c.id)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+      </section>
+      <section class="panel"><h3>录入本周指标</h3>
+        <form class="form grid3" data-sub="addmetric">
+          <label for="mt-wk">周<input id="mt-wk" name="wk" type="week" value="${wk}" placeholder="${wk}" pattern="\\d{4}-W\\d{2}" required></label>
+          <label for="mt-wau">周活<input id="mt-wau" name="wau" type="number" min="0"></label>
+          <label for="mt-new">新增<input id="mt-new" name="newUsers" type="number" min="0"></label>
+          <label for="mt-pay">付费人数<input id="mt-pay" name="payers" type="number" min="0"></label>
+          <label for="mt-rev">收入（元）<input id="mt-rev" name="revenue" type="number" min="0"></label>
+          <label for="mt-note">备注<input id="mt-note" name="note" type="text" maxlength="200"></label>
+          <div class="acts"><button class="btn pri sm" type="submit" data-w>保存本周</button></div>
+        </form>
+      </section>
+    </div>
+    <section class="panel"><h3>周活与新增 <small>最近 16 周</small></h3>${weeklyChart()}
+      ${metrics().length ? `<div class="tbl"><table><thead><tr><th>周</th><th>周活</th><th>新增</th><th>付费</th><th>付费转化</th><th>收入（元）</th><th>备注</th><th></th></tr></thead><tbody>${metrics().slice().reverse().map(m => `<tr><td class="n">${esc(m.id)}</td><td class="n">${n0(m.wau)}</td><td class="n">${n0(m.newUsers)}</td><td class="n">${n0(m.payers)}</td><td class="n">${m.wau && m.payers != null ? pctS(m.payers / m.wau, 1) : '—'}</td><td class="n">${n0(m.revenue)}</td><td>${esc(m.note)}</td><td>${del('metrics', m.id)}</td></tr>`).join('')}</tbody></table></div>` : ''}</section>
+    <div class="cols">
+      <section class="panel"><h3>「非常失望」调研${ref('superhuman-pmf')}</h3>
+        ${pmf ? `<div class="kpis"><div class="kpi"><b>${pctS(pmf.very / pmf.n)}</b><span>非常失望</span><em>${n0(pmf.very)} / ${n0(pmf.n)} 份 · ${esc(pmf.date)}</em></div></div><div class="meter goal" role="img" aria-label="非常失望 ${pctS(pmf.very / pmf.n)}，目标 40%"><i style="width:${Math.min(100, pmf.very / pmf.n * 100).toFixed(1)}%"></i><b style="left:40%" data-l="目标 40%"></b></div>` : '<p class="muted small">问最近两周用过至少两次的用户：「如果不能再用这个产品，你会有多失望？」约 40 份回答可以得到方向性结论。</p>'}
+        <form class="form grid3" data-sub="addpmf">
+          <label for="sv-n">有效回答<input id="sv-n" name="n" type="number" min="1" required></label>
+          <label for="sv-v">选「非常失望」<input id="sv-v" name="very" type="number" min="0" required></label>
+          <label for="sv-d">日期<input id="sv-d" name="date" type="date" value="${today()}" required></label>
+          <div class="acts"><button class="btn pri sm" type="submit" data-w>保存调研</button></div>
+        </form>${svList('pmf', '<th>回答</th><th>非常失望</th>', x => `<td class="n">${n0(x.n)}</td><td class="n">${pctS(x.very / x.n)}</td>`)}</section>
+      <section class="panel"><h3>NPS${ref('bain-nps')}</h3>
+        ${nps ? `<div class="kpis"><div class="kpi"><b>${npsV.toFixed(0)}</b><span>NPS（−100 到 100）</span><em>推荐 ${n0(nps.promoters)} · 被动 ${n0(nps.passives)} · 贬损 ${n0(nps.detractors)} · ${esc(nps.date)}</em></div></div>` : '<p class="muted small">NPS = 打 9–10 分的推荐者占比 − 打 0–6 分的贬损者占比。只展示，不参与 PMF 判定。</p>'}
+        <form class="form grid3" data-sub="addnps">
+          <label for="np-p">9–10 分<input id="np-p" name="promoters" type="number" min="0" required></label>
+          <label for="np-q">7–8 分<input id="np-q" name="passives" type="number" min="0" required></label>
+          <label for="np-r">0–6 分<input id="np-r" name="detractors" type="number" min="0" required></label>
+          <label for="np-d">日期<input id="np-d" name="date" type="date" value="${today()}" required></label>
+          <div class="acts"><button class="btn pri sm" type="submit" data-w>保存 NPS</button></div>
+        </form>${svList('nps', '<th>回答</th><th>NPS</th>', x => `<td class="n">${n0(x.promoters + x.passives + x.detractors)}</td><td class="n">${npsOf(x).toFixed(0)}</td>`)}</section>
+    </div>`;
+  }
+
+  function vAudit() {
+    const ps = BUILTIN.filter(p => AUDIT[p.id]);
+    const total = p => AUDIT_DIMS.reduce((o, d) => { const c = AUDIT[p.id][d.id]; if (c) o[c.st]++; return o; }, { ok: 0, part: 0, gap: 0 });
+    return `<div class="vhead"><div><div class="eyebrow">产品体检</div><h1>两个项目共 ${ps.reduce((s, p) => s + total(p).gap, 0)} 个缺口</h1>
+      <p>依据仓库代码逐项检查，每一格都写了证据位置（文件:行号）。点格子看详情，「去处理」会切到对应项目的路线步骤。</p></div></div>
+    <section class="panel"><div class="tbl amx"><table><thead><tr><th>维度</th>${ps.map(p => `<th>${esc(p.name)}<br><small class="muted">${['ok', 'part', 'gap'].map(k => `${ST_N[k]} ${total(p)[k]}`).join(' · ')}</small></th>`).join('')}</tr></thead><tbody>
+      ${AUDIT_DIMS.map(d => `<tr><td><b>${esc(d.n)}</b></td>${ps.map(p => { const c = AUDIT[p.id][d.id]; return c ? `<td data-p="${esc(p.short || p.name)}"><button class="acell ${c.st}" data-act="audit" data-pid="${p.id}" data-id="${d.id}">${chipS(c.st)}<span>${esc(c.d)}</span><code>${esc(c.ev)}</code></button></td>` : '<td>—</td>'; }).join('')}</tr>`).join('')}
+    </tbody></table></div>
+    ${proj().custom ? '<p class="small muted">新增的项目没有代码可查，体检只覆盖仓库里的两个内置项目。</p>' : ''}</section>`;
+  }
+  function auditSheet(pid, did) {
+    const p = BUILTIN.find(x => x.id === pid), d = AUDIT_DIMS.find(x => x.id === did), c = AUDIT[pid][did], st = c.step && PD_STEP_BY_ID[c.step];
+    openSheet(`<div class="hd"><div><div class="eyebrow">产品体检 · ${esc(p.name)}</div><h2>${esc(d.n)}</h2><p>${chipS(c.st)}</p></div><button class="x" data-act="close" aria-label="关闭">${I.x}</button></div>
+      <div class="sec"><h3>现状</h3><p>${esc(c.d)}</p><p class="small">证据：<code>${esc(c.ev)}</code></p></div>
+      ${st ? `<div class="sec"><h3>对应步骤：${esc(st.t)}</h3><p>${plainRich(st.d)}</p><button class="btn pri sm" data-act="gostep" data-id="${st.id}" data-pid="${pid}" style="justify-self:start">去处理 →</button></div>` : ''}`);
+  }
+
+  // ----- actions -----
+  const num = (f, k) => { const v = String(f.get(k) ?? '').trim(); return v === '' ? null : Number(v); };
+  Object.assign(ACT, {
+    ptab: el => { S.ptab = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
+    gomod: el => { S.mod = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
+    pform: el => { S.pform = el.dataset.id; lsSet('pform', S.pform); render(); },
+    gostep: el => {
+      closeSheet();
+      if (el.dataset.pid && el.dataset.pid !== S.pid) switchProject(el.dataset.pid);
+      S.mod = 'product'; S.ptab = 'route'; S.open[el.dataset.id] = true; saveUI(); render();
+      const row = $('row-' + el.dataset.id);
+      if (row) row.scrollIntoView({ block: 'center' }); else toast('这一步不在当前项目的路线里');
+    },
+    audit: el => auditSheet(el.dataset.pid, el.dataset.id),
+    pcat: el => { setRec('meta', 'product', { category: el.value }); render(); },
+    delrec: el => {
+      const k = el.dataset.c + '/' + el.dataset.id;
+      const refocus = () => { const b = [...document.querySelectorAll('[data-act="delrec"]')].find(x => x.dataset.c + '/' + x.dataset.id === k); if (b) b.focus(); };
+      if (S.armDel !== k) { S.armDel = k; render(); refocus(); setTimeout(() => { if (S.armDel === k) { S.armDel = null; render(); } }, 3200); return; }
+      S.armDel = null; if (setRec(el.dataset.c, el.dataset.id, null)) { toast('已删除'); render(); }
+    },
+    addcohort: el => {
+      const f = new FormData(el), wk = String(f.get('wk') || ''), size = num(f, 'size');
+      if (!weekOk(wk)) { toast('周的格式应为 2026-W41'); return; }
+      const body = { size, w1: num(f, 'w1'), w4: num(f, 'w4'), w12: num(f, 'w12'), w24: num(f, 'w24') };
+      if (WEEKS.some(w => body['w' + w] != null && body['w' + w] > size)) { toast('留存人数不能大于注册人数'); return; }
+      if (setRec('cohorts', wk, body)) { toast('已保存队列 ' + wk); render(); }
+    },
+    addmetric: el => {
+      const f = new FormData(el), wk = String(f.get('wk') || '');
+      if (!weekOk(wk)) { toast('周的格式应为 2026-W41'); return; }
+      const body = { wau: num(f, 'wau'), newUsers: num(f, 'newUsers'), payers: num(f, 'payers'), revenue: num(f, 'revenue'), note: String(f.get('note') || '').trim() };
+      if (['wau', 'newUsers', 'payers', 'revenue'].every(k => body[k] == null)) { toast('至少填一项数字'); return; }
+      if (setRec('metrics', wk, body)) { toast('已保存 ' + wk); render(); }
+    },
+    addpmf: el => {
+      const f = new FormData(el), n = num(f, 'n'), very = num(f, 'very'), date = String(f.get('date') || today());
+      if (very > n) { toast('「非常失望」人数不能大于回答数'); return; }
+      if (setRec('surveys', 'pmf-' + date, { type: 'pmf', n, very, date })) { toast('已保存调研'); render(); }
+    },
+    addnps: el => {
+      const f = new FormData(el), date = String(f.get('date') || today());
+      if (setRec('surveys', 'nps-' + date, { type: 'nps', promoters: num(f, 'promoters'), passives: num(f, 'passives'), detractors: num(f, 'detractors'), date })) { toast('已保存 NPS'); render(); }
+    }
+  });
+
+  const VIEWS = { overview: vOverview, route: vRoute, launch: vLaunch, metrics: vMetrics, audit: vAudit };
+  function renderModule(main) {
+    if (!VIEWS[S.ptab]) S.ptab = 'overview';
+    if (!S.pform) S.pform = lsGet('pform', 'web');
+    if (!LAUNCH_FORMS.some(f => f.id === S.pform)) S.pform = 'web';
+    resetRefs();
+    const body = VIEWS[S.ptab]();
+    main.innerHTML = `<div class="subnav"><div class="seg" role="tablist" aria-label="产品能力">${TABS.map(t => `<button role="tab" aria-selected="${S.ptab === t.id}" data-act="ptab" data-id="${t.id}">${t.n}</button>`).join('')}</div></div>
+      <section class="view" role="tabpanel">${body}${refsHTML(PD_ASOF)}</section>${foot(FOOT)}`;
+  }
+  return { render: renderModule, pmfEval, latestMetrics };
+})();
+MODULES.find(m => m.id === 'product').api = Product;
 
 // ---------- boot ----------
 bind();
-if (/^#(overview|rounds|sources|pitch|process|progress)$/.test(location.hash)) S.tab = location.hash.slice(1);
+// Deep links: #pitch opens a fundraising view, #product/metrics a product view.
+{ const h = location.hash.slice(1), [a, b] = h.split('/');
+  if (/^(overview|rounds|sources|pitch|process|progress)$/.test(h)) { S.mod = 'fund'; S.tab = h; }
+  else if (a === 'product') { S.mod = 'product'; if (/^(overview|route|launch|metrics|audit)$/.test(b || '')) S.ptab = b; } }
 render();
 connect();
 

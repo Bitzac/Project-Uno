@@ -13,21 +13,6 @@ const Fund = (() => {
   ];
   const FUNNEL = ['contact', 'meet1', 'meet2', 'ts', 'dd', 'closed'];
 
-  // ----- references: each view numbers the sources it cites, listed at its foot -----
-  let REFS = [];
-  function ref(...keys) {
-    return keys.filter(k => SRC[k]).map(k => {
-      let i = REFS.indexOf(k); if (i < 0) { REFS.push(k); i = REFS.length - 1; }
-      return `<sup class="ref"><a href="#ref-${i + 1}" title="${esc(SRC[k].t)}">[${i + 1}]</a></sup>`;
-    }).join('');
-  }
-  // Inline citations inside copy: "…[[src-key]]" renders as a numbered reference.
-  const rich = s => String(s ?? '').replace(/\[\[([a-z0-9-]+)\]\]/g, (_, k) => ref(k));
-  const plain = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '').replace(/<[^>]+>/g, '');
-  const plainRich = s => String(s ?? '').replace(/\[\[[^\]]+\]\]/g, '');
-  const refsHTML = () => REFS.length ? `<section class="panel"><h3>来源 <small>截至 ${esc(ASOF)} 的公开资料；点击打开原文</small></h3><ol class="refs">${REFS.map((k, i) => `<li id="ref-${i + 1}"><span><a href="${esc(SRC[k].u)}" target="_blank" rel="noopener">${esc(SRC[k].t)}</a> · ${esc(SRC[k].d)}</span></li>`).join('')}</ol></section>` : '';
-  const foot = () => `<p class="foot">本页数据来自公开报道与法规原文，口径与日期见各条来源；机构信息只列公开可查的投资案例，不代表其当前一定在投。内容不构成投资或法律意见，签约前请律师与财务顾问复核。</p>`;
-
   // ----- small pieces -----
   const proj = () => curProj();
   const sector = () => SECTORS[proj().sector];
@@ -40,26 +25,23 @@ const Fund = (() => {
   const wk = a => a[0] === a[1] ? `${a[0]} 周` : `${a[0]}–${a[1]} 周`;
   const yi = n => n >= 1e4 ? (n / 1e4 >= 10 ? Math.round(n / 1e4) : +(n / 1e4).toFixed(1)) + ' 亿' : Math.round(n) + ' 万';
 
-  function stepRow(st, opts = {}) {
-    const done = stepDone(st.id), open = !!S.open[st.id], note = stepNote(st.id), p = proj();
-    const tip = st.tip && (st.tip[p.id] || st.tip[p.sector]);
-    const br = st.br === 'gov' ? '<span class="tag acc">国资支线</span>' : st.br === 'usd' ? '<span class="tag acc">美元支线</span>' : '';
-    const ph = opts.phase ? `<span class="tag">${esc(PHASES.find(x => x.id === st.ph).n)}</span>` : '';
-    const rec = stepRec(st.id);
-    return `<div class="steprow${done ? ' done' : ''}">
-      <input type="checkbox" class="chk" id="chk-${st.id}" data-chg="step" data-id="${st.id}" data-w ${done ? 'checked' : ''} aria-label="${esc(st.t)}">
-      <div><label class="t" for="chk-${st.id}">${esc(st.t)}${note ? '<i class="notedot" title="有备注"></i>' : ''}${br}${ph}</label>
-        <div class="d">${rich(st.d)}${st.src ? ref(...st.src) : ''}</div>
-        ${open ? `<div class="more">
-          ${st.out ? `<div class="pn"><b>产出物</b><span>${rich(st.out)}</span></div>` : ''}
-          ${st.who ? `<div class="pn"><b>谁来做</b><span>${esc(st.who)}</span></div>` : ''}
-          ${tip ? `<div class="pn"><b>${esc(p.short || p.name)}</b><span>${rich(tip)}</span></div>` : ''}
-          <textarea id="note-${st.id}" data-inp="note" data-id="${st.id}" data-w placeholder="备注：约了谁、卡在哪、下一步…">${esc(note)}</textarea>
-          ${rec && rec.at ? `<span class="meta">最后更新 ${esc(rec.at)}</span>` : ''}
-        </div>` : ''}
-      </div>
-      <button class="tgl" data-act="open" data-id="${st.id}" aria-expanded="${open}" aria-label="${open ? '收起' : '展开'}详情">${I.chev}</button>
-    </div>`;
+  // ----- link to the product module -----
+  const pctS = v => v == null || !isFinite(v) ? '—' : (v * 100).toFixed(0) + '%';
+  function liveTraction() {
+    const lm = Product.latestMetrics(), ev = Product.pmfEval();
+    if (!lm.m && !lm.w4) return '';
+    const bits = [lm.m && lm.m.wau != null ? `周活 ${lm.m.wau.toLocaleString('zh-CN')}（${esc(lm.m.id)}）` : '', lm.w4 ? `第 4 周留存 ${pctS(lm.w4.v)}` : '', lm.w12 ? `第 12 周留存 ${pctS(lm.w12.v)}` : '', lm.conv != null ? `付费转化 ${(lm.conv * 100).toFixed(1)}%` : ''].filter(Boolean);
+    if (!bits.length) return '';
+    return `<em class="live">你录入的数据：${bits.join('、')}；PMF 判定「${esc(ev.status.n)}」。</em>`;
+  }
+  function productReady() {
+    const ev = Product.pmfEval(), lm = Product.latestMetrics(), pr = progressOf('product');
+    return `<section class="panel"><h3>产品准备度 <small>来自产品模块，投资人会先看这些数</small></h3><div class="kpis">
+      <div class="kpi"><b class="pmf-t ${ev.status.k}">${esc(ev.status.n)}</b><span>PMF 判定</span><em>${ev.passed} / ${ev.total} 条通过</em></div>
+      <div class="kpi"><b>${lm.w4 ? pctS(lm.w4.v) : '—'}</b><span>第 4 周留存</span><em>${lm.w4 ? lm.w4.n + ' 个队列合计' : '还没有队列数据'}</em></div>
+      <div class="kpi"><b>${lm.m && lm.m.wau != null ? lm.m.wau.toLocaleString('zh-CN') : '—'}</b><span>最近周活</span><em>${lm.m ? esc(lm.m.id) : '还没有录入'}</em></div>
+      <div class="kpi"><b>${pr.done}/${pr.total}</b><span>产品路线</span><em>当前在「${esc(currentPhase('product').n)}」</em></div></div>
+      <button class="btn ghost sm" data-act="gomod" data-id="product" style="justify-self:start">去产品模块 →</button></section>`;
   }
 
   // ----- charts -----
@@ -152,6 +134,7 @@ const Fund = (() => {
         <p class="lead">${rich(p.lead)}</p>
         <div class="chips"><button class="btn pri sm" data-act="tab" data-id="process">打开交割流程</button><button class="btn ghost sm" data-act="tab" data-id="sources">看对口资方</button><button class="btn ghost sm" data-act="tab" data-id="pitch">准备路演</button></div>
       </div></div></section>
+    ${productReady()}
     <section class="panel"><h3>市场现在什么样 <small>中国大陆股权投资</small></h3><div class="kpis">${[...KPI, ...(p.kpi ? [p.kpi] : [])].map(k => `<div class="kpi"><b>${esc(k.v)}<small>${esc(k.u || '')}</small></b><span>${esc(k.l)}${ref(k.src)}</span><em>${esc(k.d || '')}</em></div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>先做这 3 件事 <small>按流程顺序，勾掉一件补上一件</small></h3>
@@ -223,7 +206,7 @@ const Fund = (() => {
       <p>${rich(PITCH_LEAD)}</p></div></div>
     <section class="panel"><h3>投资机构内部怎么过会 <small>你见到的人和最终拍板的人不是同一批</small></h3>${meetFlow()}</section>
     <section class="panel"><h3>BP 结构 · ${BP.length} 页 <small>每页回答投资人的一个问题；横线下是 ${esc(p.short || p.name)} 的要点</small></h3>
-      <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}</div>`).join('')}</div></section>
+      <div class="slides">${BP.map(b => `<div class="sl"><b>${esc(b.t)}</b><span>${esc(b.q)}</span>${p.bp && p.bp[b.id] ? `<em>${rich(p.bp[b.id])}</em>` : ''}${b.id === 'traction' ? liveTraction() : ''}</div>`).join('')}</div></section>
     <div class="cols">
       <section class="panel"><h3>路演材料与动作 <small>勾选即记入进度</small></h3>${pitchSteps.map(s => stepRow(s)).join('')}</section>
       <section class="panel"><h3>你的漏斗 <small>按「目标清单」里每家机构走到的最远一步</small></h3>
@@ -309,7 +292,7 @@ const Fund = (() => {
     tab: el => { S.tab = el.dataset.id; saveUI(); render(); $('main').scrollTop = 0; },
     open: el => { S.open[el.dataset.id] = !S.open[el.dataset.id]; render(); const t = $('note-' + el.dataset.id); if (t && S.open[el.dataset.id]) t.focus({ preventScroll: true }); },
     step: el => { if (!setStep(el.dataset.id, { done: el.checked })) el.checked = !el.checked; render(); },
-    note: el => { const id = el.dataset.id, v = el.value.slice(0, 1000); clearTimeout(ACT.note[id]); ACT.note[id] = setTimeout(() => { if (v !== stepNote(id)) setStep(id, { note: v }); }, 700); },
+    note: el => queueNote(el.dataset.id, el.value.slice(0, 1000)),
     br: el => { S[el.dataset.id] = !S[el.dataset.id]; saveUI(); render(); },
     type: el => typeSheet(el.dataset.id, el.dataset.pid || S.pid),
     target: el => { if (setTarget(el.dataset.id, { status: 'target' })) { toast('已加入目标清单'); render(); if ($('sheet').classList.contains('on')) { const b = $('sheet').querySelector(`[data-act="target"][data-id="${el.dataset.id}"]`); if (b) b.replaceWith(Object.assign(document.createElement('span'), { className: 'tag ok', textContent: '已加入' })); } } },
@@ -332,10 +315,11 @@ const Fund = (() => {
   const VIEWS = { overview: vOverview, rounds: vRounds, sources: vSources, pitch: vPitch, process: vProcess, progress: vProgress };
   function renderModule(main) {
     if (!VIEWS[S.tab]) S.tab = 'overview';
-    REFS = [];
+    resetRefs();
     const body = VIEWS[S.tab]();
     main.innerHTML = `<div class="subnav"><div class="seg" role="tablist" aria-label="融资能力">${TABS.map(t => `<button role="tab" aria-selected="${S.tab === t.id}" data-act="tab" data-id="${t.id}">${t.n}</button>`).join('')}</div></div>
-      <section class="view" role="tabpanel">${body}${refsHTML()}</section>${foot()}`;
+      <section class="view" role="tabpanel">${body}${refsHTML()}</section>${foot(FUND_FOOT)}`;
   }
   return { render: renderModule, projectForm };
 })();
+MODULES.find(m => m.id === 'fund').api = Fund;
